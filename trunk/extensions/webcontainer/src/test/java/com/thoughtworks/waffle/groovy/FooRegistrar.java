@@ -1,9 +1,9 @@
-package com.thoughtworks.waffle.groovy;
+package org.codehaus.waffle.groovy;
 
-import com.thoughtworks.waffle.registrar.AbstractRegistrar;
-import com.thoughtworks.waffle.registrar.Registrar;
-import com.thoughtworks.waffle.registrar.RegisterWithApplication;
-import com.thoughtworks.waffle.registrar.RegisterWithSession;
+import org.codehaus.waffle.registrar.AbstractRegistrar;
+import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.registrar.RegisterWithApplication;
+import org.codehaus.waffle.registrar.RegisterWithSession;
 
 public class FooRegistrar extends AbstractRegistrar {
 

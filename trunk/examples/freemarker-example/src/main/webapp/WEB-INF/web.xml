@@ -9,17 +9,17 @@
 
     <!-- 1. This is how an application registers its custom Registrar -->
     <context-param>
-        <param-name>com.thoughtworks.waffle.registrar.Registrar</param-name>
-        <param-value>com.thoughtworks.waffle.example.freemarker.MyRegistrar</param-value>
+        <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
+        <param-value>org.codehaus.waffle.example.freemarker.MyRegistrar</param-value>
     </context-param>
     <context-param>
-        <param-name>com.thoughtworks.waffle.action.method.MethodDefinitionFinder</param-name>
-        <param-value>com.thoughtworks.waffle.action.method.ParanamerMethodDefinitionFinder</param-value>
+        <param-name>org.codehaus.waffle.action.method.MethodDefinitionFinder</param-name>
+        <param-value>org.codehaus.waffle.action.method.ParanamerMethodDefinitionFinder</param-value>
     </context-param>
 
     <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-        <listener-class>com.thoughtworks.waffle.context.WaffleContextListener</listener-class>
+        <listener-class>org.codehaus.waffletext.WaffleContextListener</listener-class>
     </listener>
 
     <!-- Sitemesh's filter -->
@@ -31,7 +31,7 @@
     <!-- 4. Waffle request filter (responsible for request level context) -->
     <filter>
         <filter-name>WaffleRequestFilter</filter-name>
-        <filter-class>com.thoughtworks.waffle.context.WaffleRequestFilter</filter-class>
+        <filter-class>org.codehaus.waffletext.WaffleRequestFilter</filter-class>
     </filter>
 
     <!-- Sitemesh's filter mapping -->
@@ -50,7 +50,7 @@
     <!-- 5. Register Waffle's FrontController servlet -->
     <servlet>
         <servlet-name>waffle</servlet-name>
-        <servlet-class>com.thoughtworks.waffle.servlet.WaffleServlet</servlet-class>
+        <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
         <init-param>
             <param-name>view.suffix</param-name>
             <param-value>.htm</param-value>

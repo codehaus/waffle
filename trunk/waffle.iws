@@ -27,11 +27,255 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/root.iml" afterPath="$PROJECT_DIR$/root.iml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/context/WaffleContextListenerTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/AbstractStartable.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/ControllerNameResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubMethodDefinitionFinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/AnnotatedMethodDefinitionFinderTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/RequestParameterMethodNameResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/dao" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/ActionMethodExecutor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/NoMatchingMethodException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/HierarchicalArgumentResolverTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/dao/SimplePersonDAO.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/taglib/WaffleFunctionsTest.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/org" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle/example" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view/DefaultDispatchAssistantTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/dao" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/OgnlTypeConverter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/RequestParameterMethodNameResolverConfig.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/AbstractWaffleParameter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view/DefaultViewResolverTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/ControllerDefinitionFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubControllerDefinitionFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/InterceptorChainImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/DefaultActionMethodExecutorTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/dao/SimplePersonDAO.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/ContextContainerFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/AbstractMethodDefinitionFinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ViewSuffixNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ViewSuffixNodeBuilder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/PicoRegistrar.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/org" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/Constants.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubViewDispatcher.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/i18n" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/Sortable.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/action" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DefaultViewDispatcher.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/SessionActionsNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/SessionActionsNodeBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO.txt" afterPath="$PROJECT_DIR$/TODO.txt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/HttpSessionAttributeParameterTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/BindErrorMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/model" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/InterceptorChain.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubDataBinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle/example/paranamer" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MethodNameResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/ActionMethodResponse.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubArgumentResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view/ViewTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/AbstractRegistrar.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/RegisterWithApplication.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/taglib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/SessionLevelComponent.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/test/resources/META-INF/ParameterNames.list" afterPath="$PROJECT_DIR$/framework/src/test/resources/META-INF/ParameterNames.list" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/Validator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/validation/DefaultValidatorTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/PicoWaffleComponentRegistry.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/org" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/MethodInterceptor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/MethodInterceptorComparator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/Startable.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind/OgnlDataBinderTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/waffle.iws" afterPath="$PROJECT_DIR$/waffle.iws" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle/example/paranamer/MyRegistrarTest.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/examples/freemarker-example/src/main/webapp/WEB-INF/web.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/DefaultValidator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/com/thoughtworks/waffle/example/freemarker/MyRegistrarTest.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/org" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/MyRegistrar.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/annotation" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MethodInvocationException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/ParanamerMethodDefinitionFinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/RegistrarAssistant.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/ContextContainer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/i18n/DefaultMessageResourcesConfiguration.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/FakeBean.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/taglib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept/MethodInterceptorComparatorTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RequestActionsNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RequestActionsNodeBuilder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/RegisterWithSession.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/RedirectView.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/skin/pom.xml" afterPath="$PROJECT_DIR$/skin/pom.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind/OgnlTypeConverterTest.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/waffle.ipr" afterPath="$PROJECT_DIR$/waffle.ipr" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet/PicoWaffleComponentRegistryTest.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/pom.xml" afterPath="$PROJECT_DIR$/framework/pom.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubActionMethodExecutor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action/PersonController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/com/thoughtworks/waffle/example" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/DependsOnValue.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/com/thoughtworks/waffle" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" afterPath="$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/framework.iml" afterPath="$PROJECT_DIR$/framework/framework.iml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/HttpSessionAttributeParameter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind/DefaultBindErrorMessageResolverTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubDispatchAssistant.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/RegisterWithRequest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/HierarchicalArgumentResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/RequestAttributeParameter.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/BindErrorMessageResolver.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/extensions/webcontainer/webcontainer.iml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/annotation/DefaultActionMethod.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/model" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/WaffleComponentRegistry.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/DataBinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/PicoContextContainer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/CustomRegistrar.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/DefaultControllerDefinitionFactoryTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubWaffleComponentRegistry.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action/CalculatorController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/FakeControllerValidator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilderTest.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilderTest.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/ControllerDefinition.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/PicoRegistrarTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/mock" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/RequestAttributeParameterTest.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RegisterActionsNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RegisterActionsNodeBuilder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DispatchAssistant.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/GlobalErrorMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RequestFilterNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RequestFilterNodeBuilder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet/WaffleServletTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubBindErrorMessageResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/ErrorMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/context/WaffleRequestFilterTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/AbstractContextContainerFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/mock/AbstractRegistrarTestCase.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/FakeController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/annotation/ActionMethod.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/context/PicoContextContainerFactoryTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/AmbiguousMethodSignatureException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/ServletContextAttributeParameterTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle/example/paranamer/DateTypeConverterTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/WaffleTypeConverter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/org" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept/InterceptorChainImplTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept/SecurityMethodInterceptorTest.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/distribution/pom.xml" afterPath="$PROJECT_DIR$/distribution/pom.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/model/Person.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/mock/AbstractPicoRegistrarTestCase.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/AnnotatedMethodDefinitionFinder.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/paranamer-example/pom.xml" afterPath="$PROJECT_DIR$/examples/paranamer-example/pom.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/DefaultControllerNameResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/PicoContextContainerFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/WaffleServlet.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/context" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/i18n/DefaultMessageResources.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/ParanamerMethodDefinitionFinderTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MethodDefinition.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/freemarker-example/freemarker-example.iml" afterPath="$PROJECT_DIR$/examples/freemarker-example/freemarker-example.iml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/WaffleContextListener.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/ServletContextAttributeParameter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/RequestLevelComponent.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/WaffleVelocityServlet.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/root.iml" afterPath="$PROJECT_DIR$/root.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/test/java/org" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/RegistrarAssistantTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/WaffleRequestFilter.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/resources/META-INF/waffle.tld" afterPath="$PROJECT_DIR$/framework/src/main/resources/META-INF/waffle.tld" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/DefaultActionMethodResponseHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/View.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/model/Person.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/FieldErrorMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MethodDefinitionFinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DefaultDispatchAssistant.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubContextContainerFactory.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ActionRegistrarNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ActionRegistrarNodeBuilder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/OgnlDataBinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/dao/PersonDAO.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/ServletContextHelper.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ApplicationActionsNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ApplicationActionsNodeBuilder.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/freemarker-example/pom.xml" afterPath="$PROJECT_DIR$/examples/freemarker-example/pom.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/DefaultBindErrorMessageResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/com/thoughtworks/waffle/example/freemarker" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/ViewResolver.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/examples/paranamer-example/src/main/webapp/WEB-INF/web.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/framework.iml" afterPath="$PROJECT_DIR$/framework/framework.iml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/dao/PersonDAO.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/DefaultActionResponseHandlerTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/DefaultErrorsContext.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/ViewDispatcher.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubValidator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/RequestParameterMethodNameResolverTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/DefaultActionMethodExecutor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/PicoLifecycleStrategy.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/DefaultControllerNameResolverTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/DateTypeConverter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/validation" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/MyRegistrar.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/ActionMethodResponseHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/ContextLevel.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view/DefaultViewDispatcherTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/i18n/DefaultMessageResourcesTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/AjaxExample.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DefaultViewResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/ArgumentResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/i18n" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/AbstractWaffleParameterTest.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/distribution/src/site/site.xml" afterPath="$PROJECT_DIR$/distribution/src/site/site.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/RequestLevelContainer.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/taglib/WaffleFunctions.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy/FooRegistrar.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy/FooRegistrar.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubActionMethodResponseHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet/ServletContextHelperTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/SecurityMethodInterceptor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/Registrar.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubControllerNameResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/ApplicationLevelComponent.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/DefaultControllerDefinitionFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/i18n/MessageResources.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/action/PersonController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/validation/DefaultErrorsContextTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/BindException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/WaffleException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubMessageResources.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubViewResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MatchingMethodException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/ErrorsContext.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/SampleForMethodFinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/pom.xml" afterPath="$PROJECT_DIR$/extensions/webcontainer/pom.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action/HelloWorldController.java" afterPath="" />
     </list>
   </component>
   <component name="ChangeListSynchronizer" />
@@ -105,47 +349,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints>
-      <breakpoint url="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container-groovy/src/java/org/nanocontainer/script/groovy/GroovyNodeBuilder.java" line="217" class="org.nanocontainer.script.groovy.GroovyNodeBuilder" package="org.nanocontainer.script.groovy">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/webcontainer/src/java/org/nanocontainer/webcontainer/PicoContextHandler.java" line="41" class="org.nanocontainer.webcontainer.PicoContextHandler" package="org.nanocontainer.webcontainer">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/webcontainer/src/java/org/nanocontainer/webcontainer/groovy/adapters/WaffleAdapter.java" line="27" class="org.nanocontainer.webcontainer.groovy.adapters.WaffleAdapter" package="org.nanocontainer.webcontainer.groovy.adapters">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -208,89 +411,30 @@
       <file leaf-file-name="WaffleNodeBuilder.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="22" column="0" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.12426036">
+            <state line="22" column="0" selection-start="1093" selection-end="1093" vertical-scroll-proportion="0.28063944">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="ServletContextHelper.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/ServletContextHelper.java">
+        <entry file="file://$PROJECT_DIR$/framework/src/main/java/org/codehaus/waffle/servlet/ServletContextHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="38" selection-start="1182" selection-end="1182" vertical-scroll-proportion="0.1452345">
-              <folding />
+            <state line="31" column="17" selection-start="1500" selection-end="1500" vertical-scroll-proportion="0.53467155">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NanoContainer.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container/src/java/org/nanocontainer/NanoContainer.java">
+      <file leaf-file-name="ActionRegistrarNodeBuilder.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ActionRegistrarNodeBuilder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="35" selection-start="2943" selection-end="2943" vertical-scroll-proportion="0.36459908">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="XMLContainerBuilder.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container/src/java/org/nanocontainer/script/xml/XMLContainerBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="115" column="13" selection-start="5490" selection-end="5490" vertical-scroll-proportion="0.27231467">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractBuilderNode.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container-groovy/src/java/org/nanocontainer/script/groovy/buildernodes/AbstractBuilderNode.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="32" column="22" selection-start="1337" selection-end="1337" vertical-scroll-proportion="0.01775148">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WaffleAdapter.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/webcontainer/src/java/org/nanocontainer/webcontainer/groovy/adapters/WaffleAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="15" selection-start="688" selection-end="688" vertical-scroll-proportion="0.21301775">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ContextBuilder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/webcontainer/src/java/org/nanocontainer/webcontainer/groovy/ContextBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="47" selection-start="1067" selection-end="1086" vertical-scroll-proportion="0.01775148">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="NodeBuilder.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$M2_REPOSITORY$/groovy/groovy-all/1.0/groovy-all-1.0.jar!/groovy/util/NodeBuilder.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="13" selection-start="149" selection-end="149" vertical-scroll-proportion="0.07261725">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WaffleNodeBuilderTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilderTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="27" selection-start="2160" selection-end="2160" vertical-scroll-proportion="0.018154312">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScriptedContainerBuilder.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container/src/java/org/nanocontainer/script/ScriptedContainerBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="63" column="0" selection-start="2420" selection-end="2420" vertical-scroll-proportion="0.2366864">
-              <folding />
+            <state line="9" column="8" selection-start="720" selection-end="720" vertical-scroll-proportion="0.026642984">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -344,28 +488,7 @@
     <option name="USE_CLIENT_FILTER" value="true" />
     <option name="CLIENT" value="" />
   </component>
-  <component name="PerforceDirect.Settings">
-    <option name="useP4CONFIG" value="true" />
-    <option name="port" value="&lt;perforce_server&gt;:1666" />
-    <option name="client" value="" />
-    <option name="user" value="" />
-    <option name="passwd" value="" />
-    <option name="showCmds" value="false" />
-    <option name="useNativeApi" value="false" />
-    <option name="pathToExec" value="p4" />
-    <option name="useCustomPathToExec" value="false" />
-    <option name="SYNC_FORCE" value="false" />
-    <option name="SYNC_RUN_RESOLVE" value="true" />
-    <option name="REVERT_UNCHANGED_FILES" value="true" />
-    <option name="CHARSET" value="none" />
-    <option name="SHOW_BRANCHES_HISTORY" value="true" />
-    <option name="ENABLED" value="true" />
-    <option name="USE_LOGIN" value="false" />
-    <option name="LOGIN_SILENTLY" value="false" />
-    <option name="INTEGRATE_RUN_RESOLVE" value="true" />
-    <option name="INTEGRATE_REVERT_UNCHANGED" value="true" />
-    <option name="SERVER_TIMEOUT" value="20000" />
-  </component>
+  <component name="PerforceDirect.Settings" />
   <component name="ProjectLevelVcsManager">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
@@ -388,7 +511,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="WebContainer" />
+          <option name="myItemId" value="webcontainer" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -398,7 +521,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="WebContainer" />
+          <option name="myItemId" value="webcontainer" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
@@ -412,7 +535,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="WebContainer" />
+          <option name="myItemId" value="webcontainer" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
@@ -423,18 +546,6 @@
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/extensions/webcontainer/src" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/extensions/webcontainer/src/test" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/extensions/webcontainer/src/test/java" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
       </PATH>
       <PATH>
         <PATH_ELEMENT>
@@ -442,7 +553,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="WebContainer" />
+          <option name="myItemId" value="webcontainer" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
@@ -471,6 +582,50 @@
           <option name="myItemId" value="waffle" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="root" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="waffle" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="waffle" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="freemarker-example" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="waffle" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="framework" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="waffle" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="framework" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/framework" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
       </PATH>
     </subPane>
   </component>
@@ -488,7 +643,7 @@
         </option>
       </SplitterProportionsDataImpl>
     </option>
-    <option name="lastEditedConfigurable" value="WebContainer" />
+    <option name="lastEditedConfigurable" value="webcontainer" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="0.11111111" version="1" splitterProportion="0.5">
@@ -498,22 +653,22 @@
       <showLibraryContents />
       <hideEmptyPackages />
       <abbreviatePackageNames />
-      <showStructure PackagesPane="false" Scope="false" Favorites="false" ProjectPane="false" />
+      <showStructure ProjectPane="false" Scope="false" PackagesPane="false" Favorites="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType />
     </navigator>
   </component>
   <component name="PropertiesComponent">
-    <property name="GoToClass.includeJavaFiles" value="false" />
-    <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="GoToClass.includeLibraries" value="false" />
-    <property name="MemberChooser.showClasses" value="true" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="RunManagerConfig.compileBeforeRunning" value="true" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
+    <property name="RunManagerConfig.compileBeforeRunning" value="true" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="MemberChooser.showClasses" value="true" />
+    <property name="GoToClass.includeLibraries" value="false" />
+    <property name="GoToClass.includeJavaFiles" value="false" />
+    <property name="MemberChooser.copyJavadoc" value="false" />
   </component>
   <component name="ReadonlyStatusHandler">
     <option name="SHOW_DIALOG" value="true" />
@@ -523,12 +678,15 @@
       <recent name="com.thoughtworks.waffle.servlet" />
       <recent name="com.thoughtworks.waffle.action.method" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="org.codehaus" />
+    </key>
   </component>
   <component name="RestoreUpdateTree" />
   <component name="RunManager" selected="JUnit.WaffleNodeBuilderTest.testCanComposeWebContainerWithCompleteWaffleApp">
     <tempConfiguration default="false" name="WaffleNodeBuilderTest.testCanComposeWebContainerWithCompleteWaffleApp" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <pattern value="com.thoughtworks.waffle.groovy.*" />
-      <module name="WebContainer" />
+      <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="com.thoughtworks.waffle.groovy" />
@@ -583,6 +741,13 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -594,13 +759,6 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
     </configuration>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
@@ -670,7 +828,7 @@
     <option name="UPDATE_RUN_STATUS" value="false" />
     <option name="UPDATE_RECURSIVELY" value="true" />
     <option name="MERGE_DRY_RUN" value="false" />
-    <configuration useDefault="true">/Users/paul/.subversion</configuration>
+    <configuration useDefault="true">/home/guilherme/.subversion</configuration>
     <upgradeMode>none</upgradeMode>
   </component>
   <component name="TodoView" selected-index="0">
@@ -688,36 +846,37 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="22" width="1432" height="820" extended-state="0" />
-    <editor active="true" />
+    <frame x="10" y="25" width="1260" height="718" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31814894" order="0" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32918397" order="1" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278237" order="8" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="6" />
-      <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
-      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278237" order="2" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32828283" order="1" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.54269975" order="4" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278237" order="8" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="1" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
+      <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
+      <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31806827" order="0" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="6" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3278237" order="2" />
+      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32996634" order="-1" />
+      <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="5" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="0" />
-      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
+      <window_info id="Profile" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="3" />
-      <window_info id="Profile" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="5" />
-      <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
+      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
     </layout>
   </component>
   <component name="VCS.FileViewConfiguration">
@@ -804,62 +963,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/webcontainer/src/java/org/nanocontainer/webcontainer/PicoContextHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1762" selection-end="1762" vertical-scroll-proportion="0.028846154">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/webcontainer/src/java/org/nanocontainer/webcontainer/PicoJettyServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="0" selection-start="2279" selection-end="2279" vertical-scroll-proportion="0.34338748">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/webcontainer/src/java/org/nanocontainer/webcontainer/groovy/ServerBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="0" selection-start="1459" selection-end="1459" vertical-scroll-proportion="0.30862328">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container-groovy/src/java/org/nanocontainer/script/groovy/GroovyNodeBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="9" selection-start="4847" selection-end="4847" vertical-scroll-proportion="0.018154312">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="0" selection-start="1097" selection-end="1097" vertical-scroll-proportion="0.12426036">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container-groovy/src/java/org/nanocontainer/script/groovy/buildernodes/AbstractBuilderNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="22" selection-start="1337" selection-end="1337" vertical-scroll-proportion="0.01775148">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/webcontainer/src/java/org/nanocontainer/webcontainer/groovy/adapters/WaffleAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="15" selection-start="688" selection-end="688" vertical-scroll-proportion="0.21301775">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/webcontainer/src/java/org/nanocontainer/webcontainer/groovy/ContextBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="47" selection-start="1067" selection-end="1086" vertical-scroll-proportion="0.01775148">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$M2_REPOSITORY$/groovy/groovy-all/1.0/groovy-all-1.0.jar!/groovy/util/NodeBuilder.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="5" column="13" selection-start="149" selection-end="149" vertical-scroll-proportion="0.07261725">
@@ -874,31 +977,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container/src/java/org/nanocontainer/script/ScriptedContainerBuilder.java">
+    <entry file="file://$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="63" column="0" selection-start="2420" selection-end="2420" vertical-scroll-proportion="0.2366864">
+        <state line="22" column="0" selection-start="1093" selection-end="1093" vertical-scroll-proportion="0.28063944">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/ServletContextHelper.java">
+    <entry file="file://$PROJECT_DIR$/framework/src/main/java/org/codehaus/waffle/servlet/ServletContextHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="38" selection-start="1182" selection-end="1182" vertical-scroll-proportion="0.1452345">
-          <folding />
+        <state line="31" column="17" selection-start="1500" selection-end="1500" vertical-scroll-proportion="0.53467155">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container/src/java/org/nanocontainer/NanoContainer.java">
+    <entry file="file://$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ActionRegistrarNodeBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="35" selection-start="2943" selection-end="2943" vertical-scroll-proportion="0.36459908">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///Users/paul/scm/oss/pico/java/nanocontainer/trunk/container/src/java/org/nanocontainer/script/xml/XMLContainerBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="13" selection-start="5490" selection-end="5490" vertical-scroll-proportion="0.27231467">
-          <folding />
+        <state line="9" column="8" selection-start="720" selection-end="720" vertical-scroll-proportion="0.026642984">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

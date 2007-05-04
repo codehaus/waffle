@@ -7,7 +7,7 @@
  * the LICENSE.txt file.                                                     *
  *                                                                           *
  *****************************************************************************/
-package com.thoughtworks.waffle.groovy;
+package org.codehaus.waffle.groovy;
 
 import org.nanocontainer.webcontainer.PicoContextHandler;
 import org.picocontainer.PicoContainer;

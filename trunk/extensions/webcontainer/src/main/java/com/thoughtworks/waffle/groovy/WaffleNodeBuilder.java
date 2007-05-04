@@ -8,7 +8,7 @@
  *                                                                           *
  *****************************************************************************/
 
-package com.thoughtworks.waffle.groovy;
+package org.codehaus.waffle.groovy;
 
 import groovy.util.NodeBuilder;
 

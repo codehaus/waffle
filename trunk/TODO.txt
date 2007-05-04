@@ -28,7 +28,7 @@ Stacktrace:
 
 root cause
 
-com.thoughtworks.waffle.WaffleException: Request level container was not found make sure that a WaffleRequestFilter was registered in the web.xml
+org.codehaus.waffle.WaffleException: Request level container was not found make sure that a WaffleRequestFilter was registered in the web.xml
 
 Oddly, the direct url http://localhost:8080/name.action works fine.
 
