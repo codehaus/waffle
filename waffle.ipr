@@ -268,6 +268,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/framework/framework.iml" filepath="$PROJECT_DIR$/framework/framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/freemarker-example/freemarker-example.iml" filepath="$PROJECT_DIR$/examples/freemarker-example/freemarker-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/migration-example/migration-example.iml" filepath="$PROJECT_DIR$/examples/migration-example/migration-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" filepath="$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/root.iml" filepath="$PROJECT_DIR$/root.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/simple-example/simple-example.iml" filepath="$PROJECT_DIR$/examples/simple-example/simple-example.iml" />

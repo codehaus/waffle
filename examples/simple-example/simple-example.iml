@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<module version="4" relativePaths="true" type="J2EE_WEB_MODULE">
+<?xml version="1.0" encoding="UTF-8"?>
+<module relativePaths="true" type="J2EE_WEB_MODULE" version="4">
   <component name="AppServerSpecificValidatorsManager" />
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager" inherit-compiler-output="false">
@@ -51,7 +51,6 @@
     <setting name="EXPLODED_ENABLED" value="true" />
     <setting name="JAR_URL" value="file://" />
     <setting name="JAR_ENABLED" value="false" />
-    <setting name="SYNC_EXPLODED_DIR" value="true" />
     <setting name="BUILD_MODULE_ON_FRAME_DEACTIVATION" value="false" />
     <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
     <setting name="RUN_JASPER_VALIDATION" value="true" />
@@ -70,6 +69,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-beta-2.jar" />
       <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-beta-2/paranamer-1.0-beta-2.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-SNAPSHOT.jar" />
+      <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-SNAPSHOT/paranamer-1.0-SNAPSHOT.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
