@@ -1,0 +1,78 @@
+                                        ------
+                                        Action Controllers
+                                        ------
+
+Action Controllers
+
+    The terms <<Action>> and <<Controller>> should be very familiar to those who have experience with web frameworks.  
+    An Action originally gets its name from the HTML form tag's <action> attributes
+
++-----+
+<form action="/foobar.action" method="post">
+    ...
+</form>
++-----+
+
+	A consolidated pattern for web frameworks is the {{{http://en.wikipedia.org/wiki/Model-view-controller}MVC}}- where the action is the controller tier.
+	Hence, often action and controller are used interchangeably.
+	
+    Other MVC-based web framework require that your action objects extend or implement a base action class specific
+    to that framework.  Typically the action would have an <execute()> or <perform()> method that handles the
+    end users request and send a response accordingly.  Waffle, however is different than these other frameworks. An
+    Action Controller in Waffle can be any java object (i.e. {{{http://www.martinfowler.com/bliki/POJO.html}POJO}}).  Additionally
+    an Action Controller in Waffle can have many methods which are responsible for handling user requests.  In Waffle these methods
+    are considered <<ActionMethod>>s.
+
++-----+
+public class ShoppingCartAction implements Serializable {
+    private final Cart cart;
+
+    public ShoppingCartAction(Cart cart) {
+        this.cart = cart;
+    }
+
+    // This is an ActionMethod
+    public void addToCart(long itemId, int quantity) {
+        cart.addItem(itemId, quantity);
+    }
+
+    // This is also an ActionMethod
+    public void removeFromCart(long itemId, int quantity) {
+        cart.removeItem(itemId, quantity);
+    }
+}
++-----+
+
+    Action Controllers and ActionMethods can be dependent on an HttpServletRequest, HttpServletResponse, HttpSession
+    or ServletContext.  In practice most Actions you'll create will be dependent on custom Factories, Services, DAO's,
+    etc.  But if you have a need for these base Servlet classes it is nice to know that you can get access to them.
+
+    Digging deeper into how an Action works we will continue with the ShoppingCartAction class and add an accessor for
+    a <coupon> field:
+
++-----+
+public class ShoppingCartAction implements Serializable {
+    private String coupon;
+    ...
+
+    public String getCoupon() {
+        return coupon;
+    }
+
+    public void setCoupon(String coupon) {
+        this.coupon = coupon;
+    }
+}
++-----+
+
+    Now lets assume that the ShoppingCartAction is requested with the following request string:
+
+    <<http://localhost:8080/waffle/shoppingCart.action?coupon=freebee>>
+
+    When Waffle's FrontController, <WaffleServlet>, handles this request it will first locate the appropriate action by
+    name "<<shoppingCart>>".  Then Waffle will attempt to bind each parameter passed as a value to be set on the Action.
+    So "<<coupon=freebee>>" will set the field "<coupon>" on the action to the value of "<freebee>".  (Don't worry
+    parameters that do not correspond to properties on an Action will <<NOT>> cause a failure).
+
+    Lastly, action classes do not have to end in the word 'Action'.  'ShoppingCart' or 'Cart' are as good as
+    'ShoppingCartAction' for Waffle.   

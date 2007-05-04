@@ -1,0 +1,23 @@
+Build system: 
+
+JDK required: 1.5+
+Maven (http://maven.apache.org) required: 2.0.5+
+
+Build profiles:
+
+- default: builds core and extensions
+
+mvn clean install 
+
+- examples:  builds core, extensions and examples
+
+mvn -Pexamples install
+
+- distribution:  builds core, extensions and distribution
+
+mvn -Pdist install
+
+Note:  profiles can be combined, eg to build examples and distribution
+
+mvn -Pexamples,dist install
+

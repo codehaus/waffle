@@ -1,0 +1,79 @@
+                                        ------
+                                        Hello World example
+                                        ------
+
+Example: Hello World
+
+    Our first example is the obligatory <<Hello World>>.  However it'll provide a good overview on how simple it is to
+    create Waffle web applications.  The process can be broken down into 3 simple steps:
+
+    [[1]] Create an Action
+
+    [[1]] Register that Action with the Registrar
+
+    [[1]] Create the View
+
+* Action
+
+    The Action object which will be responsible for handling user requests.  This class is simply a POJO and
+    is <<not>> required to extend from any Waffle base classes.  The Action below below does NOT have any ActionMethods.
+
++------+
+public class HelloWorldAction {
+
+    public String getGreeting() {
+        return "Hello World!";
+    }
+}
++------+
+
+* Registrar
+
+    All Actions need to be registered with Waffle.  This is done through the Registrar.  Line <<9>> in the
+    <MyRegistrar> class below registers the <HelloWorldAction> under the name <<"helloworld">>.  This Registrar will
+    need to referenced in the {{{webxml.html}web.xml}}.
+
++------+
+public class MyRegistrar extends AbstractRegistrar {
+
+    public MyRegistrar(Registrar delegate) {
+        super(delegate);
+    }
+
+    @RegisterWithApplication
+    public void application() {
+        register("helloworld", HelloWorldAction.class);
+    }
+}
++------+
+
+* View (helloworld.jspx)
+
+    A View in Waffle is no different than what you would expect from any Java based web framework.  Waffle exposes
+    the underlying Action for use in your View under the key <<action>>. Notice line 12 <<$\{action.greeting\}>>, this is
+    calling the <greeting> property exposed in the <HelloWorldAction>.
+
+    The example below uses <<jspx>> but {{{http://freemarker.sourceforge.net/}FreeMarker}} and
+    {{{http://jakarta.apache.org/velocity/index.html}Velocity }} are also supported.
+
++------+
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsp="http://java.sun.com/JSP/Page">
+
+<jsp:output doctype-root-element="html"
+            doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+            doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+<head><title>Hello World Action</title></head>
+<body>
+<h1>${action.greeting}</h1>
+</body>
+</html>
++------+
+
+** Running...
+
+[images/helloworld.png]
+

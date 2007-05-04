@@ -1,0 +1,32 @@
+                                        ------
+                                        FAQ
+                                        ------
+
+FAQ
+
+* Running on Jetty
+
+        [NOTE:] Waffle is no longer dependent on <RequestAttributeListeners>.  In actual practice a Filter provides better
+        functionality than the RequestAttributeListeners could provide.  The information below is maintained for those using
+        earlier versions of Waffle (pre <<0.5-BETA-3>>).  It is highly recommened that you upgrade to the latest release to
+        take advantage of the numerous fixes and performance enhancements now available.
+
+    The Jetty implementation believes that JSR-154 (Servlet 2.4) specification is flawed in respect to
+    <RequestAttributeListeners>.  Therefore this functionality has been disabled by default.  The follow links are
+    specifically related to Jetty's position:
+
+        * {{{http://jetty.mortbay.org/javadoc/org/mortbay/jetty/servlet/JSR154Filter.html}http://jetty.mortbay.org/javadoc/org/mortbay/jetty/servlet/JSR154Filter.html}}
+
+        * {{{http://jetty.mortbay.org/jetty/doc/servlet24.html#d0e711}http://jetty.mortbay.org/jetty/doc/servlet24.html#d0e711}}
+
+        * {{{http://jetty.mortbay.org/jetty/doc/servlet24.html#d0e358}http://jetty.mortbay.org/jetty/doc/servlet24.html#d0e358}}
+
+    In order to enable these listeners you need to copy the file <<org/mortbay/jetty/servlet/webdefault.xml>> and
+    uncomment the <filter> and <filter-mapping> section for <<jsr154>>.  Then you'll need to configure Jetty to use this
+    "default descriptor" as in the example below:
+
++-----+
+// the path "./exploded/" should be updated to properly represent your project structure
+server.addWebApplication("waffle", "./exploded/")
+    .setDefaultsDescriptor("./exploded/WEB-INF/webdefault.xml");
++-----+

@@ -1,0 +1,17 @@
+                                        ------
+                                        Internationalization
+                                        ------
+
+Internationalization (i18n)
+
+    Waffle supports internationalization in two ways -
+
+    1) ApplicationResources.properties in the WAR file. This is the same file name that other web action frameworks use.
+    The OS will load the most appropriate for the locale that happens to be in the WAR file.
+
+    2) A component <<com.thoughtworks.waffle.i18n.DefaultMessageResourcesConfiguration>> that provides default messages,
+    can be swapped for your own implementation of <<com.thoughtworks.waffle.i18n.MessageResources>>. This is a more
+    programatic way of handling message localisation.
+
+    It needs to be registered in <<web.xml>> (refer to {{{pluggable.html}Pluggable}}).
+
