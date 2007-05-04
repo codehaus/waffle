@@ -6,14 +6,14 @@
     <!-- Form Beans  -->
     <form-beans>
         <form-bean name="calendarForm"
-                   type="com.thoughtworks.waffle.migration.forms.struts.CalendarForm"/>
+                   type="org.codehaus.waffle.migration.migration.forms.struts.CalendarForm"/>
     </form-beans>
 
     <!-- Action Mappings -->
     <action-mappings>
         <action path="/calendar"
                 name="calendarForm"
-                type="com.thoughtworks.waffle.migration.actions.struts.CalendarAction">
+                type="org.codehaus.waffle.migration.migration.actions.struts.CalendarAction">
             <forward name="success" path="/struts-calendar.jsp"/>
         </action>
     </action-mappings>

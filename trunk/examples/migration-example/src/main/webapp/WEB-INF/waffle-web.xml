@@ -10,7 +10,7 @@
     <!-- This is how an application registers its custom Registrar -->
     <context-param>
         <param-name>com.thoughtworks.waffle.registrar.Registrar</param-name>
-        <param-value>com.thoughtworks.waffle.migration.actions.waffle.CalendarRegistrar</param-value>
+        <param-value>org.codehaus.waffle.migration.migration.actions.waffle.CalendarRegistrar</param-value>
     </context-param>
     
     <!-- Type converters -->
