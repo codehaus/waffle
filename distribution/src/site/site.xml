@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <project name="Waffle">
     <skin>
-        <groupId>com.thoughtworks.waffle</groupId>
+        <groupId>org.codehaus.waffle</groupId>
         <artifactId>waffle-skin</artifactId>
         <version>1.0-SNAPSHOT</version>
     </skin>

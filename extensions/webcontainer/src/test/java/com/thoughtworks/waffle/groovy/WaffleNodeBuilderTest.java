@@ -7,7 +7,7 @@
  * the LICENSE.txt file.                                                     *
  *                                                                           *
  *****************************************************************************/
-package com.thoughtworks.waffle.groovy;
+package org.codehaus.waffle.groovy;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -44,7 +44,7 @@ public class WaffleNodeBuilderTest extends TestCase {
                 "    webContainer(port:8080) {\n" +
                 "        context(path:'/bar') {\n" +
                 "            waffleApp {" +
-                "               actionRegistrar(class:com.thoughtworks.waffle.groovy.FooRegistrar)\n" +
+                "               actionRegistrar(class:org.codehaus.waffle.groovy.FooRegistrar)\n" +
                 "               requestFilter(filter:'*.action')\n" +
                 "               viewSuffix(suffix:'.jspx')\n" +
                 "            }\n" +

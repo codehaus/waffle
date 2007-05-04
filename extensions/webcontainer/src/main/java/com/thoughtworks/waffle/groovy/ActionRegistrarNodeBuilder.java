@@ -7,14 +7,14 @@
  * the LICENSE.txt file.                                                     *
  *                                                                           *
  *****************************************************************************/
-package com.thoughtworks.waffle.groovy;
+package org.codehaus.waffle.groovy;
 
 import groovy.util.NodeBuilder;
 
 import java.util.Map;
 
-import com.thoughtworks.waffle.registrar.RegistrarAssistant;
-import com.thoughtworks.waffle.context.PicoContextContainerFactory;
+import org.codehaus.waffle.registrar.RegistrarAssistant;
+import org.codehaus.waffle.context.PicoContextContainerFactory;
 import org.picocontainer.PicoContainer;
 
 public class ActionRegistrarNodeBuilder extends NodeBuilder {

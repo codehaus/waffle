@@ -9,28 +9,28 @@
 
     <!-- 1. This is how an application registers its custom Registrar -->
     <context-param>
-        <param-name>com.thoughtworks.waffle.registrar.Registrar</param-name>
-        <param-value>com.thoughtworks.waffle.example.paranamer.MyRegistrar</param-value>
+        <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
+        <param-value>org.codehaus.waffle.example.paranamer.MyRegistrar</param-value>
     </context-param>
     <context-param>
-        <param-name>com.thoughtworks.waffle.action.method.MethodDefinitionFinder</param-name>
-        <param-value>com.thoughtworks.waffle.action.method.ParanamerMethodDefinitionFinder</param-value>
+        <param-name>org.codehaus.waffle.action.method.MethodDefinitionFinder</param-name>
+        <param-value>org.codehaus.waffle.action.method.ParanamerMethodDefinitionFinder</param-value>
     </context-param>
     <!-- 2. We are adding a Custom Converter to handle Date objects -->
     <context-param>
         <param-name>register:DateConverter</param-name>
-        <param-value>com.thoughtworks.waffle.example.paranamer.DateTypeConverter</param-value>
+        <param-value>org.codehaus.waffle.example.paranamer.DateTypeConverter</param-value>
     </context-param>
 
     <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-        <listener-class>com.thoughtworks.waffle.context.WaffleContextListener</listener-class>
+        <listener-class>org.codehaus.waffle.context.WaffleContextListener</listener-class>
     </listener>
 
     <!-- 4. Waffle request filter (responsible for request level context) -->
     <filter>
         <filter-name>WaffleRequestFilter</filter-name>
-        <filter-class>com.thoughtworks.waffle.context.WaffleRequestFilter</filter-class>
+        <filter-class>org.codehaus.waffletext.WaffleRequestFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>WaffleRequestFilter</filter-name>
@@ -40,7 +40,7 @@
     <!-- 5. Register Waffle's FrontController servlet -->
     <servlet>
         <servlet-name>waffle</servlet-name>
-        <servlet-class>com.thoughtworks.waffle.servlet.WaffleServlet</servlet-class>
+        <servlet-class>org.codehaus.wafflevlet.WaffleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
