@@ -33,47 +33,66 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubMethodDefinitionFinder.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/AnnotatedMethodDefinitionFinderTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/RequestParameterMethodNameResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/GlobalErrorMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet/WaffleServletTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/dao" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/ActionMethodExecutor.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubBindErrorMessageResolver.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/NoMatchingMethodException.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/HierarchicalArgumentResolverTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/dao/SimplePersonDAO.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/ErrorMessage.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/context/WaffleRequestFilterTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/AbstractContextContainerFactory.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/taglib/WaffleFunctionsTest.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/org" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle/example" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/mock/AbstractRegistrarTestCase.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/FakeController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/annotation/ActionMethod.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view/DefaultDispatchAssistantTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/dao" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/context/PicoContextContainerFactoryTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/OgnlTypeConverter.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/RequestParameterMethodNameResolverConfig.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/AmbiguousMethodSignatureException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/ServletContextAttributeParameterTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/AbstractWaffleParameter.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view/DefaultViewResolverTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle/example/paranamer/DateTypeConverterTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/WaffleTypeConverter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/ControllerDefinitionFactory.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubControllerDefinitionFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/InterceptorChainImpl.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/DefaultActionMethodExecutorTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/dao/SimplePersonDAO.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/ContextContainerFactory.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/AbstractMethodDefinitionFinder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ViewSuffixNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ViewSuffixNodeBuilder.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept/InterceptorChainImplTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept/SecurityMethodInterceptorTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/model/Person.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/PicoRegistrar.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/org" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/Constants.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/mock/AbstractPicoRegistrarTestCase.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/AnnotatedMethodDefinitionFinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/DefaultControllerNameResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/PicoContextContainerFactory.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/WaffleServlet.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubViewDispatcher.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/i18n" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/Sortable.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/i18n/DefaultMessageResources.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/action" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/ParanamerMethodDefinitionFinderTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DefaultViewDispatcher.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/SessionActionsNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/SessionActionsNodeBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/TODO.txt" afterPath="$PROJECT_DIR$/TODO.txt" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/HttpSessionAttributeParameterTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MethodDefinition.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/BindErrorMessage.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/WaffleContextListener.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/model" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/ServletContextAttributeParameter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/RequestLevelComponent.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/WaffleVelocityServlet.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/InterceptorChain.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubDataBinder.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle/example/paranamer" afterPath="" />
@@ -82,25 +101,32 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubArgumentResolver.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view/ViewTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/AbstractRegistrar.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/RegistrarAssistantTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/WaffleRequestFilter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/DefaultActionMethodResponseHandler.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/RegisterWithApplication.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/taglib" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/View.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/SessionLevelComponent.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/test/resources/META-INF/ParameterNames.list" afterPath="$PROJECT_DIR$/framework/src/test/resources/META-INF/ParameterNames.list" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/Validator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/model/Person.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/FieldErrorMessage.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/validation/DefaultValidatorTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MethodDefinitionFinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DefaultDispatchAssistant.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubContextContainerFactory.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/PicoWaffleComponentRegistry.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/org" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/MethodInterceptor.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/MethodInterceptorComparator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/Startable.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/OgnlDataBinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/dao/PersonDAO.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/ServletContextHelper.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind/OgnlDataBinderTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/waffle.iws" afterPath="$PROJECT_DIR$/waffle.iws" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/DefaultBindErrorMessageResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/com/thoughtworks/waffle/example/freemarker" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle/example/paranamer/MyRegistrarTest.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/examples/freemarker-example/src/main/webapp/WEB-INF/web.xml" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/DefaultValidator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/ViewResolver.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/com/thoughtworks/waffle/example/freemarker/MyRegistrarTest.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/main/java/org" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/MyRegistrar.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/annotation" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MethodInvocationException.java" afterPath="" />
@@ -109,172 +135,77 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/ContextContainer.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/i18n/DefaultMessageResourcesConfiguration.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/FakeBean.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/taglib" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept/MethodInterceptorComparatorTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RequestActionsNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RequestActionsNodeBuilder.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/RegisterWithSession.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/RedirectView.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/skin/pom.xml" afterPath="$PROJECT_DIR$/skin/pom.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind/OgnlTypeConverterTest.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/waffle.ipr" afterPath="$PROJECT_DIR$/waffle.ipr" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet/PicoWaffleComponentRegistryTest.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/pom.xml" afterPath="$PROJECT_DIR$/framework/pom.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubActionMethodExecutor.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action/PersonController.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/com/thoughtworks/waffle/example" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/DependsOnValue.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/com/thoughtworks/waffle" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" afterPath="$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/HttpSessionAttributeParameter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind/DefaultBindErrorMessageResolverTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubDispatchAssistant.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/RegisterWithRequest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/HierarchicalArgumentResolver.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/RequestAttributeParameter.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilder.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/BindErrorMessageResolver.java" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/extensions/webcontainer/webcontainer.iml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/annotation/DefaultActionMethod.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/model" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/WaffleComponentRegistry.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/DataBinder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/PicoContextContainer.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/CustomRegistrar.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/DefaultControllerDefinitionFactoryTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubWaffleComponentRegistry.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action/CalculatorController.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/FakeControllerValidator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilderTest.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy/WaffleNodeBuilderTest.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/ControllerDefinition.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/PicoRegistrarTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/mock" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/RequestAttributeParameterTest.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RegisterActionsNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RegisterActionsNodeBuilder.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DispatchAssistant.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/GlobalErrorMessage.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RequestFilterNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/RequestFilterNodeBuilder.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet/WaffleServletTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubBindErrorMessageResolver.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/ErrorMessage.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/context/WaffleRequestFilterTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/AbstractContextContainerFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/mock/AbstractRegistrarTestCase.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/FakeController.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/annotation/ActionMethod.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/context/PicoContextContainerFactoryTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/AmbiguousMethodSignatureException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/ServletContextAttributeParameterTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/com/thoughtworks/waffle/example/paranamer/DateTypeConverterTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/WaffleTypeConverter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept" afterPath="" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/paranamer-example/src/test/java/org" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept/InterceptorChainImplTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/intercept/SecurityMethodInterceptorTest.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/distribution/pom.xml" afterPath="$PROJECT_DIR$/distribution/pom.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/model/Person.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/mock/AbstractPicoRegistrarTestCase.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/AnnotatedMethodDefinitionFinder.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/paranamer-example/pom.xml" afterPath="$PROJECT_DIR$/examples/paranamer-example/pom.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/DefaultControllerNameResolver.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/PicoContextContainerFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/WaffleServlet.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/context" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/i18n/DefaultMessageResources.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/ParanamerMethodDefinitionFinderTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MethodDefinition.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/freemarker-example/freemarker-example.iml" afterPath="$PROJECT_DIR$/examples/freemarker-example/freemarker-example.iml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/WaffleContextListener.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/ServletContextAttributeParameter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/RequestLevelComponent.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/WaffleVelocityServlet.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/root.iml" afterPath="$PROJECT_DIR$/root.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/framework/src/test/java/org" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/RegistrarAssistantTest.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/WaffleRequestFilter.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/src/main/resources/META-INF/waffle.tld" afterPath="$PROJECT_DIR$/framework/src/main/resources/META-INF/waffle.tld" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/DefaultActionMethodResponseHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/View.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/model/Person.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/FieldErrorMessage.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MethodDefinitionFinder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DefaultDispatchAssistant.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubContextContainerFactory.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ActionRegistrarNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ActionRegistrarNodeBuilder.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/OgnlDataBinder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/dao/PersonDAO.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/servlet/ServletContextHelper.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ApplicationActionsNodeBuilder.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/main/java/com/thoughtworks/waffle/groovy/ApplicationActionsNodeBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/freemarker-example/pom.xml" afterPath="$PROJECT_DIR$/examples/freemarker-example/pom.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/DefaultBindErrorMessageResolver.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/test/java/com/thoughtworks/waffle/example/freemarker" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/ViewResolver.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/webapp/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/examples/paranamer-example/src/main/webapp/WEB-INF/web.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/framework/framework.iml" afterPath="$PROJECT_DIR$/framework/framework.iml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/dao/PersonDAO.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/DefaultActionResponseHandlerTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/RegisterWithSession.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/RedirectView.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/DefaultErrorsContext.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/ViewDispatcher.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubValidator.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind/OgnlTypeConverterTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method/RequestParameterMethodNameResolverTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet/PicoWaffleComponentRegistryTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubActionMethodExecutor.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/DefaultActionMethodExecutor.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/PicoLifecycleStrategy.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/DefaultControllerNameResolverTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action/PersonController.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/DateTypeConverter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/validation" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/DependsOnValue.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/MyRegistrar.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/ActionMethodResponseHandler.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/ContextLevel.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/view/DefaultViewDispatcherTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/i18n/DefaultMessageResourcesTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/HttpSessionAttributeParameter.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/bind/DefaultBindErrorMessageResolverTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubDispatchAssistant.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/RegisterWithRequest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/AjaxExample.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DefaultViewResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/HierarchicalArgumentResolver.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/ArgumentResolver.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/i18n" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico/RequestAttributeParameter.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/AbstractWaffleParameterTest.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/distribution/src/site/site.xml" afterPath="$PROJECT_DIR$/distribution/src/site/site.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/BindErrorMessageResolver.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/RequestLevelContainer.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/taglib/WaffleFunctions.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy/FooRegistrar.java" afterPath="$PROJECT_DIR$/extensions/webcontainer/src/test/java/com/thoughtworks/waffle/groovy/FooRegistrar.java" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/annotation/DefaultActionMethod.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/model" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubActionMethodResponseHandler.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/DataBinder.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/context/PicoContextContainer.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/servlet/ServletContextHelperTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/intercept/SecurityMethodInterceptor.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/Registrar.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubControllerNameResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/CustomRegistrar.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/ApplicationLevelComponent.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/DefaultControllerDefinitionFactoryTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubWaffleComponentRegistry.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/DefaultControllerDefinitionFactory.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/i18n/MessageResources.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/freemarker-example/src/main/java/com/thoughtworks/waffle/example/freemarker/action/PersonController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action/CalculatorController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/FakeControllerValidator.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/validation/DefaultErrorsContextTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/pico" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/action/method" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/bind/BindException.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/WaffleException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/ControllerDefinition.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubMessageResources.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/PicoRegistrarTest.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/StubViewResolver.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/registrar/mock" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/action/method/MatchingMethodException.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/validation/ErrorsContext.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/testmodel/SampleForMethodFinder.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/extensions/webcontainer/pom.xml" afterPath="$PROJECT_DIR$/extensions/webcontainer/pom.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/test/java/com/thoughtworks/waffle/registrar/pico/RequestAttributeParameterTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/framework/src/main/java/com/thoughtworks/waffle/view/DispatchAssistant.java" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/examples/paranamer-example/src/main/java/com/thoughtworks/waffle/example/paranamer/action/HelloWorldController.java" afterPath="" />
     </list>
   </component>
