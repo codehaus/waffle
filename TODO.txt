@@ -1,0 +1,40 @@
+
+TODOs:
+
+- Add tiles support via sitemesh and later tiles2
+
+- Add waffle-tablig component
+
+- Add support for a configurable mapping of the view components.
+At present, a /name.action expects a /name.jspx.  
+It would be better if we could keep the top-level name.action but allow the mapping to a view that is not necessarily in the same dir structure, eg in /jspx/name.jspx.
+We can register action with "jspx/name" but that exposes dir structure in the action url - which is not desirable.
+   
+- Support jsp forwards: 
+If a user attempts 
+
+<jsp:forward page="/name.action"/>
+
+org.apache.jasper.JasperException: Exception in JSP: /index.jsp:1
+
+1: <jsp:forward page="/name.action"/>
+
+Stacktrace:
+	org.apache.jasper.servlet.JspServletWrapper.handleJspException(JspServletWrapper.java:504)
+	org.apache.jasper.servlet.JspServletWrapper.service(JspServletWrapper.java:393)
+	org.apache.jasper.servlet.JspServlet.serviceJspFile(JspServlet.java:314)
+	org.apache.jasper.servlet.JspServlet.service(JspServlet.java:264)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:802)
+
+root cause
+
+com.thoughtworks.waffle.WaffleException: Request level container was not found make sure that a WaffleRequestFilter was registered in the web.xml
+
+Oddly, the direct url http://localhost:8080/name.action works fine.
+
+- Vanilla submit does not seem to working - needs javascript:fireMethod
+We should also include essential javascript in distro.
+(Adding default method annotation should fix this)
+
+- allow client state to be persisted to the client (Base64?)
+

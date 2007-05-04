@@ -1,0 +1,164 @@
+                                        ------
+                                        Binding and Validation
+                                        ------
+
+Binding and Validation
+
+* Binding
+
+    By default all binding of fields to <<Actions>> is handled by Ognl.  Waffle provides a custom extension to Ognl's
+    <ognl.DefaultTypeConverter> to support Java 5 <enums>.  Fields of standard types (e.g. String, Number, primitives)
+    are bound to your actions automatically.  More complex or custom class types can also easily be handled.
+
+    A common binding problem that many web application need to deal with is how to bind a String value to a Date object.
+    Of course each application and locale has it's own unique format.  As an example we will build a class that supports
+    binding to a Date.  From this example you'll gain an understanding of how to bind to any Class type.
+
+    Suppose we have the following Action class <<ActionWithDateField>> which has one field <<startDate>> which is of
+    course a <java.util.Date>:
+
++-----+
+public class ActionWithDateField {
+    private Date startDate;
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+}
++-----+
+
+    You could imagine that the request to set this date field would be something similar to <<startDate=04-07-2006>>.
+    So inorder to bind this to the underlying Action we will need to create a custom class that will handle conversion
+    for a specific type(s).
+
+** WaffleTypeConverter
+
+    Implementation of the <<WaffleTypeConverter>> interface is needed to handle these custom type conversions.  This
+    interface defines two methods:
+
+*-----------------------------------------------------------------+----------------------------------------------------+
+| <<Method>>                                                      | <<Description>>
+*-----------------------------------------------------------------+----------------------------------------------------+
+| boolean accept(Class type)                                      | determine whether this implementation can handle conversions for the class type passed.
+*-----------------------------------------------+----------------------------------------------------------------------+
+| Object convert(String propertyName, String value, Class toType) | responsible for handling the conversion (only called if implementation returned true from the <accept()> method.
+*-----------------------------------------------+----------------------------------------------------------------------+
+
+    Nothing clarifies a description better than an example so lets look at the implementation Waffle provides for
+    handling Date types:
+
++-----+
+public class DateTypeConverter implements WaffleTypeConverter {
+    private MessageResources messageResources;
+
+    public DateTypeConverter(MessageResources messageResources) {
+        this.messageResources = messageResources;
+    }
+
+    /**
+     * Will accept any class stemming from <code>java.util.Date</code>
+     *
+     * @param type represent the type of the field a value is to be bound to
+     * @return true if isA Date
+     */
+    public boolean accept(Class type) {
+        return Date.class.isAssignableFrom(type);
+    }
+
+    public Object convert(String propertyName, String value, Class toType) throws BindException {
+        String format = messageResources.getMessageWithDefault("date.format", "dd-MM-yyyy");
+
+        try {
+            return new SimpleDateFormat(format).parse(value);
+        } catch (ParseException e) {
+            String errorMsg = messageResources.getMessage("date.bind.error", value, format);
+            throw new BindException(errorMsg, e);
+        }
+    }
+
+}
++-----+
+
+    ... WRITE ABOUT EXAMPLE ...
+
+    Now all that is left is to register this converter within the web.xml
+
++-----+
+<context-param>
+    <param-name>register:DateConverter</param-name>
+    <param-value>com.mycompany.DateTypeConverter</param-value>
+</context-param>
++-----+
+
+* Validation
+
+    Waffle allows you to do validations in to two ways.  The simplest being to make your ActionMethod responsible for
+    validation.  Simply add an <<Errors>> argument to your ActionMethod's argument list and Waffle will inject the current
+    instance of Errors to your method.  In the example below the ActionMethod "addToCart" third argument is an Errors
+    object.  The ActionMethod ensures that the quantity does not exceed 10, if so a new error message is created and
+    add to the Errors instance.
+
++-----+
+public class ShoppingCartAction implements Serializable {
+    private final MessageResources messageResources;
+    private final Cart cart;
+
+    public ShoppingCartAction(MessageResources messageResources, Cart cart) {
+        this.messageResources = messageResources;
+        this.cart = cart;
+    }
+
+    // This ActionMethod handles its own validation
+    public void addToCart(long itemId, int quantity, Errors errors) {
+        if(quantity > 10) {
+            String message = messageResources.getMessage("quantity.error");
+            FieldError fieldError = new FieldError("quantity", quantity, message);
+            errors.addFieldError(fieldError);
+            return;
+        }
+
+        ...
+    }
+}
++-----+
+    
+    The second means of Validation allows for an external validation class by follows a few simple conventions. Suppose
+    you have the following Action registered under the name "foo":
+
++-----+
+public class FooAction {
+
+    public String sayHello(String firstName, String lastName) {
+        return "Hello, " + firstName + " " + lastName;
+    }
+
+    public void sayGoodbye() {
+        return "Later!!";
+    }
+}
++-----+
+
+    You can register any POJO you would like as a Validator.  The only requirement is that it should be registered with
+    the suffix <Validator>.  In other words the POJO registered under the name <"fooValidator"> would be the Validator
+    for the action registered under the name <"foo">.  The Validator class will need to provide a seperate method for
+    each ActionMethod requiring sepearte validation.  These validate methods will need to be named identical to the
+    ActionMethods they are providing validation for.  The signature of the validate method is identical with the additional
+    first argument being of type <<Errors>>.  The following is an example of such a Validator:
+
++-----+
+public class FooActionValidator {
+
+    // This is the validator for the FooAction.sayHello(String, String) Actionmethod
+    public void sayHello(Errors errors, String firstName, String lastName) {
+
+        // validate and add error message to the errors if applicable
+
+    }
+}
++-----+
+
+    Notice this Validator does not need to extend any custom Waffle classes or interfaces.

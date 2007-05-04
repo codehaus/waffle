@@ -1,0 +1,17 @@
+                                        ------
+                                        Best Practices
+                                        ------
+
+Best Practices
+
+    * It is best to register Components and Actions as high up the Context tree as possible (i.e. Application prefered
+    over Session; Session prefered over Request). This will reduce the number of Objects that need to be created and
+    reduce introspection on classes.
+
+    * use "final" on instance variable dependencies whenever possible.
+
+    * An <ActionMethod> that returns <null> will act exactly like an <ActionMethod> with a return type of <void>.
+    Generally it is not a good practice to have null returned, take a look at how Exceptions are handled when produced
+    from an <ActionMethod>.
+
+    * More to come ...
