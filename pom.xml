@@ -10,7 +10,7 @@
     Waffle is a Java web framework that makes the process of developing Java based web applications easier. It was built
     to support enterprise level web-based business applications.
   </description>
-  <url>http://waffle.sourceforge.net</url>
+  <url>http://waffle.codehaus.org</url>
 
   <modules>
     <module>skin</module>
@@ -140,7 +140,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
-          <tagBase>https://waffle.svn.sourceforge.net/svnroot/waffle/tags</tagBase>
+          <tagBase>https://svn.codehaus.org/waffle/tags</tagBase>
         </configuration>
       </plugin>
     </plugins>
@@ -233,7 +233,7 @@
   <licenses>
     <license>
       <name>BSD license</name>
-      <url>http://waffle.sourceforge.net/license.html</url>
+      <url>http://waffle.codehaus.org/license.html</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
@@ -242,7 +242,6 @@
     <developer>
       <id>m2ward</id>
       <name>Michael Ward</name>
-      <email>m2ward|NO_SPAM@users.sourceforge.net</email>
       <roles>
         <role>administrator</role>
         <role>developer</role>
@@ -250,47 +249,56 @@
       <timezone>-6</timezone>
     </developer>
     <developer>
-      <id>maurotalevi</id>
+      <id>mauro</id>
       <name>Mauro Talevi</name>
-      <email>maurotalevi|NO_SPAM@users.sourceforge.net</email>
       <roles>
         <role>developer</role>
       </roles>
       <timezone>0</timezone>
     </developer>
     <developer>
-      <id>paul-h</id>
+      <id>paul</id>
       <name>Paul Hammant</name>
-      <email>paul|NO_SPAM@hammant.org</email>
       <roles>
         <role>developer</role>
       </roles>
       <timezone>-6</timezone>
     </developer>
+    <developer>
+      <id>gas</id>
+      <name>Guilherme Silviera</name>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-3</timezone>
+    </developer>
   </developers>
 
-  <mailingLists>
-    <mailingList>
-      <name>Google Group</name>
-      <subscribe>http://groups-beta.google.com/group/waffle-web-framework</subscribe>
-      <unsubscribe>http://groups-beta.google.com/group/waffle-web-framework</unsubscribe>
-      <post>waffle-web-framework@googlegroups.com</post>
-      <archive>http://groups-beta.google.com/group/waffle-web-framework</archive>
-    </mailingList>
-    <mailingList>
-      <name>Developer List</name>
-      <subscribe>https://lists.sourceforge.net/lists/listinfo/waffle-devs</subscribe>
-      <unsubscribe>https://lists.sourceforge.net/lists/listinfo/waffle-devs</unsubscribe>
-      <post>waffle-devs@lists.sourceforge.net</post>
-      <archive>http://sourceforge.net/mailarchive/forum.php?forum=waffle-devs</archive>
-    </mailingList>
-  </mailingLists>
-
   <scm>
-    <connection>scm:svn:http://waffle.svn.sourceforge.net/svnroot/waffle/trunk</connection>
-    <developerConnection>scm:svn:http://waffle.svn.sourceforge.net/svnroot/waffle/trunk</developerConnection>
-    <url>http://waffle.svn.sourceforge.net/viewvc/waffle/runk</url>
+    <developerConnection>scm:svn:https://svn.codehaus.org/waffle</developerConnection>
+    <url>http://svn.codehaus.org/waffle</url>
   </scm>
+
+  <distributionManagement>
+    <!--  
+      The id used must match a server id defined in ~/.m2/settings.xml
+    -->
+    <repository>
+      <id>codehaus.org</id>
+      <name>Codehaus Waffle Repository</name>
+      <url>dav:https://dav.codehaus.org/repository/waffle/</url>
+    </repository>
+    <snapshotRepository>
+      <id>codehaus.org</id>
+      <name>Codehaus Waffle Snapshot Repository</name>
+      <url>dav:https://dav.codehaus.org/snapshots.repository/waffle/</url>
+    </snapshotRepository>
+    <site>
+      <id>codehaus.org</id>
+      <name>Codehaus Waffle Site</name>
+      <url>dav:https://dav.codehaus.org/waffle/</url>
+    </site>
+  </distributionManagement>
 
   <repositories>
     <repository>
@@ -322,25 +330,5 @@
     </pluginRepository>
   </pluginRepositories>
 
-  <distributionManagement>
-    <!--  
-      The server id here defined must also appear in ~/.m2/settings.xml with username
-    -->
-    <repository>
-      <id>sourceforge.net</id>
-      <name>Waffle Repository</name>
-      <url>scp://shell.sourceforge.net/home/groups/w/wa/waffle/htdocs/repository</url>
-    </repository>
-    <snapshotRepository>
-      <id>sourceforge.net</id>
-      <name>Waffle Snapshot Repository</name>
-      <url>scp://shell.sourceforge.net/home/groups/w/wa/waffle/htdocs/snapshot-repository</url>
-    </snapshotRepository>
-    <site>
-      <id>sourceforge.net</id>
-      <name>Waffle Site</name>
-      <url>scp://shell.sourceforge.net/home/groups/w/wa/waffle/htdocs</url>
-    </site>
-  </distributionManagement>
 
 </project>
