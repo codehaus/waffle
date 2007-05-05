@@ -111,10 +111,6 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/picocontainer-1.2.jar" />
     </containerElement>
-    <containerElement type="library" name="servlet-api" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="&lt;N/A&gt;" />
-    </containerElement>
     <containerElement type="library" name="velocity" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/velocity-1.4.jar" />
