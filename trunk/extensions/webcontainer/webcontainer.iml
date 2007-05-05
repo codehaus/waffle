@@ -2,10 +2,12 @@
 <module relativePaths="true" type="J2EE_WEB_MODULE" version="4">
   <component name="AppServerSpecificValidatorsManager" />
   <component name="ModuleRootManager" />
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://target/classes" />
     <exclude-output />
     <exploded url="file://$MODULE_DIR$/exploded" />
     <exclude-exploded />
+    <output-test url="file://target/test-classes" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
