@@ -58,6 +58,51 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/org/nanocontainer/nanocontainer-groovy/1.2-SNAPSHOT/nanocontainer-groovy-1.2-SNAPSHOT.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/org/nanocontainer/nanocontainer-webcontainer/1.2-SNAPSHOT/nanocontainer-webcontainer-1.2-SNAPSHOT.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty-util/6.0.1/jetty-util-6.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty/6.0.1/jetty-6.0.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
@@ -90,6 +135,11 @@
       <url>jar://$M2_REPOSITORY$/groovy/groovy-all/1.0/groovy-all-1.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
+      <url>jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/jmock-1.1.0.jar" />
       <url>jar://$M2_REPOSITORY$/jmock/jmock/1.1.0/jmock-1.1.0.jar!/</url>
@@ -113,6 +163,21 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/jetty-util-6.0.1.jar" />
       <url>jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty-util/6.0.1/jetty-util-6.0.1.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/jetty-6.0.1.jar" />
+      <url>jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty/6.0.1/jetty-6.0.1.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/nanocontainer-groovy-1.2-SNAPSHOT.jar" />
+      <url>jar://$M2_REPOSITORY$/org/nanocontainer/nanocontainer-groovy/1.2-SNAPSHOT/nanocontainer-groovy-1.2-SNAPSHOT.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/nanocontainer-webcontainer-1.2-SNAPSHOT.jar" />
+      <url>jar://$M2_REPOSITORY$/org/nanocontainer/nanocontainer-webcontainer/1.2-SNAPSHOT/nanocontainer-webcontainer-1.2-SNAPSHOT.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
