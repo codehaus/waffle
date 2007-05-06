@@ -14,9 +14,8 @@ import groovy.util.NodeBuilder;
 
 import java.util.Map;
 
-import org.nanocontainer.webcontainer.PicoContextHandler;
-import org.nanocontainer.script.groovy.buildernodes.AbstractBuilderNode;
 import org.nanocontainer.script.NanoContainerMarkupException;
+import org.nanocontainer.webcontainer.PicoContextHandler;
 import org.picocontainer.PicoContainer;
 
 public class WaffleNodeBuilder extends NodeBuilder {
