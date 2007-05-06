@@ -9,19 +9,19 @@
  *****************************************************************************/
 package org.codehaus.waffle.groovy;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.FileNotFoundException;
 import java.net.URL;
 
 import junit.framework.TestCase;
+
+import org.mortbay.util.IO;
 import org.nanocontainer.script.groovy.GroovyContainerBuilder;
 import org.picocontainer.PicoContainer;
-import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.ObjectReference;
 import org.picocontainer.defaults.SimpleReference;
-import org.mortbay.util.IO;
 
 public class WaffleNodeBuilderTest extends TestCase {
 
