@@ -1,6 +1,6 @@
 package org.codehaus.waffle.example.simple;
 
-import com.thoughtworks.waffle.view.View;
+import org.codehaus.waffle.view.View;
 
 import java.util.List;
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
 package org.codehaus.waffle.example.simple;
 
-import com.thoughtworks.waffle.i18n.MessageResources;
-import com.thoughtworks.waffle.validation.FieldErrorMessage;
-import com.thoughtworks.waffle.validation.ErrorsContext;
+import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.validation.FieldErrorMessage;
+import org.codehaus.waffle.validation.ErrorsContext;
 
 public class AutomobileControllerValidator {
     private final AutomobileController automobileController;

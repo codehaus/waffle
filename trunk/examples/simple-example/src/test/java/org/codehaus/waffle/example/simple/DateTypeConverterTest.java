@@ -1,8 +1,8 @@
 package org.codehaus.waffle.example.simple;
 
-import com.thoughtworks.waffle.bind.BindException;
+import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.example.simple.DateTypeConverter;
-import com.thoughtworks.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import junit.framework.TestCase;
 import ognl.OgnlException;
 import org.junit.Assert;

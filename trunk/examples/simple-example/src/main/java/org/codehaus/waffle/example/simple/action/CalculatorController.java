@@ -1,6 +1,6 @@
 package org.codehaus.waffle.example.simple.action;
 
-import com.thoughtworks.waffle.action.method.annotation.ActionMethod;
+import org.codehaus.waffle.action.annotation.ActionMethod;
 
 public class CalculatorController {
     public Number result;

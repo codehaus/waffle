@@ -1,8 +1,8 @@
 package org.codehaus.waffle.migration.migration.actions.waffle;
 
-import com.thoughtworks.waffle.registrar.AbstractRegistrar;
-import com.thoughtworks.waffle.registrar.RegisterWithSession;
-import com.thoughtworks.waffle.registrar.Registrar;
+import org.codehaus.waffle.registrar.AbstractRegistrar;
+import org.codehaus.waffle.registrar.RegisterWithSession;
+import org.codehaus.waffle.registrar.Registrar;
 
 public class CalendarRegistrar extends AbstractRegistrar {
 
