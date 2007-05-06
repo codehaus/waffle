@@ -8,29 +8,34 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.servlet;
+package org.codehaus.waffle.context.pico;
+
+import java.util.Enumeration;
+
+import javax.servlet.ServletContext;
+
+import ognl.TypeConverter;
 
 import org.codehaus.waffle.WaffleComponentRegistry;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.controller.ControllerDefinitionFactory;
-import org.codehaus.waffle.controller.*;
-import org.codehaus.waffle.controller.ControllerNameResolver;
-import org.codehaus.waffle.controller.DefaultControllerNameResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
+import org.codehaus.waffle.action.ActionMethodResponseHandler;
+import org.codehaus.waffle.action.AnnotatedMethodDefinitionFinder;
 import org.codehaus.waffle.action.ArgumentResolver;
-import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.DefaultActionMethodResponseHandler;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver;
+import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
-import org.codehaus.waffle.action.AnnotatedMethodDefinitionFinder;
-import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.DefaultBindErrorMessageResolver;
 import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.bind.OgnlTypeConverter;
 import org.codehaus.waffle.context.ContextContainerFactory;
-import org.codehaus.waffle.context.PicoContextContainerFactory;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ControllerNameResolver;
+import org.codehaus.waffle.controller.DefaultControllerDefinitionFactory;
+import org.codehaus.waffle.controller.DefaultControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.validation.DefaultValidator;
@@ -41,14 +46,10 @@ import org.codehaus.waffle.view.DefaultViewResolver;
 import org.codehaus.waffle.view.DispatchAssistant;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
-import ognl.TypeConverter;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
 import org.picocontainer.defaults.DefaultPicoContainer;
-
-import javax.servlet.ServletContext;
-import java.util.Enumeration;
 
 /**
  * This allows Waffle to have a pluggable architecture.

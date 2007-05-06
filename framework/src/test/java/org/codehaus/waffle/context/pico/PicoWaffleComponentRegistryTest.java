@@ -1,15 +1,10 @@
-package org.codehaus.waffle.servlet;
+package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.WaffleComponentRegistry;
 import org.codehaus.waffle.controller.DefaultControllerNameResolver;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.DefaultControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
-import org.codehaus.waffle.action.ActionMethodResponseHandler;
-import org.codehaus.waffle.action.ArgumentResolver;
-import org.codehaus.waffle.action.DefaultActionMethodResponseHandler;
-import org.codehaus.waffle.action.MethodDefinitionFinder;
-import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.*;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
@@ -18,6 +13,7 @@ import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.bind.OgnlTypeConverter;
 import org.codehaus.waffle.context.AbstractContextContainerFactory;
 import org.codehaus.waffle.context.ContextContainerFactory;
+import org.codehaus.waffle.context.pico.PicoWaffleComponentRegistry;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.testmodel.StubControllerDefinitionFactory;

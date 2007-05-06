@@ -19,7 +19,7 @@
 
     <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-        <listener-class>org.codehaus.waffletext.WaffleContextListener</listener-class>
+        <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
     </listener>
 
     <!-- Sitemesh's filter -->
@@ -31,7 +31,7 @@
     <!-- 4. Waffle request filter (responsible for request level context) -->
     <filter>
         <filter-name>WaffleRequestFilter</filter-name>
-        <filter-class>org.codehaus.waffletext.WaffleRequestFilter</filter-class>
+        <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
     </filter>
 
     <!-- Sitemesh's filter mapping -->

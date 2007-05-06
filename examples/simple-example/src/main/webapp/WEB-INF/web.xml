@@ -9,7 +9,7 @@
 
     <!-- 1. This is how an application registers its custom Registrar -->
     <context-param>
-        <param-name>com.thoughtworks.waffle.registrar.Registrar</param-name>
+        <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
         <param-value>org.codehaus.waffle.example.simple.MyRegistrar</param-value>
     </context-param>
     <!-- 2. We are adding a Custom Converter to handle Date objects -->
@@ -20,13 +20,13 @@
 
     <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-        <listener-class>com.thoughtworks.waffle.context.WaffleContextListener</listener-class>
+        <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
     </listener>
 
     <!-- 4. Waffle request filter (responsible for request level context) -->
     <filter>
         <filter-name>WaffleRequestFilter</filter-name>
-        <filter-class>com.thoughtworks.waffle.context.WaffleRequestFilter</filter-class>
+        <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>WaffleRequestFilter</filter-name>
@@ -36,7 +36,7 @@
     <!-- 5. Register Waffle's FrontController servlet -->
     <servlet>
         <servlet-name>waffle</servlet-name>
-        <servlet-class>com.thoughtworks.waffle.servlet.WaffleServlet</servlet-class>
+        <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

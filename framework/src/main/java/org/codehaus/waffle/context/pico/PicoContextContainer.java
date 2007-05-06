@@ -8,8 +8,9 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.context;
+package org.codehaus.waffle.context.pico;
 
+import org.codehaus.waffle.context.ContextContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;

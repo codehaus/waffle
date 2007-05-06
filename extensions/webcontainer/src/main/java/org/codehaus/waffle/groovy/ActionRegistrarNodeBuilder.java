@@ -14,7 +14,6 @@ import groovy.util.NodeBuilder;
 import java.util.Map;
 
 import org.codehaus.waffle.registrar.RegistrarAssistant;
-import org.codehaus.waffle.context.PicoContextContainerFactory;
 import org.picocontainer.PicoContainer;
 
 public class ActionRegistrarNodeBuilder extends NodeBuilder {

@@ -3,7 +3,7 @@ package org.codehaus.waffle.registrar.mock;
 import org.picocontainer.MutablePicoContainer;
 
 import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.PicoContextContainer;
+import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 
