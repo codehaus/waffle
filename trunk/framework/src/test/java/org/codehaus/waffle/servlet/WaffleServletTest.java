@@ -19,7 +19,7 @@ import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.DefaultActionMethodExecutor;
+import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.MethodInvocationException;
 import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.context.PicoContextContainer;
@@ -191,7 +191,7 @@ public class WaffleServletTest extends MockObjectTestCase {
         dataBinderField.set(waffleServlet, new OgnlDataBinder(new DefaultTypeConverter(), null));
         Field actionMethodExecutorField = WaffleServlet.class.getDeclaredField("actionMethodExecutor");
         actionMethodExecutorField.setAccessible(true);
-        actionMethodExecutorField.set(waffleServlet, new DefaultActionMethodExecutor());
+        actionMethodExecutorField.set(waffleServlet, new InterceptingActionMethodExecutor());
         Field methodResponseHandlerField = WaffleServlet.class.getDeclaredField("actionMethodResponseHandler");
         methodResponseHandlerField.setAccessible(true);
         methodResponseHandlerField.set(waffleServlet, actionMethodResponseHandler);

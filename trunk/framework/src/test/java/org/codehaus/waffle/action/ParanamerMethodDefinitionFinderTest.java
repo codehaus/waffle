@@ -1,22 +1,21 @@
 package org.codehaus.waffle.action;
 
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.action.*;
-import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import ognl.DefaultTypeConverter;
 import ognl.TypeConverter;
+import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 import org.jmock.core.Constraint;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.ServletContext;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 
 public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
 
@@ -600,7 +599,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         Method expectedMethod = SampleForMethodFinder.class.getMethod("actionMethodNeedsCustomConverter", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
-    
+
     public void testFindMethodWithASingleParameter() throws NoSuchMethodException {
         // Mock HttpServletRequest
         Mock mockRequest = mock(HttpServletRequest.class);
@@ -653,7 +652,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
                 .with(same(request))
                 .will(returnValue("doFoo"));
         MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
-        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+
         // Mock HttpServletResponse
         Mock mockResponse = mock(HttpServletResponse.class);
         HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();

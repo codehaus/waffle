@@ -17,14 +17,14 @@ import org.codehaus.waffle.testmodel.FakeController;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodExecutor;
-import org.codehaus.waffle.action.DefaultActionMethodExecutor;
+import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.picocontainer.defaults.DefaultPicoContainer;
 import org.jmock.MockObjectTestCase;
 
 import java.lang.reflect.Method;
 
 public class DefaultActionMethodExecutorTest extends MockObjectTestCase {
-    private ActionMethodExecutor actionMethodExecutor = new DefaultActionMethodExecutor();
+    private ActionMethodExecutor actionMethodExecutor = new InterceptingActionMethodExecutor();
 
     protected void setUp() throws Exception {
         RequestLevelContainer.set(new PicoContextContainer(new DefaultPicoContainer()));
