@@ -5,13 +5,13 @@
 Component Lifecycle support
 
     Waffle provides lifecycle support which means we can register component with the Registrar that implement
-    <<com.thoughtworks.waffle.Startable>>.  This will allow a component to be started as soon as a context (application,
+    <<org.codehaus.waffle.Startable>>.  This will allow a component to be started as soon as a context (application,
     session or request) is initialized and stopped when the context is destroyed.  This is an extremly useful and
     powerful ability.  With this feature it is possible to register "Janitor" type of components that will cleanup
     resources when their particular context is being destroyed (i.e. closing jdbc resources).
 
 +-----+
-public class MyStartable implements com.thoughtworks.waffle.Startable {
+public class MyStartable implements org.codehaus.waffle.Startable {
 
     public void start() {
         System.out.println("I'm being started...");
