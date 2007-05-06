@@ -8,9 +8,12 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.context;
+package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.Constants;
+import org.codehaus.waffle.context.AbstractContextContainerFactory;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.codehaus.waffle.registrar.Registrar;

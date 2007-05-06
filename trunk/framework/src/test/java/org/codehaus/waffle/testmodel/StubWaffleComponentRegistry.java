@@ -4,7 +4,7 @@ import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
-import org.codehaus.waffle.servlet.PicoWaffleComponentRegistry;
+import org.codehaus.waffle.context.pico.PicoWaffleComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ActionMethodExecutor;

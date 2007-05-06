@@ -10,10 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.context;
 
-import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.WaffleComponentRegistry;
-import org.codehaus.waffle.servlet.PicoWaffleComponentRegistry;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -21,7 +17,17 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-public class WaffleContextListener implements ServletContextListener, HttpSessionListener {
+import org.codehaus.waffle.Constants;
+import org.codehaus.waffle.WaffleComponentRegistry;
+
+/**
+ * Abstract context and session listener that uses a WaffleComponentRegistry to 
+ * retrieve the ContextContainerFactory used to manage the components registered at each webapp scope.
+ * 
+ * @author Mike Ward
+ * @author Mauro Talevi
+ */
+public abstract class WaffleContextListener implements ServletContextListener, HttpSessionListener {
     private ContextContainerFactory contextContainerFactory;
 
     /**
@@ -48,10 +54,6 @@ public class WaffleContextListener implements ServletContextListener, HttpSessio
         contextContainerFactory.destroy();
     }
 
-    protected WaffleComponentRegistry buildWaffleComponentRegistry(ServletContext servletContext) {
-        return new PicoWaffleComponentRegistry(servletContext);
-    }
-
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
 
@@ -68,5 +70,13 @@ public class WaffleContextListener implements ServletContextListener, HttpSessio
         sessionContextContainer.stop();
         sessionContextContainer.dispose();
     }
+
+    /**
+     * Concrete subclasses to provide an WaffleComponentRegistry instance
+     * @param servletContext 
+     * @return A WaffleComponentRegistry
+     */
+    protected abstract WaffleComponentRegistry buildWaffleComponentRegistry(ServletContext servletContext);
+
 
 }

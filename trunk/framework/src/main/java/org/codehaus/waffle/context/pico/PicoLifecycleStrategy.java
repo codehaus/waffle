@@ -8,7 +8,7 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.context;
+package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.Startable;
 import org.picocontainer.ComponentMonitor;

@@ -8,10 +8,20 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.context;
+package org.codehaus.waffle.context.pico;
+
+import java.util.Collection;
+import java.util.Locale;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.Startable;
+import org.codehaus.waffle.context.AbstractContextContainerFactory;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.registrar.Registrar;
@@ -26,12 +36,6 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.Collection;
-import java.util.Locale;
 
 public class PicoContextContainerFactoryTest extends MockObjectTestCase {
     private final MessageResources messageResources = new DefaultMessageResources();

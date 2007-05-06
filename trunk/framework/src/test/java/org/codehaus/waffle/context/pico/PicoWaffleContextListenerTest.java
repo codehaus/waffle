@@ -1,17 +1,21 @@
-package org.codehaus.waffle.context;
+package org.codehaus.waffle.context.pico;
 
-import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.WaffleComponentRegistry;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import java.lang.reflect.Field;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
-import java.lang.reflect.Field;
 
-public class WaffleContextListenerTest extends MockObjectTestCase {
+import org.codehaus.waffle.Constants;
+import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.ContextContainerFactory;
+import org.codehaus.waffle.context.WaffleContextListener;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
+
+public class PicoWaffleContextListenerTest extends MockObjectTestCase {
 
     public void testServletContextListenerMethods() {
         // Mock ContextContainerFactory
@@ -53,7 +57,7 @@ public class WaffleContextListenerTest extends MockObjectTestCase {
     }
 
     public void testHttpSessionListenerMethods() throws Exception {
-        WaffleContextListener waffleContextListener = new WaffleContextListener();
+        WaffleContextListener waffleContextListener = new PicoWaffleContextListener();
 
         // Mock ContextContainer
         Mock mockContainer = mock(ContextContainer.class);

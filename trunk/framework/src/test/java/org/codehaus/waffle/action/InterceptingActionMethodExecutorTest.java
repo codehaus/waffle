@@ -11,8 +11,8 @@
 package org.codehaus.waffle.action;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.context.PicoContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.ActionMethodResponse;
