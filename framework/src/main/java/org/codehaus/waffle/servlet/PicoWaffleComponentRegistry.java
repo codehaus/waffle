@@ -18,7 +18,7 @@ import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.controller.DefaultControllerNameResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ArgumentResolver;
-import org.codehaus.waffle.action.DefaultActionMethodExecutor;
+import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.DefaultActionMethodResponseHandler;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
@@ -67,7 +67,7 @@ public class PicoWaffleComponentRegistry implements WaffleComponentRegistry {
         picoContainer.registerComponentInstance(servletContext);
 
         // register all known components
-        register(ActionMethodExecutor.class, DefaultActionMethodExecutor.class, servletContext);
+        register(ActionMethodExecutor.class, InterceptingActionMethodExecutor.class, servletContext);
         register(ActionMethodResponseHandler.class, DefaultActionMethodResponseHandler.class, servletContext);
         register(ArgumentResolver.class, HierarchicalArgumentResolver.class, servletContext);
         register(BindErrorMessageResolver.class, DefaultBindErrorMessageResolver.class, servletContext);

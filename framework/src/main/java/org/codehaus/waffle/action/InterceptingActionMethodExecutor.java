@@ -29,9 +29,8 @@ import java.util.List;
  * Default implementation of action method executor, which uses an interceptor chain.
  * 
  * @author Michael Ward
- * @todo (mt) Rename to InterceptingActionMethodExecutor?
  */
-public class DefaultActionMethodExecutor implements ActionMethodExecutor {
+public class InterceptingActionMethodExecutor implements ActionMethodExecutor {
     private final Comparator<MethodInterceptor> comparator = new MethodInterceptorComparator();
 
     /**

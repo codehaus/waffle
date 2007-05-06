@@ -9,7 +9,7 @@ import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.action.DefaultActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
-import org.codehaus.waffle.action.DefaultActionMethodExecutor;
+import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.*;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
@@ -101,7 +101,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
         assertTrue(componentRegistry.getBindErrorMessageResolver() instanceof DefaultBindErrorMessageResolver);
         assertTrue(componentRegistry.getDataBinder() instanceof OgnlDataBinder);
         assertTrue(componentRegistry.getDispatchAssistant() instanceof DefaultDispatchAssistant);
-        assertTrue(componentRegistry.getActionMethodExecutor() instanceof DefaultActionMethodExecutor);
+        assertTrue(componentRegistry.getActionMethodExecutor() instanceof InterceptingActionMethodExecutor);
         assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof DefaultActionMethodResponseHandler);
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
         assertTrue(componentRegistry.getViewDispatcher() instanceof DefaultViewDispatcher);
