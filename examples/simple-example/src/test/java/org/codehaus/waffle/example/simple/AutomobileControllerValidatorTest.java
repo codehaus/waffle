@@ -2,11 +2,11 @@ package org.codehaus.waffle.example.simple;
 
 import org.codehaus.waffle.example.simple.AutomobileController;
 import org.codehaus.waffle.example.simple.AutomobileControllerValidator;
-import com.thoughtworks.waffle.i18n.DefaultMessageResources;
-import com.thoughtworks.waffle.i18n.MessageResources;
-import com.thoughtworks.waffle.validation.ErrorsContext;
-import com.thoughtworks.waffle.validation.DefaultErrorsContext;
-import com.thoughtworks.waffle.validation.FieldErrorMessage;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.validation.ErrorsContext;
+import org.codehaus.waffle.validation.DefaultErrorsContext;
+import org.codehaus.waffle.validation.FieldErrorMessage;
 import junit.framework.TestCase;
 
 import java.util.List;

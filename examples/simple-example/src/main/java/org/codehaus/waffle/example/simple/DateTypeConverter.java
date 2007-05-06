@@ -1,8 +1,8 @@
 package org.codehaus.waffle.example.simple;
 
-import com.thoughtworks.waffle.bind.BindException;
-import com.thoughtworks.waffle.bind.WaffleTypeConverter;
-import com.thoughtworks.waffle.i18n.MessageResources;
+import org.codehaus.waffle.bind.BindException;
+import org.codehaus.waffle.bind.WaffleTypeConverter;
+import org.codehaus.waffle.i18n.MessageResources;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

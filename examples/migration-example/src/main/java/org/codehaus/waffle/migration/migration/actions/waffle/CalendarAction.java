@@ -1,10 +1,10 @@
 package org.codehaus.waffle.migration.migration.actions.waffle;
 
-import com.thoughtworks.waffle.action.method.annotation.ActionMethod;
+import java.util.Map;
+
+import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.migration.migration.model.CalendarUtils;
 import org.codehaus.waffle.migration.migration.model.Month;
-
-import java.util.Map;
 
 public class CalendarAction {
     private String language;
