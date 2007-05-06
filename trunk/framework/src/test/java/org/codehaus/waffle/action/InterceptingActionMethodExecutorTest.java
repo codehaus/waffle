@@ -23,7 +23,7 @@ import org.jmock.MockObjectTestCase;
 
 import java.lang.reflect.Method;
 
-public class DefaultActionMethodExecutorTest extends MockObjectTestCase {
+public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
     private ActionMethodExecutor actionMethodExecutor = new InterceptingActionMethodExecutor();
 
     protected void setUp() throws Exception {
