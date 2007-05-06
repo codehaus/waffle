@@ -8,7 +8,7 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method.annotation;
+package org.codehaus.waffle.action.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

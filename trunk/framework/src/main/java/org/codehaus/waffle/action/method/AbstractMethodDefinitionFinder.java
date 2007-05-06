@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.method;
 
-import org.codehaus.waffle.action.method.annotation.DefaultActionMethod;
+import org.codehaus.waffle.action.annotation.DefaultActionMethod;
 import org.codehaus.waffle.WaffleException;
 import ognl.OgnlRuntime;
 import ognl.TypeConverter;
