@@ -158,8 +158,8 @@ public class ShoppingCartAction implements Serializable {
 
 +-----+
 <context-param>
-    <param-name>com.thoughtworks.waffle.action.method.MethodDefinitionFinder</param-name>
-    <param-value>com.thoughtworks.waffle.action.method.ParanamerMethodDefinitionFinder</param-value>
+    <param-name>org.codehaus.waffle.action.MethodDefinitionFinder</param-name>
+    <param-value>org.codehaus.waffle.action.ParanamerMethodDefinitionFinder</param-value>
 </context-param>
 +-----+
 
@@ -205,10 +205,10 @@ public class CheckoutAction implements Serializable {
     Waffle will react differently depending on what is returned, or thrown, from an <<ActionMethod>> after it has been
     invoked.  Below we define define how each case is handled in the Waffle framework:
 
-    * <<View>> - An ActionMethod which returns an instance of <com.thoughtworks.waffle.view.View> or
-    <com.thoughtworks.waffle.view.RedirectView> will forward or redirect, respectively.  By default Waffle assumes that
+    * <<View>> - An ActionMethod which returns an instance of <org.codehaus.waffle.view.View> or
+    <org.codehaus.waffle.view.RedirectView> will forward or redirect, respectively.  By default Waffle assumes that
     each View defines the full URL the user is to be sent to.  This behavior can be altered by definning a different
-    implementation of the <com.thoughtworks.waffle.view.ViewResolver>.  Waffle was built to be pluggable this is the
+    implementation of the <org.codehaus.waffle.view.ViewResolver>.  Waffle was built to be pluggable this is the
     first example of how Waffle components can be customized and configured.  Read the section on
     {{{pluggable.waf}Waffle's pluggability}} for further details.
 

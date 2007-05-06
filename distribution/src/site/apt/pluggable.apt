@@ -7,12 +7,12 @@ Pluggability
     Waffle was designed to provide default functionality that should be suitable for most any application.  However in
     order to provide complete flexibility Waffle allows its foundational components to be over-written with custom
     implementations.  As an example Waffle uses Ognl for data binding properties from a users request to the actions.
-    It is easy to plug-in your own <<com.thoughtworks.waffle.bind.DataBinder>> by adding the following to the
+    It is easy to plug-in your own <<org.codehaus.waffle.bind.DataBinder>> by adding the following to the
     applications <<web.xml>>:
 
 +-----+
 <context-param>
-    <param-name>com.thoughtworks.waffle.bind.DataBinder</param-name>
+    <param-name>org.codehaus.waffle.bind.DataBinder</param-name>
     <param-value>com.mycompany.MyDataBinder</param-value>
 </context-param>
 +-----+
@@ -21,33 +21,33 @@ Pluggability
     implementing class.  The following table lists all of the components that can currently be customized in Waffle:
 
 *------------------------------------------------------------------+
-| <<Key\Interface>>                                                |
+| <<Key Interface>>                                                |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.action.ActionDefinitionFactory             |
+org.codehaus.waffle.controller.ControllerDefinitionFactory             |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.action.method.ActionMethodExecutor         |
+org.codehaus.waffle.action.ActionMethodExecutor         |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.action.method.ActionMethodResponseHandler  |
+org.codehaus.waffle.action.ActionMethodResponseHandler  |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.action.method.ArgumentResolver             |
+org.codehaus.waffle.action.ArgumentResolver             |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.bind.BindErrorMessageResolver              |
+org.codehaus.waffle.bind.BindErrorMessageResolver              |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.context.ContextContainerFactory            |
+org.codehaus.waffle.bind.DataBinder                            |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.bind.DataBinder                            |
+org.codehaus.waffle.context.ContextContainerFactory            |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.view.DispatchHelper                        |
+org.codehaus.waffle.view.DispatchHelper                        |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.i18n.MessageResources                      |
+org.codehaus.waffle.i18n.MessageResources                      |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.action.method.MethodDefinitionFinder       |
+org.codehaus.waffle.action.MethodDefinitionFinder       |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.validation.Validator                       |
+org.codehaus.waffle.validation.Validator                       |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.view.ViewDispatcher                        |
+org.codehaus.waffle.view.ViewDispatcher                        |
 *------------------------------------------------------------------+
-com.thoughtworks.waffle.view.ViewResolver                          |
+org.codehaus.waffle.view.ViewResolver                          |
 *------------------------------------------------------------------+
 
     Most application will never need to deal with any of these components.  But it is nice to know that you can change
@@ -68,10 +68,10 @@ Other components
 </context-param>
 +-----+
 
-    For a more concrete example Waffle defines the interface <com.thoughtworks.waffle.bind.WaffleTypeConverter>.
+    For a more concrete example Waffle defines the interface <org.codehaus.waffle.bind.WaffleTypeConverter>.
     Implementations of this interface allows you to write custom conversions for a specific class type.  The
     following is an example of how you can register your converters with Waffle.  Waffle's <OgnlTypeConverter>
-    is dependent on all <com.thoughtworks.waffle.bind.WaffleTypeConverter> that are registered in the <<web.xml>>.  So
+    is dependent on all <org.codehaus.waffle.bind.WaffleTypeConverter> that are registered in the <<web.xml>>.  So
     the following example will provide 2 custom converters for use in your application.
 
 +-----+

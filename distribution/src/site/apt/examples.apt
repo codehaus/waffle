@@ -6,7 +6,7 @@ We have three examples:
 
 * Simple
 
-    Source: {{{http://waffle.svn.sourceforge.net/viewvc/waffle/trunk/examples/simple-example/}http://waffle.svn.sourceforge.net/viewvc/waffle/trunk/examples/simple-example/}}
+    Source: {{{https://svn.codehaus.org/waffle/trunk/examples/simple-example/}https://svn.codehaus.org/waffle/trunk/examples/simple-example/}}
 
     This example has four built in mini-apps:
 
@@ -19,7 +19,7 @@ We have three examples:
 
 * Paranamer
 
-    Source: {{{http://waffle.svn.sourceforge.net/viewvc/waffle/trunk/examples/paranamer-example/}http://waffle.svn.sourceforge.net/viewvc/waffle/trunk/examples/paranamer-example/}}
+    Source: {{{https://svn.codehaus.org/waffle/trunk/examples/paranamer-example/}https://svn.codehaus.org/waffle/trunk/examples/paranamer-example/}}
 
     This example has four built in mini-apps:
 
@@ -32,7 +32,7 @@ We have three examples:
 
 * Paranamer + FreeMarker + Sitemesh
 
-    Source: {{{http://waffle.svn.sourceforge.net/viewvc/waffle/trunk/examples/freemarker-example/}http://waffle.svn.sourceforge.net/viewvc/waffle/trunk/examples/freemarker-example/}}
+    Source: {{{https://svn.codehaus.org/waffle/trunk/examples/freemarker-example/}https://svn.codehaus.org/waffle/trunk/examples/freemarker-example/}}
 
     This only contains the People app that the Paranamer example above had.
 
@@ -40,7 +40,7 @@ We have three examples:
 
       This allows for us to edit the pages in Adobe's Dreamweaver without additional plugins in a WYSIWYG way.
 
-    It also decorates everything with {{{http://freemarker.sourceforge.net/}Sitemesh}} though (0 lines of additional Java)
+    It also decorates everything with {{{http://www.opensymphony.com/sitemesh/}Sitemesh}} though (0 lines of additional Java)
 
       This allows us to separate the site's styling and navigation from content.
 

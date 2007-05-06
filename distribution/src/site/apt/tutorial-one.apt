@@ -48,7 +48,7 @@ public class Automobile implements Serializable {
 
 
 +-----+
-public class MyRegistrar extends com.thoughtworks.waffle.registrar.AbstractRegistrar {
+public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar {
 
     public MyRegistrar(Registrar delegate) {
         super(delegate);
@@ -83,17 +83,17 @@ public class MyRegistrar extends com.thoughtworks.waffle.registrar.AbstractRegis
     While Waffle does not require any proprietary XML configuration files we still must create a <<web.xml>>.  The
     web.xml example below has four points worth mentioning.
 
-    [[1]] <<com.thoughtworks.waffle.registrar.Registrar>> is the key used to register your applications custom
+    [[1]] <<org.codehaus.waffle.registrar.Registrar>> is the key used to register your applications custom
     Registrar.  The key is the fully qualified name of the basic Registrar interface.
 
-    [[1]] <<com.thoughtworks.waffle.context.WaffleContextListener>> needs to be registered as a listener so that Waffle
+    [[1]] <<org.codehaus.waffle.context.WaffleContextListener>> needs to be registered as a listener so that Waffle
     can be notified of context level (application, session) events.
 
-    [[1]] <<com.thoughtworks.waffle.context.WaffleRequestFilter>> this is the Filter Waffle uses to handle request level
+    [[1]] <<org.codehaus.waffle.context.WaffleRequestFilter>> this is the Filter Waffle uses to handle request level
     events.  This is superior to a RequestAttributeListeners implementation because we can ensure a request level
     container will only be created when appropriate (i.e. not when images or cascading style sheets are requested).
 
-    [[1]] <<com.thoughtworks.waffle.WaffleServlet>> is Waffle's front controller for handling requests.
+    [[1]] <<org.codehaus.waffle.WaffleServlet>> is Waffle's front controller for handling requests.
 
 +-----+
 <?xml version="1.0" encoding="UTF-8"?>
@@ -106,19 +106,19 @@ public class MyRegistrar extends com.thoughtworks.waffle.registrar.AbstractRegis
 
     <!-- 1. This is how an application registers it custom Registrar -->
     <context-param>
-        <param-name>com.thoughtworks.waffle.registrar.Registrar</param-name>
+        <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
         <param-value>MyRegistrar</param-value>
     </context-param>
 
     <!-- 2. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-        <listener-class>com.thoughtworks.waffle.context.WaffleContextListener</listener-class>
+        <listener-class>org.codehaus.waffle.context.WaffleContextListener</listener-class>
     </listener>
 
     <!-- 3. Waffle request filter (responsible for request level context) -->
     <filter>
         <filter-name>WaffleRequestFilter</filter-name>
-        <filter-class>com.thoughtworks.waffle.context.WaffleRequestFilter</filter-class>
+        <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>WaffleRequestFilter</filter-name>
@@ -128,7 +128,7 @@ public class MyRegistrar extends com.thoughtworks.waffle.registrar.AbstractRegis
     <!-- 4. Register Waffle's FrontController servlet -->
     <servlet>
         <servlet-name>waffle</servlet-name>
-        <servlet-class>com.thoughtworks.waffle.servlet.WaffleServlet</servlet-class>
+        <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
         <init-param>
             <param-name>view.suffix</param-name>
             <param-value>.jsp</param-value>

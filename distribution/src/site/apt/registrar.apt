@@ -40,7 +40,7 @@ public class CustomRegistrar extends AbstractRegistrar {
 
 +-----+
 <context-param>
-    <param-name>com.thoughtworks.waffle.registrar.Registrar</param-name>
+    <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
     <param-value>com.thoughtworks.CustomRegistrar</param-value>
 </context-param>
 +-----+

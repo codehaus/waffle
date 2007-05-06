@@ -54,5 +54,5 @@ public class MyMethodInterceptor implements MethodInterceptor {
 * Sortable
 
     You can ensure that your MethodInterceptors are called in a particular order by having them implement the
-    <com.thoughtworks.waffle.action.method.intercept.Sortable> interface.  Non-Sortable MethodInterceptors will be placed
+    <org.codehaus.waffle.action.intercept.Sortable> interface.  Non-Sortable MethodInterceptors will be placed
     at the end of the InterceptorChain.
