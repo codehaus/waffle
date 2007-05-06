@@ -8,22 +8,19 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method.intercept;
+package org.codehaus.waffle.action.intercept;
 
-import java.util.Comparator;
+import org.codehaus.waffle.controller.ControllerDefinition;
 
-public class MethodInterceptorComparator implements Comparator<MethodInterceptor> {
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
-    public int compare(MethodInterceptor first, MethodInterceptor second) {
-        if (first instanceof Sortable && second instanceof Sortable) {
-            Sortable one = (Sortable) first;
-            Sortable two = (Sortable) second;
-            return new Integer(one.getIndex()).compareTo(two.getIndex());
-        } else if (first instanceof Sortable) {
-            return -1; // force to be less
-        } else {
-            return 1; // force other to be greater
-        }
-    }
+public interface MethodInterceptor {
 
+    boolean accept(Method method);
+
+    Object intercept(ControllerDefinition controllerDefinition,
+                     Method method,
+                     InterceptorChain chain,
+                     Object... arguments) throws IllegalAccessException, InvocationTargetException;
 }

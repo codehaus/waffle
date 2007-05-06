@@ -11,10 +11,10 @@
 package org.codehaus.waffle.action.method;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.action.method.intercept.InterceptorChain;
-import org.codehaus.waffle.action.method.intercept.InterceptorChainImpl;
-import org.codehaus.waffle.action.method.intercept.MethodInterceptor;
-import org.codehaus.waffle.action.method.intercept.MethodInterceptorComparator;
+import org.codehaus.waffle.action.intercept.InterceptorChain;
+import org.codehaus.waffle.action.intercept.InterceptorChainImpl;
+import org.codehaus.waffle.action.intercept.MethodInterceptor;
+import org.codehaus.waffle.action.intercept.MethodInterceptorComparator;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 

@@ -13,8 +13,8 @@
         <param-value>org.codehaus.waffle.example.freemarker.MyRegistrar</param-value>
     </context-param>
     <context-param>
-        <param-name>org.codehaus.waffle.action.method.MethodDefinitionFinder</param-name>
-        <param-value>org.codehaus.waffle.action.method.ParanamerMethodDefinitionFinder</param-value>
+        <param-name>org.codehaus.waffle.action.MethodDefinitionFinder</param-name>
+        <param-value>org.codehaus.waffle.action.ParanamerMethodDefinitionFinder</param-value>
     </context-param>
 
     <!-- 3. Waffle context listener (ServletContext and HttpSession) -->

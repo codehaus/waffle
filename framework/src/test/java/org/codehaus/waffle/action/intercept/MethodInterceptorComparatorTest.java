@@ -1,6 +1,10 @@
-package org.codehaus.waffle.action.method.intercept;
+package org.codehaus.waffle.action.intercept;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.action.intercept.MethodInterceptor;
+import org.codehaus.waffle.action.intercept.Sortable;
+import org.codehaus.waffle.action.intercept.InterceptorChain;
+import org.codehaus.waffle.action.intercept.MethodInterceptorComparator;
 import junit.framework.TestCase;
 
 import java.lang.reflect.Method;

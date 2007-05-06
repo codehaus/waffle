@@ -8,19 +8,9 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method.intercept;
+package org.codehaus.waffle.action.intercept;
 
-import org.codehaus.waffle.controller.ControllerDefinition;
+public interface Sortable {
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-public interface MethodInterceptor {
-
-    boolean accept(Method method);
-
-    Object intercept(ControllerDefinition controllerDefinition,
-                     Method method,
-                     InterceptorChain chain,
-                     Object... arguments) throws IllegalAccessException, InvocationTargetException;
+    int getIndex();
 }
