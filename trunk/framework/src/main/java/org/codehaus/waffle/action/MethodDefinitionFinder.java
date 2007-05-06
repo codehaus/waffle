@@ -8,28 +8,28 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
- * Implementation of method name resolver which returns the value of a configurable action parameter key,
- * which defaults to 'method'.
+ * Finds method definitions in the controller using the parameters specified in the request
  * 
  * @author Michael Ward
  */
-public class RequestParameterMethodNameResolver implements MethodNameResolver {
-    private String actionParameterKey = "method";
+public interface MethodDefinitionFinder {
 
-    public RequestParameterMethodNameResolver() {
-        // default
-    }
+    /**
+     * Returns a method definition of a given controller
+     * 
+     * @param controller the controller Object
+     * @param request the HttpServletRequest
+     * @param response the HttpServletResponse
+     * @return The MethodDefinition found
+     */
+    MethodDefinition find(Object controller,
+                          HttpServletRequest request,
+                          HttpServletResponse response);
 
-    public RequestParameterMethodNameResolver(RequestParameterMethodNameResolverConfig configuration) {
-        this.actionParameterKey = configuration.getMethodParameterKey();
-    }
-
-    public String resolve(HttpServletRequest request) {
-        return request.getParameter(actionParameterKey);
-    }
 }

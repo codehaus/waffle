@@ -12,10 +12,10 @@ package org.codehaus.waffle;
 
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
-import org.codehaus.waffle.action.method.ActionMethodExecutor;
-import org.codehaus.waffle.action.method.ActionMethodResponseHandler;
-import org.codehaus.waffle.action.method.ArgumentResolver;
-import org.codehaus.waffle.action.method.MethodDefinitionFinder;
+import org.codehaus.waffle.action.ActionMethodExecutor;
+import org.codehaus.waffle.action.ActionMethodResponseHandler;
+import org.codehaus.waffle.action.ArgumentResolver;
+import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;

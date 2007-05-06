@@ -1,6 +1,6 @@
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.action.method.ArgumentResolver;
+import org.codehaus.waffle.action.ArgumentResolver;
 
 import javax.servlet.http.HttpServletRequest;
 

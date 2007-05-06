@@ -8,22 +8,9 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
-/**
- * A holder object which represents the return value from the action method fired
- *
- * @author Michael Ward
- */
-public class ActionMethodResponse {
-    private Object returnValue;
+public interface RequestParameterMethodNameResolverConfig {
 
-    public Object getReturnValue() {
-        return returnValue;
-    }
-
-    public void setReturnValue(Object returnValue) {
-        this.returnValue = returnValue;
-    }
-
+    String getMethodParameterKey();
 }

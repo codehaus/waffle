@@ -1,7 +1,9 @@
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
+import org.codehaus.waffle.action.ArgumentResolver;
+import org.codehaus.waffle.action.HierarchicalArgumentResolver;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;

@@ -8,11 +8,34 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
-import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.ArrayList;
 
-public interface ArgumentResolver {
+/**
+ * Holder for the method and values to be executed.
+ * 
+ * @author Michael Ward
+ */
+public class MethodDefinition {
+    private final Method method;
+    private final List<Object> methodArguments = new ArrayList<Object>();
 
-    Object resolve(HttpServletRequest request, String name);
+    public MethodDefinition(Method method) {
+        this.method = method;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public List<Object> getMethodArguments() {
+        return methodArguments;
+    }
+
+    public void addMethodArgument(Object argument) {
+        methodArguments.add(argument);
+    }
 }

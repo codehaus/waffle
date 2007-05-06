@@ -5,9 +5,9 @@ import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.servlet.PicoWaffleComponentRegistry;
-import org.codehaus.waffle.action.method.ActionMethodResponse;
-import org.codehaus.waffle.action.method.ActionMethodExecutor;
-import org.codehaus.waffle.action.method.ActionMethodResponseHandler;
+import org.codehaus.waffle.action.ActionMethodResponse;
+import org.codehaus.waffle.action.ActionMethodResponseHandler;
+import org.codehaus.waffle.action.ActionMethodExecutor;
 import ognl.DefaultTypeConverter;
 
 import javax.servlet.ServletContext;

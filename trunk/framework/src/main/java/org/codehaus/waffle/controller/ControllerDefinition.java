@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.controller;
 
-import org.codehaus.waffle.action.method.MethodDefinition;
+import org.codehaus.waffle.action.MethodDefinition;
 
 /**
  * In Waffle a Controller can be any Pojo.  Controllers are registered per application

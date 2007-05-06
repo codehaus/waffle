@@ -1,7 +1,10 @@
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.ViewDispatcher;
+import org.codehaus.waffle.action.ActionMethodResponseHandler;
+import org.codehaus.waffle.action.DefaultActionMethodResponseHandler;
+import org.codehaus.waffle.action.ActionMethodResponse;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 

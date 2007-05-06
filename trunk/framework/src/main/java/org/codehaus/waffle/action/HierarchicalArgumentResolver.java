@@ -8,7 +8,7 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;

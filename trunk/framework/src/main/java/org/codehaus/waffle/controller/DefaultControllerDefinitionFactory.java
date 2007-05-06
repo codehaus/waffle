@@ -14,8 +14,8 @@ import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
-import org.codehaus.waffle.action.method.MethodDefinition;
-import org.codehaus.waffle.action.method.MethodDefinitionFinder;
+import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.MethodDefinitionFinder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

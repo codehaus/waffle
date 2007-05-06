@@ -1,7 +1,7 @@
 package org.codehaus.waffle.validation;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.action.method.MethodDefinition;
+import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.testmodel.FakeController;
