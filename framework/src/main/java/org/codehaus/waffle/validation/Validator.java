@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.validation;
 
-import org.codehaus.waffle.action.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinition;
 
 public interface Validator {
 

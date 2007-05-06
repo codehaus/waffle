@@ -16,8 +16,8 @@ import static org.codehaus.waffle.Constants.ERRORS_KEY;
 import static org.codehaus.waffle.Constants.METHOD_INVOCATION_ERROR_PAGE;
 
 import org.codehaus.waffle.WaffleComponentRegistry;
-import org.codehaus.waffle.action.ControllerDefinition;
-import org.codehaus.waffle.action.ControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.action.method.ActionMethodExecutor;
 import org.codehaus.waffle.action.method.ActionMethodResponse;
 import org.codehaus.waffle.action.method.ActionMethodResponseHandler;

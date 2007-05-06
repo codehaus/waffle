@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.method;
 
-import org.codehaus.waffle.action.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinition;
 
 /**
  * Responsible for executing (aka firing) the Action method on a controller object.

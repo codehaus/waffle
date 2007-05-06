@@ -8,30 +8,16 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action;
+package org.codehaus.waffle.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Default implementations of name resolver which return the name of the last portion of the context path before the dot.
+ * Interface to lookup the controller name in the request
  * 
  * @author Michael Ward
  */
-public class DefaultControllerNameResolver implements ControllerNameResolver {
-    private static final String DOT_REGEX = "\\.";
+public interface ControllerNameResolver {
 
-    public DefaultControllerNameResolver() {
-    }
-
-    public String findControllerName(HttpServletRequest request) {
-        String path = request.getPathInfo();
-
-        if (path == null) {
-            path = request.getRequestURI().replaceFirst(request.getContextPath(), "");
-        }
-
-        path = path.substring(1); // remove '/'
-        return path.split(DOT_REGEX)[0];
-    }
-
+    String findControllerName(HttpServletRequest request);
 }

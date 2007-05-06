@@ -1,6 +1,6 @@
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.action.ControllerNameResolver;
+import org.codehaus.waffle.controller.ControllerNameResolver;
 
 import javax.servlet.http.HttpServletRequest;
 

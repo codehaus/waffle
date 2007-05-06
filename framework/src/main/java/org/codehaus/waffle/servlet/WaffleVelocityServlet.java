@@ -12,8 +12,8 @@ package org.codehaus.waffle.servlet;
 
 import org.codehaus.waffle.WaffleComponentRegistry;
 import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.action.ControllerDefinitionFactory;
-import org.codehaus.waffle.action.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.servlet.VelocityViewServlet;

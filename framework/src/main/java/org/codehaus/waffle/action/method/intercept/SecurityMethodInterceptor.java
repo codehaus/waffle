@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.method.intercept;
 
-import org.codehaus.waffle.action.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.action.method.MethodInvocationException;
 import org.codehaus.waffle.action.method.annotation.ActionMethod;
 import org.codehaus.waffle.action.method.annotation.DefaultActionMethod;

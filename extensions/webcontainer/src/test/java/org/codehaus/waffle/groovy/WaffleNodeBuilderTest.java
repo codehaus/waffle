@@ -77,16 +77,16 @@ public class WaffleNodeBuilderTest extends TestCase {
                 "    }\n" +
                 "}\n");
 
-        //assertPageIsHostedWithContents(script, "hello Fred", "http://localhost:8080/bar/foo2");
+        assertPageIsHostedWithContents(script, "hello Fred", "http://localhost:8080/bar/foo2");
     }
 
     private void assertPageIsHostedWithContents(Reader script, String message, String url) throws InterruptedException, IOException {
-        pico = (MutablePicoContainer) buildContainer(script, null, "SOME_SCOPE");
+        pico = buildContainer(script, null, "SOME_SCOPE");
         assertNotNull(pico);
 
         Thread.sleep(2 * 1000);
 
-        String actual = null;
+        String actual;
         try {
             actual = IO.toString(new URL(url).openStream());
         } catch (FileNotFoundException e) {

@@ -1,7 +1,7 @@
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.action.ControllerDefinition;
-import org.codehaus.waffle.action.ControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

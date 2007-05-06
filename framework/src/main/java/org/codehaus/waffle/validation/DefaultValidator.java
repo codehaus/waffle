@@ -11,7 +11,7 @@
 package org.codehaus.waffle.validation;
 
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.action.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.action.method.MethodDefinition;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;

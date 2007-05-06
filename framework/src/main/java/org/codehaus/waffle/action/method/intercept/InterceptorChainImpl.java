@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.method.intercept;
 
-import org.codehaus.waffle.action.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinition;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

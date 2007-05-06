@@ -1,7 +1,11 @@
-package org.codehaus.waffle.action;
+package org.codehaus.waffle.controller;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.Constants;
+import org.codehaus.waffle.controller.DefaultControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.controller.DefaultControllerNameResolver;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.action.method.MethodDefinition;
 import org.codehaus.waffle.action.method.MethodDefinitionFinder;
 import org.codehaus.waffle.context.PicoContextContainer;
