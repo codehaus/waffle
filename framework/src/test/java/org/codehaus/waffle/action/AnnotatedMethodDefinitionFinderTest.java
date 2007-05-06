@@ -1,6 +1,7 @@
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+import org.codehaus.waffle.action.*;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import ognl.DefaultTypeConverter;
 import ognl.TypeConverter;
@@ -8,16 +9,16 @@ import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 import org.jmock.core.Constraint;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.servlet.ServletContext;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
 
-public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
+public class AnnotatedMethodDefinitionFinderTest extends MockObjectTestCase {
 
     public void testDefaultMethodReturned() throws NoSuchMethodException {
         // Mock HttpServletRequest
@@ -37,7 +38,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethodNoValue.class.getMethod("foobar");
@@ -70,12 +71,36 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
 
         ControllerWithDefaultActionMethod controller = new ControllerWithDefaultActionMethod();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethod.class.getMethod("foobar", String.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
         assertEquals("helloworld", methodDefinition.getMethodArguments().get(0));
+    }
+
+    public void testFindForDefaultActionMethodWillNotReturnSameInstanceOfMethodDefinition() throws Exception {
+        // Mock HttpServletRequest
+        Mock mockRequest = mock(HttpServletRequest.class);
+        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+
+        // Mock HttpServletResponse
+        Mock mockResponse = mock(HttpServletResponse.class);
+        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+
+        // Mock MethodNameResolver
+        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
+        mockMethodNameResolver.expects(exactly(2))
+                .method("resolve")
+                .with(same(request))
+                .will(returnValue(null));
+        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+
+        ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+
+        assertNotSame(methodDefinition, methodDefinitionFinder.find(controller, request, response));
     }
 
     public void testFindActionMethodWithNoArguments() throws NoSuchMethodException {
@@ -96,7 +121,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("noArgumentMethod");
@@ -129,7 +154,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
@@ -158,7 +183,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
 
         MethodDefinition definition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
@@ -187,12 +212,12 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         Mock mockArgumentResolver = mock(ArgumentResolver.class);
         mockArgumentResolver.expects(once())
                 .method("resolve")
-                .with(same(request), eq("{list}"))
+                .with(same(request), eq("{foobaz}"))
                 .will(returnValue(new ArrayList()));
         ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
@@ -218,18 +243,14 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
 
         // Mock ArgumentResolver
         Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
+        mockArgumentResolver.expects(exactly(2))
                 .method("resolve")
-                .with(same(request), eq("{list}"))
-                .will(returnValue(new ArrayList()));
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("{object}"))
+                .with(same(request), eq("{foobaz}"))
                 .will(returnValue(new ArrayList()));
         ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
 
         try {
             methodDefinitionFinder.find(sampleForMethodFinder, request, response);
@@ -257,7 +278,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver);
 
         try {
             methodDefinitionFinder.find(sampleForMethodFinder, request, response);
@@ -288,17 +309,16 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         Mock mockArgumentResolver = mock(ArgumentResolver.class);
         mockArgumentResolver.expects(once())
                 .method("resolve")
-                .with(same(request), eq("{integer}"))
+                .with(same(request), eq("{foobaz}"))
                 .will(returnValue("45"));
         ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
-
 
     public void testMethodConvertsStringToIntegerPragmatic() throws Exception {
         // Mock HttpServletRequest
@@ -327,7 +347,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
@@ -353,14 +373,14 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         Mock mockArgumentResolver = mock(ArgumentResolver.class);
         mockArgumentResolver.expects(once())
                 .method("resolve")
-                .with(same(request), eq("{decimal}"))
+                .with(same(request), eq("{foobaz}"))
                 .will(returnValue("99.99"));
         ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder =
-                new ParanamerMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
+                new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertEquals(99.99f, methodDefinition.getMethodArguments().get(0));
@@ -387,14 +407,14 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         Mock mockArgumentResolver = mock(ArgumentResolver.class);
         mockArgumentResolver.expects(once())
                 .method("resolve")
-                .with(same(request), eq("{bool}"))
+                .with(same(request), eq("{foobaz}"))
                 .will(returnValue("true"));
         ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder =
-                new ParanamerMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
+                new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertTrue((Boolean) methodDefinition.getMethodArguments().get(0));
@@ -418,7 +438,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class
@@ -445,7 +465,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class
@@ -475,14 +495,14 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         Mock mockArgumentResolver = mock(ArgumentResolver.class);
         mockArgumentResolver.expects(once())
                 .method("resolve")
-                .with(same(request), eq("{integer}"))
+                .with(same(request), eq("{foobaz}"))
                 .will(returnValue("99"));
         ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder =
-                new ParanamerMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
+                new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class
@@ -517,7 +537,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class
@@ -548,7 +568,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(servletContext, null, null, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(servletContext, null, null, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class
@@ -593,82 +613,11 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         TypeConverter typeConverter = (TypeConverter) mockTypeConverter.proxy();
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, typeConverter, methodNameResolver);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, typeConverter, methodNameResolver);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("actionMethodNeedsCustomConverter", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
-    }
-    
-    public void testFindMethodWithASingleParameter() throws NoSuchMethodException {
-        // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
-
-        // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("{decimal}"))
-                .will(returnValue(10f));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
-
-        // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
-
-        // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodFloat"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
-
-        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
-
-        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodFloat", Float.class);
-        assertEquals(expectedMethod, methodDefinition.getMethod());
-    }
-
-    public void testThatMethodWithNoParanamerDataIsExcepted() {
-        // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
-
-        // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("{decimal}"))
-                .will(returnValue(10f));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
-
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("doFoo"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
-        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
-
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver);
-        try {
-            methodDefinitionFinder.find(this, request, response);
-            fail("should have barfed with MatchingMethodException");
-        } catch (MatchingMethodException e) {
-            // expected
-        }
-
-    }
-
-    public void doFoo(float decimal) {
-
     }
 
     public class ControllerWithDefaultActionMethod {
@@ -686,5 +635,4 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
 
         }
     }
-
 }

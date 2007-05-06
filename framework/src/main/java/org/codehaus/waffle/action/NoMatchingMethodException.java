@@ -1,4 +1,4 @@
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
 /**
  * Thrown when unable to find any matching methods to invoke.

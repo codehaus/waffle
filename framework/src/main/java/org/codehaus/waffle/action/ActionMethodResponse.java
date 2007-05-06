@@ -8,34 +8,22 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method;
-
-import java.lang.reflect.Method;
-import java.util.List;
-import java.util.ArrayList;
+package org.codehaus.waffle.action;
 
 /**
- * Holder for the method and values to be executed.
- * 
+ * A holder object which represents the return value from the action method fired
+ *
  * @author Michael Ward
  */
-public class MethodDefinition {
-    private final Method method;
-    private final List<Object> methodArguments = new ArrayList<Object>();
+public class ActionMethodResponse {
+    private Object returnValue;
 
-    public MethodDefinition(Method method) {
-        this.method = method;
+    public Object getReturnValue() {
+        return returnValue;
     }
 
-    public Method getMethod() {
-        return method;
+    public void setReturnValue(Object returnValue) {
+        this.returnValue = returnValue;
     }
 
-    public List<Object> getMethodArguments() {
-        return methodArguments;
-    }
-
-    public void addMethodArgument(Object argument) {
-        methodArguments.add(argument);
-    }
 }

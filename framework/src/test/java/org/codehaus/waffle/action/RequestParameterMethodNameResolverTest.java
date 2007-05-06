@@ -1,7 +1,10 @@
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
+import org.codehaus.waffle.action.MethodNameResolver;
+import org.codehaus.waffle.action.RequestParameterMethodNameResolverConfig;
+import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 
 import javax.servlet.http.HttpServletRequest;
 

@@ -1,7 +1,7 @@
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.action.method.ActionMethodResponseHandler;
-import org.codehaus.waffle.action.method.ActionMethodResponse;
+import org.codehaus.waffle.action.ActionMethodResponseHandler;
+import org.codehaus.waffle.action.ActionMethodResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

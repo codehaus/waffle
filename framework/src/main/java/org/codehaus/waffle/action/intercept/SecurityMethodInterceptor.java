@@ -11,7 +11,7 @@
 package org.codehaus.waffle.action.intercept;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.action.method.MethodInvocationException;
+import org.codehaus.waffle.action.MethodInvocationException;
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
 

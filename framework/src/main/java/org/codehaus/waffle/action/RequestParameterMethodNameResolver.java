@@ -8,11 +8,28 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface MethodNameResolver {
+/**
+ * Implementation of method name resolver which returns the value of a configurable action parameter key,
+ * which defaults to 'method'.
+ * 
+ * @author Michael Ward
+ */
+public class RequestParameterMethodNameResolver implements MethodNameResolver {
+    private String actionParameterKey = "method";
 
-    String resolve(HttpServletRequest request);
+    public RequestParameterMethodNameResolver() {
+        // default
+    }
+
+    public RequestParameterMethodNameResolver(RequestParameterMethodNameResolverConfig configuration) {
+        this.actionParameterKey = configuration.getMethodParameterKey();
+    }
+
+    public String resolve(HttpServletRequest request) {
+        return request.getParameter(actionParameterKey);
+    }
 }

@@ -8,9 +8,11 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method;
+package org.codehaus.waffle.action;
 
-public interface RequestParameterMethodNameResolverConfig {
+import javax.servlet.http.HttpServletRequest;
 
-    String getMethodParameterKey();
+public interface ArgumentResolver {
+
+    Object resolve(HttpServletRequest request, String name);
 }
