@@ -1,4 +1,21 @@
 format version 1.0
+org.codehaus.waffle.action.intercept.InterceptorChainImplTest testProceed 
+org.codehaus.waffle.action.intercept.InterceptorChainImplTest testProceedWhenAcceptIsFalse 
+org.codehaus.waffle.action.intercept.MethodInterceptorComparatorTest testSortCollectionOfSortable 
+org.codehaus.waffle.action.intercept.MethodInterceptorComparatorTest testSortCollectionWithNonSortable 
+org.codehaus.waffle.action.intercept.NotSortableMethodInterceptor accept method java.lang.reflect.Method 
+org.codehaus.waffle.action.intercept.NotSortableMethodInterceptor intercept controllerDefinition,method,chain,arguments org.codehaus.waffle.controller.ControllerDefinition,java.lang.reflect.Method,org.codehaus.waffle.action.intercept.InterceptorChain,java.lang.Object 
+org.codehaus.waffle.action.intercept.SortableMethodInterceptor SortableMethodInterceptor index int 
+org.codehaus.waffle.action.intercept.SortableMethodInterceptor accept method java.lang.reflect.Method 
+org.codehaus.waffle.action.intercept.SortableMethodInterceptor getIndex 
+org.codehaus.waffle.action.intercept.SortableMethodInterceptor intercept controllerDefinition,method,chain,arguments org.codehaus.waffle.controller.ControllerDefinition,java.lang.reflect.Method,org.codehaus.waffle.action.intercept.InterceptorChain,java.lang.Object 
+org.codehaus.waffle.action.intercept.SecurityMethodInterceptorTest testAccept 
+org.codehaus.waffle.action.intercept.SecurityMethodInterceptorTest testInterceptDefaultActionMethod 
+org.codehaus.waffle.action.intercept.SecurityMethodInterceptorTest testInterceptMethod 
+org.codehaus.waffle.action.intercept.SecurityMethodInterceptorTest testInterceptThrowsMethodInvocationException 
+org.codehaus.waffle.action.intercept.MyController methodWithActionMethod 
+org.codehaus.waffle.action.intercept.MyController methodWithDefaultActionMethod 
+org.codehaus.waffle.action.intercept.MyController methodWithoutAnnotation 
 org.codehaus.waffle.action.method.AnnotatedMethodDefinitionFinderTest testCustomOgnlConvertersAreLeveraged 
 org.codehaus.waffle.action.method.AnnotatedMethodDefinitionFinderTest testDefaultActionMethodWithArgumentReturned 
 org.codehaus.waffle.action.method.AnnotatedMethodDefinitionFinderTest testDefaultMethodReturned 
@@ -64,23 +81,6 @@ org.codehaus.waffle.action.method.ControllerWithDefaultActionMethod foobar value
 org.codehaus.waffle.action.method.ControllerWithDefaultActionMethodNoValue foobar 
 org.codehaus.waffle.action.method.RequestParameterMethodNameResolverTest testResolve 
 org.codehaus.waffle.action.method.RequestParameterMethodNameResolverTest testResolveWithAlternateConfiguration 
-org.codehaus.waffle.action.method.intercept.InterceptorChainImplTest testProceed 
-org.codehaus.waffle.action.method.intercept.InterceptorChainImplTest testProceedWhenAcceptIsFalse 
-org.codehaus.waffle.action.method.intercept.MethodInterceptorComparatorTest testSortCollectionOfSortable 
-org.codehaus.waffle.action.method.intercept.MethodInterceptorComparatorTest testSortCollectionWithNonSortable 
-org.codehaus.waffle.action.method.intercept.NotSortableMethodInterceptor accept method java.lang.reflect.Method 
-org.codehaus.waffle.action.method.intercept.NotSortableMethodInterceptor intercept controllerDefinition,method,chain,arguments org.codehaus.waffle.controller.ControllerDefinition,java.lang.reflect.Method,InterceptorChain,java.lang.Object 
-org.codehaus.waffle.action.method.intercept.SortableMethodInterceptor SortableMethodInterceptor index int 
-org.codehaus.waffle.action.method.intercept.SortableMethodInterceptor accept method java.lang.reflect.Method 
-org.codehaus.waffle.action.method.intercept.SortableMethodInterceptor getIndex 
-org.codehaus.waffle.action.method.intercept.SortableMethodInterceptor intercept controllerDefinition,method,chain,arguments org.codehaus.waffle.controller.ControllerDefinition,java.lang.reflect.Method,InterceptorChain,java.lang.Object 
-org.codehaus.waffle.action.method.intercept.SecurityMethodInterceptorTest testAccept 
-org.codehaus.waffle.action.method.intercept.SecurityMethodInterceptorTest testInterceptDefaultActionMethod 
-org.codehaus.waffle.action.method.intercept.SecurityMethodInterceptorTest testInterceptMethod 
-org.codehaus.waffle.action.method.intercept.SecurityMethodInterceptorTest testInterceptThrowsMethodInvocationException 
-org.codehaus.waffle.action.method.intercept.MyController methodWithActionMethod 
-org.codehaus.waffle.action.method.intercept.MyController methodWithDefaultActionMethod 
-org.codehaus.waffle.action.method.intercept.MyController methodWithoutAnnotation 
 org.codehaus.waffle.bind.DefaultBindErrorMessageResolverTest testFindBindErrorMessageKey 
 org.codehaus.waffle.bind.DefaultBindErrorMessageResolverTest testResolveFirstCheckForCustomFieldMessage 
 org.codehaus.waffle.bind.DefaultBindErrorMessageResolverTest testResolveRevertsToDefaultBindErrorMessage 

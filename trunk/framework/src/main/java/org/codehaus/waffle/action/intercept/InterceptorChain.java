@@ -8,9 +8,16 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method.intercept;
+package org.codehaus.waffle.action.intercept;
 
-public interface Sortable {
+import org.codehaus.waffle.controller.ControllerDefinition;
 
-    int getIndex();
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+public interface InterceptorChain {
+
+    Object proceed(ControllerDefinition controllerDefinition,
+                   Method method,
+                   Object ... args) throws IllegalAccessException, InvocationTargetException ;
 }

@@ -1,9 +1,12 @@
-package org.codehaus.waffle.action.method.intercept;
+package org.codehaus.waffle.action.intercept;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.action.method.MethodInvocationException;
 import org.codehaus.waffle.action.method.annotation.ActionMethod;
 import org.codehaus.waffle.action.method.annotation.DefaultActionMethod;
+import org.codehaus.waffle.action.intercept.SecurityMethodInterceptor;
+import org.codehaus.waffle.action.intercept.InterceptorChain;
+import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 

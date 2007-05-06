@@ -8,7 +8,7 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action.method.intercept;
+package org.codehaus.waffle.action.intercept;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
 
