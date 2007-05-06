@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.method;
 
-import org.codehaus.waffle.action.method.annotation.ActionMethod;
+import org.codehaus.waffle.action.annotation.ActionMethod;
 import ognl.TypeConverter;
 
 import javax.servlet.ServletContext;

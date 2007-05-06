@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.action.method.annotation.ActionMethod;
+import org.codehaus.waffle.action.annotation.ActionMethod;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
