@@ -1,7 +1,9 @@
-package org.codehaus.waffle.action;
+package org.codehaus.waffle.controller;
 
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
+import org.codehaus.waffle.controller.DefaultControllerNameResolver;
+import org.codehaus.waffle.controller.ControllerNameResolver;
 
 import javax.servlet.http.HttpServletRequest;
 

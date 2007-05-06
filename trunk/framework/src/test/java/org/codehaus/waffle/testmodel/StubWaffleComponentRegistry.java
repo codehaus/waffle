@@ -1,6 +1,6 @@
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.action.ControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;

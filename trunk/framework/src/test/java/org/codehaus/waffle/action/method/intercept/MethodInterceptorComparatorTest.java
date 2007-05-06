@@ -1,6 +1,6 @@
 package org.codehaus.waffle.action.method.intercept;
 
-import org.codehaus.waffle.action.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import junit.framework.TestCase;
 
 import java.lang.reflect.Method;

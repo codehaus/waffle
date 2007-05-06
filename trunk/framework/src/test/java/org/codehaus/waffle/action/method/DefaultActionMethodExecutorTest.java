@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.method;
 
-import org.codehaus.waffle.action.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.context.PicoContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.testmodel.FakeController;

@@ -10,8 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle;
 
-import org.codehaus.waffle.action.ControllerDefinitionFactory;
-import org.codehaus.waffle.action.ControllerNameResolver;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.action.method.ActionMethodExecutor;
 import org.codehaus.waffle.action.method.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.method.ArgumentResolver;

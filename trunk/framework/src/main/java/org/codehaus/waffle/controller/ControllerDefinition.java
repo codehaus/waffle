@@ -8,7 +8,7 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.action;
+package org.codehaus.waffle.controller;
 
 import org.codehaus.waffle.action.method.MethodDefinition;
 

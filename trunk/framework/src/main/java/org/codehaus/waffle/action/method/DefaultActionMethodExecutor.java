@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.method;
 
-import org.codehaus.waffle.action.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.action.method.intercept.InterceptorChain;
 import org.codehaus.waffle.action.method.intercept.InterceptorChainImpl;
 import org.codehaus.waffle.action.method.intercept.MethodInterceptor;
