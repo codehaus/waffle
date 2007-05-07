@@ -31,7 +31,6 @@ import com.thoughtworks.paranamer.Paranamer;
  * @author Paul Hammant 
  */
 public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFinder {
-    private static final String COMMA = ",";
     private final Paranamer paranamer = new CachingParanamer();
 
     public ParanamerMethodDefinitionFinder(ServletContext servletContext,
@@ -72,11 +71,11 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
         String[] parameterNames = findParameterNames(method);
 
         if (parameterNames == null) {
-            int rc = paranamer.isParameterNameDataAvailable(method.getDeclaringClass().getClassLoader(), method.getDeclaringClass().getName(), method.getName());
+            int rc = paranamer.areParameterNamesAvailable(method.getDeclaringClass().getClassLoader(), method.getDeclaringClass().getName(), method.getName());
             if (rc == Paranamer.NO_PARAMETER_NAMES_LIST) {
-                throw new MatchingMethodException("No Paranamer data found for '" + method.getDeclaringClass().getName() + "' class");
-            } else if (rc == Paranamer.NO_PARAMETER_NAME_DATA_FOR_THAT_CLASS_AND_MEMBER) {
-                throw new MatchingMethodException("No Paranamer data found for '" + method.getDeclaringClass().getName() + "' class, '" + method.getName()+ "' method");
+                throw new MatchingMethodException("No parameter names found for '" + method.getDeclaringClass().getName() + "' class");
+            } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS_AND_MEMBER) {
+                throw new MatchingMethodException("No parameter names found for '" + method.getDeclaringClass().getName() + "' class, '" + method.getName()+ "' method");
             } else {
                 throw new MatchingMethodException("Unknown Paranamer Exception [" + rc + "]");
             }
@@ -104,16 +103,7 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
     }
 
     private String[] findParameterNames(Method method) {
-        String parameterNames = paranamer.lookupParameterNamesForMethod(method);
-
-        if(parameterNames != null) {
-            if (parameterNames.equals("")) {
-                return new String[0];
-            }
-            return parameterNames.split(COMMA);
-        }
-
-        return null;
+        return paranamer.lookupParameterNames(method);
     }
 
 }
