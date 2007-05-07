@@ -33,7 +33,7 @@
       <dependency>
         <groupId>com.thoughtworks.paranamer</groupId>
         <artifactId>paranamer</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0-RC-3-SNAPSHOT</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
