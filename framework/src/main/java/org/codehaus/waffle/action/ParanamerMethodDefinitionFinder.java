@@ -24,6 +24,7 @@ import ognl.TypeConverter;
 
 import com.thoughtworks.paranamer.CachingParanamer;
 import com.thoughtworks.paranamer.Paranamer;
+import com.thoughtworks.paranamer.ParanamerException;
 
 /**
  * Pananamer-based method definition finder.
@@ -68,9 +69,11 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
 
     private List<Object> getArguments(Method method, HttpServletRequest request) {
         Class<?>[] parameterTypes = method.getParameterTypes();
-        String[] parameterNames = findParameterNames(method);
-
-        if (parameterNames == null) {
+        String[] parameterNames = null;
+        
+        try {
+            parameterNames = findParameterNames(method);            
+        } catch ( ParanamerException e ){
             Class<?> declaringClass = method.getDeclaringClass();
             int rc = paranamer.areParameterNamesAvailable(declaringClass.getClassLoader(), declaringClass.getName(), method.getName());
             if (rc == Paranamer.NO_PARAMETER_NAMES_LIST ) {
@@ -83,7 +86,6 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
                 throw new MatchingMethodException("Invalid parameter names list for paranamer "+paranamer);
             }
         }
-
         List<String> arguments = new ArrayList<String>(parameterNames.length);
 
         // these should always be of the same length
