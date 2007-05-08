@@ -71,13 +71,16 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
         String[] parameterNames = findParameterNames(method);
 
         if (parameterNames == null) {
-            int rc = paranamer.areParameterNamesAvailable(method.getDeclaringClass().getClassLoader(), method.getDeclaringClass().getName(), method.getName());
-            if (rc == Paranamer.NO_PARAMETER_NAMES_LIST) {
-                throw new MatchingMethodException("No parameter names found for '" + method.getDeclaringClass().getName() + "' class");
+            Class<?> declaringClass = method.getDeclaringClass();
+            int rc = paranamer.areParameterNamesAvailable(declaringClass.getClassLoader(), declaringClass.getName(), method.getName());
+            if (rc == Paranamer.NO_PARAMETER_NAMES_LIST ) {
+                throw new MatchingMethodException("No parameter names list found by paranamer "+paranamer);
+            } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS ) {
+                throw new MatchingMethodException("No parameter names found for class '" + declaringClass.getName() + "' by paranamer "+paranamer);
             } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS_AND_MEMBER) {
-                throw new MatchingMethodException("No parameter names found for '" + method.getDeclaringClass().getName() + "' class, '" + method.getName()+ "' method");
-            } else {
-                throw new MatchingMethodException("Unknown Paranamer Exception [" + rc + "]");
+                throw new MatchingMethodException("No parameter names found for class '" + declaringClass.getName() + "' and method '" + method.getName()+ "' by paranamer "+paranamer);
+            } else if (rc == Paranamer.PARAMETER_NAMES_FOUND ){
+                throw new MatchingMethodException("Invalid parameter names list for paranamer "+paranamer);
             }
         }
 
