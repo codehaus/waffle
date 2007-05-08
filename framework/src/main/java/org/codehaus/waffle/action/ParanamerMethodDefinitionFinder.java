@@ -23,8 +23,8 @@ import javax.servlet.http.HttpSession;
 import ognl.TypeConverter;
 
 import com.thoughtworks.paranamer.CachingParanamer;
+import com.thoughtworks.paranamer.ParameterNamesNotFoundException;
 import com.thoughtworks.paranamer.Paranamer;
-import com.thoughtworks.paranamer.ParanamerException;
 
 /**
  * Pananamer-based method definition finder.
@@ -73,7 +73,7 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
         
         try {
             parameterNames = findParameterNames(method);            
-        } catch ( ParanamerException e ){
+        } catch ( ParameterNamesNotFoundException e ){
             Class<?> declaringClass = method.getDeclaringClass();
             int rc = paranamer.areParameterNamesAvailable(declaringClass.getClassLoader(), declaringClass.getName(), method.getName());
             if (rc == Paranamer.NO_PARAMETER_NAMES_LIST ) {
