@@ -1,4 +1,4 @@
-format version 1.0
+Paranamer version=1.0
 org.codehaus.waffle.action.AnnotatedMethodDefinitionFinderTest testCustomOgnlConvertersAreLeveraged 
 org.codehaus.waffle.action.AnnotatedMethodDefinitionFinderTest testDefaultActionMethodWithArgumentReturned 
 org.codehaus.waffle.action.AnnotatedMethodDefinitionFinderTest testDefaultMethodReturned 
@@ -18,7 +18,7 @@ org.codehaus.waffle.action.AnnotatedMethodDefinitionFinderTest testMethodDepends
 org.codehaus.waffle.action.AnnotatedMethodDefinitionFinderTest testNoMethodsWithName 
 org.codehaus.waffle.action.AnnotatedMethodDefinitionFinderTest testNonPublicMethodsIgnored 
 org.codehaus.waffle.action.AnnotatedMethodDefinitionFinderTest testPragmaticMethodIsSupported 
-org.codehaus.waffle.action.ControllerWithDefaultActionMethod foobar value java.lang.String 
+org.codehaus.waffle.action.ControllerWithDefaultActionMethod foobar java.lang.String value 
 org.codehaus.waffle.action.ControllerWithDefaultActionMethodNoValue foobar 
 org.codehaus.waffle.action.DefaultActionResponseHandlerTest handleNullMethodResponse 
 org.codehaus.waffle.action.DefaultActionResponseHandlerTest testConstructor 
@@ -26,8 +26,8 @@ org.codehaus.waffle.action.DefaultActionResponseHandlerTest testDirectResponseAc
 org.codehaus.waffle.action.DefaultActionResponseHandlerTest testHandleWhenResponseIsCommitted 
 org.codehaus.waffle.action.DefaultActionResponseHandlerTest testMethodResponseWrapsView 
 org.codehaus.waffle.action.DefaultActionResponseHandlerTest testResponseIsAnException 
-org.codehaus.waffle.action.StubServletOutputStream print string java.lang.String 
-org.codehaus.waffle.action.StubServletOutputStream write b int 
+org.codehaus.waffle.action.StubServletOutputStream print java.lang.String string 
+org.codehaus.waffle.action.StubServletOutputStream write int b 
 org.codehaus.waffle.action.HierarchicalArgumentResolverTest testResolveFoundInParameter 
 org.codehaus.waffle.action.HierarchicalArgumentResolverTest testResolveFoundInRequestAttribute 
 org.codehaus.waffle.action.HierarchicalArgumentResolverTest testResolveFoundInServletContext 
@@ -39,7 +39,7 @@ org.codehaus.waffle.action.InterceptingActionMethodExecutorTest testFireWhenArgu
 org.codehaus.waffle.action.InterceptingActionMethodExecutorTest testFireWithArguments 
 org.codehaus.waffle.action.InterceptingActionMethodExecutorTest testFireWrapsInvocationTargetExceptionInMethodResponse 
 org.codehaus.waffle.action.InterceptingActionMethodExecutorTest testMethodWithNoArgsFiredOnController 
-org.codehaus.waffle.action.ParanamerMethodDefinitionFinderTest doFoo decimal float 
+org.codehaus.waffle.action.ParanamerMethodDefinitionFinderTest doFoo float decimal 
 org.codehaus.waffle.action.ParanamerMethodDefinitionFinderTest testCustomOgnlConvertersAreLeveraged 
 org.codehaus.waffle.action.ParanamerMethodDefinitionFinderTest testDefaultActionMethodWithArgumentReturned 
 org.codehaus.waffle.action.ParanamerMethodDefinitionFinderTest testDefaultMethodReturned 
@@ -60,7 +60,7 @@ org.codehaus.waffle.action.ParanamerMethodDefinitionFinderTest testNoMethodsWith
 org.codehaus.waffle.action.ParanamerMethodDefinitionFinderTest testNonPublicMethodsIgnored 
 org.codehaus.waffle.action.ParanamerMethodDefinitionFinderTest testPragmaticMethodIsSupported 
 org.codehaus.waffle.action.ParanamerMethodDefinitionFinderTest testThatMethodWithNoParanamerDataIsExcepted 
-org.codehaus.waffle.action.ControllerWithDefaultActionMethod foobar value java.lang.String 
+org.codehaus.waffle.action.ControllerWithDefaultActionMethod foobar java.lang.String value 
 org.codehaus.waffle.action.ControllerWithDefaultActionMethodNoValue foobar 
 org.codehaus.waffle.action.RequestParameterMethodNameResolverTest testResolve 
 org.codehaus.waffle.action.RequestParameterMethodNameResolverTest testResolveWithAlternateConfiguration 
@@ -68,12 +68,12 @@ org.codehaus.waffle.action.intercept.InterceptorChainImplTest testProceed
 org.codehaus.waffle.action.intercept.InterceptorChainImplTest testProceedWhenAcceptIsFalse 
 org.codehaus.waffle.action.intercept.MethodInterceptorComparatorTest testSortCollectionOfSortable 
 org.codehaus.waffle.action.intercept.MethodInterceptorComparatorTest testSortCollectionWithNonSortable 
-org.codehaus.waffle.action.intercept.NotSortableMethodInterceptor accept method java.lang.reflect.Method 
-org.codehaus.waffle.action.intercept.NotSortableMethodInterceptor intercept controllerDefinition,method,chain,arguments org.codehaus.waffle.controller.ControllerDefinition,java.lang.reflect.Method,org.codehaus.waffle.action.intercept.InterceptorChain,java.lang.Object 
-org.codehaus.waffle.action.intercept.SortableMethodInterceptor SortableMethodInterceptor index int 
-org.codehaus.waffle.action.intercept.SortableMethodInterceptor accept method java.lang.reflect.Method 
+org.codehaus.waffle.action.intercept.NotSortableMethodInterceptor accept java.lang.reflect.Method method 
+org.codehaus.waffle.action.intercept.NotSortableMethodInterceptor intercept org.codehaus.waffle.controller.ControllerDefinition,java.lang.reflect.Method,org.codehaus.waffle.action.intercept.InterceptorChain,java.lang.Object controllerDefinition,method,chain,arguments 
+org.codehaus.waffle.action.intercept.SortableMethodInterceptor SortableMethodInterceptor int index 
+org.codehaus.waffle.action.intercept.SortableMethodInterceptor accept java.lang.reflect.Method method 
 org.codehaus.waffle.action.intercept.SortableMethodInterceptor getIndex 
-org.codehaus.waffle.action.intercept.SortableMethodInterceptor intercept controllerDefinition,method,chain,arguments org.codehaus.waffle.controller.ControllerDefinition,java.lang.reflect.Method,org.codehaus.waffle.action.intercept.InterceptorChain,java.lang.Object 
+org.codehaus.waffle.action.intercept.SortableMethodInterceptor intercept org.codehaus.waffle.controller.ControllerDefinition,java.lang.reflect.Method,org.codehaus.waffle.action.intercept.InterceptorChain,java.lang.Object controllerDefinition,method,chain,arguments 
 org.codehaus.waffle.action.intercept.SecurityMethodInterceptorTest testAccept 
 org.codehaus.waffle.action.intercept.SecurityMethodInterceptorTest testInterceptDefaultActionMethod 
 org.codehaus.waffle.action.intercept.SecurityMethodInterceptorTest testInterceptMethod 
@@ -148,87 +148,87 @@ org.codehaus.waffle.servlet.WaffleServletTest testMethodInvocationExceptionThrow
 org.codehaus.waffle.servlet.WaffleServletTest testServiceForNonDispatchingController 
 org.codehaus.waffle.servlet.NonDispatchingController getCount 
 org.codehaus.waffle.servlet.NonDispatchingController increment 
-org.codehaus.waffle.servlet.StubServletOutputStream print string java.lang.String 
-org.codehaus.waffle.servlet.StubServletOutputStream write b int 
+org.codehaus.waffle.servlet.StubServletOutputStream print java.lang.String string 
+org.codehaus.waffle.servlet.StubServletOutputStream write int b 
 org.codehaus.waffle.taglib.WaffleFunctionsTest testFindFieldErrors 
 org.codehaus.waffle.testmodel.AbstractStartable isStarted 
 org.codehaus.waffle.testmodel.AbstractStartable isStopped 
 org.codehaus.waffle.testmodel.AbstractStartable start 
 org.codehaus.waffle.testmodel.AbstractStartable stop 
-org.codehaus.waffle.testmodel.CustomRegistrar CustomRegistrar delegate org.codehaus.waffle.registrar.Registrar 
+org.codehaus.waffle.testmodel.CustomRegistrar CustomRegistrar org.codehaus.waffle.registrar.Registrar delegate 
 org.codehaus.waffle.testmodel.CustomRegistrar application 
 org.codehaus.waffle.testmodel.CustomRegistrar request 
 org.codehaus.waffle.testmodel.CustomRegistrar session 
-org.codehaus.waffle.testmodel.DependsOnValue DependsOnValue value java.lang.String 
+org.codehaus.waffle.testmodel.DependsOnValue DependsOnValue java.lang.String value 
 org.codehaus.waffle.testmodel.DependsOnValue getValue 
 org.codehaus.waffle.testmodel.FakeBean getCount 
 org.codehaus.waffle.testmodel.FakeBean getList 
-org.codehaus.waffle.testmodel.FakeBean setCount count int 
-org.codehaus.waffle.testmodel.FakeBean setList list java.util.List 
+org.codehaus.waffle.testmodel.FakeBean setCount int count 
+org.codehaus.waffle.testmodel.FakeBean setList java.util.List list 
 org.codehaus.waffle.testmodel.FakeController getNumericValue 
 org.codehaus.waffle.testmodel.FakeController getName 
-org.codehaus.waffle.testmodel.FakeController methodThrowsException value java.lang.String 
-org.codehaus.waffle.testmodel.FakeController passThruMethod value java.lang.String 
+org.codehaus.waffle.testmodel.FakeController methodThrowsException java.lang.String value 
+org.codehaus.waffle.testmodel.FakeController passThruMethod java.lang.String value 
 org.codehaus.waffle.testmodel.FakeController toString 
 org.codehaus.waffle.testmodel.FakeController getValues 
 org.codehaus.waffle.testmodel.FakeController getRequest 
 org.codehaus.waffle.testmodel.FakeController getResponse 
 org.codehaus.waffle.testmodel.FakeController getSession 
 org.codehaus.waffle.testmodel.FakeController getContextLevel 
-org.codehaus.waffle.testmodel.FakeController returnsView message java.lang.String 
-org.codehaus.waffle.testmodel.FakeController dependsOnRequest request javax.servlet.http.HttpServletRequest 
-org.codehaus.waffle.testmodel.FakeController dependsOnRequest request,name javax.servlet.http.HttpServletRequest,java.lang.String 
-org.codehaus.waffle.testmodel.FakeController dependsOnSession session javax.servlet.http.HttpSession 
+org.codehaus.waffle.testmodel.FakeController returnsView java.lang.String message 
+org.codehaus.waffle.testmodel.FakeController dependsOnRequest javax.servlet.http.HttpServletRequest request 
+org.codehaus.waffle.testmodel.FakeController dependsOnRequest javax.servlet.http.HttpServletRequest,java.lang.String request,name 
+org.codehaus.waffle.testmodel.FakeController dependsOnSession javax.servlet.http.HttpSession session 
 org.codehaus.waffle.testmodel.FakeController sayHello 
-org.codehaus.waffle.testmodel.FakeController sayHello value java.lang.String 
-org.codehaus.waffle.testmodel.FakeController sayHelloAlso sb java.lang.StringBuffer 
-org.codehaus.waffle.testmodel.FakeController setContextLevel contextLevel org.codehaus.waffle.context.ContextLevel 
-org.codehaus.waffle.testmodel.FakeController setName name java.lang.String 
-org.codehaus.waffle.testmodel.FakeController setNumericValue numericValue java.lang.Long 
-org.codehaus.waffle.testmodel.FakeController setValues values java.lang.String[] 
-org.codehaus.waffle.testmodel.FakeControllerValidator sayHello errorsContext,value org.codehaus.waffle.validation.ErrorsContext,java.lang.String 
-org.codehaus.waffle.testmodel.RequestLevelComponent RequestLevelComponent applicationLevelComponent,sessionLevelComponent org.codehaus.waffle.testmodel.ApplicationLevelComponent,org.codehaus.waffle.testmodel.SessionLevelComponent 
+org.codehaus.waffle.testmodel.FakeController sayHello java.lang.String value 
+org.codehaus.waffle.testmodel.FakeController sayHelloAlso java.lang.StringBuffer sb 
+org.codehaus.waffle.testmodel.FakeController setContextLevel org.codehaus.waffle.context.ContextLevel contextLevel 
+org.codehaus.waffle.testmodel.FakeController setName java.lang.String name 
+org.codehaus.waffle.testmodel.FakeController setNumericValue java.lang.Long numericValue 
+org.codehaus.waffle.testmodel.FakeController setValues java.lang.String[] values 
+org.codehaus.waffle.testmodel.FakeControllerValidator sayHello org.codehaus.waffle.validation.ErrorsContext,java.lang.String errorsContext,value 
+org.codehaus.waffle.testmodel.RequestLevelComponent RequestLevelComponent org.codehaus.waffle.testmodel.ApplicationLevelComponent,org.codehaus.waffle.testmodel.SessionLevelComponent applicationLevelComponent,sessionLevelComponent 
 org.codehaus.waffle.testmodel.RequestLevelComponent getApplicationLevelComponent 
 org.codehaus.waffle.testmodel.RequestLevelComponent getSessionLevelComponent 
-org.codehaus.waffle.testmodel.SampleForMethodFinder actionMethodNeedsCustomConverter list java.util.List 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodAmbiguous object java.lang.Object 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodAmbiguous list java.util.List 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodBoolean bool boolean 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnRequest request javax.servlet.http.HttpServletRequest 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnRequestAndInteger request,integer javax.servlet.http.HttpServletRequest,int 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnResponse response javax.servlet.http.HttpServletResponse 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnServletContext servletContext javax.servlet.ServletContext 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnSession session javax.servlet.http.HttpSession 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodFloat decimal java.lang.Float 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodInteger integer int 
+org.codehaus.waffle.testmodel.SampleForMethodFinder actionMethodNeedsCustomConverter java.util.List list 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodAmbiguous java.lang.Object object 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodAmbiguous java.util.List list 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodBoolean boolean bool 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnRequest javax.servlet.http.HttpServletRequest request 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnRequestAndInteger javax.servlet.http.HttpServletRequest,int request,integer 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnResponse javax.servlet.http.HttpServletResponse response 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnServletContext javax.servlet.ServletContext servletContext 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodDependsOnSession javax.servlet.http.HttpSession session 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodFloat java.lang.Float decimal 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodInteger int integer 
 org.codehaus.waffle.testmodel.SampleForMethodFinder methodOne 
-org.codehaus.waffle.testmodel.SampleForMethodFinder methodTwo list java.util.List 
-org.codehaus.waffle.testmodel.SampleForMethodFinder noAmbiguityWhenMethodNotPublic request javax.servlet.http.HttpServletRequest 
+org.codehaus.waffle.testmodel.SampleForMethodFinder methodTwo java.util.List list 
+org.codehaus.waffle.testmodel.SampleForMethodFinder noAmbiguityWhenMethodNotPublic javax.servlet.http.HttpServletRequest request 
 org.codehaus.waffle.testmodel.SampleForMethodFinder noArgumentMethod 
-org.codehaus.waffle.testmodel.SessionLevelComponent SessionLevelComponent applicationLevelComponent org.codehaus.waffle.testmodel.ApplicationLevelComponent 
+org.codehaus.waffle.testmodel.SessionLevelComponent SessionLevelComponent org.codehaus.waffle.testmodel.ApplicationLevelComponent applicationLevelComponent 
 org.codehaus.waffle.testmodel.SessionLevelComponent getApplicationLevelComponent 
-org.codehaus.waffle.testmodel.StubActionMethodExecutor execute actionMethodResponse,controllerDefinition org.codehaus.waffle.action.ActionMethodResponse,org.codehaus.waffle.controller.ControllerDefinition 
-org.codehaus.waffle.testmodel.StubActionMethodResponseHandler handle request,response,actionMethodResponse javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,org.codehaus.waffle.action.ActionMethodResponse 
-org.codehaus.waffle.testmodel.StubArgumentResolver resolve request,name javax.servlet.http.HttpServletRequest,java.lang.String 
-org.codehaus.waffle.testmodel.StubBindErrorMessageResolver resolve model,propertyName,value java.lang.Object,java.lang.String,java.lang.String 
-org.codehaus.waffle.testmodel.StubContextContainerFactory buildRequestLevelContainer request javax.servlet.http.HttpServletRequest 
+org.codehaus.waffle.testmodel.StubActionMethodExecutor execute org.codehaus.waffle.action.ActionMethodResponse,org.codehaus.waffle.controller.ControllerDefinition actionMethodResponse,controllerDefinition 
+org.codehaus.waffle.testmodel.StubActionMethodResponseHandler handle javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,org.codehaus.waffle.action.ActionMethodResponse request,response,actionMethodResponse 
+org.codehaus.waffle.testmodel.StubArgumentResolver resolve javax.servlet.http.HttpServletRequest,java.lang.String request,name 
+org.codehaus.waffle.testmodel.StubBindErrorMessageResolver resolve java.lang.Object,java.lang.String,java.lang.String model,propertyName,value 
+org.codehaus.waffle.testmodel.StubContextContainerFactory buildRequestLevelContainer javax.servlet.http.HttpServletRequest request 
 org.codehaus.waffle.testmodel.StubContextContainerFactory buildSessionLevelContainer 
 org.codehaus.waffle.testmodel.StubContextContainerFactory destroy 
-org.codehaus.waffle.testmodel.StubContextContainerFactory initialize servletContext javax.servlet.ServletContext 
-org.codehaus.waffle.testmodel.StubControllerDefinitionFactory getControllerDefinition servletRequest,response javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse 
-org.codehaus.waffle.testmodel.StubControllerNameResolver findControllerName request javax.servlet.http.HttpServletRequest 
-org.codehaus.waffle.testmodel.StubDataBinder bind request,errorsContext,model javax.servlet.http.HttpServletRequest,org.codehaus.waffle.validation.ErrorsContext,java.lang.Object 
-org.codehaus.waffle.testmodel.StubDispatchAssistant forward request,response,path javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String 
-org.codehaus.waffle.testmodel.StubDispatchAssistant redirect request,response,model,path javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.util.Map,java.lang.String 
-org.codehaus.waffle.testmodel.StubMessageResources getMessage key,arguments java.lang.String,java.lang.Object 
-org.codehaus.waffle.testmodel.StubMessageResources getMessageWithDefault key,defaultValue,arguments java.lang.String,java.lang.String,java.lang.Object 
+org.codehaus.waffle.testmodel.StubContextContainerFactory initialize javax.servlet.ServletContext servletContext 
+org.codehaus.waffle.testmodel.StubControllerDefinitionFactory getControllerDefinition javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse servletRequest,response 
+org.codehaus.waffle.testmodel.StubControllerNameResolver findControllerName javax.servlet.http.HttpServletRequest request 
+org.codehaus.waffle.testmodel.StubDataBinder bind javax.servlet.http.HttpServletRequest,org.codehaus.waffle.validation.ErrorsContext,java.lang.Object request,errorsContext,model 
+org.codehaus.waffle.testmodel.StubDispatchAssistant forward javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.lang.String request,response,path 
+org.codehaus.waffle.testmodel.StubDispatchAssistant redirect javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,java.util.Map,java.lang.String request,response,model,path 
+org.codehaus.waffle.testmodel.StubMessageResources getMessage java.lang.String,java.lang.Object key,arguments 
+org.codehaus.waffle.testmodel.StubMessageResources getMessageWithDefault java.lang.String,java.lang.String,java.lang.Object key,defaultValue,arguments 
 org.codehaus.waffle.testmodel.StubMessageResources getLocale 
-org.codehaus.waffle.testmodel.StubMessageResources setLocale locale java.util.Locale 
-org.codehaus.waffle.testmodel.StubMethodDefinitionFinder find controller,request,response java.lang.Object,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse 
-org.codehaus.waffle.testmodel.StubValidator validate controllerDefinition,errorsContext org.codehaus.waffle.controller.ControllerDefinition,org.codehaus.waffle.validation.ErrorsContext 
-org.codehaus.waffle.testmodel.StubViewDispatcher dispatch request,response,view javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,org.codehaus.waffle.view.View 
-org.codehaus.waffle.testmodel.StubViewResolver resolve view org.codehaus.waffle.view.View 
-org.codehaus.waffle.testmodel.StubWaffleComponentRegistry StubWaffleComponentRegistry servletContext javax.servlet.ServletContext 
+org.codehaus.waffle.testmodel.StubMessageResources setLocale java.util.Locale locale 
+org.codehaus.waffle.testmodel.StubMethodDefinitionFinder find java.lang.Object,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse controller,request,response 
+org.codehaus.waffle.testmodel.StubValidator validate org.codehaus.waffle.controller.ControllerDefinition,org.codehaus.waffle.validation.ErrorsContext controllerDefinition,errorsContext 
+org.codehaus.waffle.testmodel.StubViewDispatcher dispatch javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse,org.codehaus.waffle.view.View request,response,view 
+org.codehaus.waffle.testmodel.StubViewResolver resolve org.codehaus.waffle.view.View view 
+org.codehaus.waffle.testmodel.StubWaffleComponentRegistry StubWaffleComponentRegistry javax.servlet.ServletContext servletContext 
 org.codehaus.waffle.testmodel.StubWaffleComponentRegistry getActionMethodExecutor 
 org.codehaus.waffle.testmodel.StubWaffleComponentRegistry getActionMethodResponseHandler 
 org.codehaus.waffle.testmodel.StubWaffleComponentRegistry getDataBinder 
