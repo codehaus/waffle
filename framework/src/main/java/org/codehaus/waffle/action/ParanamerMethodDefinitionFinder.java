@@ -75,7 +75,7 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
             parameterNames = findParameterNames(method);            
         } catch ( ParameterNamesNotFoundException e ){
             Class<?> declaringClass = method.getDeclaringClass();
-            int rc = paranamer.areParameterNamesAvailable(declaringClass.getClassLoader(), declaringClass.getName(), method.getName());
+            int rc = paranamer.areParameterNamesAvailable(declaringClass.getClassLoader(), declaringClass, method.getName());
             if (rc == Paranamer.NO_PARAMETER_NAMES_LIST ) {
                 throw new MatchingMethodException("No parameter names list found by paranamer "+paranamer);
             } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS ) {
