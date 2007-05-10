@@ -17,6 +17,7 @@ import java.util.Map;
 import org.nanocontainer.script.NanoContainerMarkupException;
 import org.nanocontainer.webcontainer.PicoContextHandler;
 import org.picocontainer.PicoContainer;
+import org.codehaus.waffle.context.pico.PicoWaffleContextListener;
 
 public class WaffleNodeBuilder extends NodeBuilder {
     private final PicoContainer parentContainer;
@@ -25,11 +26,13 @@ public class WaffleNodeBuilder extends NodeBuilder {
     public WaffleNodeBuilder(PicoContainer parentContainer, PicoContextHandler context) {
         this.parentContainer = parentContainer;
         this.context = context;
+
+        context.addListener(PicoWaffleContextListener.class);
     }
 
     public Object createNode(Object name, Map attributes) throws NanoContainerMarkupException {
         if (name.equals("actionRegistrar")) {
-            return new ActionRegistrarNodeBuilder(parentContainer, (Class) attributes.remove("class"));
+            return new ActionRegistrarNodeBuilder(parentContainer, attributes.remove("class"), context);
         } else if (name.equals("requestFilter")) {
             return new RequestFilterNodeBuilder(context, (String) attributes.remove("filter"));
         } else if (name.equals("viewSuffix")) {
