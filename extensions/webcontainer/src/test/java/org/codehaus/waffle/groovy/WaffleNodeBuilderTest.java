@@ -34,7 +34,6 @@ public class WaffleNodeBuilderTest extends TestCase {
         if (pico != null) {
             pico.stop();
         }
-        Thread.sleep(1 * 1000);
     }
 
     public void testCanComposeWebContainerWithCompleteWaffleApp() throws InterruptedException, IOException {
@@ -84,11 +83,9 @@ public class WaffleNodeBuilderTest extends TestCase {
         pico = buildContainer(script, null, "SOME_SCOPE");
         assertNotNull(pico);
 
-        Thread.sleep(2 * 1000);
-
         String actual;
         try {
-            actual = IO.toString(new URL(url).openStream());
+            actual = getPage(url);
         } catch (FileNotFoundException e) {
             actual = "";
         }
@@ -100,5 +97,20 @@ public class WaffleNodeBuilderTest extends TestCase {
         new GroovyContainerBuilder(script, getClass().getClassLoader()).buildContainer(containerRef, parentContainerRef, scope, true);
         return (PicoContainer) containerRef.get();
     }
+
+    protected String getPage(String url) throws IOException, InterruptedException {
+        try {
+            return IO.toString(new URL(url).openStream());
+        } catch (Exception e) {
+            Thread.sleep(2 * 1000);
+            try {
+                return IO.toString(new URL(url).openStream());
+            } catch (Exception e1) {
+                return e1.getClass().getName() + ":" + e1.getMessage();
+            }
+        }
+    }
+
+
 }
 

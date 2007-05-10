@@ -14,29 +14,30 @@ import groovy.util.NodeBuilder;
 import java.util.Map;
 
 import org.codehaus.waffle.registrar.RegistrarAssistant;
+import org.codehaus.waffle.registrar.Registrar;
 import org.picocontainer.PicoContainer;
+import org.nanocontainer.webcontainer.PicoContextHandler;
 
 public class ActionRegistrarNodeBuilder extends NodeBuilder {
 
     private final PicoContainer parentContainer;
-    Class registrarClass;
+    Object registrarClass;
+    private final PicoContextHandler context;
 
 
-    public ActionRegistrarNodeBuilder(PicoContainer parentContainer, Class registrarClass) {
+    public ActionRegistrarNodeBuilder(PicoContainer parentContainer, Object registrarClass, PicoContextHandler context) {
         this.parentContainer = parentContainer;
         this.registrarClass = registrarClass;
-
-        //TODO What to do here Mike?
-
-        //PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(null);
-        //contextContainerFactory.buildApplicationContextContainer();
-
-
-        RegistrarAssistant registrarAssistant = new RegistrarAssistant(registrarClass);
-
+        this.context = context;
     }
 
     protected Object createNode(Object current, Map attributes) {
+
+        if (current.equals("registrar")) {
+            context.addInitParam(Registrar.class.getName(), registrarClass instanceof Class ? ((Class) registrarClass).getName() : (String) registrarClass);
+        }
+        
+
         return "";
     }
 }
