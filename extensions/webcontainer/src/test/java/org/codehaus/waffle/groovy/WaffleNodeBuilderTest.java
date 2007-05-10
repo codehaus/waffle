@@ -42,10 +42,9 @@ public class WaffleNodeBuilderTest extends TestCase {
                 "nano = builder.container {\n" +
                 "    webContainer(port:8080) {\n" +
                 "        context(path:'/bar') {\n" +
-                "            waffleApp {" +
+                "            waffleApp(suffix:'.jspx') {" +
                 "               actionRegistrar(class:org.codehaus.waffle.groovy.FooRegistrar)\n" +
                 "               requestFilter(filter:'*.action')\n" +
-                "               viewSuffix(suffix:'.jspx')\n" +
                 "            }\n" +
                 "        }\n" +
                 "    }\n" +
@@ -60,7 +59,7 @@ public class WaffleNodeBuilderTest extends TestCase {
                 "    component(class:SomeReallyBaseLevelService)\n" +
                 "    webContainer(port:8080) {\n" +
                 "        context(path:'/bar') {\n" +
-                "            waffleApp {\n" +
+                "            waffleApp(suffix:'.jspx') {\n" +
                 "                registerActions {\n" +
                 "                    session {\n" +
                 "                       register(action:'cart' class:ShoppingCart)\n" +
@@ -70,7 +69,6 @@ public class WaffleNodeBuilderTest extends TestCase {
                 "                    }\n" +
                 "                }\n" +
                 "                requestFilter(filter:'*.htm')\n" +
-                "                viewSuffix(suffix:'.jspx')\n" +
                 "            }\n" +
                 "        }\n" +
                 "    }\n" +

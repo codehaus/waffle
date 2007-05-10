@@ -1,5 +1,5 @@
 package org.codehaus.waffle.example.paranamer.action;
-
+                    
 public class CalculatorController {
     public Number result;
 

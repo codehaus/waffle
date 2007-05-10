@@ -143,11 +143,6 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/jmock-1.1.0.jar" />
-      <url>jar://$M2_REPOSITORY$/jmock/jmock/1.1.0/jmock-1.1.0.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/junit-4.0.jar" />
       <url>jar://$M2_REPOSITORY$/junit/junit/4.0/junit-4.0.jar!/</url>
     </containerElement>
@@ -160,6 +155,16 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/ognl-2.6.9.jar" />
       <url>jar://$M2_REPOSITORY$/ognl/ognl/2.6.9/ognl-2.6.9.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/jmock-junit4-2.0.0.jar" />
+      <url>jar://$M2_REPOSITORY$/org/jmock/jmock-junit4/2.0.0/jmock-junit4-2.0.0.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/jmock-2.0.0.jar" />
+      <url>jar://$M2_REPOSITORY$/org/jmock/jmock/2.0.0/jmock-2.0.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
