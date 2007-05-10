@@ -16,18 +16,25 @@ import java.util.Map;
 
 import org.nanocontainer.script.NanoContainerMarkupException;
 import org.nanocontainer.webcontainer.PicoContextHandler;
+import org.nanocontainer.webcontainer.PicoServletHolder;
 import org.picocontainer.PicoContainer;
 import org.codehaus.waffle.context.pico.PicoWaffleContextListener;
+import org.codehaus.waffle.servlet.WaffleServlet;
 
 public class WaffleNodeBuilder extends NodeBuilder {
     private final PicoContainer parentContainer;
     private final PicoContextHandler context;
 
-    public WaffleNodeBuilder(PicoContainer parentContainer, PicoContextHandler context) {
+    public WaffleNodeBuilder(PicoContainer parentContainer, PicoContextHandler context, Map attributes) {
         this.parentContainer = parentContainer;
         this.context = context;
 
         context.addListener(PicoWaffleContextListener.class);
+        PicoServletHolder wSvt = context.addServletWithMapping(WaffleServlet.class,"");
+        String viewSuffix = (String) attributes.remove("view-suffix");
+        if (viewSuffix != null && !viewSuffix.equals("")) {
+            wSvt.setInitParameter("view.suffix", viewSuffix);
+        }
     }
 
     public Object createNode(Object name, Map attributes) throws NanoContainerMarkupException {

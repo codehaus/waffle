@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
@@ -28,6 +27,7 @@ public class DefaultViewDispatcherTest {
 
     @Test
     public void testDispatchCalled() throws IOException, ServletException {
+
         Map model = new HashMap();
         RedirectView redirectView = new RedirectView(PATH, null, model);
         ViewResolver viewResolver = mockViewResolver(redirectView, PATH);
@@ -49,30 +49,37 @@ public class DefaultViewDispatcherTest {
 
     private DispatchAssistant mockDispatchAssistant(final Map model, final String path) throws IOException, ServletException {
         final DispatchAssistant dispatchAssistant = mockery.mock(DispatchAssistant.class);
-        mockery.checking(new Expectations(){{
-            if ( model != null ){
-                allowing(dispatchAssistant).redirect(mockRequest, mockResponse, model, path); 
-            } else {
-                allowing(dispatchAssistant).forward(mockRequest, mockResponse, path);                     
+        Expectations expectations = new Expectations() {
+            {
+                if (model != null) {
+                    allowing(dispatchAssistant).redirect(mockRequest, mockResponse, model, path);
+                } else {
+                    allowing(dispatchAssistant).forward(mockRequest, mockResponse, path);
+                }
             }
-        }});     
+        };
+        mockery.checking(expectations);
         return dispatchAssistant;
     }
 
     private ViewResolver mockViewResolver(final View view, final String path) {
         final ViewResolver viewResolver = mockery.mock(ViewResolver.class);
-        mockery.checking(new Expectations(){{
-            allowing(viewResolver).resolve(view); will(returnValue(path));
-        }});     
+        Expectations expectations = new Expectations() {
+            {
+                allowing(viewResolver).resolve(view);
+                will(returnValue(path));
+            }
+        };
+        mockery.checking(expectations);
         return viewResolver;
     }
 
-    private HttpServletResponse mockResponse() {       
+    private HttpServletResponse mockResponse() {
         return mockery.mock(HttpServletResponse.class);
     }
 
     private HttpServletRequest mockRequest() {
         return mockery.mock(HttpServletRequest.class);
     }
-    
+
 }
