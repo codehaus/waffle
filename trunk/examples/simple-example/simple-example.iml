@@ -72,6 +72,11 @@
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-RC-3-SNAPSHOT.jar" />
+      <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-RC-3-SNAPSHOT/paranamer-1.0-RC-3-SNAPSHOT.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
       <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-SNAPSHOT.jar" />
       <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-SNAPSHOT/paranamer-1.0-SNAPSHOT.jar!/</url>
     </containerElement>
@@ -79,6 +84,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/jmock-1.1.0.jar" />
       <url>jar://$M2_REPOSITORY$/jmock/jmock/1.1.0/jmock-1.1.0.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/jmock-1.2.0.jar" />
+      <url>jar://$M2_REPOSITORY$/jmock/jmock/1.2.0/jmock-1.2.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -96,9 +106,34 @@
       <url>jar://$M2_REPOSITORY$/ognl/ognl/2.6.9/ognl-2.6.9.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/hamcrest-api-1.0.jar" />
+      <url>jar://$M2_REPOSITORY$/org/hamcrest/hamcrest-api/1.0/hamcrest-api-1.0.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/hamcrest-library-1.0.jar" />
+      <url>jar://$M2_REPOSITORY$/org/hamcrest/hamcrest-library/1.0/hamcrest-library-1.0.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/jmock-junit4-2.0.0.jar" />
+      <url>jar://$M2_REPOSITORY$/org/jmock/jmock-junit4/2.0.0/jmock-junit4-2.0.0.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/jmock-2.0.0.jar" />
+      <url>jar://$M2_REPOSITORY$/org/jmock/jmock/2.0.0/jmock-2.0.0.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/jetty-util-6.0.1.jar" />
       <url>jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty-util/6.0.1/jetty-util-6.0.1.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib/jetty-6.1.3.jar" />
+      <url>jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty/6.1.3/jetty-6.1.3.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />

@@ -30,6 +30,11 @@ public class WaffleNodeBuilder extends NodeBuilder {
         this.context = context;
 
         context.addListener(PicoWaffleContextListener.class);
+        String svtSuffix = (String) attributes.remove("servlet-suffix");
+        if (svtSuffix == null || svtSuffix.equals("")) {
+            svtSuffix = "*.action";
+        }
+
         PicoServletHolder wSvt = context.addServletWithMapping(WaffleServlet.class,"");
         String viewSuffix = (String) attributes.remove("view-suffix");
         if (viewSuffix != null && !viewSuffix.equals("")) {
