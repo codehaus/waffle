@@ -49,7 +49,8 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
         String registrarClassName = servletContext.getInitParameter(Registrar.class.getName());
 
         try {
-            Class clazz = this.getClass().getClassLoader().loadClass(registrarClassName);
+            ClassLoader loader = this.getClass().getClassLoader();
+            Class clazz = loader.loadClass(registrarClassName);
             registrarAssistant = new RegistrarAssistant(clazz);
         } catch (ClassNotFoundException e) {
             String message = MessageFormat

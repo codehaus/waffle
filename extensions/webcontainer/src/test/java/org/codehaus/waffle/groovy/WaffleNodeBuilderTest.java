@@ -42,15 +42,15 @@ public class WaffleNodeBuilderTest extends TestCase {
                 "nano = builder.container {\n" +
                 "    webContainer(port:8080) {\n" +
                 "        context(path:'/bar') {\n" +
-                "            waffleApp(suffix:'.jspx') {" +
+                "            waffleApp(view-suffix:\"*.jspx\") {" +
                 "               actionRegistrar(class:org.codehaus.waffle.groovy.FooRegistrar)\n" +
-                "               requestFilter(filter:'*.action')\n" +
+                "               requestFilter(filter:\"*.foo\")\n" +
                 "            }\n" +
                 "        }\n" +
                 "    }\n" +
                 "}\n");
 
-        assertPageIsHostedWithContents(script, "hello Fred", "http://localhost:8080/bar/foo2");
+        assertPageIsHostedWithContents(script, "hello Fred", "http://localhost:8080/bar/x.foo");
     }
 
     public void testCanComposeWholeWaffleIncludingComposedActions() throws InterruptedException, IOException {
@@ -59,13 +59,13 @@ public class WaffleNodeBuilderTest extends TestCase {
                 "    component(class:SomeReallyBaseLevelService)\n" +
                 "    webContainer(port:8080) {\n" +
                 "        context(path:'/bar') {\n" +
-                "            waffleApp(suffix:'.jspx') {\n" +
+                "            waffleApp(view-suffix:'.jspx') {\n" +
                 "                registerActions {\n" +
                 "                    session {\n" +
                 "                       register(action:'cart' class:ShoppingCart)\n" +
                 "                    }\n" +
                 "                    application {\n" +
-                "                       register(instance: new CartSecurityManager())\n" +
+                "                       register(class:CartSecurityManager)\n" +
                 "                    }\n" +
                 "                }\n" +
                 "                requestFilter(filter:'*.htm')\n" +

@@ -29,14 +29,11 @@ public class ActionRegistrarNodeBuilder extends NodeBuilder {
         this.parentContainer = parentContainer;
         this.registrarClass = registrarClass;
         this.context = context;
+        context.addInitParam(Registrar.class.getName(), registrarClass instanceof Class ? ((Class) registrarClass).getName() : (String) registrarClass);
+
     }
 
     protected Object createNode(Object current, Map attributes) {
-
-        if (current.equals("registrar")) {
-            context.addInitParam(Registrar.class.getName(), registrarClass instanceof Class ? ((Class) registrarClass).getName() : (String) registrarClass);
-        }
-        
 
         return "";
     }

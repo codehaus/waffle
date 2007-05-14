@@ -18,8 +18,8 @@ import java.util.Map;
 
 public class RequestFilterNodeBuilder extends NodeBuilder {
 
-    public RequestFilterNodeBuilder(PicoContextHandler context, String filterName) {
-        context.addFilterWithMapping(new WaffleRequestFilter(), filterName, 0);
+    public RequestFilterNodeBuilder(PicoContextHandler context, String pathMapping) {
+        context.addFilterWithMapping(new WaffleRequestFilter(), pathMapping, 0);
     }
 
     protected Object createNode(Object name, Map attributes) {
