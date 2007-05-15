@@ -45,11 +45,12 @@
         <artifactId>paranamer-maven-plugin</artifactId>
         <configuration>
           <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
-          <outputDirectory>${basedir}/src/main/resources</outputDirectory>
+          <outputDirectory>${project.build.outputDirectory}</outputDirectory>
         </configuration>
         <executions>
           <execution>
             <id>generate</id>
+            <phase>compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>
