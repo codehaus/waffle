@@ -67,12 +67,12 @@
         <artifactId>paranamer-maven-plugin</artifactId>
         <configuration>
           <sourceDirectory>${project.build.testSourceDirectory}</sourceDirectory>
-          <outputDirectory>${basedir}/target/test-classes</outputDirectory>
+          <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
         </configuration>
         <executions>
           <execution>
-            <phase>test</phase>
             <id>generate</id>
+            <phase>test-compile</phase>
             <goals>
               <goal>generate</goal>
             </goals>
