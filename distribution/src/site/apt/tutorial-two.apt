@@ -2,11 +2,11 @@ Tutorial: Part Two
 
     This tutorial expands on the example we covered in {{{tutorial-one.html}Tutorial: Part one}}.  If Waffle only
     provided what was covered in that tutorial it would not be very interesting.  So let's add onto the Automobile
-    action class and give it the ability to both <<accelerate>> and <<stop>>.  We need to add a <speed> field so we can
+    controller class and give it the ability to both <<accelerate>> and <<stop>>.  We need to add a <speed> field so we can
     maintain the current speed of the automobile.  We add a <getter> for speed so we can make sure that the speed is in
     fact increasing.  And we add two <<event>> methods: <<void accelerate(String)>> and <<void stop()>>.  Remember we
     added the "automobile" to the Registrar as a <Session-Level> component.  So each user will have their own instance of
-    the autombile action and, more importantly, the action will live for the life of the users session.
+    the autombile controller and, more importantly, the controller will live for the life of the users session.
 
 +-----+
 
@@ -58,31 +58,31 @@ public class Automobile implements Serializable {
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
-<form action="automobile.action">
+<form action="automobile.waffle">
     <table>
         <tr>
             <td>Make: </td>
             <td>
-                <input type="text" value="<c:out value='${action.make}'/>" name="make"/>
+                <input type="text" value="<c:out value='${controller.make}'/>" name="make"/>
             </td>
         </tr>
         <tr>
             <td>Model: </td>
             <td>
-                <input type="text" value="<c:out value='${action.model}'/>" name="model"/>
+                <input type="text" value="<c:out value='${controller.model}'/>" name="model"/>
             </td>
         </tr>
         <tr>
             <td>Speed: </td>
             <td>
-                <c:out value='${action.speed}'/>
+                <c:out value='${controller.speed}'/>
             </td>
         </tr>
     </table>
     <br/>
-    <a href="automobile.action?method=accelerate|15">Accelerate!</a>
+    <a href="automobile.waffle?method=accelerate|15">Accelerate!</a>
     <br/>
-    <a href="automobile.action?method=stop">Stop!</a>
+    <a href="automobile.waffle?method=stop">Stop!</a>
     <br/><br/>
     <input type="submit"/>
 </form>
@@ -91,17 +91,17 @@ public class Automobile implements Serializable {
 +-----+
 
     For this example we will concentrate on the more interesting of the two events, <accelerate>. The accelerate event
-    is defined as <<automobile.waf?event=accelerate|15>>.  Let's dissect this to get a better understanding of what is
+    is defined as <<automobile.waffle?event=accelerate|15>>.  Let's dissect this to get a better understanding of what is
     going on.  Starting from left to right we will break this request out and explain each piece separately:
 
 *-------------------+------------------------------------------------------------------------------------------+
-| <<automobile>>    | the Autombile.class action was registered under the name "automobile" in the Registrar, so this name maps to that <<action>>
+| <<automobile>>    | the Autombile.class controller was registered under the name "automobile" in the Registrar, so this name maps to that <<Controller>>
 *-------------------+------------------------------------------------------------------------------------------+
-| <<.action>>       | Waffle's front controller (WaffleServlet) is mapped to the url-pattern "*.action", see <<web.xml>>
+| <<.waffle>>       | Waffle's front controller (WaffleServlet) is mapped to the url-pattern "*.waffle", see <<web.xml>>
 *-------------------+------------------------------------------------------------------------------------------+
-| <<method>>        | when Waffle handles requests it looks for the request parameter named <<method>> in order to determine if an <<ActionMethod>> should be fired on the <<Action>>.
+| <<method>>        | when Waffle handles requests it looks for the request parameter named <<method>> in order to determine if an <<ActionMethod>> should be fired on the <<Controller>>.
 *-------------------+------------------------------------------------------------------------------------------+
-| <<accelerate>>    | this is the name of the <<ActionMethod>> that Waffle will attempt to execute on the Action.
+| <<accelerate>>    | this is the name of the <<ActionMethod>> that Waffle will attempt to execute on the Controller.
 *-------------------+------------------------------------------------------------------------------------------+
 | <<\|>>            | each <<\|>> is used to delimit the argument list that should be used when invoking the ActionMethod.  There is no limit to the number of arguments we can use.
 *-------------------+------------------------------------------------------------------------------------------+
@@ -115,7 +115,7 @@ public class Automobile implements Serializable {
 
 * Advanced ActionMethod
 
-    Waffle's ability to fire ActionMethod on actions as was shown earlier is a powerful feature.  From a development
+    Waffle's ability to fire ActionMethod on controller's as was shown earlier is a powerful feature.  From a development
     perspective it is nice because it reduces much of the classic searching through the request parameters to determine
     what to do next.  But Waffle provides even more capabilities for triggering events.
 
@@ -131,14 +131,14 @@ public class Automobile implements Serializable {
     And it does not stop there!  Waffle allows you to directly reference parameters and attributes by name, in either the
     <<HttpServletRequest>> (parameter or attribute), <<HttpSession>> or <<ServletContext>>.  So imagine we have a
     <<Map>> instance registered as an attribute in the user's session under the name "dictionary".  We can have that Map
-    instance passed directly as an argument to the ActionMethod we want fired.  Let's write a simple action class as an example:
+    instance passed directly as an argument to the ActionMethod we want fired.  Let's write a simple controller class as an example:
 
 +-----+
 
 //
 // SampleAction.java
 //
-public class SampleAction implements Serializable {
+public class SampleController implements Serializable {
 
     public void myActionMethod(Map dictionary) {
         // do something with the dictionary ...
@@ -147,12 +147,12 @@ public class SampleAction implements Serializable {
 
 +-----+
 
-    This action has one ActionMethod: <<void myActionMethod(Map)>>.  Assume we have registered this action under the name "sample".  We
-    can have Waffle fire this ActionMethod by submitting the url request <<sample.action?method=myActionMethod\|\{dictionary\}>>.
+    This controller has one ActionMethod: <<void myActionMethod(Map)>>.  Assume we have registered this controller under the name "sample".  We
+    can have Waffle fire this ActionMethod by submitting the url request <<sample.waffle?method=myActionMethod\|\{dictionary\}>>.
     So just to make sure it's clear, we will dissect the value of the <<event>> parameter:
 
 *----------------------+-----------------------------------------------------------------------------------------------+
-| <<myActionMethod>>   | this is the name of the <<ActionMethod>> that Waffle will invoke on the action.
+| <<myActionMethod>>   | this is the name of the <<ActionMethod>> that Waffle will invoke on the controller.
 *----------------------+-----------------------------------------------------------------------------------------------+
 | <<\|>>               | the delimiter between ActionMethod name and arguments
 *----------------------+-----------------------------------------------------------------------------------------------+
@@ -184,9 +184,9 @@ public class SampleAction implements Serializable {
 
 ** Caveat: Ambiguous methods
 
-    Waffle determines which ActionMethod to invoke by examining the Action with reflection.  If your Action contains an
+    Waffle determines which ActionMethod to invoke by examining the Controller with reflection.  If your Controller contains an
     overloaded method (same name and same number of arguments) Waffle may not be able to determine which ActionMethod should be
-    fired. For example assume you have the following two methods defined in an Action:
+    fired. For example assume you have the following two methods defined in an Controller:
 
 +-----+
 

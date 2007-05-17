@@ -11,16 +11,16 @@ Example: Simple Calculator
 
     [NOTE:] Validation and error handling have been ignored for this example
 
-* Action: CalculatorAction
+* Controller: CalculatorController
 
-    As you can see the Action is an extremely simple object.  The three methods <<add>>, <<subtract>>, and <<multiply>>
+    As you can see the Controller is an extremely simple object.  The three methods <<add>>, <<subtract>>, and <<multiply>>
     are themselves <ActionMethods>.  Notice that they each have 2 arguments.  Additionally each method has a unique type
     for its arguments (int, long, float).  Waffle will automatically convert the users request into the correct type.
     This conversion is NOT limited to primitives, custom conversion is easily supported but out of scope for this example
     (see {{{binding-validation.html}Binding\Validation section}} for further details).
 
 +------+
-public class CalculatorAction {
+public class CalculatorController {
     public Number result;
 
     public Number getResult() {
@@ -53,9 +53,8 @@ public class MyRegistrar extends AbstractRegistrar {
         super(delegate);
     }
 
-    @RegisterWithSession
     public void session() {
-        register("calculator", CalculatorAction.class);
+        register("calculator", CalculatorController.class);
     }
 }
 +------+
@@ -105,7 +104,7 @@ public class MyRegistrar extends AbstractRegistrar {
 
     <div class="fieldRow">
         <label for="result">Result:</label>
-        <input type="text" name="result" id="result" value="${action.result}" disabled="disabled" readonly="readonly"/>
+        <input type="text" name="result" id="result" value="${controller.result}" disabled="disabled" readonly="readonly"/>
         <br style="clear:both"/>
     </div>
 
@@ -121,12 +120,12 @@ public class MyRegistrar extends AbstractRegistrar {
 
     Lines <<44 and 45>> in the example above do not pragmatically define how their argument values are to be resolved.
     So in order to handle this we can add an annotation to each of those methods in the Action.  Below we have updated
-    the CalculatorAction with two <<ActionMethod>> annotations (lines 12 and 17). 
+    the CalculatorController with two <<ActionMethod>> annotations (lines 12 and 17).
 
-* Annotated Action: CalculatorAction
+* Annotated Controller: CalculatorController
 
 +------+
-public class CalculatorAction {
+public class CalculatorController {
     public Number result;
 
     public Number getResult() {

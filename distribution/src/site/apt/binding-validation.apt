@@ -6,19 +6,19 @@ Binding and Validation
 
 * Binding
 
-    By default all binding of fields to <<Actions>> is handled by Ognl.  Waffle provides a custom extension to Ognl's
+    By default all binding of fields to <<Controllers>> is handled by Ognl.  Waffle provides a custom extension to Ognl's
     <ognl.DefaultTypeConverter> to support Java 5 <enums>.  Fields of standard types (e.g. String, Number, primitives)
-    are bound to your actions automatically.  More complex or custom class types can also easily be handled.
+    are bound to your controllers automatically.  More complex or custom class types can also easily be handled.
 
     A common binding problem that many web application need to deal with is how to bind a String value to a Date object.
     Of course each application and locale has it's own unique format.  As an example we will build a class that supports
     binding to a Date.  From this example you'll gain an understanding of how to bind to any Class type.
 
-    Suppose we have the following Action class <<ActionWithDateField>> which has one field <<startDate>> which is of
+    Suppose we have the following Controller class <<ControllerWithDateField>> which has one field <<startDate>> which is of
     course a <java.util.Date>:
 
 +-----+
-public class ActionWithDateField {
+public class ControllerWithDateField {
     private Date startDate;
 
     public Date getStartDate() {
@@ -32,7 +32,7 @@ public class ActionWithDateField {
 +-----+
 
     You could imagine that the request to set this date field would be something similar to <<startDate=04-07-2006>>.
-    So inorder to bind this to the underlying Action we will need to create a custom class that will handle conversion
+    So inorder to bind this to the underlying Controller we will need to create a custom class that will handle conversion
     for a specific type(s).
 
 ** WaffleTypeConverter
@@ -103,11 +103,11 @@ public class DateTypeConverter implements WaffleTypeConverter {
     add to the Errors instance.
 
 +-----+
-public class ShoppingCartAction implements Serializable {
+public class ShoppingCartController implements Serializable {
     private final MessageResources messageResources;
     private final Cart cart;
 
-    public ShoppingCartAction(MessageResources messageResources, Cart cart) {
+    public ShoppingCartController(MessageResources messageResources, Cart cart) {
         this.messageResources = messageResources;
         this.cart = cart;
     }
@@ -127,10 +127,10 @@ public class ShoppingCartAction implements Serializable {
 +-----+
     
     The second means of Validation allows for an external validation class by follows a few simple conventions. Suppose
-    you have the following Action registered under the name "foo":
+    you have the following Controller registered under the name "foo":
 
 +-----+
-public class FooAction {
+public class FooController {
 
     public String sayHello(String firstName, String lastName) {
         return "Hello, " + firstName + " " + lastName;
@@ -144,15 +144,15 @@ public class FooAction {
 
     You can register any POJO you would like as a Validator.  The only requirement is that it should be registered with
     the suffix <Validator>.  In other words the POJO registered under the name <"fooValidator"> would be the Validator
-    for the action registered under the name <"foo">.  The Validator class will need to provide a seperate method for
+    for the controller registered under the name <"foo">.  The Validator class will need to provide a seperate method for
     each ActionMethod requiring sepearte validation.  These validate methods will need to be named identical to the
     ActionMethods they are providing validation for.  The signature of the validate method is identical with the additional
     first argument being of type <<Errors>>.  The following is an example of such a Validator:
 
 +-----+
-public class FooActionValidator {
+public class FooControllerValidator {
 
-    // This is the validator for the FooAction.sayHello(String, String) Actionmethod
+    // This is the validator for the FooController.sayHello(String, String) Actionmethod
     public void sayHello(Errors errors, String firstName, String lastName) {
 
         // validate and add error message to the errors if applicable

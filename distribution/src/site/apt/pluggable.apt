@@ -23,31 +23,31 @@ Pluggability
 *------------------------------------------------------------------+
 | <<Key Interface>>                                                |
 *------------------------------------------------------------------+
-org.codehaus.waffle.controller.ControllerDefinitionFactory             |
+org.codehaus.waffle.controller.ControllerDefinitionFactory         |
 *------------------------------------------------------------------+
-org.codehaus.waffle.action.ActionMethodExecutor         |
+org.codehaus.waffle.action.ActionMethodExecutor                    |
 *------------------------------------------------------------------+
-org.codehaus.waffle.action.ActionMethodResponseHandler  |
+org.codehaus.waffle.action.ActionMethodResponseHandler             |
 *------------------------------------------------------------------+
-org.codehaus.waffle.action.ArgumentResolver             |
+org.codehaus.waffle.action.ArgumentResolver                        |
 *------------------------------------------------------------------+
-org.codehaus.waffle.bind.BindErrorMessageResolver              |
+org.codehaus.waffle.bind.BindErrorMessageResolver                  |
 *------------------------------------------------------------------+
-org.codehaus.waffle.bind.DataBinder                            |
+org.codehaus.waffle.bind.DataBinder                                |
 *------------------------------------------------------------------+
-org.codehaus.waffle.context.ContextContainerFactory            |
+org.codehaus.waffle.context.ContextContainerFactory                |
 *------------------------------------------------------------------+
-org.codehaus.waffle.view.DispatchHelper                        |
+org.codehaus.waffle.view.DispatchHelper                            |
 *------------------------------------------------------------------+
-org.codehaus.waffle.i18n.MessageResources                      |
+org.codehaus.waffle.i18n.MessageResources                          |
 *------------------------------------------------------------------+
-org.codehaus.waffle.action.MethodDefinitionFinder       |
+org.codehaus.waffle.action.MethodDefinitionFinder                  |
 *------------------------------------------------------------------+
-org.codehaus.waffle.validation.Validator                       |
+org.codehaus.waffle.validation.Validator                           |
 *------------------------------------------------------------------+
-org.codehaus.waffle.view.ViewDispatcher                        |
+org.codehaus.waffle.view.ViewDispatcher                            |
 *------------------------------------------------------------------+
-org.codehaus.waffle.view.ViewResolver                          |
+org.codehaus.waffle.view.ViewResolver                              |
 *------------------------------------------------------------------+
 
     Most application will never need to deal with any of these components.  But it is nice to know that you can change

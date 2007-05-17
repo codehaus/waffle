@@ -4,36 +4,28 @@
 
 Waffle Registrar
 
-    Now you should have an understanding of how Actions and ActionMethods work in Waffle and it has been mentioned that
+    Now you should have an understanding of how Controllers and ActionMethods work in Waffle and it has been mentioned that
     no custom XML configuration files are needed.  So how does everything get wired up?  <<With simple java code.>>
 
-    Inorder to register Actions (and other components Actions may have dependencies on) we are required to extend the
+    Inorder to register Controllers (and other components Controllers may have dependencies on) we are required to extend the
     <AbstractRegistrar> class.  It is the <AbstractRegistrar> class that makes the magic happen.   A Registrar is used
     to register Waffle Actions and other components that satisfy constructor dependencies.
 
 +-----+
 public class CustomRegistrar extends AbstractRegistrar {
-    // The only requirement of the Registrar is that it must have this ctor
     public CustomRegistrar(Registrar delegate) {
         super(delegate);
     }
 
-    @RegisterWithSession
-    public void withSessionActions() {
-        // the actaul method name does not matter (see comments)
-
+    public void session() {
         register("shoppingCart", ShoppingCartAction.class);
 
-        // register second and subsequent actions
+        // register second and subsequent controllers or components
     }
 }
 +-----+
 
-    Notice the method level annotation on the method "withSessionActions"? It is the <<@RegisterWithSession>> annotation
-    that links the method to 'session level actions' so be creative with your method names. You can also have as many
-    such methods as you like for the same scope.
-
-    This allows the code to be organized and broken-up into logical chunks.   Order is not important.
+    Notice the method "session"? This links the method to 'session level controllers'.
 
     The CustomRegistrar (or whatever you choose to call it) needs to be referenced in the <web.xml> (yes we can't
     completely get away from XML if we want to play in the J2EE world).
@@ -68,13 +60,13 @@ public class ShoppingCart {
 }
 +-----+
 
-* CheckoutAction.java
+* CheckoutController.java
 
 +-----+
-public class CheckoutAction {
+public class CheckoutController {
     private ShoppingCart shoppingCart;
 
-    public CheckoutAction(ShoppingCart shoppingCart) {
+    public CheckoutController(ShoppingCart shoppingCart) {
         this.shoppingCart = shoppingCart;
     }
 }
@@ -88,19 +80,19 @@ public class CustomRegistrar extends AbstractRegistrar {
         super(delegate);
     }
 
-    @RegisterWithApplication
+    @Override
     public void application() {
         register(Store.class);
     }
 
-    @RegisterWithSession
+    @Override
     public void session() {
         register(ShoppingCart.class);
     }
 
-    @RegisterWithRequest
+    @Override
     public void request() {
-        register("checkout", CheckoutAction.class);
+        register("checkout", CheckoutController.class);
     }
 }
 +-----+
@@ -110,27 +102,26 @@ public class CustomRegistrar extends AbstractRegistrar {
 
         [NOTE:] As with any web application care must be taken to ensure data is stored to the correct context level.
 
-    When an application starts up and the ServletContext is intialized every method within the CustomRegistrar that is
-    annotated with <<@RegisterWithApplication>> are registered to the framework.  When a session is created for a user all
-    methods annotated with <<@RegisterWithSession>> will be registered (that is per user and per session).  When a request
-    is initialized every method annotated with the <<@RegisterWithRequest>> is registered for the life of the request.
+    When an application starts up and the ServletContext is intialized your <CustomRegistrar.application()> method will
+    be invoked.  When a session is created for a user all the <CustomRegistrar.session()> will be invoked (that is per user
+    and per session).  When a request is initialized the <CustomeRegistrar.request()> method will be invoked.
 
-    Application level components only have access to other components registered under "RegisterWithApplication"
-    (siblings).   Session level components can access their siblings ("RegisterWithSession") but also their parent
-    ("RegisterWithApplication").  Request level components can access their siblings ("RegisterWithRequest") but also
-    their parent ("RegisterWithSession") and grandparent ("RegisterWithApplication").  In other words dependency
-    resolution can traverse up the tree heirarchy but NOT down. The table below describes each of the available
-    registration annotations provided by Waffle.
+    Application level components only have access to other components registered in the <<application()>> method.
+    Session level components can access their sibling components and those components registered under <application()>.
+    Request level components can access their siblings component and their parent components (<session()>) and grandparent
+    components (<application()>).  In other words dependency resolution can traverse up the tree heirarchy but NOT down.
+    The table below describes each of the available
+    registration method provided by Waffle's Registrar.
 
-*---------------------------+------------------------------------------------------------------------------------------+
-| <<Annotation>>            | <<Description>>
-*---------------------------+------------------------------------------------------------------------------------------+
-| @RegisterWithApplication  | Methods annotated with this will be invoked upon <<ServletContext initialization>>.  This should be used for those components that need to live for the entire length of the application.
-*---------------------------+------------------------------------------------------------------------------------------+
-| @RegisterWithSession      | Methods annotated with this will be invoked upon <<HttpSession creation>>.  This should be used for those components that need to live for the entire length of a users session.
-*---------------------------+------------------------------------------------------------------------------------------+
-| @RegisterWithRequest      | Methods annotated with this will be invoked upon <<ServletRequest initialization>>.  This should be used for those components that need to live for the entire length of a request
-*---------------------------+------------------------------------------------------------------------------------------+
+*--------------+-------------------------------------------------------------------------------------------------------+
+| <<Method>>   | <<Description>>
+*--------------+-------------------------------------------------------------------------------------------------------+
+| application  | will be invoked upon <<ServletContext initialization>>.  This should be used for those components that need to live for the entire length of the application.
+*--------------+-------------------------------------------------------------------------------------------------------+
+| session      | will be invoked upon <<HttpSession creation>>.  This should be used for those components that need to live for the entire length of a users session.
+*--------------+-------------------------------------------------------------------------------------------------------+
+| request      | will be invoked upon <<ServletRequest initialization>>.  This should be used for those components that need to live for the entire length of a request
+*--------------+-------------------------------------------------------------------------------------------------------+
 
     The diagram below shows a high level view of how the levels are seperated.  As you might expect an application will
     have several concurrent sessions, and a session will more than likely handle several request (maybe not

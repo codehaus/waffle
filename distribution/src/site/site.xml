@@ -43,8 +43,7 @@
             <item name="Component Lifecycles" href="lifecycle.html"/>
             <item name="Ajax Support" href="ajax.html"/>
             <item name="web.xml" href="webxml.html"/>
-            <item name="Application Structure" href="application-structure.html"/>            
-            <item name="FAQ" href="faq.html"/>
+            <item name="Application Structure" href="application-structure.html"/>
         </menu>
 
         <menu name="Examples">

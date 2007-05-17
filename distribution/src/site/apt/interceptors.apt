@@ -8,7 +8,7 @@ MethodInterceptor
     been invoked.  This before and after interception provides AOP type of functionality.
 
     Let's look at a simple example to obtain a clear idea of how this can be leveraged.  Notice that in this example the
-    <<boolean accept(Method)>> will only intercept calls to <AutomobileAction.accelerate(String)> method.  The <<intercept>>
+    <<boolean accept(Method)>> will only intercept calls to <AutomobileController.accelerate(String)> method.  The <<intercept>>
     method below is a trivial example that ensures that the value to be invoke on the event is less than <50>, if not
     that value is replaced with the value <0>.  Finally, the call to <<chain.proceed()>> allows for propogation
     to the next MethodInterceptor, or to actually invoking the <ActionMethod>.  Of course if you did not want the
@@ -21,7 +21,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
 
     public MyMethodInterceptor() {
         try {
-            accelerateMethod = AutomobileAction.class.getMethod("accelerate", Integer.class);
+            accelerateMethod = AutomobileController.class.getMethod("accelerate", Integer.class);
         } catch(Exception e) {
             throw new RuntimeException(e);
         }
@@ -31,7 +31,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
         return accelerateMethod.equals(eventMethod);
     }
 
-    public Object intercept(ActionDefinition actionDefinition,
+    public Object intercept(ControllerDefinition controllerDefinition,
                            Method method,
                            InterceptorChain chain,
                            Object ... arguments)
@@ -43,7 +43,7 @@ public class MyMethodInterceptor implements MethodInterceptor {
             arguments[0] == "0"; // change input to '0'
         }
 
-        return chain.proceed(actionDefinition, method, arguments);
+        return chain.proceed(controllerDefinition, method, arguments);
     }
 }
 +-----+

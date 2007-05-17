@@ -8,13 +8,13 @@ Waffle and Ajax
     Waffle application is straightforward and simple.  The examples here use the
     {{{http://prototype.conio.net/}Prototype JavaScript Framework}}.
 
-* Ajax Action
+* Ajax Controller
 
-    We will create a simple Action with an event (<<int random();>>) that will return a random number between 0 and 10.
+    We will create a simple Controller with an event (<<int random();>>) that will return a random number between 0 and 10.
     To make it more interesting whenever the value equals 5 the event will throw an Exception.
 
 +-----+
-public class FoobarAction implements Serializable {
+public class FoobarController implements Serializable {
     private Random random = new Random();
 
     /**
@@ -38,22 +38,22 @@ public class FoobarAction implements Serializable {
 
         * We import the prototype javascript file to provide the ajax foundation
 
-        * The custom ajax call is <<new Ajax.PeriodicalUpdater("random", "foobar.action?method=random");>>
+        * The custom ajax call is <<new Ajax.PeriodicalUpdater("random", "foobar.waffle?method=random");>>
 
             * The first argument <<"random">> refers to the element id tag in the html (the <\<div\>>)
 
-            * The second argument <<foobar.action?method=random>> represents what will be periodically called to the server.
+            * The second argument <<foobar.waffle?method=random>> represents what will be periodically called to the server.
 
-                * <<foobar.action>> the Action is registered under the key value "<foobar>".
+                * <<foobar.waffle>> the Action is registered under the key value "<foobar>".
 
-                * "method=random" signifies that the "random" ActionMethod method will be called on the Action.
+                * "method=random" signifies that the "random" ActionMethod method will be called on the Controller.
 
 +-----+
 <html>
 <head>
-    <script type="text/javascript" src="scripts/prototype-1.4.0_rc3.js"></script>
+    <script type="text/javascript" src="scripts/prototype-1.5.js"></script>
     <script type="text/javascript">
-        new Ajax.PeriodicalUpdater("random", "foobar.action?method=random");
+        new Ajax.PeriodicalUpdater("random", "foobar.waffle?method=random");
     </script>
 </head>
     <h1>Random value from Server: <div id="random"></div></h1>
@@ -62,8 +62,8 @@ public class FoobarAction implements Serializable {
 
 * Wire it up with the Registrar
 
-    The <FoobarAction> is registered under the name "<foobar>".  Notice that the Action is being registered
-    to the Application level context (via the annotation <<@RegisterWithApplication>>).  
+    The <FoobarController> is registered under the name "<foobar>".  Notice that the Controller is being registered
+    to the Application level context.
 
 +-----+
 public class CustomRegistrar extends AbstractRegistrar {
@@ -71,9 +71,8 @@ public class CustomRegistrar extends AbstractRegistrar {
         super(delegate);
     }
 
-    @RegisterWithApplication
     public void application() {
-        register("foobar", FoobarAction.class);
+        register("foobar", FoobarController.class);
     }
 }
 +-----+
