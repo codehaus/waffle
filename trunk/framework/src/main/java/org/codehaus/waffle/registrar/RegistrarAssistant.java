@@ -14,10 +14,6 @@ import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextLevel;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Manages the Registrar defined in the applications web.xml and executes the method(s) annotated
@@ -26,9 +22,6 @@ import java.util.Set;
  * @author Michael Ward
  */
 public class RegistrarAssistant {
-    private final Set<Method> applicationMethods = new HashSet<Method>();
-    private final Set<Method> sessionMethods = new HashSet<Method>();
-    private final Set<Method> requestMethods = new HashSet<Method>();
     private final Class registrarClass;
     private final Constructor constructor;
 
@@ -36,27 +29,8 @@ public class RegistrarAssistant {
         try {
             this.registrarClass = registrarClass;
             this.constructor = registrarClass.getConstructor(Registrar.class);
-
-            findRegistrationMethods();
         } catch (NoSuchMethodException e) {
             throw new WaffleException(e);
-        }
-    }
-
-    /**
-     * This is only done once
-     */
-    private void findRegistrationMethods() {
-        Method[] methods = registrarClass.getMethods();
-
-        for (Method method : methods) {
-            if (method.isAnnotationPresent(RegisterWithApplication.class)) {
-                applicationMethods.add(method);
-            } else if (method.isAnnotationPresent(RegisterWithSession.class)) {
-                sessionMethods.add(method);
-            } else if (method.isAnnotationPresent(RegisterWithRequest.class)) {
-                requestMethods.add(method);
-            }
         }
     }
 
@@ -65,20 +39,14 @@ public class RegistrarAssistant {
             Registrar registrar = (Registrar) constructor.newInstance(delegateRegistrar);
 
             if (ContextLevel.APPLICATION.equals(contextLevel)) {
-                execute(applicationMethods, registrar);
+                registrar.application();
             } else if (ContextLevel.SESSION.equals(contextLevel)) {
-                execute(sessionMethods, registrar);
+                registrar.session();
             } else if (ContextLevel.REQUEST.equals(contextLevel)) {
-                execute(requestMethods, registrar);
+                registrar.request();
             }
         } catch (Exception e) {
             throw new WaffleException("Unable to use registrar [" + registrarClass + "]", e);
-        }
-    }
-
-    private void execute(Set<Method> methods, Registrar registrar) throws IllegalAccessException, InvocationTargetException {
-        for (Method method : methods) {            
-            method.invoke(registrar);
         }
     }
 

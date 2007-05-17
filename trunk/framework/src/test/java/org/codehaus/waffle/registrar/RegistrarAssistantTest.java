@@ -10,45 +10,16 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar;
 
+import junit.framework.TestCase;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.codehaus.waffle.testmodel.CustomRegistrar;
-import junit.framework.TestCase;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.Hashtable;
-import java.util.Set;
 
 public class RegistrarAssistantTest extends TestCase {
-
-    @SuppressWarnings({"unchecked"})
-    public void testConstructorCachesRegistrationMethods() throws Exception {
-        RegistrarAssistant registrarAssistant = new RegistrarAssistant(CustomRegistrar.class);
-
-        // Application Methods
-        Field field = RegistrarAssistant.class.getDeclaredField("applicationMethods");
-        field.setAccessible(true);
-        Set<Method> methods = (Set<Method>) field.get(registrarAssistant);
-        assertEquals(1, methods.size());
-        assertEquals("application", methods.toArray(new Method[0])[0].getName());
-
-        // Session Methods
-        field = RegistrarAssistant.class.getDeclaredField("sessionMethods");
-        field.setAccessible(true);
-        methods = (Set<Method>) field.get(registrarAssistant);
-        assertEquals(1, methods.size());
-        assertEquals("session", methods.toArray(new Method[0])[0].getName());
-
-        // Request Methods
-        field = RegistrarAssistant.class.getDeclaredField("requestMethods");
-        field.setAccessible(true);
-        methods = (Set<Method>) field.get(registrarAssistant);
-        assertEquals(1, methods.size());
-        assertEquals("request", methods.toArray(new Method[0])[0].getName());
-    }
 
     public void testExecutionSuccessful() {
         DefaultPicoContainer picoContainer = new DefaultPicoContainer();
