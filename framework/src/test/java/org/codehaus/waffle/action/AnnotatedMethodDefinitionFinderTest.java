@@ -1,7 +1,6 @@
 package org.codehaus.waffle.action;
 
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.action.*;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import ognl.DefaultTypeConverter;
 import ognl.TypeConverter;

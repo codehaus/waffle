@@ -30,4 +30,10 @@ public interface Registrar {
 
     void registerNonCaching(Object key, Class clazz, Object... parameters);
 
+    void application();
+
+    void session();
+
+    void request();
+    
 }

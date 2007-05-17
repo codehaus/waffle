@@ -171,6 +171,10 @@
       <attribute name="URI" value="/WEB-INF/lib/standard-1.1.2.jar" />
       <url>jar://$M2_REPOSITORY$/taglibs/standard/1.1.2/standard-1.1.2.jar!/</url>
     </containerElement>
+    <containerElement type="library" name="Groovy from GroovyJ 0.1.8 (Demetra)" level="application">
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="/WEB-INF/lib" />
+    </containerElement>
     <containerElement type="library" name="picocontainer" level="module">
       <attribute name="method" value="0" />
       <attribute name="URI" value="&lt;N/A&gt;" />

@@ -1,8 +1,6 @@
 package org.codehaus.waffle.example.paranamer;
 
 import org.codehaus.waffle.registrar.AbstractRegistrar;
-import org.codehaus.waffle.registrar.RegisterWithApplication;
-import org.codehaus.waffle.registrar.RegisterWithSession;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.example.paranamer.action.CalculatorController;
 import org.codehaus.waffle.example.paranamer.action.HelloWorldController;
@@ -15,14 +13,14 @@ public class MyRegistrar extends AbstractRegistrar {
         super(delegate);
     }
 
-    @RegisterWithApplication
+    @Override
     public void application() {
         register(SimplePersonDAO.class);
         register("helloworld", HelloWorldController.class);
         register("ajaxexample", AjaxExample.class);
     }
 
-    @RegisterWithSession
+    @Override
     public void session() {
         register("calculator", CalculatorController.class);
         register("people/person", PersonController.class);

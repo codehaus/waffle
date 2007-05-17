@@ -11,9 +11,6 @@
 package org.codehaus.waffle.testmodel;
 
 import org.codehaus.waffle.registrar.AbstractRegistrar;
-import org.codehaus.waffle.registrar.RegisterWithApplication;
-import org.codehaus.waffle.registrar.RegisterWithRequest;
-import org.codehaus.waffle.registrar.RegisterWithSession;
 import org.codehaus.waffle.registrar.Registrar;
 
 public class CustomRegistrar extends AbstractRegistrar {
@@ -21,17 +18,17 @@ public class CustomRegistrar extends AbstractRegistrar {
         super(delegate);
     }
 
-    @RegisterWithApplication
+    @Override
     public void application() {
         register("application", ApplicationLevelComponent.class);
     }
 
-    @RegisterWithSession
+    @Override
     public void session() {
         register("session", SessionLevelComponent.class);
     }
 
-    @RegisterWithRequest
+    @Override
     public void request() {
         register("request", RequestLevelComponent.class);
         register("FakeController", FakeController.class);

@@ -79,4 +79,15 @@ public class PicoRegistrar implements Registrar {
         return null;
     }
 
+    public void application() {
+        // does nothing!
+    }
+
+    public void session() {
+        // does nothing!
+    }
+
+    public void request() {
+        // does nothing!
+    }
 }

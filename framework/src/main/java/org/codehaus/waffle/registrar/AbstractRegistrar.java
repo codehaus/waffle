@@ -16,7 +16,7 @@ package org.codehaus.waffle.registrar;
  *
  * @author Michael Ward
  */
-public class AbstractRegistrar implements Registrar {
+public abstract class AbstractRegistrar implements Registrar {
     private final Registrar delegate;
 
     public AbstractRegistrar(Registrar delegate) {
@@ -45,5 +45,17 @@ public class AbstractRegistrar implements Registrar {
 
     public void registerNonCaching(Object key, Class clazz, Object... parameters) {
         delegate.registerNonCaching(key, clazz, parameters);
+    }
+
+    public void application() {
+        // does nothing by default
+    }
+
+    public void session() {
+        // does nothing by default
+    }
+
+    public void request() {
+        // does nothing by default
     }
 }
