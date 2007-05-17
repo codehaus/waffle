@@ -14,7 +14,7 @@ So why another new web framework?
 
     * No singletons
 
-    * No mandatory dependency on XML
+    * No mandatory dependency on XML (and NOT annotation heavy)
 
     * Java 5 and above
 

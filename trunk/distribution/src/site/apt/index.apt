@@ -21,14 +21,14 @@ Waffle Web Framework
 
     Application built upon Waffle only need to be aware of three things:
 
-    [[1]] <<Actions>> - an action in Waffle does <<not>> need to extend or implement any specific class or
-    interface because <<an action is simply a plain old Java object (Pojo)>>.
+    [[1]] <<Controllers>> - an controller in Waffle does <<not>> need to extend or implement any specific class or
+    interface because <<a controller is simply a plain old Java object (Pojo)>>.
 
-    [[1]] <<ActionMethod>> - in Waffle <<an ActionMethod is simply a method defined in your Action class>>.  Any method can
+    [[1]] <<ActionMethod>> - in Waffle <<an ActionMethod is simply a method defined in your Controller class>>.  Any method can
     be used regardless of its signature or return type.  Waffle will react differently depending on what is returned from
     the ActionMethod so take a look at this section for further details.
 
-    [[1]] <<Registrar>> - the Registrar is where you go to register the <Actions>, and other common
+    [[1]] <<Registrar>> - the Registrar is where you go to register the <Controllers>, and other common
     components, your application is dependent on.  Typically most web frameworks require your applications to create
     special XML file(s) for this, but <<with Waffle you'll spend less time playing with XML and more time building business
     value.>>

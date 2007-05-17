@@ -10,9 +10,9 @@ Views
 
 * Java Server Pages
 
-    Using Java Server Pages in Waffle is as easy as it is with other frameworks.  You'll be able to reference the Action
-    that is asscoaiated with the view by the <<action>> keyword.  In the jspx example below the <<getName()>> method will
-    be invoked from the Action:
+    Using Java Server Pages in Waffle is as easy as it is with other frameworks.  You'll be able to reference the Controller
+    that is asscoaiated with the view by the <<controller>> keyword.  In the jspx example below the <<getName()>> method will
+    be invoked from the Controller:
 
 +-----+
 <?xml version="1.0" encoding="UTF-8"?>
@@ -27,7 +27,7 @@ Views
 </head>
 
 <body>
-    Waffle says: ${action.greeting}
+    Waffle says: ${controller.greeting}
 </body>
 
 </html>
@@ -113,6 +113,3 @@ Views
     <load-on-startup>2</load-on-startup>
 </servlet>
 +-----+
-
-
-

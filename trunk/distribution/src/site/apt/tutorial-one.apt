@@ -3,15 +3,15 @@ Tutorial: Part One
     This tutorial is available to give a quick glimpse of how to use Waffle.  It touches on each of the main components
     that make up Waffle.
 
-* Action
+* Controller
 
-    The term <<Action>> is probably familiar to those who have worked with other web frameworks.  An Action in Waffle
-    can be any java object (i.e. Pojo).  However, in order for a Pojo to be considered an Action in Waffle it needs to
+    The term <<Controller>> is probably familiar to those who have worked with other web frameworks.  An Controller in Waffle
+    can be any java object (i.e. Pojo).  However, in order for a Pojo to be considered an Controller in Waffle it needs to
     be registered with the <<Registrar>>.  The Registrar is a simple class that your application must implement.  The
-    Registrar provides a few methods that allows you to register your pojo's as Actions.  For complete details on the
+    Registrar provides a few methods that allows you to register your pojo's as Controllers.  For complete details on the
     Registrar have a look at the {{{registrar.html}Registrar}} section.
 
-    Now we will write a very simple class to use as an Action.  The class below is really nothing more than a simple
+    Now we will write a very simple class to use as an Controller.  The class below is really nothing more than a simple
     bean type of object.
 
 +-----+
@@ -39,11 +39,11 @@ public class Automobile implements Serializable {
 
 * Registrar
 
-    As stated earlier, an Action is not an Action in Waffle until it has been registered with the Registrar.  So
+    As stated earlier, a Controller is not an Controller in Waffle until it has been registered with the Registrar.  So
     now we will create a simple Registrar class and register the <<Automobile>> class with it.   The MyRegistrar
     class below defines the method "<<session>>" and within that method it calls
-    <<register("automobile", Automobile.class);>>, which registers our Automobile class as an action under the
-    name "automobile".  Registration is not limited to actions because any component, service, factory, etc... can be
+    <<register("automobile", Automobile.class);>>, which registers our Automobile class as an Controller under the
+    name "automobile".  Registration is not limited to Controllers because any component, service, factory, etc... can be
     registered.  Detailed examples of this will be discussed later.
 
 
@@ -54,28 +54,11 @@ public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar
         super(delegate);
     }
 
-    @RegisterWithSession
     public void session() {
         register("automobile", Automobile.class);
     }
 }
 +-----+
-
-    Notice the annotation <<@RegisterWithSession>> that has been added above the <session()> method.  You can annotate
-    as many methods as necessary within your custom Registrar, the actual method name is not significant- any name will
-    work.  This allows your Registrar to logically seperate the registration of components and Actions.  Waffle actually
-    provides three registration annotations.  The table below describes each of the available registration annotations
-    provided by Waffle.
-
-*---------------------------+------------------------------------------------------------------------------------------+
-| <<Annotation>>            | <<Description>>
-*---------------------------+------------------------------------------------------------------------------------------+
-| @RegisterWithApplication  | Methods annotated with this will be invoked upon <<ServletContext initialization>>.  This should be used for those components that need to live for the entire length of the application.
-*---------------------------+------------------------------------------------------------------------------------------+
-| @RegisterWithSession      | Methods annotated with this will be invoked upon <<HttpSession creation>>.  This should be used for those components that need to live for the entire length of a users session.
-*---------------------------+------------------------------------------------------------------------------------------+
-| @RegisterWithRequest      | Methods annotated with this will be invoked upon <<ServletRequest initialization>>.  This should be used for those components that need to live for the entire length of a request
-*---------------------------+------------------------------------------------------------------------------------------+
 
 
 * web.xml
@@ -122,7 +105,7 @@ public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar
     </filter>
     <filter-mapping>
         <filter-name>WaffleRequestFilter</filter-name>
-        <url-pattern>*.waf</url-pattern>
+        <url-pattern>*.waffle</url-pattern>
     </filter-mapping>
 
     <!-- 4. Register Waffle's FrontController servlet -->
@@ -138,15 +121,15 @@ public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar
 
     <servlet-mapping>
         <servlet-name>waffle</servlet-name>
-        <url-pattern>*.action</url-pattern>
+        <url-pattern>*.Controller</url-pattern>
     </servlet-mapping>
 </web-app>
 +-----+
 
 * View
 
-    We will create a very simple view to display the content of the action.  The following example uses a JSP and
-    simply displays the values of the action.
+    We will create a very simple view to display the content of the Controller.  The following example uses a JSP and
+    simply displays the values of the Controller.
 
 ** automobile.jsp
 
@@ -155,18 +138,18 @@ public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <html>
-<form action="automobile.action">
+<form action="automobile.waffle">
     <table>
         <tr>
             <td>Make: </td>
             <td>
-                <input type="text" value="<c:out value='${action.make}'/>" name="make"/>
+                <input type="text" value="<c:out value='${controller.make}'/>" name="make"/>
             </td>
         </tr>
         <tr>
             <td>Model: </td>
             <td>
-                <input type="text" value="<c:out value='${action.model}'/>" name="model"/>
+                <input type="text" value="<c:out value='${controller.model}'/>" name="model"/>
             </td>
         </tr>
     </table>
@@ -186,16 +169,16 @@ public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar
            +--- Automobile.class
            +--- MyRegistrar.class
        +--- lib/
-           +--- jstl-1.1.2.jar
-           +--- standard-1.1.2.jar
-           +--- ognl-2.6.7.jar
-           +--- picocontainer-1.2.jar
-           +--- waffle-0.6-xxx.jar
+           +--- jstl.jar
+           +--- standard.jar
+           +--- ognl.jar
+           +--- picocontainer.jar
+           +--- waffle-1.x.jar
        +--- web.xml
    +--- automobile.jsp
 +-----+
 
-    [NOTE] The jars <<jstl-1.1.2.jar>> and <<standard-1.1.2.jar>> are only required because this tutorial demonstrates
+    [NOTE] The jars <<jstl.jar>> and <<standard.jar>> are only required because this tutorial demonstrates
     the use of JSP's.  If you plan on using {{{http://freemarker.sourceforge.net/}FreeMarker}} or
     {{{http://jakarta.apache.org/velocity/index.html}Velocity }} you'll need to include the jar files that each of
     those projects may require.
@@ -203,16 +186,16 @@ public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar
 * Running the application
 
     Now the application can be deployed to a Servlet container (e.g., Tomcat, Jetty).  So when we run the application
-    and direct the browser to <<http://localhost:8080/hello/automobile.action>> we see the following:
+    and direct the browser to <<http://localhost:8080/hello/automobile.waffle>> we see the following:
 
 [images/browser-1.png]
 
-    When Waffle's front controller, WaffleServlet, handled this request it first located the "automobile" action, which
+    When Waffle's front controller, WaffleServlet, handled this request it first located the "automobile" Controller, which
     we registered earlier to the session.
 
-    We can also exercise the ability to bind values from the request directly onto the action.  If we append the
+    We can also exercise the ability to bind values from the request directly onto the Controller.  If we append the
     value "<<?model=ranger>>" to the original url we will now have:
-    <<http://localhost:8080/hello/automobile.action?model=ranger>>. Notice that the url and the value of the Model field
+    <<http://localhost:8080/hello/automobile.waffle?model=ranger>>. Notice that the url and the value of the Model field
     has been updated.
 
 [images/browser-2.png]
@@ -220,5 +203,5 @@ public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar
 * More to see
 
     This has only been an introduction to Waffle and it provides a good starting point to understanding how it works.
-    Continue on to {{{tutorial-two.html}Tutorial: Part two}} to see how <<ActionMethods>> can be dynamically invoked on
-    an Actions.
+    Continue on to {{{tutorial-two.html}Tutorial: Part two}} to see how <<ControllerMethods>> can be dynamically invoked on
+    Controllers.

@@ -13,9 +13,9 @@ Action Controllers
 </form>
 +-----+
 
-	A consolidated pattern for web frameworks is the {{{http://en.wikipedia.org/wiki/Model-view-controller}MVC}}- where the action is the controller tier.
-	Hence, often action and controller are used interchangeably.
-	
+    A consolidated pattern for web frameworks is the {{{http://en.wikipedia.org/wiki/Model-view-controller}MVC}}- where
+    the action is the controller tier.  Hence, often action and controller are used interchangeably.
+
     Other MVC-based web framework require that your action objects extend or implement a base action class specific
     to that framework.  Typically the action would have an <execute()> or <perform()> method that handles the
     end users request and send a response accordingly.  Waffle, however is different than these other frameworks. An
@@ -24,10 +24,10 @@ Action Controllers
     are considered <<ActionMethod>>s.
 
 +-----+
-public class ShoppingCartAction implements Serializable {
+public class ShoppingCartController implements Serializable {
     private final Cart cart;
 
-    public ShoppingCartAction(Cart cart) {
+    public ShoppingCartController(Cart cart) {
         this.cart = cart;
     }
 
@@ -44,14 +44,14 @@ public class ShoppingCartAction implements Serializable {
 +-----+
 
     Action Controllers and ActionMethods can be dependent on an HttpServletRequest, HttpServletResponse, HttpSession
-    or ServletContext.  In practice most Actions you'll create will be dependent on custom Factories, Services, DAO's,
+    or ServletContext.  In practice most Controllers you'll create will be dependent on custom Factories, Services, DAO's,
     etc.  But if you have a need for these base Servlet classes it is nice to know that you can get access to them.
 
-    Digging deeper into how an Action works we will continue with the ShoppingCartAction class and add an accessor for
+    Digging deeper into how an Controller works we will continue with the ShoppingCartController class and add an accessor for
     a <coupon> field:
 
 +-----+
-public class ShoppingCartAction implements Serializable {
+public class ShoppingCartController implements Serializable {
     private String coupon;
     ...
 
@@ -65,14 +65,14 @@ public class ShoppingCartAction implements Serializable {
 }
 +-----+
 
-    Now lets assume that the ShoppingCartAction is requested with the following request string:
+    Now lets assume that the ShoppingCartController is requested with the following request string:
 
-    <<http://localhost:8080/waffle/shoppingCart.action?coupon=freebee>>
+    <<http://localhost:8080/waffle/shoppingCart.waffle?coupon=freebee>>
 
-    When Waffle's FrontController, <WaffleServlet>, handles this request it will first locate the appropriate action by
-    name "<<shoppingCart>>".  Then Waffle will attempt to bind each parameter passed as a value to be set on the Action.
-    So "<<coupon=freebee>>" will set the field "<coupon>" on the action to the value of "<freebee>".  (Don't worry
-    parameters that do not correspond to properties on an Action will <<NOT>> cause a failure).
+    When Waffle's FrontController, <WaffleServlet>, handles this request it will first locate the appropriate controller by
+    name "<<shoppingCart>>".  Then Waffle will attempt to bind each parameter passed as a value to be set on the Controller.
+    So "<<coupon=freebee>>" will set the field "<coupon>" on the controller to the value of "<freebee>".  (Don't worry
+    parameters that do not correspond to properties on an Controller will <<NOT>> cause a failure).
 
-    Lastly, action classes do not have to end in the word 'Action'.  'ShoppingCart' or 'Cart' are as good as
-    'ShoppingCartAction' for Waffle.   
+    Lastly, controller classes do not have to end in the word 'Controller'.  'ShoppingCart' or 'Cart' are as good as
+    'ShoppingCartController' for Waffle.

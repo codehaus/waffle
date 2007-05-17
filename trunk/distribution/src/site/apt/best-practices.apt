@@ -4,7 +4,7 @@
 
 Best Practices
 
-    * It is best to register Components and Actions as high up the Context tree as possible (i.e. Application prefered
+    * It is best to register Components and Controllers as high up the Context tree as possible (i.e. Application prefered
     over Session; Session prefered over Request). This will reduce the number of Objects that need to be created and
     reduce introspection on classes.
 

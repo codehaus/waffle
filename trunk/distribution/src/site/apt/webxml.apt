@@ -37,7 +37,7 @@ web.xml
     </filter>
     <filter-mapping>
         <filter-name>WaffleRequestFilter</filter-name>
-        <url-pattern>*.action</url-pattern>
+        <url-pattern>*.waffle</url-pattern>
     </filter-mapping>
 
     <!-- 4. Register Waffle's FrontController servlet -->
@@ -52,7 +52,7 @@ web.xml
     </servlet>
     <servlet-mapping>
         <servlet-name>waffle</servlet-name>
-        <url-pattern>*.action</url-pattern>
+        <url-pattern>*.waffle</url-pattern>
     </servlet-mapping>
 </web-app>
 +------+

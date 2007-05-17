@@ -23,6 +23,6 @@ public class MyStartable implements org.codehaus.waffle.Startable {
 }
 +-----+
 
-    Startable components are registered in the same way as any other component or Action within Waffle.  And of course
+    Startable components are registered in the same way as any other component or Controllers within Waffle.  And of course
     they will also support Dependency Injection, otherwise your Startable components would be no more useful than the
     example above.

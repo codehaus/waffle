@@ -4,16 +4,16 @@
 
 Action Methods
 
-    Waffle provides an easy way to invoke an <<Action>>'s <<ActionMethod>>.  In short the value of the <<method>> request
-    parameter is used as the name of the <ActionMethod> to fire on the <Action>.  ActionMethod's can be thought of as a
-    way to execute Remote Procedure Calls (RPC) onto your Actions.   The ShoppingCartAction code below has two
+    Waffle provides an easy way to invoke an <<Controller>>'s <<ActionMethod>>.  In short the value of the <<method>> request
+    parameter is used as the name of the <ActionMethod> to fire on the <Controller>.  ActionMethod's can be thought of as a
+    way to execute Remote Procedure Calls (RPC) onto your Controller.   The ShoppingCartController code below has two
     ActionMethods (<<addToCart(long, int)>> and <<removeFromCart(long, int)>>):
 
 +-----+
-public class ShoppingCartAction implements Serializable {
+public class ShoppingCartController implements Serializable {
     private final Cart cart;
 
-    public ShoppingCartAction(Cart cart) {
+    public ShoppingCartController(Cart cart) {
         this.cart = cart;
     }
 
@@ -39,12 +39,12 @@ public class ShoppingCartAction implements Serializable {
 
     And it does not stop there!  Waffle allows you to directly reference parameters and attributes by name, in either the
     <<HttpServletRequest>> (parameter or attribute), <<HttpSession>> or <<ServletContext>>.  So imagine we want to call
-    the <<addToCart(long, int)>> ActionMethod in the ShoppingCartAction class above.  We could pass the values directly
+    the <<addToCart(long, int)>> ActionMethod in the ShoppingCartController class above.  We could pass the values directly
     or let Waffle try and resolve them by name.  Take a look at html snippet below, it demonstrates 3 simple ways to
     pragmatically invoke the same ActionMethod:
 
 +-----+
-<a href="shoppingCart.action?method=addToCart|54|{quantity}">Buy football</a>
+<a href="shoppingCart.waffle?method=addToCart|54|{quantity}">Buy football</a>
 
 <input type="button" value="Buy football" onclick="fireMethod('addToCart|54|{quantity}');"/>
 
@@ -97,10 +97,10 @@ function createElementSubmitForm(form, methodName) {
     methods 2 arguments.
 
 +-----+
-public class ShoppingCartAction implements Serializable {
+public class ShoppingCartController implements Serializable {
     private final Cart cart;
 
-    public ShoppingCartAction(Cart cart) {
+    public ShoppingCartController(Cart cart) {
         this.cart = cart;
     }
 
@@ -142,7 +142,7 @@ public class ShoppingCartAction implements Serializable {
     <void removeFromCart(Long, int)> ActionMethod.
 
 +-----+
-public class ShoppingCartAction implements Serializable {
+public class ShoppingCartController implements Serializable {
     ...
 
     // No annotation is necessary when utilizing ParaNamer
@@ -163,24 +163,24 @@ public class ShoppingCartAction implements Serializable {
 </context-param>
 +-----+
 
-        [Note:] A Pragma-driven ActionMethod request (<shoppingCart.action?method=removeFromCart|54|\{quantity\}>) will
+        [Note:] A Pragma-driven ActionMethod request (<shoppingCart.waffle?method=removeFromCart|54|\{quantity\}>) will
         override parameter name mode, if utilized for an invocation.
 
 * The DefaultActionMethod annotation
 
     Many time when a user first visits a page you may want to ensure that the action instance is properly initialized.
-    In other words you may want a default ActionMethod to be triggered on that Action when no other ActionMethod has
+    In other words you may want a default ActionMethod to be triggered on that Controller when no other ActionMethod has
     been triggered. For that Waffle provides the <<DefaultActionMethod>> annotation.  In the example below we have
-    a <CheckoutAction> that will calculate the shipping cost by default when no other ActionMethod has been triggered.
+    a <CheckoutController> that will calculate the shipping cost by default when no other ActionMethod has been triggered.
     The method that has been annotated with <<@DefaultActionMethod(parameters = {"theCart", "customerAddress"})>>.
     These two values,  <<theCart>> and <<customerAddress>>, will be used to resolve that methods arguments.
 
 +-----+
-public class CheckoutAction implements Serializable {
+public class CheckoutController implements Serializable {
     private final ShippingCalculator shippingCalculator;
     private Money shippingCost = null;
 
-    public CheckoutAction(ShippingCalculator shippingCalculator) {
+    public CheckoutController(ShippingCalculator shippingCalculator) {
         this.shippingCalculator = shippingCalculator;
     }
 
@@ -225,9 +225,9 @@ public class CheckoutAction implements Serializable {
 
 * Caveat: Ambiguous methods
 
-    Waffle determines which ActionMethod to invoke by examining the Action with reflection.  If your Action contains an
+    Waffle determines which ActionMethod to invoke by examining the Controller with reflection.  If your Controller contains an
     overloaded method (same name and same number of arguments) Waffle may not be able to determine which ActionMethod should be
-    fired. For example assume you have the following two methods defined in an Action:
+    fired. For example assume you have the following two methods defined in an Controller:
 
 +-----+
 public void save(String name, Object object);

@@ -14,16 +14,16 @@ Application structure (WAR File)
    +--- WEB-INF/
        +--- classes/
        +--- lib/
-           +--- jstl-1.1.2.jar
-           +--- standard-1.1.2.jar
-           +--- ognl-2.6.7.jar
-           +--- picocontainer-1.2.jar
+           +--- jstl.jar
+           +--- standard.jar
+           +--- ognl.jar
+           +--- picocontainer.jar
            +--- waffle-1.x.jar
        +--- web.xml
    +--- index.jspx
 +-----+
 
-    [NOTE] The jars <<jstl-1.1.2.jar>> and <<standard-1.1.2.jar>> are only required with the use of JSP's.
+    [NOTE] The jars <<jstl.jar>> and <<standard.jar>> are only required with the use of JSP's.
 
 
     If you plan on using {{{http://freemarker.sourceforge.net/}FreeMarker}}:
@@ -32,9 +32,9 @@ Application structure (WAR File)
    +--- WEB-INF/
        +--- classes/
        +--- lib/
-           +--- freemarker-2.3.8.jar
-           +--- ognl-2.6.7.jar
-           +--- picocontainer-1.2.jar
+           +--- freemarker.jar
+           +--- ognl.jar
+           +--- picocontainer.jar
            +--- waffle-1.x.jar
        +--- web.xml
    +--- index.ftl
