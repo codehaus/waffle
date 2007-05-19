@@ -15,10 +15,7 @@
   <modules>
     <module>skin</module>
     <module>framework</module>
-    <!--<module>extensions/webcontainer</module>-->
-    <module>examples/simple-example</module>
-    <module>examples/freemarker-example</module>
-    <!--<module>examples/paranamer-example</module>-->
+    <module>extensions/webcontainer</module>
   </modules>
 
   <dependencyManagement>
