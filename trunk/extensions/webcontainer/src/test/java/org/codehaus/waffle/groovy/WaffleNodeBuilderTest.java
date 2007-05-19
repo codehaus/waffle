@@ -36,6 +36,10 @@ public class WaffleNodeBuilderTest extends TestCase {
         }
     }
 
+    public void testNothing(){
+        
+    }
+    
     public void FIXME_testCanComposeWebContainerWithCompleteWaffleApp() throws InterruptedException, IOException {
         Reader script = new StringReader("" +
                 "" +
