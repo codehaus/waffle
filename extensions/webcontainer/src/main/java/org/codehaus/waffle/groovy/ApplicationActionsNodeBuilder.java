@@ -9,29 +9,24 @@
  *****************************************************************************/
 package org.codehaus.waffle.groovy;
 
-import org.nanocontainer.webcontainer.PicoContextHandler;
-import org.picocontainer.PicoContainer;
-import groovy.util.NodeBuilder;
-
 import java.util.Map;
 
-public class ApplicationActionsNodeBuilder extends NodeBuilder {
-    private final PicoContainer parentContainer;
-    private final PicoContextHandler context;
+import org.nanocontainer.webcontainer.PicoContextHandler;
+import org.picocontainer.PicoContainer;
+
+public class ApplicationActionsNodeBuilder extends ActionsNodeBuilder {
 
     public ApplicationActionsNodeBuilder(PicoContainer parentContainer, PicoContextHandler context) {
-        this.parentContainer = parentContainer;
-        this.context = context;
+        super(parentContainer, context);
     }
-
 
     protected Object createNode(Object name, Map attributes) {
         if (name.equals("register")) {
-            Object clazz = attributes.remove("class"); // could be string or Class
-            // register application
+            registerAction(attributes);
             return null; // err something really
         } else {
             return null;
         }
     }
+
 }
