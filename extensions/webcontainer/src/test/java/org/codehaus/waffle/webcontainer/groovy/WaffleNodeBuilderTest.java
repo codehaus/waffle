@@ -7,7 +7,7 @@
  * the LICENSE.txt file.                                                     *
  *                                                                           *
  *****************************************************************************/
-package org.codehaus.waffle.groovy;
+package org.codehaus.waffle.webcontainer.groovy;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -45,8 +45,8 @@ public class WaffleNodeBuilderTest extends TestCase {
                 "nano = builder.container {\n" +
                 "    webContainer(port:8080) {\n" +
                 "        context(path:'/bar') {\n" +
-                "            adapter(nodeBuilder:'org.codehaus.waffle.groovy.WaffleNodeBuilder', viewSuffix:'.jspx') {" +
-                "               actionRegistrar(class:org.codehaus.waffle.groovy.FooRegistrar)\n" +
+                "            adapter(nodeBuilder:'org.codehaus.waffle.webcontainer.groovy.WaffleNodeBuilder', viewSuffix:'.jspx') {" +
+                "               actionRegistrar(class:org.codehaus.waffle.webcontainer.groovy.FooRegistrar)\n" +
                 "               requestFilter(filter:'*.foo')\n" +
                 "            }\n" +
                 "        }\n" +
@@ -59,16 +59,16 @@ public class WaffleNodeBuilderTest extends TestCase {
     public void FIXME_testCanComposeWholeWaffleIncludingComposedActions() throws InterruptedException, IOException {
         Reader script = new StringReader(
                 "nano = builder.container {\n" +
-                "    component(class:org.codehaus.waffle.groovy.FooRegistrar)\n" +
+                "    component(class:org.codehaus.waffle.webcontainer.groovy.FooRegistrar)\n" +
                 "    webContainer(port:8080) {\n" +
                 "        context(path:'/bar') {\n" +
-                "            adapter(nodeBuilder:'org.codehaus.waffle.groovy.WaffleNodeBuilder', viewSuffix:'.jspx') {\n" +
+                "            adapter(nodeBuilder:'org.codehaus.waffle.webcontainer.groovy.WaffleNodeBuilder', viewSuffix:'.jspx') {\n" +
                 "                registerActions {\n" +
                 "                    application {\n" +
-                "                       register(class:org.codehaus.waffle.groovy.FooApplicationAction)\n" +
+                "                       register(class:org.codehaus.waffle.webcontainer.groovy.FooApplicationAction)\n" +
                 "                    }\n" +
 //                "                    session {\n" +
-//                "                       register(action:'sessionAction', class:org.codehaus.waffle.groovy.FooSessionAction)\n" +
+//                "                       register(action:'sessionAction', class:org.codehaus.waffle.webcontainer.groovy.FooSessionAction)\n" +
 //                "                    }\n" +
                 "                }\n" +
                 "                requestFilter(filter:'*.htm')\n" +
