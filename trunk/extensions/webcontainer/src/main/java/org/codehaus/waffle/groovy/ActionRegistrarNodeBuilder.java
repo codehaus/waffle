@@ -13,7 +13,7 @@ import groovy.util.NodeBuilder;
 import java.util.Map;
 
 import org.codehaus.waffle.registrar.Registrar;
-import org.nanocontainer.webcontainer.PicoContextHandler;
+import org.nanocontainer.webcontainer.PicoContext;
 import org.picocontainer.PicoContainer;
 
 public class ActionRegistrarNodeBuilder extends NodeBuilder {
@@ -21,9 +21,9 @@ public class ActionRegistrarNodeBuilder extends NodeBuilder {
     private static final String EMPTY_NODE = "";
     private final PicoContainer parentContainer;
     private Object registrarClass;
-    private final PicoContextHandler context;
+    private final PicoContext context;
 
-    public ActionRegistrarNodeBuilder(PicoContainer parentContainer, Object registrarClass, PicoContextHandler context) {
+    public ActionRegistrarNodeBuilder(PicoContainer parentContainer, Object registrarClass, PicoContext context) {
         this.parentContainer = parentContainer;
         this.registrarClass = registrarClass;
         this.context = context;

@@ -11,12 +11,12 @@ package org.codehaus.waffle.groovy;
 
 import java.util.Map;
 
-import org.nanocontainer.webcontainer.PicoContextHandler;
+import org.nanocontainer.webcontainer.PicoContext;
 import org.picocontainer.PicoContainer;
 
 public class ApplicationActionsNodeBuilder extends ActionsNodeBuilder {
 
-    public ApplicationActionsNodeBuilder(PicoContainer parentContainer, PicoContextHandler context) {
+    public ApplicationActionsNodeBuilder(PicoContainer parentContainer, PicoContext context) {
         super(parentContainer, context);
     }
 

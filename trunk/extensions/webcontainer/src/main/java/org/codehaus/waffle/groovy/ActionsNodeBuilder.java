@@ -16,21 +16,21 @@ import groovy.util.NodeBuilder;
 import org.codehaus.waffle.registrar.Registrar;
 import org.nanocontainer.DefaultNanoContainer;
 import org.nanocontainer.NanoContainer;
-import org.nanocontainer.webcontainer.PicoContextHandler;
+import org.nanocontainer.webcontainer.PicoContext;
 import org.picocontainer.PicoContainer;
 
 public class ActionsNodeBuilder extends NodeBuilder {
     protected final PicoContainer parentContainer;
-    protected final PicoContextHandler context;
+    protected final PicoContext context;
 
-    protected ActionsNodeBuilder(PicoContainer parentContainer, PicoContextHandler context) {
+    protected ActionsNodeBuilder(PicoContainer parentContainer, PicoContext context) {
         this.parentContainer = parentContainer;
         this.context = context;
     }
 
     protected Object buildInstance(String actionClassName) {
         NanoContainer factory = new DefaultNanoContainer();
-        factory.getPico().registerComponentInstance(PicoContextHandler.class, context);
+        factory.getPico().registerComponentInstance(PicoContext.class, context);
         factory.getPico().registerComponentInstance(PicoContainer.class, parentContainer);
         try {
             factory.registerComponentImplementation("action", actionClassName);

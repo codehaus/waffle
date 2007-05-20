@@ -9,16 +9,16 @@
  *****************************************************************************/
 package org.codehaus.waffle.groovy;
 
-import org.nanocontainer.webcontainer.PicoContextHandler;
+import org.nanocontainer.webcontainer.PicoContext;
 import org.picocontainer.PicoContainer;
 
 import java.util.Map;
 
 public class RegisterActionsNodeBuilder extends Object {
     private final PicoContainer parentContainer;
-    private final PicoContextHandler context;
+    private final PicoContext context;
 
-    public RegisterActionsNodeBuilder(PicoContainer parentContainer, PicoContextHandler context) {
+    public RegisterActionsNodeBuilder(PicoContainer parentContainer, PicoContext context) {
         this.parentContainer = parentContainer;
         this.context = context;
     }
@@ -33,7 +33,5 @@ public class RegisterActionsNodeBuilder extends Object {
         }
         return null;
     }
-
-
 
 }

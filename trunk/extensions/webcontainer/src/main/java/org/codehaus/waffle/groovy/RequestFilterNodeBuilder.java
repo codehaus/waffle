@@ -12,13 +12,13 @@ package org.codehaus.waffle.groovy;
 
 import org.codehaus.waffle.context.WaffleRequestFilter;
 import groovy.util.NodeBuilder;
-import org.nanocontainer.webcontainer.PicoContextHandler;
+import org.nanocontainer.webcontainer.PicoContext;
 
 import java.util.Map;
 
 public class RequestFilterNodeBuilder extends NodeBuilder {
 
-    public RequestFilterNodeBuilder(PicoContextHandler context, String pathMapping) {
+    public RequestFilterNodeBuilder(PicoContext context, String pathMapping) {
         context.addFilterWithMapping(new WaffleRequestFilter(), pathMapping, 0);
     }
 

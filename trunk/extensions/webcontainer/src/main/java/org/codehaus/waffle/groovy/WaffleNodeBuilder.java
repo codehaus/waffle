@@ -17,15 +17,15 @@ import java.util.Map;
 import org.codehaus.waffle.context.pico.PicoWaffleContextListener;
 import org.codehaus.waffle.servlet.WaffleServlet;
 import org.nanocontainer.script.NanoContainerMarkupException;
-import org.nanocontainer.webcontainer.PicoContextHandler;
+import org.nanocontainer.webcontainer.PicoContext;
 import org.nanocontainer.webcontainer.PicoServletHolder;
 import org.picocontainer.PicoContainer;
 
 public class WaffleNodeBuilder extends NodeBuilder {
     private final PicoContainer parentContainer;
-    private final PicoContextHandler context;
+    private final PicoContext context;
     
-    public WaffleNodeBuilder(PicoContainer parentContainer, PicoContextHandler context, Map attributes) {
+    public WaffleNodeBuilder(PicoContainer parentContainer, PicoContext context, Map attributes) {
         this.parentContainer = parentContainer;
         this.context = context;
 
