@@ -14,7 +14,7 @@
 
   <modules>
     <module>skin</module>
-    <module>framework</module>
+    <module>core</module>
     <module>extensions/webcontainer</module>
   </modules>
 
