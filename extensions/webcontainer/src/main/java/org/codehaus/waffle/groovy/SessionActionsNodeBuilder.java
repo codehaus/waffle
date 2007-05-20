@@ -10,14 +10,14 @@
 package org.codehaus.waffle.groovy;
 
 import groovy.util.NodeBuilder;
-import org.nanocontainer.webcontainer.PicoContextHandler;
+import org.nanocontainer.webcontainer.PicoContext;
 
 import java.util.Map;
 
 public class SessionActionsNodeBuilder extends NodeBuilder {
-    private final PicoContextHandler context;
+    private final PicoContext context;
 
-    public SessionActionsNodeBuilder(PicoContextHandler context) {
+    public SessionActionsNodeBuilder(PicoContext context) {
         this.context = context;
     }
 
