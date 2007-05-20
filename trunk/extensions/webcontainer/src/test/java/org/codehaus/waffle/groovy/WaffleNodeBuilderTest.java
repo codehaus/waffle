@@ -41,14 +41,13 @@ public class WaffleNodeBuilderTest extends TestCase {
     }
     
     public void FIXME_testCanComposeWebContainerWithCompleteWaffleApp() throws InterruptedException, IOException {
-        Reader script = new StringReader("" +
-                "" +
+        Reader script = new StringReader(
                 "nano = builder.container {\n" +
                 "    webContainer(port:8080) {\n" +
                 "        context(path:'/bar') {\n" +
-                "            waffleApp(view-suffix:\"*.jspx\") {" +
+                "            adapter(nodeBuilder:'org.codehaus.waffle.groovy.WaffleNodeBuilder', viewSuffix:'.jspx') {" +
                 "               actionRegistrar(class:org.codehaus.waffle.groovy.FooRegistrar)\n" +
-                "               requestFilter(filter:\"*.foo\")\n" +
+                "               requestFilter(filter:'*.foo')\n" +
                 "            }\n" +
                 "        }\n" +
                 "    }\n" +
@@ -58,19 +57,19 @@ public class WaffleNodeBuilderTest extends TestCase {
     }
 
     public void FIXME_testCanComposeWholeWaffleIncludingComposedActions() throws InterruptedException, IOException {
-        Reader script = new StringReader("" +
+        Reader script = new StringReader(
                 "nano = builder.container {\n" +
-                "    component(class:SomeReallyBaseLevelService)\n" +
+                "    component(class:org.codehaus.waffle.groovy.FooRegistrar)\n" +
                 "    webContainer(port:8080) {\n" +
                 "        context(path:'/bar') {\n" +
-                "            waffleApp(view-suffix:'.jspx') {\n" +
+                "            adapter(nodeBuilder:'org.codehaus.waffle.groovy.WaffleNodeBuilder', viewSuffix:'.jspx') {\n" +
                 "                registerActions {\n" +
-                "                    session {\n" +
-                "                       register(action:'cart' class:ShoppingCart)\n" +
-                "                    }\n" +
                 "                    application {\n" +
-                "                       register(class:CartSecurityManager)\n" +
+                "                       register(class:org.codehaus.waffle.groovy.FooApplicationAction)\n" +
                 "                    }\n" +
+//                "                    session {\n" +
+//                "                       register(action:'sessionAction', class:org.codehaus.waffle.groovy.FooSessionAction)\n" +
+//                "                    }\n" +
                 "                }\n" +
                 "                requestFilter(filter:'*.htm')\n" +
                 "            }\n" +

@@ -14,31 +14,31 @@ import groovy.util.NodeBuilder;
 
 import java.util.Map;
 
+import org.codehaus.waffle.context.pico.PicoWaffleContextListener;
+import org.codehaus.waffle.servlet.WaffleServlet;
 import org.nanocontainer.script.NanoContainerMarkupException;
 import org.nanocontainer.webcontainer.PicoContextHandler;
 import org.nanocontainer.webcontainer.PicoServletHolder;
 import org.picocontainer.PicoContainer;
-import org.codehaus.waffle.context.pico.PicoWaffleContextListener;
-import org.codehaus.waffle.servlet.WaffleServlet;
 
 public class WaffleNodeBuilder extends NodeBuilder {
     private final PicoContainer parentContainer;
     private final PicoContextHandler context;
-
+    
     public WaffleNodeBuilder(PicoContainer parentContainer, PicoContextHandler context, Map attributes) {
         this.parentContainer = parentContainer;
         this.context = context;
 
         context.addListener(PicoWaffleContextListener.class);
-        String svtSuffix = (String) attributes.remove("servlet-suffix");
-        if (svtSuffix == null || svtSuffix.equals("")) {
-            svtSuffix = "*.action";
+        String servletSuffix = (String) attributes.remove("servletSuffix");
+        if (servletSuffix == null || servletSuffix.equals("")) {
+            servletSuffix = "*.action";
         }
 
-        PicoServletHolder wSvt = context.addServletWithMapping(WaffleServlet.class,"");
-        String viewSuffix = (String) attributes.remove("view-suffix");
+        PicoServletHolder holder = context.addServletWithMapping(WaffleServlet.class,"");
+        String viewSuffix = (String) attributes.remove("viewSuffix");
         if (viewSuffix != null && !viewSuffix.equals("")) {
-            wSvt.setInitParameter("view.suffix", viewSuffix);
+            holder.setInitParameter("view.suffix", viewSuffix);
         }
     }
 

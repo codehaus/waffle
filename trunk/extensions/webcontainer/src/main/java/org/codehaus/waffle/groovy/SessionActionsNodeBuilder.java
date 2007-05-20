@@ -21,7 +21,6 @@ public class SessionActionsNodeBuilder extends NodeBuilder {
         this.context = context;
     }
 
-
     protected Object createNode(Object name, Map attributes) {
         if (name.equals("register")) {
             Object clazz = attributes.remove("class"); // could be string or Class
