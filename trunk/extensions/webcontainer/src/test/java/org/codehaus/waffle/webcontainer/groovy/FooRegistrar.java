@@ -1,4 +1,4 @@
-package org.codehaus.waffle.groovy;
+package org.codehaus.waffle.webcontainer.groovy;
 
 import org.codehaus.waffle.registrar.AbstractRegistrar;
 import org.codehaus.waffle.registrar.Registrar;

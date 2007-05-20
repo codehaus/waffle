@@ -7,31 +7,26 @@
  * the LICENSE.txt file.                                                     *
  *                                                                           *
  *****************************************************************************/
-package org.codehaus.waffle.groovy;
+package org.codehaus.waffle.webcontainer.groovy;
+
+import java.util.Map;
 
 import org.nanocontainer.webcontainer.PicoContext;
 import org.picocontainer.PicoContainer;
 
-import java.util.Map;
+public class ApplicationActionsNodeBuilder extends ActionsNodeBuilder {
 
-public class RegisterActionsNodeBuilder extends Object {
-    private final PicoContainer parentContainer;
-    private final PicoContext context;
-
-    public RegisterActionsNodeBuilder(PicoContainer parentContainer, PicoContext context) {
-        this.parentContainer = parentContainer;
-        this.context = context;
+    public ApplicationActionsNodeBuilder(PicoContainer parentContainer, PicoContext context) {
+        super(parentContainer, context);
     }
 
     protected Object createNode(Object name, Map attributes) {
-        if (name.equals("application")) {
-            return new ApplicationActionsNodeBuilder(parentContainer, context);
-        } else if (name.equals("session")) {
-            return new SessionActionsNodeBuilder(context);
-        } else if (name.equals("request")) {
-            return new RequestActionsNodeBuilder(context);
+        if (name.equals("register")) {
+            registerAction(attributes);
+            return null; // err something really
+        } else {
+            return null;
         }
-        return null;
     }
 
 }

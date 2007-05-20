@@ -8,7 +8,7 @@
  *                                                                           *
  *****************************************************************************/
 
-package org.codehaus.waffle.groovy;
+package org.codehaus.waffle.webcontainer.groovy;
 
 import org.codehaus.waffle.context.WaffleRequestFilter;
 import groovy.util.NodeBuilder;

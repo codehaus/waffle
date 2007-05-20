@@ -1,4 +1,4 @@
-package org.codehaus.waffle.groovy;
+package org.codehaus.waffle.webcontainer.groovy;
 
 import org.nanocontainer.webcontainer.PicoContext;
 

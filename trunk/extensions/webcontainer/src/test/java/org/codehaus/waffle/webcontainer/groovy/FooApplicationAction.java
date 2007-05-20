@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.codehaus.waffle.groovy;
+package org.codehaus.waffle.webcontainer.groovy;
 
 public class FooApplicationAction {
     public String toString() {
