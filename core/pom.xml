@@ -8,7 +8,7 @@
   </parent>
   <packaging>jar</packaging>
   <artifactId>waffle</artifactId>
-  <name>Waffle Framework</name>
+  <name>Waffle Core</name>
 
   <dependencies>
     <dependency>

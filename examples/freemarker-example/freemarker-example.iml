@@ -17,7 +17,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="framework" exported="" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -55,6 +54,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="core" exported="" />
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
@@ -67,24 +67,14 @@
     <setting name="RUN_JASPER_VALIDATION" value="true" />
   </component>
   <component name="WebModuleProperties">
-    <containerElement type="module" name="framework">
+    <containerElement type="module" name="core">
       <attribute name="method" value="5" />
-      <attribute name="URI" value="/WEB-INF/lib/framework.jar" />
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-beta-2.jar" />
-      <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-beta-2/paranamer-1.0-beta-2.jar!/</url>
+      <attribute name="URI" value="/WEB-INF/lib/core.jar" />
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="0" />
       <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-RC-3-SNAPSHOT.jar" />
       <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-RC-3-SNAPSHOT/paranamer-1.0-RC-3-SNAPSHOT.jar!/</url>
-    </containerElement>
-    <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-SNAPSHOT.jar" />
-      <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-SNAPSHOT/paranamer-1.0-SNAPSHOT.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="1" />
@@ -184,8 +174,8 @@
       <attribute name="URI" value="&lt;N/A&gt;" />
     </containerElement>
     <containerElement type="library" name="velocity" level="module">
-      <attribute name="method" value="0" />
-      <attribute name="URI" value="&lt;N/A&gt;" />
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/velocity-1.4.jar" />
     </containerElement>
     <containerElement type="library" name="velocity-dep" level="module">
       <attribute name="method" value="0" />
