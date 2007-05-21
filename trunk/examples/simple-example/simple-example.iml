@@ -25,7 +25,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Groovy from GroovyJ 0.1.8 (Demetra)" level="application" />
-    <orderEntry type="module" module-name="framework" exported="" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -44,6 +43,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="core" exported="" />
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
@@ -56,9 +56,9 @@
     <setting name="RUN_JASPER_VALIDATION" value="true" />
   </component>
   <component name="WebModuleProperties">
-    <containerElement type="module" name="framework">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/classes" />
+    <containerElement type="module" name="core">
+      <attribute name="method" value="5" />
+      <attribute name="URI" value="/WEB-INF/lib/core.jar" />
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="0" />
