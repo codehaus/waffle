@@ -15,7 +15,7 @@
   <modules>
     <module>skin</module>
     <module>core</module>
-    <!--<module>extensions/webcontainer</module>-->
+    <module>extensions/webcontainer</module>
   </modules>
 
   <dependencyManagement>
@@ -211,8 +211,9 @@
       <id>examples</id>
       <modules>
         <module>examples/simple-example</module>
+        <module>examples/jruby-example</module>
         <module>examples/freemarker-example</module>
-        <module>examples/paranamer-example</module>
+        <!-- module>examples/paranamer-example</module-->
         <module>examples/migration-example</module>
       </modules>
     </profile>

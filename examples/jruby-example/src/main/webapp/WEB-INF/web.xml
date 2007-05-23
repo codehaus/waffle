@@ -47,8 +47,14 @@
         <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>waffle</servlet-name>
         <url-pattern>*.waffle</url-pattern>
     </servlet-mapping>
+        
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
 </web-app>
