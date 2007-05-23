@@ -55,7 +55,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
             HttpSession session = request.getSession();
             PicoContextContainer sessionContextContainer = (PicoContextContainer) session.getAttribute(Constants.SESSION_CONTAINER_KEY);
             if (sessionContextContainer == null) {
-                throw new RuntimeException("Waffle: Possible Tomcat deployment OR Configuration error - read http://waffle.sourceforge.net/tomcat_deployment_issue.html");
+                throw new RuntimeException("Waffle: Possible Tomcat deployment OR Configuration error - read http://waffle.codehaus.org/tomcat_deployment_issue.html");
             }
             MutablePicoContainer delegate = sessionContextContainer.getDelegate();
 

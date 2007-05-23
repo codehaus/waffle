@@ -19,17 +19,17 @@ import javax.servlet.http.HttpServletRequest;
  * @author Michael Ward
  */
 public class RequestParameterMethodNameResolver implements MethodNameResolver {
-    private String actionParameterKey = "method";
+    private String methodParameterKey = "method";
 
     public RequestParameterMethodNameResolver() {
         // default
     }
 
     public RequestParameterMethodNameResolver(RequestParameterMethodNameResolverConfig configuration) {
-        this.actionParameterKey = configuration.getMethodParameterKey();
+        this.methodParameterKey = configuration.getMethodParameterKey();
     }
 
     public String resolve(HttpServletRequest request) {
-        return request.getParameter(actionParameterKey);
+        return request.getParameter(methodParameterKey);
     }
 }
