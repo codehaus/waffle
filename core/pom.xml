@@ -27,9 +27,13 @@
       <groupId>com.thoughtworks.paranamer</groupId>
       <artifactId>paranamer</artifactId>
     </dependency>
+      <dependency>
+        <groupId>asm</groupId>
+        <artifactId>asm</artifactId>
+      </dependency>
     <dependency>
       <groupId>org.jruby</groupId>
-      <artifactId>jruby</artifactId>
+      <artifactId>jruby-complete</artifactId>
     </dependency>
     <dependency>
       <groupId>velocity</groupId>
