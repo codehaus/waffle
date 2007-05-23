@@ -16,6 +16,7 @@ import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
+import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
@@ -52,6 +53,8 @@ public interface WaffleComponentRegistry {
     MessageResources getMessageResources();
 
     MethodDefinitionFinder getMethodDefinitionFinder();
+
+    MethodNameResolver getMethodNameResolver();
 
     TypeConverter getTypeConverter();
 

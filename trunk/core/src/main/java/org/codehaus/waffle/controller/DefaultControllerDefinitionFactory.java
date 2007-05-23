@@ -10,12 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.controller;
 
+import static org.codehaus.waffle.Constants.CONTROLLER_KEY;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.RequestLevelContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Default implementation of the controller definition factory which uses the context container to look up the
  * controller objected registered.
- * 
+ *
  * @author Michael Ward
  * @author Mauro Talevi
  * @todo (mt) Rename to ContextContainerControllerDefinitionFactory?
@@ -37,11 +37,7 @@ public class DefaultControllerDefinitionFactory implements ControllerDefinitionF
         this.controllerNameResolver = controllerNameResolver;
     }
 
-    /**
-     * Retrieves the controller definition from the context container via the WaffleRequestFilter
-     * @see org.codehaus.waffle.context.WaffleRequestFilter
-     */
-    public ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
+    protected Object findController(String name, HttpServletRequest request) {
         ContextContainer requestLevelContainer = RequestLevelContainer.get();
 
         if (requestLevelContainer == null) {
@@ -50,18 +46,34 @@ public class DefaultControllerDefinitionFactory implements ControllerDefinitionF
             throw new WaffleException(error);
         }
 
-        String name = controllerNameResolver.findControllerName(request);
         Object controller = requestLevelContainer.getComponentInstance(name);
-        if ( controller == null ){
+        if (controller == null) {
             String error = "No controller configured for the specified path: '"
                     + request.getRequestURI() + "' (controller name='" + name + "') "
-                + "Please ensure that controller '" + name + "' was registered in the Registrar.";
-            throw new WaffleException(error);            
+                    + "Please ensure that controller '" + name + "' was registered in the Registrar.";
+            throw new WaffleException(error);
         }
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+
+        return controller;
+    }
+
+    protected MethodDefinition findMethodDefinition(Object controller, HttpServletRequest request, HttpServletResponse response) {
+        return methodDefinitionFinder.find(controller, request, response);
+    }
+
+    /**
+     * Retrieves the controller definition from the context container via the WaffleRequestFilter
+     *
+     * @see org.codehaus.waffle.context.WaffleRequestFilter
+     */
+    public ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
+        String name = controllerNameResolver.findControllerName(request);
+
+        Object controller = findController(name, request);
+        MethodDefinition methodDefinition = findMethodDefinition(controller, request, response);
 
         // set the controller to the request so it can be accessed from the view
-        request.setAttribute(Constants.CONTROLLER_KEY, controller);
+        request.setAttribute(CONTROLLER_KEY, controller);
         return new ControllerDefinition(name, controller, methodDefinition);
     }
 

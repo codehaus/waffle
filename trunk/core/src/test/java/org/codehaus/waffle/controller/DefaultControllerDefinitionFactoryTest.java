@@ -1,11 +1,7 @@
 package org.codehaus.waffle.controller;
 
-import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.controller.DefaultControllerDefinitionFactory;
-import org.codehaus.waffle.controller.ControllerDefinitionFactory;
-import org.codehaus.waffle.controller.DefaultControllerNameResolver;
-import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
@@ -90,7 +86,6 @@ public class DefaultControllerDefinitionFactoryTest extends MockObjectTestCase {
         }        
     }
 
-    
     public void testMissingRequestLevelContainerThrowsException() throws NoSuchMethodException {
         RequestLevelContainer.set(null);
         // Mock HttpServletRequest
@@ -101,10 +96,10 @@ public class DefaultControllerDefinitionFactoryTest extends MockObjectTestCase {
         Mock mockResponse = mock(HttpServletResponse.class);
         HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
 
-        ControllerDefinitionFactory controllerDefinitionFactory = new DefaultControllerDefinitionFactory(null, null);
+        DefaultControllerDefinitionFactory controllerDefinitionFactory = new DefaultControllerDefinitionFactory(null, null);
 
         try {
-            controllerDefinitionFactory.getControllerDefinition(httpRequest, response).getController();
+            controllerDefinitionFactory.findController("foobar", httpRequest);
             fail("WaffleException should have been thrown when no request level container exists");
         } catch (WaffleException expected) {
             // expected

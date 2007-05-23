@@ -28,6 +28,10 @@
       <artifactId>paranamer</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.jruby</groupId>
+      <artifactId>jruby</artifactId>
+    </dependency>
+    <dependency>
       <groupId>velocity</groupId>
       <artifactId>velocity</artifactId>
     </dependency>
