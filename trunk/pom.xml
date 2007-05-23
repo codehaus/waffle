@@ -16,6 +16,8 @@
     <module>skin</module>
     <module>core</module>
     <module>extensions/webcontainer</module>
+    <module>extensions/taglib</module>
+    <module>extensions/acceptance</module>
   </modules>
 
   <dependencyManagement>
