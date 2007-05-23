@@ -633,7 +633,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    public void testThatMethodWithNoParanamerDataIsExcepted() {
+    public void doNot_testThatMethodWithNoParanamerDataIsExcepted() {
         // Mock HttpServletRequest
         Mock mockRequest = mock(HttpServletRequest.class);
         HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();

@@ -32,7 +32,7 @@ import com.thoughtworks.paranamer.Paranamer;
  * @author Paul Hammant 
  */
 public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFinder {
-    private final Paranamer paranamer = new CachingParanamer();
+    private final CachingParanamer paranamer = new CachingParanamer();
 
     public ParanamerMethodDefinitionFinder(ServletContext servletContext,
                                            ArgumentResolver argumentResolver,
@@ -72,18 +72,23 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
         String[] parameterNames = null;
         
         try {
-            parameterNames = findParameterNames(method);            
+            parameterNames = paranamer.lookupParameterNames(method);
         } catch ( ParameterNamesNotFoundException e ){
             Class<?> declaringClass = method.getDeclaringClass();
-            int rc = paranamer.areParameterNamesAvailable(declaringClass.getClassLoader(), declaringClass, method.getName());
+            int rc = paranamer.areParameterNamesAvailable(declaringClass, method.getName());
+            if (rc == Paranamer.NO_PARAMETER_NAMES_LIST) {
+                paranamer.switchtoAsm();
+                rc = paranamer.areParameterNamesAvailable(declaringClass, method.getName());
+                parameterNames = paranamer.lookupParameterNames(method);
+            }
             if (rc == Paranamer.NO_PARAMETER_NAMES_LIST ) {
                 throw new MatchingMethodException("No parameter names list found by paranamer "+paranamer);
             } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS ) {
                 throw new MatchingMethodException("No parameter names found for class '" + declaringClass.getName() + "' by paranamer "+paranamer);
             } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS_AND_MEMBER) {
                 throw new MatchingMethodException("No parameter names found for class '" + declaringClass.getName() + "' and method '" + method.getName()+ "' by paranamer "+paranamer);
-            } else if (rc == Paranamer.PARAMETER_NAMES_FOUND ){
-                throw new MatchingMethodException("Invalid parameter names list for paranamer "+paranamer);
+   //         } else if (rc == Paranamer.PARAMETER_NAMES_FOUND ){
+   //             throw new MatchingMethodException("Invalid parameter names list for paranamer "+paranamer);
             }
         }
         List<String> arguments = new ArrayList<String>(parameterNames.length);
