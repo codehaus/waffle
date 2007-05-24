@@ -21,6 +21,10 @@ public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
         runtime.evalScript("$my_global = 'Waffle'\n");
 
         String script =
+                "module Waffle\n" +
+                "  module Controller\n" +
+                "  end\n" +
+                "end\n" +
                 "def String.camelize(param_1)\n" +
                 "  return 'FooBar'\n" + // fake out functionality
                 "end\n" +

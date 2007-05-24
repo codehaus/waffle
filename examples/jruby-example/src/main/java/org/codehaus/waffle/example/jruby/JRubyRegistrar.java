@@ -21,14 +21,15 @@ public class JRubyRegistrar extends AbstractRegistrar {
 
         String script =
                 "class FooBar\n" +
+                //"  attr_accessor :request\n" +
                 "  def index\n" +
-                "    'HELLO WORLD from the index method'\n" +
+                "    \"HELLO WORLD from the index method #{request}\"\n" +
                 "  end\n" +
                 "  def bar\n" +
-                "    'HELLO WORLD'\n" +
+                "    \"HELLO WORLD #{request.local_name} #{request.local_port}\"\n" +
                 "  end\n" +
                 "end\n";
-        
+
         ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foo_bar", script);
         picoRegistrar.registerComponentAdapter(componentAdapter);
     }

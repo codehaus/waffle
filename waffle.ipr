@@ -35,6 +35,7 @@
       <entry name="?*.jpeg" />
       <entry name="?*.tld" />
       <entry name="?*.list" />
+      <entry name="*.rb" />
     </wildcardResourcePatterns>
   </component>
   <component name="DataSourceManager" />
