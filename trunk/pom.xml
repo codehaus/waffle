@@ -17,7 +17,7 @@
     <module>core</module>
     <module>extensions/webcontainer</module>
     <module>extensions/taglib</module>
-    <module>extensions/acceptance</module>
+    <module>extensions/taglib-acceptance</module>
   </modules>
 
   <dependencyManagement>
