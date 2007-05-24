@@ -20,7 +20,7 @@ public class JRubyRegistrar extends AbstractRegistrar {
     public void application() {
 
         String script =
-                "class Foo\n" +
+                "class FooBar\n" +
                 "  def index\n" +
                 "    'HELLO WORLD from the index method'\n" +
                 "  end\n" +
@@ -29,7 +29,7 @@ public class JRubyRegistrar extends AbstractRegistrar {
                 "  end\n" +
                 "end\n";
         
-        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("Foo", script);
+        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foo_bar", script);
         picoRegistrar.registerComponentAdapter(componentAdapter);
     }
 }

@@ -31,7 +31,7 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
 
         // TODO RUBY: mixin custom module!
 
-        return runtime.evalScript(componentKey + ".new"); // TODO RUBY: convert name to Camelize
+        return runtime.evalScript("eval(\"#{String.camelize('" + componentKey + "')}.new\")");
     }
 
     public void verify(PicoContainer picoContainer) throws PicoIntrospectionException {

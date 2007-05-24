@@ -55,16 +55,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPOSITORY$/org/jruby/jruby/1.0RC2/jruby-1.0RC2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$M2_REPOSITORY$/asm/asm/2.2.3/asm-2.2.3.jar!/" />
+          <root url="jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0RC2/jruby-complete-1.0RC2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -140,6 +131,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/jmock-2.0.0.jar" />
       <url>jar://$M2_REPOSITORY$/org/jmock/jmock/2.0.0/jmock-2.0.0.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/jruby-complete-1.0RC2.jar" />
+      <url>jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0RC2/jruby-complete-1.0RC2.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="0" />
