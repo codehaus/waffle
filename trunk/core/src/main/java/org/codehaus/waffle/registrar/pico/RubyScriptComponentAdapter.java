@@ -1,12 +1,12 @@
 package org.codehaus.waffle.registrar.pico;
 
-import org.picocontainer.PicoVisitor;
-import org.picocontainer.ComponentAdapter;
-import org.picocontainer.PicoContainer;
-import org.picocontainer.PicoIntrospectionException;
-import org.picocontainer.PicoInitializationException;
 import org.jruby.Ruby;
 import org.jruby.runtime.builtin.IRubyObject;
+import org.picocontainer.ComponentAdapter;
+import org.picocontainer.PicoContainer;
+import org.picocontainer.PicoInitializationException;
+import org.picocontainer.PicoIntrospectionException;
+import org.picocontainer.PicoVisitor;
 
 public class RubyScriptComponentAdapter implements ComponentAdapter {
     private Object componentKey;
@@ -29,9 +29,10 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
         Ruby runtime = (Ruby) picoContainer.getComponentInstance(Ruby.class);
         runtime.evalScript(rubyScript);
 
-        // TODO RUBY: mixin custom module!
-
-        return runtime.evalScript("eval(\"#{String.camelize('" + componentKey + "')}.new\")");
+        String script =
+                "controller = eval(\"#{String.camelize('" + componentKey + "')}.new\")\n" + // instantiate controller
+                "controller.extend(Waffle::Controller)"; // mixin Waffle module
+        return runtime.evalScript(script);
     }
 
     public void verify(PicoContainer picoContainer) throws PicoIntrospectionException {

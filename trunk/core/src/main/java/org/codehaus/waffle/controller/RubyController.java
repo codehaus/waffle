@@ -1,7 +1,8 @@
 package org.codehaus.waffle.controller;
 
-import org.jruby.runtime.builtin.IRubyObject;
+import org.jruby.Ruby;
 import org.jruby.javasupport.JavaUtil;
+import org.jruby.runtime.builtin.IRubyObject;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,8 +11,8 @@ import javax.servlet.http.HttpServletResponse;
  * This is a wrapper for the underlying ruby script
  */
 public class RubyController {
-    private final IRubyObject rubyObject;
     private String methodName;
+    private final IRubyObject rubyObject;
 
     public RubyController(IRubyObject rubyObject) {
         this.rubyObject = rubyObject;
@@ -21,8 +22,13 @@ public class RubyController {
         this.methodName = methodName;
     }
 
+    public IRubyObject getRubyObject() {
+        return rubyObject;
+    }
+
     public Object execute(HttpServletRequest request, HttpServletResponse response) {
-        IRubyObject result = rubyObject.callMethod(rubyObject.getRuntime().getCurrentContext(), methodName);
+        Ruby runtime = rubyObject.getRuntime();
+        IRubyObject result = rubyObject.callMethod(runtime.getCurrentContext(), methodName);
 
         return JavaUtil.convertRubyToJava(result);
     }
