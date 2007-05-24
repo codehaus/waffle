@@ -94,7 +94,6 @@ public class DefaultControllerDefinitionFactoryTest extends MockObjectTestCase {
 
         // Mock HttpServletResponse
         Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
 
         DefaultControllerDefinitionFactory controllerDefinitionFactory = new DefaultControllerDefinitionFactory(null, null);
 
