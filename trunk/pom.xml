@@ -17,7 +17,6 @@
     <module>core</module>
     <module>extensions/webcontainer</module>
     <module>extensions/taglib</module>
-    <module>extensions/taglib-acceptance</module>
   </modules>
 
   <dependencyManagement>
@@ -205,6 +204,13 @@
       <properties>
         <webapp.deploy.dir>${env.GERONIMO_HOME}/deploy</webapp.deploy.dir>
       </properties>
+    </profile>
+    <profile>
+      <!-- Acceptance profile -->
+      <id>acceptance</id>
+      <modules>
+        <module>extensions/taglib-acceptance</module>
+      </modules>
     </profile>
     <profile>
       <!-- Distribution profile -->
