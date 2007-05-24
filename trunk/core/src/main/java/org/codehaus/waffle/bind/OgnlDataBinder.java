@@ -19,6 +19,7 @@ import ognl.OgnlException;
 import ognl.TypeConverter;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public class OgnlDataBinder implements DataBinder {
         this.bindErrorMessageResolver = bindErrorMessageResolver;
     }
 
-    public void bind(HttpServletRequest request, ErrorsContext errorsContext, Object model) {
+    public void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext, Object model) {
         //noinspection unchecked
         Enumeration<String> parameterNames = request.getParameterNames();
 

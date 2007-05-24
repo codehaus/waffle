@@ -13,6 +13,7 @@ package org.codehaus.waffle.bind;
 import org.codehaus.waffle.validation.ErrorsContext;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Implementor of this interface are responsible for binding the values from
@@ -22,5 +23,5 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface DataBinder {
     
-    void bind(HttpServletRequest request, ErrorsContext errorsContext, Object model);
+    void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext, Object model);
 }
