@@ -7,7 +7,11 @@ Build profiles:
 
 - default: builds core and extensions
 
-mvn clean install 
+mvn install 
+
+- acceptance:  builds core, extensions and acceptance tests
+
+mvn -Pacceptance install
 
 - examples:  builds core, extensions and examples
 
@@ -17,7 +21,7 @@ mvn -Pexamples install
 
 mvn -Pdist install
 
-Note:  profiles can be combined, eg to build examples and distribution
+Note:  profiles can be combined, eg to build with acceptance tests and distribution
 
-mvn -Pexamples,dist install
+mvn -Pacceptance,dist install
 
