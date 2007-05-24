@@ -11,8 +11,8 @@ import org.jruby.javasupport.JavaUtil;
 public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
 
     public void testComponentKeyAndImplementationMethods() {
-        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("Foobar", "'ruby script'");
-        assertEquals("Foobar", componentAdapter.getComponentKey());
+        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foobar", "'ruby script'");
+        assertEquals("foobar", componentAdapter.getComponentKey());
         assertEquals(IRubyObject.class, componentAdapter.getComponentImplementation());
     }
 
@@ -21,13 +21,16 @@ public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
         runtime.evalScript("$my_global = 'Waffle'\n");
 
         String script =
-                "class Foobar\n" +
+                "def String.camelize(param_1)\n" +
+                "  return 'FooBar'\n" + // fake out functionality
+                "end\n" +
+                "class FooBar\n" +
                 "  def execute\n" +
                 "    \"JRuby and #{$my_global}\"\n" +
                 "  end\n" +
                 "end";
 
-        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("Foobar", script);
+        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foobar", script);
         MutablePicoContainer picoContainer = new DefaultPicoContainer();
         picoContainer.registerComponentInstance(Ruby.class, runtime);
 
