@@ -118,7 +118,7 @@ public class WaffleServlet extends HttpServlet {
         request.setAttribute(ERRORS_KEY, errorsContext);
 
         ControllerDefinition controllerDefinition = getControllerDefinition(request, response);
-        dataBinder.bind(request, errorsContext, controllerDefinition.getController());
+        dataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
         validator.validate(controllerDefinition, errorsContext);
 
         try {
