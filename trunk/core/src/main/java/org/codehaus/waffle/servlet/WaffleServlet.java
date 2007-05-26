@@ -10,29 +10,31 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
-import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 import static org.codehaus.waffle.Constants.ERRORS_KEY;
 import static org.codehaus.waffle.Constants.METHOD_INVOCATION_ERROR_PAGE;
+import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
+import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 
-import org.codehaus.waffle.WaffleComponentRegistry;
-import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.controller.ControllerDefinitionFactory;
-import org.codehaus.waffle.action.ActionMethodExecutor;
-import org.codehaus.waffle.action.ActionMethodResponseHandler;
-import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.*;
-import org.codehaus.waffle.bind.DataBinder;
-import org.codehaus.waffle.validation.DefaultErrorsContext;
-import org.codehaus.waffle.validation.ErrorsContext;
-import org.codehaus.waffle.validation.Validator;
-import org.codehaus.waffle.view.View;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.action.ActionMethodExecutor;
+import org.codehaus.waffle.action.ActionMethodResponse;
+import org.codehaus.waffle.action.ActionMethodResponseHandler;
+import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.MethodInvocationException;
+import org.codehaus.waffle.bind.DataBinder;
+import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.validation.DefaultErrorsContext;
+import org.codehaus.waffle.validation.ErrorsContext;
+import org.codehaus.waffle.validation.Validator;
+import org.codehaus.waffle.view.View;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -40,6 +42,9 @@ import java.io.IOException;
  * @author Michael Ward
  */
 public class WaffleServlet extends HttpServlet {
+    private static final String DEFAULT_VIEW_SUFFIX = ".jspx";
+    private static final String DEFAULT_VIEW_PREFIX = "/";
+    private static final String EMPTY = "";
     private ControllerDefinitionFactory controllerDefinitionFactory;
     private DataBinder dataBinder;
     private ActionMethodExecutor actionMethodExecutor;
@@ -68,13 +73,13 @@ public class WaffleServlet extends HttpServlet {
 
     public void init() throws ServletException {
         viewPrefix = getInitParameter(VIEW_PREFIX_KEY);
-        if (viewPrefix == null || viewPrefix.equals("")) {
-            viewPrefix = "/"; // default
+        if (viewPrefix == null || viewPrefix.equals(EMPTY)) {
+            viewPrefix = DEFAULT_VIEW_PREFIX; // default
         }
 
         viewSuffix = getInitParameter(VIEW_SUFFIX_KEY);
-        if (viewSuffix == null || viewSuffix.equals("")) {
-            viewSuffix = ".jspx";
+        if (viewSuffix == null || viewSuffix.equals(EMPTY)) {
+            viewSuffix = DEFAULT_VIEW_SUFFIX; // default
         }
         methodInvocationErrorPage = getInitParameter(METHOD_INVOCATION_ERROR_PAGE);
 
@@ -97,7 +102,7 @@ public class WaffleServlet extends HttpServlet {
                                                    HttpServletResponse response) throws ServletException {
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response);
         if (controllerDefinition.getController() == null) {
-            throw new ServletException("Unable to locate the Waffle-Controller: " + request.getServletPath());
+            throw new ServletException("Unable to locate the Waffle Controller: " + request.getServletPath());
         }
 
         return controllerDefinition;
@@ -139,7 +144,7 @@ public class WaffleServlet extends HttpServlet {
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
         } catch (MethodInvocationException e) {
             log(e.getMessage());
-            if (methodInvocationErrorPage != null && !methodInvocationErrorPage.equals("")) {
+            if (methodInvocationErrorPage != null && !methodInvocationErrorPage.equals(EMPTY)) {
                 response.sendRedirect(methodInvocationErrorPage);
             } else {
                 response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
