@@ -18,15 +18,14 @@ public class JRubyRegistrar extends AbstractRegistrar {
 
     @Override
     public void application() {
-
+        registerInstance("chicago", "bears");
         String script =
                 "class FooBar\n" +
-                //"  attr_accessor :request\n" +
                 "  def index\n" +
-                "    \"HELLO WORLD from the index method #{request}\"\n" +
+                "    \"HELLO WORLD from the index method #{find_chicagouuu}\"\n" +
                 "  end\n" +
                 "  def bar\n" +
-                "    \"HELLO WORLD #{request.local_name} #{request.local_port}\"\n" +
+                "    \"HELLO WORLD #{request.local_name} #{request.local_port} \"\n" +
                 "  end\n" +
                 "end\n";
 

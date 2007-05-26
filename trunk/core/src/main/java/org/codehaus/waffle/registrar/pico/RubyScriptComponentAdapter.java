@@ -1,6 +1,7 @@
 package org.codehaus.waffle.registrar.pico;
 
 import org.jruby.Ruby;
+import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
@@ -32,7 +33,12 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
         String script =
                 "controller = eval(\"#{String.camelize('" + componentKey + "')}.new\")\n" + // instantiate controller
                 "controller.extend(Waffle::Controller)"; // mixin Waffle module
-        return runtime.evalScript(script);
+        IRubyObject controller = runtime.evalScript(script);
+
+        // inject pico container
+        controller.callMethod(runtime.getCurrentContext(), "__pico_container=", JavaEmbedUtils.javaToRuby(runtime, picoContainer));
+        
+        return controller;
     }
 
     public void verify(PicoContainer picoContainer) throws PicoIntrospectionException {
