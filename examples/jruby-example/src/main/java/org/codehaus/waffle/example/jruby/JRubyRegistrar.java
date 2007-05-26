@@ -22,7 +22,7 @@ public class JRubyRegistrar extends AbstractRegistrar {
         String script =
                 "class FooBar\n" +
                 "  def index\n" +
-                "    \"HELLO WORLD from the index method #{find_chicagouuu}\"\n" +
+                "    \"HELLO WORLD from the index method #{find_chicago}\"\n" +
                 "  end\n" +
                 "  def bar\n" +
                 "    \"HELLO WORLD #{request.local_name} #{request.local_port} \"\n" +
