@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Allow waffle actions to be used with velocity servlet.
+ * Allow waffle controllers to be used with velocity servlet.
  *
  * @author Michael Ward
  */
@@ -41,7 +41,7 @@ public class WaffleVelocityServlet extends VelocityViewServlet {
     @Override
     protected Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context context)
             throws Exception {
-        // Always add the action to the context
+        // Always add the controller to the context
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response);
         context.put(Constants.CONTROLLER_KEY, controllerDefinition.getController());
         return super.handleRequest(request, response, context);
