@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public class RubyDataBinder extends OgnlDataBinder {
 
-    // needs to bind, request, session and parameter to instance variables
     public RubyDataBinder(TypeConverter typeConverter, BindErrorMessageResolver bindErrorMessageResolver) {
         super(typeConverter, bindErrorMessageResolver);
     }
@@ -27,6 +26,8 @@ public class RubyDataBinder extends OgnlDataBinder {
             JavaEmbedUtils.invokeMethod(runtime, rubyObject, "request=", new HttpServletRequest[] {request}, Object.class);
             JavaEmbedUtils.invokeMethod(runtime, rubyObject, "response=", new HttpServletResponse[] {response}, Object.class);
             JavaEmbedUtils.invokeMethod(runtime, rubyObject, "session=", new HttpSession[] {request.getSession(false)}, Object.class);
+
+            // inspect rubyObject instance variables ... resolve values from (params, req, session, application) ... and set them onto the instance
 
         } else {
             // default to standard binding

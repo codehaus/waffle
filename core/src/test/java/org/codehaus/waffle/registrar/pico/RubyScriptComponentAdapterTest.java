@@ -23,6 +23,8 @@ public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
         String script =
                 "module Waffle\n" +
                 "  module Controller\n" +
+                "   def __pico_container=(pico)\n" +
+                "   end\n" +
                 "  end\n" +
                 "end\n" +
                 "def String.camelize(param_1)\n" +
@@ -34,7 +36,7 @@ public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
                 "  end\n" +
                 "end";
 
-        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foobar", script);
+        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foo_bar", script);
         MutablePicoContainer picoContainer = new DefaultPicoContainer();
         picoContainer.registerComponentInstance(Ruby.class, runtime);
 
