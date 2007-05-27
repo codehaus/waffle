@@ -75,7 +75,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             throw new NoMatchingMethodException(methodName, controller.getClass());
         }
 
-        List<MethodDefinition> methodDefinitions = findMethodDefinition(request, response, methods);
+        List<MethodDefinition> methodDefinitions = findMethodDefinitions(request, response, methods);
 
         if (methodDefinitions.size() > 1) {
             throw new AmbiguousMethodSignatureException("Method: '" + methodName + "' for controller: '" + controller.getClass() + "'");
@@ -86,9 +86,24 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinitions.get(0);
     }
 
-    protected abstract List<MethodDefinition> findMethodDefinition(HttpServletRequest request,
-                                                                   HttpServletResponse response,
-                                                                   List<Method> methods);
+    protected List<MethodDefinition> findMethodDefinitions(HttpServletRequest request, HttpServletResponse response, List<Method> methods) {
+        List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
+    
+        for (Method method : methods) {
+            if (Modifier.isPublic(method.getModifiers())) {
+                List<Object> arguments = getArguments(method, request);
+                MethodDefinition methodDefinition = validateMethod(request, response, method, arguments);
+    
+                if (methodDefinition != null) {
+                    methodDefinitions.add(methodDefinition);
+                }
+            }
+        }
+    
+        return methodDefinitions;
+    }
+    
+    protected abstract List<Object> getArguments(Method method, HttpServletRequest request);
 
     protected List<Object> resolveArguments(HttpServletRequest request, Iterator<String> arguments) {
         List<Object> resolvedArguments = new ArrayList<Object>(10);
@@ -134,6 +149,16 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
 
         return null;
+    }
+
+
+    /**
+     * Wraps value in curly brackets to fit with default handling
+     * @param value the argument value
+     * @return A formatted argument
+     */
+    protected String formatArgument(String value) {
+        return "{"+value+"}";
     }
 
     private boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition) {
@@ -242,17 +267,18 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private MethodDefinition buildMethodDefinitionForDefaultActionMethod(Method method, HttpServletRequest request) {
         MethodDefinition methodDefinition = new MethodDefinition(method);
         DefaultActionMethod defaultActionMethod = method.getAnnotation(DefaultActionMethod.class);
-        List<String> parms = new ArrayList<String>(defaultActionMethod.parameters().length);
+        List<String> arguments = new ArrayList<String>(defaultActionMethod.parameters().length);
 
         for (String value : defaultActionMethod.parameters()) {
-            parms.add("{" + value + "}");
+            arguments.add(formatArgument(value));
         }
 
         // resolve argument and add to the methodDefinition
-        for (Object argument : resolveArguments(request, parms.iterator())) {
+        for (Object argument : resolveArguments(request, arguments.iterator())) {
             methodDefinition.addMethodArgument(argument);
         }
 
         return methodDefinition;
     }
+
 }

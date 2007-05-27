@@ -11,7 +11,6 @@
 package org.codehaus.waffle.action;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,27 +46,7 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
         super(servletContext, argumentResolver, typeConverter, methodNameResolver);
     }
 
-    protected List<MethodDefinition> findMethodDefinition(HttpServletRequest request,
-                                                          HttpServletResponse response,
-                                                          List<Method> methods) {
-        List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
-
-        for (Method method : methods) {
-            if (Modifier.isPublic(method.getModifiers())) {
-                List<Object> arguments = getArguments(method, request);
-
-                MethodDefinition methodDefinition = validateMethod(request, response, method, arguments);
-
-                if (methodDefinition != null) {
-                    methodDefinitions.add(methodDefinition);
-                }
-            }
-        }
-
-        return methodDefinitions;
-    }
-
-    private List<Object> getArguments(Method method, HttpServletRequest request) {
+    protected List<Object> getArguments(Method method, HttpServletRequest request) {
         Class<?>[] parameterTypes = method.getParameterTypes();
         String[] parameterNames = null;
         
@@ -105,15 +84,11 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
                     || ServletContext.class.isAssignableFrom(parameterType)) {
                 // do nothing
             } else {
-                arguments.add("{" + parameterNames[i] + "}");
+                arguments.add(formatArgument(parameterNames[i]));
             }
         }
 
         return resolveArguments(request, arguments.iterator());
-    }
-
-    private String[] findParameterNames(Method method) {
-        return paranamer.lookupParameterNames(method);
     }
 
 }
