@@ -112,11 +112,11 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         for (Method method : methods) {
             if (Modifier.isPublic(method.getModifiers())) {
                 List<Object> arguments = getArguments(method, request);
-                MethodDefinition methodDefinition = validateMethod(request, response, method, arguments);
-    
-                if (methodDefinition != null) {
-                    methodDefinitions.add(methodDefinition);
-                }
+                try {
+                    methodDefinitions.add(validateMethod(request, response, method, arguments));
+                } catch ( InvalidMethodException e) {
+                    // continue
+                }                 
             }
         }
     
@@ -136,7 +136,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return resolvedArguments;
     }
 
-    protected MethodDefinition validateMethod(HttpServletRequest request,
+    private MethodDefinition validateMethod(HttpServletRequest request,
                                               HttpServletResponse response,
                                               Method method,
                                               List<Object> arguments) {
@@ -159,7 +159,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                     methodDefinition.addMethodArgument(iterator.next());
                 } else {
                     // not valid
-                    return null;
+                    throw new InvalidMethodException(method.getName());
                 }
             }
 
@@ -168,7 +168,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             }
         }
 
-        return null;
+        throw new InvalidMethodException(method.getName());
     }
 
     /**
@@ -251,11 +251,11 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
         for (Method method : methods) {
             if (Modifier.isPublic(method.getModifiers())) {
-                MethodDefinition methodDefinition = validateMethod(request, response, method, arguments);
-
-                if (methodDefinition != null) {
-                    validMethods.add(methodDefinition);
-                }
+                try {
+                    validMethods.add(validateMethod(request, response, method, arguments));
+                } catch ( InvalidMethodException e) {
+                    // continue
+                }                 
             }
         }
 
@@ -283,7 +283,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             }
         }
 
-        return null;
+        throw new NoDefaultMethodException(clazz.getName());
     }
 
     private MethodDefinition buildMethodDefinitionForDefaultActionMethod(Method method, HttpServletRequest request) {

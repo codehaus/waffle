@@ -232,7 +232,7 @@ public class WaffleServletTest extends MockObjectTestCase {
             waffleServlet.service(request, null);
             fail("ServletException expected when an invalid controller is requested");
         } catch (ServletException expected) {
-            assertTrue(expected.getMessage().startsWith("Unable to locate the Waffle-Controller"));
+            assertTrue(expected.getMessage().startsWith("Unable to locate the Waffle Controller"));
         }
     }
 
