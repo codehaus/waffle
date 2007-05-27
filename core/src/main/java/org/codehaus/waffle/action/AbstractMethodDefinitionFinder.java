@@ -10,17 +10,9 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.WaffleException;
-import ognl.OgnlRuntime;
-import ognl.TypeConverter;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,13 +20,30 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import ognl.OgnlRuntime;
+import ognl.TypeConverter;
+
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+
 /**
  * Abstract base implementation for all method definition finders
  * 
  * @author Michael Ward
  * @author Paul Hammant 
+ * @author Mauro Talevi
  */
 public abstract class AbstractMethodDefinitionFinder implements MethodDefinitionFinder {
+    
+    private static final String ARGUMENT_FORMAT = "'{'{0}'}'";
+    private static final String PRAGMA_SEPARATOR = "|";
+    private static final String PRAGMA_REGEX = "\\"+PRAGMA_SEPARATOR;
+    
     private final Map<Class, Method> defaultMethodCache = new HashMap<Class, Method>();
     private final ServletContext servletContext;
     private final ArgumentResolver argumentResolver;
@@ -68,12 +77,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             return handlePragmaticActionMethod(controller, methodName, request, response);
         }
 
-        // noinspection unchecked
-        List<Method> methods = OgnlRuntime.getMethods(controller.getClass(), methodName, false);
-
-        if (methods == null) {
-            throw new NoMatchingMethodException(methodName, controller.getClass());
-        }
+        List<Method> methods = findMethods(controller.getClass(), methodName);
 
         List<MethodDefinition> methodDefinitions = findMethodDefinitions(request, response, methods);
 
@@ -86,7 +90,23 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinitions.get(0);
     }
 
-    protected List<MethodDefinition> findMethodDefinitions(HttpServletRequest request, HttpServletResponse response, List<Method> methods) {
+    /**
+     * Returns the methods matching the type and name
+     * 
+     * @param type the Class in which to look for the method
+     * @param methodName the method name
+     * @return A List of methods
+     * @throws NoMatchingMethodException if no methods match
+     */
+    private List<Method> findMethods(Class type, String methodName) {
+        List<Method> methods = OgnlRuntime.getMethods(type, methodName, false);
+        if (methods == null) {
+            throw new NoMatchingMethodException(methodName, type);
+        }
+        return methods;
+    }
+
+    private List<MethodDefinition> findMethodDefinitions(HttpServletRequest request, HttpServletResponse response, List<Method> methods) {
         List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
     
         for (Method method : methods) {
@@ -151,14 +171,13 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return null;
     }
 
-
     /**
      * Wraps value in curly brackets to fit with default handling
      * @param value the argument value
      * @return A formatted argument
      */
     protected String formatArgument(String value) {
-        return "{"+value+"}";
+        return MessageFormat.format(ARGUMENT_FORMAT,value);
     }
 
     private boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition) {
@@ -208,22 +227,17 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private boolean isPragmaticActionMethod(String methodName) {
-        return methodName.contains("|");
+        return methodName.contains(PRAGMA_SEPARATOR);
     }
 
     private MethodDefinition handlePragmaticActionMethod(Object action,
                                                          String methodName,
                                                          HttpServletRequest request,
                                                          HttpServletResponse response) {
-        Iterator<String> iterator = Arrays.asList(methodName.split("\\|")).iterator();
+        Iterator<String> iterator = Arrays.asList(methodName.split(PRAGMA_REGEX)).iterator();
         methodName = iterator.next();
 
-        //noinspection unchecked
-        List<Method> methods = OgnlRuntime.getMethods(action.getClass(), methodName, false);
-
-        if (methods == null) {
-            throw new NoMatchingMethodException(methodName, action.getClass());
-        }
+        List<Method> methods = findMethods(action.getClass(), methodName);
 
         List<Object> arguments = resolveArguments(request, iterator);
         return findMethodDefinitionForPragmatic(request, response, methods, arguments);
