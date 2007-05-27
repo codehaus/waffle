@@ -10,17 +10,17 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
-import org.codehaus.waffle.action.annotation.ActionMethod;
-import ognl.TypeConverter;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
+import ognl.TypeConverter;
+
+import org.codehaus.waffle.action.annotation.ActionMethod;
 
 /**
  * Annotation-based method definition finder. This is the default MethodDefinitionFinder used by Waffle.
@@ -44,32 +44,13 @@ public class AnnotatedMethodDefinitionFinder extends AbstractMethodDefinitionFin
         super(servletContext, argumentResolver, typeConverter, methodNameResolver);
     }
 
-    protected List<MethodDefinition> findMethodDefinition(HttpServletRequest request,
-                                                  HttpServletResponse response,
-                                                  List<Method> methods) {
-        List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
-
-        for (Method method : methods) {
-            if (Modifier.isPublic(method.getModifiers())) {
-                List<Object> arguments = getArguments(method, request);
-                MethodDefinition methodDefinition = validateMethod(request, response, method, arguments);
-
-                if (methodDefinition != null) {
-                    methodDefinitions.add(methodDefinition);
-                }
-            }
-        }
-
-        return methodDefinitions;
-    }
-
-    private List<Object> getArguments(Method method, HttpServletRequest request) {
+    protected List<Object> getArguments(Method method, HttpServletRequest request) {
         if (method.isAnnotationPresent(ActionMethod.class)) {
             ActionMethod actionMethod = method.getAnnotation(ActionMethod.class);
             List<String> arguments = new ArrayList<String>(actionMethod.parameters().length);
 
             for (String value : actionMethod.parameters()) {
-                arguments.add("{" + value + "}"); // wrap in curly brackets to fit with default handling
+                arguments.add(formatArgument(value)); 
             }
 
             return resolveArguments(request, arguments.iterator());
