@@ -35,11 +35,7 @@
                 <td>${person.firstName}</td>
                 <td>${person.lastName}</td>
                 <td>${person.email}</td>
-		        <#if controller.dateOfBirth?has_content>
-	                <td>${person.dateOfBirth?string("dd-MM-yyyy")}</td>
-	            <#else>
-	                <td></td>	            
-		        </#if> 
+                <td>${person.dateOfBirth?string("dd-MM-yyyy")}</td>
             </tr>
         </#list>
     </table>
