@@ -52,7 +52,7 @@ module Waffle
         end
 
         def method_missing(symbol, *args)
-            if symbol.to_s =~ /^find_/
+            if symbol.to_s =~ /^find_/ # todo: I don't like "find_" for this ... sounds to model-ish
                 key = symbol.to_s
                 key = key[5..key.length]
                 component = @@__pico_container.getComponentInstance(key)

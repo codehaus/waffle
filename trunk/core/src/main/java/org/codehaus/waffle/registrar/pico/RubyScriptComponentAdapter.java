@@ -13,6 +13,7 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
     private Object componentKey;
     private final String rubyScript;
 
+    // TODO this needs to be changed ... key is the name controller regiester under and the value is the Ruby class name
     public RubyScriptComponentAdapter(Object componentKey, String rubyScript) {
         this.componentKey = componentKey;
         this.rubyScript = rubyScript;

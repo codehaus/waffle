@@ -14,14 +14,6 @@ import static org.codehaus.waffle.Constants.ERRORS_KEY;
 import static org.codehaus.waffle.Constants.METHOD_INVOCATION_ERROR_PAGE;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
-
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.codehaus.waffle.WaffleComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -35,6 +27,12 @@ import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.View;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -140,6 +138,9 @@ public class WaffleServlet extends HttpServlet {
                     buildViewToReferrer(controllerDefinition, actionMethodResponse);
                 }
             }
+
+            // TODO ... pluggable way to register controller instance variables to the request ... no longer have to do "controller.foobar"
+            // pluggable cause we need to support ognl and ruby (get_instance_variables
 
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
         } catch (MethodInvocationException e) {
