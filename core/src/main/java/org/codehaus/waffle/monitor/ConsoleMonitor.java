@@ -10,14 +10,20 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
+import java.util.Set;
+
 import org.codehaus.waffle.action.MethodDefinition;
 
 /**
- * Implementation of Monitor that write to console
+ * Implementation of Monitor that writes to console
  * 
  * @author Mauro Talevi
  */
 public class ConsoleMonitor implements Monitor {
+
+    protected void write(String message) {
+        System.out.println(message);
+    }
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
         write("Default ActionMethod found: "+methodDefinition);
@@ -35,8 +41,9 @@ public class ConsoleMonitor implements Monitor {
         write("ActionMethod found:  "+methodDefinition);
     }
 
-    protected void write(String message) {
-        System.out.println(message);
+    public void methodNameResolved(String methodName, String methodKey, Set<String> keys) {
+        write("Method name '"+methodName+"' found for key '"+methodKey+"' among keys "+keys);
     }
+
 
 }

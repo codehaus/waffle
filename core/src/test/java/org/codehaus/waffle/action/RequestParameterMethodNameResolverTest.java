@@ -1,14 +1,19 @@
 package org.codehaus.waffle.action;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-import org.codehaus.waffle.action.MethodNameResolver;
-import org.codehaus.waffle.action.RequestParameterMethodNameResolverConfig;
-import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.SilentMonitor;
+import org.jmock.Mock;
+import org.jmock.MockObjectTestCase;
+
 public class RequestParameterMethodNameResolverTest extends MockObjectTestCase {
+
+    private Monitor monitor = new SilentMonitor();
 
     public void testResolve() {
         Mock mockRequest = mock(HttpServletRequest.class);
@@ -16,9 +21,12 @@ public class RequestParameterMethodNameResolverTest extends MockObjectTestCase {
                 .method("getParameter")
                 .with(eq("method"))
                 .will(returnValue("foobar"));
+        mockRequest.expects(once())
+                .method("getParameterMap")
+                .will(returnValue(mockParameterMap("method")));
         HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
 
-        MethodNameResolver resolver = new RequestParameterMethodNameResolver();
+        MethodNameResolver resolver = new RequestParameterMethodNameResolver(monitor);
         assertEquals("foobar", resolver.resolve(request));
     }
 
@@ -28,6 +36,9 @@ public class RequestParameterMethodNameResolverTest extends MockObjectTestCase {
                 .method("getParameter")
                 .with(eq("soda"))
                 .will(returnValue("foobar"));
+        mockRequest.expects(once())
+                .method("getParameterMap")
+                .will(returnValue(mockParameterMap("soda")));
         HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
 
         RequestParameterMethodNameResolverConfig configuration = new RequestParameterMethodNameResolverConfig() {
@@ -36,7 +47,17 @@ public class RequestParameterMethodNameResolverTest extends MockObjectTestCase {
             }
         };
 
-        MethodNameResolver resolver = new RequestParameterMethodNameResolver(configuration);
+        MethodNameResolver resolver = new RequestParameterMethodNameResolver(configuration, monitor);
         assertEquals("foobar", resolver.resolve(request));
     }
+    
+    private Map mockParameterMap(String name) {
+        Mock mockMap = mock(Map.class);
+        mockMap.expects(once())
+                .method("keySet")
+                .will(returnValue(new HashSet(Arrays.asList(new String[]{name}))));
+        return (Map) mockMap.proxy();
+    }
+
+
 }

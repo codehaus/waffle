@@ -12,24 +12,33 @@ package org.codehaus.waffle.action;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.waffle.monitor.Monitor;
+
 /**
  * Implementation of method name resolver which returns the value of a configurable action parameter key,
  * which defaults to 'method'.
+ * <p/>
+ * The resolved name is monitored along with the available parameter key set.
  * 
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public class RequestParameterMethodNameResolver implements MethodNameResolver {
     private String methodParameterKey = "method";
+    private Monitor monitor;
 
-    public RequestParameterMethodNameResolver() {
-        // default
+    public RequestParameterMethodNameResolver(Monitor monitor) {
+        this.monitor = monitor;
     }
 
-    public RequestParameterMethodNameResolver(RequestParameterMethodNameResolverConfig configuration) {
+    public RequestParameterMethodNameResolver(RequestParameterMethodNameResolverConfig configuration, Monitor monitor) {
         this.methodParameterKey = configuration.getMethodParameterKey();
+        this.monitor = monitor;
     }
 
     public String resolve(HttpServletRequest request) {
-        return request.getParameter(methodParameterKey);
+        String methodName = request.getParameter(methodParameterKey);
+        monitor.methodNameResolved(methodName, methodParameterKey, request.getParameterMap().keySet());
+        return methodName;
     }
 }
