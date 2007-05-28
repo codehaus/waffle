@@ -5,19 +5,22 @@ import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.example.freemarker.action.PersonController;
 import org.codehaus.waffle.example.freemarker.dao.SimplePersonDAO;
 
-public class MyRegistrar extends AbstractRegistrar {
+public class FreemarkerRegistrar extends AbstractRegistrar {
 
-    public MyRegistrar(Registrar delegate) {
+    public FreemarkerRegistrar(Registrar delegate) {
         super(delegate);
     }
 
     @Override
     public void application() {
         register(SimplePersonDAO.class);
+        register("people/person", PersonController.class);
     }
 
     @Override
     public void session() {
-        register("people/person", PersonController.class);
+        // TODO it fails if registered at session with 
+        // Waffle could not find session-level context container.
+        //register("people/person", PersonController.class);
     }
 }

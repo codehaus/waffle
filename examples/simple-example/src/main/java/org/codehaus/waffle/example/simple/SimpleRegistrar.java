@@ -7,9 +7,9 @@ import org.codehaus.waffle.example.simple.action.HelloWorldController;
 import org.codehaus.waffle.example.simple.action.PersonController;
 import org.codehaus.waffle.example.simple.dao.SimplePersonDAO;
 
-public class MyRegistrar extends AbstractRegistrar {
+public class SimpleRegistrar extends AbstractRegistrar {
 
-    public MyRegistrar(Registrar delegate) {
+    public SimpleRegistrar(Registrar delegate) {
         super(delegate);
     }
 

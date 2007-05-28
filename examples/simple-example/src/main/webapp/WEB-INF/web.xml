@@ -10,7 +10,7 @@
     <!-- 1. This is how an application registers its custom Registrar -->
     <context-param>
         <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
-        <param-value>org.codehaus.waffle.example.simple.MyRegistrar</param-value>
+        <param-value>org.codehaus.waffle.example.simple.SimpleRegistrar</param-value>
     </context-param>
     <!-- 2. We are adding a Custom Converter to handle Date objects -->
     <context-param>

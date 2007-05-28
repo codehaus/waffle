@@ -8,10 +8,14 @@
   <classpathentry kind="src" path="extensions/webcontainer/src/main/java" />
   <classpathentry kind="src" path="extensions/webcontainer/src/test/java" />
   <classpathentry kind="src" path="examples/freemarker-example/src/main/java" />
+  <classpathentry kind="src" path="examples/freemarker-example/src/test/java" />
   <classpathentry kind="src" path="examples/jruby-example/src/main/java" />
+  <classpathentry kind="src" path="examples/jruby-example/src/test/java" />
   <classpathentry kind="src" path="examples/migration-example/src/main/java" />
   <classpathentry kind="src" path="examples/paranamer-example/src/main/java" />
+  <classpathentry kind="src" path="examples/paranamer-example/src/test/java" />
   <classpathentry kind="src" path="examples/simple-example/src/main/java" />
+  <classpathentry kind="src" path="examples/simple-example/src/test/java" />
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER" />
   <classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER" />
   <!-- These following deps are as well since the M2 container only picks up deps in the default profile -->
