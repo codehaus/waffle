@@ -15,7 +15,7 @@ import org.picocontainer.defaults.DefaultPicoContainer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DefaultControllerDefinitionFactoryTest extends MockObjectTestCase {
+public class ContextControllerDefinitionFactoryTest extends MockObjectTestCase {
 
     public void testCanGetControllerDefinition() throws NoSuchMethodException {
         MutablePicoContainer pico = new DefaultPicoContainer();
@@ -46,7 +46,7 @@ public class DefaultControllerDefinitionFactoryTest extends MockObjectTestCase {
         MethodDefinitionFinder methodDefinitionFinder = (MethodDefinitionFinder) mockMethodDefinitionFinder.proxy();
 
         ControllerDefinitionFactory controllerDefinitionFactory
-                = new DefaultControllerDefinitionFactory(methodDefinitionFinder, new DefaultControllerNameResolver());
+                = new ContextControllerDefinitionFactory(methodDefinitionFinder, new ContextPathControllerNameResolver());
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(httpRequest, response);
 
         assertNotNull(controllerDefinition.getController());
@@ -76,7 +76,7 @@ public class DefaultControllerDefinitionFactoryTest extends MockObjectTestCase {
         MethodDefinitionFinder methodDefinitionFinder = (MethodDefinitionFinder) mockMethodDefinitionFinder.proxy();
 
         ControllerDefinitionFactory controllerDefinitionFactory
-                = new DefaultControllerDefinitionFactory(methodDefinitionFinder, new DefaultControllerNameResolver());
+                = new ContextControllerDefinitionFactory(methodDefinitionFinder, new ContextPathControllerNameResolver());
 
         try {
             controllerDefinitionFactory.getControllerDefinition(httpRequest, response);
@@ -95,7 +95,7 @@ public class DefaultControllerDefinitionFactoryTest extends MockObjectTestCase {
         // Mock HttpServletResponse
         Mock mockResponse = mock(HttpServletResponse.class);
 
-        DefaultControllerDefinitionFactory controllerDefinitionFactory = new DefaultControllerDefinitionFactory(null, null);
+        ContextControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(null, null);
 
         try {
             controllerDefinitionFactory.findController("foobar", httpRequest);

@@ -12,13 +12,13 @@ package org.codehaus.waffle.action;
 
 
 /**
- * Thrown when method is invalid
+ * Thrown when method is no valid action method is found
  *
  * @author Mauro Talevi
  */
-public class InvalidMethodException extends MatchingMethodException {
+public class NoValidMethodException extends MissingMethodException {
 
-    public InvalidMethodException(String message) {
+    public NoValidMethodException(String message) {
         super(message);
     }
 

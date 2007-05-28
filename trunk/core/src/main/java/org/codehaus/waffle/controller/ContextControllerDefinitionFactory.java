@@ -11,37 +11,59 @@
 package org.codehaus.waffle.controller;
 
 import static org.codehaus.waffle.Constants.CONTROLLER_KEY;
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.MethodDefinitionFinder;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.MethodDefinitionFinder;
+import org.codehaus.waffle.action.MissingMethodException;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.RequestLevelContainer;
+
 /**
- * Default implementation of the controller definition factory which uses the context container to look up the
+ * Implementation of the controller definition factory which uses the context container to look up the
  * controller objected registered.
  *
  * @author Michael Ward
  * @author Mauro Talevi
- * @todo (mt) Rename to ContextContainerControllerDefinitionFactory?
  */
-public class DefaultControllerDefinitionFactory implements ControllerDefinitionFactory {
+public class ContextControllerDefinitionFactory implements ControllerDefinitionFactory {
     private final MethodDefinitionFinder methodDefinitionFinder;
     private final ControllerNameResolver controllerNameResolver;
 
-    public DefaultControllerDefinitionFactory(MethodDefinitionFinder methodDefinitionFinder, ControllerNameResolver controllerNameResolver) {
+    public ContextControllerDefinitionFactory(MethodDefinitionFinder methodDefinitionFinder, ControllerNameResolver controllerNameResolver) {
         this.methodDefinitionFinder = methodDefinitionFinder;
         this.controllerNameResolver = controllerNameResolver;
+    }
+
+    /**
+     * Retrieves the controller definition from the context container via the WaffleRequestFilter
+     *
+     * @see org.codehaus.waffle.context.WaffleRequestFilter
+     */
+    public ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
+        String name = controllerNameResolver.findControllerName(request);
+
+        Object controller = findController(name, request);
+        MethodDefinition methodDefinition = null;        
+        try {
+            methodDefinition = findMethodDefinition(controller, request, response);
+        } catch ( MissingMethodException e) {
+            // default to null 
+            // TODO introduce a NullMethodDefinition?
+        }        
+        // set the controller to the request so it can be accessed from the view
+        request.setAttribute(CONTROLLER_KEY, controller);
+        return new ControllerDefinition(name, controller, methodDefinition);
     }
 
     protected Object findController(String name, HttpServletRequest request) {
         ContextContainer requestLevelContainer = RequestLevelContainer.get();
 
         if (requestLevelContainer == null) {
-            String error = "No context container found at request level."
+            String error = "No context container found at request level. "
                     + "Please ensure that a WaffleRequestFilter was registered in the web.xml";
             throw new WaffleException(error);
         }
@@ -61,20 +83,5 @@ public class DefaultControllerDefinitionFactory implements ControllerDefinitionF
         return methodDefinitionFinder.find(controller, request, response);
     }
 
-    /**
-     * Retrieves the controller definition from the context container via the WaffleRequestFilter
-     *
-     * @see org.codehaus.waffle.context.WaffleRequestFilter
-     */
-    public ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
-        String name = controllerNameResolver.findControllerName(request);
-
-        Object controller = findController(name, request);
-        MethodDefinition methodDefinition = findMethodDefinition(controller, request, response);
-
-        // set the controller to the request so it can be accessed from the view
-        request.setAttribute(CONTROLLER_KEY, controller);
-        return new ControllerDefinition(name, controller, methodDefinition);
-    }
-
+    
 }
