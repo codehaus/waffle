@@ -167,7 +167,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                 List<Object> arguments = getArguments(method, request);
                 try {
                     methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
-                } catch ( InvalidMethodException e) {
+                } catch ( NoValidMethodException e) {
                     // continue
                 }                 
             }
@@ -201,7 +201,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             if (Modifier.isPublic(method.getModifiers())) {
                 try {
                     methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
-                } catch (InvalidMethodException e) {
+                } catch (NoValidMethodException e) {
                     // continue
                 }
             }
@@ -241,8 +241,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                 } else if (iterator.hasNext()) {
                     methodDefinition.addMethodArgument(iterator.next());
                 } else {
-                    // not valid
-                    throw new InvalidMethodException(method.getName());
+                    // no valid method found
+                    throw new NoValidMethodException(method.getName());
                 }
             }
 
@@ -251,7 +251,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             }
         }
 
-        throw new InvalidMethodException(method.getName());
+        throw new NoValidMethodException(method.getName());
     }
 
     private boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition) {

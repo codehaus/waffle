@@ -30,8 +30,8 @@ import org.codehaus.waffle.context.AbstractContextContainerFactory;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
-import org.codehaus.waffle.controller.DefaultControllerDefinitionFactory;
-import org.codehaus.waffle.controller.DefaultControllerNameResolver;
+import org.codehaus.waffle.controller.ContextControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ContextPathControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ConsoleMonitor;
@@ -103,8 +103,8 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
         WaffleComponentRegistry componentRegistry = new PicoWaffleComponentRegistry(servletContext);
 
-        assertTrue(componentRegistry.getControllerNameResolver() instanceof DefaultControllerNameResolver);
-        assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof DefaultControllerDefinitionFactory);
+        assertTrue(componentRegistry.getControllerNameResolver() instanceof ContextPathControllerNameResolver);
+        assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof ContextControllerDefinitionFactory);
         assertTrue(componentRegistry.getContextContainerFactory() instanceof AbstractContextContainerFactory);
         assertTrue(componentRegistry.getBindErrorMessageResolver() instanceof DefaultBindErrorMessageResolver);
         assertTrue(componentRegistry.getDataBinder() instanceof OgnlDataBinder);

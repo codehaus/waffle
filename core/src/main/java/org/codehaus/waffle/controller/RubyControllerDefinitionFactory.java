@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
-public class RubyControllerDefinitionFactory extends DefaultControllerDefinitionFactory {
+public class RubyControllerDefinitionFactory extends ContextControllerDefinitionFactory {
     private final MethodNameResolver methodNameResolver;
     private static final Method executeMethod;
 

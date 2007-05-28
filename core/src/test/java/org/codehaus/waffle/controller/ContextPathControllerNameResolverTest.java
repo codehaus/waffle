@@ -2,12 +2,12 @@ package org.codehaus.waffle.controller;
 
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
-import org.codehaus.waffle.controller.DefaultControllerNameResolver;
+import org.codehaus.waffle.controller.ContextPathControllerNameResolver;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class DefaultControllerNameResolverTest extends MockObjectTestCase {
+public class ContextPathControllerNameResolverTest extends MockObjectTestCase {
 
     public void testFindControllerName() {
         Mock mockRequest = mock(HttpServletRequest.class);
@@ -16,7 +16,7 @@ public class DefaultControllerNameResolverTest extends MockObjectTestCase {
                 .will(returnValue("/foo/bar.htm"));
         HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
 
-        ControllerNameResolver controllerNameResolver = new DefaultControllerNameResolver();
+        ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver();
         assertEquals("foo/bar", controllerNameResolver.findControllerName(request));
     }
 
@@ -27,7 +27,7 @@ public class DefaultControllerNameResolverTest extends MockObjectTestCase {
                 .will(returnValue("/foobar"));
         HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
 
-        ControllerNameResolver controllerNameResolver = new DefaultControllerNameResolver();
+        ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver();
         assertEquals("foobar", controllerNameResolver.findControllerName(request));
     }
 
@@ -44,7 +44,7 @@ public class DefaultControllerNameResolverTest extends MockObjectTestCase {
                 .will(returnValue("/waffle"));
         HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
 
-        ControllerNameResolver controllerNameResolver = new DefaultControllerNameResolver();
+        ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver();
         assertEquals("foobar", controllerNameResolver.findControllerName(request));
     }
 }

@@ -16,7 +16,7 @@ package org.codehaus.waffle.action;
  *
  * @author Mauro Talevi
  */
-public class NoDefaultMethodException extends MatchingMethodException {
+public class NoDefaultMethodException extends MissingMethodException {
 
     public NoDefaultMethodException(String message) {
         super(message);

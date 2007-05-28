@@ -17,10 +17,10 @@ import javax.servlet.http.HttpServletRequest;
  * 
  * @author Michael Ward
  */
-public class DefaultControllerNameResolver implements ControllerNameResolver {
+public class ContextPathControllerNameResolver implements ControllerNameResolver {
     private static final String DOT_REGEX = "\\.";
 
-    public DefaultControllerNameResolver() {
+    public ContextPathControllerNameResolver() {
     }
 
     public String findControllerName(HttpServletRequest request) {
