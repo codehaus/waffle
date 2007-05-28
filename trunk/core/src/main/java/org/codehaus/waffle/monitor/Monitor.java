@@ -10,6 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
+import java.util.Set;
+
 import org.codehaus.waffle.action.MethodDefinition;
 
 /**
@@ -29,5 +31,7 @@ public interface Monitor {
     void pragmaticActionMethodFound(MethodDefinition methodDefinition);
 
     void actionMethodFound(MethodDefinition methodDefinition);
+
+    void methodNameResolved(String methodName, String methodKey, Set<String> keys);    
 
 }
