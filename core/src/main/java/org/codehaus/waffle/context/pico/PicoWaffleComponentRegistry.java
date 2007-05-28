@@ -10,7 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
+import java.util.Enumeration;
+
+import javax.servlet.ServletContext;
+
 import ognl.TypeConverter;
+
 import org.codehaus.waffle.WaffleComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
@@ -35,6 +40,8 @@ import org.codehaus.waffle.controller.DefaultControllerDefinitionFactory;
 import org.codehaus.waffle.controller.DefaultControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.monitor.ConsoleMonitor;
+import org.codehaus.waffle.monitor.Monitor;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DefaultDispatchAssistant;
@@ -48,13 +55,11 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
-import javax.servlet.ServletContext;
-import java.util.Enumeration;
-
 /**
- * This allows Waffle to have a pluggable architecture.
+ * PicoContainer-based implementation of WaffleComponentRegistry
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public class PicoWaffleComponentRegistry implements WaffleComponentRegistry {
     private final MutablePicoContainer picoContainer = new DefaultPicoContainer();
@@ -80,6 +85,7 @@ public class PicoWaffleComponentRegistry implements WaffleComponentRegistry {
         register(MessageResources.class, DefaultMessageResources.class, servletContext);
         register(MethodDefinitionFinder.class, AnnotatedMethodDefinitionFinder.class, servletContext);
         register(MethodNameResolver.class, RequestParameterMethodNameResolver.class, servletContext);
+        register(Monitor.class, ConsoleMonitor.class, servletContext);
         register(TypeConverter.class, OgnlTypeConverter.class, servletContext);
         register(Validator.class, DefaultValidator.class, servletContext);
         register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
@@ -213,6 +219,10 @@ public class PicoWaffleComponentRegistry implements WaffleComponentRegistry {
 
     public MethodNameResolver getMethodNameResolver() {
         return locateByType(MethodNameResolver.class);
+    }
+
+    public Monitor getMonitor() {
+        return locateByType(Monitor.class);
     }
 
     public TypeConverter getTypeConverter() {

@@ -1,7 +1,17 @@
 package org.codehaus.waffle.context.pico;
 
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+
 import ognl.DefaultTypeConverter;
 import ognl.TypeConverter;
+
 import org.codehaus.waffle.WaffleComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
@@ -9,8 +19,8 @@ import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.action.DefaultActionMethodResponseHandler;
 import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
-import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 import org.codehaus.waffle.action.MethodNameResolver;
+import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.DefaultBindErrorMessageResolver;
@@ -24,6 +34,8 @@ import org.codehaus.waffle.controller.DefaultControllerDefinitionFactory;
 import org.codehaus.waffle.controller.DefaultControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.monitor.ConsoleMonitor;
+import org.codehaus.waffle.monitor.Monitor;
 import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
 import org.codehaus.waffle.testmodel.StubActionMethodResponseHandler;
 import org.codehaus.waffle.testmodel.StubArgumentResolver;
@@ -35,10 +47,11 @@ import org.codehaus.waffle.testmodel.StubDataBinder;
 import org.codehaus.waffle.testmodel.StubDispatchAssistant;
 import org.codehaus.waffle.testmodel.StubMessageResources;
 import org.codehaus.waffle.testmodel.StubMethodDefinitionFinder;
+import org.codehaus.waffle.testmodel.StubMethodNameResolver;
+import org.codehaus.waffle.testmodel.StubMonitor;
 import org.codehaus.waffle.testmodel.StubValidator;
 import org.codehaus.waffle.testmodel.StubViewDispatcher;
 import org.codehaus.waffle.testmodel.StubViewResolver;
-import org.codehaus.waffle.testmodel.StubMethodNameResolver;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DefaultDispatchAssistant;
@@ -50,14 +63,6 @@ import org.codehaus.waffle.view.ViewResolver;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 import org.picocontainer.MutablePicoContainer;
-
-import javax.servlet.ServletContext;
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
 
 public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
     @SuppressWarnings({"unchecked"})
@@ -92,7 +97,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
         mockServletContext.expects(once())
                 .method("getInitParameterNames")
                 .will(returnValue(EMPTY_ENUMERATION));
-        mockServletContext.expects(exactly(16))
+        mockServletContext.expects(exactly(17))
                 .method("getInitParameter")
                 .will(returnValue(null));
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
@@ -108,6 +113,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
         assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof DefaultActionMethodResponseHandler);
         assertTrue(componentRegistry.getMethodNameResolver() instanceof RequestParameterMethodNameResolver);
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
+        assertTrue(componentRegistry.getMonitor() instanceof ConsoleMonitor);
         assertTrue(componentRegistry.getViewDispatcher() instanceof DefaultViewDispatcher);
         assertTrue(componentRegistry.getTypeConverter() instanceof OgnlTypeConverter);
         assertTrue(componentRegistry.getViewResolver() instanceof DefaultViewResolver);
@@ -167,6 +173,9 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
         mockServletContext.expects(once()).method("getInitParameter")
                 .with(eq(MethodNameResolver.class.getName()))
                 .will(returnValue(StubMethodNameResolver.class.getName()));
+        mockServletContext.expects(once()).method("getInitParameter")
+                .with(eq(Monitor.class.getName()))
+                .will(returnValue(StubMonitor.class.getName()));
 
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
         WaffleComponentRegistry componentRegistry = new PicoWaffleComponentRegistry(servletContext);
@@ -183,6 +192,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
         assertTrue(componentRegistry.getMethodNameResolver() instanceof StubMethodNameResolver);
         assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof StubActionMethodResponseHandler);
         assertTrue(componentRegistry.getMessageResources() instanceof StubMessageResources);
+        assertTrue(componentRegistry.getMonitor() instanceof StubMonitor);
         assertTrue(componentRegistry.getTypeConverter() instanceof DefaultTypeConverter);
         assertTrue(componentRegistry.getValidator() instanceof StubValidator);
         assertTrue(componentRegistry.getViewDispatcher() instanceof StubViewDispatcher);
@@ -197,7 +207,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
         mockServletContext.expects(once())
                 .method("getInitParameterNames")
                 .will(returnValue(Collections.enumeration(names)));
-        mockServletContext.expects(exactly(16))
+        mockServletContext.expects(exactly(17))
                 .method("getInitParameter")
                 .will(returnValue(null));
         mockServletContext.expects(once())
@@ -221,7 +231,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
         mockServletContext.expects(once())
                 .method("getInitParameterNames")
                 .will(returnValue(Collections.enumeration(names)));
-        mockServletContext.expects(exactly(16))
+        mockServletContext.expects(exactly(17))
                 .method("getInitParameter")
                 .will(returnValue(null));
         mockServletContext.expects(once())

@@ -21,29 +21,30 @@ import javax.servlet.http.HttpSession;
 
 import ognl.TypeConverter;
 
+import org.codehaus.waffle.monitor.Monitor;
+
 import com.thoughtworks.paranamer.CachingParanamer;
 import com.thoughtworks.paranamer.ParameterNamesNotFoundException;
 import com.thoughtworks.paranamer.Paranamer;
 
 /**
  * Pananamer-based method definition finder.
+ * <p/>
+ * This MethodDefinitionFinder is not the default used by Waffle. 
+ * <p/>
+ * <b>Note</b>: Pragmatic method calls will always take precedence.
  * 
  * @author Paul Hammant 
  */
 public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFinder {
     private final CachingParanamer paranamer = new CachingParanamer();
-
-    public ParanamerMethodDefinitionFinder(ServletContext servletContext,
-                                           ArgumentResolver argumentResolver,
-                                           TypeConverter typeConverter) {
-        super(servletContext, argumentResolver, typeConverter);
-    }
-
+   
     public ParanamerMethodDefinitionFinder(ServletContext servletContext,
                                            ArgumentResolver argumentResolver,
                                            TypeConverter typeConverter,
-                                           MethodNameResolver methodNameResolver) {
-        super(servletContext, argumentResolver, typeConverter, methodNameResolver);
+                                           MethodNameResolver methodNameResolver, 
+                                           Monitor monitor) {
+        super(servletContext, argumentResolver, typeConverter, methodNameResolver, monitor);
     }
 
     protected List<Object> getArguments(Method method, HttpServletRequest request) {

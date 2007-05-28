@@ -30,6 +30,7 @@ import ognl.TypeConverter;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+import org.codehaus.waffle.monitor.Monitor;
 
 /**
  * Abstract base implementation for all method definition finders
@@ -49,21 +50,18 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private final ArgumentResolver argumentResolver;
     private final TypeConverter typeConverter;
     private final MethodNameResolver methodNameResolver;
-
-    public AbstractMethodDefinitionFinder(ServletContext servletContext,
-                                          ArgumentResolver argumentResolver,
-                                          TypeConverter typeConverter) {
-        this(servletContext, argumentResolver, typeConverter, new RequestParameterMethodNameResolver());
-    }
+    private final Monitor monitor;
 
     public AbstractMethodDefinitionFinder(ServletContext servletContext,
                                           ArgumentResolver argumentResolver,
                                           TypeConverter typeConverter,
-                                          MethodNameResolver methodNameResolver) {
+                                          MethodNameResolver methodNameResolver, 
+                                          Monitor monitor) {
         this.servletContext = servletContext;
         this.argumentResolver = argumentResolver;
         this.typeConverter = typeConverter;
         this.methodNameResolver = methodNameResolver;
+        this.monitor = monitor;
     }
 
     public MethodDefinition find(Object controller,
@@ -71,12 +69,64 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                                  HttpServletResponse response) throws WaffleException {
         String methodName = methodNameResolver.resolve(request);
 
-        if (methodName == null) {
+        if (isDefaultActionMethod(methodName)) {
             return findDefaultActionMethod(request, controller);
         } else if (isPragmaticActionMethod(methodName)) { // pragmatic definition takes precedence
-            return handlePragmaticActionMethod(controller, methodName, request, response);
+            return findPragmaticActionMethod(controller, methodName, request, response);
+        } else {
+            return findActionMethod(controller, request, response, methodName);
+        }
+    }
+
+    private boolean isDefaultActionMethod(String methodName) {
+        return methodName == null;
+    }
+
+    private boolean isPragmaticActionMethod(String methodName) {
+        return methodName.contains(PRAGMA_SEPARATOR);
+    }
+
+    private MethodDefinition findDefaultActionMethod(HttpServletRequest request, Object controller) {
+        Class controllerType = controller.getClass();
+
+        if (defaultMethodCache.containsKey(controllerType)) { // cache hit
+            MethodDefinition methodDefinition = buildDefaultMethodDefinition(defaultMethodCache.get(controllerType), request);
+            monitor.defaultActionMethodCached(controllerType, methodDefinition);
+            return methodDefinition;
         }
 
+        MethodDefinition methodDefinition = null;
+        for (Method method : controllerType.getMethods()) {
+            if (method.isAnnotationPresent(DefaultActionMethod.class)) {
+                defaultMethodCache.put(controllerType, method); // add to cache
+                methodDefinition = buildDefaultMethodDefinition(method, request);
+                break;
+            }
+        }
+        
+        if ( methodDefinition != null ){
+            monitor.defaultActionMethodFound(methodDefinition);
+            return methodDefinition;
+        }
+        throw new NoDefaultMethodException(controllerType.getName());
+    }
+
+    private MethodDefinition findPragmaticActionMethod(Object controller,
+                                                         String methodName,
+                                                         HttpServletRequest request,
+                                                         HttpServletResponse response) {
+        Iterator<String> iterator = Arrays.asList(methodName.split(PRAGMA_REGEX)).iterator();
+        methodName = iterator.next();
+
+        List<Method> methods = findMethods(controller.getClass(), methodName);
+
+        List<Object> arguments = resolveArguments(request, iterator);
+        MethodDefinition methodDefinition = findPragmaticMethodDefinition(request, response, methods, arguments);
+        monitor.pragmaticActionMethodFound(methodDefinition);
+        return methodDefinition;
+    }
+
+    private MethodDefinition findActionMethod(Object controller, HttpServletRequest request, HttpServletResponse response, String methodName) {
         List<Method> methods = findMethods(controller.getClass(), methodName);
 
         List<MethodDefinition> methodDefinitions = findMethodDefinitions(request, response, methods);
@@ -87,7 +137,9 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             throw new NoMatchingMethodException(methodName, controller.getClass());
         }
 
-        return methodDefinitions.get(0);
+        MethodDefinition methodDefinition = methodDefinitions.get(0);
+        monitor.actionMethodFound(methodDefinition);
+        return methodDefinition;
     }
 
     /**
@@ -99,6 +151,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
      * @throws NoMatchingMethodException if no methods match
      */
     private List<Method> findMethods(Class type, String methodName) {
+        //noinspection unchecked
         List<Method> methods = OgnlRuntime.getMethods(type, methodName, false);
         if (methods == null) {
             throw new NoMatchingMethodException(methodName, type);
@@ -113,7 +166,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             if (Modifier.isPublic(method.getModifiers())) {
                 List<Object> arguments = getArguments(method, request);
                 try {
-                    methodDefinitions.add(validateMethod(request, response, method, arguments));
+                    methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
                 } catch ( InvalidMethodException e) {
                     // continue
                 }                 
@@ -123,20 +176,50 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinitions;
     }
     
-    protected abstract List<Object> getArguments(Method method, HttpServletRequest request);
+     private MethodDefinition buildDefaultMethodDefinition(Method method, HttpServletRequest request) {
+        MethodDefinition methodDefinition = new MethodDefinition(method);
+        DefaultActionMethod defaultActionMethod = method.getAnnotation(DefaultActionMethod.class);
+        List<String> arguments = new ArrayList<String>(defaultActionMethod.parameters().length);
 
-    protected List<Object> resolveArguments(HttpServletRequest request, Iterator<String> arguments) {
-        List<Object> resolvedArguments = new ArrayList<Object>(10);
-
-        while (arguments.hasNext()) {
-            String name = arguments.next();
-            resolvedArguments.add(argumentResolver.resolve(request, name));
+        for (String value : defaultActionMethod.parameters()) {
+            arguments.add(formatArgument(value));
         }
 
-        return resolvedArguments;
+        // resolve argument and add to the methodDefinition
+        for (Object argument : resolveArguments(request, arguments.iterator())) {
+            methodDefinition.addMethodArgument(argument);
+        }
+
+        return methodDefinition;
     }
 
-    private MethodDefinition validateMethod(HttpServletRequest request,
+    private MethodDefinition findPragmaticMethodDefinition(HttpServletRequest request, HttpServletResponse response,
+            List<Method> methods, List<Object> arguments) {
+        List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
+
+        for (Method method : methods) {
+            if (Modifier.isPublic(method.getModifiers())) {
+                try {
+                    methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
+                } catch (InvalidMethodException e) {
+                    // continue
+                }
+            }
+        }
+
+        if (methodDefinitions.size() > 1) {
+            String methodName = methodDefinitions.get(0).getMethod().getName();
+            throw new AmbiguousMethodSignatureException("Method: " + methodName);
+        } else if (methodDefinitions.isEmpty()) {
+            // TODO - avoid null
+            throw new NoMatchingMethodException(methods.get(0).getName(), null); 
+        }
+
+        MethodDefinition methodDefinition = methodDefinitions.get(0);
+        return methodDefinition; // TODO ... should we cache the method?
+    }
+
+    private MethodDefinition buildMethodDefinition(HttpServletRequest request,
                                               HttpServletResponse response,
                                               Method method,
                                               List<Object> arguments) {
@@ -169,15 +252,6 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
 
         throw new InvalidMethodException(method.getName());
-    }
-
-    /**
-     * Wraps value in curly brackets to fit with default handling
-     * @param value the argument value
-     * @return A formatted argument
-     */
-    protected String formatArgument(String value) {
-        return MessageFormat.format(ARGUMENT_FORMAT,value);
     }
 
     private boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition) {
@@ -218,89 +292,49 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         if (isEmpty(value) && type.isPrimitive()) {
             value = null; // this allows Ognl to use that primitives default value
         }
-
         return typeConverter.convertValue(null, null, null, null, value, type);
     }
 
     private boolean isEmpty(String value) {
-        return value == null || value.length() == 0;
+        return isDefaultActionMethod(value) || value.length() == 0;
+    }
+    
+    // Protected methods, accessible by concrete subclasses
+    /**
+     * Returns the method arguments contained in the request
+     * 
+     * @param method the Method
+     * @param request the HttpServetRequest
+     */
+    protected abstract List<Object> getArguments(Method method, HttpServletRequest request);
+
+    /**
+     * Wraps value in curly brackets to fit with default handling
+     * 
+     * @param value the argument value
+     * @return A formatted argument
+     */
+    protected String formatArgument(String value) {
+        return MessageFormat.format(ARGUMENT_FORMAT,value);
     }
 
-    private boolean isPragmaticActionMethod(String methodName) {
-        return methodName.contains(PRAGMA_SEPARATOR);
-    }
+    /**
+     * Resolves arguments by name
+     * 
+     * @param request the HttpServletRequest
+     * @param arguments the List of argument names
+     * @return The List of resolved argument objects
+     * @see ArgumentResolver
+     */
+    protected List<Object> resolveArguments(HttpServletRequest request, Iterator<String> arguments) {
+        List<Object> resolvedArguments = new ArrayList<Object>(10);
 
-    private MethodDefinition handlePragmaticActionMethod(Object action,
-                                                         String methodName,
-                                                         HttpServletRequest request,
-                                                         HttpServletResponse response) {
-        Iterator<String> iterator = Arrays.asList(methodName.split(PRAGMA_REGEX)).iterator();
-        methodName = iterator.next();
-
-        List<Method> methods = findMethods(action.getClass(), methodName);
-
-        List<Object> arguments = resolveArguments(request, iterator);
-        return findMethodDefinitionForPragmatic(request, response, methods, arguments);
-    }
-
-    private MethodDefinition findMethodDefinitionForPragmatic(HttpServletRequest request,
-                                                              HttpServletResponse response,
-                                                              List<Method> methods,
-                                                              List<Object> arguments) {
-        List<MethodDefinition> validMethods = new ArrayList<MethodDefinition>();
-
-        for (Method method : methods) {
-            if (Modifier.isPublic(method.getModifiers())) {
-                try {
-                    validMethods.add(validateMethod(request, response, method, arguments));
-                } catch ( InvalidMethodException e) {
-                    // continue
-                }                 
-            }
+        while (arguments.hasNext()) {
+            String name = arguments.next();
+            resolvedArguments.add(argumentResolver.resolve(request, name));
         }
 
-        if (validMethods.size() > 1) {
-            String methodName = validMethods.get(0).getMethod().getName();
-            throw new AmbiguousMethodSignatureException("Method: " + methodName);
-        } else if (validMethods.isEmpty()) {
-            throw new NoMatchingMethodException(methods.get(0).getName(), null); // TODO - not null
-        }
-
-        return validMethods.get(0); // todo ... should we cache the method?
-    }
-
-    private MethodDefinition findDefaultActionMethod(HttpServletRequest request, Object action) {
-        Class clazz = action.getClass();
-
-        if (defaultMethodCache.containsKey(clazz)) { // cache hit
-            return buildMethodDefinitionForDefaultActionMethod(defaultMethodCache.get(clazz), request);
-        }
-
-        for (Method method : clazz.getMethods()) {
-            if (method.isAnnotationPresent(DefaultActionMethod.class)) {
-                defaultMethodCache.put(clazz, method); // add to cache
-                return buildMethodDefinitionForDefaultActionMethod(method, request);
-            }
-        }
-
-        throw new NoDefaultMethodException(clazz.getName());
-    }
-
-    private MethodDefinition buildMethodDefinitionForDefaultActionMethod(Method method, HttpServletRequest request) {
-        MethodDefinition methodDefinition = new MethodDefinition(method);
-        DefaultActionMethod defaultActionMethod = method.getAnnotation(DefaultActionMethod.class);
-        List<String> arguments = new ArrayList<String>(defaultActionMethod.parameters().length);
-
-        for (String value : defaultActionMethod.parameters()) {
-            arguments.add(formatArgument(value));
-        }
-
-        // resolve argument and add to the methodDefinition
-        for (Object argument : resolveArguments(request, arguments.iterator())) {
-            methodDefinition.addMethodArgument(argument);
-        }
-
-        return methodDefinition;
+        return resolvedArguments;
     }
 
 }
