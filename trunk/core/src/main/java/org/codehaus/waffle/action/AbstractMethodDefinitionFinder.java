@@ -70,7 +70,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         String methodName = methodNameResolver.resolve(request);
 
         if (isDefaultActionMethod(methodName)) {
-            return findDefaultActionMethod(request, controller);
+            return findDefaultActionMethod(controller, request);
         } else if (isPragmaticActionMethod(methodName)) { // pragmatic definition takes precedence
             return findPragmaticActionMethod(controller, methodName, request, response);
         } else {
@@ -86,7 +86,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodName.contains(PRAGMA_SEPARATOR);
     }
 
-    private MethodDefinition findDefaultActionMethod(HttpServletRequest request, Object controller) {
+    private MethodDefinition findDefaultActionMethod(Object controller, HttpServletRequest request) {
         Class controllerType = controller.getClass();
 
         if (defaultMethodCache.containsKey(controllerType)) { // cache hit
