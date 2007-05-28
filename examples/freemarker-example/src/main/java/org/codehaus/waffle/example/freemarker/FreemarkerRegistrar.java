@@ -14,13 +14,10 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
     @Override
     public void application() {
         register(SimplePersonDAO.class);
-        register("people/person", PersonController.class);
     }
 
     @Override
     public void session() {
-        // TODO it fails if registered at session with 
-        // Waffle could not find session-level context container.
-        //register("people/person", PersonController.class);
+        register("people/person", PersonController.class);
     }
 }
