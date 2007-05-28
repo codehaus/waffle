@@ -10,8 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle;
 
-import org.codehaus.waffle.controller.ControllerDefinitionFactory;
-import org.codehaus.waffle.controller.ControllerNameResolver;
+import ognl.TypeConverter;
+
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ArgumentResolver;
@@ -20,13 +20,21 @@ import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.monitor.Monitor;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DispatchAssistant;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
-import ognl.TypeConverter;
 
+/**
+ * Component registry which allows Waffle to have a pluggable architecture.
+ *
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
 public interface WaffleComponentRegistry {
     <T> T locateByKey(Object key);
 
@@ -55,6 +63,8 @@ public interface WaffleComponentRegistry {
     MethodDefinitionFinder getMethodDefinitionFinder();
 
     MethodNameResolver getMethodNameResolver();
+
+    Monitor getMonitor();
 
     TypeConverter getTypeConverter();
 

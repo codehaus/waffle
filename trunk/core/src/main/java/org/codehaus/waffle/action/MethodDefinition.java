@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class MethodDefinition {
     private final Method method;
-    private final List<Object> methodArguments = new ArrayList<Object>();
+    private final List<Object> arguments = new ArrayList<Object>();
 
     public MethodDefinition(Method method) {
         this.method = method;
@@ -32,10 +32,21 @@ public class MethodDefinition {
     }
 
     public List<Object> getMethodArguments() {
-        return methodArguments;
+        return arguments;
     }
 
     public void addMethodArgument(Object argument) {
-        methodArguments.add(argument);
+        arguments.add(argument);
+    }
+    
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("[MethodDefinition method=");
+        sb.append(method);
+        sb.append(", arguments=");
+        sb.append(arguments);
+        sb.append("]");
+        return sb.toString();
     }
 }

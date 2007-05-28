@@ -21,11 +21,14 @@ import javax.servlet.http.HttpServletRequest;
 import ognl.TypeConverter;
 
 import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.monitor.Monitor;
 
 /**
- * Annotation-based method definition finder. This is the default MethodDefinitionFinder used by Waffle.
+ * Annotation-based method definition finder. 
  * <p/>
- * Pragmatic method calls will override what (if any) annotation is defined.
+ * This is the default MethodDefinitionFinder used by Waffle.
+ * <p/>
+ * <b>Note</b>: Pragmatic method calls will always take precedence.
  * 
  * @author Michael Ward
  */
@@ -33,15 +36,10 @@ public class AnnotatedMethodDefinitionFinder extends AbstractMethodDefinitionFin
 
     public AnnotatedMethodDefinitionFinder(ServletContext servletContext,
                                            ArgumentResolver argumentResolver,
-                                           TypeConverter typeConverter) {
-        super(servletContext, argumentResolver, typeConverter);
-    }
-
-    public AnnotatedMethodDefinitionFinder(ServletContext servletContext,
-                                           ArgumentResolver argumentResolver,
                                            TypeConverter typeConverter,
-                                           MethodNameResolver methodNameResolver) {
-        super(servletContext, argumentResolver, typeConverter, methodNameResolver);
+                                           MethodNameResolver methodNameResolver, 
+                                           Monitor monitor) {
+        super(servletContext, argumentResolver, typeConverter, methodNameResolver, monitor);
     }
 
     protected List<Object> getArguments(Method method, HttpServletRequest request) {
