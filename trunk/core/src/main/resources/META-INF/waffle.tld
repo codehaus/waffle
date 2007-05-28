@@ -9,7 +9,7 @@
     <display-name>Custom functions</display-name>
     <tlib-version>1.1</tlib-version>
     <short-name>waffle</short-name>
-    <uri>http://thoughtworks.com/java/waffle</uri>
+    <uri>http://waffle.codehaus.org/tld</uri>
 
     <function>
         <description>Find field errors for the name passed</description>
