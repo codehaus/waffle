@@ -7,9 +7,9 @@ import org.codehaus.waffle.example.paranamer.action.HelloWorldController;
 import org.codehaus.waffle.example.paranamer.action.PersonController;
 import org.codehaus.waffle.example.paranamer.dao.SimplePersonDAO;
 
-public class MyRegistrar extends AbstractRegistrar {
+public class ParanamerRegistrar extends AbstractRegistrar {
 
-    public MyRegistrar(Registrar delegate) {
+    public ParanamerRegistrar(Registrar delegate) {
         super(delegate);
     }
 

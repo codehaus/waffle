@@ -10,7 +10,7 @@
     <!-- 1. This is how an application registers its custom Registrar -->
     <context-param>
         <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
-        <param-value>org.codehaus.waffle.example.freemarker.MyRegistrar</param-value>
+        <param-value>org.codehaus.waffle.example.freemarker.FreemarkerRegistrar</param-value>
     </context-param>
     <context-param>
         <param-name>org.codehaus.waffle.action.MethodDefinitionFinder</param-name>
