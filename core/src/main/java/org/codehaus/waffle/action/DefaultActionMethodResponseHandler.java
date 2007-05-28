@@ -54,6 +54,7 @@ public class DefaultActionMethodResponseHandler implements ActionMethodResponseH
             viewDispatcher.dispatch(request, response, view);
         } else if (returnValue instanceof Exception) {
             Exception exception = (Exception) returnValue;
+            // todo log this occurance
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             handleResponse(response, exception.getMessage());
         } else {

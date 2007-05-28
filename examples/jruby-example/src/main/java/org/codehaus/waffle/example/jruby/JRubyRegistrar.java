@@ -19,16 +19,25 @@ public class JRubyRegistrar extends AbstractRegistrar {
     @Override
     public void application() {
         registerInstance("chicago", "bears");
+
         String script =
                 "class FooBar\n" +
                 "  def index\n" +
-                "    \"HELLO WORLD from the index method #{find_chicago}\"\n" +
+                "    request[:foo] = 'bar'\n" +
+                "    session[:bar] = 'foo'\n" +
+                "    p session\n" +
+                "    begin\n" +
+                "      \"HELLO WORLD from the index method \nlook up from pico: #{find_chicago} \nrequest: #{request} \nsession: #{session} \n#{session['waffle.session.container']} \"\n" +
+                "    rescue Exception => e\n" +
+                "      return e\n" +
+                "    end\n" +
                 "  end\n" +
                 "  def bar\n" +
                 "    \"HELLO WORLD #{request.local_name} #{request.local_port} \"\n" +
                 "  end\n" +
                 "end\n";
 
+        // TODO ... update Registrar to have a "registerRubyScript(key, String)" .. and registerRubyScriptLocation(folder)
         ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foo_bar", script);
         picoRegistrar.registerComponentAdapter(componentAdapter);
     }
