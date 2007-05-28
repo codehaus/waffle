@@ -1,7 +1,7 @@
 package org.apache.taglibs.standard.tag.common.fmt;
 
-import org.waffle.taglib.form.TimeTag;
-import org.waffle.taglib.form.DateTag;
+import org.codehaus.waffle.taglib.form.TimeTag;
+import org.codehaus.waffle.taglib.form.DateTag;
 
 import java.util.Locale;
 

@@ -10,7 +10,7 @@
 
     <function>
         <name>evaluate</name>
-        <function-class>org.waffle.taglib.Evaluator</function-class>
+        <function-class>org.codehaus.waffle.taglib.Evaluator</function-class>
         <function-signature>
             java.lang.Object evaluate(java.lang.String,javax.servlet.jsp.PageContext)
         </function-signature>
@@ -18,7 +18,7 @@
 
     <function>
         <name>getAttributes</name>
-        <function-class>org.waffle.taglib.Evaluator</function-class>
+        <function-class>org.codehaus.waffle.taglib.Evaluator</function-class>
         <function-signature>
             java.lang.String getAttributes(java.util.Map)
         </function-signature>
@@ -28,7 +28,7 @@
 
     <tag>
         <name>checkbox</name>
-        <tag-class>org.waffle.taglib.form.CheckBoxTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.CheckBoxTag</tag-class>
         <body-content>JSP</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <attribute>
@@ -70,7 +70,7 @@
     <tag>
 
         <name>time</name>
-        <tagclass>org.waffle.taglib.form.TimeTag</tagclass>
+        <tagclass>org.codehaus.waffle.taglib.form.TimeTag</tagclass>
         <bodycontent>empty</bodycontent>
         <dynamic-attributes>true</dynamic-attributes>
         <attribute>
@@ -115,7 +115,7 @@
     <!-- date -->
     <tag>
         <name>date</name>
-        <tagclass>org.waffle.taglib.form.DateTag</tagclass>
+        <tagclass>org.codehaus.waffle.taglib.form.DateTag</tagclass>
         <bodycontent>empty</bodycontent>
         <dynamic-attributes>true</dynamic-attributes>
         <description>Campo para seleção de uma data</description>
@@ -159,7 +159,7 @@
 
     <tag>
         <name>select</name>
-        <tagclass>org.waffle.taglib.form.SelectTag</tagclass>
+        <tagclass>org.codehaus.waffle.taglib.form.SelectTag</tagclass>
         <bodycontent>scriptless</bodycontent>
         <info>Tag for select box.</info>
         <dynamic-attributes>true</dynamic-attributes>
@@ -219,7 +219,7 @@
 
     <tag>
         <name>text</name>
-        <tag-class>org.waffle.taglib.form.TextTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.TextTag</tag-class>
         <body-content>JSP</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <attribute>
@@ -256,7 +256,7 @@
 
     <tag>
         <name>file</name>
-        <tag-class>org.waffle.taglib.form.FileTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.FileTag</tag-class>
         <body-content>JSP</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <attribute>
@@ -287,7 +287,7 @@
 
     <tag>
         <name>password</name>
-        <tag-class>org.waffle.taglib.form.PasswordTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.PasswordTag</tag-class>
         <body-content>JSP</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <description>Campo de senha</description>
@@ -326,7 +326,7 @@
     <tag>
         <name>hidden</name>
         <dynamic-attributes>true</dynamic-attributes>
-        <tag-class>org.waffle.taglib.form.HiddenTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.HiddenTag</tag-class>
         <body-content>empty</body-content>
         <attribute>
             <name>rendered</name>
@@ -354,7 +354,7 @@
 
     <tag>
         <name>textarea</name>
-        <tag-class>org.waffle.taglib.form.TextAreaTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.TextAreaTag</tag-class>
         <body-content>JSP</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <description>Uma caixa de texto de diversas linhas</description>
@@ -385,7 +385,7 @@
 
     <tag>
         <name>submit</name>
-        <tag-class>org.waffle.taglib.form.SubmitTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.SubmitTag</tag-class>
         <body-content>empty</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <description>Botão de envio de formulário</description>
@@ -422,7 +422,7 @@
 
     <tag>
         <name>button</name>
-        <tag-class>org.waffle.taglib.form.ButtonTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.ButtonTag</tag-class>
         <body-content>empty</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <attribute>
@@ -450,7 +450,7 @@
 
     <tag>
         <name>reset</name>
-        <tag-class>org.waffle.taglib.form.ResetTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.ResetTag</tag-class>
         <body-content>empty</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <description>Botão que reinicializa o formulário</description>
@@ -479,7 +479,7 @@
 
     <tag>
         <name>img</name>
-        <tag-class>org.waffle.taglib.form.ImgTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.ImgTag</tag-class>
         <body-content>empty</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <description>Imagem a ser utilizada dentro de um formulário</description>
@@ -510,7 +510,7 @@
 
     <tag>
         <name>row</name>
-        <tag-class>org.waffle.taglib.form.RowTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.RowTag</tag-class>
         <body-content>JSP</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <attribute>
@@ -530,7 +530,7 @@
 
     <tag>
         <name>form</name>
-        <tag-class>org.waffle.taglib.form.FormTag</tag-class>
+        <tag-class>org.codehaus.waffle.taglib.form.FormTag</tag-class>
         <body-content>JSP</body-content>
         <dynamic-attributes>true</dynamic-attributes>
         <attribute>
