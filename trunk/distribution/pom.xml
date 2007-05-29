@@ -81,6 +81,20 @@
               <workDirectory>${project.build.directory}/assembly/bin</workDirectory>
             </configuration>
           </execution>
+            <execution>
+              <id>blankproject</id>
+              <phase>install</phase>
+              <goals>
+                <goal>single</goal>
+              </goals>
+              <configuration>
+                <descriptors>
+                  <descriptor>${basedir}/src/assembly/assembly-blankproject.xml</descriptor>
+                </descriptors>
+                <finalName>waffle-blankproject-${pom.version}</finalName>
+                <workDirectory>${project.build.directory}/assembly/blankproject</workDirectory>
+              </configuration>
+            </execution>
           <execution>
             <id>src</id>
             <phase>install</phase>
