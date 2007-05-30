@@ -15,7 +15,7 @@
   <modules>
     <module>skin</module>
     <module>core</module>
-    <module>extensions/webcontainer</module>
+    <!--<module>extensions/webcontainer</module>-->
     <module>extensions/taglib</module>
   </modules>
 

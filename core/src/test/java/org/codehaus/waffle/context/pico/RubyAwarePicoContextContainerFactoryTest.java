@@ -17,6 +17,8 @@ public class RubyAwarePicoContextContainerFactoryTest extends MockObjectTestCase
         Ruby runtime = (Ruby) picoContainer.getComponentInstance(Ruby.class);
         assertNotNull(runtime);
 
+        assertNotNull(picoContainer.getComponentAdapter(RubyScriptLoader.class));
+
         // ensure mixin occurred
         RubyBoolean rubyBoolean = (RubyBoolean) runtime.evalScript("String.respond_to? :camelize");
         assertTrue((Boolean)JavaEmbedUtils.rubyToJava(runtime, rubyBoolean, Boolean.class));

@@ -26,6 +26,7 @@ public class RubyController {
         return rubyObject;
     }
 
+    // todo need to ensure this doesn't allow non-public methods to be called
     public Object execute(HttpServletRequest request, HttpServletResponse response) {
         Ruby runtime = rubyObject.getRuntime();
         IRubyObject result = rubyObject.callMethod(runtime.getCurrentContext(), methodName);
