@@ -28,6 +28,7 @@ public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFa
         // Register RubyRuntime at Application level
         MutablePicoContainer picoContainer = (MutablePicoContainer) contextContainer.getDelegate();
         picoContainer.registerComponentInstance(Ruby.class, runtime);
+        picoContainer.registerComponentImplementation(RubyScriptLoader.class);
 
         return contextContainer;
     }
@@ -58,7 +59,6 @@ public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFa
                 // ignore
             }
         }
-
     }
 
 }

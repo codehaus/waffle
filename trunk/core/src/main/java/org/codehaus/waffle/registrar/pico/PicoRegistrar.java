@@ -67,6 +67,12 @@ public class PicoRegistrar implements Registrar {
         picoContainer.registerComponent(componentAdapter);
     }
 
+    // expose to interface?
+    public void registerRubyScript(String key, String className) {
+        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter(key, className);
+        this.registerComponentAdapter(componentAdapter);
+    }
+    
     public void registerComponentAdapter(ComponentAdapter componentAdapter) {
         picoContainer.registerComponent(componentAdapter);
     }
@@ -76,7 +82,7 @@ public class PicoRegistrar implements Registrar {
         for (int i = 0; i < parameters.length; i++) {
             picoParameters[i] = new ConstantParameter(parameters[i]);
         }        
-        return null;
+        return picoParameters;
     }
 
     public void application() {

@@ -10,13 +10,12 @@ import org.picocontainer.PicoIntrospectionException;
 import org.picocontainer.PicoVisitor;
 
 public class RubyScriptComponentAdapter implements ComponentAdapter {
-    private Object componentKey;
-    private final String rubyScript;
+    private final Object componentKey;
+    private final String rubyClassName;
 
-    // TODO this needs to be changed ... key is the name controller regiester under and the value is the Ruby class name
-    public RubyScriptComponentAdapter(Object componentKey, String rubyScript) {
+    public RubyScriptComponentAdapter(Object componentKey, String rubyClassName) {
         this.componentKey = componentKey;
-        this.rubyScript = rubyScript;
+        this.rubyClassName = rubyClassName;
     }
 
     public Object getComponentKey() {
@@ -29,10 +28,10 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
 
     public Object getComponentInstance(PicoContainer picoContainer) throws PicoInitializationException, PicoIntrospectionException {
         Ruby runtime = (Ruby) picoContainer.getComponentInstance(Ruby.class);
-        runtime.evalScript(rubyScript);
+        runtime.evalScript(rubyClassName);
 
         String script =
-                "controller = eval(\"#{String.camelize('" + componentKey + "')}.new\")\n" + // instantiate controller
+                "controller = " + rubyClassName + ".new\n" + // instantiate controller
                 "controller.extend(Waffle::Controller)"; // mixin Waffle module
         IRubyObject controller = runtime.evalScript(script);
 

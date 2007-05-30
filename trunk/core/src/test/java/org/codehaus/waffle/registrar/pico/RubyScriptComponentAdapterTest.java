@@ -27,16 +27,14 @@ public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
                 "   end\n" +
                 "  end\n" +
                 "end\n" +
-                "def String.camelize(param_1)\n" +
-                "  return 'FooBar'\n" + // fake out functionality
-                "end\n" +
                 "class FooBar\n" +
                 "  def execute\n" +
                 "    \"JRuby and #{$my_global}\"\n" +
                 "  end\n" +
                 "end";
+        runtime.evalScript(script);
 
-        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foo_bar", script);
+        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foo_bar", "FooBar");
         MutablePicoContainer picoContainer = new DefaultPicoContainer();
         picoContainer.registerComponentInstance(Ruby.class, runtime);
 
