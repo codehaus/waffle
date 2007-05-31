@@ -20,12 +20,10 @@ public abstract class ResponderView extends View {
 	/**
 	 * Renders the output directly into servlet response
 	 * 
-	 * @param req
-	 *            servler request
-	 * @param resp
-	 *            http servlet response
+	 * @param request the ServletRequest
+	 * @param response the HttpServletResponse
 	 * @throws IOException
 	 */
-	public abstract void respond(ServletRequest req, HttpServletResponse resp)
+	public abstract void respond(ServletRequest request, HttpServletResponse response)
 			throws IOException;
 }
