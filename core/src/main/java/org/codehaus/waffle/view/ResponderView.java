@@ -13,17 +13,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 public abstract class ResponderView extends View {
 
-	public ResponderView() {
-		super(null, "");
-	}
+    public ResponderView() {
+        super(null, "");
+    }
 
-	/**
-	 * Renders the output directly into servlet response
-	 * 
-	 * @param request the ServletRequest
-	 * @param response the HttpServletResponse
-	 * @throws IOException
-	 */
-	public abstract void respond(ServletRequest request, HttpServletResponse response)
-			throws IOException;
+    /**
+     * Renders the output directly into servlet response
+     *
+     * @param request the ServletRequest
+     * @param response the HttpServletResponse
+     * @throws IOException
+     */
+    public abstract void respond(ServletRequest request, HttpServletResponse response)
+            throws IOException;
 }

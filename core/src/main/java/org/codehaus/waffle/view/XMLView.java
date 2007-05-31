@@ -20,27 +20,27 @@ import com.thoughtworks.xstream.mapper.MapperWrapper;
  */
 public class XMLView extends ResponderView {
 
-	public static final String CONTENT_TYPE = "text/plain";
+    public static final String CONTENT_TYPE = "text/plain";
 
-	@Override
-	public void respond(ServletRequest request, HttpServletResponse response)
-			throws IOException {
-		XStream xs = new WaffleXStream();
-		xs.registerConverter(new GetterXMLConverter(), -19);
-		xs.registerConverter(new CollectionConverter(xs.getMapper()) {
-			public boolean canConvert(Class c) {
-				return Collection.class.isAssignableFrom(c);
-			}
-		}, -18);
+    @Override
+    public void respond(ServletRequest request, HttpServletResponse response)
+            throws IOException {
+        XStream xs = new WaffleXStream();
+        xs.registerConverter(new GetterXMLConverter(), -19);
+        xs.registerConverter(new CollectionConverter(xs.getMapper()) {
+            public boolean canConvert(Class c) {
+                return Collection.class.isAssignableFrom(c);
+            }
+        }, -18);
 
-		// TODO: should we stream.setMode(XStream.NO_REFERENCES); ?
+        // TODO: should we stream.setMode(XStream.NO_REFERENCES); ?
 
-		String data = xs.toXML(request.getAttribute(Constants.CONTROLLER_KEY));
-		response.setContentType(CONTENT_TYPE);
+        String data = xs.toXML(request.getAttribute(Constants.CONTROLLER_KEY));
+        response.setContentType(CONTENT_TYPE);
 
-		// TODO: char encoding?
-		response.getOutputStream().print(data);
-	}
+        // TODO: char encoding?
+        response.getOutputStream().print(data);
+    }
 
 }
 
@@ -52,22 +52,22 @@ public class XMLView extends ResponderView {
  */
 class WaffleXStream extends XStream {
 
-	public WaffleXStream() {
-		super(new DomDriver());
-	}
+    public WaffleXStream() {
+        super(new DomDriver());
+    }
 
-	@Override
-	protected MapperWrapper wrapMapper(MapperWrapper next) {
-		return new MapperWrapper(next) {
-			@Override
-			public String serializedClass(Class type) {
-				String value = super.serializedClass(type);
-				if (type.getName().replace('$', '-').equals(value)) {
-					return type.getSimpleName();
-				}
-				return value;
-			}
-		};
-	}
+    @Override
+    protected MapperWrapper wrapMapper(MapperWrapper next) {
+        return new MapperWrapper(next) {
+            @Override
+            public String serializedClass(Class type) {
+                String value = super.serializedClass(type);
+                if (type.getName().replace('$', '-').equals(value)) {
+                    return type.getSimpleName();
+                }
+                return value;
+            }
+        };
+    }
 
 }

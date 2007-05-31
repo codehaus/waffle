@@ -7,14 +7,14 @@ import org.junit.Test;
 
 public class WaffleXMLServletTest {
 
-	@Test
-	public void testOverridenActionMethodResponse() {
-		ActionMethodResponse response = new ActionMethodResponse();
-		response.setReturnValue("a value that will be overriden....");
-		
-		WaffleXMLServlet servlet = new WaffleXMLServlet();
-		servlet.buildViewToReferrer(null, response);
-		Assert.assertTrue((response.getReturnValue() instanceof XMLView));
-	}
+    @Test
+    public void testOverridenActionMethodResponse() {
+        ActionMethodResponse response = new ActionMethodResponse();
+        response.setReturnValue("a value that will be overriden....");
+
+        WaffleXMLServlet servlet = new WaffleXMLServlet();
+        servlet.buildViewToReferrer(null, response);
+        Assert.assertTrue((response.getReturnValue() instanceof XMLView));
+    }
 
 }
