@@ -21,9 +21,14 @@ public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFa
         ContextContainer contextContainer = super.buildApplicationContextContainer();
 
         Ruby runtime = Ruby.getDefaultInstance();
-
         loadRubyScriptFromClassLoader("string.rb", runtime);
         loadRubyScriptFromClassLoader("waffle.rb", runtime);
+
+        // I'd prefer to do the following:
+        //      runtime.evalScript("require 'string'\nrequire 'waffle'"); // load Waffle custom scripts
+        //
+        // but JRuby fails when web app is reloaded...
+        // <script>:1:in `require': JAR entry string.rb not found in ~/jruby-example/exploded/WEB-INF/lib/core.jar (IOError)
 
         // Register RubyRuntime at Application level
         MutablePicoContainer picoContainer = (MutablePicoContainer) contextContainer.getDelegate();
