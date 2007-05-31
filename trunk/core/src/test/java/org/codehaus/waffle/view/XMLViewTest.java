@@ -24,13 +24,9 @@ import java.util.Map;
  */
 @RunWith(JMock.class)
 public class XMLViewTest extends MockObjectTestCase {
-
     private Mockery mockery = new Mockery();
-
     private HttpServletRequest mockRequest = mockRequest();
-
     private HttpServletResponse mockResponse = mockResponse();
-
     private MockServletOutputStream mockOutput = new MockServletOutputStream();
 
     @Test
