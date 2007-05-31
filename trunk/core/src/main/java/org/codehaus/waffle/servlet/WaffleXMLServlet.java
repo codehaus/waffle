@@ -16,14 +16,13 @@ import org.codehaus.waffle.view.XMLView;
 
 /**
  * Waffle's FrontController for XML serialization.
- * 
+ *
  * @author Paulo Silveira
  */
 public class WaffleXMLServlet extends WaffleServlet {
 
-    protected void buildViewToReferrer(
-            ControllerDefinition controllerDefinition,
-            ActionMethodResponse actionMethodResponse) {
+    protected void buildViewToReferrer(ControllerDefinition controllerDefinition,
+                                       ActionMethodResponse actionMethodResponse) {
         actionMethodResponse.setReturnValue(new XMLView());
     }
 }

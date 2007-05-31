@@ -1,82 +1,73 @@
 package org.codehaus.waffle.view;
 
-import java.lang.reflect.Method;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.lang.reflect.Method;
+import java.util.Map;
 
 public class GetterXMLConverterTest {
 
     @Test
     public void testChecksIfGetIsAGetter() throws SecurityException,
             NoSuchMethodException {
-        Method get = GetterXMLConverterTestClass.class.getMethod("get",
-                new Class[0]);
+        Method get = GetterXMLConverterTestClass.class.getMethod("get");
         Assert.assertFalse(GetterXMLConverter.isGetter(get));
     }
 
     @Test
     public void testChecksIfIsIsAGetter() throws SecurityException,
             NoSuchMethodException {
-        Method is = GetterXMLConverterTestClass.class.getMethod("is",
-                new Class[0]);
+        Method is = GetterXMLConverterTestClass.class.getMethod("is");
         Assert.assertFalse(GetterXMLConverter.isGetter(is));
     }
 
     @Test
     public void testChecksIfANonReturnMethodIsAGetter()
             throws SecurityException, NoSuchMethodException {
-        Method getVoidProperty = GetterXMLConverterTestClass.class.getMethod(
-                "getVoidProperty", new Class[0]);
+        Method getVoidProperty = GetterXMLConverterTestClass.class.getMethod("getVoidProperty");
         Assert.assertFalse(GetterXMLConverter.isGetter(getVoidProperty));
     }
 
     @Test
     public void testChecksIfAMethodWhichReceivesAParameterIsAGetter()
             throws SecurityException, NoSuchMethodException {
-        Method getBizarre = GetterXMLConverterTestClass.class.getMethod(
-                "getBizarre", new Class[] { Integer.TYPE });
+        Method getBizarre = GetterXMLConverterTestClass.class.getMethod("getBizarre", Integer.TYPE);
         Assert.assertFalse(GetterXMLConverter.isGetter(getBizarre));
     }
 
     @Test
     public void testChecksIfAMethodNotStartingWithGetIsAGetter()
             throws SecurityException, NoSuchMethodException {
-        Method bizarreGetter3 = GetterXMLConverterTestClass.class.getMethod(
-                "bizarreGetter3", new Class[0]);
+        Method bizarreGetter3 = GetterXMLConverterTestClass.class.getMethod("bizarreGetter3");
         Assert.assertFalse(GetterXMLConverter.isGetter(bizarreGetter3));
     }
 
     @Test
     public void testChecksIfAnIsMethodReturningStringIsAGetter()
             throws SecurityException, NoSuchMethodException {
-        Method isBizarre = GetterXMLConverterTestClass.class.getMethod(
-                "isBizarre", new Class[0]);
+        Method isBizarre = GetterXMLConverterTestClass.class.getMethod("isBizarre");
         Assert.assertFalse(GetterXMLConverter.isGetter(isBizarre));
     }
 
     @Test
     public void testChecksForAValidGetter() throws SecurityException,
             NoSuchMethodException {
-        Method getInternal = GetterXMLConverterTestClass.class.getMethod(
-                "getInternal", new Class[0]);
+        Method getInternal = GetterXMLConverterTestClass.class.getMethod("getInternal");
         Assert.assertTrue(GetterXMLConverter.isGetter(getInternal));
     }
 
     @Test
     public void testChecksForAValidIs() throws SecurityException,
             NoSuchMethodException {
-        Method isClosed = GetterXMLConverterTestClass.class.getMethod(
-                "isClosed", new Class[0]);
+        Method isClosed = GetterXMLConverterTestClass.class.getMethod("isClosed");
         Assert.assertTrue(GetterXMLConverter.isGetter(isClosed));
     }
 
     @Test
     public void testChecksForAStaticMethodGetter() throws SecurityException,
             NoSuchMethodException {
-        Method getStatic = GetterXMLConverterTestClass.class.getMethod(
-                "getStatic", new Class[0]);
+        Method getStatic = GetterXMLConverterTestClass.class.getMethod("getStatic");
         Assert.assertFalse(GetterXMLConverter.isGetter(getStatic));
     }
 
@@ -123,7 +114,6 @@ public class GetterXMLConverterTest {
     }
 
     public static class GetterXMLConverterTestClass {
-
         @SuppressWarnings("unused")
         private int internal;
 
