@@ -23,7 +23,7 @@ public class XMLView extends ResponderView {
 	public static final String CONTENT_TYPE = "text/plain";
 
 	@Override
-	public void respond(ServletRequest req, HttpServletResponse resp)
+	public void respond(ServletRequest request, HttpServletResponse response)
 			throws IOException {
 		XStream xs = new WaffleXStream();
 		xs.registerConverter(new GetterXMLConverter(), -19);
@@ -35,11 +35,11 @@ public class XMLView extends ResponderView {
 
 		// TODO: should we stream.setMode(XStream.NO_REFERENCES); ?
 
-		String data = xs.toXML(req.getAttribute(Constants.CONTROLLER_KEY));
-		resp.setContentType(CONTENT_TYPE);
+		String data = xs.toXML(request.getAttribute(Constants.CONTROLLER_KEY));
+		response.setContentType(CONTENT_TYPE);
 
 		// TODO: char encoding?
-		resp.getOutputStream().print(data);
+		response.getOutputStream().print(data);
 	}
 
 }
