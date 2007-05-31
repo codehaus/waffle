@@ -1,42 +1,39 @@
 package org.codehaus.waffle.view;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Map;
-import java.util.TreeMap;
-
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
  * Used to make XStream use bean getters to serialize, no attributes
- * @author Paulo Silveira
  *
+ * @author Paulo Silveira
  */
 public class GetterXMLConverter implements Converter {
-
     private static final String IS_INITIALS = "is";
-
     private static final String GET_INITIALS = "get";
-
     private static final Object[] NO_ARGUMENTS = {};
 
-    public void marshal(Object o, HierarchicalStreamWriter writer,
-            MarshallingContext context) {
+    public void marshal(Object object, HierarchicalStreamWriter writer,
+                        MarshallingContext context) {
 
-        Map<String, Method> getters = getGetters(o.getClass());
+        Map<String, Method> getters = getGetters(object.getClass());
         for (String name : getters.keySet()) {
             Method getter = getters.get(name);
             writer.startNode(name);
             try {
-                Object got = getter.invoke(o, NO_ARGUMENTS);
-                if (got != null)
-
+                Object got = getter.invoke(object, NO_ARGUMENTS);
+                if (got != null) {
                     context.convertAnother(got);
+                }
             } catch (IllegalArgumentException e) {
                 throw new IllegalStateException(e);
             } catch (IllegalAccessException e) {
@@ -45,12 +42,11 @@ public class GetterXMLConverter implements Converter {
                 throw new IllegalStateException(e);
             }
             writer.endNode();
-
         }
     }
 
-    public Object unmarshal(HierarchicalStreamReader arg0,
-            UnmarshallingContext arg1) {
+    public Object unmarshal(HierarchicalStreamReader hierarchicalStreamReader,
+                            UnmarshallingContext unmarshallingContext) {
         throw new UnsupportedOperationException(
                 "Converter only available for marshaling");
     }
@@ -103,28 +99,25 @@ public class GetterXMLConverter implements Converter {
         return new String(chars);
     }
 
-    public static boolean isGetter(Method m) {
-        if (m.getParameterTypes().length != 0
-                || !Modifier.isPublic(m.getModifiers())
-                || m.getReturnType().equals(Void.TYPE)) {
+    public static boolean isGetter(Method method) {
+        if (method.getParameterTypes().length != 0
+                || !Modifier.isPublic(method.getModifiers())
+                || method.getReturnType().equals(Void.TYPE)) {
             return false;
         }
-        if (Modifier.isStatic(m.getModifiers())
-                || !Modifier.isPublic(m.getModifiers())
-                || Modifier.isAbstract(m.getModifiers())) {
+        if (Modifier.isStatic(method.getModifiers())
+                || !Modifier.isPublic(method.getModifiers())
+                || Modifier.isAbstract(method.getModifiers())) {
             return false;
         }
-        if (m.getName().startsWith(GET_INITIALS)
-                && m.getName().length() > GET_INITIALS.length()) {
+        if (method.getName().startsWith(GET_INITIALS)
+                && method.getName().length() > GET_INITIALS.length()) {
             return true;
         }
-        if (m.getName().startsWith(IS_INITIALS)
-                && m.getName().length() > IS_INITIALS.length()
-                && (m.getReturnType().equals(boolean.class) || m
-                        .getReturnType().equals(Boolean.class))) {
-            return true;
-        }
-        return false;
+        return method.getName().startsWith(IS_INITIALS)
+                && method.getName().length() > IS_INITIALS.length()
+                && (method.getReturnType().equals(boolean.class) || method
+                .getReturnType().equals(Boolean.class));
     }
 
 }

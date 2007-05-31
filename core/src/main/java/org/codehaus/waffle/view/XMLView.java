@@ -1,17 +1,15 @@
 package org.codehaus.waffle.view;
 
-import java.io.IOException;
-import java.util.Collection;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.codehaus.waffle.Constants;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.collections.CollectionConverter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.mapper.MapperWrapper;
+import org.codehaus.waffle.Constants;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Collection;
 
 /**
  * A view that renders the controller as XML.
@@ -28,8 +26,8 @@ public class XMLView extends ResponderView {
         XStream xs = new WaffleXStream();
         xs.registerConverter(new GetterXMLConverter(), -19);
         xs.registerConverter(new CollectionConverter(xs.getMapper()) {
-            public boolean canConvert(Class c) {
-                return Collection.class.isAssignableFrom(c);
+            public boolean canConvert(Class clazz) {
+                return Collection.class.isAssignableFrom(clazz);
             }
         }, -18);
 

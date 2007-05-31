@@ -14,7 +14,7 @@ public class WaffleXMLServletTest {
 
         WaffleXMLServlet servlet = new WaffleXMLServlet();
         servlet.buildViewToReferrer(null, response);
-        Assert.assertTrue((response.getReturnValue() instanceof XMLView));
+        Assert.assertTrue(response.getReturnValue() instanceof XMLView);
     }
 
 }
