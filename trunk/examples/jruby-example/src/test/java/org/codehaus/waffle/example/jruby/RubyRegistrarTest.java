@@ -47,15 +47,16 @@ public class RubyRegistrarTest extends TestCase {
     public void testJRuby() {
         Ruby runtime = Ruby.getDefaultInstance();
 
-        String script = "class Foo\n" +
-                        "  attr_accessor :salmon\n" +
-                        "  def initialize\n" +
-                        "    @salmon = 'fish'\n" +
-                        "  end\n" +
-                        "  def bar\n" +
-                        "    return \"HELLO #{salmon}!\"\n" +
-                        "  end\n" +
-                        "end\n";
+        String script =
+                "class Foo\n" +
+                "  attr_accessor :salmon\n" +
+                "  def initialize\n" +
+                "    @salmon = 'fish'\n" +
+                "  end\n" +
+                "  def bar\n" +
+                "    return \"HELLO #{salmon}!\"\n" +
+                "  end\n" +
+                "end\n";
 
         runtime.evalScript(script);
 

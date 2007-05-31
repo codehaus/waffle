@@ -2,6 +2,16 @@
 
 module Waffle
 
+    # load/require files
+    class ScriptLoader
+        def ScriptLoader.load_all(prefix, paths)
+            paths.each do |path|
+                # require is what should be used in production ... development should allow for 'load
+                require path.gsub(Regexp.new("^#{prefix}"), 'ruby/')
+            end
+        end
+    end
+
     ##
     # This is a generic class for making HttpServletRequest's, HttpSession's and ServletContext's to act like Hash's
     class WebContext < Hash
