@@ -77,7 +77,13 @@
         <artifactId>velocity-tools-view</artifactId>
         <version>1.2</version>
         <scope>provided</scope>
-      </dependency>
+      </dependency>      
+     <dependency>
+        <groupId>com.thoughtworks.xstream</groupId>
+        <artifactId>xstream</artifactId>
+        <version>1.2.2</version>
+        <scope>provided</scope>
+      </dependency>      
       <dependency>
         <groupId>jmock</groupId>
         <artifactId>jmock</artifactId>
