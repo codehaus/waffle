@@ -21,9 +21,9 @@ import org.codehaus.waffle.view.XMLView;
  */
 public class WaffleXMLServlet extends WaffleServlet {
 
-	protected void buildViewToReferrer(
-			ControllerDefinition controllerDefinition,
-			ActionMethodResponse actionMethodResponse) {
-		actionMethodResponse.setReturnValue(new XMLView());
-	}
+    protected void buildViewToReferrer(
+            ControllerDefinition controllerDefinition,
+            ActionMethodResponse actionMethodResponse) {
+        actionMethodResponse.setReturnValue(new XMLView());
+    }
 }
