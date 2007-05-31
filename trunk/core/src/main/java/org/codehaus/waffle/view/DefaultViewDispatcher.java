@@ -20,6 +20,7 @@ import java.util.Map;
  * The ViewDispatcher handles redirecting/forwarding to the view
  *
  * @author Michael Ward
+ * @author Paulo Silveira
  */
 public class DefaultViewDispatcher implements ViewDispatcher {
     private final ViewResolver viewResolver;
@@ -39,7 +40,9 @@ public class DefaultViewDispatcher implements ViewDispatcher {
         if (view instanceof RedirectView) {
             Map model = ((RedirectView)view).getModel();
             dispatchAssistant.redirect(request, response, model, url);
-        } else {
+        } else if (view instanceof ResponderView) {
+        	((ResponderView)view).respond(request, response);
+        }else {
             dispatchAssistant.forward(request, response, url);
         }
     }

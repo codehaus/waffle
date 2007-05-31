@@ -36,6 +36,10 @@
       <artifactId>jruby-complete</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+    </dependency>
+    <dependency>
       <groupId>velocity</groupId>
       <artifactId>velocity</artifactId>
     </dependency>
