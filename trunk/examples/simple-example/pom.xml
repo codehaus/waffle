@@ -27,6 +27,10 @@
       <scope>runtime</scope>
     </dependency>
     <dependency>
+      <groupId>ognl</groupId>
+      <artifactId>ognl</artifactId>
+    </dependency>
+    <dependency>
       <groupId>taglibs</groupId>
       <artifactId>standard</artifactId>
       <scope>runtime</scope>
