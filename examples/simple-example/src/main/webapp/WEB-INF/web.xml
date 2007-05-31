@@ -32,6 +32,10 @@
         <filter-name>WaffleRequestFilter</filter-name>
         <url-pattern>*.waffle</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>WaffleRequestFilter</filter-name>
+        <url-pattern>*.xml</url-pattern>
+    </filter-mapping>
 
     <!-- 5. Register Waffle's FrontController servlet -->
     <servlet>
@@ -42,5 +46,16 @@
     <servlet-mapping>
         <servlet-name>waffle</servlet-name>
         <url-pattern>*.waffle</url-pattern>
+    </servlet-mapping>
+
+    <!-- 6. Register Waffle's XML FrontController servlet -->
+    <servlet>
+        <servlet-name>xml</servlet-name>
+        <servlet-class>org.codehaus.waffle.servlet.WaffleXMLServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>xml</servlet-name>
+        <url-pattern>*.xml</url-pattern>
     </servlet-mapping>
 </web-app>
