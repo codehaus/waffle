@@ -6,27 +6,34 @@ import org.jruby.runtime.builtin.IRubyObject;
 import org.picocontainer.Startable;
 
 import javax.servlet.ServletContext;
-import java.util.Set;
 
 public class RubyScriptLoader implements Startable {
+    public static final String RUBY_SCRIPT_PATH_KEY = "org.codehaus.waffle.ruby.path";
+    public static final String DEFAULT_RUBY_SCRIPT_PATH = "/WEB-INF/classes/ruby/";
+
     private final ServletContext servletContext;
     private final Ruby runtime;
+    private final String rubyScriptPath;
 
     public RubyScriptLoader(ServletContext servletContext, Ruby runtime) {
         this.servletContext = servletContext;
         this.runtime = runtime;
+
+        String path = servletContext.getInitParameter(RUBY_SCRIPT_PATH_KEY);
+        
+        if(path == null) {
+            rubyScriptPath = DEFAULT_RUBY_SCRIPT_PATH;
+        } else {
+            rubyScriptPath = path;
+        }
     }
 
     public void start() {
-        String path = "/WEB-INF/classes/ruby/";
-        // noinspection unchecked
-        Set<String> resourcePaths = servletContext.getResourcePaths(path); // todo should be able to override ruby location through a key in the web.xml
-
         runtime.getClassFromPath("Waffle::ScriptLoader")
                 .callMethod(runtime.getCurrentContext(), "load_all",
                         new IRubyObject[]{
-                                JavaEmbedUtils.javaToRuby(runtime, path),
-                                JavaEmbedUtils.javaToRuby(runtime, resourcePaths)
+                                JavaEmbedUtils.javaToRuby(runtime, rubyScriptPath),
+                                JavaEmbedUtils.javaToRuby(runtime, servletContext)
                         });
     }
 
