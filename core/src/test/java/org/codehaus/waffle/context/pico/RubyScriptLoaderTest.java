@@ -11,8 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.servlet.ServletContext;
-import java.util.HashSet;
-import java.util.Set;
 
 @RunWith(JMock.class)
 public class RubyScriptLoaderTest {
@@ -23,10 +21,8 @@ public class RubyScriptLoaderTest {
         final ServletContext servletContext = context.mock(ServletContext.class);
 
         context.checking(new Expectations() {{
-            one (servletContext).getResourcePaths("/WEB-INF/classes/ruby/");
-            Set<String> paths = new HashSet<String>();
-            paths.add("/WEB-INF/classes/ruby/fake_script.rb");
-            will(returnValue(paths));
+            one (servletContext).getInitParameter(RubyScriptLoader.RUBY_SCRIPT_PATH_KEY);
+            will(returnValue(null));
         }});
 
         String script =
@@ -47,8 +43,6 @@ public class RubyScriptLoaderTest {
 
         // Ensure Waffle::ScriptLoader.load_all was called
         Assert.assertEquals("/WEB-INF/classes/ruby/", JavaUtil.convertRubyToJava(runtime.evalScript("$arg1")));
-        Set<String> expected = new HashSet<String>();
-        expected.add("/WEB-INF/classes/ruby/fake_script.rb");
-        Assert.assertEquals(expected, JavaUtil.convertRubyToJava(runtime.evalScript("$arg2")));
+        Assert.assertEquals(servletContext, JavaUtil.convertRubyToJava(runtime.evalScript("$arg2")));
     }
 }

@@ -4,10 +4,22 @@ module Waffle
 
   # load/require files
   class ScriptLoader
-    def ScriptLoader.load_all(prefix, paths)
-      paths.each do |path|
-        # require is what should be used in production ... development should allow for 'load
-        require path.gsub(Regexp.new("^#{prefix}"), 'ruby/')
+    def ScriptLoader.load_all(prefix, servlet_context)
+
+      if (prefix.gsub!(/^dir:/, ''))
+        @@_ruby_script_path = prefix
+        ScriptLoader.load_from_file_system
+      else
+        servlet_context.getResourcePaths(prefix).each do |path| # this would be for production!!
+          require path.gsub(Regexp.new("^#{prefix}"), 'ruby/')
+        end
+      end
+    end
+
+    def ScriptLoader.load_from_file_system
+      Dir.new(@@_ruby_script_path).each do |entry|
+        file = "#{@@_ruby_script_path}#{entry}"
+        load(file) if File.file?(file) # TODO need to ensure it is a *.rb file ... need to recursively search directories
       end
     end
   end

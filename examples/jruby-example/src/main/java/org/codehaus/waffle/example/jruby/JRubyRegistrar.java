@@ -20,4 +20,9 @@ public class JRubyRegistrar extends AbstractRegistrar {
 
         picoRegistrar.registerRubyScript("foobar", "FooBar"); // register the controller!
     }
+
+    @Override
+    public void request() {
+        register(RubyScriptReloader.class);
+    }
 }

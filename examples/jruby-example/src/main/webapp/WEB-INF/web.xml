@@ -5,56 +5,63 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-    <display-name>Waffle JRuby Example</display-name>
+  <display-name>Waffle JRuby Example</display-name>
 
-    <!-- 1. This is how an application registers its custom Registrar -->
-    <context-param>
-        <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
-        <param-value>org.codehaus.waffle.example.jruby.JRubyRegistrar</param-value>
-    </context-param>
 
-    <!-- Ruby Specifics components -->
-    <context-param>
-        <param-name>org.codehaus.waffle.context.ContextContainerFactory</param-name>
-        <param-value>org.codehaus.waffle.context.pico.RubyAwarePicoContextContainerFactory</param-value>
-    </context-param>
-    <context-param>
-        <param-name>org.codehaus.waffle.bind.DataBinder</param-name>
-        <param-value>org.codehaus.waffle.bind.RubyDataBinder</param-value>
-    </context-param>
-    <context-param>
-        <param-name>org.codehaus.waffle.controller.ControllerDefinitionFactory</param-name>
-        <param-value>org.codehaus.waffle.controller.RubyControllerDefinitionFactory</param-value>
-    </context-param>
 
-    <listener>
-        <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
-    </listener>
+  <!-- 1. This is how an application registers its custom Registrar -->
+  <context-param>
+    <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
+    <param-value>org.codehaus.waffle.example.jruby.JRubyRegistrar</param-value>
+  </context-param>
 
-    <!-- 4. Waffle request filter (responsible for request level context) -->
-    <filter>
-        <filter-name>WaffleRequestFilter</filter-name>
-        <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>WaffleRequestFilter</filter-name>
-        <url-pattern>*.waffle</url-pattern>
-    </filter-mapping>
+  <!-- Ruby Specifics components -->
+  <context-param>
+    <param-name>org.codehaus.waffle.context.ContextContainerFactory</param-name>
+    <param-value>org.codehaus.waffle.context.pico.RubyAwarePicoContextContainerFactory</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.bind.DataBinder</param-name>
+    <param-value>org.codehaus.waffle.bind.RubyDataBinder</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.controller.ControllerDefinitionFactory</param-name>
+    <param-value>org.codehaus.waffle.controller.RubyControllerDefinitionFactory</param-value>
+  </context-param>
 
-    <!-- 5. Register Waffle's FrontController servlet -->
-    <servlet>
-        <servlet-name>waffle</servlet-name>
-        <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>waffle</servlet-name>
-        <url-pattern>*.waffle</url-pattern>
-    </servlet-mapping>
-        
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
+  <context-param>
+    <param-name>org.codehaus.waffle.ruby.path</param-name>
+    <param-value>dir:/Users/mward/development/waffle/examples/jruby-example/src/main/ruby/ruby/</param-value><!-- this needs to be more forgiving -->
+  </context-param>
+
+  <listener>
+    <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
+  </listener>
+
+  <!-- 4. Waffle request filter (responsible for request level context) -->
+  <filter>
+    <filter-name>WaffleRequestFilter</filter-name>
+    <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>WaffleRequestFilter</filter-name>
+    <url-pattern>*.waffle</url-pattern>
+  </filter-mapping>
+
+  <!-- 5. Register Waffle's FrontController servlet -->
+  <servlet>
+    <servlet-name>waffle</servlet-name>
+    <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>waffle</servlet-name>
+    <url-pattern>*.waffle</url-pattern>
+  </servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
 
 </web-app>
