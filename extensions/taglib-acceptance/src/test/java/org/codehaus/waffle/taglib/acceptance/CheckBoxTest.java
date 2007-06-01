@@ -1,4 +1,4 @@
-package org.waffle.taglib.acceptance;
+package org.codehaus.waffle.taglib.acceptance;
 
 public class CheckBoxTest extends IntegrationTest {
 
@@ -9,7 +9,7 @@ public class CheckBoxTest extends IntegrationTest {
 	}
 
 	public void testSetsTheDefaultCheckedToFalse() {
-		open("check.jsp");
+		open("checkbox.jsp");
 		assertFalse(selenium.isChecked("noChecked"));
 	}
 

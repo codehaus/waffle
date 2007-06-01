@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;encoding=iso-8859-1" %>
 
 <% 
-	org.waffle.acceptance.User user = new org.waffle.acceptance.User();
+	org.codehaus.waffle.taglib.acceptance.User user = new org.codehaus.waffle.taglib.acceptance.User();
 	user.setPassword("54321");
 	
 	pageContext.setAttribute("senha","12345");

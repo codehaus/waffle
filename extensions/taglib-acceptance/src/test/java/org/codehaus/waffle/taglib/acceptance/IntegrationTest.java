@@ -1,4 +1,4 @@
-package org.waffle.taglib.acceptance;
+package org.codehaus.waffle.taglib.acceptance;
 
 import com.thoughtworks.selenium.SeleneseTestCase;
 

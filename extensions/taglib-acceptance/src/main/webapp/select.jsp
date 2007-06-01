@@ -2,9 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ page contentType="text/html;encoding=iso-8859-1" %>
-<%@ page import="java.util.Date,java.util.*,org.waffle.acceptance.Product" %>
+<%@ page import="java.util.Date,java.util.*,org.codehaus.waffle.taglib.acceptance.Product" %>
 
-<jsp:useBean class="org.waffle.acceptance.Product" id="Produto" />
+<jsp:useBean class="org.codehaus.waffle.taglib.acceptance.Product" id="Produto" />
 
 <html>
 <head><title>SelectTest</title></head>
