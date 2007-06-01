@@ -16,7 +16,7 @@ public class RubyScriptReloader implements Startable {
     }
 
     public void start() {
-        runtime.evalScript("Waffle::ScriptLoader.load_all");
+        runtime.evalScript("Waffle::ScriptLoader.load_from_file_system");
     }
 
     public void stop() {

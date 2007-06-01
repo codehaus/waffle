@@ -12,6 +12,9 @@ class FooBar
         #{session['waffle.session.container']}
 
         #{session.getServletContext().getRealPath('/WEB-INF/')}
+
+
+YES
       }
     rescue Exception => e
       return e

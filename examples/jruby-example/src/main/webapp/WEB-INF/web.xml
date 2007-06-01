@@ -8,6 +8,7 @@
   <display-name>Waffle JRuby Example</display-name>
 
 
+
   <!-- 1. This is how an application registers its custom Registrar -->
   <context-param>
     <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
@@ -26,6 +27,11 @@
   <context-param>
     <param-name>org.codehaus.waffle.controller.ControllerDefinitionFactory</param-name>
     <param-value>org.codehaus.waffle.controller.RubyControllerDefinitionFactory</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>org.codehaus.waffle.ruby.path</param-name>
+    <param-value>dir:/Users/mward/development/waffle/examples/jruby-example/src/main/ruby/ruby/</param-value><!-- this needs to be more forgiving -->
   </context-param>
 
   <listener>
