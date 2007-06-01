@@ -10,9 +10,9 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import java.util.Set;
-
 import org.codehaus.waffle.action.MethodDefinition;
+
+import java.util.Set;
 
 /**
  * Implementation of Monitor that writes to console
@@ -44,6 +44,5 @@ public class ConsoleMonitor implements Monitor {
     public void methodNameResolved(String methodName, String methodKey, Set<String> keys) {
         write("Method name '"+methodName+"' found for key '"+methodKey+"' among keys "+keys);
     }
-
-
+    
 }

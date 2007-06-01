@@ -4,13 +4,15 @@ class FooBar
     session[:bar] = 'foo'
     p session
     begin
-      <<-EOS
+      %{
         HELLO WORLD from the index method
         look up from pico: #{find_chicago}
         request: #{request}
         session: #{session}
         #{session['waffle.session.container']}
-      EOS
+
+        #{session.getServletContext().getRealPath('/WEB-INF/')}
+      }
     rescue Exception => e
       return e
     end
