@@ -1,4 +1,4 @@
-package org.waffle.acceptance;
+package org.codehaus.waffle.taglib.acceptance;
 
 public class User {
 

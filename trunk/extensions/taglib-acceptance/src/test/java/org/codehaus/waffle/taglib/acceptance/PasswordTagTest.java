@@ -1,4 +1,4 @@
-package org.waffle.taglib.acceptance;
+package org.codehaus.waffle.taglib.acceptance;
 
 public class PasswordTagTest extends IntegrationTest {
 
