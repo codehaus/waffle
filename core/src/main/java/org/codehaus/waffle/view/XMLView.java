@@ -17,15 +17,14 @@ import java.util.Collection;
  * @author Paulo Silveira
  */
 public class XMLView extends ResponderView {
-
     public static final String CONTENT_TYPE = "text/plain";
 
     @Override
-    public void respond(ServletRequest request, HttpServletResponse response)
-            throws IOException {
-        XStream xs = new WaffleXStream();
-        xs.registerConverter(new GetterXMLConverter(), -19);
-        xs.registerConverter(new CollectionConverter(xs.getMapper()) {
+    public void respond(ServletRequest request, HttpServletResponse response) throws IOException {
+        XStream xStream = new WaffleXStream();
+        xStream.registerConverter(new BeanPropertyConverter(), -19);
+        xStream.registerConverter(new CollectionConverter(xStream.getMapper()) {
+            @Override
             public boolean canConvert(Class clazz) {
                 return Collection.class.isAssignableFrom(clazz);
             }
@@ -33,8 +32,8 @@ public class XMLView extends ResponderView {
 
         // TODO: should we stream.setMode(XStream.NO_REFERENCES); ?
 
-        String data = xs.toXML(request.getAttribute(Constants.CONTROLLER_KEY));
-        response.setContentType(CONTENT_TYPE);
+        String data = xStream.toXML(request.getAttribute(Constants.CONTROLLER_KEY));
+        response.setContentType(CONTENT_TYPE); // should be set for xml content
 
         // TODO: char encoding?
         response.getOutputStream().print(data);
