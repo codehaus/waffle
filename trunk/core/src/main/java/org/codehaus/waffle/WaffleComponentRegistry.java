@@ -19,6 +19,7 @@ import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
+import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
@@ -65,6 +66,8 @@ public interface WaffleComponentRegistry {
     MethodNameResolver getMethodNameResolver();
 
     Monitor getMonitor();
+
+    RequestAttributeBinder getRequestAttributeBinder();
 
     TypeConverter getTypeConverter();
 
