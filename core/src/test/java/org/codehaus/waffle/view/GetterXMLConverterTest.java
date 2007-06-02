@@ -1,196 +1,45 @@
 package org.codehaus.waffle.view;
 
+import com.thoughtworks.xstream.XStream;
+import org.codehaus.waffle.testmodel.FakeBean;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.lang.reflect.Method;
-import java.util.Map;
 
 public class GetterXMLConverterTest {
 
     @Test
-    public void testChecksIfGetIsAGetter() throws SecurityException,
-            NoSuchMethodException {
-        Method get = GetterXMLConverterTestClass.class.getMethod("get");
-        Assert.assertFalse(GetterXMLConverter.isGetter(get));
+    public void unmarshalShouldThrowUnsupportedOperationException() {
+        GetterXMLConverter getterXMLConverter = new GetterXMLConverter();
+
+        try {
+            getterXMLConverter.unmarshal(null, null);
+            Assert.fail("UnsupportedOperationException expected");
+        } catch (UnsupportedOperationException expected) {
+            // expected    
+        }
     }
 
     @Test
-    public void testChecksIfIsIsAGetter() throws SecurityException,
-            NoSuchMethodException {
-        Method is = GetterXMLConverterTestClass.class.getMethod("is");
-        Assert.assertFalse(GetterXMLConverter.isGetter(is));
+    public void convertShouldAlwaysBeTrue() {
+        GetterXMLConverter getterXMLConverter = new GetterXMLConverter();
+        Assert.assertTrue(getterXMLConverter.canConvert(this.getClass()));
     }
 
     @Test
-    public void testChecksIfANonReturnMethodIsAGetter()
-            throws SecurityException, NoSuchMethodException {
-        Method getVoidProperty = GetterXMLConverterTestClass.class.getMethod("getVoidProperty");
-        Assert.assertFalse(GetterXMLConverter.isGetter(getVoidProperty));
-    }
+    public void testMarshall() {
+        XStream xStream = new XStream();
+        xStream.registerConverter(new GetterXMLConverter(), -19);
 
-    @Test
-    public void testChecksIfAMethodWhichReceivesAParameterIsAGetter()
-            throws SecurityException, NoSuchMethodException {
-        Method getBizarre = GetterXMLConverterTestClass.class.getMethod("getBizarre", Integer.TYPE);
-        Assert.assertFalse(GetterXMLConverter.isGetter(getBizarre));
-    }
+        FakeBean fakeBean = new FakeBean();
+        String xml = xStream.toXML(fakeBean);
 
-    @Test
-    public void testChecksIfAMethodNotStartingWithGetIsAGetter()
-            throws SecurityException, NoSuchMethodException {
-        Method bizarreGetter3 = GetterXMLConverterTestClass.class.getMethod("bizarreGetter3");
-        Assert.assertFalse(GetterXMLConverter.isGetter(bizarreGetter3));
-    }
+        String expected =
+                "<org.codehaus.waffle.testmodel.FakeBean>\n" +
+                "  <count>0</count>\n" +
+                "  <list/>\n" +
+                "</org.codehaus.waffle.testmodel.FakeBean>";
 
-    @Test
-    public void testChecksIfAnIsMethodReturningStringIsAGetter()
-            throws SecurityException, NoSuchMethodException {
-        Method isBizarre = GetterXMLConverterTestClass.class.getMethod("isBizarre");
-        Assert.assertFalse(GetterXMLConverter.isGetter(isBizarre));
-    }
-
-    @Test
-    public void testChecksForAValidGetter() throws SecurityException,
-            NoSuchMethodException {
-        Method getInternal = GetterXMLConverterTestClass.class.getMethod("getInternal");
-        Assert.assertTrue(GetterXMLConverter.isGetter(getInternal));
-    }
-
-    @Test
-    public void testChecksForAValidIs() throws SecurityException,
-            NoSuchMethodException {
-        Method isClosed = GetterXMLConverterTestClass.class.getMethod("isClosed");
-        Assert.assertTrue(GetterXMLConverter.isGetter(isClosed));
-    }
-
-    @Test
-    public void testChecksForAStaticMethodGetter() throws SecurityException,
-            NoSuchMethodException {
-        Method getStatic = GetterXMLConverterTestClass.class.getMethod("getStatic");
-        Assert.assertFalse(GetterXMLConverter.isGetter(getStatic));
-    }
-
-    @Test
-    public void testGetGettersIgnoresGetClass() {
-        Map<String, Method> x = GetterXMLConverter
-                .getGetters(GetterXMLConverterTestClass.class);
-        Assert.assertFalse(x.containsKey("class"));
-    }
-
-    @Test
-    public void testGetGettersIgnoresGettersAndIsersWithoutAName() {
-        Map<String, Method> x = GetterXMLConverter
-                .getGetters(GetterXMLConverterTestClass.class);
-        Assert.assertFalse(x.containsKey(""));
-    }
-
-    @Test
-    public void testGetGettersIgnoresGettersReturningVoid() {
-        Map<String, Method> x = GetterXMLConverter
-                .getGetters(GetterXMLConverterTestClass.class);
-        Assert.assertFalse(x.containsKey("voidProperty"));
-    }
-
-    @Test
-    public void testGetGettersFindsIs() {
-        Map<String, Method> x = GetterXMLConverter
-                .getGetters(GetterXMLConverterTestClass.class);
-        Assert.assertTrue(x.containsKey("closed"));
-    }
-
-    @Test
-    public void testGetGettersForCapsPROPERTIES() {
-        Map<String, Method> x = GetterXMLConverter
-                .getGetters(GetterXMLConverterTestClass.class);
-        Assert.assertTrue(x.containsKey("URLocationFoo"));
-    }
-
-    @Test
-    public void testGetGettersForFieldWithLiength1() {
-        Map<String, Method> x = GetterXMLConverter
-                .getGetters(GetterXMLConverterTestClass.class);
-        Assert.assertTrue(x.containsKey("a"));
-    }
-
-    public static class GetterXMLConverterTestClass {
-        @SuppressWarnings("unused")
-        private int internal;
-
-        private boolean closed;
-
-        public int getA() {
-            return 0;
-        }
-
-        public void getVoidProperty() {
-        }
-
-        public void simpleMethod() {
-        }
-
-        public String getURLocationFoo() {
-            return "";
-        }
-
-        public String is() {
-            return null;
-        }
-
-        public void simpleWrongMethod() {
-            @SuppressWarnings("unused")
-            int i = 1 / 0;
-        }
-
-        public void argumentMethod(int i) {
-        }
-
-        public String isBizarre() {
-            return null;
-        }
-
-        @SuppressWarnings("unused")
-        private String value;
-
-        public void setValue(String value) {
-            this.value = value;
-        }
-
-        public static int getStatic() {
-            return 0;
-        }
-
-        protected int getProtected() {
-            return 0;
-        }
-
-        public int getInternal() {
-            return internal;
-        }
-
-        public boolean isClosed() {
-            return closed;
-        }
-
-        public void bizarreGetter1() {
-        }
-
-        public int bizarreGetter2(int x) {
-            return x;
-        }
-
-        public int bizarreGetter3() {
-            return 0;
-        }
-
-        public int getBizarre(int x) {
-            return x;
-        }
-
-        public void get() {
-
-        }
-
+        Assert.assertEquals(expected, xml);
     }
 
 }

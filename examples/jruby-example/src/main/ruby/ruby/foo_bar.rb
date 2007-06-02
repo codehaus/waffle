@@ -12,15 +12,14 @@ class FooBar
         #{session['waffle.session.container']}
 
         #{session.getServletContext().getRealPath('/WEB-INF/')}
-
-
-YES
       }
     rescue Exception => e
-      return e
+      "ERROR #{e}"
     end
   end
+
   def bar
     "HELLO WORLD #{request.local_name} #{request.local_port}"
   end
+
 end
