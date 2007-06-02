@@ -94,6 +94,7 @@ public class WaffleServlet extends HttpServlet {
             actionMethodExecutor = componentRegistry.getActionMethodExecutor();
             actionMethodResponseHandler = componentRegistry.getActionMethodResponseHandler();
             validator = componentRegistry.getValidator();
+            requestAttributeBinder = componentRegistry.getRequestAttributeBinder();
         }
     }
 
