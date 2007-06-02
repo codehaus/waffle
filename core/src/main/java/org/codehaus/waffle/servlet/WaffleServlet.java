@@ -21,6 +21,7 @@ import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodInvocationException;
 import org.codehaus.waffle.bind.DataBinder;
+import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
@@ -48,6 +49,7 @@ public class WaffleServlet extends HttpServlet {
     private ActionMethodExecutor actionMethodExecutor;
     private ActionMethodResponseHandler actionMethodResponseHandler;
     private Validator validator;
+    private RequestAttributeBinder requestAttributeBinder;
     private String viewPrefix;
     private String viewSuffix;
     private boolean depsDone = false;
@@ -60,12 +62,14 @@ public class WaffleServlet extends HttpServlet {
                          DataBinder dataBinder,
                          ActionMethodExecutor actionMethodExecutor,
                          ActionMethodResponseHandler actionMethodResponseHandler,
-                         Validator validator) {
+                         Validator validator,
+                         RequestAttributeBinder requestAttributeBinder) {
         this.controllerDefinitionFactory = controllerDefinitionFactory;
         this.dataBinder = dataBinder;
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
         this.validator = validator;
+        this.requestAttributeBinder = requestAttributeBinder;
         depsDone = true;
     }
 
@@ -104,7 +108,6 @@ public class WaffleServlet extends HttpServlet {
         }
 
         return controllerDefinition;
-
     }
 
     /**
@@ -141,7 +144,7 @@ public class WaffleServlet extends HttpServlet {
 
             // TODO ... pluggable way to register controller instance variables to the request ... no longer have to do "controller.foobar"
             // pluggable cause we need to support ognl and ruby (get_instance_variables
-
+            requestAttributeBinder.bind(request, controllerDefinition.getController());
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
         } catch (MethodInvocationException e) {
             log(e.getMessage());

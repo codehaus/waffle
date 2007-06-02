@@ -10,25 +10,26 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
+import ognl.DefaultTypeConverter;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleComponentRegistry;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
-import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
+import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodInvocationException;
 import org.codehaus.waffle.bind.OgnlDataBinder;
+import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
+import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.testmodel.StubWaffleComponentRegistry;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.View;
-import ognl.DefaultTypeConverter;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 import org.picocontainer.defaults.DefaultPicoContainer;
@@ -102,7 +103,6 @@ public class WaffleServletTest extends MockObjectTestCase {
                 .with(eq("org.codehaus.waffle.WaffleComponentRegistry"))
                 .will(returnValue(null));
 
-
         // Mock ServletConfig
         Mock mockServletConfig = mock(ServletConfig.class);
 
@@ -117,7 +117,7 @@ public class WaffleServletTest extends MockObjectTestCase {
         mockServletConfig.expects(once())
                 .method("getInitParameter")
                 .with(eq(Constants.METHOD_INVOCATION_ERROR_PAGE))
-                .will(returnValue("foo.html"));        
+                .will(returnValue("foo.html"));
         final ServletConfig servletConfig = (ServletConfig) mockServletConfig.proxy();
 
         WaffleServlet servlet = new WaffleServlet() {
@@ -185,6 +185,13 @@ public class WaffleServletTest extends MockObjectTestCase {
                 .with(isA(ControllerDefinition.class), isA(ErrorsContext.class));
         Validator validator = (Validator) mockValidator.proxy();
 
+        // Mock RequestAttributeBinder
+        Mock mockRequestAttributeBinder = mock(RequestAttributeBinder.class);
+        mockRequestAttributeBinder.expects(once())
+                .method("bind")
+                .with(same(request), isA(NonDispatchingController.class));
+        RequestAttributeBinder requestAttributeBinder = (RequestAttributeBinder) mockRequestAttributeBinder.proxy();
+
         // Set up what normally would happen via "init()"
         Field dataBinderField = WaffleServlet.class.getDeclaredField("dataBinder");
         dataBinderField.setAccessible(true);
@@ -198,6 +205,9 @@ public class WaffleServletTest extends MockObjectTestCase {
         Field validatorFactoryField = WaffleServlet.class.getDeclaredField("validator");
         validatorFactoryField.setAccessible(true);
         validatorFactoryField.set(waffleServlet, validator);
+        Field requestAttributeBinderField = WaffleServlet.class.getDeclaredField("requestAttributeBinder");
+        requestAttributeBinderField.setAccessible(true);
+        requestAttributeBinderField.set(waffleServlet, requestAttributeBinder);
 
         waffleServlet.service(request, response);
         assertEquals(1, nonDispatchingController.getCount());
@@ -253,19 +263,6 @@ public class WaffleServletTest extends MockObjectTestCase {
         Mock mockResponse = mock(HttpServletResponse.class);
         HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
 
-        // stub out what we don't want called ... execute it
-        WaffleServlet waffleServlet = new WaffleServlet() {
-            @Override
-            protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
-                return new ControllerDefinition("no name", nonDispatchingController, null);
-            }
-
-            @Override
-            public void log(String string) {
-                // ignore
-            }
-        };
-
         // Mock ActionMethodResponseHandler
         Mock mockActionMethodResponseHandler = mock(ActionMethodResponseHandler.class);
         mockActionMethodResponseHandler.expects(once())
@@ -281,18 +278,30 @@ public class WaffleServletTest extends MockObjectTestCase {
                 .with(isA(ControllerDefinition.class), isA(ErrorsContext.class));
         Validator validator = (Validator) mockValidator.proxy();
 
-        // Set up what normally would happen via "init()"
-        Field dataBinderField = WaffleServlet.class.getDeclaredField("dataBinder");
-        dataBinderField.setAccessible(true);
-        dataBinderField.set(waffleServlet, new OgnlDataBinder(new DefaultTypeConverter(), null));
+        // Mock
+        Mock mockRequestAttributeBinder = mock(RequestAttributeBinder.class);
+        mockRequestAttributeBinder.expects(once())
+                .method("bind")
+                .with(same(request), same(nonDispatchingController));
+        RequestAttributeBinder requestAttributeBinder = (RequestAttributeBinder) mockRequestAttributeBinder.proxy();
+        
+        // stub out what we don't want called ... execute it
+        WaffleServlet waffleServlet = new WaffleServlet(null,
+                new OgnlDataBinder(new DefaultTypeConverter(), null),
+                null,
+                actionMethodResponseHandler,
+                validator,
+                requestAttributeBinder) {
+            @Override
+            protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
+                return new ControllerDefinition("no name", nonDispatchingController, null);
+            }
 
-        Field methodResponseHandlerField = WaffleServlet.class.getDeclaredField("actionMethodResponseHandler");
-        methodResponseHandlerField.setAccessible(true);
-        methodResponseHandlerField.set(waffleServlet, actionMethodResponseHandler);
-
-        Field validatorFactoryField = WaffleServlet.class.getDeclaredField("validator");
-        validatorFactoryField.setAccessible(true);
-        validatorFactoryField.set(waffleServlet, validator);
+            @Override
+            public void log(String string) {
+                // ignore
+            }
+        };
 
         waffleServlet.service(request, response);
     }
