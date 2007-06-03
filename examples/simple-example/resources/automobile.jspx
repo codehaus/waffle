@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:jsp="http://java.sun.com/JSP/Page"
-      xmlns:waffle="http://thoughtworks.com/java/waffle"
+      xmlns:waffle="http://waffle.codehaus.org/tld"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
 
@@ -27,14 +27,14 @@
         <tr>
             <td>Make:</td>
             <td>
-                <input type="text" value="${fn:escapeXml(controller.make)}" name="make"/>
+                <input type="text" value="${fn:escapeXml(make)}" name="make"/>
             </td>
         </tr>
         <tr>
             <td>Model:</td>
             <td>
 
-                <input type="text" value="${fn:escapeXml(controller.model)}" name="model"/>
+                <input type="text" value="${fn:escapeXml(model)}" name="model"/>
             </td>
         </tr>
 
@@ -43,12 +43,12 @@
         <tr>
             <td>Top Speed:</td>
             <td>
-                <input type="text" value="${fn:escapeXml(controller.topSpeed)}" name="topSpeed"/>
+                <input type="text" value="${fn:escapeXml(topSpeed)}" name="topSpeed"/>
             </td>
         </tr>
         <tr>
             <td>Speed:</td>
-            <td>${controller.speed}</td>
+            <td>${speed}</td>
         </tr>
     </table>
     <br/>

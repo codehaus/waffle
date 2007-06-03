@@ -2,7 +2,7 @@
     <div id="selected" class="items">
         <div style="float:left; font-weight:bold">Selected</div>
         <br style="clear:both"/>
-        <c:forEach var="item" items="${controller.selected}" varStatus="status">
+        <c:forEach var="item" items="${selected}" varStatus="status">
             <div class="item_selected" id="remove|${status.index}">${item.name}</div>
         </c:forEach>
     </div>
@@ -10,7 +10,7 @@
     <div id="available" class="items">
         <div style="float:left; font-weight:bold">Available</div>
         <br style="clear:both"/>
-        <c:forEach var="item" items="${controller.available}" varStatus="status">
+        <c:forEach var="item" items="${available}" varStatus="status">
             <div class="item_available" id="add|${status.index}">${item.name}</div>
         </c:forEach>
     </div>
