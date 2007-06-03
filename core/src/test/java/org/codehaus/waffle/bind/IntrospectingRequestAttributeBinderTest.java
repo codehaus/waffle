@@ -1,14 +1,14 @@
 package org.codehaus.waffle.bind;
 
+import org.codehaus.waffle.controller.RubyController;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.codehaus.waffle.controller.RubyController;
 import org.jruby.Ruby;
 import org.jruby.runtime.builtin.IRubyObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import javax.servlet.http.HttpServletRequest;
 
