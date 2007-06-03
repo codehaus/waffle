@@ -36,7 +36,7 @@
 
     <div class="fieldRow">
         <label for="result">Result:</label>
-        <input type="text" name="result" id="result" value="${controller.result}" disabled="disabled" readonly="readonly"/>
+        <input type="text" name="result" id="result" value="${result}" disabled="disabled" readonly="readonly"/>
         <br style="clear:both"/>
     </div>
 

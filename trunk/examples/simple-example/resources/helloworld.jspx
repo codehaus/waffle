@@ -9,6 +9,6 @@
 
 <head><title>Hello World Controller</title></head>
 <body>
-<h1>${controller.greeting}</h1>
+<h1>${greeting}</h1>
 </body>
 </html>

@@ -17,27 +17,27 @@
 
     <div class="fieldRow">
         <label for="person.id">Id:</label>
-        <input type="text" name="person.id" id="person.id" value="${controller.person.id}" readonly="true" disabled="true"/>
+        <input type="text" name="person.id" id="person.id" value="${person.id}" readonly="true" disabled="true"/>
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
         <label for="person.firstName">First Name:</label>
-        <input type="text" name="person.firstName" id="person.firstName" value="${controller.person.firstName}"/>
+        <input type="text" name="person.firstName" id="person.firstName" value="${person.firstName}"/>
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
         <label for="person.lastName">Last Name:</label>
-        <input type="text" name="person.lastName" id="person.lastName" value="${controller.person.lastName}"/>
+        <input type="text" name="person.lastName" id="person.lastName" value="${person.lastName}"/>
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
         <label for="person.email">Email:</label>
-        <input type="text" name="person.email" id="person.email" value="${controller.person.email}"/>
+        <input type="text" name="person.email" id="person.email" value="${person.email}"/>
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
         <label for="person.dateOfBirth">Date of Birth:</label>
-        <fmt:formatDate value="${controller.person.dateOfBirth}" var="birthDate" pattern="dd-MM-yyyy"/>
+        <fmt:formatDate value="${person.dateOfBirth}" var="birthDate" pattern="dd-MM-yyyy"/>
         <input type="text" name="person.dateOfBirth" id="person.dateOfBirth" value="${birthDate}"/>
         <br style="clear:both"/>
     </div>
