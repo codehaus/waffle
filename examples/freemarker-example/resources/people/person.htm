@@ -27,7 +27,7 @@
             <th>Email</th>
             <th>Date of Birth</th>
         </tr>
-        <#list controller.persons as person>
+        <#list persons as person>
             <tr class="odd">
                 <td>
                     <a href="${base}/people/person.foo?method=select|${person.id}">${person.id}</a>
@@ -44,7 +44,7 @@
 
     <!-- Example of partial page -->
     <div id="editArea">
-      <#if controller.person?exists>
+      <#if person?exists>
         <#include "editperson.htm" parse="true">
       </#if>
     </div>
