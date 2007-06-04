@@ -27,8 +27,6 @@ public class RubyDataBinder extends OgnlDataBinder {
             JavaEmbedUtils.invokeMethod(runtime, rubyObject, "__set_request", new IRubyObject[] {JavaEmbedUtils.javaToRuby(runtime, request)}, Object.class);
             JavaEmbedUtils.invokeMethod(runtime, rubyObject, "__set_session", new HttpSession[] {request.getSession(false)}, Object.class);
 
-            // inspect rubyObject instance variables ... resolve values from (params, req, session, application) ... and set them onto the instance
-
         } else {
             // default to standard binding
             super.bind(request, response, errorsContext, controller);

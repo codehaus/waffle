@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module version="4" relativePaths="true" type="J2EE_WEB_MODULE">
+<module relativePaths="true" type="J2EE_WEB_MODULE" version="4">
   <component name="AppServerSpecificValidatorsManager" />
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager" inherit-compiler-output="false">
@@ -69,7 +69,6 @@
     <setting name="EXPLODED_ENABLED" value="true" />
     <setting name="JAR_URL" value="file://" />
     <setting name="JAR_ENABLED" value="false" />
-    <setting name="SYNC_EXPLODED_DIR" value="false" />
     <setting name="BUILD_MODULE_ON_FRAME_DEACTIVATION" value="false" />
     <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
     <setting name="RUN_JASPER_VALIDATION" value="true" />
@@ -90,8 +89,8 @@
       <url>jar://$M2_REPOSITORY$/asm/asm/3.0/asm-3.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-RC-3-SNAPSHOT.jar" />
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
       <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-RC-3-SNAPSHOT/paranamer-1.0-RC-3-SNAPSHOT.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
@@ -100,13 +99,13 @@
       <url>jar://$M2_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/jmock-1.2.0.jar" />
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
       <url>jar://$M2_REPOSITORY$/jmock/jmock/1.2.0/jmock-1.2.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/junit-4.0.jar" />
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
       <url>jar://$M2_REPOSITORY$/junit/junit/4.0/junit-4.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
@@ -115,27 +114,27 @@
       <url>jar://$M2_REPOSITORY$/ognl/ognl/2.6.9/ognl-2.6.9.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/hamcrest-api-1.0.jar" />
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
       <url>jar://$M2_REPOSITORY$/org/hamcrest/hamcrest-api/1.0/hamcrest-api-1.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/hamcrest-library-1.0.jar" />
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
       <url>jar://$M2_REPOSITORY$/org/hamcrest/hamcrest-library/1.0/hamcrest-library-1.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/jmock-junit4-2.0.0.jar" />
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
       <url>jar://$M2_REPOSITORY$/org/jmock/jmock-junit4/2.0.0/jmock-junit4-2.0.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="1" />
-      <attribute name="URI" value="/WEB-INF/lib/jmock-2.0.0.jar" />
+      <attribute name="method" value="0" />
+      <attribute name="URI" value="&lt;N/A&gt;" />
       <url>jar://$M2_REPOSITORY$/org/jmock/jmock/2.0.0/jmock-2.0.0.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
-      <attribute name="method" value="0" />
+      <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/jruby-complete-1.0RC3.jar" />
       <url>jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0RC3/jruby-complete-1.0RC3.jar!/</url>
     </containerElement>
