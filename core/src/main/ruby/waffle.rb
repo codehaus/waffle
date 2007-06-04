@@ -5,6 +5,7 @@ module Waffle
   # load/require files
   class ScriptLoader
     def ScriptLoader.load_all(prefix, servlet_context)
+      @@__servlet_context = servlet_context
 
       if (prefix.gsub!(/^dir:/, ''))
         @@_ruby_script_path = prefix
@@ -17,9 +18,14 @@ module Waffle
     end
 
     def ScriptLoader.load_from_file_system
-      Dir.new(@@_ruby_script_path).each do |entry|
-        file = "#{@@_ruby_script_path}#{entry}"
-        load(file) if File.file?(file) # TODO need to ensure it is a *.rb file ... need to recursively search directories
+      path = @@__servlet_context.getRealPath('/')
+      path = "#{path}#{@@_ruby_script_path}"
+
+      Dir.new(path).each do |entry|
+        file = "#{path}#{entry}"
+        if File.file?(file) # TODO need to recursively search directories
+          load(file) if file =~ /.rb$/
+        end
       end
     end
   end
