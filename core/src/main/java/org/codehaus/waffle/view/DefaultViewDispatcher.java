@@ -38,11 +38,11 @@ public class DefaultViewDispatcher implements ViewDispatcher {
         String url = viewResolver.resolve(view);
 
         if (view instanceof RedirectView) {
-            Map model = ((RedirectView)view).getModel();
+            Map model = ((RedirectView) view).getModel();
             dispatchAssistant.redirect(request, response, model, url);
         } else if (view instanceof ResponderView) {
-        	((ResponderView)view).respond(request, response);
-        }else {
+            ((ResponderView) view).respond(request, response);
+        } else {
             dispatchAssistant.forward(request, response, url);
         }
     }

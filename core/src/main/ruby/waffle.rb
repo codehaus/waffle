@@ -1,4 +1,7 @@
-# This is still a work in progress
+require 'java'
+
+include_class 'org.codehaus.waffle.view.View'
+include_class 'org.codehaus.waffle.view.RedirectView'
 
 module Waffle
 
@@ -12,7 +15,7 @@ module Waffle
         ScriptLoader.load_from_file_system
       else
         servlet_context.getResourcePaths(prefix).each do |path| # this would be for production!!
-          require path.gsub(Regexp.new("^#{prefix}"), 'ruby/')
+          require(path.gsub(Regexp.new("^#{prefix}"), 'ruby/'))
         end
       end
     end
@@ -61,22 +64,29 @@ module Waffle
     def method_missing(symbol, *args)
       @__context.send(symbol, *args)
     end
+
+    def java_delegate
+      return @__context
+    end
   end
 
   module Controller
-    attr_accessor :response # todo the setters for this should be hidden?
-    attr_reader :request, :session
+    attr_reader :parameters, :request, :response, :session, :servlet_context
 
-    def __set_request(request)
+    def __set_all_contexts(request, response)
       @request = WebContext.new(request)
-    end
-
-    def __set_session(session)
-      @session = WebContext.new(session)
+      @parameters = @request.getParameterMap
+      @session = WebContext.new(@request.getSession(false))
+      @servlet_context = WebContext.new(@session.getServletContext());
+      @response = response
     end
 
     def __pico_container=(pico)
       @@__pico_container = pico
+    end
+
+    def __argument_resolver=(argument_resolver)
+      @@__argument_resolver = argument_resolver
     end
 
     def method_missing(symbol, *args)
@@ -86,9 +96,21 @@ module Waffle
         component = @@__pico_container.getComponentInstance(key)
 
         return component unless component.nil?
+      else
+        value = @@__argument_resolver.resolve(@request.java_delegate, "{#{symbol.to_s}}")
+
+        return value unless value.nil?
       end
 
       super(symbol, *args)
+    end
+
+    def render(name)
+      return View.new(name, self)
+    end
+
+    def redirect_to(name, map = {})
+      return RedirectView.new(name, self, map)
     end
 
   end
