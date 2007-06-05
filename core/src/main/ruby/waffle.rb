@@ -3,6 +3,7 @@ require 'java'
 include_class 'org.codehaus.waffle.view.View'
 include_class 'org.codehaus.waffle.view.RedirectView'
 
+# TODO all of this code needs ruby tests!
 module Waffle
 
   # load/require files
@@ -75,10 +76,19 @@ module Waffle
 
     def __set_all_contexts(request, response)
       @request = WebContext.new(request)
-      @parameters = @request.getParameterMap
       @session = WebContext.new(@request.getSession(false))
       @servlet_context = WebContext.new(@session.getServletContext());
       @response = response
+
+      # Building up a hash to represent the params
+      @parameters = {}
+      parameter_names = @request.getParameterNames
+      while (parameter_names.hasMoreElements)
+        name = parameter_names.nextElement
+        @parameters[name] = @request.getParameter(name)
+      end
+
+      __process_request_params
     end
 
     def __pico_container=(pico)
@@ -87,6 +97,12 @@ module Waffle
 
     def __argument_resolver=(argument_resolver)
       @@__argument_resolver = argument_resolver
+    end
+
+    def locate(type)
+      return @@__pico_container.getComponentInstanceOfType(type.java_class) if type.is_a? Module
+
+      return @@__pico_container.getComponentInstance(type)
     end
 
     def method_missing(symbol, *args)
@@ -111,6 +127,18 @@ module Waffle
 
     def redirect_to(name, map = {})
       return RedirectView.new(name, self, map)
+    end
+
+    private
+
+    # This method tries to apply parameter values to the controllers instance variables (only if they exist)
+    def __process_request_params
+      @parameters.each_pair do |key, value|
+        parts = key.split('.')
+        if self.instance_variable_defined? "@#{key}".to_sym
+          self.instance_eval("@#{key} = '#{value}'")
+        end
+      end
     end
 
   end
