@@ -62,6 +62,24 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/taglibs/standard/1.1.2/standard-1.1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
   <component name="WebModuleBuildComponent">
@@ -97,6 +115,11 @@
       <attribute name="method" value="0" />
       <attribute name="URI" value="/WEB-INF/lib/xstream-1.2.2.jar" />
       <url>jar://$M2_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/jstl-1.1.2.jar" />
+      <url>jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar!/</url>
     </containerElement>
     <containerElement type="library" level="module">
       <attribute name="method" value="0" />
@@ -142,6 +165,11 @@
       <attribute name="method" value="1" />
       <attribute name="URI" value="/WEB-INF/lib/picocontainer-1.2.jar" />
       <url>jar://$M2_REPOSITORY$/org/picocontainer/picocontainer/1.2/picocontainer-1.2.jar!/</url>
+    </containerElement>
+    <containerElement type="library" level="module">
+      <attribute name="method" value="1" />
+      <attribute name="URI" value="/WEB-INF/lib/standard-1.1.2.jar" />
+      <url>jar://$M2_REPOSITORY$/taglibs/standard/1.1.2/standard-1.1.2.jar!/</url>
     </containerElement>
     <containerElement type="library" name="Groovy from GroovyJ 0.1.8 (Demetra)" level="application">
       <attribute name="method" value="0" />
