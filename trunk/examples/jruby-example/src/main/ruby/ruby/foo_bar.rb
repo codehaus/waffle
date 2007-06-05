@@ -2,8 +2,27 @@
 class FooBar
 
   def index
+    @var1 = "is cool and fast"
+    render("foobar.jspx")
+  end
+
+  def jake
+    session[:zoo] = "from session"
+    "go buy a mac #{zoo}"
+  end
+
+
+
+
+
+  def ajax
+    "<h1>Hello</h1>"
+  end
+
+  def index_two
     request[:foo] = 'bar'
     session[:bar] = 'foo'
+    session[:baz] = 'foo'
     p session
     begin
       %{
@@ -18,6 +37,14 @@ class FooBar
         #{session.getServletContext().getRealPath('/WEB-INF/')}
 
         auto resolve #{foo}
+
+        component: #{locate(java.util.List)}
+        component: #{locate(org.codehaus.waffle.example.jruby.dao.PersonDAO)}
+
+        #{cls = Java::JavaClass.for_name('java.util.Vector')}
+        #{locate(Java::JavaClass.for_name('java.util.List'))}
+
+Hello #{baz}
       }
     rescue Exception => e
       "ERROR #{e}"
@@ -30,7 +57,7 @@ class FooBar
 
   def view_jspx
     p "CALLED!"
-    @var1 = "this is my variables value from jruby"
+    @var1 = "this is my variables value from jruby!!!!!!!!"
     view = render("foobar.jspx")
     p "DONE"
     return view
