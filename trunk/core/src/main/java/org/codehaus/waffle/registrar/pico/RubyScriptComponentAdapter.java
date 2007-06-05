@@ -28,7 +28,6 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
 
     public Object getComponentInstance(PicoContainer picoContainer) throws PicoInitializationException, PicoIntrospectionException {
         Ruby runtime = (Ruby) picoContainer.getComponentInstance(Ruby.class);
-        runtime.evalScript(rubyClassName);
 
         String script =
                 "controller = " + rubyClassName + ".new\n" + // instantiate controller
@@ -37,7 +36,7 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
 
         // inject pico container
         controller.callMethod(runtime.getCurrentContext(), "__pico_container=", JavaEmbedUtils.javaToRuby(runtime, picoContainer));
-        
+
         return controller;
     }
 

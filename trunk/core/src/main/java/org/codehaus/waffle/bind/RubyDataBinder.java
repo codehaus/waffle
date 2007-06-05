@@ -1,9 +1,9 @@
 package org.codehaus.waffle.bind;
 
 import ognl.TypeConverter;
+import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.controller.RubyController;
 import org.codehaus.waffle.validation.ErrorsContext;
-import org.codehaus.waffle.action.ArgumentResolver;
 import org.jruby.Ruby;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
