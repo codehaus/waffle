@@ -15,6 +15,7 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
 import org.picocontainer.defaults.ConstantParameter;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
+import org.picocontainer.defaults.CachingComponentAdapter;
 import org.codehaus.waffle.registrar.Registrar;
 
 /**
@@ -70,7 +71,8 @@ public class PicoRegistrar implements Registrar {
     // expose to interface?
     public void registerRubyScript(String key, String className) {
         ComponentAdapter componentAdapter = new RubyScriptComponentAdapter(key, className);
-        this.registerComponentAdapter(componentAdapter);
+        CachingComponentAdapter cachingComponentAcdapter = new CachingComponentAdapter(componentAdapter);
+        this.registerComponentAdapter(cachingComponentAcdapter);
     }
     
     public void registerComponentAdapter(ComponentAdapter componentAdapter) {
