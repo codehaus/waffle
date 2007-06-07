@@ -3,49 +3,49 @@
      xmlns:c="http://java.sun.com/jsp/jstl/core"
      xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
 
-    <h3>Edit Person</h3>
+  <h3>Edit Person</h3>
 
-    <!--<c:if test="${errors.errorMessageCount > 0}">
-        <div class="errors">
-            <c:forEach var="error" items="${errors.allErrorMessages}">
-                <div class="error">
-                    ${error.message}
-                </div>
-            </c:forEach>
+  <!--<c:if test="${errors.errorMessageCount > 0}">
+    <div class="errors">
+      <c:forEach var="error" items="${errors.allErrorMessages}">
+        <div class="error">
+          ${error.message}
         </div>
-    </c:if>-->
+      </c:forEach>
+    </div>
+  </c:if>-->
 
-    <div class="fieldRow">
-        <label for="person.id">Id:</label>
-        <input type="text" name="person.id" id="person.id" value="${person.id}" readonly="true" disabled="true"/>
-        <br style="clear:both"/>
-    </div>
-    <div class="fieldRow">
-        <label for="person.firstName">First Name:</label>
-        <input type="text" name="person.firstName" id="person.firstName" value="${person.firstName}"/>
-        <br style="clear:both"/>
-    </div>
-    <div class="fieldRow">
-        <label for="person.lastName">Last Name:</label>
-        <input type="text" name="person.lastName" id="person.lastName" value="${person.lastName}"/>
-        <br style="clear:both"/>
-    </div>
-    <div class="fieldRow">
-        <label for="person.email">Email:</label>
-        <input type="text" name="person.email" id="person.email" value="${person.email}"/>
-        <br style="clear:both"/>
-    </div>
-    <!--<div class="fieldRow">
-        <label for="person.dateOfBirth">Date of Birth:</label>
-        <fmt:formatDate value="${person.dateOfBirth}" var="birthDate" pattern="dd-MM-yyyy"/>
-        <input type="text" name="person.dateOfBirth" id="person.dateOfBirth" value="${birthDate}"/>
-        <br style="clear:both"/>
-    </div>-->
+  <div class="fieldRow">
+    <label for="person.id">Id:</label>
+    <input type="text" name="person.id" id="person.id" value="${person.id}" readonly="true" disabled="true"/>
+    <br style="clear:both"/>
+  </div>
+  <div class="fieldRow">
+    <label for="person.firstName">First Name:</label>
+    <input type="text" name="person.firstName" id="person.firstName" value="${person.firstName}"/>
+    <br style="clear:both"/>
+  </div>
+  <div class="fieldRow">
+    <label for="person.lastName">Last Name:</label>
+    <input type="text" name="person.lastName" id="person.lastName" value="${person.lastName}"/>
+    <br style="clear:both"/>
+  </div>
+  <div class="fieldRow">
+    <label for="person.email">Email:</label>
+    <input type="text" name="person.email" id="person.email" value="${person.email}"/>
+    <br style="clear:both"/>
+  </div>
+  <!--<div class="fieldRow">
+    <label for="person.dateOfBirth">Date of Birth:</label>
+    <fmt:formatDate value="${person.dateOfBirth}" var="birthDate" pattern="dd-MM-yyyy"/>
+    <input type="text" name="person.dateOfBirth" id="person.dateOfBirth" value="${birthDate}"/>
+    <br style="clear:both"/>
+  </div>-->
 
-    <br/>
-    <a href="javascript:fireMethod('save');">Save</a> |
-    <a href="javascript:fireMethod('cancel');">Cancel</a>
+  <br/>
+  <a href="javascript:fireMethod('save');">Save</a> |
+  <a href="javascript:fireMethod('cancel');">Cancel</a>
 
-    <!--<jsp:directive.include file="fielderrors.jspx"/>-->
+  <!--<jsp:directive.include file="fielderrors.jspx"/>-->
 
 </div>

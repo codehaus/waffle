@@ -50,6 +50,6 @@ public class SimplePersonDAO implements PersonDAO {
     }
 
     public void delete(Long personId) {
-
+        map.remove(personId);
     }
 }

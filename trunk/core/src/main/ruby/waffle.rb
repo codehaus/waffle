@@ -136,7 +136,11 @@ module Waffle
       @parameters.each_pair do |key, value|
         parts = key.split('.')
         if self.instance_variable_defined? "@#{key}".to_sym
-          self.instance_eval("@#{key} = '#{value}'")
+          begin
+            self.instance_eval("@#{key} = '#{value}'")
+          rescue Exception => e
+            p "ERROR handling request parameter #{key} with value: #{value}\n #{e}"
+          end
         end
       end
     end

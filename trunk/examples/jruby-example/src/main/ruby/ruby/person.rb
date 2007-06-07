@@ -9,18 +9,17 @@ class PersonController
     render 'person.jspx'
   end
 
-#
-#  def remove(person_id)
-#    @person_dao.delete(person_id)
-#  end
-#
-  def select(uid)
-    p "XXXXXXXXX #{uid}"
-    @person = @person_dao.findById(uid.to_i)
+  def remove(uid)
+    @person_dao.delete(uid.to_i)
 
     return nil
   end
 
+  def select(uid)
+    @person = @person_dao.findById(uid.to_i)
+
+    return nil
+  end
 
   def save
     @person_dao.save(@person)
@@ -33,10 +32,11 @@ class PersonController
 
     return nil # stay on page
   end
-  
-#
-#  def cancel
-#    @person = null
-#  end
+
+  def cancel
+    @person = nil
+
+    return nil
+  end
 
 end
