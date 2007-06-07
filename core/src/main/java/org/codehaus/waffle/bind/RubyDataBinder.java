@@ -28,17 +28,20 @@ public class RubyDataBinder extends OgnlDataBinder {
 
             JavaEmbedUtils.invokeMethod(runtime, rubyObject, "__argument_resolver=",
                     new Object[]{JavaEmbedUtils.javaToRuby(runtime, argumentResolver)},
-                    Object.class);
+                    Void.class);
 
-            JavaEmbedUtils.invokeMethod(
-                    runtime,
+            JavaEmbedUtils.invokeMethod(runtime, rubyObject, "__errors=",
+                    new Object[]{JavaEmbedUtils.javaToRuby(runtime, errorsContext)},
+                    Void.class);
+
+            JavaEmbedUtils.invokeMethod(runtime,
                     rubyObject,
                     "__set_all_contexts",
                     new Object[]{
                             JavaEmbedUtils.javaToRuby(runtime, request),
                             JavaEmbedUtils.javaToRuby(runtime, response)
                     },
-                    Object.class);
+                    Void.class);
         } else {
             // default to standard binding
             super.bind(request, response, errorsContext, controller);

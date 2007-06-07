@@ -72,7 +72,7 @@ module Waffle
   end
 
   module Controller
-    attr_reader :parameters, :request, :response, :session, :servlet_context
+    attr_reader :parameters, :request, :response, :session, :servlet_context, :errors
 
     def __set_all_contexts(request, response)
       @request = WebContext.new(request)
@@ -92,28 +92,32 @@ module Waffle
     end
 
     def __pico_container=(pico)
-      @@__pico_container = pico
+      @__pico_container = pico
     end
 
     def __argument_resolver=(argument_resolver)
-      @@__argument_resolver = argument_resolver
+      @__argument_resolver = argument_resolver
+    end
+
+    def __errors=(errors)
+      @errors = errors
     end
 
     def locate(type)
-      return @@__pico_container.getComponentInstanceOfType(type.java_class) if type.is_a? Module
+      return @__pico_container.getComponentInstanceOfType(type.java_class) if type.is_a? Module
 
-      return @@__pico_container.getComponentInstance(type)
+      return @__pico_container.getComponentInstance(type)
     end
 
     def method_missing(symbol, *args)
       if symbol.to_s =~ /^find_/ # todo: I don't like "find_" for this ... sounds to model-ish
         key = symbol.to_s
         key = key[5..key.length]
-        component = @@__pico_container.getComponentInstance(key)
+        component = @__pico_container.getComponentInstance(key)
 
         return component unless component.nil?
       else
-        value = @@__argument_resolver.resolve(@request.java_delegate, "{#{symbol.to_s}}")
+        value = @__argument_resolver.resolve(@request.java_delegate, "{#{symbol.to_s}}")
 
         return value unless value.nil?
       end
