@@ -143,8 +143,6 @@ public class WaffleServlet extends HttpServlet {
                 }
             }
 
-            // TODO ... pluggable way to register controller instance variables to the request ... no longer have to do "controller.foobar"
-            // pluggable cause we need to support ognl and ruby (get_instance_variables
             requestAttributeBinder.bind(request, controllerDefinition.getController());
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
         } catch (MethodInvocationException e) {

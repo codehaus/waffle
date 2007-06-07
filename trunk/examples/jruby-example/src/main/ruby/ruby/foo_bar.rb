@@ -6,14 +6,9 @@ class FooBar
     render("foobar.jspx")
   end
 
-  def jake
-    session[:zoo] = "from session"
-    "go buy a mac #{zoo}"
+  def hola
+    errors # automatically resolves from params => req.attr => session.attr => application.attr
   end
-
-
-
-
 
   def ajax
     "<h1>Hello</h1>"
@@ -44,7 +39,6 @@ class FooBar
         #{cls = Java::JavaClass.for_name('java.util.Vector')}
         #{locate(Java::JavaClass.for_name('java.util.List'))}
 
-Hello #{baz}
       }
     rescue Exception => e
       "ERROR #{e}"
