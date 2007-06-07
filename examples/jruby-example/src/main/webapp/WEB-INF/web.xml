@@ -13,7 +13,7 @@
     <param-value>org.codehaus.waffle.example.jruby.JRubyRegistrar</param-value>
   </context-param>
 
-  <!-- Ruby Specifics components -->
+  <!-- Ruby Specific components -->
   <context-param>
     <param-name>org.codehaus.waffle.context.ContextContainerFactory</param-name>
     <param-value>org.codehaus.waffle.context.pico.RubyAwarePicoContextContainerFactory</param-value>
@@ -27,6 +27,7 @@
     <param-value>org.codehaus.waffle.controller.RubyControllerDefinitionFactory</param-value>
   </context-param>
 
+  <!-- Define a relative path to the ruby script directory (for development) -->
   <context-param>
     <param-name>org.codehaus.waffle.ruby.path</param-name>
     <param-value>dir:../src/main/ruby/ruby/</param-value><!-- this needs to be more forgiving -->

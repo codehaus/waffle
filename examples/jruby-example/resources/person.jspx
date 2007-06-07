@@ -25,7 +25,7 @@
 <body>
 <form action="person.waffle" method="post">
 
-  <h3>Waffle example: Select Person</h3>
+  <h3>Waffle/JRuby example: Select Person</h3>
 
   <table>
     <tr>
