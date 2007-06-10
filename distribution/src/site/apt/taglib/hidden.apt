@@ -1,0 +1,23 @@
+Hidden fields
+
+	You can use the <hidden> tag in order to create hidden html fields:
+
++--------------------
+<w:hidden name="fornecedor.id" value="${fornecedor.id}"/>
++--------------------
+
+	The <<w:hidden>> tag does not add rows to your form, if it has some type of table display.
+
+Default value
+
+	The default <value> attribute value is the expression language evaluation of the name attribute. Therefore the result from writing:
+
++--------------------
+<w:hidden name="supplier.id" value="${supplier.id}"/>
++--------------------
+
+	Is the same one as:
+
++--------------------
+<w:hidden name="supplier.id"/>
++--------------------
