@@ -1,0 +1,22 @@
+Submit buttons
+
+  In order to submit your form, use the <<w:submit>> tag:
+
++--------------------
+<w:submit value="submit"/>
++--------------------
+
+Multiple submit buttons on the same form
+
+  You can create one form with multiple submit buttons to different actions by setting the action attribute:
+
++--------------------
+<w:form action="component.default.logic" type="table" id="myform">
+	<w:hidden name="supplier.id"/>
+	<w:text name="supplier.name"/>
+	<w:submit value="update" action="/supplier.update.logic"/>
+	<w:submit value="remove" action="/supplier.remove.logic"/>
+</w:form>
++--------------------
+
+  In order to such form work, one needs to add some javascript code, therefore do not forge to define a unique <id> attribute in your form.
