@@ -14,9 +14,6 @@
       <outputDirectory>webapp/WEB-INF/lib</outputDirectory>
       <unpack>false</unpack>
       <scope>runtime</scope>
-	  <excludes>
-        <exclude>org.codehaus.waffle:blankproject</exclude>
-	  </excludes>
     </dependencySet>
   </dependencySets>
 </assembly>

@@ -1,0 +1,37 @@
+Hora
+
+	Para criar um campo para a hora em seu formulário você pode utilizar a tag <s:time>. Essa tag recebe um atributo
+	chamado value, que será <java.util.Date>. 
+
+	Por exemplo, usando html e fmt para mostrar a hora formatada você escreveria:
+	
++--------------------
+<input type="text" name="fornecedor.nascimento" value="<fmt:formatDate value="${fornecedor.nascimento}" type="time" timeStyle="medium"/>" />
++--------------------
+	
+	Com <s:time>:
+
++--------------------
+<s:time name="fornecedor.nascimento" value="${fornecedor.nascimento}" timeStyle="medium"/>
++--------------------
+
+	O atributo <timeStyle> pode ter os seguintes valores: <short>, <medium>, <long>, <full> e <default>. 
+	Ele pode ser omitido (usa-se o <default>).
+
+	Se você omitir o atributo <value>, o valor padrão será o <expression language> do seu <fornecedor.nascimento>, portanto o código:	
+
++--------------------
+<s:time name="fornecedor.nascimento" timeStyle="medium"/>
++--------------------
+
+	é igual o código anterior. Ou usando o valor padrão para o atributo timeStyle:
+
++--------------------
+<s:time name="fornecedor.nascimento"/>
++--------------------
+
+	Você tamém pode utilizar o atributo <pattern>:
+
++--------------------
+<s:time name="fornecedor.nascimento" pattern="hh:mm"/>
++--------------------

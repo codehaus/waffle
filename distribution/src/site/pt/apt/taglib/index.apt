@@ -1,0 +1,57 @@
+Introdução
+
+	Waffle taglib é a tag library disponibilizada pelo Waffle para aumentar a produtividade do desenvolvedor ao
+	escrever páginas jsp.
+	O passo mais importante é adicionar a taglib ao seu jsp:
+
++------------	
+<%@ taglib uri="http://waffle.codehaus.org" prefix="w" %>
++------------	
+
+Exemplo básico
+
+	O exemplo a seguir mostra um formulário a ser criado em uma tabela, com um campo invisível e alguns
+	de texto.
+	
++--------------
+<w:form action="/fornecedor.armazena.logic" type="table" id="sendForm">
+	<w:hidden name="fornecedor.id"/>
+	<w:text name="fornecedor.codigo"/>
+	<w:text name="fornecedor.nome"/>
+	<w:text name="fornecedor.telefone"/>
+	<w:textarea name="fornecedor.detalhes" cols="60" rows="7">${fornecedor.detalhes}</w:textarea>
+	<w:submit value="enviar"/>
+</w:form>
++--------------
+
+	Note que, devido a internacionalização, você deve registrar as seguintes chaves no seu arquivo de propriedades:
+	<fornecedor.nome>, <fornecedor.codigo>, <fornecedor.telefone>, <fornecedor.detalhes> e <enviar>.
+
++--------------
+fornecedor.nome = Nome
+fornecedor.codigo = Código
+fornecedor.telefone = Telefone
+fornecedor.detalhes = Detalhes
+enviar = Enviar
++--------------
+
+Exemplo de um formulário de login
+
+	O exemplo abaixo mostra um campo de texto e outro de senha para um formulário clássico de login:
+	
++--------------
+<w:form action="/login.execute.logic" type="table" id="login">
+	<w:text name="username"/>
+	<w:password name="password"/>
+	<w:submit value="login"/>
+</w:form>
++--------------
+	
+	Note que, devido a internacionalização, você deve registrar as seguintes chaves no seu arquivo de propriedades:
+	<username>, <password> e <login>.
+
++--------------
+username = Usuário
+password = Senha
+login = Login
++--------------
