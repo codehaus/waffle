@@ -23,6 +23,7 @@
     </poweredBy>
     <body>
         <links>
+            <item name="Portuguese" href="pt/index.html"/>
             <item name="Waffle Home" href="http://waffle.codehaus.org/"/>
         </links>
 
@@ -51,6 +52,12 @@
             <item name="Hello World" href="helloworld.html"/>
             <item name="Simple Calculator" href="simple-calculator.html"/>
         </menu>  
+
+        <menu name="Taglib">
+            <item name="Index" href="taglib/index.html"/>
+            <item name="Button" href="taglib/button.html"/>
+            <item name="Text" href="taglib/text.html"/>
+        </menu>
 
         <menu name="Misc...">
             <item name="Javadocs" href="javadoc/index.html"/>
