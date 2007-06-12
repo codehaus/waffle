@@ -20,8 +20,8 @@ public class RubyAwarePicoContextContainerFactoryTest extends MockObjectTestCase
         assertNotNull(picoContainer.getComponentAdapter(RubyScriptLoader.class));
 
         // ensure mixin occurred
-        RubyBoolean rubyBoolean = (RubyBoolean) runtime.evalScript("String.respond_to? :camelize");
-        assertTrue((Boolean)JavaEmbedUtils.rubyToJava(runtime, rubyBoolean, Boolean.class));
+        RubyBoolean rubyBoolean = (RubyBoolean) runtime.evalScript("Waffle::Controller.is_a? Module");
+        assertTrue((Boolean) JavaEmbedUtils.rubyToJava(runtime, rubyBoolean, Boolean.class));
     }
 
 }

@@ -21,8 +21,7 @@ public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFa
         ContextContainer contextContainer = super.buildApplicationContextContainer();
 
         Ruby runtime = Ruby.getDefaultInstance();
-        loadRubyScriptFromClassLoader("string.rb", runtime);
-        loadRubyScriptFromClassLoader("waffle.rb", runtime);
+        loadRubyScriptFromClassLoader("org/codehaus/waffle/waffle.rb", runtime);
 
         // I'd prefer to do the following:
         //      runtime.evalScript("require 'string'\nrequire 'waffle'"); // load Waffle custom scripts
