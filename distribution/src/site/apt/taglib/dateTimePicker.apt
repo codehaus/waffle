@@ -1,0 +1,39 @@
+Calendar Tag
+
+	The <w:dateTimePicker> tag creates an input field with the given <value> and a button which shows an javascript calendar. 
+	The date will be formated by the specified <pattern> .
+
+	Example:
+	
++--------------------
+<w:dateTimePicker name="birthday" value="${date}" pattern="yyyy-MM-dd" />
++--------------------
+
+	The calendar is based on the http://www.dynarch.com/projects/calendar/ project. In order to show the calendar you must provide 
+	the necessary files, which are:
+	
+	calendar.js
+	calendar-en.js 
+	calendar-setup.js
+	calendar-brown.css 
+	 
+	There are different languages and style sheets available. You have to import the files in your jsp file, for example:
+	
++--------------------
+<%@ taglib uri="http://waffle.codehaus.org" prefix="w" %>
+
+<head>
+<meta http-equiv="content-type" content="text/xml; charset=utf-8" />
+
+<link rel="stylesheet" type="text/css" media="all" href="calendar-brown.css">
+
+<script type="text/javascript" src="calendar.js"></script>
+<script type="text/javascript" src="calendar-en.js"></script>
+<script type="text/javascript" src="calendar-setup.js"></script>
+
+</head>
+<body>
+	<w:dateTimePicker name="birthday" value="${date}" pattern="yyyy-MM-dd" />
+</body>
+</head>
++--------------------

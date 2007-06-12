@@ -66,7 +66,36 @@
         </attribute>
     </tag>
 
-    <!-- Time -->
+<!-- DateTimePicker -->
+    <tag>
+        <name>dateTimePicker</name>
+        <tagclass>org.codehaus.waffle.taglib.form.DateTimePickerTag</tagclass>
+        <bodycontent>empty</bodycontent>
+        <dynamic-attributes>true</dynamic-attributes>
+        <attribute>
+            <name>value</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>java.util.Date</type>
+            <description>the date object</description>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>the input field name </description>
+        </attribute>
+        <attribute>
+            <name>pattern</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <type>java.lang.String</type>
+            <description>the date pattern</description>
+        </attribute>
+    </tag>
+
+<!-- Time -->
     <tag>
 
         <name>time</name>
@@ -111,6 +140,7 @@
             <description>o formato da data</description>
         </attribute>
     </tag>
+
 
     <!-- date -->
     <tag>
