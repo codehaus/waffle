@@ -1,4 +1,3 @@
-
 class FooBar
 
   def index
@@ -19,8 +18,8 @@ class FooBar
     session[:bar] = 'foo'
     session[:baz] = 'foo'
     p session
-    begin
-      %{
+
+    %{
         HELLO WORLD from the index method
         look up from pico: #{find_chicago}
         parameters: #{parameters}
@@ -38,11 +37,8 @@ class FooBar
 
         #{cls = Java::JavaClass.for_name('java.util.Vector')}
         #{locate(Java::JavaClass.for_name('java.util.List'))}
+    }
 
-      }
-    rescue Exception => e
-      "ERROR #{e}"
-    end
   end
 
   def bar

@@ -28,6 +28,7 @@ public class JRubyRegistrar extends AbstractRegistrar {
         registerInstance(List.class, myList);
 
         picoRegistrar.registerRubyScript("foobar", "FooBar"); // register the controller!
+        picoRegistrar.registerRubyScript("hello", "HelloController"); // register the controller!
         picoRegistrar.registerRubyScript("person", "PersonController"); // register the controller!
     }
 

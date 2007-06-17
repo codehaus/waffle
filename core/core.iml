@@ -153,7 +153,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0RC3/jruby-complete-1.0RC3.jar!/" />
+          <root url="jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0/jruby-complete-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
