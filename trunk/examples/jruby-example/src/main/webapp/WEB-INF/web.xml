@@ -53,10 +53,20 @@
     <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
+  <servlet>
+    <servlet-name>rhtml</servlet-name>
+    <servlet-class>org.codehaus.waffle.servlet.RhtmlServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
 
   <servlet-mapping>
     <servlet-name>waffle</servlet-name>
     <url-pattern>*.waffle</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>rhtml</servlet-name>
+    <url-pattern>*.rhtml</url-pattern>
   </servlet-mapping>
 
   <welcome-file-list>
