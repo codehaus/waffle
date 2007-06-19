@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+  <head>
+    <title>Waffle - War file structure</title>
+ 
+</head>
+  <body class="composite">
+  <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>Application structure (WAR File)</h2><p>An application built with Waffle is similar to most other Java web based applications. Waffle is compatible with servlet containers that adhere to the servlet 2.4 spec, and above. Apache's Tomcat, and Mortbay's Jetty are two good examples of compatible containers.</p><p>The following provides an overview of how you might layout the code:</p><div class="source"><pre>   +--- WEB-INF/
+       +--- classes/
+       +--- lib/
+           +--- jstl.jar
+           +--- standard.jar
+           +--- ognl.jar
+           +--- picocontainer.jar
+           +--- waffle-1.x.jar
+       +--- web.xml
+   +--- index.jspx</pre></div><dl><dt>NOTE</dt><dd>The jars <b>jstl.jar</b> and <b>standard.jar</b> are only required with the use of JSP's.<p>If you plan on using <a href="http://freemarker.sourceforge.net/">FreeMarker</a>:</p><div class="source"><pre>   +--- WEB-INF/
+       +--- classes/
+       +--- lib/
+           +--- freemarker.jar
+           +--- ognl.jar
+           +--- picocontainer.jar
+           +--- waffle-1.x.jar
+       +--- web.xml
+   +--- index.ftl</pre></div><p>If <a href="http://jakarta.apache.org/velocity/index.html">Velocity </a> you'll need to include:</p><p>TODO</p></dd></dl></div>
+      </div>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2007
+    
+          
+  
+
+  
+    
+  
+  
+  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+
+  </body>
+
+</html>

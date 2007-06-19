@@ -1,0 +1,16 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+  <head>
+    <title>Waffle - Internationalization</title>
+      </head>
+  <body class="composite">
+  <div id="bodyColumn">
+      <div id="contentBox">
+        <div class="section"><h2>Internationalization (i18n)</h2><p>Waffle supports internationalization in two ways -</p><p>1) ApplicationResources.properties in the WAR file. This is the same file name that other web action frameworks use. The OS will load the most appropriate for the locale that happens to be in the WAR file.</p><p>2) A component <b>org.codehaus.waffle.i18n.DefaultMessageResourcesConfiguration</b> that provides default messages, can be swapped for your own implementation of <b>org.codehaus.waffle.i18n.MessageResources</b>. This is a more programatic way of handling message localisation.</p><p>It needs to be registered in <b>web.xml</b> (refer to <a href="pluggable.html">Pluggable</a>).</p></div>
+      </div>
+    </div>
+
+  </body>
+
+</html>
