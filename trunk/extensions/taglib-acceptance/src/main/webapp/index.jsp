@@ -7,6 +7,7 @@
 <a href="date.jsp">w:date</a><br />
 <a href="time.jsp">w:time</a><br />
 <a href="select.jsp">w:select</a><br />
+<a href="selectTokens.jsp">w:selectTokens</a><br />
 <a href="form.jsp">w:form</a><br />
 <a href="checkbox.jsp">w:checkbox</a><br />
 <a href="password.jsp">w:password</a><br />

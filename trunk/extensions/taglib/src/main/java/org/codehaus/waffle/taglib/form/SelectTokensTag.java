@@ -1,9 +1,5 @@
 package org.codehaus.waffle.taglib.form;
 
-import org.codehaus.waffle.taglib.Functions;
-
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -13,57 +9,59 @@ import java.util.Map;
  * @author Nico Steppat
  * @since upcoming
  */
-public class SelectTag extends BasicSelectTag {
+public class SelectTokensTag extends BasicSelectTag {
 
-    private Collection<Object> items;
+    private String tokens;
+    private String[] parts;
 
-    private String value;
-    
     @Override
     public void release() {
         super.release();
-        items = null;
-        value = null;
+        tokens = null;
     }
 
     protected ItemsIterator getItemsIterator() {
-        if (items == null) {
+        if (tokens == null) {
             return null;
         }
-        return new ItemsIterator(){
-            private Iterator iterator = items.iterator();
+        return new ItemsIterator() {
+
+            private int current = 0;
+
             public boolean hasNext() {
-                return iterator.hasNext();
+                return current != parts.length;
             }
+
             public Map.Entry next() {
                 if(!hasNext()) {
                     throw new IllegalStateException("This iterator does not contain any more items");
                 }
-                return new Map.Entry() {
-                    Object current = iterator.next();
+                Map.Entry entry = new Map.Entry() {
+                    int position = current;
                     public Object getKey() {
-                        return Functions.getProperty(current, value);
+                        return parts[position];
                     }
 
                     public Object getValue() {
-                        return current;
+                        return parts[position+1];
                     }
 
                     public Object setValue(Object value) {
                         throw new UnsupportedOperationException();
                     }
                 };
+                current += 2;
+                return entry;
             }
 
         };
     }
 
-    public void setItems(Collection<Object> collection) {
-        this.items = collection;
+    public void setTokens(String tokens) {
+        this.tokens = tokens;
+        this.parts = tokens.split(",");
+        if (this.parts.length % 2 != 0) {
+            throw new IllegalArgumentException("String '" + tokens + "' is invalid as there is an odd number of tokens in it.");
+        }
     }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
 }
