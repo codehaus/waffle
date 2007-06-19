@@ -2,31 +2,23 @@
 <html>
   <head>
     <title>${title}</title>
-    <style type="text/css" media="all">
-      @import url("./css/maven-theme.css");
-      @import url("./css/site.css");
-      @import url("./css/SyntaxHighlighter.css");
-    </style>
-    <script src="./scripts/prototype.js" type="text/javascript">
-      //
+    <link rel="stylesheet" type="text/css" href="style.css"/>
+    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
+    
+	</script>
+    <script type="text/javascript">
+	    _uacct = "UA-759606-2";
+    	urchinTracker();
     </script>
-    <script language="javascript" src="./scripts/shCore.js">
-      //
-    </script>
-    <script language="javascript" src="./scripts/shBrushJava.js">
-      //
-    </script>
-    <script language="javascript" src="./scripts/shBrushXml.js">
-      //
-    </script>
-    <!--[if lt IE 7.]>
-    <script defer type="text/javascript" src="./scripts/pngfix.js"></script>
-    <![endif]-->
-    <link rel="stylesheet" href="./css/print.css" type="text/css" media="print" />
-    <meta name="verify-v1" content="UsIBiaQhhmjFrBwcJ2n4XIvEImPNG4SMVP365rRcpxE=" />
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-      </head>
+
+  </head>
+
   <body class="composite">
+
+   <div id="banner">
+   		<a href="index.html"><img id="logo" src="images/waffle-logo.png" alt="Waffle"/></a>
+   </div>
+
   <div id="center" class="Content2Column">  <!-- Content3Column for index -->
       <div id="content">
           ${body}
@@ -50,12 +42,6 @@
           </div>
       </#list>
   </div>
-    <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-    </script>
-    <script type="text/javascript">
-    _uacct = "UA-759606-2";
-    urchinTracker();
-    </script>
   </body>
 
   <script type="text/javascript">
