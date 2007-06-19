@@ -1,0 +1,52 @@
+<sitemap>
+ <section>
+ <name>Overview</name>
+   <page>index.html</page>
+   <link title="Why">why.html</link>
+   <link title="JavaDoc">javadoc/index.html</link>
+ </section>
+ <section>
+   <name>About Waffle</name>
+   <page>list-dev.html</page>
+   <page>team.html</page>
+   <page>repository.html</page>
+ </section>
+   <page>action-controllers.html</page>
+   <page>action-methods.html</page>
+   <page>interceptors.html</page>
+   <page>i18n.html</page>
+   <page>registrar.html</page>
+   <page>views.html</page>
+   <page>pluggable.html</page>
+   <page>binding-validation.html</page>
+   <page>lifecycle.html</page>
+   <page>ajax.html</page>
+   <page>webxml.html</page>
+   <page>application-structure.html</page>
+ </section>
+ <section>
+   <name>Examples</name>
+   <page>examples.html</page>
+   <page>helloworld.html</page>
+   <page>simple-calculator.html</page>
+ </section>
+ <section>
+   <name>Taglib</name>
+   <page>taglib/index.html</page>
+   <page>taglib/button.html</page>
+   <page>taglib/text.html</page>
+   <page>taglib/submit.html</page>
+   <page>taglib/hidden.html</page>
+ </section>
+ <section>
+   <name>Misc...</name>
+   <link title="Javadoc">javadoc/index.html</page>
+   <page>testing.html</page>
+   <page>best-practices.html</page>
+ </section>
+ <section>
+   <name>Development Tools</name>
+   <link title="Source Repository">https://svn.codehaus.org/waffle/trunk/</link>
+   <link title="Download">http://repository.codehaus.org/org/codehaus/waffle</link>
+ </section>
+</sitemap>

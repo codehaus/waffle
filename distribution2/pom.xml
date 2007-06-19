@@ -36,7 +36,7 @@
               <goal>unpack</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/site/javadoc</outputDirectory>
+              <outputDirectory>${project.build.directory}/xsite/javadoc</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>true</overWriteSnapshots>
               <artifactItems>
@@ -100,13 +100,5 @@
       </plugin>
     </plugins>
   </build>
-
-  <!-- Site URL set here in this pom.xml (not its parent) in order for the site to be deployed correctly -->
-  <distributionManagement>
-    <site>
-      <id>codehaus.org</id>
-      <url>dav:https://dav.codehaus.org/waffle/</url>
-    </site>
-  </distributionManagement>
 
 </project>
