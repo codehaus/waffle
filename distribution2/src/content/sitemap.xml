@@ -1,12 +1,13 @@
 <sitemap>
  <section>
- <name>Overview</name>
+ <name>About Waffle</name>
    <page>index.html</page>
-   <link title="Why">why.html</link>
+   <page>why.html</page>
    <link title="JavaDoc">javadoc/index.html</link>
+   <link title="Download">http://repository.codehaus.org/org/codehaus/waffle</link>
  </section>
  <section>
-   <name>About Waffle</name>
+   <name>Waffle Resources</name>
    <page>list-dev.html</page>
    <page>team-list.html</page>
    <page>source-repository.html</page>
@@ -27,12 +28,6 @@
    <page>application-structure.html</page>
  </section>
  <section>
-   <name>Examples</name>
-   <page>examples.html</page>
-   <page>helloworld.html</page>
-   <page>simple-calculator.html</page>
- </section>
- <section>
    <name>Taglib</name>
    <page>taglib/index.html</page>
    <page>taglib/button.html</page>
@@ -41,14 +36,14 @@
    <page>taglib/hidden.html</page>
  </section>
  <section>
-   <name>Misc...</name>
-   <link title="Javadoc">javadoc/index.html</link>
-   <page>testing.html</page>
-   <page>best-practices.html</page>
+   <name>Examples</name>
+   <page>examples/index.html</page>
+   <page>examples/helloworld.html</page>
+   <page>examples/simple-calculator.html</page>
  </section>
  <section>
-   <name>Development Tools</name>
-   <link title="Source Repository">https://svn.codehaus.org/waffle/trunk/</link>
-   <link title="Download">http://repository.codehaus.org/org/codehaus/waffle</link>
+   <name>Misc...</name>
+   <page>testing.html</page>
+   <page>best-practices.html</page>
  </section>
 </sitemap>
