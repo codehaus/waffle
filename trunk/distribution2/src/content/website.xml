@@ -8,9 +8,11 @@
  <section>
    <name>About Waffle</name>
    <page>list-dev.html</page>
-   <page>team.html</page>
-   <page>repository.html</page>
+   <page>team-list.html</page>
+   <page>source-repository.html</page>
  </section>
+ <section>
+   <name>Developing with Waffle</name>
    <page>action-controllers.html</page>
    <page>action-methods.html</page>
    <page>interceptors.html</page>
@@ -40,7 +42,7 @@
  </section>
  <section>
    <name>Misc...</name>
-   <link title="Javadoc">javadoc/index.html</page>
+   <link title="Javadoc">javadoc/index.html</link>
    <page>testing.html</page>
    <page>best-practices.html</page>
  </section>
