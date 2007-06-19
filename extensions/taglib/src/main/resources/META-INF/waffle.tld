@@ -196,7 +196,7 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>whether this field should be displayed or not</description>
     </attribute>
     <attribute>
       <name>items</name>
@@ -240,6 +240,53 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <description>the value to be selected</description>
+      <type>java.lang.Object</type>
+    </attribute>
+  </tag>
+
+  <tag>
+    <name>selectTokens</name>
+    <tagclass>org.codehaus.waffle.taglib.form.SelectTokensTag</tagclass>
+    <bodycontent>scriptless</bodycontent>
+    <info>Tag for select box based on tokens.</info>
+    <dynamic-attributes>true</dynamic-attributes>
+    <attribute>
+      <name>rendered</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.Boolean</type>
+      <description>whether this field should be displayed or not</description>
+    </attribute>
+    <attribute>
+      <name>tokens</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+    </attribute>
+    <attribute>
+      <name>type</name>
+      <required>false</required>
+      <type>java.lang.String</type>
+      <description>combobox or radio buttons</description>
+    </attribute>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>The field name</description>
+    </attribute>
+    <attribute>
+      <name>var</name>
+      <type>java.lang.String</type>
+      <description>The iterated variable name</description>
+    </attribute>
+    <attribute>
+      <name>selected</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <description>the value to be selected</description>
+      <type>java.lang.Object</type>
     </attribute>
   </tag>
 

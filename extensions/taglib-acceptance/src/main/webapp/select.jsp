@@ -26,7 +26,7 @@
 </div>
 
 test selected=2 <br>
-<w:select var="produto" name="produto.id.selected.2" items="${lista}" value="id" selected="2">
+<w:select var="produto" name="produto.id.selected.2" items="${lista}" value="id" selected="${2}">
         ${produto.name}
 </w:select>
 
@@ -34,7 +34,7 @@ test selected=2 <br>
 <br>
 
 w:select type="combo": <br>
-<w:select var="produto" name="produto.id" items="${lista}" value="id" selected="2" addEmpty="true">
+<w:select var="produto" name="produto.id" items="${lista}" value="id" selected="${2}" addEmpty="true">
         ${produto.name}
 </w:select>
 
