@@ -2,38 +2,23 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>com.thoughtworks.paranamer</groupId>
-    <artifactId>paranamer-parent</artifactId>
-    <version>1.0-RC-3-SNAPSHOT</version>
+    <groupId>org.codehaus.waffle</groupId>
+    <artifactId>waffle-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>paranamer-distribution</artifactId>
+  <artifactId>waffle-distribution</artifactId>
   <packaging>pom</packaging>
-  <name>Paranamer Distribution</name>
+  <name>Waffle Distribution</name>
 
   <dependencies>
     <dependency>
       <groupId>${pom.groupId}</groupId>
-      <artifactId>paranamer</artifactId>
+      <artifactId>waffle</artifactId>
       <version>${pom.version}</version>
     </dependency>
     <dependency>
       <groupId>${pom.groupId}</groupId>
-      <artifactId>paranamer-generator</artifactId>
-      <version>${pom.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${pom.groupId}</groupId>
-      <artifactId>paranamer-ant</artifactId>
-      <version>${pom.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${pom.groupId}</groupId>
-      <artifactId>paranamer-asm</artifactId>
-      <version>${pom.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${pom.groupId}</groupId>
-      <artifactId>paranamer-maven-plugin</artifactId>
+      <artifactId>waffle-webcontainer</artifactId>
       <version>${pom.version}</version>
     </dependency>
   </dependencies>
@@ -51,19 +36,13 @@
               <goal>unpack</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/xsite/javadoc</outputDirectory>
+              <outputDirectory>${project.build.directory}/site/javadoc</outputDirectory>
               <overWriteReleases>false</overWriteReleases>
               <overWriteSnapshots>true</overWriteSnapshots>
               <artifactItems>
                 <artifactItem>
                   <groupId>${pom.groupId}</groupId>
-                  <artifactId>paranamer</artifactId>
-                  <version>${pom.version}</version>
-                  <classifier>javadoc</classifier>
-                </artifactItem>
-                <artifactItem>
-                  <groupId>${pom.groupId}</groupId>
-                  <artifactId>paranamer-generator</artifactId>
+                  <artifactId>waffle</artifactId>
                   <version>${pom.version}</version>
                   <classifier>javadoc</classifier>
                 </artifactItem>
@@ -72,43 +51,6 @@
           </execution>
         </executions>
       </plugin>
-      <!-- FIXME:  does not seem to find the assembly descriptor 
-        <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.1</version>
-        <executions>
-        <execution>
-        <id>bin</id>
-        <phase>install</phase>
-        <goals>
-        <goal>single</goal>
-        </goals>
-        <configuration>
-        <descriptors>
-        <descriptor>${basedir}/src/assembly/assembly-bin.xml</descriptor>
-        </descriptors>
-        <finalName>paranamer-${pom.version}</finalName>
-        <workDirectory>${project.build.directory}/assembly/bin</workDirectory>
-        </configuration>
-        </execution>
-        <execution>
-        <id>src</id>
-        <phase>install</phase>
-        <goals>
-        <goal>single</goal>
-        </goals>
-        <configuration>
-        <descriptors>
-        <descriptor>${basedir}/src/assembly/assembly-src.xml</descriptor>
-        </descriptors>
-        <finalName>paranamer-${pom.version}</finalName>
-        <workDirectory>${project.build.directory}/assembly/src</workDirectory>
-        </configuration>
-        </execution>
-        </executions>
-        </plugin>
-      -->
-      <!-- XSite fails to validate links - Need to configure it to be optional?  -->
       <plugin>
         <groupId>org.codehaus.xsite</groupId>
         <artifactId>xsite-maven-plugin</artifactId>
@@ -158,5 +100,13 @@
       </plugin>
     </plugins>
   </build>
+
+  <!-- Site URL set here in this pom.xml (not its parent) in order for the site to be deployed correctly -->
+  <distributionManagement>
+    <site>
+      <id>codehaus.org</id>
+      <url>dav:https://dav.codehaus.org/waffle/</url>
+    </site>
+  </distributionManagement>
 
 </project>
