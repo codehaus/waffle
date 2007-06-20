@@ -71,6 +71,11 @@
     <bodycontent>empty</bodycontent>
     <dynamic-attributes>true</dynamic-attributes>
     <attribute>
+      <name>label</name>
+      <type>java.lang.String</type>
+      <description>This fields label. The default value is the i18n name attribute.</description>
+    </attribute>
+    <attribute>
       <name>value</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
