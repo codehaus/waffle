@@ -30,7 +30,7 @@
         <configuration>
           <siteMapPath>${basedir}/src/site/content/sitemap.xml</siteMapPath>
           <skinPath>${basedir}/src/site/templates/skin.html</skinPath>
-          <outputDirectoryPath>${project.build.directory}/xsite</outputDirectoryPath>
+          <outputDirectoryPath>${project.build.directory}/site</outputDirectoryPath>
         </configuration>
         <executions>
           <execution>
@@ -52,19 +52,8 @@
             </goals>
             <configuration>
               <tasks>
-                <delete includeEmptyDirs="true">
-                  <fileset dir="${project.build.directory}/xsite" includes="**/META-INF/*" />
-                  <fileset dir="${project.build.directory}/xsite" includes="**/META-INF" />
-                </delete>
-                <mkdir dir="${project.build.directory}/site" />
                 <copy todir="${project.build.directory}/site" overwrite="true" failonerror="false">
-                  <fileset dir="${basedir}">
-                    <include name="target/xsite/**" />
-                    <exclude name="target/xsite" />
-                  </fileset>
-                  <filtermapper>
-                    <replacestring from="target${file.separator}xsite${file.separator}" to="${file.separator}" />
-                  </filtermapper>
+                  <fileset dir="${basedir}/src/site/resources"/>
                 </copy>
               </tasks>
             </configuration>
@@ -95,18 +84,6 @@
                 </artifactItem>
               </artifactItems>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-site-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>site</id>
-            <phase>install</phase>
-            <goals>
-              <goal>site</goal>
-            </goals>
           </execution>
         </executions>
       </plugin>
