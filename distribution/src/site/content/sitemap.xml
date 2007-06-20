@@ -29,7 +29,7 @@
  </section>
  <section>
    <name>Taglib</name>
-   <page>taglib/index.html</page>
+   <page>taglib/taglib.html</page>
    <page>taglib/button.html</page>
    <page>taglib/text.html</page>
    <page>taglib/submit.html</page>
@@ -38,7 +38,7 @@
  </section>
  <section>
    <name>Examples</name>
-   <page>examples/index.html</page>
+   <page>examples/examples.html</page>
    <page>examples/helloworld.html</page>
    <page>examples/simple-calculator.html</page>
  </section>
