@@ -16,7 +16,7 @@ import org.apache.taglibs.standard.lang.support.ExpressionEvaluatorManager;
  * @author Guilherme Silveira
  * @since upcoming
  */
-public class DateTimePickerTag extends TextTag {
+public class DateTimePickerTag extends FormElement {
 
     private static final String NEW_LINE = System.getProperty("line.separator");
 
@@ -30,7 +30,7 @@ public class DateTimePickerTag extends TextTag {
     private String pattern;
 
     private Date value;
-
+    
     @Override
     public void release() {
         super.release();
@@ -80,11 +80,8 @@ public class DateTimePickerTag extends TextTag {
         if (id == null) {
             id = this.name + "_id";
         }
-        String language = pageContext.getRequest().getLocale().getLanguage();
 
-        // JAVASCRIPT IMPORTS
-        out.write("<input type=\"");
-        out.write(this.getType());
+        out.write("<input type=\"text");
         out.write("\" name=\"");
         out.write(this.name);
         out.write("\" id=\"");
@@ -142,5 +139,10 @@ public class DateTimePickerTag extends TextTag {
 
     private String getFormattedDate() throws JspException {
         return new SimpleDateFormat(this.pattern).format(this.value);
+    }
+
+    @Override
+    protected String getDefaultLabel() {
+        return this.name;
     }
 }
