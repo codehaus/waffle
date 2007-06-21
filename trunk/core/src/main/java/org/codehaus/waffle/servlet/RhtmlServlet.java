@@ -1,7 +1,9 @@
 package org.codehaus.waffle.servlet;
 
+import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.controller.RubyController;
 import org.jruby.Ruby;
 import org.jruby.RubyModule;
 import org.jruby.javasupport.JavaEmbedUtils;
@@ -16,31 +18,47 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * ERB (rhtml) views support
+ *
+ * @author Michael Ward
+ * @author Fabio Kung
+ */
 public class RhtmlServlet extends HttpServlet {
-
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        System.out.println(request.getRequestURI()); // TODO determine what the requested rhtml is
-        String template = loadRhtml("hello.rhtml");
+        String template = loadRhtml(request.getServletPath());
 
         Ruby runtime = RequestLevelContainer.get().getComponentInstanceOfType(Ruby.class);
-
         runtime.evalScript("require 'erb'\n");
         RubyModule module = runtime.getClassFromPath("ERB");
 
         IRubyObject erb = (IRubyObject) JavaEmbedUtils.invokeMethod(runtime, module, "new",
                 new Object[] {JavaEmbedUtils.javaToRuby(runtime, template)}, IRubyObject.class); // cache?
 
-        // Need to include ERB::Util on whats being bound
-        // TODO bind the controller ... not self
-        runtime.evalScript("self.send :include, ERB::Util");
+        // TODO: Test with a non-ruby controller
+        Object controller = extractController(request);
 
-        String out = (String)JavaEmbedUtils.invokeMethod(runtime, erb, "result",
-                new Object[] {(Object) runtime.evalScript("self.send :binding")}, String.class);
+        JavaEmbedUtils.invokeMethod(runtime, controller, "extend",
+                new Object[]{runtime.getClassFromPath("ERB::Util")}, Object.class);
+
+        IRubyObject binding = (IRubyObject) JavaEmbedUtils.invokeMethod(runtime, controller, "send",
+                new Object[]{runtime.newSymbol("binding")}, IRubyObject.class);
+
+        String out = (String) JavaEmbedUtils.invokeMethod(runtime, erb, "result",
+                new Object[] {binding}, String.class);
 
         response.getOutputStream().println(out);
         response.getOutputStream().flush();
+    }
+
+    private Object extractController(HttpServletRequest request) {
+        Object controller = request.getAttribute(Constants.CONTROLLER_KEY);
+        if(controller instanceof RubyController) {
+            controller = ((RubyController) controller).getRubyObject();
+        }
+        return controller;
     }
 
     private String loadRhtml(String fileName) {
