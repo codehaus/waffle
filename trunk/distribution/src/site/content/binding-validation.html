@@ -3,9 +3,9 @@
   <head>
     <title>Binding and Validation</title>
       </head>
-  <body class="composite">
-  <div id="bodyColumn">
-      <div id="contentBox">
+  <body>
+  
+      
         <div class="section"><h2>Binding and Validation</h2><div class="section"><h3>Binding</h3><p>By default all binding of fields to <b>Controllers</b> is handled by Ognl. Waffle provides a custom extension to Ognl's <i>ognl.DefaultTypeConverter</i> to support Java 5 <i>enums</i>. Fields of standard types (e.g. String, Number, primitives) are bound to your controllers automatically. More complex or custom class types can also easily be handled.</p><p>A common binding problem that many web application need to deal with is how to bind a String value to a Date object. Of course each application and locale has it's own unique format. As an example we will build a class that supports binding to a Date. From this example you'll gain an understanding of how to bind to any Class type.</p><p>Suppose we have the following Controller class <b>ControllerWithDateField</b> which has one field <b>startDate</b> which is of course a <i>java.util.Date</i>:</p><div class="source"><pre>public class ControllerWithDateField {
     private Date startDate;
 

@@ -3,10 +3,10 @@
   <head>
     <title>Simple Calculator example</title>
       </head>
-  <body class="composite">
-  <div id="bodyColumn">
-      <div id="contentBox">
-        <div class="section"><h2>Example: Simple Calculator</h2><p>This example demonstrates how you can resolve a users request directly to a method on any POJO. In Waffle terminology we call this an <b>ActionMethod</b>.</p><img src="images/simplecalculator.png" /><dl><dt>NOTE:</dt><dd>Validation and error handling have been ignored for this example</dd></dl><div class="section"><h3>Controller: CalculatorController</h3><p>As you can see the Controller is an extremely simple object. The three methods <b>add</b>, <b>subtract</b>, and <b>multiply</b> are themselves <i>ActionMethods</i>. Notice that they each have 2 arguments. Additionally each method has a unique type for its arguments (int, long, float). Waffle will automatically convert the users request into the correct type. This conversion is NOT limited to primitives, custom conversion is easily supported but out of scope for this example (see <a href="binding-validation.html">Binding\Validation section</a> for further details).</p><div class="source"><pre>public class CalculatorController {
+  <body>
+  
+      
+        <h2>Example: Simple Calculator</h2><p>This example demonstrates how you can resolve a users request directly to a method on any POJO. In Waffle terminology we call this an <b>ActionMethod</b>.</p><img src="images/simplecalculator.png" /><dl><dt>NOTE:</dt><dd>Validation and error handling have been ignored for this example</dd></dl><h3>Controller: CalculatorController</h3><p>As you can see the Controller is an extremely simple object. The three methods <b>add</b>, <b>subtract</b>, and <b>multiply</b> are themselves <i>ActionMethods</i>. Notice that they each have 2 arguments. Additionally each method has a unique type for its arguments (int, long, float). Waffle will automatically convert the users request into the correct type. This conversion is NOT limited to primitives, custom conversion is easily supported but out of scope for this example (see <a href="binding-validation.html">Binding\Validation section</a> for further details).</p><div class="source"><pre>public class CalculatorController {
     public Number result;
 
     public Number getResult() {
@@ -24,7 +24,7 @@
     public void multiply(float firstNumber, Float secondNumber) {
         result = firstNumber * secondNumber;
     }
-}</pre></div></div><div class="section"><h3>Registrar</h3><p>Registration is as you would expect. In this example the Action must be registered to the session level so that users are not sharing the same <i>result</i> property.</p><div class="source"><pre>public class MyRegistrar extends AbstractRegistrar {
+}</pre></div></div><h3>Registrar</h3><p>Registration is as you would expect. In this example the Action must be registered to the session level so that users are not sharing the same <i>result</i> property.</p><div class="source"><pre>public class MyRegistrar extends AbstractRegistrar {
 
     public MyRegistrar(Registrar delegate) {
         super(delegate);
@@ -33,7 +33,7 @@
     public void session() {
         register(&quot;calculator&quot;, CalculatorController.class);
     }
-}</pre></div></div><div class="section"><h3>View: calculator.jspx</h3><p>The jspx code below is not very exciting however notice lines <b>43 - 45</b>. These 3 lines demonstrate different ways to invoke an ActionMethod. Line 43 <b>add|<a name="firstNumber">firstNumber</a>|<a name="secondNumber">secondNumber</a></b> pragmatically defines how the method arguments should be resolved. See the <a href="action-methods.html">ActionMethod documentation</a> for complete details.</p><div class="source"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+}</pre></div></div><h3>View: calculator.jspx</h3><p>The jspx code below is not very exciting however notice lines <b>43 - 45</b>. These 3 lines demonstrate different ways to invoke an ActionMethod. Line 43 <b>add|<a name="firstNumber">firstNumber</a>|<a name="secondNumber">secondNumber</a></b> pragmatically defines how the method arguments should be resolved. See the <a href="action-methods.html">ActionMethod documentation</a> for complete details.</p><div class="source"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;
       xmlns:jsp=&quot;http://java.sun.com/JSP/Page&quot;
       xmlns:c=&quot;http://java.sun.com/jsp/jstl/core&quot;&gt;
@@ -82,7 +82,7 @@
 &lt;/form&gt;
 &lt;/body&gt;
 
-&lt;/html&gt;</pre></div><p>Lines <b>44 and 45</b> in the example above do not pragmatically define how their argument values are to be resolved. So in order to handle this we can add an annotation to each of those methods in the Action. Below we have updated the CalculatorController with two <b>ActionMethod</b> annotations (lines 12 and 17).</p></div><div class="section"><h3>Annotated Controller: CalculatorController</h3><div class="source"><pre>public class CalculatorController {
+&lt;/html&gt;</pre></div><p>Lines <b>44 and 45</b> in the example above do not pragmatically define how their argument values are to be resolved. So in order to handle this we can add an annotation to each of those methods in the Action. Below we have updated the CalculatorController with two <b>ActionMethod</b> annotations (lines 12 and 17).</p></div><h3>Annotated Controller: CalculatorController</h3><div class="source"><pre>public class CalculatorController {
     public Number result;
 
     public Number getResult() {
@@ -102,10 +102,7 @@
     public void multiply(float firstNumber, Float secondNumber) {
         result = firstNumber * secondNumber;
     }
-}</pre></div></div></div>
-      </div>
-    </div>
-
+}</pre></div></div>
   </body>
 
 </html>

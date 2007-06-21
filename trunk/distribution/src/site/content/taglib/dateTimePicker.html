@@ -3,10 +3,10 @@
   <head>
     <title>Date time picker</title>
       </head>
-  <body class="composite">
-  <div id="bodyColumn">
-      <div id="contentBox">
-        <div class="section"><h2>Calendar Tag</h2><p>The <i>w:dateTimePicker</i> tag creates an input field with the given <i>value</i> and a button which shows an javascript calendar. The date will be formated by the specified <i>pattern</i> .</p><p>Example:</p><div class="source"><pre>&lt;w:dateTimePicker name=&quot;birthday&quot; value=&quot;${date}&quot; pattern=&quot;yyyy-MM-dd&quot; /&gt;</pre></div><p>The calendar is based on the http://www.dynarch.com/projects/calendar/ project. In order to show the calendar you must provide the necessary files, which are:</p><p>calendar.js calendar-en.js calendar-setup.js calendar-brown.css </p><p>There are different languages and style sheets available. You have to import the files in your jsp file, for example:</p><div class="source"><pre>&lt;%@ taglib uri=&quot;http://waffle.codehaus.org&quot; prefix=&quot;w&quot; %&gt;
+  <body>
+  
+      
+        <h2>Calendar Tag</h2><p>The <i>w:dateTimePicker</i> tag creates an input field with the given <i>value</i> and a button which shows an javascript calendar. The date will be formated by the specified <i>pattern</i> .</p><p>Example:</p><div class="source"><pre>&lt;w:dateTimePicker name=&quot;birthday&quot; value=&quot;${date}&quot; pattern=&quot;yyyy-MM-dd&quot; /&gt;</pre></div><p>The calendar is based on the http://www.dynarch.com/projects/calendar/ project. In order to show the calendar you must provide the necessary files, which are:</p><p>calendar.js calendar-en.js calendar-setup.js calendar-brown.css </p><p>There are different languages and style sheets available. You have to import the files in your jsp file, for example:</p><div class="source"><pre>&lt;%@ taglib uri=&quot;http://waffle.codehaus.org&quot; prefix=&quot;w&quot; %&gt;
 
 &lt;head&gt;
 &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/xml; charset=utf-8&quot; /&gt;
@@ -21,10 +21,7 @@
 &lt;body&gt;
         &lt;w:dateTimePicker name=&quot;birthday&quot; value=&quot;${date}&quot; pattern=&quot;yyyy-MM-dd&quot; /&gt;
 &lt;/body&gt;
-&lt;/head&gt;</pre></div></div>
-      </div>
-    </div>
-
+&lt;/head&gt;</pre></div>
   </body>
 
 </html>

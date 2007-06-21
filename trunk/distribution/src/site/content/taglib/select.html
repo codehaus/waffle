@@ -3,10 +3,10 @@
 <head>
   <title>Select tag</title>
 </head>
-<body class="composite">
-<div id="bodyColumn">
-  <div id="contentBox">
-    <div class="section"><h2>Select tag</h2>
+<body>
+
+  
+    <h2>Select tag</h2>
 
       <p>Suppose you have a <b>java.util.Collection</b> (i.e. List or Set) of <b>Product</b>s, which you want to display
         in a combo box. If this
@@ -18,7 +18,7 @@
 &lt;/w:select&gt;</pre>
       </div>
     </div>
-    <div class="section"><h2>Adding an empty line</h2>
+    <h2>Adding an empty line</h2>
 
       <p>In order to add an empty option, use the <i>addEmpty</i> attribute:</p>
 
@@ -29,7 +29,7 @@
       </div>
 
     </div>
-    <div class="section"><h2>Setting the default selected item</h2>
+    <h2>Setting the default selected item</h2>
 
       <p>You can set the selected item by specifying the <i>selected</i> attribute:</p>
 
@@ -43,7 +43,7 @@
 
     </div>
 
-    <div class="section"><h2>Showing radio buttons</h2>
+    <h2>Showing radio buttons</h2>
 
       <p>A collection of radio buttons is just another output of a collection of elements. One can create radio buttons by using the <i>type</i> attribute:</p>
 
@@ -55,7 +55,7 @@
 
     </div>
 
-    <div class="section"><h2>Using tokens instead of collections</h2>
+    <h2>Using tokens instead of collections</h2>
 
       <p>Sometimes one faces the problem of iterating over a small list of <i>key</i>, <i>value</i> pairs, instead of having one entire collection to iterate. The
       <b>w:selectTokens</b> tag works the same way as <b>w:select</b>, but instead of iterating over a collection, it uses a comma separated list of keys and values:</p>
@@ -69,10 +69,7 @@
       <p>The above code will generate a combo box with items labeled 1, 2, ..., 7 and hidden values named first, second, ..., seventh.</p>
 
       <p>The <b>w:selectTokens</b> tag does not contain an <i>addEmpty</i> attribute, nor the <i>value</i> one, which does not make sense in this case.</p>
-    </div>
-  </div>
-</div>
-
-</body>
+    
+  </body>
 
 </html>
