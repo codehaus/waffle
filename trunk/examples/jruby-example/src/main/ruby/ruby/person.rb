@@ -7,6 +7,7 @@ class PersonController
 
     @persons = @person_dao.findAll
     render 'person.jspx'
+    #render 'person.rhtml'
   end
 
   def remove(uid)
