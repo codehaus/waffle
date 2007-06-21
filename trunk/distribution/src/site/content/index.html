@@ -10,11 +10,45 @@
       <div id="contentBox">
         <div class="section"><h2>Waffle Web Framework</h2>
 
-<p>Waffle is a Java web framework that makes the process of developing Java based web applications easier. It was built to support enterprise level web-based business applications.</p>
+<p>Waffle is a Java web framework that makes the process of developing Java based web applications easier. It was built to support enterprise level web-based business applications, but with the least possible number of source lines to achieve that. </p>
 
-<p>Waffle is different than the multitude of web frameworks that exist today.</p><ul><li>it does <b>NOT</b> have any proprietary XML configuration files</li><li>it does <b>NOT</b> have a steep learning curve</li><li>it does <b>NOT</b> have a proprietary UI templating language</li><li>easily maps an http request directly to any Java classes method</li></ul>
+<p>Waffle is different than the multitude of web frameworks that exist today. Waffle :</p><ul>
+  <li>does <b>NOT</b> have any mandatory XML configuration files beyond a minimalist web.xml for the webapp </li>
+  <li>does <b>NOT</b> have a steep learning curve </li>
+  <li>does <b>NOT</b> have a proprietary UI templating language</li>
+  <li>does <strong>NOT</strong> force you to extend or implment base classes or interfaces </li>
+  <li>does <strong>NOT</strong> have a cumbersome series of setXXX() methods and an execute  for controllers </li>
+  </ul>
 
-<p>Application built upon Waffle only need to be aware of three things:</p><ol type="1"><li><b>Controllers</b> - an controller in Waffle does <b>not</b> need to extend or implement any specific class or interface because <b>a controller is simply a plain old Java object (Pojo)</b>.</li><li><b>ActionMethod</b> - in Waffle <b>an ActionMethod is simply a method defined in your Controller class</b>. Any method can be used regardless of its signature or return type. Waffle will react differently depending on what is returned from the ActionMethod so take a look at this section for further details.</li><li><b>Registrar</b> - the Registrar is where you go to register the <i>Controllers</i>, and other common components, your application is dependent on. Typically most web frameworks require your applications to create special XML file(s) for this, but <b>with Waffle you'll spend less time playing with XML and more time building business value.</b></li></ol><div class="section"><h3>Getting started</h3><p>The best way to get started is to look at the examples</p><ul><li><a href="helloworld.html">Example: Hello World</a></li><li><a href="simple-calculator.html">Example: Simple Calculator</a></li></ul></div></div>
+<p>Application built upon Waffle only need to be aware of three things:</p><ol type="1">
+  <li><b>Controllers</b> - an controller in Waffle does <b>not</b> need to extend or implement any specific class or interface because <b>a controller is simply a plain old Java object (POJO)</b>.</li>
+  <li><b>ActionMethod</b> - in Waffle <b>an ActionMethod is simply a method defined in your Controller class</b>. Any method can be used regardless of its signature or return type. Waffle will react differently depending on what is returned from the ActionMethod so take a look at this section for further details.</li>
+<li><b>Registrar</b> - the Registrar is where you go to register the <i>Controllers</i>, and other common components, your application is dependent on. Typically most web frameworks require your applications to create special XML file(s) for this, but <b>with Waffle you'll spend less time playing with XML and more time building business logic.</b></li>
+</ol>
+<p>Additionally, Waffle provides:</p>
+<ul>
+  <li>Transparent REST functionality for controllers. </li>
+  <li>Transparent JSON functionality for controllers.</li>
+</ul>
+<div class="section">
+  <h3>Getting started</h3>
+  <p>The best way to get started is to look at the examples</p>
+  <ul>
+    <li><a href="helloworld.html">Example: Hello World</a></li>
+    <li><a href="simple-calculator.html">Example: Simple Calculator</a></li>
+  </ul>
+</div>
+        <div class="section">
+          <h3>Choices of markup language </h3>
+          <p>As Waffle does not come with a HTML markup technology,  it plays well with other 'best practice' solutions: </p>
+          <ul>
+            <li>JSP with or without supplied taglibs </li>
+            <li>Freemarker</li>
+            <li>Velocity</li>
+            <li>Ruby's ERB</li>
+          </ul>
+        </div>
+        </div>
       </div>
     </div>
     <div class="clear">
