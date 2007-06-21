@@ -73,6 +73,7 @@ module Waffle
 
   module Controller
     attr_reader :parameters, :request, :response, :session, :servlet_context, :errors
+    alias_method :params, :parameters
 
     def __set_all_contexts(request, response)
       @request = WebContext.new(request)
