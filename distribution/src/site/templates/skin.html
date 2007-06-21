@@ -2,9 +2,9 @@
 <html>
   <head>
     <title>${title}</title>
-    <link rel="stylesheet" type="text/css" href="style/style.css"/>
 
     <style type="text/css" media="all">
+      @import url("./css/maven-theme.css");
       @import url("./style/site.css");
       @import url("./style/SyntaxHighlighter.css");
     </style>
@@ -32,11 +32,18 @@
   <body class="composite">
 
    <div id="banner">
-   		<a href="index.html"><img id="bannerLeft" src="images/waffle-logo.png" alt="Waffle"/></a>
+   		<a href="/index.html" id="bannerLeft"><img src="images/waffle-logo.png" alt="Waffle"/></a>
 	  <div class="clear">
 	    <hr/>
 	  </div>
    </div>
+   <div id="breadcrumbs">
+       <div class="xleft"> Last Published: 06/21/2007 </div>
+       <div class="xright"> <a href="/index.html">Waffle Home</a> </div>
+    <div class="clear">
+    <hr/>
+  </div>
+</div>
   <div id="leftColumn">
       <div id="navcolumn">
           <#list sitemap.sections as section>
@@ -81,11 +88,11 @@
 		    </script>
       </div>
   </div>
-
-  <div id="center" class="Content2Column">  <!-- Content3Column for index -->
-      <div id="content">
-          ${body}
-
+  <div id="bodyColumn">
+      <div id="contentBox">
+          <div class="section">
+              ${body}
+          </div>
       </div>
   </div>
   <div class="clear">
