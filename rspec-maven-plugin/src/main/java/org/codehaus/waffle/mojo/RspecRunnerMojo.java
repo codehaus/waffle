@@ -41,10 +41,21 @@ public class RspecRunnerMojo extends AbstractMojo {
      */
     protected String outputDirectory;
 
+    /**
+     * The directory where JRuby is installed (defaults to ~/.jruby)
+     *
+     * @parameter
+     */
+    protected String jrubyHome;
+
     public void execute() throws MojoExecutionException, MojoFailureException {
         getLog().info("Running RSpec tests from " + sourceDirectory);
 
         Ruby runtime = Ruby.getDefaultInstance();
+
+        if(jrubyHome != null) {
+            runtime.setJRubyHome(jrubyHome);
+        }
         JavaSupport javaSupport = new JavaSupport(runtime);
         runtime.getLoadService().init(classpathElements);
         runtime.defineGlobalConstant("ARGV", runtime.newArray());

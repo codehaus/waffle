@@ -49,6 +49,7 @@
         <groupId>org.codehaus.waffle</groupId>
         <artifactId>rspec-maven-plugin</artifactId>
         <configuration>
+          <jrubyHome>${env.JRUBY_HOME}</jrubyHome>
           <sourceDirectory>${basedir}/src/test/ruby</sourceDirectory>
           <outputDirectory>${basedir}/target</outputDirectory>
         </configuration>
