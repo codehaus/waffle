@@ -129,6 +129,26 @@ public class RubyRegistrarTest extends TestCase {
         System.out.println("o = " + o);
     }
 
+//    public void testRSpec() {
+//        Ruby runtime = Ruby.getDefaultInstance();
+//        runtime.getLoadService().init(new ArrayList());
+//        runtime.defineGlobalConstant("ARGV", runtime.newArray());
+//
+//        String script =
+//                "require 'rubygems'\n" +
+//                "require 'java'\n" +
+//                "require 'spec'\n" +
+//                "\n" +
+//                "p \"#{File.dirname(__FILE__)}/../**/*_spec.rb\"\n" +
+//                "specs = Dir[\"#{File.dirname(__FILE__)}/**/*_spec.rb\"]\n" +
+//                "specs << '-f'; specs << 's'\n" +
+//                "p specs" +
+//                "\n" +
+//                "::Spec::Runner::CommandLine.run(specs, STDERR, STDOUT, false, true)";
+//
+//        runtime.evalScript(script);
+//    }
+
     public void testRubyErb() {
        String script =
                "require \"erb\"\n" +
