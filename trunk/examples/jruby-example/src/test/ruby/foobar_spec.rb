@@ -5,7 +5,7 @@ describe 'stuff' do
 
   it "should be able to get classes from jars, compiled directories and *.rb files" do
     servlet = WaffleServlet.new
-    p "Servlet #{list}"
+    p "Servlet #{servlet}"
 
     p Person.new
   end
