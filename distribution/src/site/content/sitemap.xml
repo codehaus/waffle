@@ -35,6 +35,7 @@
    <page>taglib/submit.html</page>
    <page>taglib/hidden.html</page>
    <page>taglib/select.html</page>
+   <page>taglib/textarea.html</page>
  </section>
  <section>
    <name>Examples</name>

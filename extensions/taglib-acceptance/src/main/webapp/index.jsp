@@ -13,6 +13,7 @@
 <a href="checkbox.jsp">w:checkbox</a><br />
 <a href="password.jsp">w:password</a><br />
 <a href="hidden.jsp">w:hidden</a><br />
+<a href="textarea.jsp">w:textarea</a><br />
 
 </body >
 </html>
