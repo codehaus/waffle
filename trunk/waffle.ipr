@@ -6,7 +6,6 @@
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
   </component>
-  <component name="ClearCase" />
   <component name="CodeStyleManager">
     <option value="true" name="USE_DEFAULT_CODE_STYLE_SCHEME" />
     <option value="" name="CODE_STYLE_SCHEME" />
@@ -86,12 +85,12 @@
       <entry name="*.rb" />
     </wildcardResourcePatterns>
   </component>
-  <component name="DataSourceManager" />
-  <component name="DataSourceManagerImpl" />
   <component name="DependenciesAnalyzeManager">
     <option name="myForwardDirection" value="false" />
   </component>
-  <component name="DependencyValidationManager" />
+  <component name="DependencyValidationManager">
+    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
+  </component>
   <component name="EclipseCompilerSettings">
     <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="true" />
@@ -114,7 +113,6 @@
     <option name="OPEN_IN_BROWSER" value="false" />
     <option name="OUTPUT_DIRECTORY" />
   </component>
-  <component name="GUI Designer component loader factory" />
   <component name="IdProvider" IDEtalkID="17C09C4E48D603859A3E90A0804ADC63" />
   <component name="ImportConfiguration">
     <option name="VENDOR" />
@@ -313,6 +311,7 @@
       </item>
     </group>
   </component>
+  <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
@@ -320,12 +319,11 @@
       <module fileurl="file://$PROJECT_DIR$/examples/jruby-example/jruby-example.iml" filepath="$PROJECT_DIR$/examples/jruby-example/jruby-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" filepath="$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/root.iml" filepath="$PROJECT_DIR$/root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jruby-rspec-runner/rspec-maven-plugin.iml" filepath="$PROJECT_DIR$/jruby-rspec-runner/rspec-maven-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/simple-example/simple-example.iml" filepath="$PROJECT_DIR$/examples/simple-example/simple-example.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.5" project-jdk-type="JavaSDK" />
-  <component name="ProjectRunConfigurationManager" />
-  <component name="RAILS_PROJECT_VIEW_PANE" />
   <component name="RUBY_DOC_SETTINGS">
     <RUBY_DOC NAME="DEFAULTS" VALUE="TRUE" />
     <RUBY_DOC NAME="NUMBER" VALUE="0" />
@@ -344,12 +342,9 @@
     <option name="GENERATE_IIOP_STUBS" value="false" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
-  <component name="StarteamVcsAdapter" />
-  <component name="SvnBranchConfigurationManager" />
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
   </component>
-  <component name="VssVcs" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">
     <option name="USER_DEFINED_CONFIGS">
       <value>
@@ -357,8 +352,6 @@
       </value>
     </option>
   </component>
-  <component name="libraryTable" />
-  <component name="uidesigner-configuration" />
   <UsedPathMacros>
     <macro name="M2_REPOSITORY" />
   </UsedPathMacros>
