@@ -8,22 +8,23 @@ module Waffle
 
   # load/require files
   class ScriptLoader
+
     def ScriptLoader.load_all(prefix, servlet_context)
-      @@__servlet_context = servlet_context
+      @__servlet_context = servlet_context
 
       if (prefix.gsub!(/^dir:/, ''))
-        @@_ruby_script_path = prefix
+        @__ruby_script_path = prefix
         ScriptLoader.load_from_file_system
       else
         servlet_context.getResourcePaths(prefix).each do |path| # this would be for production!!
-          require(path.gsub(Regexp.new("^#{prefix}"), 'ruby/'))
+          require(path.gsub(Regexp.new("^#{prefix}\/"), 'ruby/'))
         end
       end
     end
 
     def ScriptLoader.load_from_file_system
-      path = @@__servlet_context.getRealPath('/')
-      path = "#{path}#{@@_ruby_script_path}"
+      path = @__servlet_context.getRealPath('/')
+      path = "#{path}#{@__ruby_script_path}"
 
       Dir.new(path).each do |entry|
         file = "#{path}#{entry}"

@@ -102,7 +102,7 @@ public class WaffleServlet extends HttpServlet {
      * Obtain the controller the user is requesting.
      */
     protected ControllerDefinition getControllerDefinition(HttpServletRequest request,
-                                                   HttpServletResponse response) throws ServletException {
+                                                           HttpServletResponse response) throws ServletException {
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response);
         if (controllerDefinition.getController() == null) {
             throw new ServletException("Unable to locate the Waffle Controller: " + request.getServletPath());

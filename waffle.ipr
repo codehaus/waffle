@@ -319,7 +319,7 @@
       <module fileurl="file://$PROJECT_DIR$/examples/jruby-example/jruby-example.iml" filepath="$PROJECT_DIR$/examples/jruby-example/jruby-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" filepath="$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/root.iml" filepath="$PROJECT_DIR$/root.iml" />
-      <module fileurl="file://$PROJECT_DIR$/jruby-rspec-runner/rspec-maven-plugin.iml" filepath="$PROJECT_DIR$/jruby-rspec-runner/rspec-maven-plugin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rspec-maven-plugin/rspec-maven-plugin.iml" filepath="$PROJECT_DIR$/rspec-maven-plugin/rspec-maven-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/simple-example/simple-example.iml" filepath="$PROJECT_DIR$/examples/simple-example/simple-example.iml" />
     </modules>
   </component>
