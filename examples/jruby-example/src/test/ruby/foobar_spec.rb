@@ -1,5 +1,5 @@
 import org.codehaus.waffle.servlet.WaffleServlet
-require 'ruby/person'
+require 'person'
 
 describe 'stuff' do
 
