@@ -1,4 +1,4 @@
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
   <title>Persons rhtml listing</title>
@@ -15,7 +15,7 @@
 
 <body>
   <form action="person.waffle" method="post">
-  <h3>Waffle/JRuby rhtml example</h3>
+  <h3>Waffle/JRuby rhtml example (RHTML)</h3>
 
   <table>
     <tr>
@@ -25,7 +25,7 @@
       <th>Email</th>
       <th>Date of Birth</th>
     </tr>
-	<% @persons.each_with_index do |person, index| %>
+    <% @persons.each_with_index do |person, index| %>
       <tr class="<%= index % 2 == 0 ? 'even' : 'odd' %>">
         <td><%= person.id %></td> <!-- TODO: Override object_id -->
         <td><%= person.firstName %></td>

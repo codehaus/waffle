@@ -19,8 +19,8 @@ describe "Waffle::ScriptLoader module" do
     servlet_context = mock('servlet_context')
     servlet_context.should_receive(:getResourcePaths).with('fake/dir/path').and_return(paths)
 
-    Waffle::ScriptLoader.should_receive(:require).with('ruby/one')
-    Waffle::ScriptLoader.should_receive(:require).with('ruby/two')
+    Waffle::ScriptLoader.should_receive(:require).with('one')
+    Waffle::ScriptLoader.should_receive(:require).with('two')
     Waffle::ScriptLoader.load_all('fake/dir/path', servlet_context)
 
     Waffle::ScriptLoader.instance_variable_get(:@__servlet_context).should == servlet_context

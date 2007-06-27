@@ -6,8 +6,8 @@ class PersonController
     @person_dao = locate(org.codehaus.waffle.example.jruby.dao.PersonDAO)
 
     @persons = @person_dao.findAll
-    render 'person.jspx'
-    #render 'person.rhtml'
+    #render 'person.jspx'
+    render 'person.rhtml'
   end
 
   def remove(uid)
@@ -23,6 +23,7 @@ class PersonController
   end
 
   def save
+    p "SAVING #{@person}"
     @person_dao.save(@person)
 
     return nil
