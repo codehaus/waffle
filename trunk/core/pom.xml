@@ -57,7 +57,6 @@
       </resource>
     </resources>
     <plugins>
-      <!-- MT commenting out plugin - it fails on Mac OS, and omitting does not have any impact on tests
       <plugin>
         <groupId>org.codehaus.waffle</groupId>
         <artifactId>rspec-maven-plugin</artifactId>
@@ -76,7 +75,6 @@
           </execution>
         </executions>
       </plugin>
-      -->
       <plugin>
         <groupId>com.thoughtworks.paranamer</groupId>
         <artifactId>paranamer-maven-plugin</artifactId>
