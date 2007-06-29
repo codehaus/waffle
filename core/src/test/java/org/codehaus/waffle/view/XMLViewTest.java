@@ -1,29 +1,33 @@
 package org.codehaus.waffle.view;
 
-import com.thoughtworks.xstream.converters.javabean.BeanProperty;
-import com.thoughtworks.xstream.converters.javabean.PropertyDictionary;
-import org.codehaus.waffle.Constants;
-import org.jmock.Expectations;
-import org.jmock.MockObjectTestCase;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.codehaus.waffle.Constants;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.thoughtworks.xstream.converters.javabean.BeanProperty;
+import com.thoughtworks.xstream.converters.javabean.PropertyDictionary;
+
 /**
  * @author Paulo Silveira
  */
 @RunWith(JMock.class)
-public class XMLViewTest extends MockObjectTestCase {
+public class XMLViewTest {
     private Mockery mockery = new Mockery();
     private HttpServletRequest mockRequest = mockRequest();
     private HttpServletResponse mockResponse = mockResponse();
@@ -93,6 +97,7 @@ public class XMLViewTest extends MockObjectTestCase {
             {
                 one(mockRequest).getAttribute(Constants.CONTROLLER_KEY);
                 will(returnValue(object));
+                one(mockResponse).setCharacterEncoding(with(any(String.class)));
                 one(mockResponse).setContentType(with(any(String.class)));
                 one(mockResponse).getOutputStream();
                 will(returnValue(mockOutput));
