@@ -20,7 +20,7 @@
    <page>i18n.html</page>
    <page>registrar.html</page>
    <page>views.html</page>
-   <page>pluggable.html</page>
+   <page>pluggability.html</page>
    <page>binding-validation.html</page>
    <page>lifecycle.html</page>
    <page>ajax.html</page>
