@@ -3,7 +3,6 @@ package org.codehaus.waffle.taglib.form;
 /**
  * 
  * @author Nico Steppat
- * @since upcoming
  */
 public interface StringConverter {
 

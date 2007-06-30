@@ -7,7 +7,6 @@ import java.util.Map;
  *
  * @author Guilherme Silveira
  * @author Nico Steppat
- * @since upcoming
  */
 public class SelectTokensTag extends BasicSelectTag {
 

@@ -19,7 +19,6 @@ import org.apache.taglibs.standard.tag.common.fmt.DateSupport;
  * 
  * @author Nico Steppat
  * @author Guilherme Silveira
- * @since upcoming
  */
 public class DateTag extends FormElement {
 

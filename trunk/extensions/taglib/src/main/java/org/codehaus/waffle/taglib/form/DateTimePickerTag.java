@@ -14,7 +14,6 @@ import org.apache.taglibs.standard.lang.support.ExpressionEvaluatorManager;
  * 
  * @author Nico Steppat
  * @author Guilherme Silveira
- * @since upcoming
  */
 public class DateTimePickerTag extends FormElement {
 

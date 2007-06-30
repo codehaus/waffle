@@ -14,7 +14,6 @@ import java.io.IOException;
  * A basic select tag.
  *
  * @author Guilherme Silveira
- * @since upcoming
  */
 abstract class BasicSelectTag extends FormElement {
 

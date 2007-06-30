@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
  * Converts a java date format to the javascript calendar date format.
  * 
  * @author Nico Steppat
- * @since upcoming
  */
 public class DatePatternConverter implements StringConverter {
 
