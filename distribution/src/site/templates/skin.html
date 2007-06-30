@@ -30,14 +30,13 @@
   <body class="composite">
 
    <div id="banner">
-   		<a href="/index.html" id="bannerLeft"><img src="images/waffle_sm_200.png" alt="Waffle"/></a>
+   	  <img src="images/waffle_sm_200.png" alt="Waffle" src="/index.html"/>
 	  <div class="clear">
 	    <hr/>
 	  </div>
    </div>
    <div id="breadcrumbs">
-       <div class="xleft"> Last Published: 06/21/2007 </div>
-       <div class="xright"> <a href="/index.html">Waffle Home</a> </div>
+       <div class="left"> Last Published: 06/21/2007 </div>
     <div class="clear">
     <hr/>
   </div>
@@ -45,7 +44,7 @@
   <div id="leftColumn">
       <div id="navColumn">
           <#list sitemap.sections as section>
-              <h5>${section.name}</h5>
+              <h1>${section.name}</h1>
               <ul>
                   <#list section.pages as otherPage>
                       <#if otherPage = page>
@@ -56,15 +55,15 @@
                   </#list>
               </ul>
           </#list>
-		    <h5>Project Documentation</h5>
+		    <h1>Project Documentation</h1>
 		    <ul>
 		      <li class="collapsed"> <a href="project-info.html">Project Information</a> </li>
               <img alt="Hosted at Codehaus" src="http://ci.codehaus.org/codehaus-small.png" /><br/>
 		    </ul>
-            <h5>Tools</h5>
+            <h1>Tools</h1>
               <img alt="Build with Maven 2" src="http://maven.apache.org/images/logos/maven-feather.png" /> <br/>
               <img alt="IDEA" src="http://www.jetbrains.com/idea/opensource/img/banners/idea88x31_white.gif" /> <br/>
-            <h5>Ads</h5>    
+            <h1>Ads</h1>    
 		    <script type="text/javascript"><!--
 		    google_ad_client = "pub-8973208330688044";
 		    google_ad_width = 125;
@@ -89,7 +88,7 @@
     <hr/>
   </div>
   <div id="footer">
-    <div class="xright">&#169;  
+    <div class="right">&#169;  
       2007 </div>
     <div class="clear">
       <hr/>
