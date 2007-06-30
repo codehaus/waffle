@@ -10,7 +10,6 @@ import java.util.Map.Entry;
  * A hashmap implementation of a tags attributes.
  * 
  * @author Guilherme Silveira
- * @since upcoming
  */
 public class Attributes {
 

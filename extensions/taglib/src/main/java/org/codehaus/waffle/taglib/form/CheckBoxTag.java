@@ -10,7 +10,6 @@ import javax.servlet.jsp.JspException;
  * 
  * @author Guilherme Silveira
  * @author Nico Steppat
- * @since upcoming
  */
 public class CheckBoxTag extends FormElement {
 
