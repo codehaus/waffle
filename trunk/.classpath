@@ -2,6 +2,7 @@
 <classpath>
   <classpathentry kind="src" path="core/src/main/java" />
   <classpathentry kind="src" path="core/src/test/java" />
+  <classpathentry kind="src" path="plugins/rspec-maven-plugin/src/main/java" />
   <classpathentry kind="src" path="extensions/taglib/src/main/java" />
   <classpathentry kind="src" path="extensions/taglib-acceptance/src/main/java" />
   <classpathentry kind="src" path="extensions/taglib-acceptance/src/test/java" />
