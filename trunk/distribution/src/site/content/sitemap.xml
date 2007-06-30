@@ -31,16 +31,17 @@
    <name>Taglib</name>
    <page>taglib/taglib.html</page>
    <page>taglib/button.html</page>
-   <page>taglib/text.html</page>
-   <page>taglib/submit.html</page>
+   <page>taglib/dateTimePicker.html</page>
    <page>taglib/hidden.html</page>
+   <page>taglib/submit.html</page>
    <page>taglib/select.html</page>
+   <page>taglib/text.html</page>
    <page>taglib/textarea.html</page>
  </section>
  <section>
    <name>Examples</name>
    <page>examples/examples.html</page>
-   <page>examples/helloworld.html</page>
+   <page>examples/hello-world.html</page>
    <page>examples/simple-calculator.html</page>
  </section>
  <section>
