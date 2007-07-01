@@ -6,7 +6,9 @@
   <body>
   
       
-        <h2>Tutorial: Part One</h2><p>This tutorial is available to give a quick glimpse of how to use Waffle. It touches on each of the main components that make up Waffle.</p><h3>Controller</h3><p>The term <b>Controller</b> is probably familiar to those who have worked with other web frameworks. An Controller in Waffle can be any java object (i.e. Pojo). However, in order for a Pojo to be considered an Controller in Waffle it needs to be registered with the <b>Registrar</b>. The Registrar is a simple class that your application must implement. The Registrar provides a few methods that allows you to register your pojo's as Controllers. For complete details on the Registrar have a look at the <a href="registrar.html">Registrar</a> section.</p><p>Now we will write a very simple class to use as an Controller. The class below is really nothing more than a simple bean type of object.</p><div class="source"><pre>public class Automobile implements Serializable {
+        <h2>Tutorial: Part One</h2><p>This tutorial is available to give a quick glimpse of how to use Waffle. It touches on each of the main components that make up Waffle.</p><h3>Controller</h3>
+        <p>The term <b>Controller</b> is probably familiar to those who have worked with other web frameworks. An Controller in Waffle can be any java object (i.e. POJO). However, in order for a POJO to be considered an Controller in Waffle it needs to be registered with the <b>Registrar</b>. The Registrar is a simple class that your application must implement. The Registrar provides a few methods that allows you to register your pojo's as Controllers. For complete details on the Registrar have a look at the <a href="registrar.html">Registrar</a> section.</p>
+        <p>Now we will write a very simple class to use as an Controller. The class below is really nothing more than a simple bean type of object.</p><div class="source"><pre>public class Automobile implements Serializable {
     private String make = &quot;ford&quot;;
     private String model = &quot;gt-40&quot;;
 
@@ -25,7 +27,9 @@
     public void setModel(String model) {
         this.model = model;
     }
-}</pre></div></div><h3>Registrar</h3><p>As stated earlier, a Controller is not an Controller in Waffle until it has been registered with the Registrar. So now we will create a simple Registrar class and register the <b>Automobile</b> class with it. The MyRegistrar class below defines the method &quot;<b>session</b>&quot; and within that method it calls <b>register(&quot;automobile&quot;, Automobile.class);</b>, which registers our Automobile class as an Controller under the name &quot;automobile&quot;. Registration is not limited to Controllers because any component, service, factory, etc... can be registered. Detailed examples of this will be discussed later.</p><div class="source"><pre>public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar {
+}</pre></div></div><h3>Registrar</h3>
+<p>As stated earlier, a Controller is not active in Waffle until it has been registered with the Registrar. So now we will create a simple Registrar class and register the <b>Automobile</b> class with it. The MyRegistrar class below defines the method &quot;<b>session</b>&quot; and within that method it calls <b>register(&quot;automobile&quot;, Automobile.class);</b>, which registers our Automobile class as an Controller under the name &quot;automobile&quot;. Registration is not limited to Controllers because any component, service, factory, etc... can be registered. Detailed examples of this will be discussed later.</p>
+<div class="source"><pre>public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar {
 
     public MyRegistrar(Registrar delegate) {
         super(delegate);
