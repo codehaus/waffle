@@ -6,6 +6,12 @@ import java.io.Writer;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.DynamicAttributes;
 
+/**
+ * A img element for html files.
+ * 
+ * @author Guilherme Silveira
+ * @author Nico Steppat
+ */
 public class ImgTag extends FormElement implements DynamicAttributes {
 
 	private String src;

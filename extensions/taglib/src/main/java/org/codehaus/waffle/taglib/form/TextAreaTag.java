@@ -7,7 +7,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 
 /**
- * A text area.
+ * A textarea element for html files.
  * 
  * @author Guilherme Silveira
  */

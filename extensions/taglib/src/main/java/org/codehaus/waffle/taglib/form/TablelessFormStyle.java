@@ -9,7 +9,6 @@ import javax.servlet.jsp.JspWriter;
  * A form style implementation using div and spans.
  * 
  * @author Guilherme Silveira
- * @since 1.0
  */
 public class TablelessFormStyle implements FormStyle {
 

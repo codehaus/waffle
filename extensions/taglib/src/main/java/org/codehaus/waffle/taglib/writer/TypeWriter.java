@@ -8,7 +8,6 @@ import org.codehaus.waffle.taglib.form.Attributes;
  * E.g. Used for collection which can be presented as combobox or checkboxes. 
  * 
  * @author Nico Stepapt
- * @since 0.9.4
  */
 public interface TypeWriter {
 
@@ -17,4 +16,5 @@ public interface TypeWriter {
     String getOpeningTag(Attributes attributes);
     String getClosingTag(boolean first);
     String getClosingItem();
+    
 }

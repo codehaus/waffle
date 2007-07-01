@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<title>DateTimePickerTest</title>
+<title>CalendarTest</title>
 
 <link rel="stylesheet" type="text/css" media="all" href="js/calendar-brown.css">
 
@@ -22,18 +22,18 @@
 	pageContext.setAttribute("register",new Date());
 %>
 
-<div id="dateTimePickerTest">
-<w:dateTimePicker name="birthday" value="${birthDay}" pattern="dd/MM/yyyy" />
+<div id="calendarTest">
+<w:calendar name="birthday" value="${birthDay}" pattern="dd/MM/yyyy" />
 </div>
 
 <w:form id="meu_form" type="table" action="" >
 
-<div id="dateTimePickerTest2">
-<w:dateTimePicker name="register" value="${register}" pattern="yyyy-MM-dd" />
+<div id="calendarTest2">
+<w:calendar name="register" value="${register}" pattern="yyyy-MM-dd" />
 </div>
 
-<div id="dateTimePickerTest3">
-<w:dateTimePicker label="testLabel" name="register" value="${register}" pattern="dd.MM.yyyy" />
+<div id="calendarTest3">
+<w:calendar label="testLabel" name="register" value="${register}" pattern="dd.MM.yyyy" />
 </div>
 
 </w:form>

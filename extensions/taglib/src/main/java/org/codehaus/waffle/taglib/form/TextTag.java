@@ -6,7 +6,7 @@ import java.io.Writer;
 import javax.servlet.jsp.JspException;
 
 /**
- * An text element for html files.
+ * A text element for html files.
  * 
  * @author Guilherme Silveira
  * @author Nico Steppat

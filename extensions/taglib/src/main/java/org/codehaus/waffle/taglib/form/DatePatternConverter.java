@@ -6,7 +6,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 
  * Converts a java date format to the javascript calendar date format.
  * 
  * @author Nico Steppat

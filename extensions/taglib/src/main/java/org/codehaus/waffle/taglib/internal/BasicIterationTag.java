@@ -8,6 +8,12 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
+/**
+ * A tag that supports iterable collections.
+ * 
+ * @author Guilherme Silveira
+ * @author Nico Steppat
+ */
 public abstract class BasicIterationTag<T> extends BodyTagSupport {
 
 	private Iterator<T> iterator;

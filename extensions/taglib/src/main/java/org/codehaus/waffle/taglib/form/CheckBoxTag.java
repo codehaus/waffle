@@ -6,7 +6,7 @@ import java.io.Writer;
 import javax.servlet.jsp.JspException;
 
 /**
- * An text element for html files.
+ * An checkbox element for html files.
  * 
  * @author Guilherme Silveira
  * @author Nico Steppat

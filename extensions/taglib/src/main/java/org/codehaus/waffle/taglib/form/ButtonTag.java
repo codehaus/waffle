@@ -6,7 +6,7 @@ import java.io.Writer;
 import javax.servlet.jsp.JspException;
 
 /**
- * A basic button. Accepts a value which will be i18n.
+ * A button element for html files. Accepts a value which will be i18n.
  * 
  * @author Guilherme Silveira
  * @author Nico Steppat

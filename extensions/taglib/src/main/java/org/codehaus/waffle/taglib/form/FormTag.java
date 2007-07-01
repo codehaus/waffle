@@ -12,7 +12,6 @@ import org.codehaus.waffle.taglib.internal.BasicTag;
  * A basic form element.
  * 
  * @author Guilherme Silveira
- * @since 1.0
  */
 public class FormTag extends BasicTag implements DynamicAttributes {
 
