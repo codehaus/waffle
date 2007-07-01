@@ -15,11 +15,6 @@
           <attribute name="URI" value="/WEB-INF/lib/core.jar" />
         </containerElement>
         <containerElement type="library" level="module">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-beta-2.jar" />
-          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-beta-2/paranamer-1.0-beta-2.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
           <attribute name="method" value="0" />
           <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
           <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
@@ -123,11 +118,6 @@
           <containerElement type="module" name="core">
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/core.jar" />
-          </containerElement>
-          <containerElement type="library" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-beta-2.jar" />
-            <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-beta-2/paranamer-1.0-beta-2.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
