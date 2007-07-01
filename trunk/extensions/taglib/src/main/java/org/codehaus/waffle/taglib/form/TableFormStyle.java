@@ -9,7 +9,6 @@ import javax.servlet.ServletRequest;
  * A form style based on table rows.
  * 
  * @author Guilherme Silveira
- * @since 1.0
  */
 public class TableFormStyle implements FormStyle {
 

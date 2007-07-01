@@ -31,7 +31,7 @@
    <name>Taglib</name>
    <page>taglib/taglib.html</page>
    <page>taglib/button.html</page>
-   <page>taglib/dateTimePicker.html</page>
+   <page>taglib/calendar.html</page>
    <page>taglib/hidden.html</page>
    <page>taglib/submit.html</page>
    <page>taglib/select.html</page>

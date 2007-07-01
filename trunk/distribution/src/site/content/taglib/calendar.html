@@ -7,11 +7,11 @@
 
 
 <h2>Calendar Tag</h2>
-<p>The <i>w:dateTimePicker</i> tag creates an input field with the
+<p>The <i>w:calendar</i> tag creates an input field with the
 given <i>value</i> and a button which shows an javascript calendar. The
 date will be formated by the specified <i>pattern</i> .</p>
 <p>Example:</p>
-<div class="source"><pre>&lt;w:dateTimePicker name=&quot;birthday&quot; value=&quot;${date}&quot; pattern=&quot;yyyy-MM-dd&quot; /&gt;</pre></div>
+<div class="source"><pre>&lt;w:calendar name=&quot;birthday&quot; value=&quot;${date}&quot; pattern=&quot;yyyy-MM-dd&quot; /&gt;</pre></div>
 <p>The calendar is based on the
 http://www.dynarch.com/projects/calendar/ project. In order to show the
 calendar you must provide the necessary files, which are:</p>
@@ -31,7 +31,7 @@ have to import the files in your jsp file, for example:</p>
 
 &lt;/head&gt;
 &lt;body&gt;
-        &lt;w:dateTimePicker name=&quot;birthday&quot; value=&quot;${date}&quot; pattern=&quot;yyyy-MM-dd&quot; /&gt;
+        &lt;w:calendar name=&quot;birthday&quot; value=&quot;${date}&quot; pattern=&quot;yyyy-MM-dd&quot; /&gt;
 &lt;/body&gt;
 &lt;/head&gt;</pre></div>
 </body>

@@ -7,7 +7,6 @@ import javax.servlet.jsp.tagext.BodyTag;
  * 
  * @author Guilherme Silveira
  * @author Nico Steppat
- * @since 0.9.3
  */
 public enum IterationResult {
 

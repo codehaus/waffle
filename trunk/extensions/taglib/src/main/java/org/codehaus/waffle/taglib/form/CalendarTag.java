@@ -10,12 +10,12 @@ import javax.servlet.jsp.el.ELException;
 import org.apache.taglibs.standard.lang.support.ExpressionEvaluatorManager;
 
 /**
- * An text element for html files.
+ * An calendar element for html files.
  * 
  * @author Nico Steppat
  * @author Guilherme Silveira
  */
-public class DateTimePickerTag extends FormElement {
+public class CalendarTag extends FormElement {
 
     private static final String NEW_LINE = System.getProperty("line.separator");
 

@@ -6,7 +6,6 @@ import java.io.IOException;
  * Form styles.
  * 
  * @author Guilherme Silveira
- * @since 1.0
  */
 public interface FormStyle {
 

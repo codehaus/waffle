@@ -18,7 +18,6 @@ import org.apache.taglibs.standard.tag.common.fmt.DateSupport;
  * An text element for html files.
  * 
  * @author Nico Steppat
- * @since 0.9.4
  */
 public class TimeTag extends FormElement {
 

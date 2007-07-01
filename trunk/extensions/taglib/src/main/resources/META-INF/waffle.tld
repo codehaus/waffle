@@ -64,10 +64,10 @@
     </attribute>
   </tag>
 
-  <!-- DateTimePicker -->
+  <!-- Calendar -->
   <tag>
-    <name>dateTimePicker</name>
-    <tagclass>org.codehaus.waffle.taglib.form.DateTimePickerTag</tagclass>
+    <name>calendar</name>
+    <tagclass>org.codehaus.waffle.taglib.form.CalendarTag</tagclass>
     <bodycontent>empty</bodycontent>
     <dynamic-attributes>true</dynamic-attributes>
     <attribute>

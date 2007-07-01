@@ -15,7 +15,7 @@ import org.apache.taglibs.standard.resources.Resources;
 import org.apache.taglibs.standard.tag.common.fmt.DateSupport;
 
 /**
- * An text element for html files.
+ * An date element for html files.
  * 
  * @author Nico Steppat
  * @author Guilherme Silveira

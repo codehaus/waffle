@@ -1,12 +1,12 @@
 Calendar Tag
 
-	The <w:dateTimePicker> tag creates an input field with the given <value> and a button which shows an javascript calendar. 
+	The <w:calendar> tag creates an input field with the given <value> and a button which shows an javascript calendar. 
 	The date will be formated by the specified <pattern> .
 
 	Example:
 	
 +--------------------
-<w:dateTimePicker name="birthday" value="${date}" pattern="yyyy-MM-dd" />
+<w:calendar name="birthday" value="${date}" pattern="yyyy-MM-dd" />
 +--------------------
 
 	The calendar is based on the http://www.dynarch.com/projects/calendar/ project. In order to show the calendar you must provide 
@@ -33,7 +33,7 @@ Calendar Tag
 
 </head>
 <body>
-	<w:dateTimePicker name="birthday" value="${date}" pattern="yyyy-MM-dd" />
+	<w:calendar name="birthday" value="${date}" pattern="yyyy-MM-dd" />
 </body>
 </head>
 +--------------------
