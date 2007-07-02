@@ -46,21 +46,19 @@ module Waffle
       while (attribute_names.hasMoreElements)
         name = attribute_names.nextElement
 
-        self[name.to_s] = @__context.get_attribute(name) if name.is_a? Symbol
-        self[name] = @__context.get_attribute(name) unless name.is_a? Symbol
+        # Store in hash but skip setting back to underlying context
+        self.store(name, @__context.get_attribute(name), true)
       end
     end
 
-    def []=(key, value)
-      @__context.set_attribute(key.to_s, value) if key.is_a? Symbol
-      @__context.set_attribute(key, value) unless key.is_a? Symbol
-      super
+    def store(key, value, skip=false)
+      @__context.set_attribute(key, value) unless skip # add to delegate
+
+      super(key, value)
     end
 
-    def [](key)
-      return super(key.to_s) if key.is_a? Symbol
-
-      return super(key)
+    def []=(key, value)
+      store(key, value)
     end
 
     def method_missing(symbol, *args)
