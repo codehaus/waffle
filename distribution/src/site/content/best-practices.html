@@ -1,12 +1,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-  <head>
-    <title>Best Practices</title>
- 
-      </head>
-  <body>
-  
-      
-        <h2>Best Practices</h2><ul><li>It is best to register Components and Controllers as high up the Context tree as possible (i.e. Application prefered over Session; Session prefered over Request). This will reduce the number of Objects that need to be created and reduce introspection on classes.</li><li>use &quot;final&quot; on instance variable dependencies whenever possible.</li><li>An <i>ActionMethod</i> that returns <i>null</i> will act exactly like an <i>ActionMethod</i> with a return type of <i>void</i>. Generally it is not a good practice to have null returned, take a look at how Exceptions are handled when produced from an <i>ActionMethod</i>.</li><li>More to come ...</li></ul>
-  </body>
+<head>
+<title>Best Practices</title>
+
+</head>
+<body>
+
+
+<h2>Best Practices</h2>
+<ul>
+  <li>It is best to register Components and Controllers as high up
+  the Context tree as possible (i.e. Application prefered over Session;
+  Session prefered over Request). This will reduce the number of Objects
+  that need to be created and reduce introspection on classes.</li>
+  <li>use &quot;final&quot; on instance variable dependencies
+  whenever possible.</li>
+  <li>An <i>ActionMethod</i> that returns <i>null</i> will act
+  exactly like an <i>ActionMethod</i> with a return type of <i>void</i>.
+  Generally it is not a good practice to have null returned, take a look
+  at how Exceptions are handled when produced from an <i>ActionMethod</i>.</li>
+  <li>More to come ...</li>
+</ul>
+</body>
 </html>

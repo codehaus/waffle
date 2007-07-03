@@ -3,6 +3,7 @@
  <name>About Waffle</name>
    <page>index.html</page>
    <page>why.html</page>
+   <page>license.html</page>
    <page>download.html</page>
    <link title="JavaDoc">javadoc/index.html</link>
  </section>
@@ -26,7 +27,7 @@
    <page>lifecycle.html</page>
    <page>ajax.html</page>
    <page>webxml.html</page>
-   <page>application-structure.html</page>
+   <page>webapp-structure.html</page>
  </section>
  <section>
    <name>Taglib</name>
@@ -44,6 +45,11 @@
    <page>examples/examples.html</page>
    <page>examples/hello-world.html</page>
    <page>examples/simple-calculator.html</page>
+ </section>
+ <section>
+   <name>Tutorials</name>
+   <page>tutorials/tutorial-one.html</page>
+   <page>tutorials/tutorial-two.html</page>
  </section>
  <section>
    <name>Misc...</name>
