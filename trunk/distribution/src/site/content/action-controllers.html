@@ -2,39 +2,75 @@
 <html>
   <head>
     <title>Action Controllers</title>
-      </head>
+  </head>
   <body>
-  
-      
-        <h2>Action Controllers</h2><p>The terms <b>Action</b> and <b>Controller</b> should be very familiar to those who have experience with web frameworks. An Action originally gets its name from the HTML form tag's <i>action</i> attributes</p><div class="source"><pre>&lt;form action=&quot;/foobar.action&quot; method=&quot;post&quot;&gt;
-    ...
-&lt;/form&gt;</pre></div><p>A consolidated pattern for web frameworks is the <a href="http://en.wikipedia.org/wiki/Model-view-controller">MVC</a>- where the action is the controller tier. Hence, often action and controller are used interchangeably.</p><p>Other MVC-based web framework require that your action objects extend or implement a base action class specific to that framework. Typically the action would have an <i>execute()</i> or <i>perform()</i> method that handles the end users request and send a response accordingly. Waffle, however is different than these other frameworks. An Action Controller in Waffle can be any java object (i.e. <a href="http://www.martinfowler.com/bliki/POJO.html">POJO</a>). Additionally an Action Controller in Waffle can have many methods which are responsible for handling user requests. In Waffle these methods are considered <b>ActionMethod</b>s.</p><div class="source"><pre>public class ShoppingCartController implements Serializable {
-    private final Cart cart;
+    <h2>Action Controllers</h2>
+    <p>The terms <b>Action</b> and <b>Controller</b> should be very familiar to those who have experience with web
+      frameworks. An Action originally gets its name from the HTML form tag's <i>action</i> attributes</p>
 
-    public ShoppingCartController(Cart cart) {
-        this.cart = cart;
-    }
+    <textarea class="html:nogutter:nocontrols" name="code">
+      <form action="/foobar.action" method="post">
+        ...
+      </form>
+    </textarea>
+    
+    <p>A consolidated pattern for web frameworks is the <a href="http://en.wikipedia.org/wiki/Model-view-controller">MVC</a>
+      - where the action is the controller tier. Hence, often action and controller are used interchangeably.</p>
+    <p>Other MVC-based web framework require that your action objects extend or implement a base action class specific
+      to that framework. Typically the action would have an <i>execute()</i> or <i>perform()</i> method that handles the
+      end users request and send a response accordingly. Waffle, however is different than these other frameworks. An
+      Action Controller in Waffle can be any java object (i.e. <a href="http://www.martinfowler.com/bliki/POJO.html">POJO</a>).
+      Additionally an Action Controller in Waffle can have many methods which are responsible for handling user requests.
+      In Waffle these methods are considered <b>ActionMethod</b>s.</p>
 
-    // This is an ActionMethod
-    public void addToCart(long itemId, int quantity) {
-        cart.addItem(itemId, quantity);
-    }
+    <textarea class="java:nogutter:nocontrols" name="code">
+    public class ShoppingCartController implements Serializable {
+      private final Cart cart;
 
-    // This is also an ActionMethod
-    public void removeFromCart(long itemId, int quantity) {
-        cart.removeItem(itemId, quantity);
-    }
-}</pre></div><p>Action Controllers and ActionMethods can be dependent on an HttpServletRequest, HttpServletResponse, HttpSession or ServletContext. In practice most Controllers you'll create will be dependent on custom Factories, Services, DAO's, etc. But if you have a need for these base Servlet classes it is nice to know that you can get access to them.</p><p>Digging deeper into how an Controller works we will continue with the ShoppingCartController class and add an accessor for a <i>coupon</i> field:</p><div class="source"><pre>public class ShoppingCartController implements Serializable {
-    private String coupon;
-    ...
+      public ShoppingCartController(Cart cart) {
+          this.cart = cart;
+      }
 
-    public String getCoupon() {
-        return coupon;
-    }
+      // This is an ActionMethod
+      public void addToCart(long itemId, int quantity) {
+          cart.addItem(itemId, quantity);
+      }
 
-    public void setCoupon(String coupon) {
-        this.coupon = coupon;
+      // This is also an ActionMethod
+      public void removeFromCart(long itemId, int quantity) {
+          cart.removeItem(itemId, quantity);
+      }
     }
-}</pre></div><p>Now lets assume that the ShoppingCartController is requested with the following request string:</p><p><b>http://localhost:8080/waffle/shoppingCart.waffle?coupon=freebee</b></p><p>When Waffle's FrontController, <i>WaffleServlet</i>, handles this request it will first locate the appropriate controller by name &quot;<b>shoppingCart</b>&quot;. Then Waffle will attempt to bind each parameter passed as a value to be set on the Controller. So &quot;<b>coupon=freebee</b>&quot; will set the field &quot;<i>coupon</i>&quot; on the controller to the value of &quot;<i>freebee</i>&quot;. (Don't worry parameters that do not correspond to properties on an Controller will <b>NOT</b> cause a failure).</p><p>Lastly, controller classes do not have to end in the word 'Controller'. 'ShoppingCart' or 'Cart' are as good as 'ShoppingCartController' for Waffle.</p>
+    </textarea>
+
+    <p>Action Controllers and ActionMethods can be dependent on an HttpServletRequest, HttpServletResponse, HttpSession
+      or ServletContext. In practice most Controllers you'll create will be dependent on custom Factories, Services,
+      DAO's, etc. But if you have a need for these base Servlet classes it is nice to know that you can get access to
+      them.</p><p>Digging deeper into how an Controller works we will continue with the ShoppingCartController class and
+      add an accessor for a <i>coupon</i> field:</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+public class ShoppingCartController implements Serializable {
+  private String coupon;
+  ...
+
+  public String getCoupon() {
+      return coupon;
+  }
+
+  public void setCoupon(String coupon) {
+      this.coupon = coupon;
+  }
+}
+</textarea>
+
+    <p>Now lets assume that the ShoppingCartController is requested with the following request string:</p><p>
+      <b>http://localhost:8080/waffle/shoppingCart.waffle?coupon=freebee</b></p>
+    <p>When Waffle's FrontController, <i>WaffleServlet</i>, handles this request it will first locate the appropriate
+      controller by name &quot;<b>shoppingCart</b>&quot;. Then Waffle will attempt to bind each parameter passed as a
+      value to be set on the Controller. So &quot;<b>coupon=freebee</b>&quot; will set the field &quot;<i>coupon</i>&quot;
+      on the controller to the value of &quot;<i>freebee</i>&quot;. (Don't worry parameters that do not correspond to
+      properties on an Controller will <b>NOT</b> cause a failure).</p><p>Lastly, controller classes do not have to end
+      in the word 'Controller'. 'ShoppingCart' or 'Cart' are as good as 'ShoppingCartController' for Waffle.</p>
   </body>
 </html>
