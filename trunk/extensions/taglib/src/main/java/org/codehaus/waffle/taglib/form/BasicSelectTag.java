@@ -92,12 +92,16 @@ abstract class BasicSelectTag extends FormElement {
         Object itemKey = entry.getKey();
         Object value = entry.getValue();
         boolean isSelected;
-        if (!(itemKey instanceof Number)) {
+        if(itemKey == null) {
+            isSelected = (selected == null);
+        } else if (!(itemKey instanceof Number)) {
             isSelected = itemKey.equals(selected);
+        } else if(selected == null) {
+            isSelected = (itemKey == null);
         } else {
             isSelected = ((Number) itemKey).longValue() == ((Number)selected).longValue();
         }
-        addItem(out, itemKey.toString(), isSelected);
+        addItem(out, itemKey == null ? "" : itemKey.toString(), isSelected);
         pageContext.setAttribute(getIterationVarKey(), value);
     }
 

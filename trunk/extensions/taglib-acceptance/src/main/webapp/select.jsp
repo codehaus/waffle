@@ -15,6 +15,7 @@
 	lista.add(new Product(1,"trabant"));
 	lista.add(new Product(2,"wartburg"));
 	lista.add(new Product(3,"skoda"));
+	lista.add(new Product(null, "nasty"));
 	pageContext.setAttribute("lista",lista);
 %>
 
@@ -27,6 +28,14 @@
 
 test selected=2 <br>
 <w:select var="produto" name="produto.id.selected.2" items="${lista}" value="id" selected="${2}">
+        ${produto.name}
+</w:select>
+
+<br>
+<br>
+
+test selected=null <br>
+<w:select var="produto" name="produto.id.selected.null" items="${lista}" value="id" selected="${null}">
         ${produto.name}
 </w:select>
 
