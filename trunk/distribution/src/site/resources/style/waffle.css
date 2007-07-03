@@ -24,6 +24,7 @@
   font-size: 10pt;
   border-bottom: 1px solid #aaaaaa;
   padding-top: 12px;
+  margin-right: 20px;
   color: #66665c;
 }
 
@@ -75,13 +76,15 @@ body {
   background-color: #FFFFFF;
   text-align: left;
   padding: 0 0 10px 0;
-  border-left: 1px dashed #800E06;
-  border-right: 1px dashed #800E06;
 }
 
 body,td,select,input,li {
   font-family: Verdana, Helvetica, Arial, sans-serif;
   font-size: 13px;
+}
+
+div.section ul li, div.section ol li {
+  margin-left:35px;
 }
 
 a {
