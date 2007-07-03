@@ -41,7 +41,7 @@ object.</p>
         this.model = model;
     }
 }</pre></div>
-</div>
+
 <h3>Registrar</h3>
 <p>As stated earlier, a Controller is not active in Waffle until it
 has been registered with the Registrar. So now we will create a simple
@@ -62,7 +62,7 @@ can be registered. Detailed examples of this will be discussed later.</p>
         register(&quot;automobile&quot;, Automobile.class);
     }
 }</pre></div>
-</div>
+
 <h3>web.xml</h3>
 <p>While Waffle does not require any proprietary XML configuration
 files we still must create a <b>web.xml</b>. The web.xml example below
@@ -128,7 +128,7 @@ has four points worth mentioning.</p>
 &lt;/web-app&gt;</pre></div>
   </li>
 </ol>
-</div>
+
 <h3>View</h3>
 <p>We will create a very simple view to display the content of the
 Controller. The following example uses a JSP and simply displays the
@@ -156,9 +156,9 @@ values of the Controller.</p>
     &lt;input type=&quot;submit&quot;/&gt;
 &lt;/form&gt;
 &lt;/html&gt;</pre></div>
-</div>
-</div>
-<h3>Application structure (WAR File)</h3>
+
+
+<h3>Webapp structure (WAR file)</h3>
 <p>An application built with Waffle is similar to most other Java
 web based applications. The following provides an overview of how you
 might layout the code for this tutorial:</p>
@@ -183,7 +183,7 @@ might layout the code for this tutorial:</p>
   </a> you'll need to include the jar files that each of those projects may
   require.</dd>
 </dl>
-</div>
+
 <h3>Running the application</h3>
 <p>Now the application can be deployed to a Servlet container (e.g.,
 Tomcat, Jetty). So when we run the application and direct the browser to
@@ -198,13 +198,13 @@ directly onto the Controller. If we append the value &quot;<b>?model=ranger</b>&
 to the original url we will now have: <b>http://localhost:8080/hello/automobile.waffle?model=ranger</b>.
 Notice that the url and the value of the Model field has been updated.</p>
 <img src="images/browser-2.png" />
-</div>
+
 <h3>More to see</h3>
 <p>This has only been an introduction to Waffle and it provides a
 good starting point to understanding how it works. Continue on to <a
   href="tutorial-two.html">Tutorial: Part two</a> to see how <b>ControllerMethods</b>
 can be dynamically invoked on Controllers.</p>
-</div>
+
 </body>
 
 </html>

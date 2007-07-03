@@ -206,7 +206,7 @@ parameter:</p>
     </tr>
   </tbody>
 </table>
-</div>
+
 <h4>ActionMethod return types</h4>
 <p>Waffle will react differently depending on what is returned, or
 thrown, from an <b>ActionMethod</b> after it has been invoked. Below we
@@ -235,7 +235,7 @@ define defines how each case is handled in the Waffle framework:</p>
   type of requests. Imagine these type of ActionMethod returning HTML or
   JSON messages directly.</li>
 </ul>
-</div>
+
 <h4>Caveat: Ambiguous methods</h4>
 <p>Waffle determines which ActionMethod to invoke by examining the
 Controller with reflection. If your Controller contains an overloaded
@@ -254,8 +254,7 @@ will invoke the first <i>save</i> method, <b>void save(String,
 Object)</b>, without incident. Why? Because the String value &quot;bar&quot;
 is not assignable (and cannot be automatically converted) to the <i>Map</i>
 class, so no ambiguity will exist.</p>
-</div>
-</div>
+
 </body>
 
 </html>
