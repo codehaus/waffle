@@ -5,7 +5,7 @@
 
     <style type="text/css" media="all">
       @import url("./style/waffle.css");
-      @import url("./style/dp-highlighter.css");
+      @import url("./style/SyntaxHighlighter.css");
     </style>
 
     <script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
@@ -34,7 +34,7 @@
       <div class="clear"></div>
     </div>
     <div id="breadcrumbs">
-      <div class="left"> Last Published: 01/07/2007 </div>
+      <div class="left"> Last Published: July 2, 2007 </div>
       <div class="clear"></div>
     </div>
   
@@ -45,9 +45,9 @@
               <ul>
                   <#list section.pages as otherPage>
                       <#if otherPage = page>
-                          <li class="none"> <strong>${otherPage.title}</strong> </li>
+                          <li> <strong>${otherPage.title}</strong> </li>
                       <#else>
-                          <li class="none"> <a href="${otherPage.href}">${otherPage.title}</a> </li>
+                          <li> <a href="${otherPage.href}">${otherPage.title}</a> </li>
                       </#if>
                   </#list>
               </ul>
@@ -81,15 +81,10 @@
           </div>
       </div>
   </div>
-  <div class="clear">
-    <hr/>
-  </div>
+  <div class="clear"></div>
   <div id="footer">
-    <div class="right">&#169;  
-      2007 </div>
-    <div class="clear">
-      <hr/>
-    </div>
+    <div class="right">&#169; 2007 </div>
+    <div class="clear"></div>
   </div>
 
   </body>
@@ -109,13 +104,13 @@
       var elements = document.getElementsByClassName('source');
       elements.each(function(element) {
           var content = element.getElementsByTagName('pre')[0].innerHTML;
-          var classType = /^&lt;/.test(content) ? "xml" : "java";          
+          var classType = /^&lt;/.test(content) ? "xml" : "java";
           content = "<textarea name=\"code\" class=\"" + classType + "\">" + content + "</textarea>";
           new Insertion.Before(element, content);
           element.remove(element);
       });
 
-      dp.SyntaxHighlighter.HighlightAll('code', false, false);
+dp.SyntaxHighlighter.HighlightAll('code', false, false);
       // ]]>
    </script>
 
