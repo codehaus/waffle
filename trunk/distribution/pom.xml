@@ -27,12 +27,14 @@
       <plugin>
         <groupId>org.codehaus.xsite</groupId>
         <artifactId>xsite-maven-plugin</artifactId>
-        <version>1.0-beta-7</version>
+        <version>1.0-beta-8</version>
         <configuration>
-          <siteMapPath>${basedir}/src/site/content/sitemap.xml</siteMapPath>
-          <skinPath>${basedir}/src/site/templates/skin.html</skinPath>
-          <resourcePaths>${basedir}/src/site/resources</resourcePaths>
+          <sourceDirectoryPath>${basedir}/src/site/</sourceDirectoryPath>
+          <sitemapPath>content/sitemap.xml</sitemapPath>
+          <skinPath>templates/skin.html</skinPath>
+          <resourcePaths>resources</resourcePaths>
           <outputDirectoryPath>${project.build.directory}/site</outputDirectoryPath>
+          <localisations>pt</localisations>
         </configuration>
         <executions>
           <execution>
