@@ -1,14 +1,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html>
-  <head>
-    <title>Method Interceptors</title>
+<head>
+<title>Method Interceptors</title>
 
-      </head>
-  <body>
-  
-      
-        <h2>MethodInterceptor</h2><p>A <b>MethodInterceptor</b> is a simple interface that allows you to intercept ActionMethods before and after they have been invoked. This before and after interception provides AOP type of functionality.</p><p>Let's look at a simple example to obtain a clear idea of how this can be leveraged. Notice that in this example the <b>boolean accept(Method)</b> will only intercept calls to <i>AutomobileController.accelerate(String)</i> method. The <b>intercept</b> method below is a trivial example that ensures that the value to be invoke on the event is less than <i>50</i>, if not that value is replaced with the value <i>0</i>. Finally, the call to <b>chain.proceed()</b> allows for propogation to the next MethodInterceptor, or to actually invoking the <i>ActionMethod</i>. Of course if you did not want the ActionMethod to be invoke you would NOT call the <i>proceed</i> method (you could return different value or throw an Exception).</p><div class="source"><pre>public class MyMethodInterceptor implements MethodInterceptor {
+</head>
+<body>
+
+
+<h2>MethodInterceptor</h2>
+<p>A <b>MethodInterceptor</b> is a simple interface that allows you
+to intercept ActionMethods before and after they have been invoked. This
+before and after interception provides AOP type of functionality.</p>
+<p>Let's look at a simple example to obtain a clear idea of how this
+can be leveraged. Notice that in this example the <b>boolean
+accept(Method)</b> will only intercept calls to <i>AutomobileController.accelerate(String)</i>
+method. The <b>intercept</b> method below is a trivial example that
+ensures that the value to be invoke on the event is less than <i>50</i>,
+if not that value is replaced with the value <i>0</i>. Finally, the call
+to <b>chain.proceed()</b> allows for propogation to the next
+MethodInterceptor, or to actually invoking the <i>ActionMethod</i>. Of
+course if you did not want the ActionMethod to be invoke you would NOT
+call the <i>proceed</i> method (you could return different value or
+throw an Exception).</p>
+<div class="source"><pre>public class MyMethodInterceptor implements MethodInterceptor {
     private final Method accelerateMethod;
 
     public MyMethodInterceptor() {
@@ -37,8 +52,17 @@
 
         return chain.proceed(controllerDefinition, method, arguments);
     }
-}</pre></div><p><i>MethodInterceptor</i> are registered with Waffle through the Registrar. So like other components in Waffle MethodInterceptors can take advantage of Dependency Injection.</p><h3>Sortable</h3><p>You can ensure that your MethodInterceptors are called in a particular order by having them implement the <i>org.codehaus.waffle.action.intercept.Sortable</i> interface. Non-Sortable MethodInterceptors will be placed at the end of the InterceptorChain.</p></div>
-  </body>
+}</pre></div>
+<p><i>MethodInterceptor</i> are registered with Waffle through the
+Registrar. So like other components in Waffle MethodInterceptors can
+take advantage of Dependency Injection.</p>
+<h3>Sortable</h3>
+<p>You can ensure that your MethodInterceptors are called in a
+particular order by having them implement the <i>org.codehaus.waffle.action.intercept.Sortable</i>
+interface. Non-Sortable MethodInterceptors will be placed at the end of
+the InterceptorChain.</p>
+</div>
+</body>
 
 
 </html>

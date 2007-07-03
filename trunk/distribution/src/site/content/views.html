@@ -1,12 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-  <head>
-    <title>Views</title>
-      </head>
-  <body>
-  
-      
-        <h2>Views</h2><p>With Waffle you can write views with either Java Server Pages, FreeMarker or Velocity. Other view technologies, like Tiles will also work. Decoration technologies like Sitemesh are quite compatible with Waffle (see our Freemarker example).</p><h3>Java Server Pages</h3><p>Using Java Server Pages in Waffle is as easy as it is with other frameworks. You'll be able to reference the Controller that is asscoaiated with the view by the <b>controller</b> keyword. In the jspx example below the <b>getName()</b> method will be invoked from the Controller:</p><div class="source"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<head>
+<title>Views</title>
+</head>
+<body>
+
+<h2>Views</h2>
+<p>With Waffle you can write views with either Java Server Pages,
+FreeMarker or Velocity. Other view technologies, like Tiles will also
+work. Decoration technologies like Sitemesh are quite compatible with
+Waffle (see our Freemarker example).</p>
+<h3>Java Server Pages</h3>
+<p>Using Java Server Pages in Waffle is as easy as it is with other
+frameworks. You'll be able to reference the Controller that is
+asscoaiated with the view by the <b>controller</b> keyword. In the jspx
+example below the <b>getName()</b> method will be invoked from the
+Controller:</p>
+<div class="source"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xmlns:jsp=&quot;http://java.sun.com/JSP/Page&quot;&gt;
 &lt;jsp:output doctype-root-element=&quot;html&quot;
             doctype-public=&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
@@ -21,7 +31,11 @@
     Waffle says: ${controller.greeting}
 &lt;/body&gt;
 
-&lt;/html&gt;</pre></div><p>You will also need to set the default view suffix parameter on the WaffleServlet so that actions can be routed to the correct view. The following is an exerpt from the <i>web.xml</i> file:</p><div class="source"><pre>&lt;servlet&gt;
+&lt;/html&gt;</pre></div>
+<p>You will also need to set the default view suffix parameter on
+the WaffleServlet so that actions can be routed to the correct view. The
+following is an exerpt from the <i>web.xml</i> file:</p>
+<div class="source"><pre>&lt;servlet&gt;
     &lt;servlet-name&gt;waffle&lt;/servlet-name&gt;
     &lt;servlet-class&gt;org.codehaus.waffle.servlet.WaffleServlet&lt;/servlet-class&gt;
     &lt;init-param&gt;
@@ -34,7 +48,20 @@
         &lt;param-value&gt;.jspx&lt;/param-value&gt;
     &lt;/init-param&gt;
     &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
-&lt;/servlet&gt;</pre></div><p>Note that .jspx being the default view suffix for Waffle, the 'init-param' for it could be left out entirely (and is in some our examples).</p></div><h3>FreeMarker</h3><p>FreeMarker views can be written like any FreeMarker pages for other web frameworks. For the most part it is best to follow the documentation FreeMarker provides. Similarly to the JavaServer Pages definition above you will need to register the default view suffix accordingly for FreeMarker (typically <b>.ftl</b>).</p><p>You will need to register the <i>freemarker.ext.servlet.FreemarkerServlet</i> in the <i>web.xml</i>:</p><div class="source"><pre>&lt;servlet&gt;
+&lt;/servlet&gt;</pre></div>
+<p>Note that .jspx being the default view suffix for Waffle, the
+'init-param' for it could be left out entirely (and is in some our
+examples).</p>
+
+<h3>FreeMarker</h3>
+<p>FreeMarker views can be written like any FreeMarker pages for
+other web frameworks. For the most part it is best to follow the
+documentation FreeMarker provides. Similarly to the JavaServer Pages
+definition above you will need to register the default view suffix
+accordingly for FreeMarker (typically <b>.ftl</b>).</p>
+<p>You will need to register the <i>freemarker.ext.servlet.FreemarkerServlet</i>
+in the <i>web.xml</i>:</p>
+<div class="source"><pre>&lt;servlet&gt;
     &lt;servlet-name&gt;freemarker&lt;/servlet-name&gt;
     &lt;servlet-class&gt;freemarker.ext.servlet.FreemarkerServlet&lt;/servlet-class&gt;
     &lt;!-- FreemarkerServlet settings: --&gt;
@@ -64,11 +91,18 @@
         &lt;param-value&gt;0.##########&lt;/param-value&gt;
     &lt;/init-param&gt;
     &lt;load-on-startup&gt;2&lt;/load-on-startup&gt;
-&lt;/servlet&gt;</pre></div><p>Again, see our working Freemarker example.</p></div><h3>Velocity</h3><p>As with the JavaServer Pages and FreeMarker descriptions above you can access the actions from your Velocity script via the <b>action</b> keyword. The example below shows how you should register the Servlet to handle Velocity based pages:</p><div class="source"><pre>&lt;servlet&gt;
+&lt;/servlet&gt;</pre></div>
+<p>Again, see our working Freemarker example.</p>
+<h3>Velocity</h3>
+<p>As with the JavaServer Pages and FreeMarker descriptions above
+you can access the actions from your Velocity script via the <b>action</b>
+keyword. The example below shows how you should register the Servlet to
+handle Velocity based pages:</p>
+<div class="source"><pre>&lt;servlet&gt;
     &lt;servlet-name&gt;velocity&lt;/servlet-name&gt;
     &lt;servlet-class&gt;org.codehaus.waffle.WaffleVelocityServlet&lt;/servlet-class&gt;
     &lt;load-on-startup&gt;2&lt;/load-on-startup&gt;
-&lt;/servlet&gt;</pre></div></div>
-  </body>
+&lt;/servlet&gt;</pre></div>
+</body>
 
 </html>
