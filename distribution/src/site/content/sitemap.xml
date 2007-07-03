@@ -3,12 +3,12 @@
  <name>About Waffle</name>
    <page>index.html</page>
    <page>why.html</page>
-   <link title="JavaDoc">javadoc/index.html</link>
    <page>download.html</page>
+   <link title="JavaDoc">javadoc/index.html</link>
  </section>
  <section>
    <name>Waffle Resources</name>
-   <page>list-dev.html</page>
+   <page>mailing-lists.html</page>
    <page>team-list.html</page>
    <page>issue-tracking.html</page>
    <page>source-repository.html</page>
