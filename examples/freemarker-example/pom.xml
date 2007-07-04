@@ -43,6 +43,7 @@
       <plugin>
         <groupId>com.thoughtworks.paranamer</groupId>
         <artifactId>paranamer-maven-plugin</artifactId>
+        <version>1.0-RC-3-SNAPSHOT</version>
         <configuration>
           <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
           <outputDirectory>${project.build.outputDirectory}</outputDirectory>
