@@ -404,6 +404,11 @@
 
   <pluginRepositories>
     <pluginRepository>
+      <id>codehaus-plugin-repository</id>
+      <name>Codehaus Plugin Repository</name>
+      <url>http://repository.codehaus.org</url>
+    </pluginRepository>
+    <pluginRepository>
       <id>codehaus-plugin-snapshot-repository</id>
       <name>Codehaus Plugin Snapshot Repository</name>
       <url>http://snapshots.repository.codehaus.org</url>
