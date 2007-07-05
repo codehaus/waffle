@@ -154,3 +154,16 @@ table.bodyTable tr.b {
   text-align: right;
   margin-right: 10px;
 }
+
+/* Language specific styles */
+
+.dp-highlighter .comment, .dp-highlighter .comments { color: #428BDD;}
+.dp-highlighter .string { color: #00CC00; }
+.dp-highlighter .keyword { color: #F9BB00; }
+.dp-highlighter .preprocessor { color: gray; }
+
+
+.dp-xml .cdata { color: #fff; }
+.dp-xml .tag, .dp-xml .tag-name { color: #F9BB00; }
+.dp-xml .attribute { color: #428BDD; }
+.dp-xml .attribute-value { color: #0c0; }
