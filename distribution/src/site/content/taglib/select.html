@@ -13,33 +13,36 @@ of <b>Product</b>s, which you want to display in a combo box. If this
 list is available in any context as <b>products</b>, it could easily be
 browsed as:</p>
 
-<div class="source"><pre>&lt;w:select name="product.id" items="${products}" value=&quot;id&quot; var="product" &gt;
-  ${product.name}
-&lt;/w:select&gt;</pre></div>
-</div>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:select name="product.id" items="${products}" value=&quot;id&quot; var="product" &gt;
+    ${product.name}
+  &lt;/w:select&gt;
+</textarea>
 <h2>Adding an empty line</h2>
 
 <p>In order to add an empty option, use the <i>addEmpty</i>
 attribute:</p>
 
-<div class="source"><pre>&lt;w:select name="product.id" items="${products}" value=&quot;id&quot; var="product" addEmpty="true" &gt;
-  ${product.name}
-&lt;/w:select&gt;</pre></div>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:select name="product.id" items="${products}" value=&quot;id&quot; var="product" addEmpty="true" &gt;
+    ${product.name}
+  &lt;/w:select&gt;
+</textarea>
 
-</div>
 <h2>Setting the default selected item</h2>
 
 <p>You can set the selected item by specifying the <i>selected</i>
 attribute:</p>
 
-<div class="source"><pre>&lt;w:select name="product.id" items="${products}" value=&quot;id&quot; var="product" selected="${2}" &gt;
-  ${product.name}
-&lt;/w:select&gt;</pre></div>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:select name="product.id" items="${products}" value=&quot;id&quot; var="product" selected="${2}" &gt;
+    ${product.name}
+  &lt;/w:select&gt;
+</textarea>
 
 <p>It will compare the <i>selected</i> attribute value with the <i>id</i>
 of each one of your products.</p>
 
-</div>
 
 <h2>Showing radio buttons</h2>
 
@@ -47,11 +50,11 @@ of each one of your products.</p>
 collection of elements. One can create radio buttons by using the <i>type</i>
 attribute:</p>
 
-<div class="source"><pre>&lt;w:select name="product.id" items="${products}" value=&quot;id&quot; var="product" type="radio" &gt;
-  ${product.name}
-&lt;/w:select&gt;</pre></div>
-
-</div>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:select name="product.id" items="${products}" value=&quot;id&quot; var="product" type="radio" &gt;
+    ${product.name}
+  &lt;/w:select&gt;
+</textarea>
 
 <h2>Using tokens instead of collections</h2>
 
@@ -61,9 +64,11 @@ to iterate. The <b>w:selectTokens</b> tag works the same way as <b>w:select</b>,
 but instead of iterating over a collection, it uses a comma separated
 list of keys and values:</p>
 
-<div class="source"><pre>&lt;w:selectTokens name="writtenPosition" tokens="first,1,second,2,third,3,fourth,4,fifth,5,sixth,6,seventh,7" var="number" &gt;
-  ${number}
-&lt;/w:selectTokens&gt;</pre></div>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:selectTokens name="writtenPosition" tokens="first,1,second,2,third,3,fourth,4,fifth,5,sixth,6,seventh,7" var="number" &gt;
+    ${number}
+  &lt;/w:selectTokens&gt;
+</textarea>
 
 <p>The above code will generate a combo box with items labeled 1, 2,
 ..., 7 and hidden values named first, second, ..., seventh.</p>

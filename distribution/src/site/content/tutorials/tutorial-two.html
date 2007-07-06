@@ -14,7 +14,7 @@ interesting. So let's add onto the Automobile controller class and give
 it the ability to both <b>accelerate</b> and <b>stop</b>. We need to add
 a <i>speed</i> field so we can maintain the current speed of the
 automobile. We add a <i>getter</i> for speed so we can make sure that
-the speed is in fact increasing. And we add two <b>event</b> methods: <b>void
+the speed is in fact increasing. And we add two <b>action</b> methods: <b>void
 accelerate(String)</b> and <b>void stop()</b>. Remember we added the
 &quot;automobile&quot; to the Registrar as a <i>Session-Level</i>
 component. So each user will have their own instance of the autombile
@@ -97,7 +97,7 @@ the users.</p>
 &lt;/html&gt;
 </pre></div>
 <p>For this example we will concentrate on the more interesting of
-the two events, <i>accelerate</i>. The accelerate event is defined as <b>automobile.waffle?event=accelerate|15</b>.
+the two actions, <i>accelerate</i>. The accelerate action is defined as <b>automobile.waffle?method=accelerate|15</b>.
 Let's dissect this to get a better understanding of what is going on.
 Starting from left to right we will break this request out and explain
 each piece separately:</p>
@@ -148,7 +148,7 @@ running this you'll see:</p>
 shown earlier is a powerful feature. From a development perspective it
 is nice because it reduces much of the classic searching through the
 request parameters to determine what to do next. But Waffle provides
-even more capabilities for triggering events.</p>
+even more capabilities for triggering actions.</p>
 <h4>ActionMethod arguments</h4>
 <p>Notice the <b>void accelerate(int)</b> ActionMethod that we used
 earlier. Waffle can automatically convert the String values received
@@ -181,7 +181,7 @@ public class SampleController implements Serializable {
 myActionMethod(Map)</b>. Assume we have registered this controller under the
 name &quot;sample&quot;. We can have Waffle fire this ActionMethod by
 submitting the url request <b>sample.waffle?method=myActionMethod|{dictionary}</b>.
-So just to make sure it's clear, we will dissect the value of the <b>event</b>
+So just to make sure it's clear, we will dissect the value of the <b>action</b>
 parameter:</p>
 <table class="bodyTable">
   <tbody>

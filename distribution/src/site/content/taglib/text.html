@@ -9,40 +9,54 @@
 
 <p>The most common and simple html tag is the usual input text
 field. A common use of its html form is:</p>
-<div class="source"><pre>&lt;input type=&quot;text&quot; name=&quot;supplier.name&quot; value=&quot;${supplier.name}&quot;/&gt;</pre></div>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;input type=&quot;text&quot; name=&quot;supplier.name&quot; value=&quot;${supplier.name}&quot;/&gt;
+</textarea>
 <p>The <b>w:text</b> tag allows you to generate the above code by
 defining:</p>
-<div class="source"><pre>&lt;w:text name=&quot;supplier.name&quot; /&gt;</pre></div>
-</div>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:text name=&quot;supplier.name&quot; /&gt;
+</textarea>
 <h2>Advantage</h2>
 <p>The above example does not show all the power behind the waffle
 form taglib. Let's add a form and a table to the sample html shown
 earlier:</p>
-<div class="source"><pre>&lt;form action=&quot;supplier.save.logic&quot;&gt;
-&lt;table&gt;
-&lt;tr&gt;
-&lt;td&gt;suppliers name&lt;/td&gt;
-&lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;supplier.name&quot; value=&quot;${supplier.name}&quot;/&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/table&gt;
-&lt;/form&gt;</pre></div>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;form action=&quot;supplier.save.logic&quot;&gt;
+    &lt;table&gt;
+      &lt;tr&gt;
+        &lt;td&gt;suppliers name&lt;/td&gt;
+        &lt;td&gt;&lt;input type=&quot;text&quot; name=&quot;supplier.name&quot; value=&quot;${supplier.name}&quot;/&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/table&gt;
+  &lt;/form&gt;
+</textarea>
 <p>Using the waffle taglib, one can easily output the above result
 by defining:</p>
-<div class="source"><pre>&lt;w:form action=&quot;supplier.save.logic&quot; type=&quot;table&quot;&gt;
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:form action=&quot;supplier.save.logic&quot; type=&quot;table&quot;&gt;
         &lt;w:text name=&quot;supplier.name&quot; /&gt;
-&lt;/w:form&gt;</pre></div>
+  &lt;/w:form&gt;</textarea>
 <p>And registering the following key into your i18n file:</p>
-<div class="source"><pre>supplier.name = Suppliers name</pre></div>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  supplier.name = Suppliers name
+</textarea>
 <p>You can learn more about form types by reading the <b>w:form</b>
 tag documentation.</p>
-</div>
 <h2>Fully customized tag</h2>
 <p>Here is an example of label and default value customization:</p>
-<div class="source"><pre>&lt;w:form action=&quot;supplier.save.logic&quot; type=&quot;table&quot;&gt;
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:form action=&quot;supplier.save.logic&quot; type=&quot;table&quot;&gt;
         &lt;w:text label=&quot;i18n.key&quot; name=&quot;supplier.name&quot; value=&quot;${supplier.name}&quot;/&gt;
-&lt;/w:form&gt;</pre></div>
+  &lt;/w:form&gt;
+</textarea>
 <p>And i18n file:</p>
-<div class="source"><pre>i18n.key = Suppliers name</pre></div>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  i18n.key = Suppliers name
+</textarea>
+
 </body>
 
 </html>
