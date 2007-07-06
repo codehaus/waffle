@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 
 import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.context.WaffleContextListener;
@@ -27,15 +27,15 @@ public class PicoWaffleContextListenerTest extends MockObjectTestCase {
                 .method("destroy");
         ContextContainerFactory contextContainerFactory = (ContextContainerFactory) mockContextContainerFactory.proxy();
 
-        // Mock WaffleComponentRegistry
-        Mock mockRegistry = mock(WaffleComponentRegistry.class);
+        // Mock ComponentRegistry
+        Mock mockRegistry = mock(ComponentRegistry.class);
         mockRegistry.expects(once())
                 .method("getContextContainerFactory")
                 .will(returnValue(contextContainerFactory));
-        final WaffleComponentRegistry registry = (WaffleComponentRegistry) mockRegistry.proxy();
+        final ComponentRegistry registry = (ComponentRegistry) mockRegistry.proxy();
 
         WaffleContextListener waffleContextListener = new WaffleContextListener() {
-            protected WaffleComponentRegistry buildWaffleComponentRegistry(ServletContext servletContext) {
+            protected ComponentRegistry buildComponentRegistry(ServletContext servletContext) {
                 return registry;
             }
         };
@@ -44,7 +44,7 @@ public class PicoWaffleContextListenerTest extends MockObjectTestCase {
         Mock mockServletContext = mock(ServletContext.class);
         mockServletContext.expects(once())
                 .method("setAttribute")
-                .with(eq(WaffleComponentRegistry.class.getName()), same(registry));
+                .with(eq(ComponentRegistry.class.getName()), same(registry));
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
 
         ServletContextEvent event = new ServletContextEvent(servletContext);

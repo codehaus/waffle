@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
@@ -34,7 +34,7 @@ public class WaffleVelocityServlet extends VelocityViewServlet {
     }
 
     public WaffleVelocityServlet() {
-        WaffleComponentRegistry componentRegistry = ServletContextHelper.getWaffleComponentRegistry(getServletContext());
+        ComponentRegistry componentRegistry = ServletContextHelper.getComponentRegistry(getServletContext());
         controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();
     }
 

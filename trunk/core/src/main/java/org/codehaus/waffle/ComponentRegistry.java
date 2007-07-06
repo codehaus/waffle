@@ -36,7 +36,7 @@ import org.codehaus.waffle.view.ViewResolver;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public interface WaffleComponentRegistry {
+public interface ComponentRegistry {
     <T> T locateByKey(Object key);
 
     <T> T locateByType(Class<T> t);

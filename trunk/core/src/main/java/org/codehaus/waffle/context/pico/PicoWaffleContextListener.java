@@ -12,18 +12,18 @@ package org.codehaus.waffle.context.pico;
 
 import javax.servlet.ServletContext;
 
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.context.WaffleContextListener;
 
 /**
- * Pico-based WaffleContextListener that uses PicoWaffleComponentRegistry instances.
+ * Pico-based WaffleContextListener that uses PicoComponentRegistry instances.
  * 
  * @author Mauro Talevi
  */
 public class PicoWaffleContextListener extends WaffleContextListener {
 
-    protected WaffleComponentRegistry buildWaffleComponentRegistry(ServletContext servletContext) {
-        return new PicoWaffleComponentRegistry(servletContext);
+    protected ComponentRegistry buildComponentRegistry(ServletContext servletContext) {
+        return new PicoComponentRegistry(servletContext);
     }
 
 }

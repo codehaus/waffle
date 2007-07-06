@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.context;
 
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.servlet.ServletContextHelper;
 
 import javax.servlet.Filter;
@@ -26,8 +26,8 @@ public class WaffleRequestFilter implements Filter {
     private ContextContainerFactory contextContainerFactory;
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        WaffleComponentRegistry componentRegistry = ServletContextHelper
-                .getWaffleComponentRegistry(filterConfig.getServletContext());
+        ComponentRegistry componentRegistry = ServletContextHelper
+                .getComponentRegistry(filterConfig.getServletContext());
 
         contextContainerFactory = componentRegistry.getContextContainerFactory();
     }

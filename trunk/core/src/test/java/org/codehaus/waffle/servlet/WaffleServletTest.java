@@ -12,7 +12,7 @@ package org.codehaus.waffle.servlet;
 
 import ognl.DefaultTypeConverter;
 import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -26,7 +26,7 @@ import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
-import org.codehaus.waffle.testmodel.StubWaffleComponentRegistry;
+import org.codehaus.waffle.testmodel.StubComponentRegistry;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.View;
@@ -77,8 +77,8 @@ public class WaffleServletTest extends MockObjectTestCase {
                 .will(returnValue(null));
         mockServletContext.expects(once())
                 .method("getAttribute")
-                .with(eq(WaffleComponentRegistry.class.getName()))
-                .will(returnValue(new StubWaffleComponentRegistry(servletContext)));
+                .with(eq(ComponentRegistry.class.getName()))
+                .will(returnValue(new StubComponentRegistry(servletContext)));
 
         WaffleServlet servlet = new WaffleServlet() {
             @Override
@@ -100,7 +100,7 @@ public class WaffleServletTest extends MockObjectTestCase {
         final ServletContext servletContext = (ServletContext) mockServletConext.proxy();
         mockServletConext.expects(once())
                 .method("getAttribute")
-                .with(eq("org.codehaus.waffle.WaffleComponentRegistry"))
+                .with(eq("org.codehaus.waffle.ComponentRegistry"))
                 .will(returnValue(null));
 
         // Mock ServletConfig

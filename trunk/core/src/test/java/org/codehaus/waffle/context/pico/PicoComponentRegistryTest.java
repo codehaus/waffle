@@ -2,7 +2,7 @@ package org.codehaus.waffle.context.pico;
 
 import ognl.DefaultTypeConverter;
 import ognl.TypeConverter;
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ArgumentResolver;
@@ -64,7 +64,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
-public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
+public class PicoComponentRegistryTest extends MockObjectTestCase {
     @SuppressWarnings({"unchecked"})
     private static final Enumeration EMPTY_ENUMERATION = Collections.enumeration(Collections.EMPTY_LIST);
 
@@ -75,7 +75,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
                 .will(returnValue(null));
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
 
-        Class clazz = PicoWaffleComponentRegistry.locateComponentClass(String.class, Integer.class, servletContext);
+        Class clazz = PicoComponentRegistry.locateComponentClass(String.class, Integer.class, servletContext);
 
         assertEquals(clazz, Integer.class);
     }
@@ -87,7 +87,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
                 .will(returnValue(BigDecimal.class.getName()));
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
 
-        Class clazz = PicoWaffleComponentRegistry.locateComponentClass(String.class, Integer.class, servletContext);
+        Class clazz = PicoComponentRegistry.locateComponentClass(String.class, Integer.class, servletContext);
 
         assertEquals(clazz, BigDecimal.class);
     }
@@ -101,7 +101,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
                 .method("getInitParameter")
                 .will(returnValue(null));
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-        WaffleComponentRegistry componentRegistry = new PicoWaffleComponentRegistry(servletContext);
+        ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
 
         assertTrue(componentRegistry.getControllerNameResolver() instanceof ContextPathControllerNameResolver);
         assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof ContextControllerDefinitionFactory);
@@ -181,7 +181,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
                 .will(returnValue(StubRequestAttributeBinder.class.getName()));
 
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-        WaffleComponentRegistry componentRegistry = new PicoWaffleComponentRegistry(servletContext);
+        ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
 
         assertTrue(componentRegistry.getControllerNameResolver() instanceof StubControllerNameResolver);
         assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof StubControllerDefinitionFactory);
@@ -220,7 +220,7 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
                 .will(returnValue("java.util.ArrayList"));
 
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-        WaffleComponentRegistry componentRegistry = new PicoWaffleComponentRegistry(servletContext);
+        ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
 
         List list = componentRegistry.locateByType(List.class);
         assertNotNull(list);
@@ -244,10 +244,10 @@ public class PicoWaffleComponentRegistryTest extends MockObjectTestCase {
                 .will(returnValue("java.util.ArrayList"));
 
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-        WaffleComponentRegistry componentRegistry = new PicoWaffleComponentRegistry(servletContext);
+        ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
 
         // get private pico field
-        Field picoField = PicoWaffleComponentRegistry.class.getDeclaredField("picoContainer");
+        Field picoField = PicoComponentRegistry.class.getDeclaredField("picoContainer");
         picoField.setAccessible(true);
         MutablePicoContainer pico = (MutablePicoContainer) picoField.get(componentRegistry);
 

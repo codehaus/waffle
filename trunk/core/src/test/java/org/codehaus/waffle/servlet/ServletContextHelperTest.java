@@ -1,8 +1,8 @@
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.testmodel.StubWaffleComponentRegistry;
+import org.codehaus.waffle.testmodel.StubComponentRegistry;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
@@ -20,22 +20,22 @@ public class ServletContextHelperTest extends MockObjectTestCase {
                 .method("getInitParameter")
                 .will(returnValue(null));
         mockServletContext.expects(once()).method("getAttribute")
-                .with(eq(WaffleComponentRegistry.class.getName()))
-                .will(returnValue(new StubWaffleComponentRegistry(servletContext)));
+                .with(eq(ComponentRegistry.class.getName()))
+                .will(returnValue(new StubComponentRegistry(servletContext)));
 
-        ServletContextHelper.getWaffleComponentRegistry(servletContext);
+        ServletContextHelper.getComponentRegistry(servletContext);
     }
 
     public void testWaffleComponentManagerRegistrationRequired() {
         Mock mockServletContext = mock(ServletContext.class);
         mockServletContext.expects(once())
                 .method("getAttribute")
-                .with(eq(WaffleComponentRegistry.class.getName()))
+                .with(eq(ComponentRegistry.class.getName()))
                 .will(returnValue(null));
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
 
         try {
-            ServletContextHelper.getWaffleComponentRegistry(servletContext);
+            ServletContextHelper.getComponentRegistry(servletContext);
             fail("WaffleException expected");
         } catch (WaffleException expected) {
             // expected
