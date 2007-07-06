@@ -4,19 +4,24 @@
 <title>Action Controllers</title>
 </head>
 <body>
+
 <h2>Action Controllers</h2>
-<p>The terms <b>Action</b> and <b>Controller</b> should be very
+
+<p>
+  The terms <b>Action</b> and <b>Controller</b> should be very
 familiar to those who have experience with web frameworks. An Action
 originally gets its name from the HTML form tag's <i>action</i>
-attributes</p>
+attributes
+</p>
 
-<textarea class="html:nogutter:nocontrols" name="code">
-      <form action="/foobar.action" method="post">
-        ...
-      </form>
-    </textarea>
+  <textarea class="html:nogutter:nocontrols" name="code">
+    <form action="/foobar.action" method="post">
+      ...
+    </form>
+  </textarea>
 
-<p>A consolidated pattern for web frameworks is the <a
+<p>
+  A consolidated pattern for web frameworks is the <a
   href="http://en.wikipedia.org/wiki/Model-view-controller">MVC</a> -
 where the action is the controller tier. Hence, often action and
 controller are used interchangeably.</p>
@@ -31,58 +36,60 @@ Additionally an Action Controller in Waffle can have many methods which
 are responsible for handling user requests. In Waffle these methods are
 considered <b>ActionMethod</b>s.</p>
 
-<textarea class="java:nogutter:nocontrols" name="code">
+  <textarea class="java:nogutter:nocontrols" name="code">
     public class ShoppingCartController implements Serializable {
       private final Cart cart;
 
       public ShoppingCartController(Cart cart) {
-          this.cart = cart;
+        this.cart = cart;
       }
 
       // This is an ActionMethod
       public void addToCart(long itemId, int quantity) {
-          cart.addItem(itemId, quantity);
+        cart.addItem(itemId, quantity);
       }
 
       // This is also an ActionMethod
       public void removeFromCart(long itemId, int quantity) {
-          cart.removeItem(itemId, quantity);
+        cart.removeItem(itemId, quantity);
       }
     }
-    </textarea>
+  </textarea>
 
 <p>Action Controllers and ActionMethods can be dependent on an
 HttpServletRequest, HttpServletResponse, HttpSession or ServletContext.
 In practice most Controllers you'll create will be dependent on custom
 Factories, Services, DAO's, etc. But if you have a need for these base
-Servlet classes it is nice to know that you can get access to them.</p>
+Servlet classes it is nice to know that you can get access to them.
+</p>
+
 <p>Digging deeper into how an Controller works we will continue with
 the ShoppingCartController class and add an accessor for a <i>coupon</i>
 field:</p>
 
-<textarea class="java:nogutter:nocontrols" name="code">
-public class ShoppingCartController implements Serializable {
-  private String coupon;
-  ...
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class ShoppingCartController implements Serializable {
+      private String coupon;
+      ...
 
-  public String getCoupon() {
-      return coupon;
-  }
+      public String getCoupon() {
+          return coupon;
+      }
 
-  public void setCoupon(String coupon) {
-      this.coupon = coupon;
-  }
-}
-</textarea>
+      public void setCoupon(String coupon) {
+          this.coupon = coupon;
+      }
+    }
+  </textarea>
 
 <p>Now lets assume that the ShoppingCartController is requested with
 the following request string:</p>
 <p><b>http://localhost:8080/waffle/shoppingCart.waffle?coupon=freebee</b></p>
 <p>When Waffle's FrontController, <i>WaffleServlet</i>, handles this
-request it will first locate the appropriate controller by name &quot;<b>shoppingCart</b>&quot;.
+request it will first locate the appropriate controller by name "<b>shoppingCart</b>".
 Then Waffle will attempt to bind each parameter passed as a value to be
-set on the Controller. So &quot;<b>coupon=freebee</b>&quot; will set the
-field &quot;<i>coupon</i>&quot; on the controller to the value of &quot;<i>freebee</i>&quot;.
+set on the Controller. So "<b>coupon=freebee</b>" will set the
+field "<i>coupon</i>" on the controller to the value of "<i>freebee</i>".
 (Don't worry parameters that do not correspond to properties on an
 Controller will <b>NOT</b> cause a failure).</p>
 <p>Lastly, controller classes do not have to end in the word

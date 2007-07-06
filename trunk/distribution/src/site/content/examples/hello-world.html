@@ -3,37 +3,88 @@
 <html>
   <head>
     <title>Hello World example</title>
-      </head>
+  </head>
   <body>
-  
-      
-        <h2>Example: Hello World</h2><p>Our first example is the obligatory <b>Hello World</b>. However it'll provide a good overview on how simple it is to create Waffle web applications. The process can be broken down into 3 simple steps:</p><ol type="1"><li>Create a Controller</li><li>Register that Controller with the Registrar</li><li>Create the View</li></ol><h3>Controller</h3><p>The Controller object which will be responsible for handling user requests. This class is simply a POJO and is <b>not</b> required to extend from any Waffle base classes. The Controller below below does NOT have any ActionMethods.</p><div class="source"><pre>public class HelloWorldController {
 
-    public String getGreeting() {
-        return &quot;Hello World!&quot;;
+  <h2>Example: Hello World</h2>
+
+  <p>
+    Our first example is the obligatory <b>Hello World</b>. However it'll provide a good overview on how simple it is
+    to create Waffle web applications. The process can be broken down into 3 simple steps:
+  </p>
+
+  <ol type="1">
+    <li>Create a Controller</li>
+    <li>Register that Controller with the Registrar</li>
+    <li>Create the View</li>
+  </ol>
+
+  <h3>Controller</h3>
+
+  <p>
+    The Controller object which will be responsible for handling user requests. This class is simply a POJO and is
+    <b>not</b> required to extend from any Waffle base classes. The Controller below below does NOT have any ActionMethods.
+  </p>
+
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class HelloWorldController {
+
+      public String getGreeting() {
+          return "Hello World!";
+      }
     }
-}</pre></div></div><h3>Registrar</h3><p>All Controllers need to be registered with Waffle. This is done through the Registrar. Line <b>9</b> in the <i>MyRegistrar</i> class below registers the <i>HelloWorldAction</i> under the name <b>&quot;helloworld&quot;</b>. This Registrar will need to referenced in the <a href="webxml.html">web.xml</a>.</p><div class="source"><pre>public class MyRegistrar extends AbstractRegistrar {
+  </textarea>
 
-    public MyRegistrar(Registrar delegate) {
+  <h3>Registrar</h3>
+
+  <p>
+    All Controllers need to be registered with Waffle. This is done through the Registrar. Line <b>9</b> in the
+    <i>MyRegistrar</i> class below registers the <i>HelloWorldAction</i> under the name <b>"helloworld"</b>.
+    This Registrar will need to referenced in the <a href="webxml.html">web.xml</a>.
+  </p>
+
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class MyRegistrar extends AbstractRegistrar {
+
+      public MyRegistrar(Registrar delegate) {
         super(delegate);
+      }
+
+      public void application() {
+        register("helloworld", HelloWorldAction.class);
+      }
     }
+  </textarea>
 
-    public void application() {
-        register(&quot;helloworld&quot;, HelloWorldAction.class);
-    }
-}</pre></div></div><h3>View (helloworld.jspx)</h3><p>A View in Waffle is no different than what you would expect from any Java based web framework. Waffle exposes the underlying Controller for use in your View under the key <b>controller</b>. Notice line 12 <b>${controller.greeting}</b>, this is calling the <i>greeting</i> property exposed in the <i>HelloWorldController</i>.</p><p>The example below uses <b>jspx</b> but <a href="http://freemarker.sourceforge.net/">FreeMarker</a> and <a href="http://jakarta.apache.org/velocity/index.html">Velocity </a> are also supported.</p><div class="source"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;
-      xmlns:jsp=&quot;http://java.sun.com/JSP/Page&quot;&gt;
+  <h3>View (helloworld.jspx)</h3>
 
-&lt;jsp:output doctype-root-element=&quot;html&quot;
-            doctype-public=&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
-            doctype-system=&quot;http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;/&gt;
-&lt;jsp:directive.page contentType=&quot;text/html;charset=UTF-8&quot;/&gt;
+  <p>
+    A View in Waffle is no different than what you would expect from any Java based web framework. Waffle exposes the
+    underlying Controller for use in your View under the key <b>controller</b>. Notice line 12
+    <b>${controller.greeting}</b>, this is calling the <i>greeting</i> property exposed in the
+    <i>HelloWorldController</i>.</p><p>The example below uses <b>jspx</b> but
+    <a href="http://freemarker.sourceforge.net/">FreeMarker</a> and
+    <a href="http://jakarta.apache.org/velocity/index.html">Velocity </a> are also supported.
+  </p>
 
-&lt;head&gt;&lt;title&gt;Hello World Controller&lt;/title&gt;&lt;/head&gt;
-&lt;body&gt;
-&lt;h1&gt;${controller.greeting}&lt;/h1&gt;
-&lt;/body&gt;
-&lt;/html&gt;</pre></div><h4>Running...</h4><img src="images/examples/hello-world.png" /></div></div>
+  <textarea class="xml:nogutter:nocontrols" name="code">
+    <?xml version="1.0" encoding="UTF-8"?>
+    <html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page">
+
+    <jsp:output doctype-root-element="html"
+                doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+                doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    <head><title>Hello World Controller</title></head>
+    <body>                     
+    <h1>${controller.greeting}</h1>
+    </body>
+    </html>
+  </textarea>
+
+  <h4>Running...</h4>
+  <img src="images/examples/hello-world.png" />
   </body>
 </html>
