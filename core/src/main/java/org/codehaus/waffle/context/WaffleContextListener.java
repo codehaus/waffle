@@ -18,10 +18,10 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 
 /**
- * Abstract context and session listener that uses a WaffleComponentRegistry to 
+ * Abstract context and session listener that uses a Waffle ComponentRegistry to 
  * retrieve the ContextContainerFactory used to manage the components registered at each webapp scope.
  * 
  * @author Mike Ward
@@ -31,7 +31,7 @@ public abstract class WaffleContextListener implements ServletContextListener, H
     private ContextContainerFactory contextContainerFactory;
 
     /**
-     * The ServletContext is being initialized Waffle needs to instantiate a WaffleComponentRegistry
+     * The ServletContext is being initialized Waffle needs to instantiate a Waffle ComponentRegistry
      * and register to the ServletContext so that it will be avcilable through out.  Next the Waffle
      * ContextManager is retreived from the componentRegistry and the initialize message is delegated
      * to it.
@@ -40,8 +40,8 @@ public abstract class WaffleContextListener implements ServletContextListener, H
         ServletContext servletContext = servletContextEvent.getServletContext();
 
         // build instance and register it with the ServletContext
-        WaffleComponentRegistry componentRegistry = buildWaffleComponentRegistry(servletContext);
-        servletContext.setAttribute(WaffleComponentRegistry.class.getName(), componentRegistry);
+        ComponentRegistry componentRegistry = buildComponentRegistry(servletContext);
+        servletContext.setAttribute(ComponentRegistry.class.getName(), componentRegistry);
 
         contextContainerFactory = componentRegistry.getContextContainerFactory();
         contextContainerFactory.initialize(servletContext);
@@ -72,11 +72,11 @@ public abstract class WaffleContextListener implements ServletContextListener, H
     }
 
     /**
-     * Concrete subclasses to provide an WaffleComponentRegistry instance
+     * Concrete subclasses to provide a Waffle ComponentRegistry instance
      * @param servletContext 
-     * @return A WaffleComponentRegistry
+     * @return A ComponentRegistry
      */
-    protected abstract WaffleComponentRegistry buildWaffleComponentRegistry(ServletContext servletContext);
+    protected abstract ComponentRegistry buildComponentRegistry(ServletContext servletContext);
 
 
 }

@@ -1,6 +1,6 @@
 package org.codehaus.waffle.context;
 
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.testmodel.StubContextContainerFactory;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
@@ -17,17 +17,17 @@ import java.lang.reflect.Field;
 public class WaffleRequestFilterTest extends MockObjectTestCase {
 
     public void testInit() throws ServletException {
-        Mock mockRegistry = mock(WaffleComponentRegistry.class);
+        Mock mockRegistry = mock(ComponentRegistry.class);
         mockRegistry.expects(once())
                 .method("getContextContainerFactory")
                 .will(returnValue(new StubContextContainerFactory()));
-        WaffleComponentRegistry waffleComponentRegistry = (WaffleComponentRegistry) mockRegistry.proxy();
+        ComponentRegistry componentRegistry = (ComponentRegistry) mockRegistry.proxy();
 
         Mock mockServletContext = mock(ServletContext.class);
         mockServletContext.expects(once())
                 .method("getAttribute")
-                .with(eq(WaffleComponentRegistry.class.getName()))
-                .will(returnValue(waffleComponentRegistry));
+                .with(eq(ComponentRegistry.class.getName()))
+                .will(returnValue(componentRegistry));
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
 
         // Mock FilterConfig

@@ -42,7 +42,7 @@ public class XMLView extends ResponderView {
         return writer.toString();
     }
 
-    //TODO: should the serialiser(s) be registered in WaffleComponentRegistry?
+    //TODO: should the serialiser(s) be registered in ComponentRegistry?
     private Serialiser createSerialiser() {
         // TODO: should we stream.setMode(XStream.NO_REFERENCES); ?
         XStream xstream = new XStream(new DomDriver()) {

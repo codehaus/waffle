@@ -11,7 +11,7 @@
 package org.codehaus.waffle.context.pico;
 
 import ognl.TypeConverter;
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
@@ -56,12 +56,12 @@ import javax.servlet.ServletContext;
 import java.util.Enumeration;
 
 /**
- * PicoContainer-based implementation of WaffleComponentRegistry
+ * PicoContainer-based implementation of Waffle's ComponentRegistry
  *
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class PicoWaffleComponentRegistry implements WaffleComponentRegistry {
+public class PicoComponentRegistry implements ComponentRegistry {
     private final MutablePicoContainer picoContainer = new DefaultPicoContainer();
     private static final String REGISTER_KEY = "register:";
     private static final String REGISTER_NON_CACHING_KEY = "registerNonCaching:";
@@ -69,7 +69,7 @@ public class PicoWaffleComponentRegistry implements WaffleComponentRegistry {
     /**
      * Register all waffle required components with the underlying container.
      */
-    public PicoWaffleComponentRegistry(ServletContext servletContext) {
+    public PicoComponentRegistry(ServletContext servletContext) {
         picoContainer.registerComponentInstance(servletContext);
 
         // register all known components

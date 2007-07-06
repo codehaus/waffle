@@ -14,7 +14,7 @@ import static org.codehaus.waffle.Constants.ERRORS_KEY;
 import static org.codehaus.waffle.Constants.METHOD_INVOCATION_ERROR_PAGE;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
@@ -87,8 +87,8 @@ public class WaffleServlet extends HttpServlet {
 
         if (!depsDone) {
             // Obtain required components from the Component Registry
-            WaffleComponentRegistry componentRegistry = ServletContextHelper
-                    .getWaffleComponentRegistry(getServletContext());
+            ComponentRegistry componentRegistry = ServletContextHelper
+                    .getComponentRegistry(getServletContext());
             controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();
             dataBinder = componentRegistry.getDataBinder();
             actionMethodExecutor = componentRegistry.getActionMethodExecutor();

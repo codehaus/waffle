@@ -4,7 +4,7 @@ import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
-import org.codehaus.waffle.context.pico.PicoWaffleComponentRegistry;
+import org.codehaus.waffle.context.pico.PicoComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ActionMethodExecutor;
@@ -14,9 +14,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class StubWaffleComponentRegistry extends PicoWaffleComponentRegistry {
+public class StubComponentRegistry extends PicoComponentRegistry {
 
-    public StubWaffleComponentRegistry(ServletContext servletContext) {
+    public StubComponentRegistry(ServletContext servletContext) {
         super(servletContext);
     }
 

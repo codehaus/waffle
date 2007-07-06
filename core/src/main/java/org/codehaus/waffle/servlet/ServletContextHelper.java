@@ -12,7 +12,7 @@ package org.codehaus.waffle.servlet;
 
 import javax.servlet.ServletContext;
 
-import org.codehaus.waffle.WaffleComponentRegistry;
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.WaffleContextListener;
 
@@ -24,14 +24,14 @@ public class ServletContextHelper {
         // should not be instantiated
     }
 
-    public static WaffleComponentRegistry getWaffleComponentRegistry(ServletContext servletContext) {
-        WaffleComponentRegistry componentRegistry = (WaffleComponentRegistry) servletContext
-                .getAttribute(WaffleComponentRegistry.class.getName());
+    public static ComponentRegistry getComponentRegistry(ServletContext servletContext) {
+        ComponentRegistry componentRegistry = (ComponentRegistry) servletContext
+                .getAttribute(ComponentRegistry.class.getName());
 
         if (componentRegistry == null) {
             String error = MessageFormat.format(
                     "Unable to locate a {0} from the ServletContext, make sure that {1} is registered as a listener in the web.xml",
-                    WaffleComponentRegistry.class.getName(),
+                    ComponentRegistry.class.getName(),
                     WaffleContextListener.class.getName());
             throw new WaffleException(error);
         }
