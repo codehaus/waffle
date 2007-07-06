@@ -76,9 +76,9 @@
 
 <textarea class="xml:nogutter:nocontrols" name="code">
   <?xml version="1.0" encoding="UTF-8"?>
-  <html xmlns="http://www.w3.org/1999/xhtml"
+  &lt;html xmlns="http://www.w3.org/1999/xhtml"
         xmlns:jsp="http://java.sun.com/JSP/Page"
-        xmlns:c="http://java.sun.com/jsp/jstl/core">
+        xmlns:c="http://java.sun.com/jsp/jstl/core"&gt;
 
   <jsp:output doctype-root-element="html"
               doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
@@ -95,8 +95,8 @@
       &lt;/script&gt;
   &lt;/head&gt;
 
-  <body>
-  <form action="calculator.action" method="post">
+  &lt;body&gt;
+  &lt;form action="calculator.action" method="post"&gt;
 
     <h3>Waffle example: Calculator</h3>
 
@@ -121,16 +121,17 @@
     <a href="javascript:fireMethod('subtract');">Subtract</a> |
     <a href="javascript:fireMethod('multiply');">Multiply</a>
 
-  </form>
-  </body>
+  &lt;/form&gt;
+  &lt;/body&gt;
 
-  </html>
+  &lt;/html&gt;
 </textarea>
 
 <p>Lines <b>44 and 45</b> in the example above do not pragmatically define how their argument values are to be resolved.
   So in order to handle this we can add an annotation to each of those methods in the Action. Below we have updated the
-  CalculatorController with two <b>ActionMethod</b> annotations (lines 12 and 17).</p></div><h3>Annotated Controller:
-  CalculatorController</h3>
+  CalculatorController with two <b>ActionMethod</b> annotations (lines 12 and 17).</p>
+
+<h3>Annotated Controller:  CalculatorController</h3>
 
 <textarea class="java:nogutter:nocontrols" name="code">
   public class CalculatorController {
