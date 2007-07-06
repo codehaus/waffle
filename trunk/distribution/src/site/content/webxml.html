@@ -13,51 +13,53 @@ lines <b>17 - 19</b> is needed so that Waffle is alerted of application
 (ServletContext) and session lifecycle events. The filter registered on
 lines <b>22 - 29</b> is used by Waffle for request level lifecycle
 event.</p>
-<div class="source"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <?xml version="1.0" encoding="UTF-8"?>
 
-&lt;web-app version=&quot;2.4&quot;
-         xmlns=&quot;http://java.sun.com/xml/ns/j2ee&quot;
-         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd&quot;&gt;
+  <web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-    &lt;display-name&gt;Waffle Example&lt;/display-name&gt;
+    <display-name>Waffle Example</display-name>
 
-    &lt;!-- 1. This is how an application registers its custom Registrar --&gt;
-    &lt;context-param&gt;
-        &lt;param-name&gt;org.codehaus.waffle.registrar.Registrar&lt;/param-name&gt;
-        &lt;param-value&gt;org.codehaus.waffle.example.MyRegistrar&lt;/param-value&gt;
-    &lt;/context-param&gt;
+    <!-- 1. This is how an application registers its custom Registrar -->
+    <context-param>
+      <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
+      <param-value>org.codehaus.waffle.example.MyRegistrar</param-value>
+    </context-param>
 
-    &lt;!-- 2. Waffle context listener (ServletContext and HttpSession) --&gt;
-    &lt;listener&gt;
-        &lt;listener-class&gt;org.codehaus.waffle.context.pico.PicoWaffleContextListener&lt;/listener-class&gt;
-    &lt;/listener&gt;
+    <!-- 2. Waffle context listener (ServletContext and HttpSession) -->
+    <listener>
+      <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
+    </listener>
 
-    &lt;!-- 3. Waffle request filter (responsible for request level context) --&gt;
-    &lt;filter&gt;
-        &lt;filter-name&gt;WaffleRequestFilter&lt;/filter-name&gt;
-        &lt;filter-class&gt;org.codehaus.waffle.context.WaffleRequestFilter&lt;/filter-class&gt;
-    &lt;/filter&gt;
-    &lt;filter-mapping&gt;
-        &lt;filter-name&gt;WaffleRequestFilter&lt;/filter-name&gt;
-        &lt;url-pattern&gt;*.waffle&lt;/url-pattern&gt;
-    &lt;/filter-mapping&gt;
+    <!-- 3. Waffle request filter (responsible for request level context) -->
+    <filter>
+      <filter-name>WaffleRequestFilter</filter-name>
+      <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
+    </filter>
+    <filter-mapping>
+      <filter-name>WaffleRequestFilter</filter-name>
+      <url-pattern>*.waffle</url-pattern>
+    </filter-mapping>
 
-    &lt;!-- 4. Register Waffle's FrontController servlet --&gt;
-    &lt;servlet&gt;
-        &lt;servlet-name&gt;waffle&lt;/servlet-name&gt;
-        &lt;servlet-class&gt;org.codehaus.waffle.servlet.WaffleServlet&lt;/servlet-class&gt;
-        &lt;init-param&gt;
-            &lt;param-name&gt;view.suffix&lt;/param-name&gt;
-            &lt;param-value&gt;.jspx&lt;/param-value&gt;
-        &lt;/init-param&gt;
-        &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
-    &lt;/servlet&gt;
-    &lt;servlet-mapping&gt;
-        &lt;servlet-name&gt;waffle&lt;/servlet-name&gt;
-        &lt;url-pattern&gt;*.waffle&lt;/url-pattern&gt;
-    &lt;/servlet-mapping&gt;
-&lt;/web-app&gt;</pre></div>
+    <!-- 4. Register Waffle's FrontController servlet -->
+    <servlet>
+      <servlet-name>waffle</servlet-name>
+      <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+      <init-param>
+        <param-name>view.suffix</param-name>
+        <param-value>.jspx</param-value>
+      </init-param>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>waffle</servlet-name>
+      <url-pattern>*.waffle</url-pattern>
+    </servlet-mapping>
+  </web-app>
+</textarea>
 </body>
 
 </html>
