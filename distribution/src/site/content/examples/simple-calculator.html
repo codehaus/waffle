@@ -1,108 +1,160 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-  <head>
-    <title>Simple Calculator example</title>
-      </head>
-  <body>
-  
-      
-        <h2>Example: Simple Calculator</h2><p>This example demonstrates how you can resolve a users request directly to a method on any POJO. In Waffle terminology we call this an <b>ActionMethod</b>.</p><img src="images/examples/simple-calculator.png" /><dl><dt>NOTE:</dt><dd>Validation and error handling have been ignored for this example</dd></dl><h3>Controller: CalculatorController</h3><p>As you can see the Controller is an extremely simple object. The three methods <b>add</b>, <b>subtract</b>, and <b>multiply</b> are themselves <i>ActionMethods</i>. Notice that they each have 2 arguments. Additionally each method has a unique type for its arguments (int, long, float). Waffle will automatically convert the users request into the correct type. This conversion is NOT limited to primitives, custom conversion is easily supported but out of scope for this example (see <a href="binding-validation.html">Binding\Validation section</a> for further details).</p><div class="source"><pre>public class CalculatorController {
+<head>
+  <title>Simple Calculator example</title>
+</head>
+<body>
+
+
+<h2>Example: Simple Calculator</h2>
+
+<p>This example demonstrates how you can resolve a users request directly to a method on any POJO.
+  In Waffle terminology we call this an <b>ActionMethod</b>.</p>
+
+<img src="images/examples/simple-calculator.png"/>
+<dl>
+  <dt>NOTE:</dt>
+  <dd>Validation and error handling have been
+    ignored for this example
+  </dd>
+</dl>
+<h3>Controller: CalculatorController</h3>
+
+<p>As you can see the Controller is an extremely simple object. The three methods <b>add</b>, <b>subtract</b>, and <b>multiply</b>
+  are themselves <i>ActionMethods</i>. Notice that they each have 2 arguments. Additionally each method has a unique
+  type for its arguments (int, long, float). Waffle will automatically convert the users request into the correct type.
+  This conversion is NOT limited to primitives, custom conversion is easily supported but out of scope for this example
+  (see <a href="binding-validation.html">Binding\Validation section</a> for further details).</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  public class CalculatorController {
     public Number result;
 
     public Number getResult() {
-        return result;
+      return result;
     }
 
     public void add(int firstNumber, int secondNumber) {
-        result = firstNumber + secondNumber;
+      result = firstNumber + secondNumber;
     }
 
     public void subtract(long firstNumber, long secondNumber) {
-        result = firstNumber - secondNumber;
+      result = firstNumber - secondNumber;
     }
 
     public void multiply(float firstNumber, Float secondNumber) {
-        result = firstNumber * secondNumber;
+      result = firstNumber * secondNumber;
     }
-}</pre></div></div><h3>Registrar</h3><p>Registration is as you would expect. In this example the Action must be registered to the session level so that users are not sharing the same <i>result</i> property.</p><div class="source"><pre>public class MyRegistrar extends AbstractRegistrar {
+  }
+</textarea>
+
+<h3>Registrar</h3>
+
+<p>Registration is as you would expect. In this example the Action must be registered to the session level so that users
+  are not sharing the same <i>result</i> property.</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  public class MyRegistrar extends AbstractRegistrar {
 
     public MyRegistrar(Registrar delegate) {
-        super(delegate);
+      super(delegate);
     }
 
     public void session() {
-        register(&quot;calculator&quot;, CalculatorController.class);
+      register("calculator", CalculatorController.class);
     }
-}</pre></div></div><h3>View: calculator.jspx</h3><p>The jspx code below is not very exciting however notice lines <b>43 - 45</b>. These 3 lines demonstrate different ways to invoke an ActionMethod. Line 43 <b>add|<a name="firstNumber">firstNumber</a>|<a name="secondNumber">secondNumber</a></b> pragmatically defines how the method arguments should be resolved. See the <a href="action-methods.html">ActionMethod documentation</a> for complete details.</p><div class="source"><pre>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;
-      xmlns:jsp=&quot;http://java.sun.com/JSP/Page&quot;
-      xmlns:c=&quot;http://java.sun.com/jsp/jstl/core&quot;&gt;
+  }
+</textarea>
 
-&lt;jsp:output doctype-root-element=&quot;html&quot;
-            doctype-public=&quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
-            doctype-system=&quot;http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;/&gt;
-&lt;jsp:directive.page contentType=&quot;text/html;charset=UTF-8&quot;/&gt;
+<h3>View: calculator.jspx</h3>
 
-&lt;head&gt;
-    &lt;title&gt;Calculator&lt;/title&gt;
-    &lt;style type=&quot;text/css&quot; title=&quot;currentStyle&quot; media=&quot;screen&quot;&gt;
-        @import &quot;stylesheets/style.css&quot;;
-    &lt;/style&gt;
-    &lt;script src=&quot;scripts/myscript.js&quot; type=&quot;text/javascript&quot;&gt;
-        // keep this space
-    &lt;/script&gt;
-&lt;/head&gt;
+<p>The jspx code below is not very exciting however notice lines <b>43 - 45</b>. These 3 lines demonstrate different
+  ways to invoke an ActionMethod. Line 43 <b>add|<a name="firstNumber">firstNumber</a>|<a name="secondNumber">secondNumber</a></b>
+  pragmatically defines how the method arguments should be resolved. See the <a href="action-methods.html">ActionMethod
+  documentation</a> for complete details.</p>
 
-&lt;body&gt;
-&lt;form action=&quot;calculator.action&quot; method=&quot;post&quot;&gt;
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <?xml version="1.0" encoding="UTF-8"?>
+  <html xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:jsp="http://java.sun.com/JSP/Page"
+        xmlns:c="http://java.sun.com/jsp/jstl/core">
 
-    &lt;h3&gt;Waffle example: Calculator&lt;/h3&gt;
+  <jsp:output doctype-root-element="html"
+              doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+              doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+  <jsp:directive.page contentType="text/html;charset=UTF-8"/>
 
-    &lt;div class=&quot;fieldRow&quot;&gt;
-        &lt;label for=&quot;firstNumber&quot;&gt;First Number:&lt;/label&gt;
-        &lt;input type=&quot;text&quot; name=&quot;firstNumber&quot; id=&quot;firstNumber&quot; autocomplete=&quot;off&quot;/&gt;
-        &lt;br style=&quot;clear:both&quot;/&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;fieldRow&quot;&gt;
-        &lt;label for=&quot;secondNumber&quot;&gt;Second Number:&lt;/label&gt;
-        &lt;input type=&quot;text&quot; name=&quot;secondNumber&quot; id=&quot;secondNumber&quot; autocomplete=&quot;off&quot;/&gt;
-        &lt;br style=&quot;clear:both&quot;/&gt;
-    &lt;/div&gt;
+  &lt;head&gt;
+      <title>Calculator</title>
+      &lt;style type="text/css" title="currentStyle" media="screen"&gt;
+          @import "stylesheets/style.css";
+      &lt;/style&gt;
+      &lt;script src="scripts/myscript.js" type="text/javascript"&gt;
+          // keep this space
+      &lt;/script&gt;
+  &lt;/head&gt;
 
-    &lt;div class=&quot;fieldRow&quot;&gt;
-        &lt;label for=&quot;result&quot;&gt;Result:&lt;/label&gt;
-        &lt;input type=&quot;text&quot; name=&quot;result&quot; id=&quot;result&quot; value=&quot;${controller.result}&quot; disabled=&quot;disabled&quot; readonly=&quot;readonly&quot;/&gt;
-        &lt;br style=&quot;clear:both&quot;/&gt;
-    &lt;/div&gt;
+  <body>
+  <form action="calculator.action" method="post">
 
-    &lt;a href=&quot;javascript:fireMethod('add|{firstNumber}|{secondNumber}');&quot;&gt;Add&lt;/a&gt; |
-    &lt;a href=&quot;javascript:fireMethod('subtract');&quot;&gt;Subtract&lt;/a&gt; |
-    &lt;a href=&quot;javascript:fireMethod('multiply');&quot;&gt;Multiply&lt;/a&gt;
+    <h3>Waffle example: Calculator</h3>
 
-&lt;/form&gt;
-&lt;/body&gt;
+    <div class="fieldRow">
+      <label for="firstNumber">First Number:</label>
+      <input type="text" name="firstNumber" id="firstNumber" autocomplete="off"/>
+      <br style="clear:both"/>
+    </div>
+    <div class="fieldRow">
+      <label for="secondNumber">Second Number:</label>
+      <input type="text" name="secondNumber" id="secondNumber" autocomplete="off"/>
+      <br style="clear:both"/>
+    </div>
 
-&lt;/html&gt;</pre></div><p>Lines <b>44 and 45</b> in the example above do not pragmatically define how their argument values are to be resolved. So in order to handle this we can add an annotation to each of those methods in the Action. Below we have updated the CalculatorController with two <b>ActionMethod</b> annotations (lines 12 and 17).</p></div><h3>Annotated Controller: CalculatorController</h3><div class="source"><pre>public class CalculatorController {
+    <div class="fieldRow">
+      <label for="result">Result:</label>
+      <input type="text" name="result" id="result" value="${controller.result}" disabled="disabled" readonly="readonly"/>
+      <br style="clear:both"/>
+    </div>
+
+    <a href="javascript:fireMethod('add|{firstNumber}|{secondNumber}');">Add</a> |
+    <a href="javascript:fireMethod('subtract');">Subtract</a> |
+    <a href="javascript:fireMethod('multiply');">Multiply</a>
+
+  </form>
+  </body>
+
+  </html>
+</textarea>
+
+<p>Lines <b>44 and 45</b> in the example above do not pragmatically define how their argument values are to be resolved.
+  So in order to handle this we can add an annotation to each of those methods in the Action. Below we have updated the
+  CalculatorController with two <b>ActionMethod</b> annotations (lines 12 and 17).</p></div><h3>Annotated Controller:
+  CalculatorController</h3>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  public class CalculatorController {
     public Number result;
 
     public Number getResult() {
-        return result;
+      return result;
     }
 
     public void add(int firstNumber, int secondNumber) {
-        result = firstNumber + secondNumber;
+      result = firstNumber + secondNumber;
     }
 
-    @ActionMethod(parameters = {&quot;firstNumber&quot;, &quot;secondNumber&quot;})
+    @ActionMethod(parameters = {"firstNumber", "secondNumber"})
     public void subtract(long firstNumber, long secondNumber) {
-        result = firstNumber - secondNumber;
+      result = firstNumber - secondNumber;
     }
 
-    @ActionMethod(parameters = {&quot;firstNumber&quot;, &quot;secondNumber&quot;})
+    @ActionMethod(parameters = {"firstNumber", "secondNumber"})
     public void multiply(float firstNumber, Float secondNumber) {
-        result = firstNumber * secondNumber;
+      result = firstNumber * secondNumber;
     }
-}</pre></div></div>
-  </body>
+  }
+</textarea>
+</body>
 
 </html>
