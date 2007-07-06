@@ -6,96 +6,93 @@
 </head>
 <body>
 
+  <h2>Waffle and Ajax</h2>
 
-<h2>Waffle and Ajax</h2>
-<p>Waffle was built to be easy to develop with and this ease extends
-to Ajax support as well. Utilizing AJAX in Waffle application is
-straightforward and simple. The examples here use the <a
-  href="http://prototype.conio.net/">Prototype JavaScript Framework</a>.</p>
-<h3>Ajax Controller</h3>
-<p>We will create a simple Controller with an event (<b>int
-random();</b>) that will return a random number between 0 and 10. To make it
-more interesting whenever the value equals 5 the event will throw an
-Exception.</p>
-<div class="source"><pre>public class FoobarController implements Serializable {
-    private Random random = new Random();
+  <p>
+    Waffle was built to be easy to develop with and this ease extends to Ajax support as well. Utilizing AJAX in Waffle
+    application is straightforward and simple. The examples here use the
+    <a href="http://prototype.conio.net/">Prototype JavaScript Framework</a>.
+  </p>
 
-    /**
-     * the event
-     */
-    public int random() throws Exception {
+  <h3>Ajax Controller</h3>
+
+  <p>We will create a simple Controller with an event (<b>int random();</b>) that will return a random number between 0
+    and 10. To make it more interesting whenever the value equals 5 the event will throw an Exception.
+  </p>
+
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class FoobarController implements Serializable {
+      private Random random = new Random();
+
+      /**
+       * the event
+       */
+      public int random() throws Exception {
         int value = Math.abs(random.nextInt() % 10);
 
         if (value == 5) {
-            throw new Exception(&quot;Random Exception!&quot;);
+          throw new Exception("Random Exception!");
         }
 
         return value;
+      }
     }
-}</pre></div>
-</div>
-<h3>Ajax-ified View</h3>
-<p>So we create a simple View that will periodically (every 2
-seconds is the default) request a new value from the Server.</p>
-<ul>
-  <li>We import the prototype javascript file to provide the ajax
-  foundation</li>
-  <li>The custom ajax call is <b>new
-  Ajax.PeriodicalUpdater(&quot;random&quot;,
-  &quot;foobar.waffle?method=random&quot;);</b>
+  </textarea>
+
+  <h3>Ajax-ified View</h3>
+
+  <p>So we create a simple View that will periodically (every 2 seconds is the default) request a new value from the Server.</p>
+
   <ul>
-    <li>The first argument <b>&quot;random&quot;</b> refers to the
-    element id tag in the html (the <i>&lt;div&gt;</i>)</li>
-    <li>The second argument <b>foobar.waffle?method=random</b>
-    represents what will be periodically called to the server.
-    <ul>
-      <li><b>foobar.waffle</b> the Action is registered under the
-      key value &quot;<i>foobar</i>&quot;.</li>
-      <li>&quot;method=random&quot; signifies that the
-      &quot;random&quot; ActionMethod method will be called on the
-      Controller.
-      <div class="source"><pre>&lt;html&gt;
-&lt;head&gt;
-    &lt;script type=&quot;text/javascript&quot; src=&quot;scripts/prototype-1.5.js&quot;&gt;&lt;/script&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-        new Ajax.PeriodicalUpdater(&quot;random&quot;, &quot;foobar.waffle?method=random&quot;);
-    &lt;/script&gt;
-&lt;/head&gt;
-    &lt;h1&gt;Random value from Server: &lt;div id=&quot;random&quot;&gt;&lt;/div&gt;&lt;/h1&gt;
-&lt;/html&gt;</pre></div>
-      </li>
-    </ul>
+    <li>We import the prototype javascript file to provide the ajax foundation</li>
+    <li>The custom ajax call is <b>new Ajax.PeriodicalUpdater("random", "foobar.waffle?method=random");</b></li>
+    <li>The first argument <b>"random"</b> refers to the element id tag in the html (the <i>&lt;div&gt;</i>)</li>
+    <li>The second argument <b>foobar.waffle?method=random</b> represents what will be periodically called to the server.
+      <ul>
+        <li><b>foobar.waffle</b> the Action is registered under the key value "<i>foobar</i>".</li>
+        <li><b>method=random</b> signifies that the "random" ActionMethod method will be called on the Controller.</li>
+      </ul>
     </li>
   </ul>
-  </li>
-</ul>
-</div>
-<h3>Wire it up with the Registrar</h3>
-<p>The <i>FoobarController</i> is registered under the name &quot;<i>foobar</i>&quot;.
-Notice that the Controller is being registered to the Application level
-context.</p>
-<div class="source"><pre>public class CustomRegistrar extends AbstractRegistrar {
-    public CustomRegistrar(Registrar delegate) {
-        super(delegate);
-    }
 
-    public void application() {
-        register(&quot;foobar&quot;, FoobarController.class);
+  <textarea class="html:nogutter:nocontrols" name="code">
+    <html>
+      &lt;head&gt;
+          &lt;script type="text/javascript" src="scripts/prototype-1.5.js"&gt;&lt;/script&gt;
+          &lt;script type="text/javascript"&gt;
+              new Ajax.PeriodicalUpdater("random", "foobar.waffle?method=random");
+          &lt;/script&gt;
+      &lt;/head&gt;
+      <h1>Random value from Server: <div id="random"></div></h1>
+    </html>
+  </textarea>
+
+  <h3>Wire it up with the Registrar</h3>
+
+  <p>The <i>FoobarController</i> is registered under the name "<i>foobar</i>". Notice that the Controller is being
+    registered to the Application level context.
+  </p>
+
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class CustomRegistrar extends AbstractRegistrar {
+      public CustomRegistrar(Registrar delegate) {
+        super(delegate);
+      }
+
+      public void application() {
+        register("foobar", FoobarController.class);
+      }
     }
-}</pre></div>
-</div>
-<h3>Partial page rendering</h3>
-<p>By simply having an <i>ActionMethod</i> invoked through an
-asynchronous call which return <i>View</i>'s you'll be able to build
-your web applications to take advantage of partial page rendering.</p>
-<p>TODO ... need example!!! ...</p>
-</div>
-<div id="footer">
-<div class="xright">&#169; 2007</div>
-<div class="clear">
-<hr />
-</div>
-</div>
+  </textarea>
+
+  <h3>Partial page rendering</h3>
+
+  <p>
+    By simply having an <i>ActionMethod</i> invoked through an asynchronous call which return <i>View</i>'s you'll be
+    able to build your web applications to take advantage of partial page rendering.
+  </p>
+
+  <p>TODO ... need example!!! ...</p>
 
 </body>
 
