@@ -18,11 +18,15 @@ mvn -Pacceptance install
 
 mvn -Pexamples install
 
+- reporting:  builds all reports
+
+mvne -Preporting install
+
 - distribution:  builds core, extensions and distribution
 
 mvn -Pdist install
 
-Note:  profiles can be combined, eg to build with acceptance tests and distribution
+Note:  profiles can be combined, eg to build with acceptance tests, reporting and distribution
 
-mvn -Pacceptance,dist install
+mvn -Pacceptance,reporting,dist install
 
