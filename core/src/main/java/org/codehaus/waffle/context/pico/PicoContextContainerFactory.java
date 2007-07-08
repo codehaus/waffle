@@ -55,7 +55,10 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
             HttpSession session = request.getSession();
             PicoContextContainer sessionContextContainer = (PicoContextContainer) session.getAttribute(Constants.SESSION_CONTAINER_KEY);
             if (sessionContextContainer == null) {
-                throw new RuntimeException("Waffle could not find session-level context container.  Please check configuration.");
+                sessionContextContainer = (PicoContextContainer) buildSessionLevelContainer();
+                sessionContextContainer.registerComponentInstance(session);
+                session.setAttribute(Constants.SESSION_CONTAINER_KEY, sessionContextContainer);
+                sessionContextContainer.start();
             }
             MutablePicoContainer delegate = sessionContextContainer.getDelegate();
 
