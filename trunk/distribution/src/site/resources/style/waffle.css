@@ -94,7 +94,8 @@ body,td,select,input,li {
 }
 
 div.section {
-  margin-right:115px;
+  margin-left: 225px;
+  margin-right: 115px;
 }
 
 div.section ul li, div.section ol li {
