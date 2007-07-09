@@ -17,7 +17,6 @@
     <module>extensions/webcontainer</module>
     <module>extensions/taglib</module>
     <module>plugins/rspec-maven-plugin</module>
-    <module>skin</module>
   </modules>
 
   <dependencyManagement>
