@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd" version="2.1">
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd" version="2.1">
 
   <tlib-version>1.0</tlib-version>
   <jsp-version>1.2</jsp-version>
@@ -11,21 +11,25 @@
   <function>
     <name>evaluate</name>
     <function-class>org.codehaus.waffle.taglib.Evaluator</function-class>
-    <function-signature>
-      java.lang.Object evaluate(java.lang.String,javax.servlet.jsp.PageContext)
-    </function-signature>
+    <function-signature>java.lang.Object evaluate(java.lang.String,javax.servlet.jsp.PageContext)</function-signature>
   </function>
 
   <function>
     <name>getAttributes</name>
     <function-class>org.codehaus.waffle.taglib.Evaluator</function-class>
+    <function-signature>java.lang.String getAttributes(java.util.Map)</function-signature>
+  </function>
+
+  <function>
+    <description>Find field errors for the name passed</description>
+    <name>findFieldErrors</name>
+    <function-class>org.codehaus.waffle.taglib.Functions</function-class>
     <function-signature>
-      java.lang.String getAttributes(java.util.Map)
+      java.util.List findFieldErrors(org.codehaus.waffle.validation.ErrorsContext, java.lang.String)
     </function-signature>
   </function>
 
-  <!-- check tag -->
-
+  <!-- checkbox tag -->
   <tag>
     <name>checkbox</name>
     <tag-class>org.codehaus.waffle.taglib.form.CheckBoxTag</tag-class>
@@ -34,33 +38,33 @@
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
-      <description>This fields label. The default value is the i18n name attribute.</description>
+      <description>The field label. The default value is the i18n name attribute.</description>
     </attribute>
     <attribute>
       <name>value</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Valor padrão do campo de texto.</description>
+      <description>Text field value.</description>
     </attribute>
     <attribute>
       <name>checked</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>Marca o checkbox como selecionado</description>
+      <description>Mark checkbox as selected.</description>
     </attribute>
     <attribute>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If this field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>name</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Nome do checkbox.</description>
+      <description>Name of checkbox.</description>
     </attribute>
   </tag>
 
@@ -73,34 +77,33 @@
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
-      <description>This fields label. The default value is the i18n name attribute.</description>
+      <description>The field label. The default value is the i18n name attribute.</description>
     </attribute>
     <attribute>
       <name>value</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.util.Date</type>
-      <description>the date object</description>
+      <description>The Date object</description>
     </attribute>
     <attribute>
       <name>name</name>
       <required>true</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>the input field name</description>
+      <description>The input field name</description>
     </attribute>
     <attribute>
       <name>pattern</name>
       <required>true</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>the date pattern</description>
+      <description>The date pattern</description>
     </attribute>
   </tag>
 
   <!-- Time -->
   <tag>
-
     <name>time</name>
     <tagclass>org.codehaus.waffle.taglib.form.TimeTag</tagclass>
     <bodycontent>empty</bodycontent>
@@ -110,29 +113,29 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>value</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.util.Date</type>
-      <description>a hora que deve ser formatada</description>
+      <description>The Date to be formatted.</description>
     </attribute>
     <attribute>
       <name>name</name>
       <required>true</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Nome do campo de texto.</description>
+      <description>Name of the field.</description>
     </attribute>
     <attribute>
       <name>timeStyle</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Opcões: default (Date.DEFAULT),medium (Date.MEDIUM), short (Date.SHORT), long (Date.LONG).
-        Padrão é default.
+      <description>
+        Options: default (Date.DEFAULT), medium (Date.MEDIUM), short (Date.SHORT), long (Date.LONG).
       </description>
     </attribute>
     <attribute>
@@ -140,10 +143,9 @@
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>o formato da data</description>
+      <description>The date format pattern.</description>
     </attribute>
   </tag>
-
 
   <!-- date -->
   <tag>
@@ -157,28 +159,29 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>value</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.util.Date</type>
-      <description>a data que deve ser formatada</description>
+      <description>The date to be rendered.</description>
     </attribute>
     <attribute>
       <name>name</name>
       <required>true</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Nome do campo de texto.</description>
+      <description>Name of the field.</description>
     </attribute>
     <attribute>
       <name>dateStyle</name>
       <required>false</required>
       <rtexprvalue>false</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Options: default (Date.DEFAULT),medium (Date.MEDIUM), short (Date.SHORT), long (Date.LONG).
+      <description>
+        Options: default (Date.DEFAULT),medium (Date.MEDIUM), short (Date.SHORT), long (Date.LONG).
       </description>
     </attribute>
     <attribute>
@@ -201,7 +204,7 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>whether this field should be displayed or not</description>
+      <description>If field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>items</name>
@@ -260,7 +263,7 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>whether this field should be displayed or not</description>
+      <description>If field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>tokens</name>
@@ -296,7 +299,6 @@
   </tag>
 
   <!-- text tag -->
-
   <tag>
     <name>text</name>
     <tag-class>org.codehaus.waffle.taglib.form.TextTag</tag-class>
@@ -307,31 +309,30 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
-      <description>This fields label. The default value is the i18n name attribute.</description>
+      <description>The field label. The default value is the i18n name attribute.</description>
     </attribute>
     <attribute>
       <name>value</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Valor padrão do campo de texto.</description>
+      <description>Text field value.</description>
     </attribute>
     <attribute>
       <name>name</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Nome do campo de texto.</description>
+      <description>Text Name of the field.</description>
     </attribute>
   </tag>
 
 
   <!-- file tag -->
-
   <tag>
     <name>file</name>
     <tag-class>org.codehaus.waffle.taglib.form.FileTag</tag-class>
@@ -342,42 +343,41 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
-      <description>This fields label. The default value is the i18n name attribute.</description>
+      <description>The field label. The default value is the i18n name attribute.</description>
     </attribute>
     <attribute>
       <name>name</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Nome do campo de arquivo.</description>
+      <description>Name of the field.</description>
     </attribute>
   </tag>
 
 
   <!-- password tag -->
-
   <tag>
     <name>password</name>
     <tag-class>org.codehaus.waffle.taglib.form.PasswordTag</tag-class>
     <body-content>JSP</body-content>
     <dynamic-attributes>true</dynamic-attributes>
-    <description>Campo de senha</description>
+    <description>Password tag.</description>
     <attribute>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
-      <description>This fields label. The default value is the i18n name attribute.</description>
+      <description>The field label. The default value is the i18n name attribute.</description>
     </attribute>
     <attribute>
       <name>value</name>
@@ -390,13 +390,12 @@
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Nome do campo.</description>
+      <description>Name of the field.</description>
     </attribute>
   </tag>
 
 
   <!-- hidden tag -->
-
   <tag>
     <name>hidden</name>
     <dynamic-attributes>true</dynamic-attributes>
@@ -407,91 +406,86 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>value</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Valor padrão do campo de texto.</description>
+      <description>Text field value..</description>
     </attribute>
     <attribute>
       <name>name</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Nome do campo.</description>
+      <description>Name of the field.</description>
     </attribute>
   </tag>
 
   <!-- Text area -->
-
   <tag>
     <name>textarea</name>
     <tag-class>org.codehaus.waffle.taglib.form.TextAreaTag</tag-class>
     <body-content>JSP</body-content>
     <dynamic-attributes>true</dynamic-attributes>
-    <description>Uma caixa de texto de diversas linhas</description>
+    <description>Text area.</description>
     <attribute>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
-      <description>This fields label. The default value is the i18n name attribute.</description>
+      <description>The field label. The default value is the i18n name attribute.</description>
     </attribute>
     <attribute>
       <name>name</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Nome do campo.</description>
+      <description>Name of the field.</description>
     </attribute>
   </tag>
 
   <!-- submit button -->
-
   <tag>
     <name>submit</name>
     <tag-class>org.codehaus.waffle.taglib.form.SubmitTag</tag-class>
     <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
-    <description>Botão de envio de formulário</description>
+    <description>Submit button</description>
     <attribute>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
-      <description>This fields label. The default value is the i18n name attribute.</description>
+      <description>The field label. The default value is the i18n name attribute.</description>
     </attribute>
     <attribute>
       <name>value</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Valor padrão do campo de texto. Será internacionalizado.</description>
+      <description>Text field value. Supports I18N.</description>
     </attribute>
     <attribute>
       <name>action</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Destino a ser executado caso o usuário clique nesse botão. O valor padrão será o selecionado
-        pelo próprio formulário.
-      </description>
+      <description>Submit action target.</description>
     </attribute>
   </tag>
 
 
   <!-- button -->
-
   <tag>
     <name>button</name>
     <tag-class>org.codehaus.waffle.taglib.form.ButtonTag</tag-class>
@@ -502,84 +496,81 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
-      <description>This fields label. The default value is empty.</description>
+      <description>The field label. The default value is empty.</description>
     </attribute>
     <attribute>
       <name>value</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Valor padrão do campo de texto. Será internacionalizado.</description>
+      <description>Text field value. Supports I18N.</description>
     </attribute>
   </tag>
 
 
   <!-- reset -->
-
   <tag>
     <name>reset</name>
     <tag-class>org.codehaus.waffle.taglib.form.ResetTag</tag-class>
     <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
-    <description>Botão que reinicializa o formulário</description>
+    <description>Reset button.</description>
     <attribute>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
-      <description>This fields label. The default value is empty.</description>
+      <description>The field label. The default value is empty.</description>
     </attribute>
     <attribute>
       <name>value</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Valor padrão do campo de texto. Será internacionalizado.</description>
+      <description>Text field value. Supports I18N.</description>
     </attribute>
   </tag>
 
 
   <!-- Image tag -->
-
   <tag>
     <name>img</name>
     <tag-class>org.codehaus.waffle.taglib.form.ImgTag</tag-class>
     <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
-    <description>Imagem a ser utilizada dentro de um formulário</description>
+    <description>Image tag</description>
     <display-name>Image</display-name>
     <attribute>
       <name>rendered</name>
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
       <rtexprvalue>true</rtexprvalue>
-      <description>This fields label. The default value is empty.</description>
+      <description>The field label. The default value is empty.</description>
     </attribute>
     <attribute>
       <name>src</name>
       <type>java.lang.String</type>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
-      <description>Origem da imagem.</description>
+      <description>The image source.</description>
     </attribute>
   </tag>
 
   <!-- Form row -->
-
   <tag>
     <name>row</name>
     <tag-class>org.codehaus.waffle.taglib.form.RowTag</tag-class>
@@ -590,13 +581,13 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>label</name>
       <type>java.lang.String</type>
       <rtexprvalue>true</rtexprvalue>
-      <description>This fields label. The default value is empty.</description>
+      <description>The field label. The default value is empty.</description>
     </attribute>
   </tag>
 
@@ -610,20 +601,20 @@
       <required>false</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.Boolean</type>
-      <description>se esse campo deve ser mostrado ou não</description>
+      <description>If the field should be rendered or not.</description>
     </attribute>
     <attribute>
       <name>action</name>
       <required>true</required>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Ação para ser executada nesse formulário.</description>
+      <description>Action to be executed.</description>
     </attribute>
     <attribute>
       <name>type</name>
       <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
-      <description>Estilo de formulário a ser usado: table, tableless or none.</description>
+      <description>Style to be used: table, tableless or none.</description>
     </attribute>
   </tag>
 

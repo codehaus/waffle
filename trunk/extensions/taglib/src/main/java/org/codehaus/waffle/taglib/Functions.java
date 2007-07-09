@@ -1,6 +1,10 @@
 package org.codehaus.waffle.taglib;
 
+import java.util.List;
 import java.util.Map;
+
+import org.codehaus.waffle.validation.ErrorsContext;
+import org.codehaus.waffle.validation.FieldErrorMessage;
 
 public class Functions {
 	
@@ -23,6 +27,10 @@ public class Functions {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static List<FieldErrorMessage> findFieldErrors(ErrorsContext errorsContext, String fieldName) {
+        return errorsContext.getFieldErrorMessages(fieldName);
     }
 
 }
