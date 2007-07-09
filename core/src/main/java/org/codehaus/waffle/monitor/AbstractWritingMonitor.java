@@ -10,40 +10,46 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
+import static org.codehaus.waffle.monitor.MonitorLevel.DEBUG;
+import static org.codehaus.waffle.monitor.MonitorLevel.INFO;
+
 import java.util.Set;
 
 import org.codehaus.waffle.action.MethodDefinition;
 
 /**
- * Implementation of Monitor that writes to console
+ * Abstract implementation of Monitor that delegates writing to concrete subclasses.
  * 
  * @author Mauro Talevi
  */
-public class ConsoleMonitor implements Monitor {
+public abstract class AbstractWritingMonitor implements Monitor {
 
-    protected void write(String message) {
-        System.out.println(message);
-    }
+    /**
+     * Writes message for a given level. Concrete implementations should provide writing functionality.
+     * 
+     * @param level
+     * @param message
+     */
+    protected abstract void write(MonitorLevel level, String message);
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
-        write("Default ActionMethod found: "+methodDefinition);
+        write(INFO, "Default ActionMethod found: " + methodDefinition);
     }
 
-    public void defaultActionMethodCached(Class controllerType, MethodDefinition methodDefinition) {
-        write("Default ActionMethod cached for controller "+ controllerType.getName()+": "+methodDefinition);        
+    public void defaultActionMethodCached(Class<?> controllerType, MethodDefinition methodDefinition) {
+        write(DEBUG, "Default ActionMethod cached for controller " + controllerType.getName() + ": " + methodDefinition);
     }
 
     public void pragmaticActionMethodFound(MethodDefinition methodDefinition) {
-        write("Pragmatic ActionMethod found: "+methodDefinition);
+        write(INFO, "Pragmatic ActionMethod found: " + methodDefinition);
     }
 
-    public void actionMethodFound(MethodDefinition methodDefinition) {        
-        write("ActionMethod found:  "+methodDefinition);
+    public void actionMethodFound(MethodDefinition methodDefinition) {
+        write(INFO, "ActionMethod found:  " + methodDefinition);
     }
 
     public void methodNameResolved(String methodName, String methodKey, Set<String> keys) {
-        write("Method name '"+methodName+"' found for key '"+methodKey+"' among keys "+keys);
+        write(INFO, "Method name '" + methodName + "' found for key '" + methodKey + "' among keys " + keys);
     }
-
 
 }

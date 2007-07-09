@@ -10,16 +10,22 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 /**
- * SilentMonitor is a writing monitor that writes nothing.
  * 
  * @author Mauro Talevi
  */
-public class SilentMonitor extends AbstractWritingMonitor {
+public class MonitorLevelTest {
 
-    protected void write(MonitorLevel level, String message) {
-        // write nothing
+    @Test
+    public void enumsHHaveValidStringRepresentations() {
+        assertEquals(MonitorLevel.DEBUG.toString(), "Debug");
+        assertEquals(MonitorLevel.ERROR.toString(), "Error");
+        assertEquals(MonitorLevel.INFO.toString(), "Info");
+        assertEquals(MonitorLevel.WARN.toString(), "Warn");
     }
-    
+
 }

@@ -26,7 +26,7 @@ public interface Monitor {
 
     void defaultActionMethodFound(MethodDefinition methodDefinition);
 
-    void defaultActionMethodCached(Class controllerType, MethodDefinition methodDefinition);
+    void defaultActionMethodCached(Class<?> controllerType, MethodDefinition methodDefinition);
 
     void pragmaticActionMethodFound(MethodDefinition methodDefinition);
 
