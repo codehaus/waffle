@@ -61,9 +61,9 @@ describe "Waffle::WebContext class" do
 
 end
 
-describe "Waffle::Controller module" do
+describe "The '__set_all_contexts' Waffle::Controller instance method" do
 
-  it "__set_all_contexts should process request, response, session attributes as well as request parameters" do
+  it "should process request, response, session attributes as well as request parameters" do
     controller = Object.new
     controller.send(:extend, Waffle::Controller)
 
@@ -94,5 +94,35 @@ describe "Waffle::Controller module" do
     controller.parameters['foo'].should == 'bar'
   end
 
+end
+
+describe "The 'locate' Waffle::Controller instance method" do
+
+  it "should handle when type passed in is a Module" do
+    module Foo
+      def self.java_class; return 'foobar'; end
+    end
+
+    controller = Object.new
+    controller.send(:extend, Waffle::Controller)
+
+    pico = mock('pico')
+    pico.should_receive(:getComponentInstanceOfType).with('foobar')
+    controller.__pico_container = pico
+
+    
+    controller.locate(Foo)
+  end
+
+  it "should handle when type passed in is NOT a Module" do
+    controller = Object.new
+    controller.send(:extend, Waffle::Controller)
+
+    pico = mock('pico')
+    pico.should_receive(:getComponentInstance).with('foobar')
+    controller.__pico_container = pico
+
+    controller.locate('foobar')
+  end
 
 end
