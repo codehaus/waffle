@@ -98,30 +98,27 @@ public class PicoComponentRegistry implements ComponentRegistry {
         registerOtherComponents(servletContext);
     }
 
+    @SuppressWarnings("unchecked")
     private void registerOtherComponents(ServletContext servletContext) {
         //noinspection unchecked
         Enumeration<String> enums = servletContext.getInitParameterNames();
 
-        try {
-            while (enums != null && enums.hasMoreElements()) {
-                String name = enums.nextElement();
+        while (enums != null && enums.hasMoreElements()) {
+            String name = enums.nextElement();
 
-                if (name.startsWith(REGISTER_KEY)) {
-                    String key = name.split(REGISTER_KEY)[1];
-                    Class concreteClass = Class.forName(servletContext.getInitParameter(name));
+            if (name.startsWith(REGISTER_KEY)) {
+                String key = name.split(REGISTER_KEY)[1];
+                Class concreteClass = loadClass(servletContext.getInitParameter(name));
 
-                    picoContainer.registerComponentImplementation(key, concreteClass);
-                } else if (name.startsWith(REGISTER_NON_CACHING_KEY)) {
-                    String key = name.split(REGISTER_NON_CACHING_KEY)[1];
-                    Class concreteClass = Class.forName(servletContext.getInitParameter(name));
+                picoContainer.registerComponentImplementation(key, concreteClass);
+            } else if (name.startsWith(REGISTER_NON_CACHING_KEY)) {
+                String key = name.split(REGISTER_NON_CACHING_KEY)[1];
+                Class concreteClass = loadClass(servletContext.getInitParameter(name));
 
-                    ComponentAdapter componentAdapter =
-                            new ConstructorInjectionComponentAdapter(key, concreteClass);
-                    picoContainer.registerComponent(componentAdapter);
-                }
+                ComponentAdapter componentAdapter =
+                        new ConstructorInjectionComponentAdapter(key, concreteClass);
+                picoContainer.registerComponent(componentAdapter);
             }
-        } catch (ClassNotFoundException e) {
-            throw new WaffleException(e);
         }
     }
 
@@ -141,36 +138,48 @@ public class PicoComponentRegistry implements ComponentRegistry {
      * @param servletContext required to obtain the InitParameter defined for the web application.
      * @throws WaffleException
      */
-    protected static Class locateComponentClass(Class key, Class defaultClass, ServletContext servletContext) throws WaffleException {
+    protected static Class<?> locateComponentClass(Class<?> key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
         String className = servletContext.getInitParameter(key.getName());
 
         if (className == null || className.equals("")) {
             return defaultClass;
         } else {
-            try {
-                return Class.forName(className);
-            } catch (ClassNotFoundException e) {
-                throw new WaffleException(e.getMessage(), e);
-            }
+            return loadClass(className);
+        }
+    }
+
+    /**
+     * Loads class for a given name
+     * @param className the Class name
+     * @return The Class for the name
+     * @throws WaffleException if class not found
+     */
+    private static Class<?> loadClass(String className) {
+        try {                
+            return Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            throw new WaffleException(e.getMessage(), e);
         }
     }
 
     /**
      * Register the correct class to the underlying container
      */
-    private void register(Class key, Class defaultClass, ServletContext servletContext) throws WaffleException {
-        Class actualClass = locateComponentClass(key, defaultClass, servletContext);
+    private void register(Class<?> key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
+        Class<?> actualClass = locateComponentClass(key, defaultClass, servletContext);
         picoContainer.registerComponentImplementation(key, actualClass);
     }
 
     /**
      * Convenience method for locating and automatically casting a Component from the container.
      */
+    @SuppressWarnings("unchecked")
     public <T> T locateByKey(Object key) {
         //noinspection unchecked
         return (T) picoContainer.getComponentInstance(key);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T locateByType(Class<T> t) {
         //noinspection unchecked
         return (T) picoContainer.getComponentInstanceOfType(t);
