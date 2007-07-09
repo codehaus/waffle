@@ -84,8 +84,8 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
         return applicationContextContainer;
     }
 
-    public abstract ContextContainer buildApplicationContextContainer();
+    protected abstract ContextContainer buildApplicationContextContainer();
 
-    public abstract Registrar createRegistrar(ContextContainer contextContainer);
+    protected abstract Registrar createRegistrar(ContextContainer contextContainer);
 
 }
