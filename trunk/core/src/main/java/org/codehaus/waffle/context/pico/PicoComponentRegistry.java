@@ -133,13 +133,22 @@ public class PicoComponentRegistry implements ComponentRegistry {
      * &lt;/context-param&gt;
      * </code>
      *
-     * @param key            represents the interface Class which the implementation should be registered under.
+     * @param key            represents the component key which the implementation should be registered under.
      * @param defaultClass   represents the Class to use by default (when not over-written).
      * @param servletContext required to obtain the InitParameter defined for the web application.
      * @throws WaffleException
      */
-    protected static Class<?> locateComponentClass(Class<?> key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
-        String className = servletContext.getInitParameter(key.getName());
+    protected static Class<?> locateComponentClass(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
+        String parameterName = null;
+        if ( key instanceof Class ){
+            parameterName = ((Class<?>)key).getName();
+        } else if ( key instanceof String ){
+            parameterName = (String) key;
+        } else {
+            return defaultClass;            
+        }
+        
+        String className = servletContext.getInitParameter(parameterName);
 
         if (className == null || className.equals("")) {
             return defaultClass;
@@ -165,7 +174,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
     /**
      * Register the correct class to the underlying container
      */
-    private void register(Class<?> key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
+    private void register(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
         Class<?> actualClass = locateComponentClass(key, defaultClass, servletContext);
         picoContainer.registerComponentImplementation(key, actualClass);
     }
