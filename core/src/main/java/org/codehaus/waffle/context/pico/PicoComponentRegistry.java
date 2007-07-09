@@ -10,12 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
-import java.util.Enumeration;
-
-import javax.servlet.ServletContext;
-
 import ognl.TypeConverter;
-
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
@@ -56,6 +51,9 @@ import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
 import org.picocontainer.defaults.DefaultPicoContainer;
+
+import javax.servlet.ServletContext;
+import java.util.Enumeration;
 
 /**
  * PicoContainer-based implementation of Waffle's ComponentRegistry
@@ -128,8 +126,8 @@ public class PicoComponentRegistry implements ComponentRegistry {
      * <p/>
      * <code>
      * &lt;context-param&gt;
-     * &lt;param-name&gt;org.codehaus.waffle.actions.ControllerDefinitionFactory&lt;/param-name&gt;
-     * &lt;param-value&gt;org.myurl.FooBarControllerFactory&lt;/param-value&gt;
+     *   &lt;param-name&gt;org.codehaus.waffle.actions.ControllerDefinitionFactory&lt;/param-name&gt;
+     *   &lt;param-value&gt;org.myurl.FooBarControllerFactory&lt;/param-value&gt;
      * &lt;/context-param&gt;
      * </code>
      *
