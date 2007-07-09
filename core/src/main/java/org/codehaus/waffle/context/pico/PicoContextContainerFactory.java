@@ -37,7 +37,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
         super(messageResources);
     }
 
-    public ContextContainer buildApplicationContextContainer() {
+    protected ContextContainer buildApplicationContextContainer() {
         return new PicoContextContainer(buildMutablePicoContainer(null));
     }
 
@@ -70,7 +70,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
         }
     }
 
-    public Registrar createRegistrar(ContextContainer contextContainer) {
+    protected Registrar createRegistrar(ContextContainer contextContainer) {
         return new PicoRegistrar((MutablePicoContainer) contextContainer.getDelegate());
     }
 
