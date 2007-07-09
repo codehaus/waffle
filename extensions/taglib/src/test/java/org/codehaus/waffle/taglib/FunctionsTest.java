@@ -7,13 +7,13 @@ import org.codehaus.waffle.validation.DefaultErrorsContext;
 
 import java.util.List;
 
-public class WaffleFunctionsTest extends TestCase {
+public class FunctionsTest extends TestCase {
 
     public void testFindFieldErrors() {
         ErrorsContext errorsContext = new DefaultErrorsContext();
         errorsContext.addErrorMessage(new FieldErrorMessage("name", "value", "message"));
 
-        List messages = WaffleFunctions.findFieldErrors(errorsContext, "name");
+        List<FieldErrorMessage> messages = Functions.findFieldErrors(errorsContext, "name");
         assertEquals(1, messages.size());
 
         FieldErrorMessage fieldValidationMessage = (FieldErrorMessage) messages.get(0);
