@@ -60,3 +60,39 @@ describe "Waffle::WebContext class" do
   end
 
 end
+
+describe "Waffle::Controller module" do
+
+  it "__set_all_contexts should process request, response, session attributes as well as request parameters" do
+    controller = Object.new
+    controller.send(:extend, Waffle::Controller)
+
+    servlet_context = mock('servlet context')
+    session = mock('session')
+    session.should_receive(:getServletContext).and_return(servlet_context)
+
+    # Using Hashtable because we need to an enumerator for testing
+    parameters = Hashtable.new
+    parameters.put('foo', "junk")
+
+    request = mock('request')
+    request.should_receive(:getSession).with(false).and_return(session)
+    request.should_receive(:getParameterNames).and_return(parameters.keys)
+    request.should_receive(:getParameter).with('foo').and_return('bar')
+
+    response = mock('response')
+
+    Waffle::WebContext.should_receive(:new).with(request).and_return(request) # return same mock to keep test simple
+    Waffle::WebContext.should_receive(:new).with(session).and_return(session) # return same mock to keep test simple
+    Waffle::WebContext.should_receive(:new).with(servlet_context)
+
+    controller.should_receive(:__process_request_params)
+
+    controller.__set_all_contexts(request, response)
+
+    # Ensure parameters set correctly
+    controller.parameters['foo'].should == 'bar'
+  end
+
+
+end
