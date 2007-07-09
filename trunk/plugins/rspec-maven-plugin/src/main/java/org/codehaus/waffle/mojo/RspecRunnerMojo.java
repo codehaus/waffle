@@ -44,7 +44,7 @@ public class RspecRunnerMojo extends AbstractMojo {
     /**
      * The directory where JRuby is installed (defaults to ~/.jruby)
      *
-     * @parameter
+     * @parameter expression="${jruby.home}"
      */
     protected String jrubyHome;
 
@@ -93,7 +93,11 @@ public class RspecRunnerMojo extends AbstractMojo {
             throw new MojoFailureException("RSpec failure");
         }
 
+        getLog().info("");
+        getLog().info("------------------------------------------------------------------------");
         getLog().info("RSPEC TESTS SUCCESSFUL");
+        getLog().info("------------------------------------------------------------------------");
+        getLog().info("");
     }
 
     private String handleClasspathElements(JavaSupport javaSupport) throws MalformedURLException {

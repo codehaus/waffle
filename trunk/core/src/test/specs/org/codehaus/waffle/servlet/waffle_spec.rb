@@ -1,4 +1,5 @@
 require 'org/codehaus/waffle/waffle'
+require 'ostruct'
 
 include_class 'java.util.Hashtable'
 
@@ -46,7 +47,16 @@ describe "Waffle::WebContext class" do
 
     waffle_context.include?('foo').should == true
     waffle_context.include?(:bar).should == true
+  end
 
+  it "should delegate method calls to the underlying instance when method is missing" do
+    context = mock('the mock')
+    context.should_receive(:get_attribute_names).and_return(OpenStruct.new)
+    context.should_receive(:foo).with('bar').and_return('success')
+
+    waffle_context = Waffle::WebContext.new(context)
+
+    waffle_context.foo('bar').should == "success"
   end
 
 end
