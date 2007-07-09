@@ -25,7 +25,7 @@ import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.monitor.ConsoleMonitor;
+import org.codehaus.waffle.monitor.AbstractWritingMonitor;
 import org.codehaus.waffle.monitor.Monitor;
 import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
 import org.codehaus.waffle.testmodel.StubActionMethodResponseHandler;
@@ -113,7 +113,7 @@ public class PicoComponentRegistryTest extends MockObjectTestCase {
         assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof DefaultActionMethodResponseHandler);
         assertTrue(componentRegistry.getMethodNameResolver() instanceof RequestParameterMethodNameResolver);
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
-        assertTrue(componentRegistry.getMonitor() instanceof ConsoleMonitor);
+        assertTrue(componentRegistry.getMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getViewDispatcher() instanceof DefaultViewDispatcher);
         assertTrue(componentRegistry.getTypeConverter() instanceof OgnlTypeConverter);
         assertTrue(componentRegistry.getViewResolver() instanceof DefaultViewResolver);

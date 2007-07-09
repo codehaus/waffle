@@ -10,16 +10,26 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-
 /**
- * SilentMonitor is a writing monitor that writes nothing.
+ * Enum that represent monitoring levels
  * 
  * @author Mauro Talevi
  */
-public class SilentMonitor extends AbstractWritingMonitor {
+public enum MonitorLevel {
 
-    protected void write(MonitorLevel level, String message) {
-        // write nothing
+    ERROR("Error"),
+    INFO("Info"), 
+    WARN("Warn"),
+    DEBUG("Debug");
+
+    private final String level;
+
+    MonitorLevel(String level) {
+        this.level = level;
+    }
+
+    public String toString(){
+        return level;
     }
     
 }
