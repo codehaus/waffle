@@ -1,0 +1,74 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsp="http://java.sun.com/JSP/Page"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+      xmlns:w="http://waffle.codehaus.org">
+<head>
+    <link href="css/mydvds.css" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/autocomplete.js"></script>
+    <script type="text/javascript" src="js/searchDvd.js"></script>
+</head>
+<body>
+<div id="site">
+    <h1 id="h1-marca">
+        <a href="http://www.vraptor.org"><img src="images/logo.png" alt="waffle logo"/></a>
+    </h1>
+
+    <c:if test="${not empty param.language}">
+        <fmt:setLocale value="${param.language}" scope="session"/>
+    </c:if>
+
+    <c:if test="${errors.errorMessageCount > 0}">
+        <div id="error-box">
+            <h1><fmt:message key="errors"/></h1>
+            <hr/>
+
+            <c:import url="fielderrors.jspx"/>
+
+        </div>
+    </c:if>
+
+    <div class="box">
+        <h1><fmt:message key="change_language"/></h1>
+        <hr/>
+        <a href="index.jspx?language=de"><img src="images/de.gif" border="0"/></a> |
+        <a href="index.jspx?language=en"><img src="images/en.gif" border="0"/></a> |
+        <a href="index.jspx?language=pt_br"><img src="images/br.gif" border="0"/></a>
+    </div>
+
+    <br/><br/>
+
+    <div class="box">
+        <h1><fmt:message key="welcome"/></h1>
+        <hr/>
+
+        <w:form action="users.waffle" method="post" border="0" id="loginForm" type="table">
+            <w:hidden name="method" value="login"/>
+            <w:text name="login" value="${login}"/>
+            <w:password name="password" value="${password}"/>
+            <w:submit/>
+        </w:form>
+
+    </div>
+
+    <br/><br/>
+
+    <div class="box">
+
+        <h1><fmt:message key="new_user_message"/></h1>
+        <hr/>
+
+        <w:form action="users.waffle" method="post" id="addUserForm" type="table">
+            <w:hidden name="method" value="add"/>
+            <w:text name="name" value="${user.name}"/>
+            <w:text name="login" value="${user.login}"/>
+            <w:password name="password" value="${user.password}"/>
+            <w:submit/>
+        </w:form>
+
+    </div>
+</div>
+</body>
+</html>
