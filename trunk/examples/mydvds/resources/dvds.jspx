@@ -30,7 +30,7 @@
         <table>
             <tr>
                 <td align="right">
-                    <a href="user.waffle?method=logout"><fmt:message key="logout"/></a>
+                    <a href="users.waffle?method=logout"><fmt:message key="logout"/></a>
                 </td>
             </tr>
         </table>
