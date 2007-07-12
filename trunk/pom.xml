@@ -328,6 +328,7 @@
         <module>examples/freemarker-example</module>
         <module>examples/paranamer-example</module>
         <module>examples/migration-example</module>
+        <module>examples/mydvds</module>
       </modules>
     </profile>
   </profiles>
@@ -372,7 +373,23 @@
     </developer>
     <developer>
       <id>gas</id>
-      <name>Guilherme Silviera</name>
+      <name>Guilherme Silveira</name>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-3</timezone>
+    </developer>
+    <developer>
+      <id>fabio.kung</id>
+      <name>Fabio Kung</name>
+      <roles>
+        <role>developer</role>
+      </roles>
+      <timezone>-3</timezone>
+    </developer>
+    <developer>
+      <id>steppat</id>
+      <name>Nico Steppat</name>
       <roles>
         <role>developer</role>
       </roles>
