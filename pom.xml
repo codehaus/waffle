@@ -328,7 +328,7 @@
         <module>examples/freemarker-example</module>
         <module>examples/paranamer-example</module>
         <module>examples/migration-example</module>
-        <module>examples/mydvds</module>
+        <module>examples/mydvds-example</module>
       </modules>
     </profile>
   </profiles>
