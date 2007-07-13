@@ -1,18 +1,16 @@
 package org.codehaus.waffle.taglib.form;
 
+import org.apache.taglibs.standard.tag.common.fmt.LocaleSupport;
+
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.el.ELException;
+import javax.servlet.jsp.el.ExpressionEvaluator;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.el.ELException;
-
-import org.apache.taglibs.standard.lang.support.ExpressionEvaluatorManager;
-import org.apache.taglibs.standard.resources.Resources;
-import org.apache.taglibs.standard.tag.common.fmt.DateSupport;
 
 /**
  * An date element for html files.
@@ -34,8 +32,10 @@ public class DateTag extends FormElement {
 	private static final String FULL = "full";
 
 	private static final String DEFAULT = "default";
-                                                                                                     
-	private String name, pattern, dateStyle;
+
+    private final LocaleSupport localeSupport = new LocaleSupport();
+
+    private String name, pattern, dateStyle;
 
 	private Date value;
 
@@ -69,29 +69,32 @@ public class DateTag extends FormElement {
 	}
 
 	// Evaluates expressions as necessary
-	private void evaluateExpressions() throws JspException {
+	private void evaluateExpressions() throws ELException {
 
-		// 'dateStyle' attribute
-		if (dateStyle != null) {
-			dateStyle = (String) ExpressionEvaluatorManager.evaluate(
-					"dateStyle", dateStyle, String.class, this, pageContext);
-		}
+        ExpressionEvaluator evaluator = pageContext.getExpressionEvaluator();
+        // 'dateStyle' attribute
+        if (dateStyle != null) {
+            dateStyle = (String) evaluator.evaluate(dateStyle, String.class, pageContext.getVariableResolver(), null);
+        }
 
-		// 'pattern' attribute
-		if (pattern != null) {
-			pattern = (String) ExpressionEvaluatorManager.evaluate("pattern",
-					pattern, String.class, this, pageContext);
-		}
-	}
+        // 'pattern' attribute
+        if (pattern != null) {
+            pattern = (String) evaluator.evaluate(pattern, String.class, pageContext.getVariableResolver(), null);
+        }
+    }
 
 	// evaluates expression and chains to parent
 	@Override
 	public int doStartTag() throws JspException {
 
 		// evaluate any expressions we were passed, once per invocation
-		evaluateExpressions();
+        try {
+            evaluateExpressions();
+        } catch (ELException e) {
+            throw new JspException(e);
+        }
 
-		// chain to the parent implementation
+        // chain to the parent implementation
 		return super.doStartTag();
 	}
 
@@ -134,8 +137,7 @@ public class DateTag extends FormElement {
 
 		String formatted = null;
 
-		Locale locale = DateSupport.getFormattingLocale(pageContext, this,
-				true, DateFormat.getAvailableLocales());
+		Locale locale = this.localeSupport.getFormattingLocale(pageContext);
 
 		if (locale != null) {
 			// Create formatter
@@ -160,8 +162,7 @@ public class DateTag extends FormElement {
 	}
 
 	private DateFormat createFormatter(Locale locale) throws JspException {
-		return DateFormat.getDateInstance(getStyle(dateStyle,
-				"FORMAT_DATE_INVALID_DATE_STYLE"), locale);
+		return DateFormat.getDateInstance(getStyle(dateStyle), locale);
 	}
 
 	/*
@@ -175,7 +176,7 @@ public class DateTag extends FormElement {
 	 * 
 	 * @throws JspException if the given style is invalid
 	 */
-	private int getStyle(String style, String errCode) throws JspException {
+	private int getStyle(String style) throws JspException {
 		int ret = DateFormat.DEFAULT;
 
 		if (style != null) {
@@ -190,7 +191,7 @@ public class DateTag extends FormElement {
 			} else if (FULL.equalsIgnoreCase(style)) {
 				ret = DateFormat.FULL;
 			} else {
-				throw new JspException(Resources.getMessage(errCode, style));
+				throw new JspException("Invalid date style");
 			}
 		}
 
