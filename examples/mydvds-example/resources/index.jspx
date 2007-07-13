@@ -57,7 +57,7 @@
 
     <div class="box">
 
-        <h1><fmt:message key="new_user_message"/></h1>
+        <h1><fmt:message key="new_user"/></h1>
         <hr/>
 
         <w:form action="users.waffle" method="post" id="addUserForm" type="table">
