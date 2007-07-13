@@ -33,9 +33,12 @@
     <div class="box">
         <h1><fmt:message key="change_language"/></h1>
         <hr/>
-        <a href="index.jspx?language=de"><img src="images/de.gif" border="0"/></a> |
-        <a href="index.jspx?language=en"><img src="images/en.gif" border="0"/></a> |
-        <a href="index.jspx?language=pt_br"><img src="images/br.gif" border="0"/></a>
+        <a href="index.jspx?language=de"><img src="images/de.gif" border="0" /></a> |
+        <a href="index.jspx?language=en_gb"><img src="images/gb.gif" border="0"/></a> |
+        <a href="index.jspx?language=en_us"><img src="images/us.gif" border="0"/></a> |
+        <a href="index.jspx?language=pt_br"><img src="images/br.gif" border="0"/></a> |
+        <a href="index.jspx?language=it"><img src="images/it.gif" border="0"/></a> |
+        <a href="index.jspx?language=es"><img src="images/es.gif" border="0"/></a>
     </div>
 
     <br/><br/>
