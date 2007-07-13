@@ -1,13 +1,11 @@
 package org.codehaus.waffle.taglib.form;
 
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.el.ELException;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.el.ELException;
-
-import org.apache.taglibs.standard.lang.support.ExpressionEvaluatorManager;
 
 /**
  * An calendar element for html files.
@@ -55,17 +53,19 @@ public class CalendarTag extends FormElement {
     }
 
     // Evaluates expressions as necessary
-    private void evaluateExpressions() throws JspException {
-
-        pattern = (String) ExpressionEvaluatorManager.evaluate("pattern", pattern, String.class, this, pageContext);
+    private void evaluateExpressions() throws ELException {
+        pattern = (String) pageContext.getExpressionEvaluator().evaluate(pattern, String.class, pageContext.getVariableResolver(), null);
     }
 
     // evaluates expression and chains to parent
     @Override
     public int doStartTag() throws JspException {
-
         // evaluate any expressions we were passed, once per invocation
-        evaluateExpressions();
+        try {
+            evaluateExpressions();
+        } catch (ELException e) {
+            throw new JspException(e);
+        }
 
         // chain to the parent implementation
         return super.doStartTag();
