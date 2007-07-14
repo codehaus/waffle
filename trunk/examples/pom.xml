@@ -26,20 +26,10 @@
       <version>${pom.version}</version>
     </dependency>
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
-      <scope>runtime</scope>
-    </dependency>
+      <groupId>${pom.groupId}</groupId>
+      <artifactId>waffle-taglib</artifactId>
+      <version>${pom.version}</version>
+    </dependency>    
   </dependencies>
 
   <build>
