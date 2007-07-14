@@ -230,6 +230,11 @@
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.codehaus.mojo.groovy</groupId>
+          <artifactId>groovy-maven-plugin</artifactId>
+          <version>1.0-alpha-3</version>
+        </plugin>
+        <plugin>
           <groupId>org.codehaus.xsite</groupId>
           <artifactId>xsite-maven-plugin</artifactId>
           <version>1.0-beta-9</version>
@@ -342,12 +347,7 @@
       <!-- Examples profile -->
       <id>examples</id>
       <modules>
-        <module>examples/simple-example</module>
-        <module>examples/jruby-example</module>
-        <module>examples/freemarker-example</module>
-        <module>examples/paranamer-example</module>
-        <module>examples/migration-example</module>
-        <module>examples/mydvds-example</module>
+        <module>examples</module>
       </modules>
     </profile>
   </profiles>

@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.waffle</groupId>
-    <artifactId>waffle-parent</artifactId>
+    <artifactId>waffle-examples</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
   <artifactId>waffle-mydvds-example</artifactId>
@@ -20,21 +20,6 @@
       <groupId>${pom.groupId}</groupId>
       <artifactId>waffle-taglib</artifactId>
       <version>${pom.version}</version>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
       <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -70,33 +55,11 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>maven-jetty-plugin</artifactId>
         <configuration>
           <scanIntervalSeconds>10</scanIntervalSeconds>
         </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>deploy-webapp</id>
-            <phase>install</phase>
-            <configuration>
-              <tasks>
-                <echo>Deploying webapp</echo>
-                <copy file="target/${pom.artifactId}.war" todir="${webapp.deploy.dir}" verbose="true" overwrite="true" />
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
     </plugins>
   </build>
