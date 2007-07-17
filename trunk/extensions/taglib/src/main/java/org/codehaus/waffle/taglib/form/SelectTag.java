@@ -13,11 +13,9 @@ import java.util.Map;
  * @author Nico Steppat
  */
 public class SelectTag extends BasicSelectTag {
-
     private Collection<Object> items;
-
     private String value;
-    
+
     @Override
     public void release() {
         super.release();
@@ -29,17 +27,20 @@ public class SelectTag extends BasicSelectTag {
         if (items == null) {
             return null;
         }
-        return new ItemsIterator(){
+        return new ItemsIterator() {
             private Iterator iterator = items.iterator();
+
             public boolean hasNext() {
                 return iterator.hasNext();
             }
+
             public Map.Entry next() {
-                if(!hasNext()) {
+                if (!hasNext()) {
                     throw new IllegalStateException("This iterator does not contain any more items");
                 }
                 return new Map.Entry() {
                     Object current = iterator.next();
+
                     public Object getKey() {
                         return Functions.getProperty(current, value);
                     }

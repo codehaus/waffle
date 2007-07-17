@@ -18,7 +18,6 @@ import java.util.Locale;
  * @author Nico Steppat
  */
 public class TimeTag extends FormElement {
-
     private static final String SHORT = "short";
     private static final String MEDIUM = "medium";
     private static final String LONG = "long";
@@ -29,7 +28,6 @@ public class TimeTag extends FormElement {
 
     private String name, pattern, timeStyle;
     private Date value;
-
 
     @Override
     public void release() {

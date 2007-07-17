@@ -156,7 +156,7 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="file:///Users/mward/development/jruby/jruby/src" />
+          <root url="file:///Users/mward/development/jruby-1_0/src" />
         </SOURCES>
       </library>
     </orderEntry>

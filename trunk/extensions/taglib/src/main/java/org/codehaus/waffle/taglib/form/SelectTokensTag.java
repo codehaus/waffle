@@ -9,7 +9,6 @@ import java.util.Map;
  * @author Nico Steppat
  */
 public class SelectTokensTag extends BasicSelectTag {
-
     private String tokens;
     private String[] parts;
 
@@ -32,17 +31,18 @@ public class SelectTokensTag extends BasicSelectTag {
             }
 
             public Map.Entry next() {
-                if(!hasNext()) {
+                if (!hasNext()) {
                     throw new IllegalStateException("This iterator does not contain any more items");
                 }
                 Map.Entry entry = new Map.Entry() {
                     int position = current;
+
                     public Object getKey() {
                         return parts[position];
                     }
 
                     public Object getValue() {
-                        return parts[position+1];
+                        return parts[position + 1];
                     }
 
                     public Object setValue(Object value) {

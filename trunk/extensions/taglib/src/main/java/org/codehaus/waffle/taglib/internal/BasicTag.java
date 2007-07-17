@@ -21,11 +21,8 @@ import java.io.Writer;
  * @author Nico Steppat
  */
 public abstract class BasicTag implements BodyTag {
-
     private Tag parent;
-
     protected PageContext pageContext;
-
     private BodyContent bodyContent;
 
     /**

@@ -1,23 +1,22 @@
 package org.codehaus.waffle.taglib;
 
+import org.codehaus.waffle.validation.ErrorsContext;
+
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.waffle.validation.ErrorsContext;
-import org.codehaus.waffle.validation.FieldErrorMessage;
-
 public class Functions {
-	
-	public static String retrieveAttributes(Map<String, String> att) {
-		StringBuffer sb = new StringBuffer(" ");
-		for(String key : att.keySet()) {
-			sb.append(key);
-			sb.append("=\"");
-			sb.append(att.get(key));
-			sb.append("\" ");
-		}
-		return sb.toString();
-	}
+
+    public static String retrieveAttributes(Map<String, String> att) {
+        StringBuilder sb = new StringBuilder(" ");
+        for (String key : att.keySet()) {
+            sb.append(key)
+                    .append("=\"")
+                    .append(att.get(key))
+                    .append("\" ");
+        }
+        return sb.toString();
+    }
 
     public static Object getProperty(Object o, String field) {
         field = Character.toUpperCase(field.charAt(0))
@@ -29,7 +28,7 @@ public class Functions {
         }
     }
 
-    public static List<FieldErrorMessage> findFieldErrors(ErrorsContext errorsContext, String fieldName) {
+    public static List findFieldErrors(ErrorsContext errorsContext, String fieldName) {
         return errorsContext.getFieldErrorMessages(fieldName);
     }
 

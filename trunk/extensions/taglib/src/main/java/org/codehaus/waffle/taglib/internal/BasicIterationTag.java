@@ -1,93 +1,89 @@
 package org.codehaus.waffle.taglib.internal;
 
+import javax.servlet.jsp.JspException;
+import javax.servlet.jsp.tagext.BodyTag;
+import javax.servlet.jsp.tagext.BodyTagSupport;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.BodyTag;
-import javax.servlet.jsp.tagext.BodyTagSupport;
-
 /**
  * A tag that supports iterable collections.
- * 
+ *
  * @author Guilherme Silveira
  * @author Nico Steppat
  */
 public abstract class BasicIterationTag<T> extends BodyTagSupport {
+    private Iterator<T> iterator;
+    private final boolean showIfEmpty;
+    private Collection<T> iterable;
 
-	private Iterator<T> iterator;
+    public BasicIterationTag() {
+        this(true);
+    }
 
-	private final boolean showIfEmpty;
+    public BasicIterationTag(boolean showIfEmpty) {
+        this.showIfEmpty = showIfEmpty;
+    }
 
-	private Collection<T> iterable;
+    @Override
+    public int doStartTag() throws JspException {
+        this.iterable = getCollection();
+        try {
+            if (notEmpty() || showIfEmpty) {
+                beginTag();
+            }
+            if (iterable == null || iterable.isEmpty()) {
+                return BodyTag.SKIP_BODY;
+            }
+            this.iterator = iterable.iterator();
+            beforeBodyFor(iterator.next());
+            return BodyTag.EVAL_BODY_INCLUDE;
+        } catch (IOException e) {
+            throw new JspException(e);
+        }
+    }
 
-	public BasicIterationTag() {
-		this(true);
-	}
+    private boolean notEmpty() {
+        return iterable != null && !iterable.isEmpty();
+    }
 
-	public BasicIterationTag(boolean showIfEmpty) {
-		this.showIfEmpty = showIfEmpty;
-	}
+    protected abstract void beginTag() throws JspException, IOException;
 
-	@Override
-	public int doStartTag() throws JspException {
-		this.iterable = getCollection();
-		try {
-			if (notEmpty() || showIfEmpty) {
-				beginTag();
-			}
-			if (iterable == null || iterable.isEmpty()) {
-				return BodyTag.SKIP_BODY;
-			}
-			this.iterator = iterable.iterator();
-			beforeBodyFor(iterator.next());
-			return BodyTag.EVAL_BODY_INCLUDE;
-		} catch (IOException e) {
-			throw new JspException(e);
-		}
-	}
+    public abstract void beforeBodyFor(T current) throws JspException, IOException;
 
-	private boolean notEmpty() {
-		return iterable != null && !iterable.isEmpty();
-	}
+    protected abstract void endTag() throws JspException, IOException;
 
-	protected abstract void beginTag() throws JspException, IOException;
+    protected abstract Collection<T> getCollection();
 
-	public abstract void beforeBodyFor(T current) throws JspException, IOException;
+    @Override
+    public int doEndTag() throws JspException {
+        try {
+            if (notEmpty() || showIfEmpty) {
+                endTag();
+            }
+        } catch (IOException e) {
+            throw new JspException(e);
+        }
+        this.iterable = null;
+        this.iterator = null;
+        return BodyTag.EVAL_PAGE;
+    }
 
-	protected abstract void endTag() throws JspException, IOException;
+    @Override
+    public void doInitBody() throws JspException {
+    }
 
-	protected abstract Collection<T> getCollection();
-
-	@Override
-	public int doEndTag() throws JspException {
-		try {
-			if (notEmpty() || showIfEmpty) {
-				endTag();
-			}
-		} catch (IOException e) {
-			throw new JspException(e);
-		}
-		this.iterable = null;
-		this.iterator = null;
-		return BodyTag.EVAL_PAGE;
-	}
-
-	@Override
-	public void doInitBody() throws JspException {
-	}
-
-	public int doAfterBody() throws JspException {
-		if (!iterator.hasNext()) {
-			return BodyTag.EVAL_PAGE;
-		}
-		try {
-			beforeBodyFor(iterator.next());
-		} catch (IOException e) {
-			throw new JspException(e);
-		}
-		return BodyTag.EVAL_BODY_AGAIN;
-	}
+    public int doAfterBody() throws JspException {
+        if (!iterator.hasNext()) {
+            return BodyTag.EVAL_PAGE;
+        }
+        try {
+            beforeBodyFor(iterator.next());
+        } catch (IOException e) {
+            throw new JspException(e);
+        }
+        return BodyTag.EVAL_BODY_AGAIN;
+    }
 
 }

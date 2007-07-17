@@ -321,6 +321,7 @@
       <module fileurl="file://$PROJECT_DIR$/root.iml" filepath="$PROJECT_DIR$/root.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugins/rspec-maven-plugin/rspec-maven-plugin.iml" filepath="$PROJECT_DIR$/plugins/rspec-maven-plugin/rspec-maven-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/simple-example/simple-example.iml" filepath="$PROJECT_DIR$/examples/simple-example/simple-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/extensions/taglib/taglib.iml" filepath="$PROJECT_DIR$/extensions/taglib/taglib.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.5" project-jdk-type="JavaSDK" />

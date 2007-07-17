@@ -1,71 +1,68 @@
 package org.codehaus.waffle.taglib.form;
 
+import javax.servlet.jsp.JspException;
 import java.io.IOException;
 import java.io.Writer;
 
-import javax.servlet.jsp.JspException;
-
 /**
  * An checkbox element for html files.
- * 
+ *
  * @author Guilherme Silveira
  * @author Nico Steppat
  */
 public class CheckBoxTag extends FormElement {
+    private String name, value;
+    private Boolean checked;
 
-	private String name, value;
+    @Override
+    public void release() {
+        super.release();
+        name = null;
+        checked = null;
+        value = "true";
+    }
 
-	private Boolean checked;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	@Override
-	public void release() {
-		super.release();
-		name = null;
-		checked = null;
-		value = "true";
-	}
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setValue(String value) {
+        this.value = value;
+    }
 
-	public void setChecked(Boolean checked) {
-		this.checked = checked;
-	}
+    public IterationResult start(Writer out) throws JspException, IOException {
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+        if (!isRendered()) {
+            return IterationResult.PAGE;
+        }
 
-	public IterationResult start(Writer out) throws JspException, IOException {
+        out.write("<input type=\"");
+        out.write(getType());
+        out.write("\" name=\"");
+        out.write(name);
+        out.write("\" ");
+        out.write("value=\"");
+        out.write(value);
+        out.write("\"");
 
-		if (!isRendered()) {
-			return IterationResult.PAGE;
-		}
+        if (this.checked != null && this.checked) {
+            out.write(" checked=\"checked\"");
+        }
+        attributes.outputTo(out);
+        out.write(" />");
+        return IterationResult.BODY;
+    }
 
-		out.write("<input type=\"");
-		out.write(getType());
-		out.write("\" name=\"");
-		out.write(name);
-		out.write("\" ");
-		out.write("value=\"");
-		out.write(value);
-		out.write("\"");
+    protected String getType() {
+        return "checkbox";
+    }
 
-		if (this.checked != null && this.checked) {
-			out.write(" checked=\"checked\"");
-		}
-		attributes.outputTo(out);
-		out.write(" />");
-		return IterationResult.BODY;
-	}
-
-	protected String getType() {
-		return "checkbox";
-	}
-
-	@Override
-	protected String getDefaultLabel() {
-		return name;
-	}
+    @Override
+    protected String getDefaultLabel() {
+        return name;
+    }
 }
