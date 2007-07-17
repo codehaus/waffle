@@ -75,7 +75,7 @@ public class RspecRunnerMojo extends AbstractMojo {
                 .append("specs = Dir[\"").append(sourceDirectory).append("/**/*_spec.rb\"]\n")
                 .append("specs << '-f'; specs << 'h'\n")
                 .append("report_file = File.new('").append(outputDirectory).append("/rspec_report.html', 'w')\n")
-                .append("\n" + "::Spec::Runner::CommandLine.run(specs, STDERR, report_file, false, true)\n")
+                .append("::Spec::Runner::CommandLine.run(specs, STDERR, report_file, false, true)\n")
                 .append("report_file.close\n");
         runtime.evalScript(script.toString());
 
