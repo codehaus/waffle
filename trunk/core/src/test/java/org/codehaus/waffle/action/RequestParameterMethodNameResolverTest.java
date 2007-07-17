@@ -6,14 +6,14 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
 public class RequestParameterMethodNameResolverTest extends MockObjectTestCase {
 
-    private Monitor monitor = new SilentMonitor();
+    private ActionMonitor monitor = new SilentMonitor();
 
     public void testResolve() {
         Mock mockRequest = mock(HttpServletRequest.class);

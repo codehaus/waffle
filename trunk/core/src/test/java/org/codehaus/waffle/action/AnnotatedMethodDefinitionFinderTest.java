@@ -14,7 +14,7 @@ import ognl.DefaultTypeConverter;
 import ognl.TypeConverter;
 
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import org.jmock.Mock;
@@ -23,7 +23,7 @@ import org.jmock.core.Constraint;
 
 public class AnnotatedMethodDefinitionFinderTest extends MockObjectTestCase {
 
-    private Monitor monitor = new SilentMonitor();
+    private ActionMonitor monitor = new SilentMonitor();
 
     public void testDefaultMethodReturned() throws NoSuchMethodException {
         // Mock HttpServletRequest

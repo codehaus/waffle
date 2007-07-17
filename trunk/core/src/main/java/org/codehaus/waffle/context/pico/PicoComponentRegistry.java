@@ -37,7 +37,7 @@ import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
@@ -85,7 +85,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(MessageResources.class, DefaultMessageResources.class, servletContext);
         register(MethodDefinitionFinder.class, AnnotatedMethodDefinitionFinder.class, servletContext);
         register(MethodNameResolver.class, RequestParameterMethodNameResolver.class, servletContext);
-        register(Monitor.class, SilentMonitor.class, servletContext);
+        register(ActionMonitor.class, SilentMonitor.class, servletContext);
         register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
         register(TypeConverter.class, OgnlTypeConverter.class, servletContext);
         register(Validator.class, DefaultValidator.class, servletContext);
@@ -240,8 +240,8 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(MethodNameResolver.class);
     }
 
-    public Monitor getMonitor() {
-        return locateByType(Monitor.class);
+    public ActionMonitor getMonitor() {
+        return locateByType(ActionMonitor.class);
     }
 
     public RequestAttributeBinder getRequestAttributeBinder() {

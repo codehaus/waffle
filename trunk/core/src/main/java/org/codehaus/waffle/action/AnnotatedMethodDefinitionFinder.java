@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import ognl.TypeConverter;
 
 import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
  * Annotation-based method definition finder. 
@@ -38,7 +38,7 @@ public class AnnotatedMethodDefinitionFinder extends AbstractMethodDefinitionFin
                                            ArgumentResolver argumentResolver,
                                            TypeConverter typeConverter,
                                            MethodNameResolver methodNameResolver, 
-                                           Monitor monitor) {
+                                           ActionMonitor monitor) {
         super(servletContext, argumentResolver, typeConverter, methodNameResolver, monitor);
     }
 

@@ -26,7 +26,7 @@ import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.AbstractWritingMonitor;
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
 import org.codehaus.waffle.testmodel.StubActionMethodResponseHandler;
 import org.codehaus.waffle.testmodel.StubArgumentResolver;
@@ -174,7 +174,7 @@ public class PicoComponentRegistryTest extends MockObjectTestCase {
                 .with(eq(MethodNameResolver.class.getName()))
                 .will(returnValue(StubMethodNameResolver.class.getName()));
         mockServletContext.expects(once()).method("getInitParameter")
-                .with(eq(Monitor.class.getName()))
+                .with(eq(ActionMonitor.class.getName()))
                 .will(returnValue(StubMonitor.class.getName()));
         mockServletContext.expects(once()).method("getInitParameter")
                 .with(eq(RequestAttributeBinder.class.getName()))

@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import ognl.TypeConverter;
 
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 import com.thoughtworks.paranamer.CachingParanamer;
 import com.thoughtworks.paranamer.ParameterNamesNotFoundException;
@@ -43,7 +43,7 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
                                            ArgumentResolver argumentResolver,
                                            TypeConverter typeConverter,
                                            MethodNameResolver methodNameResolver, 
-                                           Monitor monitor) {
+                                           ActionMonitor monitor) {
         super(servletContext, argumentResolver, typeConverter, methodNameResolver, monitor);
     }
 
