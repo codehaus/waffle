@@ -1,14 +1,14 @@
 package org.codehaus.waffle.taglib.form;
 
-import org.codehaus.waffle.taglib.writer.TypeWriter;
 import org.codehaus.waffle.taglib.writer.ComboBoxTypeWriter;
 import org.codehaus.waffle.taglib.writer.RadioButtonTypeWriter;
+import org.codehaus.waffle.taglib.writer.TypeWriter;
 
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.JspException;
-import java.util.Map;
-import java.io.Writer;
+import javax.servlet.jsp.JspWriter;
 import java.io.IOException;
+import java.io.Writer;
+import java.util.Map;
 
 /**
  * A basic select tag.
@@ -16,21 +16,13 @@ import java.io.IOException;
  * @author Guilherme Silveira
  */
 abstract class BasicSelectTag extends FormElement {
-
     private static final String COMBOBOX_TYPE = "combobox";
-
     private static final String RADIO_TYPE = "radio";
-
     private String var, name;
-
     private Object selected;
-
     private ItemsIterator iterator;
-
     private TypeWriter typeWriter;
-
     private boolean addEmpty;
-
     private boolean first;
 
     private void addItem(Writer out, String key, boolean selected) throws IOException {
@@ -92,14 +84,14 @@ abstract class BasicSelectTag extends FormElement {
         Object itemKey = entry.getKey();
         Object value = entry.getValue();
         boolean isSelected;
-        if(itemKey == null) {
+        if (itemKey == null) {
             isSelected = (selected == null);
         } else if (!(itemKey instanceof Number)) {
             isSelected = itemKey.equals(selected);
-        } else if(selected == null) {
-            isSelected = (itemKey == null);
+        } else if (selected == null) {
+            isSelected = false;
         } else {
-            isSelected = ((Number) itemKey).longValue() == ((Number)selected).longValue();
+            isSelected = ((Number) itemKey).longValue() == ((Number) selected).longValue();
         }
         addItem(out, itemKey == null ? "" : itemKey.toString(), isSelected);
         pageContext.setAttribute(getIterationVarKey(), value);
@@ -130,9 +122,10 @@ abstract class BasicSelectTag extends FormElement {
 
     /**
      * Returns an iterator of items to populate this select tag.
-     * @return  the items. null or empty iterator if there are no items.
+     *
+     * @return the items. null or empty iterator if there are no items.
      */
-    protected abstract ItemsIterator getItemsIterator() ;
+    protected abstract ItemsIterator getItemsIterator();
 
     public void setName(String name) {
         this.name = name;
@@ -149,6 +142,7 @@ abstract class BasicSelectTag extends FormElement {
     // gs: we do not use Iterator<Map.Entry> as you can not cache SelectTag values and we do not want to write the remove method
     interface ItemsIterator {
         boolean hasNext();
+
         Map.Entry next();
     }
 }

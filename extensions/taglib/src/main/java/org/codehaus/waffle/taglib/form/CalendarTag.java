@@ -9,25 +9,20 @@ import java.util.Date;
 
 /**
  * An calendar element for html files.
- * 
+ *
  * @author Nico Steppat
  * @author Guilherme Silveira
  */
 public class CalendarTag extends FormElement {
-
     private static final String NEW_LINE = System.getProperty("line.separator");
-
     private static StringConverter converter = new DatePatternConverter();
 
     // *********************************************************************
     // Private constants
-
     private String name;
-
     private String pattern;
-
     private Date value;
-    
+
     @Override
     public void release() {
         super.release();
