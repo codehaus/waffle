@@ -22,7 +22,7 @@ import org.codehaus.waffle.action.MethodDefinition;
  * 
  * @author Mauro Talevi
  */
-public abstract class AbstractWritingMonitor implements Monitor {
+public abstract class AbstractWritingMonitor implements ActionMonitor {
 
     /**
      * Writes message for a given level. Concrete implementations should provide writing functionality.

@@ -24,7 +24,7 @@ import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DispatchAssistant;
 import org.codehaus.waffle.view.ViewDispatcher;
@@ -65,7 +65,7 @@ public interface ComponentRegistry {
 
     MethodNameResolver getMethodNameResolver();
 
-    Monitor getMonitor();
+    ActionMonitor getMonitor();
 
     RequestAttributeBinder getRequestAttributeBinder();
 

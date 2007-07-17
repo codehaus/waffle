@@ -22,7 +22,7 @@ import org.codehaus.waffle.action.MethodDefinition;
  * 
  * @author Mauro Talevi
  */
-public interface Monitor {
+public interface ActionMonitor {
 
     void defaultActionMethodFound(MethodDefinition methodDefinition);
 

@@ -3,9 +3,9 @@ package org.codehaus.waffle.testmodel;
 import java.util.Set;
 
 import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
-public class StubMonitor implements Monitor {
+public class StubMonitor implements ActionMonitor {
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
     }

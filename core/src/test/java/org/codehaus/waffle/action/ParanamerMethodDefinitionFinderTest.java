@@ -3,7 +3,7 @@ package org.codehaus.waffle.action;
 import ognl.DefaultTypeConverter;
 import ognl.TypeConverter;
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import org.jmock.Mock;
@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
 
-    private Monitor monitor = new SilentMonitor();
+    private ActionMonitor monitor = new SilentMonitor();
 
     public void testDefaultMethodReturned() throws NoSuchMethodException {
         // Mock HttpServletRequest

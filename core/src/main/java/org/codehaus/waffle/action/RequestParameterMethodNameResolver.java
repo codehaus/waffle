@@ -12,7 +12,7 @@ package org.codehaus.waffle.action;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
  * Implementation of method name resolver which returns the value of a configurable action parameter key,
@@ -25,13 +25,13 @@ import org.codehaus.waffle.monitor.Monitor;
  */
 public class RequestParameterMethodNameResolver implements MethodNameResolver {
     private String methodParameterKey = "method";
-    private Monitor monitor;
+    private ActionMonitor monitor;
 
-    public RequestParameterMethodNameResolver(Monitor monitor) {
+    public RequestParameterMethodNameResolver(ActionMonitor monitor) {
         this.monitor = monitor;
     }
 
-    public RequestParameterMethodNameResolver(RequestParameterMethodNameResolverConfig configuration, Monitor monitor) {
+    public RequestParameterMethodNameResolver(RequestParameterMethodNameResolverConfig configuration, ActionMonitor monitor) {
         this.methodParameterKey = configuration.getMethodParameterKey();
         this.monitor = monitor;
     }

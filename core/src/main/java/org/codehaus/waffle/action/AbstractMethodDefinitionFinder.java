@@ -30,7 +30,7 @@ import ognl.TypeConverter;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.monitor.Monitor;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
  * Abstract base implementation for all method definition finders
@@ -50,13 +50,13 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private final ArgumentResolver argumentResolver;
     private final TypeConverter typeConverter;
     private final MethodNameResolver methodNameResolver;
-    private final Monitor monitor;
+    private final ActionMonitor monitor;
 
     public AbstractMethodDefinitionFinder(ServletContext servletContext,
                                           ArgumentResolver argumentResolver,
                                           TypeConverter typeConverter,
                                           MethodNameResolver methodNameResolver, 
-                                          Monitor monitor) {
+                                          ActionMonitor monitor) {
         this.servletContext = servletContext;
         this.argumentResolver = argumentResolver;
         this.typeConverter = typeConverter;
