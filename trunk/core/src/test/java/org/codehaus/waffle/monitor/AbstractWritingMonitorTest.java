@@ -18,11 +18,12 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.Set;
 
 /**
- * 
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
@@ -52,6 +53,34 @@ public class AbstractWritingMonitorTest {
         monitor.methodNameResolved("methodName", "methodKey", mockSet());
         monitor.pragmaticActionMethodFound(methodDefinition);
         assertEquals(5, sb.toString().split("\n").length);
+    }
+
+    @Test
+    public void canTraceExceptions() {
+        final StringWriter monitorWriter = new StringWriter();
+        final AbstractWritingMonitor monitor = new AbstractWritingMonitor() {
+            @Override
+            protected void write(MonitorLevel level, String message) {
+                // will not be tested here
+            }
+
+            @Override
+            protected void trace(Exception exception) {
+                exception.printStackTrace(new PrintWriter(monitorWriter));
+            }
+        };
+        Exception exception = new Exception();
+        StackTraceElement[] elements = {
+                new StackTraceElement("MyController", "myPrivateMethod", "package.MyController.java", 10),
+                new StackTraceElement("MyController", "myActionMethod", "package.MyController.java", 1),
+        };
+        exception.setStackTrace(elements);
+        monitor.trace(exception);
+
+        StringWriter expectedMessageWriter = new StringWriter();
+        exception.printStackTrace(new PrintWriter(expectedMessageWriter));
+
+        assertEquals(expectedMessageWriter.toString(), monitorWriter.toString());
     }
 
     private MethodDefinition mockMethodDefinition() {
