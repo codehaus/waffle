@@ -10,12 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
+import org.codehaus.waffle.action.MethodDefinition;
 import static org.codehaus.waffle.monitor.MonitorLevel.DEBUG;
 import static org.codehaus.waffle.monitor.MonitorLevel.INFO;
 
 import java.util.Set;
-
-import org.codehaus.waffle.action.MethodDefinition;
 
 /**
  * Abstract implementation of Monitor that delegates writing to concrete subclasses.
@@ -31,6 +30,13 @@ public abstract class AbstractWritingMonitor implements ActionMonitor {
      * @param message
      */
     protected abstract void write(MonitorLevel level, String message);
+
+    /**
+     * Traces an exception. Concrete implementations should provide writing functionality.
+     *
+     * @param exception
+     */
+    protected abstract void trace(Exception exception);
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
         write(INFO, "Default ActionMethod found: " + methodDefinition);
@@ -52,4 +58,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor {
         write(INFO, "Method name '" + methodName + "' found for key '" + methodKey + "' among keys " + keys);
     }
 
+    public void actionMethodReturnedException(Exception exception) {
+        trace(exception);
+    }
 }

@@ -12,6 +12,7 @@ package org.codehaus.waffle.action;
 
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.ViewDispatcher;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,13 +32,18 @@ import java.io.IOException;
  */
 public class DefaultActionMethodResponseHandler implements ActionMethodResponseHandler {
     private final ViewDispatcher viewDispatcher;
+    private final ActionMonitor monitor;
 
-    public DefaultActionMethodResponseHandler(ViewDispatcher viewDispatcher) {
+    public DefaultActionMethodResponseHandler(ViewDispatcher viewDispatcher, ActionMonitor monitor) {
         if (viewDispatcher == null) {
             throw new IllegalArgumentException("ViewDispatcher cannot be null");
         }
+        if (monitor == null) {
+            throw new IllegalArgumentException("ActionMonitor cannot be null");
+        }
 
         this.viewDispatcher = viewDispatcher;
+        this.monitor = monitor;
     }
 
     public void handle(HttpServletRequest request,
@@ -54,7 +60,7 @@ public class DefaultActionMethodResponseHandler implements ActionMethodResponseH
             viewDispatcher.dispatch(request, response, view);
         } else if (returnValue instanceof Exception) {
             Exception exception = (Exception) returnValue;
-            // todo log this occurance
+            monitor.actionMethodReturnedException(exception);
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             handleResponse(response, exception.getMessage());
         } else {

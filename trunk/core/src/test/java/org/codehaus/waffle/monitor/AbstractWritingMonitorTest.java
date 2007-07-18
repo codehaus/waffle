@@ -10,17 +10,16 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import static org.junit.Assert.assertEquals;
-
-import java.lang.reflect.Method;
-import java.util.Set;
-
 import org.codehaus.waffle.action.MethodDefinition;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jmock.integration.junit4.JUnit4Mockery;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * 
@@ -32,7 +31,7 @@ public class AbstractWritingMonitorTest {
     private final Mockery mockery = new JUnit4Mockery();
 
     @Test
-    public void canWriteEvents() {
+    public void canWriteMessages() {
         final StringBuffer sb = new StringBuffer();
         final AbstractWritingMonitor monitor = new AbstractWritingMonitor() {
 
@@ -41,6 +40,10 @@ public class AbstractWritingMonitorTest {
                 sb.append(message).append("\n");
             }
 
+            @Override
+            protected void trace(Exception exception) {
+                // will not be tested here
+            }
         };
         MethodDefinition methodDefinition = mockMethodDefinition();
         monitor.actionMethodFound(methodDefinition);

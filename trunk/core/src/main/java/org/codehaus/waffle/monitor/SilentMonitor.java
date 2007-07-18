@@ -21,5 +21,8 @@ public class SilentMonitor extends AbstractWritingMonitor {
     protected void write(MonitorLevel level, String message) {
         // write nothing
     }
-    
+
+    protected void trace(Exception exception) {
+        // write nothing
+    }
 }
