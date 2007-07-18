@@ -1,10 +1,10 @@
 package org.codehaus.waffle.action;
 
+import org.codehaus.waffle.monitor.ActionMonitor;
+import org.codehaus.waffle.testmodel.StubMonitor;
+import org.codehaus.waffle.testmodel.StubViewDispatcher;
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.ViewDispatcher;
-import org.codehaus.waffle.action.ActionMethodResponseHandler;
-import org.codehaus.waffle.action.DefaultActionMethodResponseHandler;
-import org.codehaus.waffle.action.ActionMethodResponse;
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
 
@@ -16,9 +16,21 @@ import java.io.IOException;
 
 public class DefaultActionResponseHandlerTest extends MockObjectTestCase {
 
-    public void testConstructor() {
+    public void testConstructorDoesNotAcceptNull() {
         try {
-            new DefaultActionMethodResponseHandler(null);
+            new DefaultActionMethodResponseHandler(null, null);
+            fail("IllegalArgumentException expected, null is not a valid argument");
+        } catch (IllegalArgumentException expected) {
+            // expected
+        }
+        try {
+            new DefaultActionMethodResponseHandler(null, new StubMonitor());
+            fail("IllegalArgumentException expected, null is not a valid argument");
+        } catch (IllegalArgumentException expected) {
+            // expected
+        }
+        try {
+            new DefaultActionMethodResponseHandler(new StubViewDispatcher(), null);
             fail("IllegalArgumentException expected, null is not a valid argument");
         } catch (IllegalArgumentException expected) {
             // expected
@@ -37,7 +49,11 @@ public class DefaultActionResponseHandlerTest extends MockObjectTestCase {
         Mock mockViewResolver = mock(ViewDispatcher.class);
         ViewDispatcher viewDispatcher = (ViewDispatcher) mockViewResolver.proxy();
 
-        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher);
+        // Mock ActionMonitor
+        Mock mockActionMonitor = mock(ActionMonitor.class);
+        ActionMonitor actionMonitor = (ActionMonitor) mockActionMonitor.proxy();
+
+        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher, actionMonitor);
         handler.handle(null, response, null);
     }
 
@@ -62,7 +78,11 @@ public class DefaultActionResponseHandlerTest extends MockObjectTestCase {
         mockViewResolver.expects(once()).method("dispatch");
         ViewDispatcher viewDispatcher = (ViewDispatcher) mockViewResolver.proxy();
 
-        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher);
+        // Mock ActionMonitor
+        Mock mockActionMonitor = mock(ActionMonitor.class);
+        ActionMonitor actionMonitor = (ActionMonitor) mockActionMonitor.proxy();
+
+        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher, actionMonitor);
         handler.handle(request, response, actionMethodResponse);
     }
 
@@ -89,15 +109,20 @@ public class DefaultActionResponseHandlerTest extends MockObjectTestCase {
         Mock mockViewResolver = mock(ViewDispatcher.class);
         ViewDispatcher viewDispatcher = (ViewDispatcher) mockViewResolver.proxy();
 
-        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher);
+        // Mock ActionMonitor
+        Mock mockActionMonitor = mock(ActionMonitor.class);
+        ActionMonitor actionMonitor = (ActionMonitor) mockActionMonitor.proxy();
+
+        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher, actionMonitor);
         handler.handle(request, response, actionMethodResponse);
 
         assertEquals("Mmmmm Waffles!", out.buffer.toString());
     }
 
     public void testResponseIsAnException() throws IOException, ServletException {
+        Exception exception = new Exception("error for testing");
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
-        actionMethodResponse.setReturnValue(new Exception("error for testing"));
+        actionMethodResponse.setReturnValue(exception);
 
         // Mock HttpServletRequest
         Mock mockRequest = mock(HttpServletRequest.class);
@@ -120,7 +145,13 @@ public class DefaultActionResponseHandlerTest extends MockObjectTestCase {
         Mock mockViewResolver = mock(ViewDispatcher.class);
         ViewDispatcher viewDispatcher = (ViewDispatcher) mockViewResolver.proxy();
 
-        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher);
+        // Mock ActionMonitor
+        Mock mockActionMonitor = mock(ActionMonitor.class);
+        // must fire the exception to the monitor
+        mockActionMonitor.expects(once()).method("actionMethodReturnedException").with(same(exception));
+        ActionMonitor actionMonitor = (ActionMonitor) mockActionMonitor.proxy();
+
+        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher, actionMonitor);
         handler.handle(request, response, actionMethodResponse);
 
         assertEquals("error for testing", out.buffer.toString());
@@ -149,7 +180,11 @@ public class DefaultActionResponseHandlerTest extends MockObjectTestCase {
         Mock mockViewResolver = mock(ViewDispatcher.class);
         ViewDispatcher viewDispatcher = (ViewDispatcher) mockViewResolver.proxy();
 
-        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher);
+        // Mock ActionMonitor
+        Mock mockActionMonitor = mock(ActionMonitor.class);
+        ActionMonitor actionMonitor = (ActionMonitor) mockActionMonitor.proxy();
+
+        ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher, actionMonitor);
         handler.handle(request, response, null);
     }
 

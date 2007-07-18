@@ -10,9 +10,9 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import java.util.Set;
-
 import org.codehaus.waffle.action.MethodDefinition;
+
+import java.util.Set;
 
 /**
  * Defines events that need to be monitored, eg for debugging purposes.
@@ -32,6 +32,7 @@ public interface ActionMonitor {
 
     void actionMethodFound(MethodDefinition methodDefinition);
 
-    void methodNameResolved(String methodName, String methodKey, Set<String> keys);    
+    void methodNameResolved(String methodName, String methodKey, Set<String> keys);
 
+    void actionMethodReturnedException(Exception exception);
 }

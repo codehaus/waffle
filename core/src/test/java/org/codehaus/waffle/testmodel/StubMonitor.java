@@ -1,9 +1,9 @@
 package org.codehaus.waffle.testmodel;
 
-import java.util.Set;
-
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.monitor.ActionMonitor;
+
+import java.util.Set;
 
 public class StubMonitor implements ActionMonitor {
 
@@ -22,5 +22,6 @@ public class StubMonitor implements ActionMonitor {
     public void methodNameResolved(String methodName, String methodKey, Set<String> keys) {
     }
 
-
+    public void actionMethodReturnedException(Exception exception) {
+    }
 }
