@@ -34,5 +34,5 @@ public interface ActionMonitor {
 
     void methodNameResolved(String methodName, String methodKey, Set<String> keys);
 
-    void actionMethodReturnedException(Exception exception);
+    void actionMethodExecutionFailed(Exception cause);
 }
