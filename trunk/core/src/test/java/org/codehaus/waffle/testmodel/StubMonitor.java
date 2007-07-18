@@ -22,6 +22,6 @@ public class StubMonitor implements ActionMonitor {
     public void methodNameResolved(String methodName, String methodKey, Set<String> keys) {
     }
 
-    public void actionMethodReturnedException(Exception exception) {
+    public void actionMethodExecutionFailed(Exception exception) {
     }
 }

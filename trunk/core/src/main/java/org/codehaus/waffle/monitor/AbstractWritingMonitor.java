@@ -58,7 +58,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor {
         write(INFO, "Method name '" + methodName + "' found for key '" + methodKey + "' among keys " + keys);
     }
 
-    public void actionMethodReturnedException(Exception exception) {
+    public void actionMethodExecutionFailed(Exception exception) {
         trace(exception);
     }
 }
