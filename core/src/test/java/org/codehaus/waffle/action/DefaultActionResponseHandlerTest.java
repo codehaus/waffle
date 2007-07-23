@@ -148,7 +148,7 @@ public class DefaultActionResponseHandlerTest extends MockObjectTestCase {
         // Mock ActionMonitor
         Mock mockActionMonitor = mock(ActionMonitor.class);
         // must fire the exception to the monitor
-        mockActionMonitor.expects(once()).method("actionMethodReturnedException").with(same(exception));
+        mockActionMonitor.expects(once()).method("actionMethodExecutionFailed").with(same(exception));
         ActionMonitor actionMonitor = (ActionMonitor) mockActionMonitor.proxy();
 
         ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher, actionMonitor);
