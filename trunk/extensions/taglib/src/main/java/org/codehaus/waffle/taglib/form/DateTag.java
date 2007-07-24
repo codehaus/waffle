@@ -1,6 +1,6 @@
 package org.codehaus.waffle.taglib.form;
 
-import org.apache.taglibs.standard.tag.common.fmt.LocaleSupport;
+import org.codehaus.waffle.taglib.LocaleSupport;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.el.ELException;
