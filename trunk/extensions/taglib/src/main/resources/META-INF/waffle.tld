@@ -195,6 +195,43 @@
     </attribute>
   </tag>
 
+  <!-- number -->
+  <tag>
+    <name>number</name>
+    <tagclass>org.codehaus.waffle.taglib.form.NumberTag</tagclass>
+    <bodycontent>empty</bodycontent>
+    <dynamic-attributes>true</dynamic-attributes>
+    <description>Number tag</description>
+    <attribute>
+      <name>rendered</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.Boolean</type>
+      <description>If the field should be rendered or not.</description>
+    </attribute>
+    <attribute>
+      <name>value</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.Number</type>
+      <description>The number to be rendered and formatted.</description>
+    </attribute>
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>Name of the field.</description>
+    </attribute>
+    <attribute>
+      <name>pattern</name>
+      <required>false</required>
+      <rtexprvalue>false</rtexprvalue>
+      <type>java.lang.String</type>
+      <description>number format pattern</description>
+    </attribute>
+  </tag>
+
   <tag>
     <name>select</name>
     <tagclass>org.codehaus.waffle.taglib.form.SelectTag</tagclass>
