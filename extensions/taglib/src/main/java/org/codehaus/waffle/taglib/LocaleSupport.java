@@ -1,4 +1,4 @@
-package org.apache.taglibs.standard.tag.common.fmt;
+package org.codehaus.waffle.taglib;
 
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.jstl.core.Config;
