@@ -34,6 +34,7 @@
    <page>taglib/taglib.html</page>
    <page>taglib/button.html</page>
    <page>taglib/calendar.html</page>
+   <page>taglib/date.html</page>
    <page>taglib/hidden.html</page>
    <page>taglib/number.html</page>
    <page>taglib/submit.html</page>
