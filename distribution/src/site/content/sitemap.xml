@@ -35,6 +35,7 @@
    <page>taglib/button.html</page>
    <page>taglib/calendar.html</page>
    <page>taglib/hidden.html</page>
+   <page>taglib/number.html</page>
    <page>taglib/submit.html</page>
    <page>taglib/select.html</page>
    <page>taglib/text.html</page>
