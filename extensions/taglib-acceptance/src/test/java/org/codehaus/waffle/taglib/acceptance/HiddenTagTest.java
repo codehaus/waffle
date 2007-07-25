@@ -14,16 +14,16 @@ public class HiddenTagTest extends IntegrationTest {
 
 	public void testChecksTheDefaultAttribute() {
 		open("hidden.jsp");
-		assertEquals("54321",selenium.getValue("onlyName"));
+		assertEquals("54321", field("onlyName").value());
 	}
 
 	public void testChecksTheValueAttribute() {
 		open("hidden.jsp");
-		assertEquals("12345",selenium.getValue("nameAndValue"));
+		assertEquals("12345", field("nameAndValue").value());
 	}
 	
 	public void testChecksTheRenderedAttributeSetToTrue() {
 		open("hidden.jsp");
-		assertEquals("54321",selenium.getValue("renderedTrue"));
+		assertEquals("54321", field("renderedTrue").value());
 	}
 }

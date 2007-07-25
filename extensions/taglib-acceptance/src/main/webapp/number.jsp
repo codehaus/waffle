@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <%@ page contentType="text/html;encoding=iso-8859-1" %>
-<%@ page import="java.lang.Number" %>
 
 <html>
 <head>
@@ -10,20 +9,18 @@
 <body >
  
 <%
-	pageContext.setAttribute("number",new Double(1234.567));
-  pageContext.setAttribute("number2",new Double(1234.5));
+  pageContext.setAttribute("number", new Double(1234.5));
 %>
 
-<fmt:setLocale value="pt_BR" />
+<fmt:setLocale value="${param.locale}" />
 
 Number Tag:
 <br/>
-without pattern <w:number id="asfsad" value="${number}" name="numberLocalized"/>
+without pattern <w:number id="localizedNumber" name="number" />
 <br/>
-with pattern <w:number name="d" value="${number2}" pattern="00,000.##"/>
-<br/>
-only name atribute:<w:number name="number" />
+with pattern <w:number id="patternNumber" name="number" pattern="00,000.00" />
 <br/>
 <br/>
+
 </body >
 </html>
