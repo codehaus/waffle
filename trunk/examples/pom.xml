@@ -29,6 +29,21 @@
       <groupId>${pom.groupId}</groupId>
       <artifactId>waffle-taglib</artifactId>
       <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <scope>runtime</scope>      
+    </dependency>
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <scope>runtime</scope>
     </dependency>    
   </dependencies>
 
@@ -49,7 +64,6 @@
             </goals>
             <configuration>
               <source>
-                <body>
                   def ant = new AntBuilder()
                   def webapp = "${project.build.directory}/${pom.artifactId}.war"
                   if ( new File(webapp).exists() ){
@@ -57,7 +71,6 @@
                     ant.copy(file: "${webapp}", 
                             todir: "${webapp.deploy.dir}", verbose: true, overwrite: true)
                   }
-                </body>
               </source>
             </configuration>
           </execution>
