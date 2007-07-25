@@ -134,7 +134,7 @@
                 </property>
                 <property>
                   <name>seleniumContextPath</name>
-                  <value>/${pom.artifactId}/</value>
+                  <value>/${pom.artifactId}-${pom.version}/</value>
                 </property>
               </systemProperties>
               <includes>
