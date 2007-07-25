@@ -9,7 +9,7 @@ public class TextareaTagTest extends IntegrationTest {
 
     public void testContainsItsBodyAsValue() {
         open("textarea.jsp");
-        assertEquals("itsValue", selenium.getValue("itsName"));
+        assertEquals("itsValue", field("itsName").value());
     }
 
 }

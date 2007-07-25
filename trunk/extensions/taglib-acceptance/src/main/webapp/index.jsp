@@ -9,7 +9,7 @@
     <a href="date.jsp">w:date</a><br />
     <a href="form.jsp">w:form</a><br />
     <a href="hidden.jsp">w:hidden</a><br />
-    <a href="number.jsp">w:number</a><br />
+    <a href="number.jsp?locale=pt_BR">w:number</a><br />
     <a href="password.jsp">w:password</a><br />
     <a href="select.jsp">w:select</a><br />
     <a href="selectTokens.jsp">w:selectTokens</a><br />

@@ -19,7 +19,23 @@ public abstract class IntegrationTest extends SeleneseTestCase {
 	protected void open(String url) {
 		String contextPath = System.getProperty("seleniumContextPath");
         selenium.open(contextPath + url);
-		selenium.waitForPageToLoad("2000");
+        selenium.waitForPageToLoad("2000");
 	}
 
+    protected Field field(String localizer) {
+        return new Field(localizer);
+    }
+    
+    protected class Field {
+        private final String localizer;
+
+        public Field(String localizer) {
+            this.localizer = localizer;
+        }
+
+        public String value() {
+            return selenium.getValue(localizer);
+        }
+    }
+    
 }
