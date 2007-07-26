@@ -3,7 +3,7 @@ package org.codehaus.waffle.example.simple.action;
 import org.codehaus.waffle.action.annotation.ActionMethod;
 
 public class CalculatorController {
-    public Number result;
+    private Number result;
 
     public Number getResult() {
         return result;
