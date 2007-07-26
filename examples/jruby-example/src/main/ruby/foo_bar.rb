@@ -1,7 +1,7 @@
 class FooBar
 
   def index
-    @var1 = "is cool and fast"
+    @var1 = "is cool and fast, right? #{foobar}"
     render("foobar.jspx")
   end
 
@@ -14,9 +14,9 @@ class FooBar
   end
 
   def index_two
-    request[:foo] = 'bar'
-    session[:bar] = 'foo'
-    session[:baz] = 'foo'
+    request['foo'] = 'bar'
+    session['bar'] = 'foo'
+    session['baz'] = 'foo'
     p session
 
     %{
