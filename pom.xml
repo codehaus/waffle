@@ -16,7 +16,6 @@
     <module>core</module>
     <module>extensions/webcontainer</module>
     <module>extensions/taglib</module>
-    <module>plugins/rspec-maven-plugin</module>
   </modules>
 
   <dependencyManagement>
@@ -234,6 +233,11 @@
           <artifactId>groovy-maven-plugin</artifactId>
           <version>1.0-alpha-3</version>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>rspec-maven-plugin</artifactId>
+          <version>1.0-SNAPSHOT</version>
+        </plugin>        
         <plugin>
           <groupId>org.codehaus.xsite</groupId>
           <artifactId>xsite-maven-plugin</artifactId>

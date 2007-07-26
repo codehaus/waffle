@@ -62,7 +62,7 @@
     </resources>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.waffle</groupId>
+        <groupId>org.codehaus.mojo</groupId>
         <artifactId>rspec-maven-plugin</artifactId>
         <configuration>
           <jrubyHome>${env.JRUBY_HOME}</jrubyHome>
