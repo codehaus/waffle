@@ -53,9 +53,17 @@
       </plugin>
 
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <warName>${pom.artifactId}-${pom.version}</warName>
+        </configuration>
+      </plugin>
+
+      <plugin>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-maven2-plugin</artifactId>
-        <version>0.3-SNAPSHOT</version>
+        <version>0.3.1</version>
         <executions>
           <execution>
             <id>start-container</id>
@@ -85,9 +93,6 @@
           </container>
           <deployables>
             <deployable>
-              <properties>
-                <context>waffle</context>
-              </properties>
               <pingURL>http://localhost:8080/cargocpc/index.html</pingURL>
             </deployable>
           </deployables>
