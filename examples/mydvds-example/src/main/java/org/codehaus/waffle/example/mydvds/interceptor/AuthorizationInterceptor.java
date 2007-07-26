@@ -31,12 +31,13 @@ public class AuthorizationInterceptor implements MethodInterceptor {
         }
     }
 
-
     public boolean accept(Method method) {
         return !this.skippedMethods.contains(method);
     }
 
-    public Object intercept(ControllerDefinition controllerDefinition, Method method, InterceptorChain chain,
+    public Object intercept(ControllerDefinition controllerDefinition,
+                            Method method,
+                            InterceptorChain chain,
                             Object... arguments) throws IllegalAccessException, InvocationTargetException {
         // TODO logging
         System.out.println("Trying to authenticate ...");

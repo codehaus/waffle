@@ -1,5 +1,5 @@
 function fireMethod(methodName, formId) {
- 	form = document.getElementById(formId);
+    form = document.getElementById(formId);
     createElementSubmitForm(form, methodName);
 }
 
