@@ -34,7 +34,7 @@ end
 describe "Waffle::WebContext class" do
 
   it "initialize() should obtain all attribute name/values and add them to a Ruby Hash" do
-    table = Hashtable.new # Using Hashtable because we need to an enumerator for testing
+    table = Hashtable.new # Using Hashtable because we need an enumerator for testing
     table.put('foo', "junk")
     table.put(:bar, "junk")
 
