@@ -11,55 +11,55 @@ import java.util.HashSet;
 @Entity
 public class Dvd implements Comparable<Dvd> {
 
-	@Id
-	@GeneratedValue
-	private Long id;
+    @Id
+    @GeneratedValue
+    private Long id;
 
-	private String title;
+    private String title;
 
-	private String description;
+    private String description;
 
-	@ManyToMany
-	private Set<User> users = new HashSet<User>();
+    @ManyToMany
+    private Set<User> users = new HashSet<User>();
 
-	@Enumerated(EnumType.STRING)
-	private DvdType type;
+    @Enumerated(EnumType.STRING)
+    private DvdType type;
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getTitle() {
-		return title;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public DvdType getType() {
-		return type;
-	}
+    public DvdType getType() {
+        return type;
+    }
 
-	public void setType(DvdType type) {
-		this.type = type;
-	}
+    public void setType(DvdType type) {
+        this.type = type;
+    }
 
-	public Set<User> getUsers() {
-		return users;
-	}
+    public Set<User> getUsers() {
+        return users;
+    }
 
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -68,9 +68,7 @@ public class Dvd implements Comparable<Dvd> {
         Dvd dvd = (Dvd) o;
 
         if (title != null ? !title.equals(dvd.title) : dvd.title != null) return false;
-        if (type != dvd.type) return false;
-
-        return true;
+        return type == dvd.type;
     }
 
     public int hashCode() {

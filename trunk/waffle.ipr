@@ -317,9 +317,9 @@
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/freemarker-example/freemarker-example.iml" filepath="$PROJECT_DIR$/examples/freemarker-example/freemarker-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/jruby-example/jruby-example.iml" filepath="$PROJECT_DIR$/examples/jruby-example/jruby-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/mydvds-example/mydvds-example.iml" filepath="$PROJECT_DIR$/examples/mydvds-example/mydvds-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" filepath="$PROJECT_DIR$/examples/paranamer-example/paranamer-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/root.iml" filepath="$PROJECT_DIR$/root.iml" />
-      <module fileurl="file://$PROJECT_DIR$/plugins/rspec-maven-plugin/rspec-maven-plugin.iml" filepath="$PROJECT_DIR$/plugins/rspec-maven-plugin/rspec-maven-plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/simple-example/simple-example.iml" filepath="$PROJECT_DIR$/examples/simple-example/simple-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/extensions/taglib/taglib.iml" filepath="$PROJECT_DIR$/extensions/taglib/taglib.iml" />
     </modules>
