@@ -11,18 +11,17 @@ import java.util.HashMap;
 
 public class UsersController {
 
-    private final PersistenceManager factory;
+    private final PersistenceManager persistenceManager;
     private final Passport passport;
 
-    public UsersController(PersistenceManager factory, Passport passport) {
-        this.factory = factory;
+    public UsersController(PersistenceManager persistenceManager, Passport passport) {
+        this.persistenceManager = persistenceManager;
         this.passport = passport;
     }
 
     @ActionMethod(parameters = {"login", "password"})
     public View login(String login, String password) {
-
-        User user = this.factory.getUserDao().search(login, password);
+        User user = this.persistenceManager.getUserDao().search(login, password);
         this.passport.setUser(user);
 
         return new RedirectView("dvds.waffle", this, new HashMap());
@@ -30,15 +29,15 @@ public class UsersController {
 
     @ActionMethod(parameters = {"name", "login", "password"})
     public View add(String name, String login, String password) {
-        this.factory.beginTransaction();
-        this.factory.getUserDao().add(new User(name, login, password));
-        this.factory.commit();
+        this.persistenceManager.beginTransaction();
+        this.persistenceManager.getUserDao().add(new User(name, login, password));
+        this.persistenceManager.commit();
 
-        return new View("user-added.jspx", this);
+        return new View("user-added", this);
     }
 
     public View logout() {
         this.passport.invalidate();
-        return new View("index.jspx", this);
+        return new RedirectView("users.waffle", this, new HashMap());
     }
 }

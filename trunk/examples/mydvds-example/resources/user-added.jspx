@@ -26,7 +26,7 @@
 
     <div class="box">
       <h2>User added successfully.</h2>
-      <c:url value="/index.jspx" var="loginPage"/>
+      <c:url value="/users.waffle" var="loginPage"/>
 
       <p><a href="${loginPage}"><fmt:message key="login_page"/></a></p>
     </div>
