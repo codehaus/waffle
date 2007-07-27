@@ -46,7 +46,7 @@ public class AuthorizationInterceptor implements MethodInterceptor {
             return chain.proceed(controllerDefinition, method, arguments);
         } else {
             System.out.println("Not Authenticated");
-            return new RedirectView("index.jspx", controllerDefinition.getController(), new HashMap());
+            return new RedirectView("users.waffle", controllerDefinition.getController(), new HashMap());
         }
     }
 
