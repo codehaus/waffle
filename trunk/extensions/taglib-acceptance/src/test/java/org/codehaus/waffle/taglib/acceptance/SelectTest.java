@@ -20,4 +20,9 @@ public class SelectTest extends IntegrationTest {
         assertEquals("", selenium.getSelectedId("produto.id.selected.null"));
     }
 
+    public void testAcceptsNullAsContent() {
+        open("select.jsp");
+        assertEquals(0, selenium.getSelectOptions("nulledList").length);
+    }
+
 }

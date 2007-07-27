@@ -26,32 +26,38 @@
 	<w:select id="rendered" rendered="${true}" var="produto" name="rendered" items="${lista}" value="id">${produto.name}</w:select>
 </div>
 
-test selected=2 <br>
+test selected=2 <br />
 <w:select var="produto" name="produto.id.selected.2" items="${lista}" value="id" selected="${2}">
         ${produto.name}
 </w:select>
 
-<br>
-<br>
+<br />
+<br />
 
-test selected=null <br>
+test selected=null <br />
 <w:select var="produto" name="produto.id.selected.null" items="${lista}" value="id" selected="${null}">
         ${produto.name}
 </w:select>
 
-<br>
-<br>
+<br />
+<br />
 
-w:select type="combo": <br>
+w:select type="combo": <br />
 <w:select var="produto" name="produto.id" items="${lista}" value="id" selected="${2}" addEmpty="true">
         ${produto.name}
 </w:select>
 
-<br>
-<br>
+<br />
+<br />
 
-w:select type="radio": <br>
+w:select type="radio": <br />
 <w:select type="radio" var="produto" name="produto.id" items="${lista}" value="id" >
+        ${produto.name}
+</w:select>
+
+<br /><br />
+w:select with null list: <br />
+<w:select var="produto" name="nulledList" items="${unknown}" value="id" >
         ${produto.name}
 </w:select>
 
