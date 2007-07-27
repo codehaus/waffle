@@ -63,7 +63,7 @@ abstract class BasicSelectTag extends FormElement {
 
     @Override
     protected IterationResult afterBody(JspWriter out) throws IOException {
-        return iterator.hasNext() ? IterationResult.BODY_AGAIN : IterationResult.PAGE;
+        return (iterator != null && iterator.hasNext()) ? IterationResult.BODY_AGAIN : IterationResult.PAGE;
     }
 
     @Override
