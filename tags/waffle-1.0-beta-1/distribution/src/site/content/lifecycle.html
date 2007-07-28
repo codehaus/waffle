@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+  <head>
+    <title>Component Lifecycle</title>
+  </head>
+  <body>
+
+  <h2>Component Lifecycle</h2>
+
+  <p>
+    Waffle provides lifecycle support which means we can register component with the Registrar that implement
+    <b>org.codehaus.waffle.Startable</b>.  This will allow a component to be started as soon as a context (application,
+    session or request) is initialized and stopped when the context is destroyed. This is an extremly useful and
+    powerful ability.  With this feature it is possible to register "Janitor" type of components that will
+    cleanup resources when their particular context is being destroyed (i.e. closing jdbc resources).
+  </p>
+
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class MyStartable implements org.codehaus.waffle.Startable {
+
+      public void start() {
+        System.out.println(&quot;I'm being started...&quot;);
+      }
+
+      public void stop() {
+        System.out.println(&quot;I'm being stopped...bye!&quot;);
+      }
+    }
+  </textarea>
+
+  <p>
+    Startable components are registered in the same way as any other component or Controllers within Waffle. And of
+    course they will also support Dependency Injection, otherwise your Startable components would be no more useful than
+    the example above.
+  </p>
+  </body>
+
+</html>

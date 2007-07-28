@@ -1,0 +1,25 @@
+Mostrando todos os erros
+
++---------------
+<s:errors/>
++---------------
+
+Motrando somente os erros de determinado campo
+
++---------------
+<s:errors path="contato.nome"/>
++---------------
+
+Mostrando erros em um formulário
+
+	Caso você use o estilo <table> ou <tabless> de um formulário, as mensagens de erro aparecerão automaticamente.
+	
+Para alterar o id da div criada
+
+	Se você deseja utilizar outro id para sua div basta sobreescrever o valor padrão (errors):
+
++---------------
+<s:errors id="my_custom_errors_div"/>
++---------------
+
+	
