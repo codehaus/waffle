@@ -3,7 +3,7 @@
   <groupId>org.codehaus.waffle</groupId>
   <artifactId>waffle-parent</artifactId>
   <packaging>pom</packaging>
-  <version>1.0-beta-1</version>
+  <version>1.0-SNAPSHOT</version>
   <name>Waffle Parent</name>
   <description>
     Waffle is a Java web framework that makes the process of developing Java based web applications easier. It was built
@@ -420,8 +420,8 @@
   </developers>
 
   <scm>
-    <developerConnection>scm:svn:https://svn.codehaus.org/waffle/tags/waffle-1.0-beta-1</developerConnection>
-    <url>https://svn.codehaus.org/waffle/tags/waffle-1.0-beta-1</url>
+    <developerConnection>scm:svn:https://svn.codehaus.org/waffle</developerConnection>
+    <url>http://svn.codehaus.org/waffle</url>
   </scm>
 
   <distributionManagement>
