@@ -20,7 +20,7 @@ accelerate(String)</b> and <b>void stop()</b>. Remember we added the
 component. So each user will have their own instance of the autombile
 controller and, more importantly, the controller will live for the life
 of the users session.</p>
-<div class="source"><pre>
+<textarea class="java:nogutter:nocontrols" name="code">
 //
 // Automobile.java
 //
@@ -57,11 +57,11 @@ public class Automobile implements Serializable {
         speed = 0;
     }
 }
-</pre></div>
+</textarea>
 <p>Next we will have to update the view to display the value of <i>speed</i>
 and also expose the two <i>ActionMethod</i> so they can be triggered by
 the users.</p>
-<div class="source"><pre>
+<textarea class="xml:nogutter:nocontrols" name="code">
 &lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
 &lt;%@ taglib uri=&quot;http://java.sun.com/jsp/jstl/core&quot; prefix=&quot;c&quot; %&gt;
 
@@ -71,19 +71,19 @@ the users.</p>
         &lt;tr&gt;
             &lt;td&gt;Make: &lt;/td&gt;
             &lt;td&gt;
-                &lt;input type=&quot;text&quot; value=&quot;&lt;c:out value='${controller.make}'/&gt;&quot; name=&quot;make&quot;/&gt;
+                &lt;input type=&quot;text&quot; value=&quot;&lt;c:out value='${make}'/&gt;&quot; name=&quot;make&quot;/&gt;
             &lt;/td&gt;
         &lt;/tr&gt;
         &lt;tr&gt;
             &lt;td&gt;Model: &lt;/td&gt;
             &lt;td&gt;
-                &lt;input type=&quot;text&quot; value=&quot;&lt;c:out value='${controller.model}'/&gt;&quot; name=&quot;model&quot;/&gt;
+                &lt;input type=&quot;text&quot; value=&quot;&lt;c:out value='${model}'/&gt;&quot; name=&quot;model&quot;/&gt;
             &lt;/td&gt;
         &lt;/tr&gt;
         &lt;tr&gt;
             &lt;td&gt;Speed: &lt;/td&gt;
             &lt;td&gt;
-                &lt;c:out value='${controller.speed}'/&gt;
+                &lt;c:out value='${speed}'/&gt;
             &lt;/td&gt;
         &lt;/tr&gt;
     &lt;/table&gt;
@@ -95,7 +95,7 @@ the users.</p>
     &lt;input type=&quot;submit&quot;/&gt;
 &lt;/form&gt;
 &lt;/html&gt;
-</pre></div>
+</textarea>
 <p>For this example we will concentrate on the more interesting of
 the two actions, <i>accelerate</i>. The accelerate action is defined as <b>automobile.waffle?method=accelerate|15</b>.
 Let's dissect this to get a better understanding of what is going on.
@@ -166,7 +166,7 @@ So imagine we have a <b>Map</b> instance registered as an attribute in
 the user's session under the name &quot;dictionary&quot;. We can have
 that Map instance passed directly as an argument to the ActionMethod we
 want fired. Let's write a simple controller class as an example:</p>
-<div class="source"><pre>
+<textarea class="java:nogutter:nocontrols" name="code">
 //
 // SampleAction.java
 //
@@ -176,7 +176,7 @@ public class SampleController implements Serializable {
         // do something with the dictionary ...
     }
 }
-</pre></div>
+</textarea>
 <p>This controller has one ActionMethod: <b>void
 myActionMethod(Map)</b>. Assume we have registered this controller under the
 name &quot;sample&quot;. We can have Waffle fire this ActionMethod by
