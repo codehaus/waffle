@@ -75,65 +75,65 @@ has four points worth mentioning.</p>
   <li><b>org.codehaus.waffle.registrar.Registrar</b> is the key
   used to register your applications custom Registrar. The key is the
   fully qualified name of the basic Registrar interface.</li>
-  <li><b>org.codehaus.waffle.context.WaffleContextListener</b>
+  <li><b>org.codehaus.waffle.context.pico.PicoWaffleContextListener</b>
   needs to be registered as a listener so that Waffle can be notified of
   context level (application, session) events.</li>
-  <li><b>org.codehaus.waffle.context.WaffleRequestFilter</b> this
-  is the Filter Waffle uses to handle request level events. This is
-  superior to a RequestAttributeListeners implementation because we can
-  ensure a request level container will only be created when appropriate
-  (i.e. not when images or cascading style sheets are requested).</li>
-  <li><b>org.codehaus.waffle.WaffleServlet</b> is Waffle's front
-  controller for handling requests.
-  <textarea class="xml:nogutter:nocontrols" name="code">
-    <?xml version="1.0" encoding="UTF-8"?>
-    <web-app version="2.4"
+  <li>
+    <b>org.codehaus.waffle.context.WaffleRequestFilter</b> this is the Filter Waffle uses to handle request level
+    events. This is superior to a RequestAttributeListeners implementation because we can ensure a request level
+    container will only be created when appropriate (i.e. not when images or cascading style sheets are requested).
+  </li>
+  <li><b>org.codehaus.waffle.servlet.WaffleServlet</b> is Waffle's front controller for handling requests.</li>
+</ol>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <?xml version="1.0" encoding="UTF-8"?>
+
+  <web-app version="2.4"
          xmlns="http://java.sun.com/xml/ns/j2ee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
-            http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
-    <display-name>Waffle Tutorial Example</display-name>
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-    <!-- 1. This is how an application registers it custom Registrar -->
+    <display-name>Waffle Example</display-name>
+
+    <!-- 1. This is how an application registers its custom Registrar -->
     <context-param>
-        <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
-        <param-value>MyRegistrar</param-value>
+      <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
+      <param-value>org.codehaus.waffle.example.MyRegistrar</param-value>
     </context-param>
 
     <!-- 2. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-        <listener-class>org.codehaus.waffle.context.WaffleContextListener</listener-class>
+      <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
     </listener>
 
     <!-- 3. Waffle request filter (responsible for request level context) -->
     <filter>
-        <filter-name>WaffleRequestFilter</filter-name>
-        <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
+      <filter-name>WaffleRequestFilter</filter-name>
+      <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>WaffleRequestFilter</filter-name>
-        <url-pattern>*.waffle</url-pattern>
+      <filter-name>WaffleRequestFilter</filter-name>
+      <url-pattern>*.waffle</url-pattern>
     </filter-mapping>
 
     <!-- 4. Register Waffle's FrontController servlet -->
     <servlet>
-        <servlet-name>waffle</servlet-name>
-        <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
-        <init-param>
-            <param-name>view.suffix</param-name>
-            <param-value>.jsp</param-value>
-        </init-param>
-        <load-on-startup>1</load-on-startup>
+      <servlet-name>waffle</servlet-name>
+      <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+      <init-param>
+        <param-name>view.suffix</param-name>
+        <param-value>.jspx</param-value>
+      </init-param>
+      <load-on-startup>1</load-on-startup>
     </servlet>
-
     <servlet-mapping>
-        <servlet-name>waffle</servlet-name>
-        <url-pattern>*.Controller</url-pattern>
+      <servlet-name>waffle</servlet-name>
+      <url-pattern>*.waffle</url-pattern>
     </servlet-mapping>
-    </web-app>
+  </web-app>
 </textarea>
-  </li>
-</ol>
+
 <h3>View</h3>
 <p>We will create a very simple view to display the content of the
 Controller. The following example uses a JSP and simply displays the
@@ -149,13 +149,13 @@ values of the Controller.</p>
         <tr>
             <td>Make: </td>
             <td>
-                <input type="text" value="<c:out value='${controller.make}'/>" name="make"/>
+                <input type="text" value="<c:out value='${make}'/>" name="make"/>
             </td>
         </tr>
         <tr>
             <td>Model: </td>
             <td>
-                <input type="text" value="<c:out value='${controller.model}'/>" name="model"/>
+                <input type="text" value="<c:out value='${model}'/>" name="model"/>
             </td>
         </tr>
     </table>
@@ -179,7 +179,7 @@ might layout the code for this tutorial:</p>
            +--- picocontainer.jar
            +--- waffle-1.x.jar
        +--- web.xml
-   +--- automobile.jsp
+   +--- automobile.jspx
 </textarea>
 <dl>
   <dt>NOTE</dt>
