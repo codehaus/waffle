@@ -14,6 +14,10 @@
           <attribute name="method" value="5" />
           <attribute name="URI" value="/WEB-INF/lib/core.jar" />
         </containerElement>
+        <containerElement type="module" name="simple-example">
+          <attribute name="method" value="1" />
+          <attribute name="URI" value="/WEB-INF/classes" />
+        </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
           <attribute name="URI" value="&lt;N/A&gt;" />
@@ -26,18 +30,23 @@
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
-          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
+          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-SNAPSHOT.jar" />
+          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-SNAPSHOT/paranamer-1.0-SNAPSHOT.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-SNAPSHOT.jar" />
-          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-SNAPSHOT/paranamer-1.0-SNAPSHOT.jar!/</url>
+          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
+          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="1" />
           <attribute name="URI" value="/WEB-INF/lib/xstream-1.2.2.jar" />
           <url>jar://$M2_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2.jar!/</url>
+        </containerElement>
+        <containerElement type="library" level="module">
+          <attribute name="method" value="0" />
+          <attribute name="URI" value="/WEB-INF/lib/commons-logging-1.1.jar" />
+          <url>jar://$M2_REPOSITORY$/commons-logging/commons-logging/1.1/commons-logging-1.1.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="1" />
@@ -91,6 +100,11 @@
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
+          <attribute name="URI" value="/WEB-INF/lib/jruby-complete-1.0.jar" />
+          <url>jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0/jruby-complete-1.0.jar!/</url>
+        </containerElement>
+        <containerElement type="library" level="module">
+          <attribute name="method" value="0" />
           <attribute name="URI" value="/WEB-INF/lib/jruby-complete-1.0RC3.jar" />
           <url>jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0RC3/jruby-complete-1.0RC3.jar!/</url>
         </containerElement>
@@ -129,10 +143,6 @@
           <attribute name="method" value="1" />
           <attribute name="URI" value="/WEB-INF/lib/velocity-tools-view-1.1.jar" />
         </containerElement>
-        <containerElement type="module" name="simple-example">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/classes" />
-        </containerElement>
         <building>
           <setting name="EXPLODED_URL" value="file://$MODULE_DIR$/exploded" />
           <setting name="EXPLODED_ENABLED" value="true" />
@@ -148,6 +158,10 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/core.jar" />
           </containerElement>
+          <containerElement type="module" name="simple-example">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/classes" />
+          </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
             <attribute name="URI" value="&lt;N/A&gt;" />
@@ -160,18 +174,23 @@
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
-            <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
+            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-SNAPSHOT.jar" />
+            <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-SNAPSHOT/paranamer-1.0-SNAPSHOT.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0-SNAPSHOT.jar" />
-            <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0-SNAPSHOT/paranamer-1.0-SNAPSHOT.jar!/</url>
+            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
+            <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/xstream-1.2.2.jar" />
             <url>jar://$M2_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="/WEB-INF/lib/commons-logging-1.1.jar" />
+            <url>jar://$M2_REPOSITORY$/commons-logging/commons-logging/1.1/commons-logging-1.1.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="1" />
@@ -225,6 +244,11 @@
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
+            <attribute name="URI" value="/WEB-INF/lib/jruby-complete-1.0.jar" />
+            <url>jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0/jruby-complete-1.0.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="0" />
             <attribute name="URI" value="/WEB-INF/lib/jruby-complete-1.0RC3.jar" />
             <url>jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0RC3/jruby-complete-1.0RC3.jar!/</url>
           </containerElement>
@@ -262,10 +286,6 @@
           <containerElement type="library" name="velocity-tools-view" level="module">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/velocity-tools-view-1.1.jar" />
-          </containerElement>
-          <containerElement type="module" name="simple-example">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/classes" />
           </containerElement>
         </packaging>
       </configuration>

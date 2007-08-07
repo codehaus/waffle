@@ -29,6 +29,7 @@ public class RubyControllerDefinitionFactory extends ContextControllerDefinition
         this.methodNameResolver = methodNameResolver;
     }
 
+    @Override
     protected Object findController(String name, HttpServletRequest request) {
         Object controller = super.findController(name, request);
 
@@ -39,6 +40,7 @@ public class RubyControllerDefinitionFactory extends ContextControllerDefinition
         return controller;
     }
 
+    @Override
     protected MethodDefinition findMethodDefinition(Object controller, HttpServletRequest request, HttpServletResponse response) {
         if (controller instanceof RubyController) {
             RubyController rubyController = (RubyController) controller;
@@ -49,10 +51,7 @@ public class RubyControllerDefinitionFactory extends ContextControllerDefinition
             }
 
             rubyController.setMethodName(methodName);
-            MethodDefinition methodDefinition = new MethodDefinition(executeMethod);
-            methodDefinition.addMethodArgument(request);
-            methodDefinition.addMethodArgument(response);
-            return methodDefinition;
+            return new MethodDefinition(executeMethod);
         }
         return super.findMethodDefinition(controller, request, response);
     }
