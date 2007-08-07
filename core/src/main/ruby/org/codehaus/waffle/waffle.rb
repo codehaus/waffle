@@ -17,7 +17,7 @@ module Waffle
         ScriptLoader.load_from_file_system
       else
         servlet_context.getResourcePaths(prefix).each do |path| # this would be for production!!
-          require(path.gsub(Regexp.new("^#{prefix}\/"), ''))
+          require(path.gsub(%r{#{prefix}\/}, ''))
         end
       end
     end

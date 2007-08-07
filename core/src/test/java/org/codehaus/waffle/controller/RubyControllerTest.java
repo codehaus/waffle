@@ -18,6 +18,6 @@ public class RubyControllerTest extends MockObjectTestCase {
 
         RubyController rubyController = new RubyController(runtime.evalScript("Foo.new"));
         rubyController.setMethodName("my_method");
-        assertEquals("Hello World", rubyController.execute(null, null));
+        assertEquals("Hello World", rubyController.execute());
     }
 }

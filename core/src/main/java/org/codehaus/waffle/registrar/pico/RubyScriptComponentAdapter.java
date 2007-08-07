@@ -31,7 +31,8 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
 
         String script =
                 "controller = " + rubyClassName + ".new\n" + // instantiate controller
-                "controller.extend(Waffle::Controller)"; // mixin Waffle module
+                "controller.extend(Waffle::Controller)\n" + // mixin Waffle module
+                "controller.extend(ERB::Util)"; // mixin ERB::Util
         IRubyObject controller = runtime.evalScript(script);
 
         // inject pico container

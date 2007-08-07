@@ -16,7 +16,7 @@ public class RubyControllerDefinitionFactory extends ContextControllerDefinition
 
     static {
         try {
-            executeMethod = RubyController.class.getMethod("execute", HttpServletRequest.class, HttpServletResponse.class);
+            executeMethod = RubyController.class.getMethod("execute");
         } catch (NoSuchMethodException e) {
             throw new WaffleException("FATAL: Waffle's RubyController does not define an execute() method.");
         }

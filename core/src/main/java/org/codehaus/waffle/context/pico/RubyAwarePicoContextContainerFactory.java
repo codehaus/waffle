@@ -21,6 +21,7 @@ public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFa
         ContextContainer contextContainer = super.buildApplicationContextContainer();
 
         Ruby runtime = Ruby.getDefaultInstance();
+        loadRubyScriptFromClassLoader("org/codehaus/waffle/erb_extension.rb", runtime);
         loadRubyScriptFromClassLoader("org/codehaus/waffle/waffle.rb", runtime);
 
         // I'd prefer to do the following:

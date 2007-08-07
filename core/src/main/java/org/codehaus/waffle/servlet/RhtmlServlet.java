@@ -31,7 +31,6 @@ public class RhtmlServlet extends HttpServlet {
         String template = loadRhtml(request.getServletPath());
 
         Ruby runtime = RequestLevelContainer.get().getComponentInstanceOfType(Ruby.class);
-        runtime.evalScript("require 'erb'\n");
         RubyModule module = runtime.getClassFromPath("ERB");
 
         IRubyObject erb = (IRubyObject) JavaEmbedUtils.invokeMethod(runtime, module, "new",
@@ -39,9 +38,6 @@ public class RhtmlServlet extends HttpServlet {
 
         // TODO: Test with a non-ruby controller
         Object controller = extractController(request);
-
-        JavaEmbedUtils.invokeMethod(runtime, controller, "extend",
-                new Object[]{runtime.getClassFromPath("ERB::Util")}, Object.class);
 
         IRubyObject binding = (IRubyObject) JavaEmbedUtils.invokeMethod(runtime, controller, "send",
                 new Object[]{runtime.newSymbol("binding")}, IRubyObject.class);
