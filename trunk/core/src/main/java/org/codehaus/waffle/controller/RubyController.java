@@ -1,16 +1,14 @@
 package org.codehaus.waffle.controller;
 
 import org.jruby.Ruby;
-import org.jruby.javasupport.JavaUtil;
 import org.jruby.javasupport.JavaEmbedUtils;
+import org.jruby.javasupport.JavaUtil;
 import org.jruby.runtime.builtin.IRubyObject;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * This is a wrapper for the underlying ruby script
@@ -32,13 +30,13 @@ public class RubyController {
     }
 
     // todo need to ensure this doesn't allow non-public methods to be called ... NEED test in general
-    public Object execute(HttpServletRequest request, HttpServletResponse response) {
+    public Object execute() {
         Ruby runtime = rubyObject.getRuntime();
         IRubyObject result;
 
         String[] strings = methodName.split("\\|");
 
-        if(strings.length == 0) {
+        if (strings.length == 0) {
             result = rubyObject.callMethod(runtime.getCurrentContext(), methodName);
         } else {
             Iterator<String> iterator = Arrays.asList(strings).iterator();
@@ -49,8 +47,10 @@ public class RubyController {
             while (iterator.hasNext()) {
                 arguments.add(JavaEmbedUtils.javaToRuby(runtime, iterator.next()));
             }
-            
-            result = rubyObject.callMethod(runtime.getCurrentContext(), methodName, arguments.toArray(new IRubyObject[0]));
+
+            result = rubyObject.callMethod(runtime.getCurrentContext(),
+                    methodName,
+                    arguments.toArray(new IRubyObject[arguments.size()]));
         }
 
         return JavaUtil.convertRubyToJava(result);

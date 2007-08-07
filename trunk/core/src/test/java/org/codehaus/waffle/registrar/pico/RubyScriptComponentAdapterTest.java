@@ -21,6 +21,7 @@ public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
         runtime.evalScript("$my_global = 'Waffle'\n");
 
         String script =
+                "require 'erb'\n" +
                 "module Waffle\n" +
                 "  module Controller\n" +
                 "   def __pico_container=(pico)\n" +
@@ -29,7 +30,7 @@ public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
                 "end\n" +
                 "class FooBar\n" +
                 "  def execute\n" +
-                "    \"JRuby and #{$my_global}\"\n" +
+                "    h(\"JRuby & #{$my_global}\")\n" + // Ensuring ERB::Util has been mixed in
                 "  end\n" +
                 "end";
         runtime.evalScript(script);
@@ -42,6 +43,7 @@ public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
 
         // call a method on the ruby instance ... enuring it was instantiated and that the runtime was set
         IRubyObject response = instance.callMethod(runtime.getCurrentContext(), "execute");
-        assertEquals("JRuby and Waffle", JavaUtil.convertRubyToJava(response));
+        assertEquals("JRuby &amp; Waffle", JavaUtil.convertRubyToJava(response));
+
     }
 }
