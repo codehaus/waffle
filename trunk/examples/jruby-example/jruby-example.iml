@@ -14,6 +14,10 @@
           <attribute name="method" value="5" />
           <attribute name="URI" value="/WEB-INF/lib/core.jar" />
         </containerElement>
+        <containerElement type="module" name="jruby-example">
+          <attribute name="method" value="1" />
+          <attribute name="URI" value="/WEB-INF/classes" />
+        </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
           <attribute name="URI" value="&lt;N/A&gt;" />
@@ -33,6 +37,11 @@
           <attribute name="method" value="0" />
           <attribute name="URI" value="/WEB-INF/lib/xstream-1.2.2.jar" />
           <url>jar://$M2_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2.jar!/</url>
+        </containerElement>
+        <containerElement type="library" level="module">
+          <attribute name="method" value="0" />
+          <attribute name="URI" value="/WEB-INF/lib/commons-logging-1.1.jar" />
+          <url>jar://$M2_REPOSITORY$/commons-logging/commons-logging/1.1/commons-logging-1.1.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="1" />
@@ -114,10 +123,6 @@
           <attribute name="method" value="0" />
           <attribute name="URI" value="&lt;N/A&gt;" />
         </containerElement>
-        <containerElement type="module" name="jruby-example">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/classes" />
-        </containerElement>
         <building>
           <setting name="EXPLODED_URL" value="file://$MODULE_DIR$/exploded" />
           <setting name="EXPLODED_ENABLED" value="true" />
@@ -132,6 +137,10 @@
           <containerElement type="module" name="core">
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/core.jar" />
+          </containerElement>
+          <containerElement type="module" name="jruby-example">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/classes" />
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
@@ -152,6 +161,11 @@
             <attribute name="method" value="0" />
             <attribute name="URI" value="/WEB-INF/lib/xstream-1.2.2.jar" />
             <url>jar://$M2_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="/WEB-INF/lib/commons-logging-1.1.jar" />
+            <url>jar://$M2_REPOSITORY$/commons-logging/commons-logging/1.1/commons-logging-1.1.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="1" />
@@ -232,10 +246,6 @@
           <containerElement type="library" name="velocity-tools-view" level="module">
             <attribute name="method" value="0" />
             <attribute name="URI" value="&lt;N/A&gt;" />
-          </containerElement>
-          <containerElement type="module" name="jruby-example">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/classes" />
           </containerElement>
         </packaging>
       </configuration>

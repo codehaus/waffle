@@ -1,7 +1,7 @@
 class FooBar
 
   def index
-    @var1 = "is cool and fast, right? #{foobar}"
+    @var1 = "is cool and fast, right?"
     render("foobar.jspx")
   end
 
