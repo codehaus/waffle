@@ -41,7 +41,7 @@ class ERB
       # Locate full path to template (*.rhtml)
       path = Waffle::ScriptLoader.locate_template(file_name)
 
-      return "File Not Found: Unable to render file '#{path}'." unless Kernel.test(?f, path)
+      return "File Not Found: Unable to render file '#{path}'." unless File.exist?(path)
 
       template = ''
       File.open(path).each { |line| template << line }
