@@ -33,6 +33,13 @@ module Waffle
         end
       end
     end
+
+    # Locate RHTML templates
+    def self.locate_template(file_name)
+      file_name = file_name =~ /.rhtml$/ ? file_name : "#{file_name}.rhtml"
+      return @__servlet_context.getRealPath('/') + file_name
+    end
+
   end
 
   ##

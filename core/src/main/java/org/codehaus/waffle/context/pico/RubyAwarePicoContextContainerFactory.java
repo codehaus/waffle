@@ -17,6 +17,7 @@ public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFa
         super(messageResources);
     }
 
+    @Override
     public ContextContainer buildApplicationContextContainer() {
         ContextContainer contextContainer = super.buildApplicationContextContainer();
 

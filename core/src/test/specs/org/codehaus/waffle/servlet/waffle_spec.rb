@@ -31,6 +31,24 @@ describe "Waffle::ScriptLoader module" do
 
 end
 
+describe "Waffle::ScriptLoader#locate_template" do
+
+  before(:each) do
+    @servlet_context = mock('ServletContext')
+    @servlet_context.should_receive(:getRealPath).with('/').and_return('/foo/')
+    Waffle::ScriptLoader.instance_variable_set(:@__servlet_context, @servlet_context)
+  end
+
+  it "should find the real path to the template from the ServletContext" do
+    Waffle::ScriptLoader.locate_template('bar.rhtml').should == '/foo/bar.rhtml'
+  end
+
+  it "should post fix '.rhtml' if missing" do
+    Waffle::ScriptLoader.locate_template('baz').should == '/foo/baz.rhtml'
+  end
+
+end
+
 describe "Waffle::WebContext class" do
 
   it "initialize() should obtain all attribute name/values and add them to a Ruby Hash" do
