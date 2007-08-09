@@ -68,6 +68,7 @@ module Waffle
       store(key, value)
     end
 
+    # propogate unknown method calls to the underlying context
     def method_missing(symbol, *args)
       @__context.send(symbol, *args)
     end
@@ -150,7 +151,7 @@ module Waffle
           begin
             self.instance_eval("@#{key} = '#{value}'")
           rescue Exception => e
-            p "ERROR handling request parameter #{key} with value: #{value}\n #{e}"
+            print("ERROR handling request parameter #{key} with value: #{value}\n #{e}\n")
           end
         end
       end

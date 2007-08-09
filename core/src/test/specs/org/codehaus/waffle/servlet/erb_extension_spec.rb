@@ -46,7 +46,7 @@ describe "ERB::Util.partial method" do
   it "should locate file and render through ERB" do
     controller = FakeController.new
 
-    Kernel.should_receive(:test).with(?f, 'file path').and_return(true)
+    File.should_receive(:exist?).with('file path').and_return(true)
     Waffle::ScriptLoader.should_receive(:locate_template).with('file name').and_return("file path")
     File.should_receive(:open).with('file path').and_return([%{Name: <%=@name%> Foo: <%=foo%>}])
 
