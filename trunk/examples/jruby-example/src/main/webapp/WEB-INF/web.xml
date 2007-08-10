@@ -51,6 +51,10 @@
   <servlet>
     <servlet-name>waffle</servlet-name>
     <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+    <init-param>
+      <param-name>view.suffix</param-name>
+      <param-value>.rhtml</param-value>
+    </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet>
