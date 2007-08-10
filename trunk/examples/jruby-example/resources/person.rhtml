@@ -1,16 +1,15 @@
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
   <title>Persons rhtml listing</title>
   <style type="text/css" title="currentStyle" media="screen">
     @import "stylesheets/style.css";
   </style>
-  <script src="scripts/prototype.js" type="text/javascript">
-    // keep this space
-  </script>
-  <script src="scripts/myscript.js" type="text/javascript">
-    // keep this space
-  </script>
+  <script src="scripts/prototype.js" type="text/javascript"></script>
+  <script src="scripts/myscript.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -27,7 +26,9 @@
     </tr>
     <% @persons.each_with_index do |person, index| %>
       <tr class="<%= index % 2 == 0 ? 'even' : 'odd' %>">
-        <td><%= person.id %></td> <!-- TODO: Override object_id -->
+        <td>
+          <%= %{<a href="person.waffle?method=select|#{person.get_id}">#{person.get_id}</a>} %>
+        </td>
         <td><%= person.firstName %></td>
         <td><%= person.lastName %></td>
         <td><%= person.email %></td>
@@ -35,6 +36,14 @@
       </tr>
     <% end %>
   </table>
+
+  <%# Example of partial page %>
+  <div id='editArea'>
+    <% unless @person.nil? %>
+      <%= partial('edit_person', {:foobar => "Mike"}) %>
+    <% end %>
+  </div>
+
   </form>
 </body>
 
