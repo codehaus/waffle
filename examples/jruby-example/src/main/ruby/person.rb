@@ -6,7 +6,6 @@ class PersonController
     @person_dao = locate(org.codehaus.waffle.example.jruby.dao.PersonDAO)
 
     @persons = @person_dao.findAll
-    #render 'person.jspx'
     render 'person.rhtml'
   end
 
