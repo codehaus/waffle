@@ -1,7 +1,7 @@
 package org.codehaus.waffle.example.paranamer.action;
                     
 public class CalculatorController {
-    public Number result;
+    private Number result;
 
     public Number getResult() {
         return result;

@@ -2,7 +2,7 @@ require 'erb'
 require 'org/codehaus/waffle/erb_extension'
 require 'ostruct'
 
-describe "Waffle::PartialController" do
+describe Waffle::PartialController do
 
   it "should expose locals as readable attributes" do
     controller = Waffle::PartialController.new(Object.new, {:foo => 'bar', :hello => 'world'})
@@ -31,7 +31,7 @@ describe "Waffle::PartialController" do
 
 end
 
-describe "ERB::Util.partial method" do
+describe ERB::Util, "partial method" do
 
   class FakeController
     include ERB::Util  # Mix-in whats under test

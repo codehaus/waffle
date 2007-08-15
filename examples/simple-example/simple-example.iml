@@ -18,6 +18,10 @@
           <attribute name="method" value="1" />
           <attribute name="URI" value="/WEB-INF/classes" />
         </containerElement>
+        <containerElement type="module" name="taglib">
+          <attribute name="method" value="5" />
+          <attribute name="URI" value="/WEB-INF/lib/taglib.jar" />
+        </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
           <attribute name="URI" value="&lt;N/A&gt;" />
@@ -35,8 +39,8 @@
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
-          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
+          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.1.jar" />
+          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0.1/paranamer-1.0.1.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="1" />
@@ -49,9 +53,19 @@
           <url>jar://$M2_REPOSITORY$/commons-logging/commons-logging/1.1/commons-logging-1.1.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
+          <attribute name="method" value="0" />
+          <attribute name="URI" value="&lt;N/A&gt;" />
+          <url>jar://$M2_REPOSITORY$/javax/servlet/jsp-api/2.0/jsp-api-2.0.jar!/</url>
+        </containerElement>
+        <containerElement type="library" level="module">
           <attribute name="method" value="1" />
           <attribute name="URI" value="/WEB-INF/lib/jstl-1.1.2.jar" />
           <url>jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar!/</url>
+        </containerElement>
+        <containerElement type="library" level="module">
+          <attribute name="method" value="0" />
+          <attribute name="URI" value="&lt;N/A&gt;" />
+          <url>jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
@@ -162,6 +176,10 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/classes" />
           </containerElement>
+          <containerElement type="module" name="taglib">
+            <attribute name="method" value="5" />
+            <attribute name="URI" value="/WEB-INF/lib/taglib.jar" />
+          </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
             <attribute name="URI" value="&lt;N/A&gt;" />
@@ -179,8 +197,8 @@
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
-            <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
+            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.1.jar" />
+            <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0.1/paranamer-1.0.1.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="1" />
@@ -193,9 +211,19 @@
             <url>jar://$M2_REPOSITORY$/commons-logging/commons-logging/1.1/commons-logging-1.1.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="&lt;N/A&gt;" />
+            <url>jar://$M2_REPOSITORY$/javax/servlet/jsp-api/2.0/jsp-api-2.0.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/jstl-1.1.2.jar" />
             <url>jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar!/</url>
+          </containerElement>
+          <containerElement type="library" level="module">
+            <attribute name="method" value="0" />
+            <attribute name="URI" value="&lt;N/A&gt;" />
+            <url>jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
@@ -359,6 +387,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="taglib" />
     <orderEntryProperties />
   </component>
 </module>

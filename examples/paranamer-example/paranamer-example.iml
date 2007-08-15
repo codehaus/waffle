@@ -19,18 +19,18 @@
           <attribute name="URI" value="/WEB-INF/classes" />
         </containerElement>
         <containerElement type="module" name="taglib">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/classes" />
+          <attribute name="method" value="5" />
+          <attribute name="URI" value="/WEB-INF/lib/taglib.jar" />
         </containerElement>
         <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
+          <attribute name="method" value="1" />
           <attribute name="URI" value="/WEB-INF/lib/asm-3.0.jar" />
           <url>jar://$M2_REPOSITORY$/asm/asm/3.0/asm-3.0.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
-          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
+          <attribute name="method" value="1" />
+          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.1.jar" />
+          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0.1/paranamer-1.0.1.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
@@ -162,18 +162,18 @@
             <attribute name="URI" value="/WEB-INF/classes" />
           </containerElement>
           <containerElement type="module" name="taglib">
-            <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/classes" />
+            <attribute name="method" value="5" />
+            <attribute name="URI" value="/WEB-INF/lib/taglib.jar" />
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="0" />
+            <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/asm-3.0.jar" />
             <url>jar://$M2_REPOSITORY$/asm/asm/3.0/asm-3.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
-            <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
-            <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.1.jar" />
+            <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0.1/paranamer-1.0.1.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
@@ -339,17 +339,26 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="core" exported="" />
+    <orderEntry type="module" module-name="taglib" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/" />
+          <root url="jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0.1/paranamer-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="core" exported="" />
-    <orderEntry type="module" module-name="taglib" exported="" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/asm/asm/3.0/asm-3.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
 </module>
