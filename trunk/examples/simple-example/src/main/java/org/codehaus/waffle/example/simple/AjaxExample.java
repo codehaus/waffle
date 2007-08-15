@@ -19,6 +19,7 @@ public class AjaxExample {
         available.add(new Item(4, "four"));
         available.add(new Item(5, "five"));
     }
+
     public List<Item> getSelected() {
         return selected;
     }
@@ -31,14 +32,14 @@ public class AjaxExample {
         AjaxExample.Item item = available.remove(index);
         selected.add(item);
 
-        return new View("foo.jspx", this);
+        return new View("selection.jspx", this);
     }
 
     public View remove(int index) {
         AjaxExample.Item item = selected.remove(index);
         available.add(item);
 
-        return new View("foo.jspx", this);
+        return new View("selection.jspx", this);
     }
 
     public class Item {

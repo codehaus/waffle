@@ -80,15 +80,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$M2_REPOSITORY$/org/jmock/jmock/2.0.0/jmock-2.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -164,6 +155,15 @@
       <library>
         <CLASSES>
           <root url="jar://$M2_REPOSITORY$/commons-logging/commons-logging/1.1/commons-logging-1.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0.1/paranamer-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

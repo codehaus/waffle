@@ -3,7 +3,7 @@ require 'ostruct'
 
 include_class 'java.util.Hashtable'
 
-describe "Waffle::ScriptLoader module" do
+describe Waffle::ScriptLoader do
 
   it "should use 'load' when path prefix begins with 'dir:'" do
     servlet_context = mock('servlet_context')
@@ -31,7 +31,7 @@ describe "Waffle::ScriptLoader module" do
 
 end
 
-describe "Waffle::ScriptLoader#locate_template" do
+describe Waffle::ScriptLoader, "locate_template method" do
 
   before(:each) do
     @servlet_context = mock('ServletContext')
@@ -49,7 +49,7 @@ describe "Waffle::ScriptLoader#locate_template" do
 
 end
 
-describe "Waffle::WebContext class" do
+describe Waffle::WebContext do
 
   it "initialize() should obtain all attribute name/values and add them to a Ruby Hash" do
     table = Hashtable.new # Using Hashtable because we need an enumerator for testing
@@ -79,7 +79,7 @@ describe "Waffle::WebContext class" do
 
 end
 
-describe "The '__set_all_contexts' Waffle::Controller instance method" do
+describe Waffle::Controller, "__set_all_contexts instance method" do
 
   it "should process request, response, session attributes as well as request parameters" do
     controller = Object.new
@@ -114,7 +114,7 @@ describe "The '__set_all_contexts' Waffle::Controller instance method" do
 
 end
 
-describe "The 'locate' Waffle::Controller instance method" do
+describe Waffle::Controller, "locate method" do
 
   it "should handle when type passed in is a Module" do
     module Foo

@@ -21,14 +21,14 @@
 
         Droppables.add('available', {
             accept: "item_selected",
-            onDrop:handleDrop,
+            onDrop: handleDrop,
             onHover: function(drag, drop) {
                 new Effect.Highlight(drop)
             }});
 
         Droppables.add('selected', {
             accept: "item_available",
-            onDrop:handleDrop,
+            onDrop: handleDrop,
             onHover: function(drag, drop) {
                 new Effect.Highlight(drop)
             }});

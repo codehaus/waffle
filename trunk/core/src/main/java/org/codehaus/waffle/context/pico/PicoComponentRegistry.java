@@ -137,7 +137,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
      * @throws WaffleException
      */
     protected static Class<?> locateComponentClass(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
-        String parameterName = null;
+        String parameterName;
         if ( key instanceof Class ){
             parameterName = ((Class<?>)key).getName();
         } else if ( key instanceof String ){

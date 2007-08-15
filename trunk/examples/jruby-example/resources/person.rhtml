@@ -40,7 +40,7 @@
   <%# Example of partial page %>
   <div id='editArea'>
     <% unless @person.nil? %>
-      <%= partial('edit_person', {:foobar => "Mike"}) %>
+      <%= partial('edit_person', :foobar => "Mike") %>
     <% end %>
   </div>
 
