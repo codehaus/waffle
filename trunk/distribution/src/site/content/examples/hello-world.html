@@ -39,7 +39,7 @@
 
   <p>
     All Controllers need to be registered with Waffle. This is done through the Registrar. Line <b>9</b> in the
-    <i>MyRegistrar</i> class below registers the <i>HelloWorldAction</i> under the name <b>"helloworld"</b>.
+    <i>MyRegistrar</i> class below registers the <i>HelloWorldController</i> under the name <b>"helloworld"</b>.
     This Registrar will need to referenced in the <a href="webxml.html">web.xml</a>.
   </p>
 
@@ -51,7 +51,7 @@
       }
 
       public void application() {
-        register("helloworld", HelloWorldAction.class);
+        register("helloworld", HelloWorldController.class);
       }
     }
   </textarea>

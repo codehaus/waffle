@@ -51,7 +51,7 @@
 
 <h3>Registrar</h3>
 
-<p>Registration is as you would expect. In this example the Action must be registered to the session level so that users
+<p>Registration is as you would expect. In this example the Controller must be registered to the session level so that users
   are not sharing the same <i>result</i> property.</p>
 
 <textarea class="java:nogutter:nocontrols" name="code">
@@ -128,7 +128,7 @@
 </textarea>
 
 <p>Lines <b>44 and 45</b> in the example above do not pragmatically define how their argument values are to be resolved.
-  So in order to handle this we can add an annotation to each of those methods in the Action. Below we have updated the
+  So in order to handle this we can add an annotation to each of those methods in the Controller. Below we have updated the
   CalculatorController with two <b>ActionMethod</b> annotations (lines 12 and 17).</p>
 
 <h3>Annotated Controller:  CalculatorController</h3>
