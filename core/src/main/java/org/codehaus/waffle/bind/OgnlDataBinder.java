@@ -37,8 +37,8 @@ public class OgnlDataBinder implements DataBinder {
         this.bindErrorMessageResolver = bindErrorMessageResolver;
     }
 
+    @SuppressWarnings({"unchecked"})
     public void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext, Object model) {
-        //noinspection unchecked
         Enumeration<String> parameterNames = request.getParameterNames();
 
         while (parameterNames.hasMoreElements()) {

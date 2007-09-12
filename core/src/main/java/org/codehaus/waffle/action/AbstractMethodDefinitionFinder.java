@@ -150,8 +150,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
      * @return A List of methods
      * @throws NoMatchingMethodException if no methods match
      */
+    @SuppressWarnings({"unchecked"})
     private List<Method> findMethods(Class type, String methodName) {
-        //noinspection unchecked
         List<Method> methods = OgnlRuntime.getMethods(type, methodName, false);
         if (methods == null) {
             throw new NoMatchingMethodException(methodName, type);

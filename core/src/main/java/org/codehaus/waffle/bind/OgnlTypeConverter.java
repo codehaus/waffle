@@ -72,12 +72,12 @@ public class OgnlTypeConverter implements TypeConverter {
      * @param toType
      * @return
      */
+    @SuppressWarnings({"unchecked"})
     public Object convertValue(String propertyName, String value, Class toType) {
         if (toType.isEnum()) {
             if ("".equals(value)) {
                 return null;
             }
-            //noinspection unchecked
             return Enum.valueOf(toType, value);
         }
 

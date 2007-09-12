@@ -62,10 +62,9 @@
           <attribute name="URI" value="/WEB-INF/lib/jstl-1.1.2.jar" />
           <url>jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar!/</url>
         </containerElement>
-        <containerElement type="library" level="module">
+        <containerElement type="library" name="servlet-api" level="module">
           <attribute name="method" value="0" />
           <attribute name="URI" value="&lt;N/A&gt;" />
-          <url>jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar!/</url>
         </containerElement>
         <containerElement type="library" level="module">
           <attribute name="method" value="0" />
@@ -220,10 +219,9 @@
             <attribute name="URI" value="/WEB-INF/lib/jstl-1.1.2.jar" />
             <url>jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar!/</url>
           </containerElement>
-          <containerElement type="library" level="module">
+          <containerElement type="library" name="servlet-api" level="module">
             <attribute name="method" value="0" />
             <attribute name="URI" value="&lt;N/A&gt;" />
-            <url>jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
