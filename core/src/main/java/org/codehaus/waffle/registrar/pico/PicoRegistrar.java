@@ -10,13 +10,14 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
+import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.registrar.RubyAwareRegistrar;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
+import org.picocontainer.defaults.CachingComponentAdapter;
 import org.picocontainer.defaults.ConstantParameter;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
-import org.picocontainer.defaults.CachingComponentAdapter;
-import org.codehaus.waffle.registrar.Registrar;
 
 /**
  * This Registrar is backed by PicoContainer for managing Dependency Injection.  This registrar
@@ -25,7 +26,7 @@ import org.codehaus.waffle.registrar.Registrar;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class PicoRegistrar implements Registrar {
+public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final MutablePicoContainer picoContainer;
 
     public PicoRegistrar(MutablePicoContainer picoContainer) {
@@ -68,7 +69,6 @@ public class PicoRegistrar implements Registrar {
         picoContainer.registerComponent(componentAdapter);
     }
 
-    // expose to interface?
     public void registerRubyScript(String key, String className) {
         ComponentAdapter componentAdapter = new RubyScriptComponentAdapter(key, className);
         CachingComponentAdapter cachingComponentAcdapter = new CachingComponentAdapter(componentAdapter);
