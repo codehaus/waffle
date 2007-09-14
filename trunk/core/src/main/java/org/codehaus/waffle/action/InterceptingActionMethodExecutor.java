@@ -44,8 +44,14 @@ public class InterceptingActionMethodExecutor implements ActionMethodExecutor {
         } catch (IllegalAccessException e) {
             throw new MethodInvocationException(e.getMessage(), e); // todo (mward): lets make sure we don't reveal too much information
         } catch (InvocationTargetException e) {
+            Throwable cause = e.getCause();
+
+            // MethodInvocationException should be re-thrown
+            if(cause instanceof MethodInvocationException) {
+                throw (MethodInvocationException) cause;
+            }
             // set the cause of the exception as the return value
-            actionMethodResponse.setReturnValue(e.getCause());
+            actionMethodResponse.setReturnValue(cause);
         }
     }
 

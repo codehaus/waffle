@@ -1,6 +1,8 @@
 package org.codehaus.waffle.controller;
 
+import org.codehaus.waffle.action.MethodInvocationException;
 import org.jruby.Ruby;
+import org.jruby.exceptions.RaiseException;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.javasupport.JavaUtil;
 import org.jruby.runtime.builtin.IRubyObject;
@@ -48,9 +50,13 @@ public class RubyController {
                 arguments.add(JavaEmbedUtils.javaToRuby(runtime, iterator.next()));
             }
 
-            result = rubyObject.callMethod(runtime.getCurrentContext(),
-                    methodName,
-                    arguments.toArray(new IRubyObject[arguments.size()]));
+            try {
+                result = rubyObject.callMethod(runtime.getCurrentContext(),
+                        methodName,
+                        arguments.toArray(new IRubyObject[arguments.size()]));
+            } catch (RaiseException e) {
+                throw new MethodInvocationException(e.getException().message.toString());
+            }
         }
 
         return JavaUtil.convertRubyToJava(result);

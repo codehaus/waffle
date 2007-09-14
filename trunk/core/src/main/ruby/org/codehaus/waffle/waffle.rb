@@ -2,6 +2,7 @@ require 'java'
 
 include_class 'org.codehaus.waffle.view.View'
 include_class 'org.codehaus.waffle.view.RedirectView'
+include_class 'org.codehaus.waffle.action.MethodInvocationException'
 
 # TODO all of this code needs ruby tests!
 module Waffle
@@ -59,9 +60,14 @@ module Waffle
     end
 
     def store(key, value, skip=false)
+      key = key.to_s # Must be a String
       @__context.set_attribute(key, value) unless skip # add to delegate
 
       super(key, value)
+    end
+
+    def [](key)
+      m = Hash.instance_method(:[]).bind(self).call(key.to_s)
     end
 
     def []=(key, value)
@@ -81,6 +87,7 @@ module Waffle
   module Controller
     attr_reader :parameters, :request, :response, :session, :servlet_context, :errors
     alias_method :params, :parameters
+    alias_method :application, :servlet_context
 
     def __set_all_contexts(request, response)
       @request = WebContext.new(request)
@@ -118,9 +125,9 @@ module Waffle
     end
 
     def method_missing(symbol, *args)
-      if symbol.to_s =~ /^find_/ # todo: I don't like "find_" for this ... sounds to model-ish
+      if symbol.to_s =~ /^locate_/
         key = symbol.to_s
-        key = key[5..key.length]
+        key = key[7..key.length]
         component = @__pico_container.getComponentInstance(key)
 
         return component unless component.nil?

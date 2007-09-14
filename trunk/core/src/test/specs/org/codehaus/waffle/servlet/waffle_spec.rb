@@ -64,7 +64,31 @@ describe Waffle::WebContext do
     waffle_context = Waffle::WebContext.new(original_context)
 
     waffle_context.include?('foo').should == true
-    waffle_context.include?(:bar).should == true
+    waffle_context.include?(:foo).should == false
+    waffle_context.include?('bar').should == true
+    waffle_context.include?(:bar).should == false
+  end
+
+  it "should store all keys as Strings" do
+    table = Hashtable.new # Using Hashtable because we need an enumerator for testing
+    original_context = mock('original context')
+    original_context.should_receive(:get_attribute_names).and_return(table.keys)
+    original_context.should_receive(:set_attribute).with('foo', 'bar') # saved as string
+
+    waffle_context = Waffle::WebContext.new(original_context)
+    waffle_context[:foo] = 'bar' # key is symbol
+  end
+
+  it "should retrieve values by converting key to string" do
+    table = Hashtable.new # Using Hashtable because we need an enumerator for testing
+    original_context = mock('original context')
+    original_context.should_receive(:get_attribute_names).and_return(table.keys)
+    original_context.should_receive(:set_attribute).with('foo', 'bar')
+
+    waffle_context = Waffle::WebContext.new(original_context)
+    waffle_context['foo'] = 'bar'
+
+    waffle_context[:foo].should == 'bar' # search with symbol should still retreive value
   end
 
   it "should delegate method calls to the underlying instance when method is missing" do
@@ -141,6 +165,17 @@ describe Waffle::Controller, "locate method" do
     controller.__pico_container = pico
 
     controller.locate('foobar')
+  end
+
+  it "should handle convention to locate components (i.e. prefix with 'locate_')" do
+    controller = Object.new
+    controller.send(:extend, Waffle::Controller)
+
+    pico = mock('pico')
+    pico.should_receive(:getComponentInstance).with('foobar').and_return("the component")
+    controller.__pico_container = pico
+
+    controller.locate_foobar.should == "the component"
   end
 
 end
