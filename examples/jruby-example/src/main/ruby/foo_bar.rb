@@ -14,17 +14,19 @@ class FooBar
   end
 
   def index_two
-    request['foo'] = 'bar'
+    request[:foo] = 'bar'
     session['bar'] = 'foo'
     session['baz'] = 'foo'
+    application[:name] = 'Chicago'
     p session
 
     %{
         HELLO WORLD from the index method
-        look up from pico: #{find_chicago}
         parameters: #{parameters}
         request: #{request}
         session: #{session}
+        application: #{application}
+        name: #{name}
         servlet_context: #{servlet_context}
         #{session['waffle.session.container']}
 
@@ -36,7 +38,7 @@ class FooBar
         component: #{locate(org.codehaus.waffle.example.jruby.dao.PersonDAO)}
 
         #{cls = Java::JavaClass.for_name('java.util.Vector')}
-        #{locate(Java::JavaClass.for_name('java.util.List'))}
+        #{locate(Java::JavaClass.for_name('java.util.List'))} 
     }
 
   end

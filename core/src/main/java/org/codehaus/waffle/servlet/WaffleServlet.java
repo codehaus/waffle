@@ -146,7 +146,7 @@ public class WaffleServlet extends HttpServlet {
             requestAttributeBinder.bind(request, controllerDefinition.getController());
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
         } catch (MethodInvocationException e) {
-            log(e.getMessage());
+            log("ERROR: " + e.getMessage());
             if (methodInvocationErrorPage != null && !methodInvocationErrorPage.equals(EMPTY)) {
                 response.sendRedirect(methodInvocationErrorPage);
             } else {
