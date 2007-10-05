@@ -238,7 +238,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         try {
             methodDefinitionFinder.find(sampleForMethodFinder, request, response);
             fail("AmbiguousMethodSignatureException expected");
-        } catch (AmbiguousMethodSignatureException expected) {
+        } catch (AmbiguousActionSignatureMethodException expected) {
 
         }
     }
@@ -266,7 +266,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         try {
             methodDefinitionFinder.find(sampleForMethodFinder, request, response);
             fail("NoMatchingMethodException expected");
-        } catch (NoMatchingMethodException expected) {
+        } catch (NoMatchingActionMethodException expected) {
             // expected
         }
     }
@@ -665,7 +665,7 @@ public class ParanamerMethodDefinitionFinderTest extends MockObjectTestCase {
         try {
             methodDefinitionFinder.find(this, request, response);
             fail("should have barfed with MatchingMethodException");
-        } catch (MatchingMethodException e) {
+        } catch (MatchingActionMethodException e) {
             // expected
         }
 

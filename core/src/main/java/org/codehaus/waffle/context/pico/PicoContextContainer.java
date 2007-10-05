@@ -50,8 +50,8 @@ public class PicoContextContainer implements ContextContainer {
         return delegate.getComponentInstance(key);
     }
 
+    @SuppressWarnings({"unchecked"})
     public <T> T getComponentInstanceOfType(Class<T> type) {
-        //noinspection unchecked
         return (T) delegate.getComponentInstanceOfType(type);
     }
 
@@ -66,8 +66,8 @@ public class PicoContextContainer implements ContextContainer {
         delegate.getComponentInstances();
     }
 
+    @SuppressWarnings({"unchecked"})
     private <T> void traverseContainerHeirarchy(PicoContainer container, Class<T> type, List<T> collection) {
-        //noinspection unchecked
         collection.addAll(container.getComponentInstancesOfType(type));
 
         PicoContainer parent = container.getParent();

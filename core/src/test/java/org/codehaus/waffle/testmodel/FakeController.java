@@ -12,6 +12,7 @@ package org.codehaus.waffle.testmodel;
 
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.view.View;
+import org.codehaus.waffle.action.ActionMethodInvocationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,6 +56,10 @@ public class FakeController {
 
     public String methodThrowsException(String value) {
         throw new RuntimeException(value);
+    }
+
+    public void actionThrowsActionMethodInvocationException(String msg) {
+        throw new ActionMethodInvocationException(msg);
     }
 
     public void sayHello() {

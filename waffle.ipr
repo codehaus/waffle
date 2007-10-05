@@ -128,26 +128,9 @@
       <profile version="1.0" is_locked="false">
         <option name="myName" value="Project Default" />
         <option name="myLocal" value="false" />
-        <used_levels>
-          <error>
-            <option name="myName" value="ERROR" />
-            <option name="myVal" value="300" />
-          </error>
-          <warning>
-            <option name="myName" value="WARNING" />
-            <option name="myVal" value="200" />
-          </warning>
-          <information>
-            <option name="myName" value="INFO" />
-            <option name="myVal" value="100" />
-          </information>
-          <server>
-            <option name="myName" value="SERVER PROBLEM" />
-            <option name="myVal" value="100" />
-          </server>
-        </used_levels>
       </profile>
     </profiles>
+    <list size="0" />
   </component>
   <component name="JUnitProjectSettings">
     <option value="UI" name="TEST_RUNNER" />
@@ -346,6 +329,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="svn" />
   </component>
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">
     <option name="USER_DEFINED_CONFIGS">
       <value>

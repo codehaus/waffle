@@ -19,7 +19,7 @@ import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.MethodInvocationException;
+import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
@@ -60,10 +60,6 @@ public class WaffleServletTest extends MockObjectTestCase {
                 .method("getInitParameter")
                 .with(eq(Constants.VIEW_SUFFIX_KEY))
                 .will(returnValue(".jsp"));
-        mockServletConfig.expects(once())
-                .method("getInitParameter")
-                .with(eq(Constants.METHOD_INVOCATION_ERROR_PAGE))
-                .will(returnValue("foo.html"));
         final ServletConfig servletConfig = (ServletConfig) mockServletConfig.proxy();
 
         // Mock ServletContext
@@ -114,10 +110,6 @@ public class WaffleServletTest extends MockObjectTestCase {
                 .method("getInitParameter")
                 .with(eq(Constants.VIEW_SUFFIX_KEY))
                 .will(returnValue(null));
-        mockServletConfig.expects(once())
-                .method("getInitParameter")
-                .with(eq(Constants.METHOD_INVOCATION_ERROR_PAGE))
-                .will(returnValue("foo.html"));
         final ServletConfig servletConfig = (ServletConfig) mockServletConfig.proxy();
 
         WaffleServlet servlet = new WaffleServlet() {
@@ -344,7 +336,7 @@ public class WaffleServletTest extends MockObjectTestCase {
         mockMethodExecutor.expects(once())
                 .method("execute")
                 .with(isA(ActionMethodResponse.class), isA(ControllerDefinition.class))
-                .will(throwException(new MethodInvocationException("fake from test")));
+                .will(throwException(new ActionMethodInvocationException("fake from test")));
         ActionMethodExecutor actionMethodExecutor = (ActionMethodExecutor) mockMethodExecutor.proxy();
 
         // Mock Validator

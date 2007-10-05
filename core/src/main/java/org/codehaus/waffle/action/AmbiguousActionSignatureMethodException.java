@@ -12,13 +12,13 @@ package org.codehaus.waffle.action;
 
 
 /**
- * Thrown when method is no valid action method is found
+ * Thrown when unable to determine which method to invoke.
  *
- * @author Mauro Talevi
+ * @author Michael Ward
  */
-public class NoValidMethodException extends MissingMethodException {
+public class AmbiguousActionSignatureMethodException extends MatchingActionMethodException {
 
-    public NoValidMethodException(String message) {
+    public AmbiguousActionSignatureMethodException(String message) {
         super(message);
     }
 

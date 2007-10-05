@@ -152,7 +152,7 @@ describe Waffle::Controller, "locate method" do
     pico.should_receive(:getComponentInstanceOfType).with('foobar')
     controller.__pico_container = pico
 
-    
+
     controller.locate(Foo)
   end
 

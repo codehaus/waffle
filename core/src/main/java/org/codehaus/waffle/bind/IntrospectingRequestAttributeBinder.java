@@ -46,9 +46,9 @@ public class IntrospectingRequestAttributeBinder implements RequestAttributeBind
         }
     }
 
+    @SuppressWarnings({"unchecked"})
     private void handleRubyController(HttpServletRequest request, RubyController rubyController) {
         IRubyObject iRubyObject = rubyController.getRubyObject();
-        //noinspection unchecked
         Map<String, IRubyObject> iVars = iRubyObject.getInstanceVariables();
         Set<String> keys = iVars.keySet();
 

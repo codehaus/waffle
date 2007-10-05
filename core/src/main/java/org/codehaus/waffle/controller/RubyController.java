@@ -1,6 +1,6 @@
 package org.codehaus.waffle.controller;
 
-import org.codehaus.waffle.action.MethodInvocationException;
+import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.jruby.Ruby;
 import org.jruby.exceptions.RaiseException;
 import org.jruby.javasupport.JavaEmbedUtils;
@@ -31,14 +31,21 @@ public class RubyController {
         return rubyObject;
     }
 
-    // todo need to ensure this doesn't allow non-public methods to be called ... NEED test in general
     public Object execute() {
         Ruby runtime = rubyObject.getRuntime();
-        IRubyObject result;
-
         String[] strings = methodName.split("\\|");
 
-        if (strings.length == 0) {
+        try {
+            IRubyObject result = callMethod(runtime, strings);
+            return JavaUtil.convertRubyToJava(result);
+        } catch (RaiseException e) {
+            throw new ActionMethodInvocationException(e.getException().message.toString());
+        }
+    }
+
+    private IRubyObject callMethod(Ruby runtime, String[] strings) {
+        IRubyObject result;
+        if (strings.length == 1) {
             result = rubyObject.callMethod(runtime.getCurrentContext(), methodName);
         } else {
             Iterator<String> iterator = Arrays.asList(strings).iterator();
@@ -50,15 +57,10 @@ public class RubyController {
                 arguments.add(JavaEmbedUtils.javaToRuby(runtime, iterator.next()));
             }
 
-            try {
-                result = rubyObject.callMethod(runtime.getCurrentContext(),
-                        methodName,
-                        arguments.toArray(new IRubyObject[arguments.size()]));
-            } catch (RaiseException e) {
-                throw new MethodInvocationException(e.getException().message.toString());
-            }
+            result = rubyObject.callMethod(runtime.getCurrentContext(),
+                    methodName,
+                    arguments.toArray(new IRubyObject[arguments.size()]));
         }
-
-        return JavaUtil.convertRubyToJava(result);
+        return result;
     }
 }

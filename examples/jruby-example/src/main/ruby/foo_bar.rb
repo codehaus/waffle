@@ -21,8 +21,10 @@ class FooBar
     p session
 
     %{
+
         HELLO WORLD from the index method
         parameters: #{parameters}
+        params - #{str = ""; params.each_pair{|k,v| str << "k: #{k} v: #{v}"}}
         request: #{request}
         session: #{session}
         application: #{application}
@@ -36,9 +38,10 @@ class FooBar
 
         component: #{locate(java.util.List)}
         component: #{locate(org.codehaus.waffle.example.jruby.dao.PersonDAO)}
+        component: #{locate_the_dao}
 
         #{cls = Java::JavaClass.for_name('java.util.Vector')}
-        #{locate(Java::JavaClass.for_name('java.util.List'))} 
+        #{locate(Java::JavaClass.for_name('java.util.List'))}
     }
 
   end
@@ -58,6 +61,14 @@ class FooBar
   def redirect_to_jspx
     @var1 = "this is my variables value from jruby xxx"
     return redirect_to("index.html")
+  end
+
+  def request_parameter_example
+    return "<h1>FOO: #{params['foo']}</h1>"
+  end
+
+  def request_attribute_example
+    return "<h1>FOO: #{request['foo']}</h1>"
   end
 
 end

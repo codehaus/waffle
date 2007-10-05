@@ -19,5 +19,5 @@ import org.codehaus.waffle.controller.ControllerDefinition;
  */
 public interface ActionMethodExecutor {
 
-    void execute(ActionMethodResponse actionMethodResponse, ControllerDefinition controllerDefinition) throws MethodInvocationException;
+    void execute(ActionMethodResponse actionMethodResponse, ControllerDefinition controllerDefinition) throws ActionMethodInvocationException;
 }

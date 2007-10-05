@@ -108,7 +108,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             monitor.defaultActionMethodFound(methodDefinition);
             return methodDefinition;
         }
-        throw new NoDefaultMethodException(controllerType.getName());
+        throw new NoDefaultActionMethodException(controllerType.getName());
     }
 
     private MethodDefinition findPragmaticActionMethod(Object controller,
@@ -132,9 +132,9 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         List<MethodDefinition> methodDefinitions = findMethodDefinitions(request, response, methods);
 
         if (methodDefinitions.size() > 1) {
-            throw new AmbiguousMethodSignatureException("Method: '" + methodName + "' for controller: '" + controller.getClass() + "'");
+            throw new AmbiguousActionSignatureMethodException("Method: '" + methodName + "' for controller: '" + controller.getClass() + "'");
         } else if (methodDefinitions.isEmpty()) {
-            throw new NoMatchingMethodException(methodName, controller.getClass());
+            throw new NoMatchingActionMethodException(methodName, controller.getClass());
         }
 
         MethodDefinition methodDefinition = methodDefinitions.get(0);
@@ -148,13 +148,13 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
      * @param type the Class in which to look for the method
      * @param methodName the method name
      * @return A List of methods
-     * @throws NoMatchingMethodException if no methods match
+     * @throws NoMatchingActionMethodException if no methods match
      */
     @SuppressWarnings({"unchecked"})
     private List<Method> findMethods(Class type, String methodName) {
         List<Method> methods = OgnlRuntime.getMethods(type, methodName, false);
         if (methods == null) {
-            throw new NoMatchingMethodException(methodName, type);
+            throw new NoMatchingActionMethodException(methodName, type);
         }
         return methods;
     }
@@ -167,7 +167,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                 List<Object> arguments = getArguments(method, request);
                 try {
                     methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
-                } catch ( NoValidMethodException e) {
+                } catch ( NoValidActionMethodException e) {
                     // continue
                 }                 
             }
@@ -201,7 +201,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             if (Modifier.isPublic(method.getModifiers())) {
                 try {
                     methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
-                } catch (NoValidMethodException e) {
+                } catch (NoValidActionMethodException e) {
                     // continue
                 }
             }
@@ -209,10 +209,10 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
         if (methodDefinitions.size() > 1) {
             String methodName = methodDefinitions.get(0).getMethod().getName();
-            throw new AmbiguousMethodSignatureException("Method: " + methodName);
+            throw new AmbiguousActionSignatureMethodException("Method: " + methodName);
         } else if (methodDefinitions.isEmpty()) {
             // TODO - avoid null
-            throw new NoMatchingMethodException(methods.get(0).getName(), null); 
+            throw new NoMatchingActionMethodException(methods.get(0).getName(), null);
         }
 
         MethodDefinition methodDefinition = methodDefinitions.get(0);
@@ -242,7 +242,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                     methodDefinition.addMethodArgument(iterator.next());
                 } else {
                     // no valid method found
-                    throw new NoValidMethodException(method.getName());
+                    throw new NoValidActionMethodException(method.getName());
                 }
             }
 
@@ -251,7 +251,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             }
         }
 
-        throw new NoValidMethodException(method.getName());
+        throw new NoValidActionMethodException(method.getName());
     }
 
     private boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition) {

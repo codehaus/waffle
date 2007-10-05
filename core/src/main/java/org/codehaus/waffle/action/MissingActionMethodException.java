@@ -5,9 +5,9 @@ package org.codehaus.waffle.action;
  *
  * @author Mauro Talevi
  */
-public class MissingMethodException extends MethodInvocationException {
+public class MissingActionMethodException extends ActionMethodInvocationException {
 
-    public MissingMethodException(String message) {
+    public MissingActionMethodException(String message) {
         super(message);
     }
 
