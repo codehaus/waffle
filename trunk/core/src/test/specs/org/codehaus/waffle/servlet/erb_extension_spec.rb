@@ -58,7 +58,7 @@ describe ERB::Util, "partial method" do
     controller = FakeController.new
 
     Waffle::ScriptLoader.should_receive(:locate_template).with('bad_file.rhtml').and_return("bad file path")
-    
+
     response = controller.send(:partial, "bad_file.rhtml")
     response.should == %Q{File Not Found: Unable to render file 'bad file path'.}
   end

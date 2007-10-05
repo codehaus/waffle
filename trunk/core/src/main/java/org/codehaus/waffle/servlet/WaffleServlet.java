@@ -11,7 +11,6 @@
 package org.codehaus.waffle.servlet;
 
 import static org.codehaus.waffle.Constants.ERRORS_KEY;
-import static org.codehaus.waffle.Constants.METHOD_INVOCATION_ERROR_PAGE;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 import org.codehaus.waffle.ComponentRegistry;
@@ -19,7 +18,7 @@ import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.MethodInvocationException;
+import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.controller.ControllerDefinition;
@@ -53,11 +52,13 @@ public class WaffleServlet extends HttpServlet {
     private String viewPrefix;
     private String viewSuffix;
     private boolean depsDone = false;
-    private String methodInvocationErrorPage;
 
     public WaffleServlet() {
     }
 
+    /**
+     * Needed for builder
+     */
     public WaffleServlet(ControllerDefinitionFactory controllerDefinitionFactory,
                          DataBinder dataBinder,
                          ActionMethodExecutor actionMethodExecutor,
@@ -83,7 +84,6 @@ public class WaffleServlet extends HttpServlet {
         if (viewSuffix == null || viewSuffix.equals(EMPTY)) {
             viewSuffix = DEFAULT_VIEW_SUFFIX; // default
         }
-        methodInvocationErrorPage = getInitParameter(METHOD_INVOCATION_ERROR_PAGE);
 
         if (!depsDone) {
             // Obtain required components from the Component Registry
@@ -145,13 +145,9 @@ public class WaffleServlet extends HttpServlet {
 
             requestAttributeBinder.bind(request, controllerDefinition.getController());
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
-        } catch (MethodInvocationException e) {
+        } catch (ActionMethodInvocationException e) {
             log("ERROR: " + e.getMessage());
-            if (methodInvocationErrorPage != null && !methodInvocationErrorPage.equals(EMPTY)) {
-                response.sendRedirect(methodInvocationErrorPage);
-            } else {
-                response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-            }
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
 

@@ -36,6 +36,7 @@ public class RequestParameterMethodNameResolver implements MethodNameResolver {
         this.monitor = monitor;
     }
 
+    @SuppressWarnings({"unchecked"})
     public String resolve(HttpServletRequest request) {
         String methodName = request.getParameter(methodParameterKey);
         monitor.methodNameResolved(methodName, methodParameterKey, request.getParameterMap().keySet());

@@ -58,7 +58,7 @@ public class RhtmlServlet extends HttpServlet {
     }
 
     private String loadRhtml(String fileName) {
-        System.out.println("Loading...." + fileName);
+        log("Loading...." + fileName);
         BufferedReader bufferedReader = null;
         InputStream inputStream = null;
 

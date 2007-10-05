@@ -37,21 +37,21 @@ public class InterceptingActionMethodExecutor implements ActionMethodExecutor {
      * If no 'action method' exists in the request parameter a View will be created with the Action's name.
      */
     public void execute(ActionMethodResponse actionMethodResponse,
-                        ControllerDefinition controllerDefinition) throws MethodInvocationException {
+                        ControllerDefinition controllerDefinition) throws ActionMethodInvocationException {
         try {
             Object returnValue = handleInvocation(controllerDefinition);
             actionMethodResponse.setReturnValue(returnValue);
         } catch (IllegalAccessException e) {
-            throw new MethodInvocationException(e.getMessage(), e); // todo (mward): lets make sure we don't reveal too much information
+            throw new ActionMethodInvocationException(e.getMessage(), e);
         } catch (InvocationTargetException e) {
             Throwable cause = e.getCause();
 
-            // MethodInvocationException should be re-thrown
-            if(cause instanceof MethodInvocationException) {
-                throw (MethodInvocationException) cause;
+            // If cause is ActionMethodInvocationException it should be re-thrown
+            if(cause instanceof ActionMethodInvocationException) {
+                throw (ActionMethodInvocationException) cause;
             }
-            // set the cause of the exception as the return value
-            actionMethodResponse.setReturnValue(cause);
+
+            throw new ActionMethodInvocationException(cause.getMessage(), cause);
         }
     }
 

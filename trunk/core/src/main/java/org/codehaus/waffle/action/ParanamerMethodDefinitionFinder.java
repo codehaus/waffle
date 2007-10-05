@@ -62,11 +62,11 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
                 parameterNames = paranamer.lookupParameterNames(method);
             }
             if (rc == Paranamer.NO_PARAMETER_NAMES_LIST ) {
-                throw new MatchingMethodException("No parameter names list found by paranamer "+paranamer);
+                throw new MatchingActionMethodException("No parameter names list found by paranamer "+paranamer);
             } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS ) {
-                throw new MatchingMethodException("No parameter names found for class '" + declaringClass.getName() + "' by paranamer "+paranamer);
+                throw new MatchingActionMethodException("No parameter names found for class '" + declaringClass.getName() + "' by paranamer "+paranamer);
             } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS_AND_MEMBER) {
-                throw new MatchingMethodException("No parameter names found for class '" + declaringClass.getName() + "' and method '" + method.getName()+ "' by paranamer "+paranamer);
+                throw new MatchingActionMethodException("No parameter names found for class '" + declaringClass.getName() + "' and method '" + method.getName()+ "' by paranamer "+paranamer);
    //         } else if (rc == Paranamer.PARAMETER_NAMES_FOUND ){
    //             throw new MatchingMethodException("Invalid parameter names list for paranamer "+paranamer);
             }

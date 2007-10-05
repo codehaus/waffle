@@ -10,16 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
-import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.testmodel.FakeController;
-import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.ActionMethodResponse;
-import org.codehaus.waffle.action.ActionMethodExecutor;
-import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
-import org.picocontainer.defaults.DefaultPicoContainer;
 import org.jmock.MockObjectTestCase;
+import org.picocontainer.defaults.DefaultPicoContainer;
 
 import java.lang.reflect.Method;
 
@@ -86,7 +82,7 @@ public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
         assertEquals("mmmWaffles", actionMethodResponse.getReturnValue());
     }
 
-    public void testFireWrapsInvocationTargetExceptionInMethodResponse() throws Exception {
+    public void testExecuteShouldWrapCauseOfInvocationTargetExceptionAsActionMethodInvocationException() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("methodThrowsException", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -95,9 +91,28 @@ public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
         ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
 
-        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
-        Exception rootCause = (Exception) actionMethodResponse.getReturnValue();
-        assertEquals("mmmWaffles", rootCause.getMessage());
+        try {
+            actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+        } catch (ActionMethodInvocationException e) {
+            Throwable rootCause = e.getCause();
+            assertEquals("mmmWaffles", rootCause.getMessage());
+        }
+    }
+
+    public void testExecuteShouldReturnOriginalExceptionIfTypeIsActionMethodInvocationException() throws Exception {
+        FakeController fakeController = new FakeController();
+        Method method = FakeController.class.getMethod("actionThrowsActionMethodInvocationException", String.class);
+        MethodDefinition methodDefinition = new MethodDefinition(method);
+        methodDefinition.addMethodArgument("BEARS!");
+
+        ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
+        ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
+
+        try {
+            actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+        } catch (ActionMethodInvocationException e) {
+            assertEquals("BEARS!", e.getMessage());
+        }
     }
 
 }

@@ -10,16 +10,21 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
+import org.codehaus.waffle.WaffleException;
 
 /**
- * Thrown when unable to determine which method to invoke.
+ * Thrown when unable to invoke the Action method.
  *
  * @author Michael Ward
  */
-public class AmbiguousMethodSignatureException extends MatchingMethodException {
+public class ActionMethodInvocationException extends WaffleException {
 
-    public AmbiguousMethodSignatureException(String message) {
+    public ActionMethodInvocationException(String message) {
         super(message);
+    }
+
+    public ActionMethodInvocationException(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }

@@ -1,7 +1,7 @@
 package org.codehaus.waffle.action.intercept;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.action.MethodInvocationException;
+import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
 import org.codehaus.waffle.action.intercept.SecurityMethodInterceptor;
@@ -65,7 +65,7 @@ public class SecurityMethodInterceptorTest extends MockObjectTestCase {
         try {
             interceptor.intercept(controllerDefinition, method, chain);
             fail("MethodInvocationException expected");
-        } catch (MethodInvocationException expected) {
+        } catch (ActionMethodInvocationException expected) {
             // expected
         }
     }

@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
-import org.codehaus.waffle.action.MissingMethodException;
+import org.codehaus.waffle.action.MissingActionMethodException;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 
@@ -50,7 +50,7 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
         MethodDefinition methodDefinition = null;        
         try {
             methodDefinition = findMethodDefinition(controller, request, response);
-        } catch ( MissingMethodException e) {
+        } catch ( MissingActionMethodException e) {
             // default to null 
             // TODO introduce a NullMethodDefinition?
         }        

@@ -11,7 +11,7 @@
 package org.codehaus.waffle.action.intercept;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.action.MethodInvocationException;
+import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
 
@@ -39,7 +39,7 @@ public class SecurityMethodInterceptor implements MethodInterceptor {
         }
 
         // Only notify that the requested action could not invoked do NOT give any detailed information (Security Risk)
-        throw new MethodInvocationException("Requested action method cannot be invoke remotely.");
+        throw new ActionMethodInvocationException("Requested action method cannot be invoke remotely.");
     }
 
 }

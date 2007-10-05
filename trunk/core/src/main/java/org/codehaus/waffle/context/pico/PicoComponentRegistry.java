@@ -182,13 +182,11 @@ public class PicoComponentRegistry implements ComponentRegistry {
      */
     @SuppressWarnings("unchecked")
     public <T> T locateByKey(Object key) {
-        //noinspection unchecked
         return (T) picoContainer.getComponentInstance(key);
     }
 
     @SuppressWarnings("unchecked")
     public <T> T locateByType(Class<T> t) {
-        //noinspection unchecked
         return (T) picoContainer.getComponentInstanceOfType(t);
     }
 

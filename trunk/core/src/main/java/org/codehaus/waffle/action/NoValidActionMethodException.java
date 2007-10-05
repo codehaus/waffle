@@ -10,21 +10,16 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
-import org.codehaus.waffle.WaffleException;
 
 /**
- * Thrown when unable to invoke the Action Method.
+ * Thrown when method is no valid action method is found
  *
- * @author Michael Ward
+ * @author Mauro Talevi
  */
-public class MethodInvocationException extends WaffleException {
+public class NoValidActionMethodException extends MissingActionMethodException {
 
-    public MethodInvocationException(String message) {
+    public NoValidActionMethodException(String message) {
         super(message);
-    }
-
-    public MethodInvocationException(String message, Throwable cause) {
-        super(message, cause);
     }
 
 }

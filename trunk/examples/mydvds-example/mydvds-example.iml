@@ -3,7 +3,7 @@
   <component name="FacetManager">
     <facet type="hibernate" name="Hibernate">
       <configuration>
-        <option name="myHibernateValidationEnabled" value="true" />
+        <setting name="validation-enabled" value="false" />
         <datasource-map>
           <unit-entry name="&lt;anonymous&gt;hibernate.cfg.xml@230" />
         </datasource-map>
@@ -13,15 +13,11 @@
     <facet type="web" name="Web" implicit="true">
       <configuration>
         <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml" optional="false" version="2.4" />
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml" optional="false" version="2.5" />
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
         </webroots>
-        <containerElement type="module" name="mydvds-example">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/classes" />
-        </containerElement>
         <building>
           <setting name="EXPLODED_URL" value="file://" />
           <setting name="EXPLODED_ENABLED" value="false" />
@@ -31,6 +27,7 @@
           <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
           <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
           <setting name="RUN_JASPER_VALIDATION" value="true" />
+          <setting name="BUILD_ONLY_WEB_RESOURCES" value="false" />
         </building>
         <packaging>
           <containerElement type="module" name="mydvds-example">

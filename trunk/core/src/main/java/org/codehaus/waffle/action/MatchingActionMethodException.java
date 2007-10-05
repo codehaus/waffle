@@ -5,9 +5,9 @@ package org.codehaus.waffle.action;
  *
  * @author Paul Hammant
  */
-public class MatchingMethodException extends MethodInvocationException {
+public class MatchingActionMethodException extends ActionMethodInvocationException {
 
-    public MatchingMethodException(String message) {
+    public MatchingActionMethodException(String message) {
         super(message);
     }
 

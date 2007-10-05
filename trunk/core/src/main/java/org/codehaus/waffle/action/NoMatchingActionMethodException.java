@@ -5,11 +5,11 @@ package org.codehaus.waffle.action;
  *
  * @author Paul Hammant
  */
-public class NoMatchingMethodException extends MatchingMethodException {
+public class NoMatchingActionMethodException extends MatchingActionMethodException {
     private final String methodName;
     private final Class actionClass;
 
-    public NoMatchingMethodException(String methodName, Class actionClass) {
+    public NoMatchingActionMethodException(String methodName, Class actionClass) {
         super("no matching methods for: " + methodName);
         this.methodName = methodName;
         this.actionClass = actionClass;

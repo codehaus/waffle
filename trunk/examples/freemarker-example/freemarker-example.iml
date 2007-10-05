@@ -4,154 +4,12 @@
     <facet type="web" name="freemarker-example">
       <configuration>
         <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml" optional="false" version="2.4" />
+          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/main/webapp/WEB-INF/web.xml" optional="false" version="2.5" />
         </descriptors>
         <webroots>
           <root url="file://$MODULE_DIR$/resources" relative="/" />
           <root url="file://$MODULE_DIR$/src/main/webapp/WEB-INF" relative="/WEB-INF" />
         </webroots>
-        <containerElement type="module" name="core">
-          <attribute name="method" value="5" />
-          <attribute name="URI" value="/WEB-INF/lib/core.jar" />
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/asm-3.0.jar" />
-          <url>jar://$M2_REPOSITORY$/asm/asm/3.0/asm-3.0.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
-          <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/xstream-1.2.2.jar" />
-          <url>jar://$M2_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/lib/freemarker-2.3.8.jar" />
-          <url>jar://$M2_REPOSITORY$/freemarker/freemarker/2.3.8/freemarker-2.3.8.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/groovy-all-1.0-jsr-06.jar" />
-          <url>jar://$M2_REPOSITORY$/groovy/groovy-all-1.0-jsr/06/groovy-all-1.0-jsr-06.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/lib/jstl-1.1.2.jar" />
-          <url>jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/lib/jmock-1.1.0.jar" />
-          <url>jar://$M2_REPOSITORY$/jmock/jmock/1.1.0/jmock-1.1.0.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/jmock-1.2.0.jar" />
-          <url>jar://$M2_REPOSITORY$/jmock/jmock/1.2.0/jmock-1.2.0.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="&lt;N/A&gt;" />
-          <url>jar://$M2_REPOSITORY$/junit/junit/4.0/junit-4.0.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/junit-4.2.jar" />
-          <url>jar://$M2_REPOSITORY$/junit/junit/4.2/junit-4.2.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/lib/ognl-2.6.9.jar" />
-          <url>jar://$M2_REPOSITORY$/ognl/ognl/2.6.9/ognl-2.6.9.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/sitemesh-2.3.jar" />
-          <url>jar://$M2_REPOSITORY$/opensymphony/sitemesh/2.3/sitemesh-2.3.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/hamcrest-api-1.0.jar" />
-          <url>jar://$M2_REPOSITORY$/org/hamcrest/hamcrest-api/1.0/hamcrest-api-1.0.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/hamcrest-library-1.0.jar" />
-          <url>jar://$M2_REPOSITORY$/org/hamcrest/hamcrest-library/1.0/hamcrest-library-1.0.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/jmock-junit4-2.0.0.jar" />
-          <url>jar://$M2_REPOSITORY$/org/jmock/jmock-junit4/2.0.0/jmock-junit4-2.0.0.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/jmock-2.0.0.jar" />
-          <url>jar://$M2_REPOSITORY$/org/jmock/jmock/2.0.0/jmock-2.0.0.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/jruby-complete-1.0RC3.jar" />
-          <url>jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0RC3/jruby-complete-1.0RC3.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/jetty-util-6.0.1.jar" />
-          <url>jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty-util/6.0.1/jetty-util-6.0.1.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/jetty-6.1.3.jar" />
-          <url>jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty/6.1.3/jetty-6.1.3.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/lib/picocontainer-1.2.jar" />
-          <url>jar://$M2_REPOSITORY$/org/picocontainer/picocontainer/1.2/picocontainer-1.2.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/lib/standard-1.1.2.jar" />
-          <url>jar://$M2_REPOSITORY$/taglibs/standard/1.1.2/standard-1.1.2.jar!/</url>
-        </containerElement>
-        <containerElement type="library" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib/jruby.jar" />
-          <url>jar:///usr/local/jruby-1.0.0RC1/lib/jruby.jar!/</url>
-        </containerElement>
-        <containerElement type="library" name="Groovy from GroovyJ 0.1.8 (Demetra)" level="application">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="/WEB-INF/lib" />
-        </containerElement>
-        <containerElement type="library" name="picocontainer" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="&lt;N/A&gt;" />
-        </containerElement>
-        <containerElement type="library" name="servlet-api" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="&lt;N/A&gt;" />
-        </containerElement>
-        <containerElement type="library" name="velocity" level="module">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/lib/velocity-1.4.jar" />
-        </containerElement>
-        <containerElement type="library" name="velocity-dep" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="&lt;N/A&gt;" />
-        </containerElement>
-        <containerElement type="library" name="velocity-tools-view" level="module">
-          <attribute name="method" value="0" />
-          <attribute name="URI" value="&lt;N/A&gt;" />
-        </containerElement>
-        <containerElement type="module" name="freemarker-example">
-          <attribute name="method" value="1" />
-          <attribute name="URI" value="/WEB-INF/classes" />
-        </containerElement>
         <building>
           <setting name="EXPLODED_URL" value="file://$MODULE_DIR$/exploded" />
           <setting name="EXPLODED_ENABLED" value="true" />
@@ -161,6 +19,7 @@
           <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
           <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
           <setting name="RUN_JASPER_VALIDATION" value="true" />
+          <setting name="BUILD_ONLY_WEB_RESOURCES" value="false" />
         </building>
         <packaging>
           <containerElement type="module" name="core">
@@ -169,17 +28,17 @@
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/asm-3.0.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/asm/asm/3.0/asm-3.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.0.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/com/thoughtworks/paranamer/paranamer/1.0/paranamer-1.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/xstream-1.2.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/com/thoughtworks/xstream/xstream/1.2.2/xstream-1.2.2.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
@@ -189,7 +48,7 @@
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/groovy-all-1.0-jsr-06.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/groovy/groovy-all-1.0-jsr/06/groovy-all-1.0-jsr-06.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
@@ -204,7 +63,7 @@
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/jmock-1.2.0.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/jmock/jmock/1.2.0/jmock-1.2.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
@@ -214,7 +73,7 @@
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/junit-4.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/junit/junit/4.2/junit-4.2.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
@@ -224,42 +83,42 @@
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/sitemesh-2.3.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/opensymphony/sitemesh/2.3/sitemesh-2.3.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/hamcrest-api-1.0.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/org/hamcrest/hamcrest-api/1.0/hamcrest-api-1.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/hamcrest-library-1.0.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/org/hamcrest/hamcrest-library/1.0/hamcrest-library-1.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/jmock-junit4-2.0.0.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/org/jmock/jmock-junit4/2.0.0/jmock-junit4-2.0.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/jmock-2.0.0.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/org/jmock/jmock/2.0.0/jmock-2.0.0.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/jruby-complete-1.0RC3.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/org/jruby/jruby-complete/1.0RC3/jruby-complete-1.0RC3.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/jetty-util-6.0.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty-util/6.0.1/jetty-util-6.0.1.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/jetty-6.1.3.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar://$M2_REPOSITORY$/org/mortbay/jetty/jetty/6.1.3/jetty-6.1.3.jar!/</url>
           </containerElement>
           <containerElement type="library" level="module">
@@ -274,7 +133,7 @@
           </containerElement>
           <containerElement type="library" level="module">
             <attribute name="method" value="0" />
-            <attribute name="URI" value="/WEB-INF/lib/jruby.jar" />
+            <attribute name="URI" value="/WEB-INF/lib" />
             <url>jar:///usr/local/jruby-1.0.0RC1/lib/jruby.jar!/</url>
           </containerElement>
           <containerElement type="library" name="Groovy from GroovyJ 0.1.8 (Demetra)" level="application">

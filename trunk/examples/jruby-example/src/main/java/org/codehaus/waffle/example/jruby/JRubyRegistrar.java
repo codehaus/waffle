@@ -13,9 +13,10 @@ public class JRubyRegistrar extends AbstractRubyAwareRegistrar {
         super(delegate);
     }
 
+    @SuppressWarnings({"unchecked"})
     @Override
     public void application() {
-        register(SimplePersonDAO.class);
+        register("the_dao", SimplePersonDAO.class);
         registerInstance("chicago", "bears");
 
         List myList = new ArrayList();
