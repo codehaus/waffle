@@ -51,6 +51,7 @@ public class RequestParameterMethodNameResolverTest extends MockObjectTestCase {
         assertEquals("foobar", resolver.resolve(request));
     }
     
+    @SuppressWarnings({"unchecked"})
     private Map mockParameterMap(String name) {
         Mock mockMap = mock(Map.class);
         mockMap.expects(once())
