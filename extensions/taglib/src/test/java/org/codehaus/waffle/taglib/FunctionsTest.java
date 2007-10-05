@@ -9,6 +9,7 @@ import java.util.List;
 
 public class FunctionsTest extends TestCase {
 
+    @SuppressWarnings({"unchecked"})
     public void testFindFieldErrors() {
         ErrorsContext errorsContext = new DefaultErrorsContext();
         errorsContext.addErrorMessage(new FieldErrorMessage("name", "value", "message"));

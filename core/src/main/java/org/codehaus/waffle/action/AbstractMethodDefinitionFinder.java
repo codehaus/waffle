@@ -215,8 +215,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             throw new NoMatchingActionMethodException(methods.get(0).getName(), null);
         }
 
-        MethodDefinition methodDefinition = methodDefinitions.get(0);
-        return methodDefinition; // TODO ... should we cache the method?
+        return methodDefinitions.get(0); // TODO ... should we cache the method?
     }
 
     private MethodDefinition buildMethodDefinition(HttpServletRequest request,
@@ -267,7 +266,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
             // the types must be assignable to be considered a valid method (assume true if actualParameterType is null)
             if (methodArguments.get(i) != null) {
-                Class<? extends Object> type = methodArguments.get(i).getClass();
+                Class<?> type = methodArguments.get(i).getClass();
 
                 if (!methodParameterType.isAssignableFrom(type)) {
                     if (String.class.equals(type)) {
@@ -300,11 +299,13 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
     
     // Protected methods, accessible by concrete subclasses
+
     /**
      * Returns the method arguments contained in the request
      * 
      * @param method the Method
      * @param request the HttpServetRequest
+     * @return the list of arguments
      */
     protected abstract List<Object> getArguments(Method method, HttpServletRequest request);
 
