@@ -14,23 +14,29 @@ import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.testmodel.FakeController;
-import org.jmock.MockObjectTestCase;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
 import java.lang.reflect.Method;
 
-public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
+public class InterceptingActionMethodExecutorTest {
     private ActionMethodExecutor actionMethodExecutor = new InterceptingActionMethodExecutor();
 
-    protected void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         RequestLevelContainer.set(new PicoContextContainer(new DefaultPicoContainer()));
     }
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         RequestLevelContainer.set(null);
     }
 
-    public void testMethodWithNoArgsFiredOnController() throws Exception {
+    @Test
+    public void executeShouldInvokeNoArgumentActionMethod() throws Exception {
         FakeController fakeController = new FakeController();
 
         MethodDefinition methodDefinition = new MethodDefinition(FakeController.class.getMethod("sayHello"));
@@ -38,11 +44,12 @@ public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
 
-        assertNull(actionMethodResponse.getReturnValue());
-        assertEquals("hello", fakeController.getName());
+        Assert.assertNull(actionMethodResponse.getReturnValue());
+        Assert.assertEquals("hello", fakeController.getName());
     }
 
-    public void testFireWithArguments() throws Exception {
+    @Test
+    public void executeShouldInvokeActionMethodWithArgumentValue() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("sayHello", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -52,11 +59,12 @@ public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
 
-        assertNull(actionMethodResponse.getReturnValue());
-        assertEquals("foobar", fakeController.getName());
+        Assert.assertNull(actionMethodResponse.getReturnValue());
+        Assert.assertEquals("foobar", fakeController.getName());
     }
 
-    public void testFireWhenArgumentValuesIsNull() throws Exception {
+    @Test
+    public void executeShouldHandleNullArgumentValues() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("sayHello", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -66,11 +74,12 @@ public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
 
-        assertNull(actionMethodResponse.getReturnValue());
-        assertNull(fakeController.getName());
+        Assert.assertNull(actionMethodResponse.getReturnValue());
+        Assert.assertNull(fakeController.getName());
     }
 
-    public void testFireMethodWithReturnType() throws Exception {
+    @Test
+    public void executeShouldReturnValueFromActionMethod() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("passThruMethod", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -79,10 +88,11 @@ public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
         ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
-        assertEquals("mmmWaffles", actionMethodResponse.getReturnValue());
+        Assert.assertEquals("mmmWaffles", actionMethodResponse.getReturnValue());
     }
 
-    public void testExecuteShouldWrapCauseOfInvocationTargetExceptionAsActionMethodInvocationException() throws Exception {
+    @Test
+    public void executeShouldWrapCauseOfInvocationTargetExceptionAsActionMethodInvocationException() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("methodThrowsException", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -95,11 +105,12 @@ public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
             actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
         } catch (ActionMethodInvocationException e) {
             Throwable rootCause = e.getCause();
-            assertEquals("mmmWaffles", rootCause.getMessage());
+            Assert.assertEquals("mmmWaffles", rootCause.getMessage());
         }
     }
 
-    public void testExecuteShouldReturnOriginalExceptionIfTypeIsActionMethodInvocationException() throws Exception {
+    @Test
+    public void executeShouldReturnOriginalExceptionIfTypeIsActionMethodInvocationException() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("actionThrowsActionMethodInvocationException", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -111,7 +122,7 @@ public class InterceptingActionMethodExecutorTest extends MockObjectTestCase {
         try {
             actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
         } catch (ActionMethodInvocationException e) {
-            assertEquals("BEARS!", e.getMessage());
+            Assert.assertEquals("BEARS!", e.getMessage());
         }
     }
 

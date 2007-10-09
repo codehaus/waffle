@@ -1,11 +1,8 @@
 package org.codehaus.waffle.action.intercept;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.action.intercept.MethodInterceptor;
-import org.codehaus.waffle.action.intercept.Sortable;
-import org.codehaus.waffle.action.intercept.InterceptorChain;
-import org.codehaus.waffle.action.intercept.MethodInterceptorComparator;
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -13,9 +10,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class MethodInterceptorComparatorTest extends TestCase {
+public class MethodInterceptorComparatorTest  {
 
-    public void testSortCollectionOfSortable() {
+    @Test
+    public void shouldSortCollectionOfSortable() {
         List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
 
         MethodInterceptor one = new SortableMethodInterceptor(1);
@@ -29,12 +27,13 @@ public class MethodInterceptorComparatorTest extends TestCase {
         Comparator<MethodInterceptor> comparator = new MethodInterceptorComparator();
         Collections.sort(interceptors, comparator);
 
-        assertSame(one, interceptors.get(0));
-        assertSame(two, interceptors.get(1));
-        assertSame(three, interceptors.get(2));
+        Assert.assertSame(one, interceptors.get(0));
+        Assert.assertSame(two, interceptors.get(1));
+        Assert.assertSame(three, interceptors.get(2));
     }
 
-    public void testSortCollectionWithNonSortable() {
+    @Test
+    public void shouldSortCollectionWithNonSortable() {
         List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
 
         MethodInterceptor one = new SortableMethodInterceptor(1);
@@ -50,10 +49,10 @@ public class MethodInterceptorComparatorTest extends TestCase {
         Comparator<MethodInterceptor> comparator = new MethodInterceptorComparator();
         Collections.sort(interceptors, comparator);
 
-        assertSame(one, interceptors.get(0));
-        assertSame(two, interceptors.get(1));
-        assertSame(three, interceptors.get(2));
-        assertSame(notSortable, interceptors.get(3));
+        Assert.assertSame(one, interceptors.get(0));
+        Assert.assertSame(two, interceptors.get(1));
+        Assert.assertSame(three, interceptors.get(2));
+        Assert.assertSame(notSortable, interceptors.get(3));
     }
 
     private static class SortableMethodInterceptor implements MethodInterceptor, Sortable {

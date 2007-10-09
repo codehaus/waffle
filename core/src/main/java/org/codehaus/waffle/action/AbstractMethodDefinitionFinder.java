@@ -169,7 +169,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                     methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
                 } catch ( NoValidActionMethodException e) {
                     // continue
-                }                 
+                }
             }
         }
     
