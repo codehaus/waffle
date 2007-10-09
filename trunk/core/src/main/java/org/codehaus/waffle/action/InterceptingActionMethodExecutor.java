@@ -10,13 +10,13 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
-import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.action.intercept.InterceptorChain;
 import org.codehaus.waffle.action.intercept.InterceptorChainImpl;
 import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.codehaus.waffle.action.intercept.MethodInterceptorComparator;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.controller.ControllerDefinition;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,7 +27,7 @@ import java.util.List;
 
 /**
  * Default implementation of action method executor, which uses an interceptor chain.
- * 
+ *
  * @author Michael Ward
  */
 public class InterceptingActionMethodExecutor implements ActionMethodExecutor {
@@ -46,12 +46,15 @@ public class InterceptingActionMethodExecutor implements ActionMethodExecutor {
         } catch (InvocationTargetException e) {
             Throwable cause = e.getCause();
 
-            // If cause is ActionMethodInvocationException it should be re-thrown
-            if(cause instanceof ActionMethodInvocationException) {
+            if (cause instanceof ActionMethodException) {
+                // ActionMethodExceptions will be processed by ActionMethodResponseHandlers
+                actionMethodResponse.setReturnValue(cause);
+            } else if (cause instanceof ActionMethodInvocationException) {
+                // If cause is ActionMethodInvocationException it should be re-thrown
                 throw (ActionMethodInvocationException) cause;
+            } else {
+                throw new ActionMethodInvocationException(cause.getMessage(), cause);
             }
-
-            throw new ActionMethodInvocationException(cause.getMessage(), cause);
         }
     }
 

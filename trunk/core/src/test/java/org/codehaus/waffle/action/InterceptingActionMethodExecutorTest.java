@@ -126,4 +126,18 @@ public class InterceptingActionMethodExecutorTest {
         }
     }
 
+    @Test
+    public void shouldSetActionResponseValueToExceptionIfTypeIsActionMethodException() throws NoSuchMethodException {
+        FakeController fakeController = new FakeController();
+        Method method = FakeController.class.getMethod("actionThrowsActionMethodException");
+        MethodDefinition methodDefinition = new MethodDefinition(method);
+
+        ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
+        ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
+
+        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+
+        Assert.assertTrue(actionMethodResponse.getReturnValue() instanceof ActionMethodException);
+    }
+
 }

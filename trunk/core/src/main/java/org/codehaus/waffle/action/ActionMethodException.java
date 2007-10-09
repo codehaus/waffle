@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2005,2006 Michael Ward                                      *
+ * Copyright (C) 2005 - 2007 Michael Ward                                    *
  * All rights reserved.                                                      *
  * ------------------------------------------------------------------------- *
  * The software in this package is published under the terms of the BSD      *
@@ -13,18 +13,8 @@ package org.codehaus.waffle.action;
 import org.codehaus.waffle.WaffleException;
 
 /**
- * Thrown when Waffle is unable to invoke the Action method.
- *
- * @author Michael Ward
+ * This is a specialized exception that will be thrown directly from an ActionMethod.  Exceptions of this type
+ * will set the response status code and response body specially.
  */
-public class ActionMethodInvocationException extends WaffleException {
-
-    public ActionMethodInvocationException(String message) {
-        super(message);
-    }
-
-    public ActionMethodInvocationException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
+public class ActionMethodException extends WaffleException {
 }
