@@ -24,9 +24,9 @@ import java.io.IOException;
  * <p/>
  * - A View response indicates which view the user should be directed (either redirected or forwarded) to.
  * <p/>
- * - An exception sets the response status to 400 and sends the mesage directly (perfect for ajax)
+ * - A ActionMethodException will set the response status and sends the mesage directly (perfect for ajax).
  * <p/>
- * - otherwise the response value will be sent directly to the browser as a String via Object.toString().
+ * - otherwise the response value will be sent directly to the browser as a String via Object.toString() method.
  *
  * @author Michael Ward
  */

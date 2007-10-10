@@ -1,60 +1,65 @@
 package org.codehaus.waffle.action.intercept;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.action.intercept.MethodInterceptor;
-import org.codehaus.waffle.action.intercept.InterceptorChainImpl;
-import org.codehaus.waffle.action.intercept.InterceptorChain;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InterceptorChainImplTest extends MockObjectTestCase {
+@RunWith(JMock.class)
+public class InterceptorChainImplTest {
+    private final Mockery context = new JUnit4Mockery();
 
-    public void testProceed() throws Exception {
-        ControllerDefinition controllerDefinition = new ControllerDefinition(null, null, null);
-        Method method = this.getClass().getMethods()[0];
-        Object argument = "foobar";
+    @Test
+    public void interceptorAcceptsMethod() throws Exception {
+        final ControllerDefinition controllerDefinition = new ControllerDefinition(null, null, null);
+        final Method method = this.getClass().getMethods()[0];
+        final Object argument = "foobar";
 
         // Mock MethodInterceptor
-        Mock mockMethodInterceptor = mock(MethodInterceptor.class);
-        mockMethodInterceptor.expects(once())
-                .method("accept")
-                .with(same(method))
-                .will(returnValue(true));
-        mockMethodInterceptor.expects(once())
-                .method("intercept")
-                .with(same(controllerDefinition), same(method), isA(InterceptorChain.class), eq(new Object[]{argument}))
-                .will(returnValue("hello"));
-        MethodInterceptor methodInterceptor = (MethodInterceptor) mockMethodInterceptor.proxy();
+        final MethodInterceptor methodInterceptor = context.mock(MethodInterceptor.class);
+        context.checking(new Expectations() {{
+            one (methodInterceptor).accept(method);
+            will(returnValue(true));
+            one(methodInterceptor).intercept(with(same(controllerDefinition)),
+                    with(same(method)),
+                    with(any(InterceptorChain.class)),
+                    with(equal(new Object[] {argument})));
+            will(returnValue("hello"));
+        }});
 
         List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
         interceptors.add(methodInterceptor);
 
         InterceptorChain interceptorChain = new InterceptorChainImpl(interceptors);
-        assertEquals("hello", interceptorChain.proceed(controllerDefinition, method, argument));
+        Assert.assertEquals("hello", interceptorChain.proceed(controllerDefinition, method, argument));
     }
 
-    public void testProceedWhenAcceptIsFalse() throws Exception {
+    @Test
+    public void interceptorDoesNotAcceptMethod() throws Exception {
         ControllerDefinition controllerDefinition = new ControllerDefinition(null, null, null);
-        Method method = this.getClass().getMethods()[0];
+        final Method method = this.getClass().getMethods()[0];
         Object argument = "foobar";
 
         // Mock MethodInterceptor
-        Mock mockMethodInterceptor = mock(MethodInterceptor.class);
-        mockMethodInterceptor.expects(once())
-                .method("accept")
-                .with(same(method))
-                .will(returnValue(false));
-        MethodInterceptor methodInterceptor = (MethodInterceptor) mockMethodInterceptor.proxy();
+        final MethodInterceptor methodInterceptor = context.mock(MethodInterceptor.class);
+        context.checking(new Expectations() {{
+            one (methodInterceptor).accept(method);
+            will(returnValue(false));
+        }});
 
         List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
         interceptors.add(methodInterceptor);
 
         InterceptorChainImpl interceptorChain = new InterceptorChainImpl(interceptors);
-        assertNull(interceptorChain.proceed(controllerDefinition, method, argument));
+        Assert.assertNull(interceptorChain.proceed(controllerDefinition, method, argument));
     }
 
 }
