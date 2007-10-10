@@ -58,10 +58,10 @@ public class DefaultActionMethodResponseHandler implements ActionMethodResponseH
         if (returnValue instanceof View) {
             View view = (View) returnValue;
             viewDispatcher.dispatch(request, response, view);
-        } else if (returnValue instanceof Exception) {
-            Exception exception = (Exception) returnValue;
-            monitor.actionMethodExecutionFailed(exception);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        } else if (returnValue instanceof ActionMethodException) {
+            ActionMethodException exception = (ActionMethodException) returnValue;
+            monitor.actionMethodExecutionFailed(exception); // todo ... this isn't really necessarily a true failure
+            response.setStatus(exception.getStatusCode());
             handleResponse(response, exception.getMessage());
         } else {
             handleResponse(response, returnValue.toString());

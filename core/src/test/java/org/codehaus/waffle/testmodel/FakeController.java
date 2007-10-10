@@ -64,7 +64,7 @@ public class FakeController {
     }
 
     public void actionThrowsActionMethodException() throws ActionMethodException {
-        throw new ActionMethodException();
+        throw new ActionMethodException(0, "blah blah");
     }
 
     public void sayHello() {
