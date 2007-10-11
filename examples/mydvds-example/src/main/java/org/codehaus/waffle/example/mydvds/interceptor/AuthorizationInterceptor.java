@@ -9,7 +9,6 @@ import org.codehaus.waffle.view.RedirectView;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,7 +45,7 @@ public class AuthorizationInterceptor implements MethodInterceptor {
             return chain.proceed(controllerDefinition, method, arguments);
         } else {
             System.out.println("Not Authenticated");
-            return new RedirectView("users.waffle", controllerDefinition.getController(), new HashMap());
+            return new RedirectView("users.waffle", controllerDefinition.getController());
         }
     }
 

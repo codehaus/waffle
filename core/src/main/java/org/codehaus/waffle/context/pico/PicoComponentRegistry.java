@@ -41,10 +41,8 @@ import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
-import org.codehaus.waffle.view.DefaultDispatchAssistant;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
 import org.codehaus.waffle.view.DefaultViewResolver;
-import org.codehaus.waffle.view.DispatchAssistant;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
 import org.picocontainer.ComponentAdapter;
@@ -81,7 +79,6 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
         register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
         register(DataBinder.class, OgnlDataBinder.class, servletContext);
-        register(DispatchAssistant.class, DefaultDispatchAssistant.class, servletContext);
         register(MessageResources.class, DefaultMessageResources.class, servletContext);
         register(MethodDefinitionFinder.class, AnnotatedMethodDefinitionFinder.class, servletContext);
         register(MethodNameResolver.class, RequestParameterMethodNameResolver.class, servletContext);
@@ -220,10 +217,6 @@ public class PicoComponentRegistry implements ComponentRegistry {
 
     public DataBinder getDataBinder() {
         return locateByType(DataBinder.class);
-    }
-
-    public DispatchAssistant getDispatchAssistant() {
-        return locateByType(DispatchAssistant.class);
     }
 
     public MessageResources getMessageResources() {

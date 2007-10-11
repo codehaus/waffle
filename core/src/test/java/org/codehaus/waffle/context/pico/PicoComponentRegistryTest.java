@@ -35,7 +35,6 @@ import org.codehaus.waffle.testmodel.StubContextContainerFactory;
 import org.codehaus.waffle.testmodel.StubControllerDefinitionFactory;
 import org.codehaus.waffle.testmodel.StubControllerNameResolver;
 import org.codehaus.waffle.testmodel.StubDataBinder;
-import org.codehaus.waffle.testmodel.StubDispatchAssistant;
 import org.codehaus.waffle.testmodel.StubMessageResources;
 import org.codehaus.waffle.testmodel.StubMethodDefinitionFinder;
 import org.codehaus.waffle.testmodel.StubMethodNameResolver;
@@ -46,10 +45,8 @@ import org.codehaus.waffle.testmodel.StubViewResolver;
 import org.codehaus.waffle.testmodel.StubRequestAttributeBinder;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
-import org.codehaus.waffle.view.DefaultDispatchAssistant;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
 import org.codehaus.waffle.view.DefaultViewResolver;
-import org.codehaus.waffle.view.DispatchAssistant;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
 import org.jmock.Mock;
@@ -97,7 +94,7 @@ public class PicoComponentRegistryTest extends MockObjectTestCase {
         mockServletContext.expects(once())
                 .method("getInitParameterNames")
                 .will(returnValue(EMPTY_ENUMERATION));
-        mockServletContext.expects(exactly(18))
+        mockServletContext.expects(exactly(17))
                 .method("getInitParameter")
                 .will(returnValue(null));
         ServletContext servletContext = (ServletContext) mockServletContext.proxy();
@@ -108,7 +105,6 @@ public class PicoComponentRegistryTest extends MockObjectTestCase {
         assertTrue(componentRegistry.getContextContainerFactory() instanceof AbstractContextContainerFactory);
         assertTrue(componentRegistry.getBindErrorMessageResolver() instanceof DefaultBindErrorMessageResolver);
         assertTrue(componentRegistry.getDataBinder() instanceof OgnlDataBinder);
-        assertTrue(componentRegistry.getDispatchAssistant() instanceof DefaultDispatchAssistant);
         assertTrue(componentRegistry.getActionMethodExecutor() instanceof InterceptingActionMethodExecutor);
         assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof DefaultActionMethodResponseHandler);
         assertTrue(componentRegistry.getMethodNameResolver() instanceof RequestParameterMethodNameResolver);
@@ -137,9 +133,6 @@ public class PicoComponentRegistryTest extends MockObjectTestCase {
         mockServletContext.expects(once()).method("getInitParameter")
                 .with(eq(DataBinder.class.getName()))
                 .will(returnValue(StubDataBinder.class.getName()));
-        mockServletContext.expects(once()).method("getInitParameter")
-                .with(eq(DispatchAssistant.class.getName()))
-                .will(returnValue(StubDispatchAssistant.class.getName()));
         mockServletContext.expects(once()).method("getInitParameter")
                 .with(eq(ActionMethodResponseHandler.class.getName()))
                 .will(returnValue(StubActionMethodResponseHandler.class.getName()));
@@ -189,7 +182,6 @@ public class PicoComponentRegistryTest extends MockObjectTestCase {
         assertTrue(componentRegistry.getBindErrorMessageResolver() instanceof StubBindErrorMessageResolver);
         assertTrue(componentRegistry.getContextContainerFactory() instanceof StubContextContainerFactory);
         assertFalse(componentRegistry.getDataBinder() instanceof OgnlDataBinder);
-        assertTrue(componentRegistry.getDispatchAssistant() instanceof StubDispatchAssistant);
         assertTrue(componentRegistry.getActionMethodExecutor() instanceof StubActionMethodExecutor);
         assertTrue(componentRegistry.getMethodDefinitionFinder() instanceof StubMethodDefinitionFinder);
         assertTrue(componentRegistry.getMethodNameResolver() instanceof StubMethodNameResolver);
@@ -211,7 +203,7 @@ public class PicoComponentRegistryTest extends MockObjectTestCase {
         mockServletContext.expects(once())
                 .method("getInitParameterNames")
                 .will(returnValue(Collections.enumeration(names)));
-        mockServletContext.expects(exactly(18))
+        mockServletContext.expects(exactly(17))
                 .method("getInitParameter")
                 .will(returnValue(null));
         mockServletContext.expects(once())
@@ -235,7 +227,7 @@ public class PicoComponentRegistryTest extends MockObjectTestCase {
         mockServletContext.expects(once())
                 .method("getInitParameterNames")
                 .will(returnValue(Collections.enumeration(names)));
-        mockServletContext.expects(exactly(18))
+        mockServletContext.expects(exactly(17))
                 .method("getInitParameter")
                 .will(returnValue(null));
         mockServletContext.expects(once())
