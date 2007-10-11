@@ -26,7 +26,6 @@ import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.validation.Validator;
-import org.codehaus.waffle.view.DispatchAssistant;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
 
@@ -56,8 +55,6 @@ public interface ComponentRegistry {
     ControllerDefinitionFactory getControllerDefinitionFactory();
 
     DataBinder getDataBinder();
-
-    DispatchAssistant getDispatchAssistant();
 
     MessageResources getMessageResources();
 

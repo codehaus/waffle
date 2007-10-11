@@ -9,11 +9,10 @@ import org.junit.runner.RunWith;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Michael Ward
@@ -32,8 +31,7 @@ public class DefaultViewDispatcherTest {
         private boolean responded = false;
 
         @Override
-        public void respond(ServletRequest req, HttpServletResponse resp)
-                throws IOException {
+        public void respond(ServletRequest req, HttpServletResponse resp) throws IOException {
             responded = true;
         }
 
@@ -43,57 +41,45 @@ public class DefaultViewDispatcherTest {
     }
 
     @Test
-    public void testRespondCalled() throws IOException, ServletException {
+    public void dispatchShouldCallRespondIfViewIsOfTypeResponder() throws IOException, ServletException {
         SomeResponderView view = new SomeResponderView();
 
         ViewResolver viewResolver = mockViewResolver(view, PATH);
 
-        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(
-                viewResolver, null);
+        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(viewResolver);
         viewDispatcher.dispatch(mockRequest, mockResponse, view);
         Assert.assertTrue(view.isResponded());
     }
 
     @Test
-    public void testDispatchCalled() throws IOException, ServletException {
-        Map model = new HashMap();
-        RedirectView redirectView = new RedirectView(PATH, null, model);
+    public void dispatchShouldHandleRedirectView() throws IOException, ServletException {
+        RedirectView redirectView = new RedirectView(PATH, null);
         ViewResolver viewResolver = mockViewResolver(redirectView, PATH);
-        DispatchAssistant dispatchAssistant = mockDispatchAssistant(model, PATH);
 
-        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(
-                viewResolver, dispatchAssistant);
+        mockery.checking(new Expectations() {{
+            one(mockResponse).setStatus(HttpServletResponse.SC_SEE_OTHER);
+            one(mockResponse).setHeader("Location", PATH);
+        }});
+
+        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(viewResolver);
         viewDispatcher.dispatch(mockRequest, mockResponse, redirectView);
     }
 
     @Test
-    public void testForwardCalled() throws IOException, ServletException {
+    public void dispatchShouldHandleStandardView() throws IOException, ServletException {
         View view = new View(PATH, null);
         ViewResolver viewResolver = mockViewResolver(view, PATH);
-        DispatchAssistant dispatchAssistant = mockDispatchAssistant(null, PATH);
 
-        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(
-                viewResolver, dispatchAssistant);
+        final RequestDispatcher requestDispatcher = mockery.mock(RequestDispatcher.class);
+
+        mockery.checking(new Expectations() {{
+            one(mockRequest).getRequestDispatcher(PATH);
+            will(returnValue(requestDispatcher));
+            one(requestDispatcher).forward(mockRequest, mockResponse);
+        }});
+
+        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(viewResolver);
         viewDispatcher.dispatch(mockRequest, mockResponse, view);
-    }
-
-    private DispatchAssistant mockDispatchAssistant(final Map model,
-                                                    final String path) throws IOException, ServletException {
-        final DispatchAssistant dispatchAssistant = mockery
-                .mock(DispatchAssistant.class);
-        Expectations expectations = new Expectations() {
-            {
-                if (model != null) {
-                    allowing(dispatchAssistant).redirect(mockRequest,
-                            mockResponse, model, path);
-                } else {
-                    allowing(dispatchAssistant).forward(mockRequest,
-                            mockResponse, path);
-                }
-            }
-        };
-        mockery.checking(expectations);
-        return dispatchAssistant;
     }
 
     private ViewResolver mockViewResolver(final View view, final String path) {

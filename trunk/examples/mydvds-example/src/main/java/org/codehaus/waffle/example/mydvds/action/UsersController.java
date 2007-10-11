@@ -1,13 +1,11 @@
 package org.codehaus.waffle.example.mydvds.action;
 
 import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.example.mydvds.persistence.PersistenceManager;
 import org.codehaus.waffle.example.mydvds.model.Passport;
 import org.codehaus.waffle.example.mydvds.model.User;
+import org.codehaus.waffle.example.mydvds.persistence.PersistenceManager;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
-
-import java.util.HashMap;
 
 public class UsersController {
 
@@ -24,7 +22,7 @@ public class UsersController {
         User user = this.persistenceManager.getUserDao().search(login, password);
         this.passport.setUser(user);
 
-        return new RedirectView("dvds.waffle", this, new HashMap());
+        return new RedirectView("dvds.waffle", this);
     }
 
     @ActionMethod(parameters = {"name", "login", "password"})
@@ -38,6 +36,6 @@ public class UsersController {
 
     public View logout() {
         this.passport.invalidate();
-        return new RedirectView("users.waffle", this, new HashMap());
+        return new RedirectView("users.waffle", this);
     }
 }

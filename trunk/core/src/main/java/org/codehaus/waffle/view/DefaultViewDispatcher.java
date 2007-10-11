@@ -11,10 +11,10 @@
 package org.codehaus.waffle.view;
 
 import javax.servlet.ServletException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 /**
  * The ViewDispatcher handles redirecting/forwarding to the view
@@ -24,11 +24,9 @@ import java.util.Map;
  */
 public class DefaultViewDispatcher implements ViewDispatcher {
     private final ViewResolver viewResolver;
-    private final DispatchAssistant dispatchAssistant;
 
-    public DefaultViewDispatcher(ViewResolver viewResolver, DispatchAssistant dispatchAssistant) {
+    public DefaultViewDispatcher(ViewResolver viewResolver) {
         this.viewResolver = viewResolver;
-        this.dispatchAssistant = dispatchAssistant;
     }
 
     // todo may need to handle ... http://java.sun.com/products/servlet/Filters.html for Character Encoding from request
@@ -38,12 +36,15 @@ public class DefaultViewDispatcher implements ViewDispatcher {
         String url = viewResolver.resolve(view);
 
         if (view instanceof RedirectView) {
-            Map model = ((RedirectView) view).getModel();
-            dispatchAssistant.redirect(request, response, model, url);
+            RedirectView redirectView = (RedirectView) view;
+
+            response.setStatus(redirectView.getStatusCode());
+            response.setHeader("Location", url);
         } else if (view instanceof ResponderView) {
             ((ResponderView) view).respond(request, response);
         } else {
-            dispatchAssistant.forward(request, response, url);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
+            requestDispatcher.forward(request, response);
         }
     }
 }

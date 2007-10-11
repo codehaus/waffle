@@ -25,9 +25,14 @@ public class View {
     private final String value;
     private final Object fromController;
 
-    public View(String name, Object fromAction) {
-        this.value = name;
-        this.fromController = fromAction;
+    /**
+     *
+     * @param value represents the name of the View to be resolved
+     * @param fromController where this view orginated from
+     */
+    public View(String value, Object fromController) {
+        this.value = value;
+        this.fromController = fromController;
     }
 
     // the term "value" is used to be purposely open ended
@@ -37,6 +42,8 @@ public class View {
 
     /**
      * Represent which Controller this View originated from
+     *
+     * @return the controller instance
      */
     public Object getFromController() {
         return fromController;

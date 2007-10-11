@@ -10,20 +10,24 @@
  *****************************************************************************/
 package org.codehaus.waffle.view;
 
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author Michael Ward
  */
 public class RedirectView extends View {
-    private final Map model;
+    private int statusCode;
 
-    public RedirectView(String value, Object fromController, Map model) {
-        super(value, fromController);
-        this.model = model;
+    public RedirectView(String value, Object fromController) {
+        this(value, fromController, HttpServletResponse.SC_SEE_OTHER);
     }
 
-    public Map getModel() {
-        return model;
+    public RedirectView(String value, Object fromController, int statusCode) {
+        super(value, fromController);
+        this.statusCode = statusCode;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
     }
 }
