@@ -10,15 +10,15 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
+import org.codehaus.waffle.ComponentRegistry;
 import static org.codehaus.waffle.Constants.ERRORS_KEY;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
-import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
+import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.controller.ControllerDefinition;
@@ -26,6 +26,7 @@ import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
+import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
 
 import javax.servlet.ServletException;
@@ -57,7 +58,7 @@ public class WaffleServlet extends HttpServlet {
     }
 
     /**
-     * Needed for builder
+     * Needed for builder ... and helpful for testing
      */
     public WaffleServlet(ControllerDefinitionFactory controllerDefinitionFactory,
                          DataBinder dataBinder,
@@ -131,16 +132,29 @@ public class WaffleServlet extends HttpServlet {
         try {
             ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
             MethodDefinition methodDefinition = controllerDefinition.getMethodDefinition();
+            View view = null;
 
             if (errorsContext.hasErrorMessages() || methodDefinition == null) {
-                buildViewToReferrer(controllerDefinition, actionMethodResponse);
+                view = buildViewToReferrer(controllerDefinition);
             } else {
                 actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
 
-                if (errorsContext.hasErrorMessages() || actionMethodResponse.getReturnValue() == null) {
-                    // Null and VOID need to build a view back to the referring page
-                    buildViewToReferrer(controllerDefinition, actionMethodResponse);
+                if (errorsContext.hasErrorMessages()) {
+                    view = buildViewToReferrer(controllerDefinition);
+                } else if (actionMethodResponse.getReturnValue() == null) {
+                    // Null or VOID indicate a Waffle convention (return to referring page)
+                    if (request.getMethod().equalsIgnoreCase("POST")) {
+                        // PRG (Post/Redirect/Get): see http://en.wikipedia.org/wiki/Post/Redirect/Get
+                        String url = request.getRequestURL().toString();
+                        view = new RedirectView(url, controllerDefinition.getController());
+                    } else { // was a GET
+                        view = buildViewToReferrer(controllerDefinition);
+                    }
                 }
+            }
+
+            if (view != null) {
+                actionMethodResponse.setReturnValue(view);
             }
 
             requestAttributeBinder.bind(request, controllerDefinition.getController());
@@ -154,10 +168,9 @@ public class WaffleServlet extends HttpServlet {
     /**
      * Build a view back to the referring page (use the Controller's name as the View name).
      */
-    protected void buildViewToReferrer(ControllerDefinition controllerDefinition, ActionMethodResponse actionMethodResponse) {
+    protected View buildViewToReferrer(ControllerDefinition controllerDefinition) {
         String controllerValue = viewPrefix + controllerDefinition.getName() + viewSuffix;
-        View view = new View(controllerValue, controllerDefinition.getController());
-        actionMethodResponse.setReturnValue(view);
+        return new View(controllerValue, controllerDefinition.getController());
     }
 
 }

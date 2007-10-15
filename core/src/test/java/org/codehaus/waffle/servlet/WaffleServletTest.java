@@ -11,27 +11,31 @@
 package org.codehaus.waffle.servlet;
 
 import ognl.DefaultTypeConverter;
-import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
+import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
-import org.codehaus.waffle.testmodel.StubComponentRegistry;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.View;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
 import javax.servlet.ServletConfig;
@@ -47,34 +51,32 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
-public class WaffleServletTest extends MockObjectTestCase {
+@RunWith(JMock.class)
+public class WaffleServletTest {
+    private final Mockery mockery = new JUnit4Mockery();
 
+    @Test
     public void testInitSetsAttributeOnServletContext() throws ServletException {
         // Mock ServletConfig
-        Mock mockServletConfig = mock(ServletConfig.class);
-        mockServletConfig.expects(once())
-                .method("getInitParameter")
-                .with(eq(Constants.VIEW_PREFIX_KEY))
-                .will(returnValue(null));
-        mockServletConfig.expects(once())
-                .method("getInitParameter")
-                .with(eq(Constants.VIEW_SUFFIX_KEY))
-                .will(returnValue(".jsp"));
-        final ServletConfig servletConfig = (ServletConfig) mockServletConfig.proxy();
+        final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        final ComponentRegistry componentRegistry = mockery.mock(ComponentRegistry.class);
 
-        // Mock ServletContext
-        Mock mockServletContext = mock(ServletContext.class);
-        final ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-        mockServletContext.expects(once())
-                .method("getInitParameterNames")
-                .will(returnValue(null));
-        mockServletContext.expects(atLeastOnce())
-                .method("getInitParameter")
-                .will(returnValue(null));
-        mockServletContext.expects(once())
-                .method("getAttribute")
-                .with(eq(ComponentRegistry.class.getName()))
-                .will(returnValue(new StubComponentRegistry(servletContext)));
+        mockery.checking(new Expectations() {{
+            one(servletConfig).getInitParameter(Constants.VIEW_PREFIX_KEY);
+            will(returnValue(null));
+            one(servletConfig).getInitParameter(Constants.VIEW_SUFFIX_KEY);
+            will(returnValue(".jsp"));
+            one(servletContext).getAttribute(ComponentRegistry.class.getName());
+            will(returnValue(componentRegistry));
+            // Component Registry...
+            one(componentRegistry).getControllerDefinitionFactory();
+            one(componentRegistry).getDataBinder();
+            one(componentRegistry).getActionMethodExecutor();
+            one(componentRegistry).getActionMethodResponseHandler();
+            one(componentRegistry).getValidator();
+            one(componentRegistry).getRequestAttributeBinder();
+        }});
 
         WaffleServlet servlet = new WaffleServlet() {
             @Override
@@ -91,137 +93,140 @@ public class WaffleServletTest extends MockObjectTestCase {
         servlet.init();
     }
 
-    public void testInitRequiresInitParameter() throws ServletException {
-        Mock mockServletConext = mock(ServletContext.class);
-        final ServletContext servletContext = (ServletContext) mockServletConext.proxy();
-        mockServletConext.expects(once())
-                .method("getAttribute")
-                .with(eq("org.codehaus.waffle.ComponentRegistry"))
-                .will(returnValue(null));
-
-        // Mock ServletConfig
-        Mock mockServletConfig = mock(ServletConfig.class);
-
-        mockServletConfig.expects(once())
-                .method("getInitParameter")
-                .with(eq(Constants.VIEW_PREFIX_KEY))
-                .will(returnValue("/WEB-INF/jsp"));
-        mockServletConfig.expects(once())
-                .method("getInitParameter")
-                .with(eq(Constants.VIEW_SUFFIX_KEY))
-                .will(returnValue(null));
-        final ServletConfig servletConfig = (ServletConfig) mockServletConfig.proxy();
-
-        WaffleServlet servlet = new WaffleServlet() {
-            @Override
-            public ServletConfig getServletConfig() {
-                return servletConfig;
-            }
-
-            @Override
-            public ServletContext getServletContext() {
-                return servletContext;
-            }
-        };
-
-        try {
-            servlet.init();
-            fail("WaffleException was expected");
-        } catch (WaffleException expected) {
-            // expected
-        }
-    }
-
+    @Test
     public void testServiceForNonDispatchingController() throws Exception {
         RequestLevelContainer.set(new PicoContextContainer(new DefaultPicoContainer()));
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
-        Enumeration enumeration = Collections.enumeration(list);
+        final Enumeration enumeration = Collections.enumeration(list);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getParameterNames")
-                .will(returnValue(enumeration));
-        mockRequest.expects(once())
-                .method("setAttribute")
-                .with(eq(Constants.ERRORS_KEY), isA(ErrorsContext.class));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {{
+            one(request).getParameterNames();
+            will(returnValue(enumeration));
+            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(a(ErrorsContext.class)));
+            one(request).getMethod(); // todo need to test post
+            will(returnValue("get"));
+        }});
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         Method method = NonDispatchingController.class.getMethod("increment");
         final MethodDefinition methodDefinition = new MethodDefinition(method);
 
+        // Mock ActionMethodResponseHandler
+        final ActionMethodResponseHandler actionMethodResponseHandler = mockery.mock(ActionMethodResponseHandler.class);
+        mockery.checking(new Expectations() {{
+            one(actionMethodResponseHandler).handle(with(same(request)), with(same(response)), with(any(ActionMethodResponse.class)));
+        }});
+
+        // Mock Validator
+        final Validator validator = mockery.mock(Validator.class);
+        mockery.checking(new Expectations() {{
+            one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+        }});
+
+        // Mock RequestAttributeBinder
+        final RequestAttributeBinder requestAttributeBinder = mockery.mock(RequestAttributeBinder.class);
+        mockery.checking(new Expectations() {{
+            one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
+        }});
+
         // stub out what we don't want called ... execute it
-        WaffleServlet waffleServlet = new WaffleServlet() {
+        WaffleServlet waffleServlet = new WaffleServlet(null,
+                                                        new OgnlDataBinder(new DefaultTypeConverter(), null),
+                                                        new InterceptingActionMethodExecutor(),
+                                                        actionMethodResponseHandler,
+                                                        validator,
+                                                        requestAttributeBinder) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
             }
         };
 
-        // Mock ActionMethodResponseHandler
-        Mock mockMethodResponseHandler = mock(ActionMethodResponseHandler.class);
-        mockMethodResponseHandler.expects(once())
-                .method("handle")
-                .with(eq(request), ANYTHING, isA(ActionMethodResponse.class));
-        ActionMethodResponseHandler actionMethodResponseHandler = (ActionMethodResponseHandler) mockMethodResponseHandler.proxy();
-
-        // Mock Validator
-        Mock mockValidator = mock(Validator.class);
-        mockValidator.expects(once())
-                .method("validate")
-                .with(isA(ControllerDefinition.class), isA(ErrorsContext.class));
-        Validator validator = (Validator) mockValidator.proxy();
-
-        // Mock RequestAttributeBinder
-        Mock mockRequestAttributeBinder = mock(RequestAttributeBinder.class);
-        mockRequestAttributeBinder.expects(once())
-                .method("bind")
-                .with(same(request), isA(NonDispatchingController.class));
-        RequestAttributeBinder requestAttributeBinder = (RequestAttributeBinder) mockRequestAttributeBinder.proxy();
-
-        // Set up what normally would happen via "init()"
-        Field dataBinderField = WaffleServlet.class.getDeclaredField("dataBinder");
-        dataBinderField.setAccessible(true);
-        dataBinderField.set(waffleServlet, new OgnlDataBinder(new DefaultTypeConverter(), null));
-        Field actionMethodExecutorField = WaffleServlet.class.getDeclaredField("actionMethodExecutor");
-        actionMethodExecutorField.setAccessible(true);
-        actionMethodExecutorField.set(waffleServlet, new InterceptingActionMethodExecutor());
-        Field methodResponseHandlerField = WaffleServlet.class.getDeclaredField("actionMethodResponseHandler");
-        methodResponseHandlerField.setAccessible(true);
-        methodResponseHandlerField.set(waffleServlet, actionMethodResponseHandler);
-        Field validatorFactoryField = WaffleServlet.class.getDeclaredField("validator");
-        validatorFactoryField.setAccessible(true);
-        validatorFactoryField.set(waffleServlet, validator);
-        Field requestAttributeBinderField = WaffleServlet.class.getDeclaredField("requestAttributeBinder");
-        requestAttributeBinderField.setAccessible(true);
-        requestAttributeBinderField.set(waffleServlet, requestAttributeBinder);
-
         waffleServlet.service(request, response);
-        assertEquals(1, nonDispatchingController.getCount());
+        Assert.assertEquals(1, nonDispatchingController.getCount());
     }
 
+    @Test // Testing Post/Redirect/Get - see http://en.wikipedia.org/wiki/Post/Redirect/Get
+    public void serviceShouldCreateRedirectViewWhenReturnValueIsNullAndRequestWasAPost() throws Exception {
+        RequestLevelContainer.set(new PicoContextContainer(new DefaultPicoContainer()));
+        final NonDispatchingController nonDispatchingController = new NonDispatchingController();
+        List<?> list = Collections.EMPTY_LIST;
+        final Enumeration enumeration = Collections.enumeration(list);
+
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {{
+            one(request).getParameterNames();
+            will(returnValue(enumeration));
+            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(a(ErrorsContext.class)));
+            one(request).getMethod();
+            will(returnValue("post"));
+            one(request).getRequestURL();
+            will(returnValue(new StringBuffer("www.chicagobears.com")));
+        }});
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        Method method = NonDispatchingController.class.getMethod("increment");
+        final MethodDefinition methodDefinition = new MethodDefinition(method);
+
+        // Mock ActionMethodResponseHandler
+        final ActionMethodResponseHandler actionMethodResponseHandler = mockery.mock(ActionMethodResponseHandler.class);
+        mockery.checking(new Expectations() {{
+            one(actionMethodResponseHandler).handle(with(same(request)), with(same(response)), with(any(ActionMethodResponse.class)));
+        }});
+
+        // Mock Validator
+        final Validator validator = mockery.mock(Validator.class);
+        mockery.checking(new Expectations() {{
+            one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+        }});
+
+        // Mock RequestAttributeBinder
+        final RequestAttributeBinder requestAttributeBinder = mockery.mock(RequestAttributeBinder.class);
+        mockery.checking(new Expectations() {{
+            one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
+        }});
+
+        // stub out what we don't want called ... execute it
+        WaffleServlet waffleServlet = new WaffleServlet(null,
+                                                        new OgnlDataBinder(new DefaultTypeConverter(), null),
+                                                        new InterceptingActionMethodExecutor(),
+                                                        actionMethodResponseHandler,
+                                                        validator,
+                                                        requestAttributeBinder) {
+            @Override
+            protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
+                return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
+            }
+        };
+
+        waffleServlet.service(request, response);
+        Assert.assertEquals(1, nonDispatchingController.getCount());
+    }
+
+    @Test(expected = ServletException.class)
     public void testControllerNotFound() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("setAttribute")
-                .with(eq(Constants.ERRORS_KEY), isA(ErrorsContext.class));
-        mockRequest.expects(once())
-                .method("getServletPath")
-                .will(returnValue("/foobar"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {{
+            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
+            one(request).getServletPath();
+            will(returnValue("/foobar"));
+        }});
 
         // Mock ControllerDefinitionFactory
-        Mock mockFactory = mock(ControllerDefinitionFactory.class);
-        mockFactory.expects(once())
-                .method("getControllerDefinition")
-                .will(returnValue(new ControllerDefinition("junk", null, null)));
-        ControllerDefinitionFactory controllerDefinitionFactory = (ControllerDefinitionFactory) mockFactory.proxy();
+        final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+        mockery.checking(new Expectations() {{
+            one(controllerDefinitionFactory).getControllerDefinition(request, null);
+            will(returnValue(new ControllerDefinition("junk", null, null)));
+        }});
 
         WaffleServlet waffleServlet = new WaffleServlet();
 
@@ -230,53 +235,44 @@ public class WaffleServletTest extends MockObjectTestCase {
         actionFactoryField.setAccessible(true);
         actionFactoryField.set(waffleServlet, controllerDefinitionFactory);
 
-        try {
-            waffleServlet.service(request, null);
-            fail("ServletException expected when an invalid controller is requested");
-        } catch (ServletException expected) {
-            assertTrue(expected.getMessage().startsWith("Unable to locate the Waffle Controller"));
-        }
+        waffleServlet.service(request, null);
     }
 
+    @Test
     public void testMethodDefinitionIsNull() throws Exception {
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
-        Enumeration enumeration = Collections.enumeration(list);
+        final Enumeration enumeration = Collections.enumeration(list);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once()).method("getParameterNames").will(returnValue(enumeration));
-        mockRequest.expects(once())
-                .method("setAttribute")
-                .with(eq(Constants.ERRORS_KEY), isA(ErrorsContext.class));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request  = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {{
+            one(request).getParameterNames();
+            will(returnValue(enumeration));
+            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
+        }});
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock ActionMethodResponseHandler
-        Mock mockActionMethodResponseHandler = mock(ActionMethodResponseHandler.class);
-        mockActionMethodResponseHandler.expects(once())
-                .method("handle")
-                .with(eq(request), ANYTHING, isA(ActionMethodResponse.class));
-        ActionMethodResponseHandler actionMethodResponseHandler =
-                (ActionMethodResponseHandler) mockActionMethodResponseHandler.proxy();
+        final ActionMethodResponseHandler actionMethodResponseHandler = mockery.mock(ActionMethodResponseHandler.class);
+        mockery.checking(new Expectations() {{
+            one(actionMethodResponseHandler).handle(with(same(request)), with(same(response)), with(any(ActionMethodResponse.class)));
+        }});
 
         // Mock Validator
-        Mock mockValidator = mock(Validator.class);
-        mockValidator.expects(once())
-                .method("validate")
-                .with(isA(ControllerDefinition.class), isA(ErrorsContext.class));
-        Validator validator = (Validator) mockValidator.proxy();
+        final Validator validator = mockery.mock(Validator.class);
+        mockery.checking(new Expectations() {{
+            one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+        }});
 
         // Mock
-        Mock mockRequestAttributeBinder = mock(RequestAttributeBinder.class);
-        mockRequestAttributeBinder.expects(once())
-                .method("bind")
-                .with(same(request), same(nonDispatchingController));
-        RequestAttributeBinder requestAttributeBinder = (RequestAttributeBinder) mockRequestAttributeBinder.proxy();
-        
+        final RequestAttributeBinder requestAttributeBinder = mockery.mock(RequestAttributeBinder.class);
+        mockery.checking(new Expectations() {{
+            one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
+        }});
+
         // stub out what we don't want called ... execute it
         WaffleServlet waffleServlet = new WaffleServlet(null,
                 new OgnlDataBinder(new DefaultTypeConverter(), null),
@@ -298,25 +294,26 @@ public class WaffleServletTest extends MockObjectTestCase {
         waffleServlet.service(request, response);
     }
 
+    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
+    @Test
     public void testMethodInvocationExceptionThrown() throws Exception {
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
-        Enumeration enumeration = Collections.enumeration(list);
+        final Enumeration enumeration = Collections.enumeration(list);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once()).method("getParameterNames").will(returnValue(enumeration));
-        mockRequest.expects(once())
-                .method("setAttribute")
-                .with(eq(Constants.ERRORS_KEY), isA(ErrorsContext.class));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request  = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {{
+            one(request).getParameterNames();
+            will(returnValue(enumeration));
+            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
+        }});
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        mockResponse.expects(once())
-                .method("sendError")
-                .with(eq(HttpServletResponse.SC_INTERNAL_SERVER_ERROR), isA(String.class));
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+        mockery.checking(new Expectations() {{
+            one(response).sendError(with(equal(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)), with(any(String.class)));
+        }});
 
         // stub out what we don't want called ... execute it
         WaffleServlet waffleServlet = new WaffleServlet() {
@@ -332,19 +329,17 @@ public class WaffleServletTest extends MockObjectTestCase {
         };
 
         // Mock ActionMethodExecutor
-        Mock mockMethodExecutor = mock(ActionMethodExecutor.class);
-        mockMethodExecutor.expects(once())
-                .method("execute")
-                .with(isA(ActionMethodResponse.class), isA(ControllerDefinition.class))
-                .will(throwException(new ActionMethodInvocationException("fake from test")));
-        ActionMethodExecutor actionMethodExecutor = (ActionMethodExecutor) mockMethodExecutor.proxy();
+        final ActionMethodExecutor actionMethodExecutor = mockery.mock(ActionMethodExecutor.class);
+        mockery.checking(new Expectations() {{
+            one(actionMethodExecutor).execute(with(any(ActionMethodResponse.class)), with(any(ControllerDefinition.class)));
+            will(throwException(new ActionMethodInvocationException("fake from test")));
+        }});
 
         // Mock Validator
-        Mock mockValidator = mock(Validator.class);
-        mockValidator.expects(once())
-                .method("validate")
-                .with(isA(ControllerDefinition.class), isA(ErrorsContext.class));
-        Validator validator = (Validator) mockValidator.proxy();
+        final Validator validator = mockery.mock(Validator.class);
+        mockery.checking(new Expectations() {{
+            one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+        }});
 
         // Set up what normally would happen via "init()"
         Field dataBinderField = WaffleServlet.class.getDeclaredField("dataBinder");
@@ -362,6 +357,7 @@ public class WaffleServletTest extends MockObjectTestCase {
         waffleServlet.service(request, response);
     }
 
+    @Test
     public void testBuildViewToReferrer() throws Exception {
         WaffleServlet waffleServlet = new WaffleServlet();
 
@@ -374,11 +370,40 @@ public class WaffleServletTest extends MockObjectTestCase {
         viewSuffixField.set(waffleServlet, "-suffix");
 
         ControllerDefinition controllerDefinition = new ControllerDefinition("foobar", null, null);
-        ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
-        waffleServlet.buildViewToReferrer(controllerDefinition, actionMethodResponse);
+        View view = waffleServlet.buildViewToReferrer(controllerDefinition);
 
-        View view = (View) actionMethodResponse.getReturnValue();
-        assertEquals("prefix-foobar-suffix", view.getValue());
+        Assert.assertEquals("prefix-foobar-suffix", view.getValue());
+    }
+
+    @Test(expected = WaffleException.class)
+    public void testInitRequiresInitParameter() throws ServletException {
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {{
+            one(servletContext).getAttribute(ComponentRegistry.class.getName());
+            will(returnValue(null));
+        }});
+
+        // Mock ServletConfig
+        final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
+        mockery.checking(new Expectations() {{
+            one(servletConfig).getInitParameter(Constants.VIEW_PREFIX_KEY);
+            will(returnValue("/WEB-INF/jsp"));
+            one(servletConfig).getInitParameter(Constants.VIEW_SUFFIX_KEY);
+        }});
+
+        WaffleServlet servlet = new WaffleServlet() {
+            @Override
+            public ServletConfig getServletConfig() {
+                return servletConfig;
+            }
+
+            @Override
+            public ServletContext getServletContext() {
+                return servletContext;
+            }
+        };
+
+        servlet.init();
     }
 
     public class NonDispatchingController {
