@@ -14,8 +14,6 @@ import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.XMLView;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Waffle's FrontController for XML serialization.
  *
@@ -26,8 +24,5 @@ public class WaffleXMLServlet extends WaffleServlet {
     protected View buildViewToReferrer(ControllerDefinition controllerDefinition) {
         return new XMLView();
     }
-
-    protected View buildRedirectViewToReferrer(ControllerDefinition controllerDefinition, HttpServletRequest request) {
-        return new XMLView();
-    }
+    
 }
