@@ -10,9 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.XMLView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Waffle's FrontController for XML serialization.
@@ -21,8 +23,11 @@ import org.codehaus.waffle.view.XMLView;
  */
 public class WaffleXMLServlet extends WaffleServlet {
 
-    protected void buildViewToReferrer(ControllerDefinition controllerDefinition,
-                                       ActionMethodResponse actionMethodResponse) {
-        actionMethodResponse.setReturnValue(new XMLView());
+    protected View buildViewToReferrer(ControllerDefinition controllerDefinition) {
+        return new XMLView();
+    }
+
+    protected View buildRedirectViewToReferrer(ControllerDefinition controllerDefinition, HttpServletRequest request) {
+        return new XMLView();
     }
 }

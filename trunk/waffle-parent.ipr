@@ -200,7 +200,9 @@
           </module>
           <module name="waffle-simple-example">
             <files>
+              <file url="file://$PROJECT_DIR$/examples/simple-example/exploded/WEB-INF/web.xml" />
               <file url="file://$PROJECT_DIR$/examples/simple-example/src/main/webapp/WEB-INF/web.xml" />
+              <file url="file://$PROJECT_DIR$/examples/simple-example/target/waffle-simple-example-1.0-SNAPSHOT/WEB-INF/web.xml" />
             </files>
           </module>
           <module name="waffle-freemarker-example">
@@ -210,6 +212,7 @@
           </module>
           <module name="waffle-paranamer-example">
             <files>
+              <file url="file://$PROJECT_DIR$/examples/paranamer-example/exploded/WEB-INF/web.xml" />
               <file url="file://$PROJECT_DIR$/examples/paranamer-example/src/main/webapp/WEB-INF/web.xml" />
             </files>
           </module>
