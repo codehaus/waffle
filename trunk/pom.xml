@@ -13,7 +13,6 @@
 
   <modules>
     <module>core</module>
-    <module>examples</module>
     <module>extensions/webcontainer</module>
     <module>extensions/taglib</module>
   </modules>
