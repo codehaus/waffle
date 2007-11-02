@@ -10,18 +10,19 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import org.codehaus.waffle.action.MethodDefinition;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import static org.junit.Assert.assertEquals;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.Set;
+
+import org.codehaus.waffle.action.MethodDefinition;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * @author Mauro Talevi
@@ -37,7 +38,7 @@ public class AbstractWritingMonitorTest {
         final AbstractWritingMonitor monitor = new AbstractWritingMonitor() {
 
             @Override
-            protected void write(MonitorLevel level, String message) {
+            protected void write(Level level, String message) {
                 sb.append(message).append("\n");
             }
 
@@ -60,7 +61,7 @@ public class AbstractWritingMonitorTest {
         final StringWriter monitorWriter = new StringWriter();
         final AbstractWritingMonitor monitor = new AbstractWritingMonitor() {
             @Override
-            protected void write(MonitorLevel level, String message) {
+            protected void write(Level level, String message) {
                 // will not be tested here
             }
 

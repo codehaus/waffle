@@ -11,6 +11,7 @@
 package org.codehaus.waffle.monitor;
 
 
+
 /**
  * SilentMonitor is a writing monitor that writes nothing.
  * 
@@ -18,7 +19,7 @@ package org.codehaus.waffle.monitor;
  */
 public class SilentMonitor extends AbstractWritingMonitor {
 
-    protected void write(MonitorLevel level, String message) {
+    protected void write(Level level, String message) {
         // write nothing
     }
 
