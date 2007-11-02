@@ -10,22 +10,18 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
 /**
+ * Marker Monitor defining the levels and any methods common to all monitors.
+ * 
+ * A monitor defines events that need to be monitored, eg for debugging purposes.
+ * 
+ * Each implementing class can opt to disregard some of these events or handle them with 
+ * different priorities.
  * 
  * @author Mauro Talevi
  */
-public class MonitorLevelTest {
-
-    @Test
-    public void enumsHHaveValidStringRepresentations() {
-        assertEquals(MonitorLevel.DEBUG.toString(), "Debug");
-        assertEquals(MonitorLevel.ERROR.toString(), "Error");
-        assertEquals(MonitorLevel.INFO.toString(), "Info");
-        assertEquals(MonitorLevel.WARN.toString(), "Warn");
+public interface Monitor {
+    enum Level {
+        ERROR, INFO, WARN, DEBUG;
     }
-
 }

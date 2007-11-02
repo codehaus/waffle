@@ -49,7 +49,7 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
     }
 
     @Override
-    protected void write(MonitorLevel level, String message) {
+    protected void write(Level level, String message) {
         switch (level) {
             case ERROR:
                 if (log.isErrorEnabled())

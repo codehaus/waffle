@@ -10,19 +10,16 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import org.codehaus.waffle.action.MethodDefinition;
-
 import java.util.Set;
 
+import org.codehaus.waffle.action.MethodDefinition;
+
 /**
- * Defines events that need to be monitored, eg for debugging purposes.
- * 
- * Each implementing class can opt to disregard some of these events or handle them with 
- * different priorities.
+ * A monitor for action-related events
  * 
  * @author Mauro Talevi
  */
-public interface ActionMonitor {
+public interface ActionMonitor extends Monitor {
 
     void defaultActionMethodFound(MethodDefinition methodDefinition);
 

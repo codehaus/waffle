@@ -13,6 +13,7 @@ package org.codehaus.waffle.monitor;
 import static org.junit.Assert.assertNotNull;
 
 import org.apache.commons.logging.Log;
+import org.codehaus.waffle.monitor.Monitor.Level;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -53,10 +54,10 @@ public class CommonsLoggingMonitorTest {
         });
 
         final CommonsLoggingMonitor monitor = new CommonsLoggingMonitor(log);
-        monitor.write(MonitorLevel.DEBUG, message);
-        monitor.write(MonitorLevel.ERROR, message);
-        monitor.write(MonitorLevel.INFO, message);
-        monitor.write(MonitorLevel.WARN, message);
+        monitor.write(Level.DEBUG, message);
+        monitor.write(Level.ERROR, message);
+        monitor.write(Level.INFO, message);
+        monitor.write(Level.WARN, message);
     }
 
     @Test
@@ -73,9 +74,9 @@ public class CommonsLoggingMonitorTest {
         });
 
         final CommonsLoggingMonitor monitor = new CommonsLoggingMonitor(log);
-        monitor.write(MonitorLevel.DEBUG, message);
-        monitor.write(MonitorLevel.ERROR, message);
-        monitor.write(MonitorLevel.INFO, message);
-        monitor.write(MonitorLevel.WARN, message);
+        monitor.write(Level.DEBUG, message);
+        monitor.write(Level.ERROR, message);
+        monitor.write(Level.INFO, message);
+        monitor.write(Level.WARN, message);
     }
 }
