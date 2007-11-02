@@ -12,9 +12,9 @@ package org.codehaus.waffle.i18n;
 
 import java.util.Locale;
 
-public interface DefaultMessageResourcesConfiguration {
+public interface MessageResourcesConfiguration {
 
-    String getResourceBundleBaseName();
+    String getResourceBundleName();
 
     Locale getDefaultLocale();
 }

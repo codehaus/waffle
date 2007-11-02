@@ -9,7 +9,7 @@ public class StubMessageResources implements MessageResources {
         return null;
     }
 
-    public void setLocale(Locale locale) {
+    public void useLocale(Locale locale) {
 
     }
 
