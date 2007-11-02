@@ -66,7 +66,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
             registrarAssistant.executeDelegatingRegistrar(createRegistrar(requestContextContainer), ContextLevel.REQUEST);
             return requestContextContainer;
         } finally {
-            messageResources.setLocale(request.getLocale());
+            messageResources.useLocale(request.getLocale());
         }
     }
 

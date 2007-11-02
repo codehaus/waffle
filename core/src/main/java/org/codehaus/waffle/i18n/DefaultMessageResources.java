@@ -17,15 +17,15 @@ import java.util.ResourceBundle;
 
 public class DefaultMessageResources implements MessageResources {
     private final static ThreadLocal<Locale> userLocale = new ThreadLocal<Locale>();
-    public final String baseName;
+    public final String bundleName;
 
     public DefaultMessageResources() {
-        baseName = "ApplicationResources";
+        bundleName = "ApplicationResources";
         userLocale.set(Locale.getDefault());
     }
 
-    public DefaultMessageResources(DefaultMessageResourcesConfiguration configuration) {
-        baseName = configuration.getResourceBundleBaseName();
+    public DefaultMessageResources(MessageResourcesConfiguration configuration) {
+        bundleName = configuration.getResourceBundleName();
         userLocale.set(configuration.getDefaultLocale());
     }
 
@@ -33,13 +33,13 @@ public class DefaultMessageResources implements MessageResources {
         return userLocale.get();
     }
 
-    public void setLocale(Locale locale) {
+    public void useLocale(Locale locale) {
         userLocale.set(locale);
     }
 
     public String getMessage(String key, Object ... arguments) {
         ResourceBundle resourceBundle = ResourceBundle
-                .getBundle(baseName, userLocale.get());
+                .getBundle(bundleName, userLocale.get());
         String message = resourceBundle.getString(key);
         return MessageFormat.format(message, arguments);
     }

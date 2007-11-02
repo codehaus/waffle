@@ -6,8 +6,8 @@ import java.util.Locale;
 
 public class DefaultMessageResourcesTest extends TestCase {
 
-    private DefaultMessageResourcesConfiguration configuration = new DefaultMessageResourcesConfiguration() {
-        public String getResourceBundleBaseName() {
+    private MessageResourcesConfiguration configuration = new MessageResourcesConfiguration() {
+        public String getResourceBundleName() {
             return "FakeResourceBundle";
         }
 
@@ -26,7 +26,7 @@ public class DefaultMessageResourcesTest extends TestCase {
         assertEquals("thoughtworks", messageResources.getMessage("company"));
         assertEquals("hello mars", messageResources.getMessage("foo.bar", "mars"));
 
-        messageResources.setLocale(Locale.UK);
+        messageResources.useLocale(Locale.UK);
         assertEquals("thoughtworks", messageResources.getMessage("company"));
         assertEquals("cheerio mars", messageResources.getMessage("foo.bar", "mars"));
     }
