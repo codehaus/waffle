@@ -141,10 +141,6 @@ public class XMLViewTest {
 
         private String d;
 
-        private String e;
-
-        private String f;
-
         public String getA() {
             return a;
         }
@@ -174,13 +170,12 @@ public class XMLViewTest {
         }
 
         public void setE(String e) {
-            this.e = e;
         }
     }
 
     @Test
     public void testListsFieldsInClassInDefinitionOrder() {
-        Iterator properties = new PropertyDictionary()
+        Iterator<?> properties = new PropertyDictionary()
                 .serializablePropertiesFor(SomeClass.class);
         assertEquals("URL", ((BeanProperty) properties.next()).getName());
         assertEquals("a", ((BeanProperty) properties.next()).getName());

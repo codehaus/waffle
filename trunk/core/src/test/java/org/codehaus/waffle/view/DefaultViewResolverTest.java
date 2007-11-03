@@ -1,10 +1,13 @@
 package org.codehaus.waffle.view;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
-public class DefaultViewResolverTest extends TestCase {
+import org.junit.Test;
 
-    public void testResolve() {
+public class DefaultViewResolverTest {
+
+    @Test
+    public void canResolve() {
         View view = new View("/helloWorld.jsp", null);
         ViewResolver viewResolver = new DefaultViewResolver();
 

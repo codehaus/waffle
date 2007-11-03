@@ -1,10 +1,19 @@
 package org.codehaus.waffle.validation;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class DefaultErrorsContextTest extends TestCase {
+import org.junit.Test;
 
-    public void testEachCountMethod() {
+/**
+ * 
+ * @author Michael Ward
+ */
+public class DefaultErrorsContextTest {
+
+    @Test
+    public void canGetEachCountMethod() {
         ErrorsContext context = new DefaultErrorsContext();
         context.addErrorMessage(new BindErrorMessage("bind.error", "foobar", null));
         context.addErrorMessage(new FieldErrorMessage("field.error", "foobaz", null));
@@ -17,7 +26,8 @@ public class DefaultErrorsContextTest extends TestCase {
         assertEquals(1, context.getGlobalErrorMessageCount());
     }
 
-    public void testHasErrors() {
+    @Test
+    public void hasErrors() {
         ErrorsContext context = new DefaultErrorsContext();
         assertFalse(context.hasErrorMessages());
 
@@ -36,7 +46,8 @@ public class DefaultErrorsContextTest extends TestCase {
         assertTrue(context.hasErrorMessages());
     }
 
-    public void testHasBindErrorMessages() {
+    @Test
+    public void hasBindErrorMessages() {
         ErrorsContext context = new DefaultErrorsContext();
         assertFalse(context.hasBindErrorMessages("fieldName"));
 
@@ -44,7 +55,8 @@ public class DefaultErrorsContextTest extends TestCase {
         assertTrue(context.hasBindErrorMessages("fieldName"));
     }
 
-    public void testHasFieldErrorMessages() {
+    @Test
+    public void hasFieldErrorMessages() {
         ErrorsContext context = new DefaultErrorsContext();
         assertFalse(context.hasFieldErrorMessages("fieldName"));
 
@@ -52,7 +64,8 @@ public class DefaultErrorsContextTest extends TestCase {
         assertTrue(context.hasFieldErrorMessages("fieldName"));
     }
 
-    public void testHasGlobalErrorMessages() {
+    @Test
+    public void hasGlobalErrorMessages() {
         ErrorsContext context = new DefaultErrorsContext();
         assertFalse(context.hasGlobalErrorMessages());
 
@@ -60,7 +73,8 @@ public class DefaultErrorsContextTest extends TestCase {
         assertTrue(context.hasGlobalErrorMessages());
     }
 
-    public void testGetAllErrorMessages() {
+    @Test
+    public void canGetAllErrorMessages() {
         ErrorsContext context = new DefaultErrorsContext();
         assertEquals(0, context.getAllErrorMessages().size());
 
@@ -71,7 +85,8 @@ public class DefaultErrorsContextTest extends TestCase {
         assertEquals(3, context.getAllErrorMessages().size());
     }
 
-    public void testGetAllBindErrorMessages() {
+    @Test
+    public void canGetAllBindErrorMessages() {
         ErrorsContext context = new DefaultErrorsContext();
         assertEquals(0, context.getAllBindErrorMessages().size());
 
@@ -79,7 +94,8 @@ public class DefaultErrorsContextTest extends TestCase {
         assertEquals(1, context.getAllBindErrorMessages().size());
     }
 
-    public void testGetAllFieldErrorMessages() {
+    @Test
+    public void canGetAllFieldErrorMessages() {
         ErrorsContext context = new DefaultErrorsContext();
         assertEquals(0, context.getAllFieldErrorMessages().size());
 
@@ -87,7 +103,8 @@ public class DefaultErrorsContextTest extends TestCase {
         assertEquals(1, context.getAllFieldErrorMessages().size());
     }
 
-    public void testGetAllGlobalErrorMessages() {
+    @Test
+    public void canGetAllGlobalErrorMessages() {
         ErrorsContext context = new DefaultErrorsContext();
         assertEquals(0, context.getAllGlobalErrorMessages().size());
 
@@ -95,15 +112,17 @@ public class DefaultErrorsContextTest extends TestCase {
         assertEquals(1, context.getAllGlobalErrorMessages().size());
     }
 
-    public void testGetBindErrorMessages() {
+    @Test
+    public void canGetBindErrorMessages() {
         ErrorsContext context = new DefaultErrorsContext();
         assertEquals(0, context.getBindErrorMessages("fieldName").size());
 
         context.addErrorMessage(new BindErrorMessage("fieldName", null, null));
         assertEquals(1, context.getBindErrorMessages("fieldName").size());
     }
-    
-    public void testGetFieldErrorMessages() {
+
+    @Test
+    public void canGetFieldErrorMessages() {
         ErrorsContext context = new DefaultErrorsContext();
         assertEquals(0, context.getFieldErrorMessages("fieldName").size());
 

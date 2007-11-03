@@ -10,14 +10,18 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+
 import org.codehaus.waffle.testmodel.FakeController;
-import junit.framework.TestCase;
+import org.junit.Test;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
-public class PicoRegistrarTest extends TestCase {
+public class PicoRegistrarTest {
 
+    @Test
     public void testRegister() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         PicoRegistrar picoRegistrar = new PicoRegistrar(pico);
@@ -29,6 +33,7 @@ public class PicoRegistrarTest extends TestCase {
         assertSame(controllerOne, controllerTwo);
     }
 
+    @Test
     public void testRegisterWithKey() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         PicoRegistrar picoRegistrar = new PicoRegistrar(pico);
@@ -41,6 +46,7 @@ public class PicoRegistrarTest extends TestCase {
         assertSame(controllerOne, pico.getComponentInstanceOfType(FakeController.class));
     }
 
+    @Test
     public void testRegisterInstance() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         PicoRegistrar picoRegistrar = new PicoRegistrar(pico);
@@ -51,6 +57,7 @@ public class PicoRegistrarTest extends TestCase {
         assertSame(fakeController, pico.getComponentInstanceOfType(FakeController.class));
     }
 
+    @Test
     public void testRegisterInstanceWithKey() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         PicoRegistrar picoRegistrar = new PicoRegistrar(pico);
@@ -62,6 +69,7 @@ public class PicoRegistrarTest extends TestCase {
         assertSame(fakeController, pico.getComponentInstanceOfType(FakeController.class));
     }
 
+    @Test
     public void testNonCachingRegistration() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         PicoRegistrar picoRegistrar = new PicoRegistrar(pico);
@@ -74,6 +82,7 @@ public class PicoRegistrarTest extends TestCase {
         assertNotSame(controllerOne, controllerTwo);
     }
 
+    @Test
     public void testNonCachingRegistrationWithKey() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         PicoRegistrar picoRegistrar = new PicoRegistrar(pico);
@@ -86,6 +95,7 @@ public class PicoRegistrarTest extends TestCase {
         assertNotSame(controllerOne, controllerTwo);
     }
 
+    @Test
     public void testRegisterComponentAdapter() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         PicoRegistrar picoRegistrar = new PicoRegistrar(pico);

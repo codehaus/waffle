@@ -1,27 +1,39 @@
 package org.codehaus.waffle.registrar.pico;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.PicoVisitor;
 
-public class AbstractWaffleParameterTest extends MockObjectTestCase {
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class AbstractWaffleParameterTest {
 
-    public void testAccept() {
-        AbstractWaffleParameter parameter = new AbstractWaffleParameter("foobar") {
+    private Mockery mockery = new Mockery();
+
+    @Test
+    public void canAcceptParameter() {
+        final AbstractWaffleParameter parameter = new AbstractWaffleParameter("foobar") {
             public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class aClass) {
                 throw new UnsupportedOperationException("don't call");
             }
         };
 
         // Mock PicoVisitor
-        Mock mockPicoVisitor = mock(PicoVisitor.class);
-        mockPicoVisitor.expects(once())
-                .method("visitParameter")
-                .with(same(parameter));
-        PicoVisitor visitor = (PicoVisitor) mockPicoVisitor.proxy();
-
+        final PicoVisitor visitor = mockery.mock(PicoVisitor.class);
+        mockery.checking(new Expectations() {
+            {
+                one(visitor).visitParameter(with(same(parameter)));
+            }
+        });
         parameter.accept(visitor);
     }
 }
