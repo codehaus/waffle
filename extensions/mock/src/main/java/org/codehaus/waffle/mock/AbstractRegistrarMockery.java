@@ -8,55 +8,50 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.registrar.mock;
+package org.codehaus.waffle.mock;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarAssistant;
+import org.jmock.Mockery;
 
 /**
- * Built-in test for asserting Registrars are defined correctly.
+ * Abstract Mockery for asserting Registrars are defined correctly.
  * Concrete subclasses need to define method to create the ContextContainer
  * and the Registrar.
  *
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public abstract class AbstractRegistrarTestCase extends MockObjectTestCase {
-    private Mock mockServletContext = mock(ServletContext.class);
-    private Mock mockHttpSession = mock(HttpSession.class);
-    private Mock mockHttpServletRequest = mock(HttpServletRequest.class);
-    private Mock mockHttpServletResponse = mock(HttpServletResponse.class);
-    private Mock mockMessageResources = mock(MessageResources.class);
+public abstract class AbstractRegistrarMockery extends Mockery {
+    
+    private ServletContext servletContext = mock(ServletContext.class);
+    private HttpSession httpSession = mock(HttpSession.class);
+    private HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
+    private HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
+    private MessageResources messageResources = mock(MessageResources.class);
 
-    public Mock getMockServletContext() {
-        return mockServletContext;
+    public ServletContext mockServletContext() {
+        return servletContext;
     }
 
-    public Mock getMockHttpSession() {
-        return mockHttpSession;
+    public HttpSession mockHttpSession() {
+        return httpSession;
     }
 
-    public Mock getMockHttpServletRequest() {
-        return mockHttpServletRequest;
+    public HttpServletRequest mockHttpServletRequest() {
+        return httpServletRequest;
     }
 
-    public Mock getMockHttpServletResponse() {
-        return mockHttpServletResponse;
-    }
-
-    public void setMockHttpServletResponse(Mock mockHttpServletResponse) {
-        this.mockHttpServletResponse = mockHttpServletResponse;
+    public HttpServletResponse mockHttpServletResponse() {
+        return httpServletResponse;
     }
 
     public void assertConfiguration(Class<?> registrarClass) {
@@ -64,32 +59,27 @@ public abstract class AbstractRegistrarTestCase extends MockObjectTestCase {
         assertSessionContext(registrarClass);
         assertRequestContext(registrarClass);
     }
-
-    public void assertApplicationContext(Class<?> customRegistrarClass) {
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-
+  
+    public void assertApplicationContext(Class<?> registrarClass) {
         ContextContainer container = createContextContainer();
         container.registerComponentInstance(servletContext);
-        container.registerComponentInstance(mockMessageResources.proxy());
+        container.registerComponentInstance(messageResources);
         Registrar registrar = createRegistrar(container);
 
-        RegistrarAssistant registrarAssistant = new RegistrarAssistant(customRegistrarClass);
+        RegistrarAssistant registrarAssistant = new RegistrarAssistant(registrarClass);
         registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.APPLICATION);
 
         container.validateComponentInstances(); // ensure dependencies are satisfied
     }
 
-    public void assertSessionContext(Class<?> customRegistrarClass) {
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-        HttpSession httpSession = (HttpSession) mockHttpSession.proxy();
-
+    public void assertSessionContext(Class<?> registrarClass) {
         ContextContainer container = createContextContainer();
         container.registerComponentInstance(servletContext);
         container.registerComponentInstance(httpSession);
-        container.registerComponentInstance(mockMessageResources.proxy());
+        container.registerComponentInstance(messageResources);
         Registrar registrar = createRegistrar(container);
 
-        RegistrarAssistant registrarAssistant = new RegistrarAssistant(customRegistrarClass);
+        RegistrarAssistant registrarAssistant = new RegistrarAssistant(registrarClass);
         registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.APPLICATION);
         registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.SESSION);
 
@@ -97,17 +87,13 @@ public abstract class AbstractRegistrarTestCase extends MockObjectTestCase {
     }
 
     public void assertRequestContext(Class<?> customRegistrarClass) {
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-        HttpSession httpSession = (HttpSession) mockHttpSession.proxy();
-        HttpServletRequest request = (HttpServletRequest) mockHttpServletRequest.proxy();
-        HttpServletResponse response = (HttpServletResponse) mockHttpServletResponse.proxy();
 
         ContextContainer container = createContextContainer();
         container.registerComponentInstance(servletContext);
         container.registerComponentInstance(httpSession);
-        container.registerComponentInstance(request);
-        container.registerComponentInstance(response);
-        container.registerComponentInstance(mockMessageResources.proxy());
+        container.registerComponentInstance(httpServletRequest);
+        container.registerComponentInstance(httpServletResponse);
+        container.registerComponentInstance(messageResources);
         Registrar registrar = createRegistrar(container);
 
         RegistrarAssistant registrarAssistant = new RegistrarAssistant(customRegistrarClass);
