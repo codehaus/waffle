@@ -1,48 +1,69 @@
 package org.codehaus.waffle.controller;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-import org.codehaus.waffle.controller.ContextPathControllerNameResolver;
-import org.codehaus.waffle.controller.ControllerNameResolver;
+import static org.junit.Assert.assertEquals;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class ContextPathControllerNameResolverTest extends MockObjectTestCase {
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    public void testFindControllerName() {
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getPathInfo")
-                .will(returnValue("/foo/bar.htm"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class ContextPathControllerNameResolverTest {
+
+    private Mockery mockery = new Mockery();
+
+    @Test
+    public void canFindControllerName() {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getPathInfo();
+                will(returnValue("/foo/bar.htm"));
+            }
+        });
 
         ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver();
         assertEquals("foo/bar", controllerNameResolver.findControllerName(request));
     }
 
-    public void testFindControllerNameWithoutExtension() {
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getPathInfo")
-                .will(returnValue("/foobar"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+    @Test
+    public void canFindControllerNameWithoutExtension() {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getPathInfo();
+                will(returnValue("/foobar"));
+            }
+        });
 
         ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver();
         assertEquals("foobar", controllerNameResolver.findControllerName(request));
     }
 
-    public void testFindControllerNameWhenPathInfoIsNull() {
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getPathInfo")
-                .will(returnValue(null));
-        mockRequest.expects(once())
-                .method("getRequestURI")
-                .will(returnValue("/waffle/foobar.htm"));
-        mockRequest.expects(once())
-                .method("getContextPath")
-                .will(returnValue("/waffle"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+    @Test
+    public void canFindControllerNameWhenPathInfoIsNull() {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getPathInfo();
+                will(returnValue(null));
+                one(request).getRequestURI();
+                will(returnValue("/waffle/foobar.htm"));
+                one(request).getContextPath();
+                will(returnValue("/waffle"));
+            }
+        });
 
         ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver();
         assertEquals("foobar", controllerNameResolver.findControllerName(request));

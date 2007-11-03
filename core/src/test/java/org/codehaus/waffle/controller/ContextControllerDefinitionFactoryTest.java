@@ -1,5 +1,11 @@
 package org.codehaus.waffle.controller;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.MethodDefinition;
@@ -7,102 +13,103 @@ import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.testmodel.FakeController;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class ContextControllerDefinitionFactoryTest {
+    private Mockery mockery = new Mockery();
 
-public class ContextControllerDefinitionFactoryTest extends MockObjectTestCase {
-
-    public void testCanGetControllerDefinition() throws NoSuchMethodException {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+    @Test
+    public void canGetControllerDefinition() throws NoSuchMethodException {
+        final MutablePicoContainer pico = new DefaultPicoContainer();
         pico.registerComponentImplementation("theController", FakeController.class);
         RequestLevelContainer.set(new PicoContextContainer(pico));
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getPathInfo")
-                .will(returnValue("/theController.htm"));
-        mockRequest.expects(once()).method("setAttribute")
-                .with(eq(Constants.CONTROLLER_KEY), isA(FakeController.class));
-        HttpServletRequest httpRequest = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getPathInfo();
+                will(returnValue("/theController.htm"));
+                one(request).setAttribute(Constants.CONTROLLER_KEY,
+                        (FakeController) pico.getComponentInstanceOfType(FakeController.class));
+            }
+        });
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
-        MethodDefinition methodDefinition = new MethodDefinition(null);
+        final MethodDefinition methodDefinition = new MethodDefinition(null);
 
         // Mock MethodDefinitionFinder
-        Mock mockMethodDefinitionFinder = mock(MethodDefinitionFinder.class);
-        mockMethodDefinitionFinder.expects(once())
-                .method("find")
-                .with(isA(FakeController.class), same(httpRequest), same(response))
-                .will(returnValue(methodDefinition));
-        MethodDefinitionFinder methodDefinitionFinder = (MethodDefinitionFinder) mockMethodDefinitionFinder.proxy();
+        final MethodDefinitionFinder finder = mockery.mock(MethodDefinitionFinder.class);
+        mockery.checking(new Expectations() {
+            {
+                one(finder).find(with(an(FakeController.class)), with(same(request)), with(same(response)));
+                will(returnValue(methodDefinition));
+            }
+        });
 
-        ControllerDefinitionFactory controllerDefinitionFactory
-                = new ContextControllerDefinitionFactory(methodDefinitionFinder, new ContextPathControllerNameResolver());
-        ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(httpRequest, response);
+        ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
+                new ContextPathControllerNameResolver());
+        ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
+                response);
 
         assertNotNull(controllerDefinition.getController());
         assertSame(methodDefinition, controllerDefinition.getMethodDefinition());
     }
 
-    public void testRequestingControllerDefinitionThatiIsNotRegisteredThrowsException() throws NoSuchMethodException {
+    @Test(expected = WaffleException.class)
+    public void cannotRequestControllerDefinitionThatiIsNotRegistered() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         RequestLevelContainer.set(new PicoContextContainer(pico));
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getPathInfo")
-                .will(returnValue("/theController.htm"));
-        mockRequest.expects(once())
-                .method("getRequestURI")
-                .will(returnValue("/theController.htm"));
-        HttpServletRequest httpRequest = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getPathInfo();
+                will(returnValue("/theController.htm"));
+                one(request).getRequestURI();
+                will(returnValue("/theController.htm"));
+            }
+        });
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodDefinitionFinder
-        Mock mockMethodDefinitionFinder = mock(MethodDefinitionFinder.class);
-        MethodDefinitionFinder methodDefinitionFinder = (MethodDefinitionFinder) mockMethodDefinitionFinder.proxy();
+        final MethodDefinitionFinder finder = mockery.mock(MethodDefinitionFinder.class);
 
-        ControllerDefinitionFactory controllerDefinitionFactory
-                = new ContextControllerDefinitionFactory(methodDefinitionFinder, new ContextPathControllerNameResolver());
+        ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
+                new ContextPathControllerNameResolver());
 
-        try {
-            controllerDefinitionFactory.getControllerDefinition(httpRequest, response);
-            fail("WaffleException expected");
-        } catch (WaffleException e) {
-            //expected
-        }        
+        controllerDefinitionFactory.getControllerDefinition(request, response);
     }
 
-    public void testMissingRequestLevelContainerThrowsException() throws NoSuchMethodException {
+    @Test(expected = WaffleException.class)
+    public void cannotGetControllerDefinitionWithMissingRequestLevelContainer() {
+
         RequestLevelContainer.set(null);
+
         // Mock HttpServletRequest
-        Mock mockHttpServletRequest = mock(HttpServletRequest.class);
-        HttpServletRequest httpRequest = (HttpServletRequest) mockHttpServletRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
-        // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
+        ContextControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(null,
+                null);
 
-        ContextControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(null, null);
-
-        try {
-            controllerDefinitionFactory.findController("foobar", httpRequest);
-            fail("WaffleException should have been thrown when no request level container exists");
-        } catch (WaffleException expected) {
-            // expected
-        }
+        controllerDefinitionFactory.findController("foobar", request);
     }
 
 }

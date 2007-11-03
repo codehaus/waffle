@@ -1,12 +1,20 @@
 package org.codehaus.waffle.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 import org.codehaus.waffle.action.ActionMethodInvocationException;
-import org.jmock.MockObjectTestCase;
 import org.jruby.Ruby;
+import org.junit.Test;
 
-public class RubyControllerTest extends MockObjectTestCase {
+/**
+ * 
+ * @author Michael Ward
+ */
+public class RubyControllerTest  {
 
-    public void testExecute() {
+    @Test
+    public void canExecute() {
         String script =
                 "class Foo\n" +
                 "  def my_method\n" +
@@ -22,7 +30,8 @@ public class RubyControllerTest extends MockObjectTestCase {
         assertEquals("Hello World", rubyController.execute());
     }
 
-    /*public void testOnlyPublicRubyMethodsShouldBeExecutable() {
+    //@Test
+    public void onlyPublicRubyMethodsShouldBeExecutable() {
         String script =
                 "class Foo\n" +
                 "  protected\n" +
@@ -56,5 +65,5 @@ public class RubyControllerTest extends MockObjectTestCase {
             // expected
         }
 
-    }*/
+    }
 }

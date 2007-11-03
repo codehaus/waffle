@@ -1,10 +1,17 @@
 package org.codehaus.waffle.i18n;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Locale;
 
-public class DefaultMessageResourcesTest extends TestCase {
+import org.junit.Test;
+
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+public class DefaultMessageResourcesTest  {
 
     private MessageResourcesConfiguration configuration = new MessageResourcesConfiguration() {
         public String getResourceBundleName() {
@@ -16,12 +23,14 @@ public class DefaultMessageResourcesTest extends TestCase {
         }
     };
 
-    public void testGetLocaleReturnsDefaultIfNull() {
+    @Test
+    public void canGetDefaultLocaleIfNoLocaleSpecified() {
         MessageResources messageResources = new DefaultMessageResources();
         assertEquals(Locale.getDefault(), messageResources.getLocale());
     }
 
-    public void testGetMessage() {
+    @Test
+    public void canGetMessage() {
         MessageResources messageResources = new DefaultMessageResources(configuration);
         assertEquals("thoughtworks", messageResources.getMessage("company"));
         assertEquals("hello mars", messageResources.getMessage("foo.bar", "mars"));
@@ -31,7 +40,8 @@ public class DefaultMessageResourcesTest extends TestCase {
         assertEquals("cheerio mars", messageResources.getMessage("foo.bar", "mars"));
     }
 
-    public void testGetMessageWithDefault() {
+    @Test
+    public void canGetMessageWithDefault() {
         MessageResources messageResources = new DefaultMessageResources(configuration);
 
         assertEquals("thoughtworks", messageResources.getMessageWithDefault("company", "BEARS"));
