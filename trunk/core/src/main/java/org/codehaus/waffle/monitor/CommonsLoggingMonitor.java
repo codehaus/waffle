@@ -23,7 +23,7 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
     private final Log log;
 
     /**
-     * Creates a default CommonsLoggingMonitor.
+     * Creates the default CommonsLoggingMonitor
      */
     public CommonsLoggingMonitor() {
         this(CommonsLoggingMonitor.class.getName());
@@ -31,7 +31,7 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
 
     /**
      * Creates a CommonsLoggingMonitor with a given Log instance name. It uses the {@link LogFactory LogFactory} to
-     * create the Log instance.
+     * create the Log instance
      * 
      * @param logName the name of the Log
      */
@@ -52,20 +52,24 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
     protected void write(Level level, String message) {
         switch (level) {
             case ERROR:
-                if (log.isErrorEnabled())
+                if (log.isErrorEnabled()) {
                     log.error(message);
+                }
                 break;
             case INFO:
-                if (log.isInfoEnabled())
+                if (log.isInfoEnabled()) {
                     log.info(message);
+                }
                 break;
             case WARN:
-                if (log.isWarnEnabled())
+                if (log.isWarnEnabled()) {
                     log.warn(message);
+                }
                 break;
             case DEBUG:
-                if (log.isDebugEnabled())
+                if (log.isDebugEnabled()) {
                     log.debug(message);
+                }
                 break;
         }
     }
