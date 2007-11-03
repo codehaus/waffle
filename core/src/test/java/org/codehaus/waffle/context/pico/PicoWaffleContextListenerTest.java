@@ -7,32 +7,47 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 
-import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.context.WaffleContextListener;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class PicoWaffleContextListenerTest extends MockObjectTestCase {
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class PicoWaffleContextListenerTest {
 
-    public void testServletContextListenerMethods() {
+    private Mockery mockery = new Mockery();
+
+    @Test
+    public void canInvokeServletContextListenerMethods() {
+
         // Mock ContextContainerFactory
-        Mock mockContextContainerFactory = mock(ContextContainerFactory.class);
-        mockContextContainerFactory.expects(once())
-                .method("initialize")
-                .with(isA(ServletContext.class));
-        mockContextContainerFactory.expects(once())
-                .method("destroy");
-        ContextContainerFactory contextContainerFactory = (ContextContainerFactory) mockContextContainerFactory.proxy();
+        final ContextContainerFactory contextContainerFactory = mockery.mock(ContextContainerFactory.class);
+        mockery.checking(new Expectations() {
+            {
+                one(contextContainerFactory).initialize((ServletContext) with(an(ServletContext.class)));
+                one(contextContainerFactory).destroy();
+            }
+        });
 
         // Mock ComponentRegistry
-        Mock mockRegistry = mock(ComponentRegistry.class);
-        mockRegistry.expects(once())
-                .method("getContextContainerFactory")
-                .will(returnValue(contextContainerFactory));
-        final ComponentRegistry registry = (ComponentRegistry) mockRegistry.proxy();
+        final ComponentRegistry registry = mockery.mock(ComponentRegistry.class);
+        mockery.checking(new Expectations() {
+            {
+                one(registry).getContextContainerFactory();
+                will(returnValue(contextContainerFactory));
+            }
+        });
 
         WaffleContextListener waffleContextListener = new WaffleContextListener() {
             protected ComponentRegistry buildComponentRegistry(ServletContext servletContext) {
@@ -41,11 +56,13 @@ public class PicoWaffleContextListenerTest extends MockObjectTestCase {
         };
 
         // Mock ServletContext
-        Mock mockServletContext = mock(ServletContext.class);
-        mockServletContext.expects(once())
-                .method("setAttribute")
-                .with(eq(ComponentRegistry.class.getName()), same(registry));
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                String name = ComponentRegistry.class.getName();
+                one(servletContext).setAttribute(with(same(name)), with(same(registry)));
+            }
+        });
 
         ServletContextEvent event = new ServletContextEvent(servletContext);
 
@@ -56,33 +73,41 @@ public class PicoWaffleContextListenerTest extends MockObjectTestCase {
         waffleContextListener.contextDestroyed(event);
     }
 
-    public void testHttpSessionListenerMethods() throws Exception {
+    @Test
+    public void canInvokeHttpSessionListenerMethods() throws Exception {
         WaffleContextListener waffleContextListener = new PicoWaffleContextListener();
 
         // Mock ContextContainer
-        Mock mockContainer = mock(ContextContainer.class);
-        mockContainer.expects(once()).method("registerComponentInstance").with(isA(HttpSession.class));
-        mockContainer.expects(once()).method("start");
-        mockContainer.expects(once()).method("stop");
-        mockContainer.expects(once()).method("dispose");
-        ContextContainer container = (ContextContainer) mockContainer.proxy();
+        final ContextContainer container = mockery.mock(ContextContainer.class);
+        mockery.checking(new Expectations() {
+            {
+                one(container).start();
+                one(container).registerComponentInstance(with(an(HttpSession.class)));
+                one(container).stop();
+                one(container).dispose();
+            }
+        });
 
-        // Mock WaffleContextContainerFactory
-        Mock mockWaffleContextContainerFactory = mock(ContextContainerFactory.class);
-        mockWaffleContextContainerFactory.expects(once()).method("buildSessionLevelContainer")
-                .will(returnValue(container));
-        ContextContainerFactory contextContainerFactory = (ContextContainerFactory) mockWaffleContextContainerFactory.proxy();
-
+        // Mock ContextContainerFactory
+        final ContextContainerFactory contextContainerFactory = mockery.mock(ContextContainerFactory.class);
+        mockery.checking(new Expectations() {
+            {
+                one(contextContainerFactory).buildSessionLevelContainer();
+                will(returnValue(container));
+            }
+        });
+        
         setContextManager(waffleContextListener, contextContainerFactory);
 
-        //  Mock HttpSession
-        Mock mockHttpSession = mock(HttpSession.class);
-        mockHttpSession.expects(once()).method("setAttribute")
-                .with(eq(Constants.SESSION_CONTAINER_KEY), eq(container));
-        mockHttpSession.expects(once()).method("getAttribute")
-                .with(eq(Constants.SESSION_CONTAINER_KEY))
-                .will(returnValue(container));
-        HttpSession httpSession = (HttpSession) mockHttpSession.proxy();
+        // Mock HttpSession
+        final HttpSession httpSession = mockery.mock(HttpSession.class);
+        mockery.checking(new Expectations() {
+            {
+                one(httpSession).setAttribute(Constants.SESSION_CONTAINER_KEY, container);
+                one(httpSession).getAttribute(Constants.SESSION_CONTAINER_KEY);
+                will(returnValue(container));
+            }
+        });
 
         // created
         waffleContextListener.sessionCreated(new HttpSessionEvent(httpSession));
@@ -94,7 +119,8 @@ public class PicoWaffleContextListenerTest extends MockObjectTestCase {
     /**
      * set the private field so we don't need to add an accessors simply for testing.
      */
-    private void setContextManager(WaffleContextListener listener, ContextContainerFactory containerFactory) throws Exception {
+    private void setContextManager(WaffleContextListener listener, ContextContainerFactory containerFactory)
+            throws Exception {
         Field field = WaffleContextListener.class.getDeclaredField("contextContainerFactory");
         field.setAccessible(true);
         field.set(listener, containerFactory);

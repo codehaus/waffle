@@ -9,38 +9,49 @@
  *****************************************************************************/
 package org.codehaus.waffle.webcontainer.groovy;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.net.URL;
 
-import junit.framework.TestCase;
-
+import org.junit.After;
+import org.junit.Test;
 import org.mortbay.util.IO;
 import org.nanocontainer.script.groovy.GroovyContainerBuilder;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.defaults.ObjectReference;
 import org.picocontainer.defaults.SimpleReference;
 
-public class WaffleNodeBuilderTest extends TestCase {
+/**
+ * 
+ * @author Paul Hammant
+ * @author Mauro Talevi
+ */
+public class WaffleNodeBuilderTest {
 
     private ObjectReference containerRef = new SimpleReference();
     private ObjectReference parentContainerRef = new SimpleReference();
 
     private PicoContainer pico;
 
-    protected void tearDown() throws Exception {
+    @After
+    public void tearDown() throws Exception {
         if (pico != null) {
             pico.stop();
         }
     }
 
+    @Test
     public void testNothing(){
         
     }
     
-    public void FIXME_testCanComposeWebContainerWithCompleteWaffleApp() throws InterruptedException, IOException {
+    //FIXME @Test
+    public void canComposeWebContainerWithCompleteWaffleApp() throws InterruptedException, IOException {
         Reader script = new StringReader(
                 "nano = builder.container {\n" +
                 "    webContainer(port:8080) {\n" +
@@ -56,7 +67,8 @@ public class WaffleNodeBuilderTest extends TestCase {
         assertPageIsHostedWithContents(script, "hello Fred", "http://localhost:8080/bar/x.foo");
     }
 
-    public void FIXME_testCanComposeWholeWaffleIncludingComposedActions() throws InterruptedException, IOException {
+    //FIXME @Test
+    public void canComposeWholeWaffleIncludingComposedActions() throws InterruptedException, IOException {
         Reader script = new StringReader(
                 "nano = builder.container {\n" +
                 "    component(class:org.codehaus.waffle.webcontainer.groovy.FooRegistrar)\n" +

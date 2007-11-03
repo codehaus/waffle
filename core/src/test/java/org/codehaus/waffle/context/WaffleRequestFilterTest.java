@@ -1,9 +1,9 @@
 package org.codehaus.waffle.context;
 
-import org.codehaus.waffle.ComponentRegistry;
-import org.codehaus.waffle.testmodel.StubContextContainerFactory;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.lang.reflect.Field;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,36 +12,61 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Field;
 
-public class WaffleRequestFilterTest extends MockObjectTestCase {
+import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.testmodel.StubContextContainerFactory;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    public void testInit() throws ServletException {
-        Mock mockRegistry = mock(ComponentRegistry.class);
-        mockRegistry.expects(once())
-                .method("getContextContainerFactory")
-                .will(returnValue(new StubContextContainerFactory()));
-        ComponentRegistry componentRegistry = (ComponentRegistry) mockRegistry.proxy();
 
-        Mock mockServletContext = mock(ServletContext.class);
-        mockServletContext.expects(once())
-                .method("getAttribute")
-                .with(eq(ComponentRegistry.class.getName()))
-                .will(returnValue(componentRegistry));
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class WaffleRequestFilterTest {
+    
+    private Mockery mockery = new Mockery();
+    
+    @Test
+    public void canInit() throws ServletException {
+        // Mock ComponentRegistry
+        final ComponentRegistry registry = mockery.mock(ComponentRegistry.class);
+        mockery.checking(new Expectations() {
+            {
+                one(registry).getContextContainerFactory();
+                will(returnValue(new StubContextContainerFactory()));
+            }
+        });
+
+        // Mock ServletContext
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).getAttribute(ComponentRegistry.class.getName());
+                will(returnValue(registry));
+            }
+        });
 
         // Mock FilterConfig
-        Mock mockFilterConfig = mock(FilterConfig.class);
-        mockFilterConfig.expects(once())
-                .method("getServletContext")
-                .will(returnValue(servletContext));
-        FilterConfig filterConfig = (FilterConfig) mockFilterConfig.proxy();
+        final FilterConfig filterConfig = mockery.mock(FilterConfig.class);
+        mockery.checking(new Expectations() {
+            {
+                one(filterConfig).getServletContext();
+                will(returnValue(servletContext));
+            }
+        });
 
         Filter filter = new WaffleRequestFilter();
         filter.init(filterConfig);
     }
 
-    public void testDestroy() throws Exception {
+    @Test
+    public void canDestroy() throws Exception {
         Filter filter = new WaffleRequestFilter();
 
         Field field = WaffleRequestFilter.class.getDeclaredField("contextContainerFactory");
@@ -53,41 +78,42 @@ public class WaffleRequestFilterTest extends MockObjectTestCase {
         assertNull(field.get(filter));
     }
 
-    public void testDoFilter() throws Exception {
+    @Test
+    public void canDoFilter() throws Exception {
         // Mock ContextContainer
-        Mock mockContainer = mock(ContextContainer.class);
-        mockContainer.expects(once())
-                .method("start");
-        mockContainer.expects(once())
-                .method("registerComponentInstance")
-                .with(isA(HttpServletRequest.class));
-        mockContainer.expects(once())
-                .method("registerComponentInstance")
-                .with(isA(HttpServletResponse.class));
-        mockContainer.expects(once()).method("stop");
-        mockContainer.expects(once()).method("dispose");
-        ContextContainer container = (ContextContainer) mockContainer.proxy();
+        final ContextContainer container = mockery.mock(ContextContainer.class);
+        mockery.checking(new Expectations() {
+            {
+                one(container).start();
+                one(container).registerComponentInstance(with(an(HttpServletRequest.class)));
+                one(container).registerComponentInstance(with(an(HttpServletResponse.class)));                
+                one(container).stop();
+                one(container).dispose();
+            }
+        });
 
         // Mock ContextContainerFactory
-        Mock mockContextContainerFactory = mock(ContextContainerFactory.class);
-        mockContextContainerFactory.expects(once())
-                .method("buildRequestLevelContainer").will(returnValue(container));
-        ContextContainerFactory contextContainerFactory = (ContextContainerFactory) mockContextContainerFactory.proxy();
+        final ContextContainerFactory contextContainerFactory = mockery.mock(ContextContainerFactory.class);
+        mockery.checking(new Expectations() {
+            {
+                one(contextContainerFactory).buildRequestLevelContainer((HttpServletRequest) with(an(HttpServletRequest.class)));
+                will(returnValue(container));
+            }
+        });
 
         // Mock HttpServletRequest
-        Mock mockHttpServletRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockHttpServletRequest.proxy();
-
-        // Mock
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
-
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+        
         // Mock FilterChain
-        Mock mockFilterChain = mock(FilterChain.class);
-        mockFilterChain.expects(once())
-                .method("doFilter")
-                .with(same(request), same(response));
-        FilterChain filterChain = (FilterChain) mockFilterChain.proxy();
+        final FilterChain filterChain = mockery.mock(FilterChain.class);
+        mockery.checking(new Expectations() {
+            {
+                one(filterChain).doFilter(with(same(request)), with(same(response)));
+            }
+        });
 
         Filter filter = new WaffleRequestFilter();
         Field field = WaffleRequestFilter.class.getDeclaredField("contextContainerFactory");

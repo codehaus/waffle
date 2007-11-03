@@ -1,10 +1,11 @@
 package org.codehaus.waffle.registrar.pico;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.servlet.ServletContext;
 
 import org.codehaus.waffle.testmodel.DependsOnValue;
 import org.jmock.Expectations;
-import org.jmock.MockObjectTestCase;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
@@ -19,7 +20,7 @@ import org.picocontainer.defaults.DefaultPicoContainer;
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
-public class ServletContextAttributeParameterTest extends MockObjectTestCase {
+public class ServletContextAttributeParameterTest {
 
     private Mockery mockery = new Mockery();
 

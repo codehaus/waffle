@@ -1,16 +1,19 @@
 package org.codehaus.waffle.taglib;
 
-import junit.framework.TestCase;
-import org.codehaus.waffle.validation.DefaultErrorsContext;
-import org.codehaus.waffle.validation.ErrorsContext;
-import org.codehaus.waffle.validation.FieldErrorMessage;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-public class FunctionsTest extends TestCase {
+import org.codehaus.waffle.validation.DefaultErrorsContext;
+import org.codehaus.waffle.validation.ErrorsContext;
+import org.codehaus.waffle.validation.FieldErrorMessage;
+import org.junit.Test;
 
-    @SuppressWarnings({"unchecked"})
-    public void testFindFieldErrors() {
+public class FunctionsTest {
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void canFindFieldErrors() {
         ErrorsContext errorsContext = new DefaultErrorsContext();
         errorsContext.addErrorMessage(new FieldErrorMessage("name", "value", "message"));
 

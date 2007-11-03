@@ -7,7 +7,6 @@ import com.thoughtworks.selenium.SeleneseTestCase;
  * 
  * @author Guilherme Silveira
  * @author Nico Steppat
- * @since 1.0
  */
 public abstract class IntegrationTest extends SeleneseTestCase {
 
