@@ -10,8 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-
-
 /**
  * SilentMonitor is a writing monitor that writes nothing.
  * 
