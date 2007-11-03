@@ -1,5 +1,7 @@
 package org.codehaus.waffle.action;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,38 +10,53 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class RequestParameterMethodNameResolverTest extends MockObjectTestCase {
-
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class RequestParameterMethodNameResolverTest {
+    
+    private Mockery mockery = new Mockery();
+    
     private ActionMonitor monitor = new SilentMonitor();
 
-    public void testResolve() {
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getParameter")
-                .with(eq("method"))
-                .will(returnValue("foobar"));
-        mockRequest.expects(once())
-                .method("getParameterMap")
-                .will(returnValue(mockParameterMap("method")));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+    @Test
+    public void canResolve() {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameter("method");
+                will(returnValue("foobar"));
+                one(request).getParameterMap();
+                will(returnValue(mockParameterMap("method")));
+            }
+        });
 
         MethodNameResolver resolver = new RequestParameterMethodNameResolver(monitor);
         assertEquals("foobar", resolver.resolve(request));
     }
 
-    public void testResolveWithAlternateConfiguration() {
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getParameter")
-                .with(eq("soda"))
-                .will(returnValue("foobar"));
-        mockRequest.expects(once())
-                .method("getParameterMap")
-                .will(returnValue(mockParameterMap("soda")));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+    @Test
+    public void canResolveWithAlternateConfiguration() {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameter("soda");
+                will(returnValue("foobar"));
+                one(request).getParameterMap();
+                will(returnValue(mockParameterMap("soda")));
+            }
+        });
 
         RequestParameterMethodNameResolverConfig configuration = new RequestParameterMethodNameResolverConfig() {
             public String getMethodParameterKey() {
@@ -52,12 +69,16 @@ public class RequestParameterMethodNameResolverTest extends MockObjectTestCase {
     }
     
     @SuppressWarnings({"unchecked"})
-    private Map mockParameterMap(String name) {
-        Mock mockMap = mock(Map.class);
-        mockMap.expects(once())
-                .method("keySet")
-                .will(returnValue(new HashSet(Arrays.asList(new String[]{name}))));
-        return (Map) mockMap.proxy();
+    private Map mockParameterMap(final String name) {
+        // Mock Map
+        final Map map = mockery.mock(Map.class);
+        mockery.checking(new Expectations() {
+            {
+                one(map).keySet();
+                will(returnValue(new HashSet(Arrays.asList(new String[]{name}))));
+            }
+        });
+        return map;
     }
 
 
