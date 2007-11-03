@@ -1,25 +1,39 @@
 package org.codehaus.waffle.bind;
 
-import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.testmodel.FakeBean;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import static org.junit.Assert.assertEquals;
 
 import java.util.MissingResourceException;
 
-public class DefaultBindErrorMessageResolverTest extends MockObjectTestCase {
+import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.testmodel.FakeBean;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    public void testResolveFirstCheckForCustomFieldMessage() {
-        Mock mockMessageResources = mock(MessageResources.class);
-        mockMessageResources.expects(once())
-                .method("getMessageWithDefault")
-                .with(eq("decimal"), eq("decimal"), ANYTHING)
-                .will(returnValue("my.field.name"));
-        mockMessageResources.expects(once())
-                .method("getMessage")
-                .with(eq("my.field.name.bind.error"), eq(new Object[] {"bad-value"}))
-                .will(returnValue("My Error Message"));
-        MessageResources messageResources = (MessageResources) mockMessageResources.proxy();
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class DefaultBindErrorMessageResolverTest {
+
+    private Mockery mockery = new Mockery();
+
+    @Test
+    public void canResolveFirstCheckForCustomFieldMessage() {
+        // Mock MessageResources
+        final MessageResources messageResources = mockery.mock(MessageResources.class);
+        mockery.checking(new Expectations() {
+            {
+                one(messageResources).getMessageWithDefault("decimal", "decimal", new Object[] {});
+                will(returnValue("my.field.name"));
+                one(messageResources).getMessage("my.field.name.bind.error", new Object[] { "bad-value" });
+                will(returnValue("My Error Message"));
+            }
+        });
 
         BindErrorMessageResolver messageResolver = new DefaultBindErrorMessageResolver(messageResources);
         String message = messageResolver.resolve(new FakeBean(), "decimal", "bad-value");
@@ -27,53 +41,53 @@ public class DefaultBindErrorMessageResolverTest extends MockObjectTestCase {
         assertEquals("My Error Message", message);
     }
 
-    public void testResolveRevertsToTypeBasedBindErrorMessage() {
-        Mock mockMessageResources = mock(MessageResources.class);
-        mockMessageResources.expects(once())
-                .method("getMessageWithDefault")
-                .with(eq("count"), eq("count"), ANYTHING)
-                .will(returnValue("my.field.name"));
-        mockMessageResources.expects(once())
-                .method("getMessage")
-                .with(eq("my.field.name.bind.error"), eq(new Object[] {"bad-value"}))
-                .will(throwException(new MissingResourceException("fake", "class", "key")));
-        mockMessageResources.expects(once())
-                .method("getMessage")
-                .with(eq("number.bind.error"), eq(new Object[] {"my.field.name", "bad-value"}))
-                .will(returnValue("The error message"));
-        MessageResources messageResources = (MessageResources) mockMessageResources.proxy();
-
+    @Test
+    public void canResolveToTypeBasedBindErrorMessage() {
+        // Mock MessageResources
+        final MessageResources messageResources = mockery.mock(MessageResources.class);
+        mockery.checking(new Expectations() {
+            {
+                one(messageResources).getMessageWithDefault("count", "count", new Object[] {});
+                will(returnValue("my.field.name"));
+                one(messageResources).getMessage("my.field.name.bind.error", new Object[] { "bad-value" });
+                will(throwException(new MissingResourceException("fake", "class", "key")));
+                one(messageResources).getMessage("number.bind.error", 
+                        new Object[] { "my.field.name", "bad-value" });
+                will(returnValue("The error message"));
+            }
+        });
+        
         BindErrorMessageResolver messageResolver = new DefaultBindErrorMessageResolver(messageResources);
         String message = messageResolver.resolve(new FakeBean(), "count", "bad-value");
         assertEquals("The error message", message);
     }
-
-    public void testResolveRevertsToDefaultBindErrorMessage() {
-        Mock mockMessageResources = mock(MessageResources.class);
-        mockMessageResources.expects(once())
-                .method("getMessageWithDefault")
-                .with(eq("count"), eq("count"), ANYTHING)
-                .will(returnValue("my.field.name"));
-        mockMessageResources.expects(once())
-                .method("getMessage")
-                .with(eq("my.field.name.bind.error"), eq(new Object[] {"bad-value"}))
-                .will(throwException(new MissingResourceException("fake", "class", "key")));
-        mockMessageResources.expects(once())
-                .method("getMessage")
-                .with(eq("number.bind.error"), eq(new Object[] {"my.field.name", "bad-value"}))
-                .will(throwException(new MissingResourceException("fake", "class", "key")));
-        mockMessageResources.expects(once())
-                .method("getMessage")
-                .with(eq("default.bind.error"), eq(new Object[] {"my.field.name", "bad-value"}))
-                .will(returnValue("The default error message"));
-        MessageResources messageResources = (MessageResources) mockMessageResources.proxy();
+    
+    @Test
+    public void canResolveToDefaultBindErrorMessage() {
+     // Mock MessageResources
+        final MessageResources messageResources = mockery.mock(MessageResources.class);
+        mockery.checking(new Expectations() {
+            {
+                one(messageResources).getMessageWithDefault("count", "count", new Object[] {});
+                will(returnValue("my.field.name"));
+                one(messageResources).getMessage("my.field.name.bind.error", new Object[] { "bad-value" });
+                will(throwException(new MissingResourceException("fake", "class", "key")));
+                one(messageResources).getMessage("number.bind.error", 
+                        new Object[] { "my.field.name", "bad-value" });
+                will(throwException(new MissingResourceException("fake", "class", "key")));
+                one(messageResources).getMessage("default.bind.error",
+                        new Object[] { "my.field.name", "bad-value" });
+                will(returnValue("The default error message"));
+            }
+        });
 
         BindErrorMessageResolver messageResolver = new DefaultBindErrorMessageResolver(messageResources);
         String message = messageResolver.resolve(new FakeBean(), "count", "bad-value");
         assertEquals("The default error message", message);
     }
 
-    public void testFindBindErrorMessageKey() {
+    @Test
+    public void canFindBindErrorMessageKey() {
         DefaultBindErrorMessageResolver messageResolver = new DefaultBindErrorMessageResolver(null);
 
         // Primitive numbers and their wrappers
@@ -95,5 +109,4 @@ public class DefaultBindErrorMessageResolverTest extends MockObjectTestCase {
         assertEquals("boolean.bind.error", messageResolver.findBindErrorMessageKey(Boolean.class));
     }
 
-    
 }
