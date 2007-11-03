@@ -51,12 +51,18 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
 @RunWith(JMock.class)
 public class WaffleServletTest {
     private final Mockery mockery = new JUnit4Mockery();
 
+    @SuppressWarnings("serial")
     @Test
-    public void testInitSetsAttributeOnServletContext() throws ServletException {
+    public void canInitSetsAttributeOnServletContext() throws ServletException {
         // Mock ServletConfig
         final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
         final ServletContext servletContext = mockery.mock(ServletContext.class);
@@ -93,12 +99,13 @@ public class WaffleServletTest {
         servlet.init();
     }
 
+    @SuppressWarnings("serial")
     @Test
-    public void testServiceForNonDispatchingController() throws Exception {
+    public void canServiceForNonDispatchingController() throws Exception {
         RequestLevelContainer.set(new PicoContextContainer(new DefaultPicoContainer()));
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
-        final Enumeration enumeration = Collections.enumeration(list);
+        final Enumeration<?> enumeration = Collections.enumeration(list);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -151,12 +158,13 @@ public class WaffleServletTest {
         Assert.assertEquals(1, nonDispatchingController.getCount());
     }
 
+    @SuppressWarnings("serial")
     @Test // Testing Post/Redirect/Get - see http://en.wikipedia.org/wiki/Post/Redirect/Get
     public void serviceShouldCreateRedirectViewWhenReturnValueIsNullAndRequestWasAPost() throws Exception {
         RequestLevelContainer.set(new PicoContextContainer(new DefaultPicoContainer()));
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
-        final Enumeration enumeration = Collections.enumeration(list);
+        final Enumeration<?> enumeration = Collections.enumeration(list);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -212,7 +220,7 @@ public class WaffleServletTest {
     }
 
     @Test(expected = ServletException.class)
-    public void testControllerNotFound() throws Exception {
+    public void cannotServiceIfControllerNotFound() throws Exception {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
@@ -238,11 +246,12 @@ public class WaffleServletTest {
         waffleServlet.service(request, null);
     }
 
+    @SuppressWarnings("serial")
     @Test
-    public void testMethodDefinitionIsNull() throws Exception {
+    public void cannotServiceIfMethodDefinitionIsNull() throws Exception {
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
-        final Enumeration enumeration = Collections.enumeration(list);
+        final Enumeration<?> enumeration = Collections.enumeration(list);
 
         // Mock HttpServletRequest
         final HttpServletRequest request  = mockery.mock(HttpServletRequest.class);
@@ -294,12 +303,12 @@ public class WaffleServletTest {
         waffleServlet.service(request, response);
     }
 
-    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
+    @SuppressWarnings({"serial"})
     @Test
-    public void testMethodInvocationExceptionThrown() throws Exception {
+    public void canThrowExceptionInMethodInvocation() throws Exception {
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
-        final Enumeration enumeration = Collections.enumeration(list);
+        final Enumeration<?> enumeration = Collections.enumeration(list);
 
         // Mock HttpServletRequest
         final HttpServletRequest request  = mockery.mock(HttpServletRequest.class);
@@ -358,7 +367,7 @@ public class WaffleServletTest {
     }
 
     @Test
-    public void testBuildViewToReferrer() throws Exception {
+    public void canBuildViewToReferrer() throws Exception {
         WaffleServlet waffleServlet = new WaffleServlet();
 
         Field viewPrefixField = WaffleServlet.class.getDeclaredField("viewPrefix");
@@ -375,8 +384,9 @@ public class WaffleServletTest {
         Assert.assertEquals("prefix-foobar-suffix", view.getValue());
     }
 
+    @SuppressWarnings("serial")
     @Test(expected = WaffleException.class)
-    public void testInitRequiresInitParameter() throws ServletException {
+    public void cannotInitWithoutParameter() throws ServletException {
         final ServletContext servletContext = mockery.mock(ServletContext.class);
         mockery.checking(new Expectations() {{
             one(servletContext).getAttribute(ComponentRegistry.class.getName());

@@ -1,25 +1,40 @@
 package org.codehaus.waffle.registrar.pico;
 
+import static org.junit.Assert.assertEquals;
+
+import javax.servlet.http.HttpSession;
+
 import org.codehaus.waffle.testmodel.DependsOnValue;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
-import javax.servlet.http.HttpSession;
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class HttpSessionAttributeParameterTest {
+    private Mockery mockery = new Mockery();
 
-public class HttpSessionAttributeParameterTest extends MockObjectTestCase {
+    @Test
+    public void componentDependsOnSessionAttribute() {
+        // Mock HttpSession
+        final HttpSession session = mockery.mock(HttpSession.class);
+        mockery.checking(new Expectations() {
+            {
+                exactly(2).of(session).getAttribute("foobar");
+                will(returnValue("helloWorld"));
+            }
+        });
 
-    public void testComponentDependsOnHttpSessionAttribute() {
-        Mock mockSession = mock(HttpSession.class);
-        mockSession.expects(exactly(2))
-                .method("getAttribute")
-                .with(eq("foobar"))
-                .will(returnValue("helloWorld"));
-        HttpSession session = (HttpSession) mockSession.proxy();
-
-        Parameter[] parameters = {new HttpSessionAttributeParameter("foobar")};
+        Parameter[] parameters = { new HttpSessionAttributeParameter("foobar") };
 
         MutablePicoContainer pico = new DefaultPicoContainer();
         pico.registerComponentInstance(session);

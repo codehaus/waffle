@@ -1,15 +1,18 @@
 package org.codehaus.waffle.registrar.pico;
 
-import org.jmock.MockObjectTestCase;
+import static org.junit.Assert.assertEquals;
+
+import org.jruby.Ruby;
+import org.jruby.javasupport.JavaUtil;
+import org.jruby.runtime.builtin.IRubyObject;
+import org.junit.Test;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
-import org.jruby.runtime.builtin.IRubyObject;
-import org.jruby.Ruby;
-import org.jruby.javasupport.JavaUtil;
 
-public class RubyScriptComponentAdapterTest extends MockObjectTestCase {
+public class RubyScriptComponentAdapterTest {
 
+    @Test
     public void testComponentKeyAndImplementationMethods() {
         ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foobar", "'ruby script'");
         assertEquals("foobar", componentAdapter.getComponentKey());

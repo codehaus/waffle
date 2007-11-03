@@ -1,44 +1,58 @@
 package org.codehaus.waffle.servlet;
 
+import javax.servlet.ServletContext;
+
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.testmodel.StubComponentRegistry;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-import javax.servlet.ServletContext;
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class ServletContextHelperTest {
 
-public class ServletContextHelperTest extends MockObjectTestCase {
+    private Mockery mockery = new Mockery();
 
-    public void testGetWaffleComponentManager() {
-        Mock mockServletContext = mock(ServletContext.class);
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-        mockServletContext.expects(once())
-                .method("getInitParameterNames")
-                .will(returnValue(null));
-        mockServletContext.expects(atLeastOnce())
-                .method("getInitParameter")
-                .will(returnValue(null));
-        mockServletContext.expects(once()).method("getAttribute")
-                .with(eq(ComponentRegistry.class.getName()))
-                .will(returnValue(new StubComponentRegistry(servletContext)));
+    @Test
+    public void canGetComponentRegistry() {
 
+        // Mock ServletContext
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).getInitParameterNames();
+                will(returnValue(null));
+                atLeast(1).of(servletContext).getInitParameter(with(any(String.class)));
+                will(returnValue(null));
+            }
+        });
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).getAttribute(ComponentRegistry.class.getName());
+                will(returnValue(new StubComponentRegistry(servletContext)));
+            }
+        });
         ServletContextHelper.getComponentRegistry(servletContext);
     }
 
-    public void testWaffleComponentManagerRegistrationRequired() {
-        Mock mockServletContext = mock(ServletContext.class);
-        mockServletContext.expects(once())
-                .method("getAttribute")
-                .with(eq(ComponentRegistry.class.getName()))
-                .will(returnValue(null));
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
-
-        try {
-            ServletContextHelper.getComponentRegistry(servletContext);
-            fail("WaffleException expected");
-        } catch (WaffleException expected) {
-            // expected
-        }
+    @Test(expected = WaffleException.class)
+    public void cannotGetComponentRegistryIfNotRegistered() {
+        // Mock ServletContext
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).getAttribute(ComponentRegistry.class.getName());
+                will(returnValue(null));
+            }
+        });
+        ServletContextHelper.getComponentRegistry(servletContext);
     }
 }
