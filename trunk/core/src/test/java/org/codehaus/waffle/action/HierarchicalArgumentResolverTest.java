@@ -1,136 +1,152 @@
 package org.codehaus.waffle.action;
 
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-import org.codehaus.waffle.action.ArgumentResolver;
-import org.codehaus.waffle.action.HierarchicalArgumentResolver;
+import static org.junit.Assert.assertEquals;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class HierarchicalArgumentResolverTest extends MockObjectTestCase {
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class HierarchicalArgumentResolverTest {
+
+    private Mockery mockery = new Mockery();
+
+    @Test
     public void testResolveReturnsNameWhenArgumentNotInCurlyBrackets() {
         ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null);
         assertEquals("foobar", argumentResolver.resolve(null, "foobar"));
     }
 
-    public void testResolveFoundInParameter() {
-        // Mock Request
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getParameter")
-                .with(eq("foo"))
-                .will(returnValue("bar"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+    @Test
+    public void canResolveArgumentFoundInParameter() {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameter("foo");
+                will(returnValue("bar"));
+            }
+        });
 
         ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null);
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
     }
 
-    public void testResolveFoundInRequestAttribute() {
-        // Mock Request
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getParameter")
-                .with(eq("foo"))
-                .will(returnValue(null));
-        mockRequest.expects(once())
-                .method("getAttribute")
-                .with(eq("foo"))
-                .will(returnValue("bar"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+    @Test
+    public void canResolveArgumentFoundInAttribute() {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameter("foo");
+                will(returnValue(null));
+                one(request).getAttribute("foo");
+                will(returnValue("bar"));
+            }
+        });
 
         ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null);
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
     }
 
-    public void testResolveFoundInSessionAttribute() {
+    @Test
+    public void canResolveArgumentFoundInSessionAttribute() {
         // Mock HttpSession
-        Mock mockSession = mock(HttpSession.class);
-        mockSession.expects(once())
-                .method("getAttribute")
-                .with(eq("foo"))
-                .will(returnValue("bar"));
-        HttpSession session = (HttpSession) mockSession.proxy();
+        final HttpSession session = mockery.mock(HttpSession.class);
+        mockery.checking(new Expectations() {
+            {
+                one(session).getAttribute("foo");
+                will(returnValue("bar"));
+            }
+        });
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getParameter")
-                .with(eq("foo"))
-                .will(returnValue(null));
-        mockRequest.expects(once())
-                .method("getAttribute")
-                .with(eq("foo"))
-                .will(returnValue(null));
-        mockRequest.expects(once())
-                .method("getSession")
-                .will(returnValue(session));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
-
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameter("foo");
+                will(returnValue(null));
+                one(request).getAttribute("foo");
+                will(returnValue(null));
+                one(request).getSession();
+                will(returnValue(session));
+            }
+        });
         ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null);
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
     }
 
-    public void testResolveFoundInServletContext() {
-        Mock mockServletContext = mock(ServletContext.class);
-        mockServletContext.expects(once())
-                .method("getAttribute")
-                .with(eq("foo"))
-                .will(returnValue("bar"));
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
+    @Test
+    public void canResolveArgumentFoundInServletContext() {
+        // Mock ServletContext
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).getAttribute("foo");
+                will(returnValue("bar"));
+            }
+        });
 
         // Mock HttpSession
-        Mock mockSession = mock(HttpSession.class);
-        mockSession.expects(once())
-                .method("getAttribute")
-                .with(eq("foo"))
-                .will(returnValue(null));
-        HttpSession session = (HttpSession) mockSession.proxy();
+        final HttpSession session = mockery.mock(HttpSession.class);
+        mockery.checking(new Expectations() {
+            {
+                one(session).getAttribute("foo");
+                will(returnValue(null));
+            }
+        });
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getParameter")
-                .with(eq("foo"))
-                .will(returnValue(null));
-        mockRequest.expects(once())
-                .method("getAttribute")
-                .with(eq("foo"))
-                .will(returnValue(null));
-        mockRequest.expects(once())
-                .method("getSession")
-                .will(returnValue(session));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameter("foo");
+                will(returnValue(null));
+                one(request).getAttribute("foo");
+                will(returnValue(null));
+                one(request).getSession();
+                will(returnValue(session));
+            }
+        });
 
         ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(servletContext);
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
     }
 
-    public void testResolveFoundInServletContextWhenSessionIsNull() {
-        Mock mockServletContext = mock(ServletContext.class);
-        mockServletContext.expects(once())
-                .method("getAttribute")
-                .with(eq("foo"))
-                .will(returnValue("bar"));
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
+    @Test
+    public void canResolveArgumentFoundInServletContextWhenSessionIsNull() {
+        // Mock ServletContext
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).getAttribute("foo");
+                will(returnValue("bar"));
+            }
+        });
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getParameter")
-                .with(eq("foo"))
-                .will(returnValue(null));
-        mockRequest.expects(once())
-                .method("getAttribute")
-                .with(eq("foo"))
-                .will(returnValue(null));
-        mockRequest.expects(once())
-                .method("getSession")
-                .will(returnValue(null));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameter("foo");
+                will(returnValue(null));
+                one(request).getAttribute("foo");
+                will(returnValue(null));
+                one(request).getSession();
+                will(returnValue(null));
+            }
+        });
 
         ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(servletContext);
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
