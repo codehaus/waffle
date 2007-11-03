@@ -1,40 +1,60 @@
 package org.codehaus.waffle.bind;
 
-import org.codehaus.waffle.context.ContextLevel;
-import org.codehaus.waffle.testmodel.FakeController;
-import org.codehaus.waffle.testmodel.FakeBean;
-import org.codehaus.waffle.validation.BindErrorMessage;
-import org.codehaus.waffle.validation.DefaultErrorsContext;
-import org.codehaus.waffle.validation.ErrorsContext;
-import ognl.DefaultTypeConverter;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 
-public class OgnlDataBinderTest extends MockObjectTestCase {
+import javax.servlet.http.HttpServletRequest;
 
-    public void testBind() {
+import ognl.DefaultTypeConverter;
+
+import org.codehaus.waffle.context.ContextLevel;
+import org.codehaus.waffle.testmodel.FakeBean;
+import org.codehaus.waffle.testmodel.FakeController;
+import org.codehaus.waffle.validation.BindErrorMessage;
+import org.codehaus.waffle.validation.DefaultErrorsContext;
+import org.codehaus.waffle.validation.ErrorsContext;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class OgnlDataBinderTest {
+
+    private Mockery mockery = new Mockery();
+
+    @Test
+    public void canBind() {
         List<String> parameters = new ArrayList<String>();
         parameters.add("name");
         parameters.add("contextLevel");
-        Enumeration enumeration = Collections.enumeration(parameters);
+        final Enumeration<String> enumeration = Collections.enumeration(parameters);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once()).method("getParameterNames")
-                .will(returnValue(enumeration));
-        mockRequest.expects(once()).method("getParameter")
-                .with(eq("name"))
-                .will(returnValue("foobar"));
-        mockRequest.expects(once()).method("getParameter")
-                .with(eq("contextLevel"))
-                .will(returnValue("APPLICATION"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameterNames();
+                will(returnValue(enumeration));
+                one(request).getParameter("name");
+                will(returnValue("foobar"));
+                one(request).getParameter("contextLevel");
+                will(returnValue("APPLICATION"));
+            }
+        });
 
         FakeController fakeController = new FakeController();
         DataBinder binder = new OgnlDataBinder(new OgnlTypeConverter(), null);
@@ -46,16 +66,22 @@ public class OgnlDataBinderTest extends MockObjectTestCase {
         assertFalse(errorsContext.hasErrorMessages());
     }
 
-    public void testBindEmptyValueForEnum() {
+    @Test
+    public void canBindEmptyValueForEnum() {
         List<String> parameters = new ArrayList<String>();
         parameters.add("contextLevel");
-        Enumeration enumeration = Collections.enumeration(parameters);
+        final Enumeration<String> enumeration = Collections.enumeration(parameters);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once()).method("getParameterNames").will(returnValue(enumeration));
-        mockRequest.expects(once()).method("getParameter").with(eq("contextLevel")).will(returnValue(""));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameterNames();
+                will(returnValue(enumeration));
+                one(request).getParameter("contextLevel");
+                will(returnValue(""));
+            }
+        });
 
         FakeController fakeController = new FakeController();
         DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null);
@@ -66,19 +92,22 @@ public class OgnlDataBinderTest extends MockObjectTestCase {
         assertFalse(errorsContext.hasErrorMessages());
     }
 
-    public void testBindNoSuchPropertyExceptionIgnored() {
+    @Test
+    public void canIgnoreNoSuchPropertyException() {
         List<String> parameters = new ArrayList<String>();
         parameters.add("method");
-        Enumeration enumeration = Collections.enumeration(parameters);
+        final Enumeration<String> enumeration = Collections.enumeration(parameters);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once()).method("getParameterNames")
-                .will(returnValue(enumeration));
-        mockRequest.expects(once()).method("getParameter")
-                .with(eq("method"))
-                .will(returnValue("this should cause a NoSuchPropertyException!"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameterNames();
+                will(returnValue(enumeration));
+                one(request).getParameter("method");
+                will(returnValue("this should cause a NoSuchPropertyException!"));
+            }
+        });
 
         FakeController fakeController = new FakeController();
         DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null);
@@ -89,23 +118,25 @@ public class OgnlDataBinderTest extends MockObjectTestCase {
     }
 
     /**
-     * This tests that parameter names with strange characters (i.e. '-') don't cause errors.
-     * <p/>
-     * This was discovered when using displaytags.sf.net project with waffle
+     * This tests that parameter names with strange characters (i.e. '-') don't cause errors. <p/> This was discovered
+     * when using displaytags.sf.net project with waffle
      */
-    public void testBindInappropriateExpressionExceptionIgnored() {
+    @Test
+    public void canIgnoreInappropriateExpression() {
         List<String> parameters = new ArrayList<String>();
         parameters.add("x-01234567-s");
-        Enumeration enumeration = Collections.enumeration(parameters);
+        final Enumeration<String> enumeration = Collections.enumeration(parameters);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once()).method("getParameterNames")
-                .will(returnValue(enumeration));
-        mockRequest.expects(once()).method("getParameter")
-                .with(eq("x-01234567-s"))
-                .will(returnValue("blah"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameterNames();
+                will(returnValue(enumeration));
+                one(request).getParameter("x-01234567-s");
+                will(returnValue("blah"));
+            }
+        });
 
         FakeController fakeController = new FakeController();
         DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null);
@@ -115,26 +146,30 @@ public class OgnlDataBinderTest extends MockObjectTestCase {
         assertFalse(errorsContext.hasErrorMessages());
     }
 
-    public void testFieldValueBindError() {
+    @Test
+    public void canHandleFieldValueBindError() {
         List<String> parameters = new ArrayList<String>();
         parameters.add("count");
-        Enumeration enumeration = Collections.enumeration(parameters);
+        final Enumeration<String> enumeration = Collections.enumeration(parameters);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once()).method("getParameterNames")
-                .will(returnValue(enumeration));
-        mockRequest.expects(once()).method("getParameter")
-                .with(eq("count"))
-                .will(returnValue("bad value"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameterNames();
+                will(returnValue(enumeration));
+                one(request).getParameter("count");
+                will(returnValue("bad value"));
+            }
+        });
 
         // Mock BindErrorMessageResolver
-        Mock mockBindErrorMessageResolver = mock(BindErrorMessageResolver.class);
-        mockBindErrorMessageResolver.expects(once())
-                .method("resolve")
-                .with(isA(FakeBean.class), eq("count"), eq("bad value"));
-        BindErrorMessageResolver resolver = (BindErrorMessageResolver) mockBindErrorMessageResolver.proxy();
+        final BindErrorMessageResolver resolver = mockery.mock(BindErrorMessageResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(resolver).resolve(with(an(FakeBean.class)), with(same("count")), with(same("bad value")));
+            }
+        });
 
         DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), resolver);
 
@@ -150,19 +185,22 @@ public class OgnlDataBinderTest extends MockObjectTestCase {
         assertEquals("bad value", bindValidationMessage.getValue());
     }
 
-    public void testBindHandlesBindException() {
+    @Test
+    public void canHandleBindException() {
         List<String> parameters = new ArrayList<String>();
         parameters.add("count");
-        Enumeration enumeration = Collections.enumeration(parameters);
+        final Enumeration<String> enumeration = Collections.enumeration(parameters);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once()).method("getParameterNames")
-                .will(returnValue(enumeration));
-        mockRequest.expects(once()).method("getParameter")
-                .with(eq("count"))
-                .will(returnValue("bad value"));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameterNames();
+                will(returnValue(enumeration));
+                one(request).getParameter("count");
+                will(returnValue("bad value"));
+            }
+        });
 
         DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null) {
             protected void handleConvert(String parameterName, String parameterValue, Object model) {
