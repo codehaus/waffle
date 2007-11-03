@@ -1,5 +1,10 @@
 package org.codehaus.waffle.action;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,66 +22,78 @@ import org.codehaus.waffle.action.annotation.DefaultActionMethod;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
-import org.jmock.core.Constraint;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-public class AnnotatedMethodDefinitionFinderTest extends MockObjectTestCase {
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class AnnotatedMethodDefinitionFinderTest {
+
+    private Mockery mockery = new Mockery();
 
     private ActionMonitor monitor = new SilentMonitor();
 
     public void testDefaultMethodReturned() throws NoSuchMethodException {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue(null));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue(null));
+            }
+        });
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null,
+                methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethodNoValue.class.getMethod("foobar");
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    public void testDefaultActionMethodWithArgumentReturned() throws NoSuchMethodException {
+    @Test
+    public void canDefaultActionMethodWithArgumentReturned() throws NoSuchMethodException {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue(null));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue(null));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("{helloworld}"))
-                .will(returnValue("helloworld"));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{helloworld}");
+                will(returnValue("helloworld"));
+            }
+        });
 
         ControllerWithDefaultActionMethod controller = new ControllerWithDefaultActionMethod();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                null, methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethod.class.getMethod("foobar", String.class);
@@ -84,541 +101,553 @@ public class AnnotatedMethodDefinitionFinderTest extends MockObjectTestCase {
         assertEquals("helloworld", methodDefinition.getMethodArguments().get(0));
     }
 
-    public void testFindForDefaultActionMethodWillNotReturnSameInstanceOfMethodDefinition() throws Exception {
+    @Test
+    public void canFindForDefaultActionMethodWillNotReturnSameInstanceOfMethodDefinition() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(exactly(2))
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue(null));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                exactly(2).of(methodNameResolver).resolve(with(same(request)));
+                will(returnValue(null));
+            }
+        });
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null,
+                methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         assertNotSame(methodDefinition, methodDefinitionFinder.find(controller, request, response));
     }
 
-    public void testFindActionMethodWithNoArguments() throws NoSuchMethodException {
+    @Test
+    public void canFindActionMethodWithNoArguments() throws NoSuchMethodException {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("noArgumentMethod"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("noArgumentMethod"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null,
+                methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("noArgumentMethod");
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    public void testPragmaticMethodIsSupported() throws Exception {
+    @Test
+    public void canSupportPragmaticMethod() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodTwo|foobar"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodTwo|foobar"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("foobar"))
-                .will(returnValue(new ArrayList()));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "foobar");
+                will(returnValue(new ArrayList<Object>()));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                null, methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    public void testNonPublicMethodsIgnored() throws Exception {
+    @Test
+    public void canIgnoreNonPublicMethods() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("noAmbiguityWhenMethodNotPublic"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("noAmbiguityWhenMethodNotPublic"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                null, methodNameResolver, monitor);
 
         MethodDefinition definition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
-        Method methodExpected = SampleForMethodFinder.class.getMethod("noAmbiguityWhenMethodNotPublic", HttpServletRequest.class);
+        Method methodExpected = SampleForMethodFinder.class.getMethod("noAmbiguityWhenMethodNotPublic",
+                HttpServletRequest.class);
         assertEquals(methodExpected, definition.getMethod());
     }
-
-    public void testFindMethodWhenParameterAssignable() throws Exception {
+    
+    @Test
+    public void canFindMethodWhenParameterAssignable() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodTwo"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodTwo"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("{foobaz}"))
-                .will(returnValue(new ArrayList()));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{foobaz}");
+                will(returnValue(new ArrayList<Object>()));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                null, methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    public void testForAmbiguity() throws Exception {
+    @Test(expected = AmbiguousActionSignatureMethodException.class)
+    public void cannotAllowAmbiguity() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodAmbiguous"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodAmbiguous"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(exactly(2))
-                .method("resolve")
-                .with(same(request), eq("{foobaz}"))
-                .will(returnValue(new ArrayList()));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {     
+                exactly(2).of(argumentResolver).resolve(request, "{foobaz}");
+                will(returnValue(new ArrayList<Object>()));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                null, methodNameResolver, monitor);
 
-        try {
-            methodDefinitionFinder.find(sampleForMethodFinder, request, response);
-            fail("AmbiguousMethodSignatureException expected");
-        } catch (AmbiguousActionSignatureMethodException expected) {
-
-        }
+        methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
 
-    public void testNoMethodsWithName() throws Exception {
+    @Test(expected = NoMatchingActionMethodException.class)
+    public void cannotFindMethodsWithNoName() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("noSuchMethod"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("noSuchMethod"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null,
+                methodNameResolver, monitor);
 
-        try {
-            methodDefinitionFinder.find(sampleForMethodFinder, request, response);
-            fail("NoMatchingMethodException expected");
-        } catch (NoMatchingActionMethodException expected) {
-            // expected
-        }
+        methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
 
-    public void testMethodConvertsStringToInteger() throws Exception {
+    @Test
+    public void canConvertStringToInteger() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodInteger"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodInteger"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("{foobaz}"))
-                .will(returnValue("45"));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{foobaz}");
+                will(returnValue("45"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                new DefaultTypeConverter(), methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
 
-    public void testMethodConvertsStringToIntegerPragmatic() throws Exception {
+    @Test
+    public void canConvertStringToIntegerPragmatic() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodInteger|45"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodInteger|45"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("45"))
-                .will(returnValue("45"));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "45");
+                will(returnValue("45"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                new DefaultTypeConverter(), methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
 
-    public void testMethodConvertsStringToFloat() throws Exception {
+    @Test
+    public void canConvertStringToFloat() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodFloat"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodFloat"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("{foobaz}"))
-                .will(returnValue("99.99"));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{foobaz}");
+                will(returnValue("99.99"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder =
-                new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                new DefaultTypeConverter(), methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertEquals(99.99f, methodDefinition.getMethodArguments().get(0));
     }
 
-    public void testMethodConvertsStringToBoolean() throws Exception {
+    @Test
+    public void canConvertStringToBoolean() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodBoolean"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodBoolean"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("{foobaz}"))
-                .will(returnValue("true"));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{foobaz}");
+                will(returnValue("true"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder =
-                new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                new DefaultTypeConverter(), methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertTrue((Boolean) methodDefinition.getMethodArguments().get(0));
     }
 
-    public void testMethodDependsOnRequest() throws Exception {
+    @Test
+    public void canDependOnRequest() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodDependsOnRequest"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodDependsOnRequest"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null,
+                methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
-        Method expectedMethod = SampleForMethodFinder.class
-                .getMethod("methodDependsOnRequest", HttpServletRequest.class);
+        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequest",
+                HttpServletRequest.class);
 
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    public void testMethodDependsOnResponse() throws Exception {
+    @Test
+    public void canDependOnResponse() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodDependsOnResponse"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodDependsOnResponse"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null,
+                methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
-        Method expectedMethod = SampleForMethodFinder.class
-                .getMethod("methodDependsOnResponse", HttpServletResponse.class);
+        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnResponse",
+                HttpServletResponse.class);
 
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    public void testMethodDependsOnRequestAndOtherArgument() throws Exception {
+    @Test
+    public void canDependOnRequestAndOtherArgument() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodDependsOnRequestAndInteger"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodDependsOnRequestAndInteger"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("{foobaz}"))
-                .will(returnValue("99"));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{foobaz}");
+                will(returnValue("99"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder =
-                new AnnotatedMethodDefinitionFinder(null, argumentResolver, new DefaultTypeConverter(), methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                new DefaultTypeConverter(), methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
-        Method expectedMethod = SampleForMethodFinder.class
-                .getMethod("methodDependsOnRequestAndInteger", HttpServletRequest.class, int.class);
+        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequestAndInteger",
+                HttpServletRequest.class, int.class);
 
         assertEquals(expectedMethod, methodDefinition.getMethod());
         assertEquals(99, methodDefinition.getMethodArguments().get(1));
     }
 
-    public void testMethodDependsOnSession() throws Exception {
+    @Test
+    public void canDependOnSession() throws Exception {
         // Mock HttpSession
-        Mock mockSession = mock(HttpSession.class);
-        HttpSession session = (HttpSession) mockSession.proxy();
+        final HttpSession session = mockery.mock(HttpSession.class);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        mockRequest.expects(once())
-                .method("getSession")
-                .will(returnValue(session));
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
-
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getSession();
+                will(returnValue(session));
+            }
+        });
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodDependsOnSession"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodDependsOnSession"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, null,
+                methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
-        Method expectedMethod = SampleForMethodFinder.class
-                .getMethod("methodDependsOnSession", HttpSession.class);
+        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnSession", HttpSession.class);
 
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    public void testMethodDependsOnServletContext() throws Exception {
+    @Test
+    public void canDependOnServletContext() throws Exception {
         // Mock ServletContext
-        Mock mockServletContext = mock(ServletContext.class);
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
 
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("methodDependsOnServletContext"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodDependsOnServletContext"));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(servletContext, null, null, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(servletContext, null, null,
+                methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
-        Method expectedMethod = SampleForMethodFinder.class
-                .getMethod("methodDependsOnServletContext", ServletContext.class);
+        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnServletContext",
+                ServletContext.class);
 
         assertEquals(expectedMethod, methodDefinition.getMethod());
         assertSame(servletContext, methodDefinition.getMethodArguments().get(0));
     }
 
-    public void testCustomOgnlConvertersAreLeveraged() throws Exception {
+    @Test
+    public void canLeverageCustomOgnlConverters() throws Exception {
         // Mock HttpServletRequest
-        Mock mockRequest = mock(HttpServletRequest.class);
-        HttpServletRequest request = (HttpServletRequest) mockRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         // Mock HttpServletResponse
-        Mock mockResponse = mock(HttpServletResponse.class);
-        HttpServletResponse response = (HttpServletResponse) mockResponse.proxy();
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
 
         // Mock MethodNameResolver
-        Mock mockMethodNameResolver = mock(MethodNameResolver.class);
-        mockMethodNameResolver.expects(once())
-                .method("resolve")
-                .with(same(request))
-                .will(returnValue("actionMethodNeedsCustomConverter|blah"));
-        MethodNameResolver methodNameResolver = (MethodNameResolver) mockMethodNameResolver.proxy();
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("actionMethodNeedsCustomConverter|blah"));
+            }
+        });
 
         // Mock ArgumentResolver
-        Mock mockArgumentResolver = mock(ArgumentResolver.class);
-        mockArgumentResolver.expects(once())
-                .method("resolve")
-                .with(same(request), eq("blah"))
-                .will(returnValue("blah"));
-        ArgumentResolver argumentResolver = (ArgumentResolver) mockArgumentResolver.proxy();
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "blah");
+                will(returnValue("blah"));
+            }
+        });
 
         // Mock TypeConverter
-        Mock mockTypeConverter = mock(TypeConverter.class);
-        Constraint[] constraints = {NULL, NULL, NULL, NULL, eq("blah"), eq(List.class)};
-        mockTypeConverter.expects(once())
-                .method("convertValue")
-                .with(constraints)
-                .will(returnValue(Collections.EMPTY_LIST));
-        TypeConverter typeConverter = (TypeConverter) mockTypeConverter.proxy();
+        final TypeConverter typeConverter = mockery.mock(TypeConverter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(typeConverter).convertValue(null, null, null, null, "blah", List.class);
+                will(returnValue(Collections.EMPTY_LIST));
+            }
+        });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver, typeConverter, methodNameResolver, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                typeConverter, methodNameResolver, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("actionMethodNeedsCustomConverter", List.class);
@@ -627,7 +656,7 @@ public class AnnotatedMethodDefinitionFinderTest extends MockObjectTestCase {
 
     public class ControllerWithDefaultActionMethod {
 
-        @DefaultActionMethod(parameters = {"helloworld"})
+        @DefaultActionMethod(parameters = { "helloworld" })
         public void foobar(String value) {
 
         }

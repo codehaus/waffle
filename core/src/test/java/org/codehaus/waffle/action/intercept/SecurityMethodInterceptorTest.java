@@ -1,21 +1,32 @@
 package org.codehaus.waffle.action.intercept;
 
-import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.action.ActionMethodInvocationException;
-import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.action.intercept.SecurityMethodInterceptor;
-import org.codehaus.waffle.action.intercept.InterceptorChain;
-import org.codehaus.waffle.action.intercept.MethodInterceptor;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class SecurityMethodInterceptorTest extends MockObjectTestCase {
+import org.codehaus.waffle.action.ActionMethodInvocationException;
+import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+import org.codehaus.waffle.controller.ControllerDefinition;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
-    public void testAccept() {
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class SecurityMethodInterceptorTest {
+
+    private Mockery mockery = new Mockery();
+    
+    @Test
+    public void canAccept() {
         SecurityMethodInterceptor methodInterceptor = new SecurityMethodInterceptor();
 
         for (Method method : List.class.getMethods()) {
@@ -23,51 +34,56 @@ public class SecurityMethodInterceptorTest extends MockObjectTestCase {
         }
     }
 
-    public void testInterceptMethod() throws Exception {
+    @Test
+    public void canInterceptMethod() throws Exception {
         ControllerDefinition controllerDefinition = new ControllerDefinition("foo", new MyController(), null);
 
         // Mock InterceptorChain
-        Mock mockChain = mock(InterceptorChain.class);
-        mockChain.expects(once())
-                .method("proceed");
-        InterceptorChain chain = (InterceptorChain) mockChain.proxy();
+        final InterceptorChain chain = mockery.mock(InterceptorChain.class);
+        mockery.checking(new Expectations() {
+            {
+                one(chain).proceed(with(any(ControllerDefinition.class)), with(any(Method.class)), with(any(Object[].class)));
+            }
+        });
 
         Method method = MyController.class.getMethod("methodWithActionMethod");
         MethodInterceptor interceptor = new SecurityMethodInterceptor();
         interceptor.intercept(controllerDefinition, method, chain);
     }
 
-    public void testInterceptDefaultActionMethod() throws Exception {
+    @Test
+    public void canInterceptDefaultActionMethod() throws Exception {
+        
         ControllerDefinition controllerDefinition = new ControllerDefinition("foo", new MyController(), null);
-
+        
         // Mock InterceptorChain
-        Mock mockChain = mock(InterceptorChain.class);
-        mockChain.expects(once())
-                .method("proceed");
-        InterceptorChain chain = (InterceptorChain) mockChain.proxy();
+        final InterceptorChain chain = mockery.mock(InterceptorChain.class);
+        mockery.checking(new Expectations() {
+            {
+                one(chain).proceed(with(any(ControllerDefinition.class)), with(any(Method.class)), with(any(Object[].class)));
+            }
+        });
 
         Method method = MyController.class.getMethod("methodWithDefaultActionMethod");
         MethodInterceptor interceptor = new SecurityMethodInterceptor();
         interceptor.intercept(controllerDefinition, method, chain);
     }
     
-    public void testInterceptThrowsMethodInvocationException() throws Exception {
+    @Test(expected=ActionMethodInvocationException.class)
+    public void cannotInterceptMethodInvocation() throws Exception {
         ControllerDefinition controllerDefinition = new ControllerDefinition("foo", new MyController(), null);
 
         // Mock InterceptorChain
-        Mock mockChain = mock(InterceptorChain.class);
-        mockChain.expects(never())
-                .method("proceed");
-        InterceptorChain chain = (InterceptorChain) mockChain.proxy();
+        final InterceptorChain chain = mockery.mock(InterceptorChain.class);
+        mockery.checking(new Expectations() {
+            {
+                never(chain).proceed(with(any(ControllerDefinition.class)), with(any(Method.class)), with(any(Object[].class)));
+            }
+        });
 
         Method method = MyController.class.getMethod("methodWithoutAnnotation");
         MethodInterceptor interceptor = new SecurityMethodInterceptor();
-        try {
-            interceptor.intercept(controllerDefinition, method, chain);
-            fail("MethodInvocationException expected");
-        } catch (ActionMethodInvocationException expected) {
-            // expected
-        }
+        interceptor.intercept(controllerDefinition, method, chain);
     }
 
     public class MyController {
