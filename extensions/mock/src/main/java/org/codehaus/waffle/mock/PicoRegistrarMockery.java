@@ -12,7 +12,7 @@ import org.codehaus.waffle.registrar.pico.PicoRegistrar;
  * 
  * @author Mauro Talevi
  */
-public abstract class PicoRegistrarMockery extends AbstractRegistrarMockery {
+public class PicoRegistrarMockery extends AbstractRegistrarMockery {
 
     protected ContextContainer createContextContainer() {
         return new PicoContextContainer();
