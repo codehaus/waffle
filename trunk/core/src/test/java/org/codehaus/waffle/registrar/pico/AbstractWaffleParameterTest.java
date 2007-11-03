@@ -22,6 +22,7 @@ public class AbstractWaffleParameterTest {
     @Test
     public void canAcceptParameter() {
         final AbstractWaffleParameter parameter = new AbstractWaffleParameter("foobar") {
+            @SuppressWarnings("unchecked")
             public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class aClass) {
                 throw new UnsupportedOperationException("don't call");
             }

@@ -1,16 +1,20 @@
 package org.codehaus.waffle.context.pico;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import org.codehaus.waffle.context.ContextContainer;
-import org.jmock.MockObjectTestCase;
 import org.jruby.Ruby;
 import org.jruby.RubyBoolean;
 import org.jruby.javasupport.JavaEmbedUtils;
+import org.junit.Test;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 
-public class RubyAwarePicoContextContainerFactoryTest extends MockObjectTestCase {
+public class RubyAwarePicoContextContainerFactoryTest  {
 
-    public void testBuildApplicationContextContainer() {
+    @Test
+    public void canBuildApplicationContextContainer() {
         RubyAwarePicoContextContainerFactory factory = new RubyAwarePicoContextContainerFactory(null);
         ContextContainer contextContainer = factory.buildApplicationContextContainer();
         PicoContainer picoContainer = (MutablePicoContainer)contextContainer.getDelegate();

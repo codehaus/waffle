@@ -10,6 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collection;
 import java.util.Locale;
 
@@ -30,33 +36,48 @@ import org.codehaus.waffle.testmodel.CustomRegistrar;
 import org.codehaus.waffle.testmodel.FakeBean;
 import org.codehaus.waffle.testmodel.RequestLevelComponent;
 import org.codehaus.waffle.testmodel.SessionLevelComponent;
-import org.jmock.Mock;
-import org.jmock.MockObjectTestCase;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
 
-public class PicoContextContainerFactoryTest extends MockObjectTestCase {
+/**
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+@RunWith(JMock.class)
+public class PicoContextContainerFactoryTest {
+
+    private Mockery mockery = new Mockery();
+    
     private final MessageResources messageResources = new DefaultMessageResources();
 
-    public void testBuildEachContextLevelContainer() {
-        PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources);
+    @Test
+    public void canBuildEachContextLevelContainer() {
+        final PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources);
+
 
         // Mock ServletContext
-        Mock mockServletContext = mock(ServletContext.class);
-        mockServletContext.expects(once()).method("setAttribute")
-                .with(eq(ContextContainerFactory.class.getName()), eq(contextContainerFactory));
-        mockServletContext.expects(once()).method("getInitParameter")
-                .with(eq(Registrar.class.getName()))
-                .will(returnValue(CustomRegistrar.class.getName()));
-
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).setAttribute(with(same(ContextContainerFactory.class.getName())), with(same(contextContainerFactory)));
+                one(servletContext).getInitParameter(with(same(Registrar.class.getName())));
+                will(returnValue(CustomRegistrar.class.getName()));
+            }
+        });
         contextContainerFactory.initialize(servletContext);
 
         // Application
         ContextContainer applicationContainer = contextContainerFactory.getApplicationContextContainer();
-        assertNotNull(applicationContainer.getComponentInstanceOfType(ServletContext.class));
+        Assert.assertNotNull(applicationContainer.getComponentInstanceOfType(ServletContext.class));
         assertSame(messageResources, applicationContainer.getComponentInstanceOfType(MessageResources.class));
         ApplicationLevelComponent applicationLevelComponent =
                 (ApplicationLevelComponent) applicationContainer.getComponentInstance("application");
@@ -65,29 +86,33 @@ public class PicoContextContainerFactoryTest extends MockObjectTestCase {
         assertFalse(applicationLevelComponent.isStopped());
 
         // Session
-        ContextContainer sessionContainer = contextContainerFactory.buildSessionLevelContainer();
+        final ContextContainer sessionContainer = contextContainerFactory.buildSessionLevelContainer();
         SessionLevelComponent sessionLevelComponent = (SessionLevelComponent) sessionContainer.getComponentInstance("session");
         assertNotNull(sessionLevelComponent);
         assertFalse("Start is the responsibility of HttpSessionListener", sessionLevelComponent.isStarted());
         assertFalse(sessionLevelComponent.isStopped());
         assertEquals(applicationLevelComponent, sessionLevelComponent.getApplicationLevelComponent());
 
+
         // Mock HttpSession
-        Mock mockHttpSession = mock(HttpSession.class);
-        mockHttpSession.expects(once()).method("getAttribute")
-                .with(eq(Constants.SESSION_CONTAINER_KEY))
-                .will(returnValue(sessionContainer));
-        HttpSession httpSession = (HttpSession) mockHttpSession.proxy();
+        final HttpSession httpSession = mockery.mock(HttpSession.class);
+        mockery.checking(new Expectations() {
+            {
+                one(httpSession).getAttribute(Constants.SESSION_CONTAINER_KEY);
+                will(returnValue(sessionContainer));
+            }
+        });
 
         // Mock HttpServletRequest
-        Mock mockHttpServletRequest = mock(HttpServletRequest.class);
-        mockHttpServletRequest.expects(once())
-                .method("getSession")
-                .will(returnValue(httpSession));
-        mockHttpServletRequest.expects(once())
-                .method("getLocale")
-                .will(returnValue(Locale.US));
-        HttpServletRequest request = (HttpServletRequest) mockHttpServletRequest.proxy();
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getSession();
+                will(returnValue(httpSession));
+                one(request).getLocale();
+                will(returnValue(Locale.US));
+            }
+        });
 
         // Request
         ContextContainer requestContainer = contextContainerFactory.buildRequestLevelContainer(request);
@@ -105,19 +130,19 @@ public class PicoContextContainerFactoryTest extends MockObjectTestCase {
         assertFalse("request component should NOT be stopped", requestLevelComponent.isStopped());
     }
 
-    public void testContextInitialized() {
-        AbstractContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources);
+    @Test
+    public void canInitializeContext() {
+        final AbstractContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources);
 
         // Mock ServletContext
-        Mock mockServletContext = mock(ServletContext.class);
-        mockServletContext.expects(once())
-                .method("setAttribute")
-                .with(eq(ContextContainerFactory.class.getName()), eq(contextContainerFactory));
-        mockServletContext.expects(once())
-                .method("getInitParameter")
-                .with(eq(Registrar.class.getName()))
-                .will(returnValue(CustomRegistrar.class.getName()));
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).setAttribute(with(same(ContextContainerFactory.class.getName())), with(same(contextContainerFactory)));
+                one(servletContext).getInitParameter(with(same(Registrar.class.getName())));
+                will(returnValue(CustomRegistrar.class.getName()));
+            }
+        });
         contextContainerFactory.initialize(servletContext);
 
         ContextContainer container = contextContainerFactory.getApplicationContextContainer();
@@ -132,7 +157,8 @@ public class PicoContextContainerFactoryTest extends MockObjectTestCase {
      * Want to ensure start and stop only affect the container being started or stopped and that it does
      * not propogate to child or parent containers.
      */
-    public void testStoppingChildContainerDoesNotStopParent() {
+    @Test
+    public void canStopChildContainerWithoutStoppingParent() {
         NullComponentMonitor ncm = new NullComponentMonitor();
         MutablePicoContainer applicationContainer = new DefaultPicoContainer(ncm, new PicoLifecycleStrategy(ncm), null);
         applicationContainer.registerComponentImplementation(ApplicationLevelComponent.class);
@@ -187,7 +213,8 @@ public class PicoContextContainerFactoryTest extends MockObjectTestCase {
         assertFalse(requestLevelComponent.isStarted());
     }
 
-    public void testGetAllComponentInstancesOfType() {
+    @Test
+    public void canGetAllComponentInstancesOfType() {
         MutablePicoContainer grandParent = new DefaultPicoContainer();
         grandParent.registerComponentInstance("A", new FakeBean());
 
@@ -201,7 +228,8 @@ public class PicoContextContainerFactoryTest extends MockObjectTestCase {
         assertEquals(3, fakeBeans.size());
     }
 
-    public void testBuildApplicationContextContainerSupportsLifecycle() {
+    @Test
+    public void canBuildApplicationContextContainerWithLifecycle() {
         PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources);
         ContextContainer container = contextContainerFactory.buildApplicationContextContainer();
 
@@ -219,18 +247,19 @@ public class PicoContextContainerFactoryTest extends MockObjectTestCase {
         assertTrue(startable.stopped);
     }
 
-    public void testBuildSessionLevelContainerSupportsLifecycle() {
-        PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources);
+    @Test
+    public void canBuildSessionLevelContainerWithLifecycle() {
+        final PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources);
 
         // Mock ServletContext
-        Mock mockServletContext = mock(ServletContext.class);
-        mockServletContext.expects(once()).method("setAttribute")
-                .with(eq(ContextContainerFactory.class.getName()), eq(contextContainerFactory));
-        mockServletContext.expects(once()).method("getInitParameter")
-                .with(eq(Registrar.class.getName()))
-                .will(returnValue(CustomRegistrar.class.getName()));
-
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).setAttribute(with(same(ContextContainerFactory.class.getName())), with(same(contextContainerFactory)));
+                one(servletContext).getInitParameter(with(same(Registrar.class.getName())));
+                will(returnValue(CustomRegistrar.class.getName()));
+            }
+        });
         contextContainerFactory.initialize(servletContext);
 
         ContextContainer container = contextContainerFactory.buildSessionLevelContainer();
@@ -249,38 +278,44 @@ public class PicoContextContainerFactoryTest extends MockObjectTestCase {
         assertTrue(startable.stopped);
     }
 
-    public void testBuildRequestLevelContainerSupportsLifecycle() {
-        PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources);
+    @Test
+    public void canBuildRequestLevelContainerWithLifecycle() {
+        final PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources);
 
         // Mock ServletContext
-        Mock mockServletContext = mock(ServletContext.class);
-        mockServletContext.expects(once()).method("setAttribute")
-                .with(eq(ContextContainerFactory.class.getName()), eq(contextContainerFactory));
-        mockServletContext.expects(once()).method("getInitParameter")
-                .with(eq(Registrar.class.getName()))
-                .will(returnValue(CustomRegistrar.class.getName()));
-        ServletContext servletContext = (ServletContext) mockServletContext.proxy();
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        mockery.checking(new Expectations() {
+            {
+                one(servletContext).setAttribute(with(same(ContextContainerFactory.class.getName())), with(same(contextContainerFactory)));
+                one(servletContext).getInitParameter(with(same(Registrar.class.getName())));
+                will(returnValue(CustomRegistrar.class.getName()));
+            }
+        });
         contextContainerFactory.initialize(servletContext);
 
-        ContextContainer sessionContextContainer = contextContainerFactory.buildSessionLevelContainer();
+        final ContextContainer sessionContextContainer = contextContainerFactory.buildSessionLevelContainer();
+
 
         // Mock HttpSession
-        Mock mockHttpSession = mock(HttpSession.class);
-        mockHttpSession.expects(once()).method("getAttribute")
-                .with(eq(Constants.SESSION_CONTAINER_KEY))
-                .will(returnValue(sessionContextContainer));
-        HttpSession httpSession = (HttpSession) mockHttpSession.proxy();
+        final HttpSession httpSession = mockery.mock(HttpSession.class);
+        mockery.checking(new Expectations() {
+            {
+                one(httpSession).getAttribute(Constants.SESSION_CONTAINER_KEY);
+                will(returnValue(sessionContextContainer));
+            }
+        });
 
         // Mock HttpServletRequest
-        Mock mockHttpServletRequest = mock(HttpServletRequest.class);
-        mockHttpServletRequest.expects(once())
-                .method("getSession")
-                .will(returnValue(httpSession));
-        mockHttpServletRequest.expects(once())
-                .method("getLocale")
-                .will(returnValue(Locale.US));
-        HttpServletRequest request = (HttpServletRequest) mockHttpServletRequest.proxy();
-
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getSession();
+                will(returnValue(httpSession));
+                one(request).getLocale();
+                will(returnValue(Locale.US));
+            }
+        });
+        
         ContextContainer container = contextContainerFactory.buildRequestLevelContainer(request);
 
         StubStartable startable = new StubStartable();
