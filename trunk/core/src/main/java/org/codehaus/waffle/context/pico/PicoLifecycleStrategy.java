@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 public class PicoLifecycleStrategy extends DefaultLifecycleStrategy {
     private static Method start, stop;
 
-    {
+    static {
         try {
             start = Startable.class.getMethod("start", (Class[]) null);
             stop = Startable.class.getMethod("stop", (Class[]) null);

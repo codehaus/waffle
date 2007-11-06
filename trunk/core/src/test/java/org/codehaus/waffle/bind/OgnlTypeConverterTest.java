@@ -34,7 +34,7 @@ public class OgnlTypeConverterTest {
         OgnlTypeConverter converter = new OgnlTypeConverter();
         Integer value = (Integer) converter.convertValue("foobar", "15", Integer.class);
 
-        assertEquals(15, value.intValue());
+        assertEquals(15, value);
     }
 
     @Test

@@ -13,8 +13,9 @@ package org.codehaus.waffle.context;
 import org.codehaus.waffle.Startable;
 
 import java.util.Collection;
+import java.io.Serializable;
 
-public interface ContextContainer extends Startable {
+public interface ContextContainer extends Startable, Serializable {
 
     void dispose();
 

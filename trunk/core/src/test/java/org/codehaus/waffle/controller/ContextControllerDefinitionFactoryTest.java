@@ -43,7 +43,7 @@ public class ContextControllerDefinitionFactoryTest {
                 one(request).getPathInfo();
                 will(returnValue("/theController.htm"));
                 one(request).setAttribute(Constants.CONTROLLER_KEY,
-                        (FakeController) pico.getComponentInstanceOfType(FakeController.class));
+                        pico.getComponentInstanceOfType(FakeController.class));
             }
         });
 

@@ -303,7 +303,7 @@ public class WaffleServletTest {
         waffleServlet.service(request, response);
     }
 
-    @SuppressWarnings({"serial"})
+    @SuppressWarnings({"serial", "ThrowableInstanceNeverThrown"})
     @Test
     public void canThrowExceptionInMethodInvocation() throws Exception {
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();

@@ -12,5 +12,5 @@ package org.codehaus.waffle.action.intercept;
 
 public interface Sortable {
 
-    int getIndex();
+    Integer getIndex();
 }
