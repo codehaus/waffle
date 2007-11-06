@@ -11,14 +11,15 @@
 package org.codehaus.waffle.action.intercept;
 
 import java.util.Comparator;
+import java.io.Serializable;
 
-public class MethodInterceptorComparator implements Comparator<MethodInterceptor> {
+public class MethodInterceptorComparator implements Comparator<MethodInterceptor>, Serializable {
 
     public int compare(MethodInterceptor first, MethodInterceptor second) {
         if (first instanceof Sortable && second instanceof Sortable) {
             Sortable one = (Sortable) first;
             Sortable two = (Sortable) second;
-            return new Integer(one.getIndex()).compareTo(two.getIndex());
+            return one.getIndex().compareTo(two.getIndex());
         } else if (first instanceof Sortable) {
             return -1; // force to be less
         } else {

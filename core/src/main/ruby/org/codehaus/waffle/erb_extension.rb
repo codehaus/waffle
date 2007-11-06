@@ -43,6 +43,8 @@ class ERB
 
       return "File Not Found: Unable to render file '#{path}'." unless File.exist?(path)
 
+
+      # TODO can't we just call open() ??
       template = ''
       File.open(path).each { |line| template << line }
 

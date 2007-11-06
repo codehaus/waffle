@@ -50,11 +50,11 @@ public class IntrospectingRequestAttributeBinder implements RequestAttributeBind
     private void handleRubyController(HttpServletRequest request, RubyController rubyController) {
         IRubyObject iRubyObject = rubyController.getRubyObject();
         Map<String, IRubyObject> iVars = iRubyObject.getInstanceVariables();
-        Set<String> keys = iVars.keySet();
+        Set<Map.Entry<String, IRubyObject>> entries = iVars.entrySet();
 
-        for (String key : keys) {
-            Object value = JavaEmbedUtils.rubyToJava(iRubyObject.getRuntime(), iVars.get(key), Object.class);
-            request.setAttribute(key.substring(1), value);
+        for (Map.Entry<String, IRubyObject> entry : entries) {
+            Object value = JavaEmbedUtils.rubyToJava(iRubyObject.getRuntime(), entry.getValue(), Object.class);
+            request.setAttribute(entry.getKey().substring(1), value);
         }
     }
 }

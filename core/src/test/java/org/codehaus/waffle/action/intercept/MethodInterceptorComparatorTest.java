@@ -62,7 +62,7 @@ public class MethodInterceptorComparatorTest  {
             this.index = index;
         }
 
-        public int getIndex() {
+        public Integer getIndex() {
             return index;
         }
 

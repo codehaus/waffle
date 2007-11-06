@@ -28,9 +28,9 @@ public class DefaultBindErrorMessageResolverTest {
         final MessageResources messageResources = mockery.mock(MessageResources.class);
         mockery.checking(new Expectations() {
             {
-                one(messageResources).getMessageWithDefault("decimal", "decimal", new Object[] {});
+                one(messageResources).getMessageWithDefault("decimal", "decimal");
                 will(returnValue("my.field.name"));
-                one(messageResources).getMessage("my.field.name.bind.error", new Object[] { "bad-value" });
+                one(messageResources).getMessage("my.field.name.bind.error", "bad-value");
                 will(returnValue("My Error Message"));
             }
         });
@@ -41,18 +41,19 @@ public class DefaultBindErrorMessageResolverTest {
         assertEquals("My Error Message", message);
     }
 
+    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
     @Test
     public void canResolveToTypeBasedBindErrorMessage() {
         // Mock MessageResources
         final MessageResources messageResources = mockery.mock(MessageResources.class);
         mockery.checking(new Expectations() {
             {
-                one(messageResources).getMessageWithDefault("count", "count", new Object[] {});
+                one(messageResources).getMessageWithDefault("count", "count");
                 will(returnValue("my.field.name"));
-                one(messageResources).getMessage("my.field.name.bind.error", new Object[] { "bad-value" });
+                one(messageResources).getMessage("my.field.name.bind.error", "bad-value");
                 will(throwException(new MissingResourceException("fake", "class", "key")));
-                one(messageResources).getMessage("number.bind.error", 
-                        new Object[] { "my.field.name", "bad-value" });
+                one(messageResources).getMessage("number.bind.error",
+                        "my.field.name", "bad-value");
                 will(returnValue("The error message"));
             }
         });
@@ -62,21 +63,22 @@ public class DefaultBindErrorMessageResolverTest {
         assertEquals("The error message", message);
     }
     
+    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
     @Test
     public void canResolveToDefaultBindErrorMessage() {
      // Mock MessageResources
         final MessageResources messageResources = mockery.mock(MessageResources.class);
         mockery.checking(new Expectations() {
             {
-                one(messageResources).getMessageWithDefault("count", "count", new Object[] {});
+                one(messageResources).getMessageWithDefault("count", "count");
                 will(returnValue("my.field.name"));
-                one(messageResources).getMessage("my.field.name.bind.error", new Object[] { "bad-value" });
+                one(messageResources).getMessage("my.field.name.bind.error", "bad-value");
                 will(throwException(new MissingResourceException("fake", "class", "key")));
-                one(messageResources).getMessage("number.bind.error", 
-                        new Object[] { "my.field.name", "bad-value" });
+                one(messageResources).getMessage("number.bind.error",
+                        "my.field.name", "bad-value");
                 will(throwException(new MissingResourceException("fake", "class", "key")));
                 one(messageResources).getMessage("default.bind.error",
-                        new Object[] { "my.field.name", "bad-value" });
+                        "my.field.name", "bad-value");
                 will(returnValue("The default error message"));
             }
         });

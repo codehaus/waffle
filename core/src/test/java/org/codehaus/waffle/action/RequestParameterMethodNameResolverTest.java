@@ -75,7 +75,7 @@ public class RequestParameterMethodNameResolverTest {
         mockery.checking(new Expectations() {
             {
                 one(map).keySet();
-                will(returnValue(new HashSet(Arrays.asList(new String[]{name}))));
+                will(returnValue(new HashSet(Arrays.asList(name))));
             }
         });
         return map;
