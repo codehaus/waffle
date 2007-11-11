@@ -1,15 +1,12 @@
 package org.codehaus.waffle.example.paranamer;
 
 import org.codehaus.waffle.mock.PicoRegistrarMockery;
-import org.codehaus.waffle.registrar.mock.AbstractPicoRegistrarTestCase;
+import org.junit.Test;
 
-public class ParanamerRegistrarTest extends AbstractPicoRegistrarTestCase {
+public class ParanamerRegistrarTest {
 
-    public void testConfiguration() {
-        assertConfiguration(ParanamerRegistrar.class);
-    }
-
-    public void testConfigurationWithMockery() {
+    @Test
+    public void canAssertConfiguration() {
         PicoRegistrarMockery mockery = new PicoRegistrarMockery();
         mockery.assertConfiguration(ParanamerRegistrar.class);
     }

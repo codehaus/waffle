@@ -1,4 +1,4 @@
-package org.codehaus.waffle.registrar.mock;
+package org.codehaus.waffle.mock;
 
 import org.picocontainer.MutablePicoContainer;
 
@@ -9,6 +9,7 @@ import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 
 /**
  * Abstract TestCase that uses PicoContainer as the ContextContainer
+ * 
  * @author Mauro Talevi
  */
 public abstract class AbstractPicoRegistrarTestCase extends AbstractRegistrarTestCase {

@@ -23,7 +23,7 @@ import org.codehaus.waffle.registrar.RegistrarAssistant;
 import org.jmock.Mockery;
 
 /**
- * Abstract Mockery for asserting Registrars are defined correctly.
+ * Abstract jMock 2.x Mockery for asserting Registrars are defined correctly.
  * Concrete subclasses need to define method to create the ContextContainer
  * and the Registrar.
  *

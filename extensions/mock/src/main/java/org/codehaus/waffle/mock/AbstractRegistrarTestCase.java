@@ -8,7 +8,7 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.registrar.mock;
+package org.codehaus.waffle.mock;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -25,10 +25,9 @@ import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarAssistant;
 
 /**
- * Built-in test for asserting Registrars are defined correctly.
- * Concrete subclasses need to define method to create the ContextContainer
- * and the Registrar.
- *
+ * Abstract jMock 1.x MockObjectTestCase used for asserting Registrars are defined correctly. 
+ * Concrete subclasses need to define method to create the ContextContainer and the Registrar.
+ * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
