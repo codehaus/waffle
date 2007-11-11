@@ -1,15 +1,12 @@
 package org.codehaus.waffle.example.freemarker;
 
 import org.codehaus.waffle.mock.PicoRegistrarMockery;
-import org.codehaus.waffle.registrar.mock.AbstractPicoRegistrarTestCase;
+import org.junit.Test;
 
-public class FreemarkerRegistrarTest extends AbstractPicoRegistrarTestCase {
+public class FreemarkerRegistrarTest {
 
-    public void testConfiguration() {
-        assertConfiguration(FreemarkerRegistrar.class);
-    }
-
-    public void testConfigurationWithMockery() {
+    @Test
+    public void canAssertConfiguration() {
         PicoRegistrarMockery mockery = new PicoRegistrarMockery();
         mockery.assertConfiguration(FreemarkerRegistrar.class);
     }

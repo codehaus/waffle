@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.waffle</groupId>
   <artifactId>waffle-parent</artifactId>
@@ -6,8 +8,9 @@
   <version>1.0-SNAPSHOT</version>
   <name>Waffle Parent</name>
   <description>
-    Waffle is a Java web framework that makes the process of developing Java based web applications easier. It was built
-    to support enterprise level web-based business applications.
+    Waffle is a Java web framework that makes the process of developing
+    Java based web applications easier. It was built to support
+    enterprise level web-based business applications.
   </description>
   <url>http://waffle.codehaus.org</url>
 
@@ -75,24 +78,6 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>jmock</groupId>
-        <artifactId>jmock</artifactId>
-        <version>1.2.0</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.jmock</groupId>
-        <artifactId>jmock-junit4</artifactId>
-        <version>2.2.0</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.3.1</version>
-        <scope>provided</scope>
-      </dependency>
-      <dependency>
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>1.1</version>
@@ -117,6 +102,24 @@
         <artifactId>log4j</artifactId>
         <version>1.2.14</version>
         <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>jmock</groupId>
+        <artifactId>jmock</artifactId>
+        <version>1.2.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jmock</groupId>
+        <artifactId>jmock-junit4</artifactId>
+        <version>2.2.0</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.3.1</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -237,7 +240,7 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>rspec-maven-plugin</artifactId>
           <version>1.0-beta-1</version>
-        </plugin>        
+        </plugin>
         <plugin>
           <groupId>org.codehaus.xsite</groupId>
           <artifactId>xsite-maven-plugin</artifactId>
@@ -316,7 +319,9 @@
       <!-- Tomcat profile:  equivalent to -Dwebapp.deploy.dir=${env.TOMCAT_HOME}/webapps -->
       <id>tomcat</id>
       <properties>
-        <webapp.deploy.dir>${env.TOMCAT_HOME}/webapps</webapp.deploy.dir>
+        <webapp.deploy.dir>
+          ${env.TOMCAT_HOME}/webapps
+        </webapp.deploy.dir>
       </properties>
     </profile>
     <profile>
@@ -330,7 +335,9 @@
       <!-- Geronimo profile:  equivalent to -Dwebapp.deploy.dir=${env.GERONIMO_HOME}/deploy -->
       <id>geronimo</id>
       <properties>
-        <webapp.deploy.dir>${env.GERONIMO_HOME}/deploy</webapp.deploy.dir>
+        <webapp.deploy.dir>
+          ${env.GERONIMO_HOME}/deploy
+        </webapp.deploy.dir>
       </properties>
     </profile>
     <profile>
@@ -421,7 +428,9 @@
   </developers>
 
   <scm>
-    <developerConnection>scm:svn:https://svn.codehaus.org/waffle</developerConnection>
+    <developerConnection>
+      scm:svn:https://svn.codehaus.org/waffle
+    </developerConnection>
     <url>http://svn.codehaus.org/waffle</url>
   </scm>
 
@@ -437,7 +446,9 @@
     <snapshotRepository>
       <id>codehaus.org</id>
       <name>Codehaus Waffle Snapshot Repository</name>
-      <url>dav:https://dav.codehaus.org/snapshots.repository/waffle/</url>
+      <url>
+        dav:https://dav.codehaus.org/snapshots.repository/waffle/
+      </url>
     </snapshotRepository>
     <site>
       <id>codehaus.org</id>
