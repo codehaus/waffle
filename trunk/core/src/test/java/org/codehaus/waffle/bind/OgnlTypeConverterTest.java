@@ -32,7 +32,7 @@ public class OgnlTypeConverterTest {
     @Test
     public void canHandleNulls() {
         OgnlTypeConverter converter = new OgnlTypeConverter();
-        Integer value = (Integer) converter.convertValue("foobar", "15", Integer.class);
+        int value = (Integer) converter.convertValue("foobar", "15", Integer.class);
 
         assertEquals(15, value);
     }
