@@ -38,4 +38,15 @@ public class FieldErrorMessage implements ErrorMessage {
         return value;
     }
 
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("[FieldErrorMessage name=");
+        sb.append(name);
+        sb.append(", value=");
+        sb.append(value);
+        sb.append(", message=");
+        sb.append(message);
+        sb.append("]");
+        return sb.toString();
+    }
 }

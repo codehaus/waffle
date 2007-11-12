@@ -1,18 +1,20 @@
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import ognl.DefaultTypeConverter;
+
+import org.codehaus.waffle.action.ActionMethodExecutor;
+import org.codehaus.waffle.action.ActionMethodResponse;
+import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.context.pico.PicoComponentRegistry;
-import org.codehaus.waffle.action.ActionMethodResponse;
-import org.codehaus.waffle.action.ActionMethodResponseHandler;
-import org.codehaus.waffle.action.ActionMethodExecutor;
-import ognl.DefaultTypeConverter;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.monitor.SilentMonitor;
 
 public class StubComponentRegistry extends PicoComponentRegistry {
 
@@ -32,7 +34,7 @@ public class StubComponentRegistry extends PicoComponentRegistry {
     }
 
     public DataBinder getDataBinder() {
-        return new OgnlDataBinder(new DefaultTypeConverter(), null);
+        return new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor());
     }
 
     public ControllerDefinitionFactory getControllerDefinitionFactory() {

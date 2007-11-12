@@ -52,13 +52,20 @@ public class WaffleServlet extends HttpServlet {
     private RequestAttributeBinder requestAttributeBinder;
     private String viewPrefix;
     private String viewSuffix;
-    private boolean depsDone = false;
+    private boolean componentsRetrieved = false;
 
     public WaffleServlet() {
     }
 
     /**
-     * Needed for builder ... and helpful for testing
+     * Constructor required by builder and useful for testing
+     * 
+     * @param controllerDefinitionFactory
+     * @param dataBinder
+     * @param actionMethodExecutor
+     * @param actionMethodResponseHandler
+     * @param validator
+     * @param requestAttributeBinder
      */
     public WaffleServlet(ControllerDefinitionFactory controllerDefinitionFactory,
                          DataBinder dataBinder,
@@ -72,7 +79,7 @@ public class WaffleServlet extends HttpServlet {
         this.actionMethodResponseHandler = actionMethodResponseHandler;
         this.validator = validator;
         this.requestAttributeBinder = requestAttributeBinder;
-        depsDone = true;
+        componentsRetrieved = true;
     }
 
     public void init() throws ServletException {
@@ -86,8 +93,8 @@ public class WaffleServlet extends HttpServlet {
             viewSuffix = DEFAULT_VIEW_SUFFIX; // default
         }
 
-        if (!depsDone) {
-            // Obtain required components from the Component Registry
+        if (!componentsRetrieved) {
+            // Retrieve required components from the Component Registry
             ComponentRegistry componentRegistry = ServletContextHelper
                     .getComponentRegistry(getServletContext());
             controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();

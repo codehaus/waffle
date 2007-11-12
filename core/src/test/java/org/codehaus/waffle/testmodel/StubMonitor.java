@@ -1,11 +1,13 @@
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.monitor.ActionMonitor;
-
 import java.util.Set;
 
-public class StubMonitor implements ActionMonitor {
+import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.monitor.ActionMonitor;
+import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.validation.BindErrorMessage;
+
+public class StubMonitor implements ActionMonitor, BindMonitor {
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
     }
@@ -23,5 +25,11 @@ public class StubMonitor implements ActionMonitor {
     }
 
     public void actionMethodExecutionFailed(Exception exception) {
+    }
+
+    public void bindFailed(Object bindModel, BindErrorMessage errorMessage) {
+    }
+
+    public void bindFailed(Object controller, Throwable cause) {
     }
 }

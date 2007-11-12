@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import ognl.DefaultTypeConverter;
 
 import org.codehaus.waffle.context.ContextLevel;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeBean;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.codehaus.waffle.validation.BindErrorMessage;
@@ -57,7 +58,7 @@ public class OgnlDataBinderTest {
         });
 
         FakeController fakeController = new FakeController();
-        DataBinder binder = new OgnlDataBinder(new OgnlTypeConverter(), null);
+        DataBinder binder = new OgnlDataBinder(new OgnlTypeConverter(), null, new SilentMonitor());
         ErrorsContext errorsContext = new DefaultErrorsContext();
         binder.bind(request, null, errorsContext, fakeController);
 
@@ -84,7 +85,7 @@ public class OgnlDataBinderTest {
         });
 
         FakeController fakeController = new FakeController();
-        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null);
+        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor());
         ErrorsContext errorsContext = new DefaultErrorsContext();
         binder.bind(request, null, errorsContext, fakeController);
 
@@ -110,7 +111,7 @@ public class OgnlDataBinderTest {
         });
 
         FakeController fakeController = new FakeController();
-        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null);
+        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor());
 
         ErrorsContext errorsContext = new DefaultErrorsContext();
         binder.bind(request, null, errorsContext, fakeController);
@@ -139,7 +140,7 @@ public class OgnlDataBinderTest {
         });
 
         FakeController fakeController = new FakeController();
-        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null);
+        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor());
 
         ErrorsContext errorsContext = new DefaultErrorsContext();
         binder.bind(request, null, errorsContext, fakeController);
@@ -171,7 +172,7 @@ public class OgnlDataBinderTest {
             }
         });
 
-        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), resolver);
+        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), resolver, new SilentMonitor());
 
         ErrorsContext errorsContext = new DefaultErrorsContext();
         binder.bind(request, null, errorsContext, new FakeBean());
@@ -202,7 +203,7 @@ public class OgnlDataBinderTest {
             }
         });
 
-        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null) {
+        DataBinder binder = new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()) {
             protected void handleConvert(String parameterName, String parameterValue, Object model) {
                 throw new BindException("fake from test");
             }

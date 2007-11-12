@@ -1,6 +1,9 @@
 package org.codehaus.waffle.bind;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.codehaus.waffle.controller.RubyController;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -9,8 +12,6 @@ import org.jruby.Ruby;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RunWith(JMock.class)
 public class IntrospectingRequestAttributeBinderTest {
@@ -25,7 +26,7 @@ public class IntrospectingRequestAttributeBinderTest {
             one (request).setAttribute("null", null);
         }});
 
-        IntrospectingRequestAttributeBinder binder = new IntrospectingRequestAttributeBinder();
+        IntrospectingRequestAttributeBinder binder = new IntrospectingRequestAttributeBinder(new SilentMonitor());
         binder.bind(request, new SimpleController());
     }
 
@@ -63,7 +64,7 @@ public class IntrospectingRequestAttributeBinderTest {
             one (request).setAttribute("number", 1985L);
         }});
 
-        IntrospectingRequestAttributeBinder binder = new IntrospectingRequestAttributeBinder();
+        IntrospectingRequestAttributeBinder binder = new IntrospectingRequestAttributeBinder(new SilentMonitor());
         binder.bind(request, controller);
     }
 
