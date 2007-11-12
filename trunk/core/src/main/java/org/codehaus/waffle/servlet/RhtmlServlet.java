@@ -24,6 +24,7 @@ import java.io.InputStreamReader;
  * @author Michael Ward
  * @author Fabio Kung
  */
+@SuppressWarnings("serial")
 public class RhtmlServlet extends HttpServlet {
     
     @Override
