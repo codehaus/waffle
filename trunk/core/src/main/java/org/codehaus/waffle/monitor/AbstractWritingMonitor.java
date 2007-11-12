@@ -10,14 +10,17 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
+import static java.util.Arrays.asList;
 import static org.codehaus.waffle.monitor.Monitor.Level.DEBUG;
 import static org.codehaus.waffle.monitor.Monitor.Level.INFO;
 import static org.codehaus.waffle.monitor.Monitor.Level.WARN;
 
+import java.lang.reflect.Method;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.validation.BindErrorMessage;
@@ -61,10 +64,23 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write(INFO, "ActionMethod found:  " + methodDefinition);
     }
 
+    public void actionMethodExecuted(ActionMethodResponse actionMethodResponse) {
+        write(INFO, "ActionMethod executed with response:  " + actionMethodResponse);        
+    }
+    
+    public void actionMethodExecutionFailed(Exception exception) {
+        trace(exception);
+    }
+    
     public void methodNameResolved(String methodName, String methodKey, Set<String> keys) {
         write(INFO, "Method name '" + methodName + "' found for key '" + methodKey + "' among keys " + keys);
     }
 
+    public void methodIntercepted(Method method, Object[] arguments, Object returnValue) {
+        write(INFO, "Method '" + method + "' intercepted with arguments '" + asList(arguments)
+                + "' and returned value '" + returnValue + "'");
+    }
+    
     public void argumentNameResolved(String name, Object value, Scope scope) {
         write(INFO, "Argument name '" + name + "' resolved to '" + value + "' in scope " + scope);        
     }
@@ -73,16 +89,12 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write(WARN, "Argument name '" + name + "' not matched by pattern '" + pattern + "'" );                
     }
     
-    public void actionMethodExecutionFailed(Exception exception) {
-        trace(exception);
-    }
-    
     public void bindFailed(Object bindModel, BindErrorMessage errorMessage){
-        write(WARN, "Bind failed for model " + bindModel + ": " + errorMessage);
+        write(WARN, "Bind failed for model '" + bindModel + "': " + errorMessage);
     }
     
     public void bindFailed(Object controller, Throwable cause){
-        write(WARN, "Bind failed for controller " + controller + ": " + cause);
+        write(WARN, "Bind failed for controller '" + controller + "': " + cause);
     }
     
     public void responseIsCommitted(HttpServletResponse response) {
