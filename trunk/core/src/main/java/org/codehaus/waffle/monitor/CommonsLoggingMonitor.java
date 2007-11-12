@@ -80,4 +80,5 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
             log.error(exception.getMessage(), exception);
         }
     }
+
 }

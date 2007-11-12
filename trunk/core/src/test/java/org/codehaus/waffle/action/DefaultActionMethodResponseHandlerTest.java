@@ -56,8 +56,11 @@ public class DefaultActionMethodResponseHandlerTest {
         }});
 
         ViewDispatcher viewDispatcher = mockery.mock(ViewDispatcher.class);
-        ActionMonitor actionMonitor = mockery.mock(ActionMonitor.class);
-
+        final ActionMonitor actionMonitor = mockery.mock(ActionMonitor.class);
+        mockery.checking(new Expectations() {{
+            one (actionMonitor).responseIsCommitted(response);
+        }});
+        
         ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher, actionMonitor);
         handler.handle(null, response, null);
     }
@@ -79,8 +82,11 @@ public class DefaultActionMethodResponseHandlerTest {
         mockery.checking(new Expectations() {{
             one (viewDispatcher).dispatch(request, response, view);
         }});
-
-        ActionMonitor actionMonitor = mockery.mock(ActionMonitor.class);
+        
+        final ActionMonitor actionMonitor = mockery.mock(ActionMonitor.class);
+        mockery.checking(new Expectations() {{
+            one (actionMonitor).viewDispatched(view);
+        }});
 
         ActionMethodResponseHandler handler = new DefaultActionMethodResponseHandler(viewDispatcher, actionMonitor);
         handler.handle(request, response, actionMethodResponse);

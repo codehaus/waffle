@@ -2,11 +2,14 @@ package org.codehaus.waffle.testmodel;
 
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.BindErrorMessage;
+import org.codehaus.waffle.view.View;
 
 public class StubMonitor implements ActionMonitor, BindMonitor {
 
@@ -38,6 +41,12 @@ public class StubMonitor implements ActionMonitor, BindMonitor {
     }
 
     public void bindFailed(Object controller, Throwable cause) {
+    }
+
+    public void responseIsCommitted(HttpServletResponse response) {
+    }
+
+    public void viewDispatched(View view) {
     }
 
 }

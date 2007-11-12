@@ -16,9 +16,12 @@ import static org.codehaus.waffle.monitor.Monitor.Level.WARN;
 
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.validation.BindErrorMessage;
+import org.codehaus.waffle.view.View;
 
 /**
  * Abstract implementation of Monitor that delegates writing to concrete subclasses.
@@ -81,4 +84,13 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
     public void bindFailed(Object controller, Throwable cause){
         write(WARN, "Bind failed for controller " + controller + ": " + cause);
     }
+    
+    public void responseIsCommitted(HttpServletResponse response) {
+        write(INFO, "Reponse is already committed: "+response);        
+    }
+
+    public void viewDispatched(View view) {
+        write(DEBUG, "Dispached view "+view);
+    }
+
 }
