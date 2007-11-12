@@ -1,19 +1,22 @@
 package org.codehaus.waffle.example.simple;
 
-import org.codehaus.waffle.example.simple.AutomobileController;
-import org.codehaus.waffle.example.simple.AutomobileControllerValidator;
-import org.codehaus.waffle.i18n.DefaultMessageResources;
-import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.validation.ErrorsContext;
-import org.codehaus.waffle.validation.DefaultErrorsContext;
-import org.codehaus.waffle.validation.FieldErrorMessage;
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-public class AutomobileControllerValidatorTest extends TestCase {
+import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.validation.DefaultErrorsContext;
+import org.codehaus.waffle.validation.ErrorsContext;
+import org.codehaus.waffle.validation.FieldErrorMessage;
+import org.junit.Test;
 
-    public void testValidateHasNoErrors() {
+public class AutomobileControllerValidatorTest {
+
+    @Test
+    public void canValidateHasNoErrors() {
         MessageResources messageResources = new DefaultMessageResources();
 
         AutomobileController controller = new AutomobileController();
@@ -27,7 +30,8 @@ public class AutomobileControllerValidatorTest extends TestCase {
         assertFalse(errorsContext.hasErrorMessages());
     }
 
-    public void testValidateHasErrors() {
+    @Test
+    public void canValidateHasErrors() {
         MessageResources messageResources = new DefaultMessageResources();
 
         AutomobileController controller = new AutomobileController();

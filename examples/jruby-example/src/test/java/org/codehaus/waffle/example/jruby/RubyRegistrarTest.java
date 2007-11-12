@@ -1,52 +1,52 @@
 package org.codehaus.waffle.example.jruby;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertEquals;
+
+import java.util.Map;
+
 import org.jruby.Ruby;
 import org.jruby.RubyArray;
 import org.jruby.RubyModule;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.javasupport.JavaUtil;
 import org.jruby.runtime.builtin.IRubyObject;
+import org.junit.Test;
 
-import java.util.Map;
+public class RubyRegistrarTest {
 
-public class RubyRegistrarTest extends TestCase {
+//    Need to create an interface that sets the PicoContainer instance onto the Ruby Controller
+//
+//    WaffleRubyControllerProxy.__setWaffleContext(...PicoContainer...)
+//
+//    An associated module will be mixed in with the controller
+//
+//    module Waffle
+//        module Controller
+//           def __waffle_context=(waffle_context)
+//                @@__waffle_context = waffle_context
+//           end
+//
+//           def method_missing
+//                check the waffle context ...
+//           end
+//
+//           .. params, request, response
+//        end
+//
+//    end
+//
+//    class FoobarController
+//
+//        def index
+//
+//        end
+//
+//    end
 
-    /*
-
-    Need to create an interface that sets the PicoContainer instance onto the Ruby Controller
-
-    WaffleRubyControllerProxy.__setWaffleContext(...PicoContainer...)
-
-    An associated module will be mixed in with the controller
-
-    module Waffle
-        module Controller
-           def __waffle_context=(waffle_context)
-                @@__waffle_context = waffle_context
-           end
-
-           def method_missing
-                check the waffle context ...
-           end
-
-           .. params, request, response
-        end
-
-    end
-
-    class FoobarController
-
-        def index
-
-        end
-
-    end
-
-     */
 
     // sandbox test for figuring out JRuby
-    public void testJRuby() {
+    @Test
+    public void canEvalRubyScript() {
         Ruby runtime = Ruby.getDefaultInstance();
 
         String script =
@@ -69,7 +69,7 @@ public class RubyRegistrarTest extends TestCase {
         RubyArray rubyArray = (RubyArray) runtime.evalScript("foo.instance_variables");
         assertEquals("@salmon", rubyArray.get(0));
 
-        Map iVars = foo.getInstanceVariables();
+        Map<?,?> iVars = foo.getInstanceVariables();
         assertEquals(JavaUtil.convertJavaToRuby(runtime, "fish"), iVars.get("@salmon"));
 
         assertEquals("HELLO fish!", runtime.evalScript("foo.bar").toString());
@@ -105,7 +105,8 @@ public class RubyRegistrarTest extends TestCase {
         System.out.println("javaObj = " + javaObj);
     }
 
-    public void testJavaObjectExposesFieldsAsInstanceVariables() {
+    @Test
+    public void canExposeFieldsAsInstanceVariables() {
         Ruby runtime = Ruby.getDefaultInstance();
 
         String script =
@@ -129,7 +130,8 @@ public class RubyRegistrarTest extends TestCase {
         System.out.println("o = " + o);
     }
 
-    public void testRubyErb() {
+    @Test
+    public void testEvalRubyErb() {
        String script =
                "require \"erb\"\n" +
                "\n" +
