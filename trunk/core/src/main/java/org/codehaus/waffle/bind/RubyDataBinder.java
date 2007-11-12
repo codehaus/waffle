@@ -1,23 +1,25 @@
 package org.codehaus.waffle.bind;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import ognl.TypeConverter;
+
 import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.controller.RubyController;
+import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.jruby.Ruby;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public class RubyDataBinder extends OgnlDataBinder {
     private final ArgumentResolver argumentResolver;
 
     public RubyDataBinder(TypeConverter typeConverter,
                           BindErrorMessageResolver bindErrorMessageResolver,
-                          ArgumentResolver argumentResolver) {
-        super(typeConverter, bindErrorMessageResolver);
+                          ArgumentResolver argumentResolver, BindMonitor bindMonitor) {
+        super(typeConverter, bindErrorMessageResolver, bindMonitor);
         this.argumentResolver = argumentResolver;
     }
 

@@ -10,7 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
+import java.util.Enumeration;
+
+import javax.servlet.ServletContext;
+
 import ognl.TypeConverter;
+
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
@@ -38,6 +43,7 @@ import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ActionMonitor;
+import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
@@ -49,9 +55,6 @@ import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
 import org.picocontainer.defaults.DefaultPicoContainer;
-
-import javax.servlet.ServletContext;
-import java.util.Enumeration;
 
 /**
  * PicoContainer-based implementation of Waffle's ComponentRegistry
@@ -73,17 +76,18 @@ public class PicoComponentRegistry implements ComponentRegistry {
         // register all known components
         register(ActionMethodExecutor.class, InterceptingActionMethodExecutor.class, servletContext);
         register(ActionMethodResponseHandler.class, DefaultActionMethodResponseHandler.class, servletContext);
+        register(ActionMonitor.class, SilentMonitor.class, servletContext);
         register(ArgumentResolver.class, HierarchicalArgumentResolver.class, servletContext);
         register(BindErrorMessageResolver.class, DefaultBindErrorMessageResolver.class, servletContext);
+        register(DataBinder.class, OgnlDataBinder.class, servletContext);
+        register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
+        register(BindMonitor.class, SilentMonitor.class, servletContext);
         register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
         register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
-        register(DataBinder.class, OgnlDataBinder.class, servletContext);
         register(MessageResources.class, DefaultMessageResources.class, servletContext);
         register(MethodDefinitionFinder.class, AnnotatedMethodDefinitionFinder.class, servletContext);
         register(MethodNameResolver.class, RequestParameterMethodNameResolver.class, servletContext);
-        register(ActionMonitor.class, SilentMonitor.class, servletContext);
-        register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
         register(TypeConverter.class, OgnlTypeConverter.class, servletContext);
         register(Validator.class, DefaultValidator.class, servletContext);
         register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
@@ -231,7 +235,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(MethodNameResolver.class);
     }
 
-    public ActionMonitor getMonitor() {
+    public ActionMonitor getActionMonitor() {
         return locateByType(ActionMonitor.class);
     }
 
@@ -239,6 +243,10 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(RequestAttributeBinder.class);
     }
 
+    public BindMonitor getBindMonitor() {
+        return locateByType(BindMonitor.class);
+    }
+    
     public TypeConverter getTypeConverter() {
         return locateByType(TypeConverter.class);
     }

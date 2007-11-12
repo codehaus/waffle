@@ -1,11 +1,5 @@
 package org.codehaus.waffle.bind;
 
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.controller.RubyController;
-import org.jruby.javasupport.JavaEmbedUtils;
-import org.jruby.runtime.builtin.IRubyObject;
-
-import javax.servlet.http.HttpServletRequest;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -15,10 +9,27 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.controller.RubyController;
+import org.codehaus.waffle.monitor.BindMonitor;
+import org.jruby.javasupport.JavaEmbedUtils;
+import org.jruby.runtime.builtin.IRubyObject;
+
 /**
  * This implementation can handle all standard Java objects and RubyControllers are handled specially (instance_variables)
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
  */
 public class IntrospectingRequestAttributeBinder implements RequestAttributeBinder {
+
+    private final BindMonitor bindMonitor;
+
+    public IntrospectingRequestAttributeBinder(BindMonitor bindMonitor) {
+        this.bindMonitor = bindMonitor;
+    }
 
     public void bind(HttpServletRequest request, Object controller) {
         if (controller instanceof RubyController) {
@@ -38,10 +49,13 @@ public class IntrospectingRequestAttributeBinder implements RequestAttributeBind
                 }
             }
         } catch (IntrospectionException e) {
+            bindMonitor.bindFailed(controller, e);
             throw new WaffleException(e);
         } catch (IllegalAccessException e) {
+            bindMonitor.bindFailed(controller, e);
             throw new WaffleException(e);
         } catch (InvocationTargetException e) {
+            bindMonitor.bindFailed(controller, e);
             throw new WaffleException(e);
         }
     }

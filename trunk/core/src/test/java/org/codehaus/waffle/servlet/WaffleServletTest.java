@@ -10,7 +10,22 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import ognl.DefaultTypeConverter;
+
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
@@ -26,6 +41,7 @@ import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.View;
@@ -37,19 +53,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.defaults.DefaultPicoContainer;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
 
 /**
  * 
@@ -143,7 +146,7 @@ public class WaffleServletTest {
 
         // stub out what we don't want called ... execute it
         WaffleServlet waffleServlet = new WaffleServlet(null,
-                                                        new OgnlDataBinder(new DefaultTypeConverter(), null),
+                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
                                                         new InterceptingActionMethodExecutor(),
                                                         actionMethodResponseHandler,
                                                         validator,
@@ -204,7 +207,7 @@ public class WaffleServletTest {
 
         // stub out what we don't want called ... execute it
         WaffleServlet waffleServlet = new WaffleServlet(null,
-                                                        new OgnlDataBinder(new DefaultTypeConverter(), null),
+                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
                                                         new InterceptingActionMethodExecutor(),
                                                         actionMethodResponseHandler,
                                                         validator,
@@ -284,7 +287,7 @@ public class WaffleServletTest {
 
         // stub out what we don't want called ... execute it
         WaffleServlet waffleServlet = new WaffleServlet(null,
-                new OgnlDataBinder(new DefaultTypeConverter(), null),
+                new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
                 null,
                 actionMethodResponseHandler,
                 validator,
@@ -353,7 +356,7 @@ public class WaffleServletTest {
         // Set up what normally would happen via "init()"
         Field dataBinderField = WaffleServlet.class.getDeclaredField("dataBinder");
         dataBinderField.setAccessible(true);
-        dataBinderField.set(waffleServlet, new OgnlDataBinder(new DefaultTypeConverter(), null));
+        dataBinderField.set(waffleServlet, new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()));
 
         Field mockMethodExecutorField = WaffleServlet.class.getDeclaredField("actionMethodExecutor");
         mockMethodExecutorField.setAccessible(true);

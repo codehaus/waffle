@@ -10,6 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind;
 
+import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
 import ognl.InappropriateExpressionException;
@@ -27,16 +28,19 @@ import java.util.Map;
  * This DataBinder implementation is backed by <a href="http://www.ognl.org">Ognl: Object Graph Notation Language</a>.
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public class OgnlDataBinder implements DataBinder {
     private final TypeConverter typeConverter;
     private final BindErrorMessageResolver bindErrorMessageResolver;
+    private final BindMonitor bindMonitor;
 
-    public OgnlDataBinder(TypeConverter typeConverter, BindErrorMessageResolver bindErrorMessageResolver) {
+    public OgnlDataBinder(TypeConverter typeConverter, BindErrorMessageResolver bindErrorMessageResolver, BindMonitor bindMonitor) {
         this.typeConverter = typeConverter;
         this.bindErrorMessageResolver = bindErrorMessageResolver;
+        this.bindMonitor = bindMonitor;
     }
-
+    
     @SuppressWarnings({"unchecked"})
     public void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext, Object model) {
         Enumeration<String> parameterNames = request.getParameterNames();
@@ -49,10 +53,14 @@ public class OgnlDataBinder implements DataBinder {
                 handleConvert(name, value, model);
             } catch (OgnlException e) {
                 String message = bindErrorMessageResolver.resolve(model, name, value);
-                errorsContext.addErrorMessage(new BindErrorMessage(name, value, message));
+                BindErrorMessage errorMessage = new BindErrorMessage(name, value, message);
+                errorsContext.addErrorMessage(errorMessage);
+                bindMonitor.bindFailed(model, errorMessage);                
             } catch (BindException e) {
                 // by convention BindExceptions should provide the correct bind error message to display to the end-user
-                errorsContext.addErrorMessage(new BindErrorMessage(name, value, e.getMessage()));
+                BindErrorMessage errorMessage = new BindErrorMessage(name, value, e.getMessage());
+                errorsContext.addErrorMessage(errorMessage);
+                bindMonitor.bindFailed(model, errorMessage);
             }
         }
     }
@@ -73,7 +81,6 @@ public class OgnlDataBinder implements DataBinder {
             if (e.getReason() instanceof BindException) {
                 throw (BindException) e.getReason();
             }
-
             throw e;
         }
     }

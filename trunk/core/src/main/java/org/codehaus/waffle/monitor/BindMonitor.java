@@ -6,19 +6,22 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *                                                                           *
- * Original code by: Michael Ward                                            *
+ * Original code by: Mauro Talevi                                            *
  *****************************************************************************/
-package org.codehaus.waffle.bind;
+package org.codehaus.waffle.monitor;
 
-import javax.servlet.http.HttpServletRequest;
+import org.codehaus.waffle.validation.BindErrorMessage;
+
 
 /**
- * Implementors of this class allow for properties from a controller to be exposed as request attributes.  This
- * simplifies view development.
+ * A monitor for bind-related events
  * 
- * @author Michael Ward
+ * @author Mauro Talevi
  */
-public interface RequestAttributeBinder {
+public interface BindMonitor extends Monitor {
 
-    void bind(HttpServletRequest request, Object controller);
+    void bindFailed(Object bindModel, BindErrorMessage errorMessage);
+
+    void bindFailed(Object controller, Throwable cause);
+    
 }

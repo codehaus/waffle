@@ -24,6 +24,7 @@ import java.util.Map;
  * @author Michael Ward
  */
 public class OgnlTypeConverter implements TypeConverter {
+    private static final String EMPTY = "";
     private final WaffleTypeConverter[] waffleTypeConverters;
     private final Map<Class, WaffleTypeConverter> cache = new HashMap<Class, WaffleTypeConverter>();
 
@@ -52,7 +53,7 @@ public class OgnlTypeConverter implements TypeConverter {
      * @param propertyName property name being set
      * @param value        value to be converted
      * @param toType       type to which value is converted
-     * @return Converted value of type toType or TypeConverter.NoConversionPossible to indicate that the
+     * @return Converted value Object of type toType or TypeConverter.NoConversionPossible to indicate that the
      *         conversion was not possible.
      */
     public Object convertValue(Map context,
@@ -67,15 +68,16 @@ public class OgnlTypeConverter implements TypeConverter {
     /**
      * Simplified entry point for Ognl use in Waffle
      *
-     * @param propertyName
-     * @param value
-     * @param toType
-     * @return
+     * @param propertyName property name being set
+     * @param value        value to be converted
+     * @param toType       type to which value is converted
+     * @return Converted value Object of type toType or TypeConverter.NoConversionPossible to indicate that the
+     *         conversion was not possible.
      */
     @SuppressWarnings({"unchecked"})
     public Object convertValue(String propertyName, String value, Class toType) {
         if (toType.isEnum()) {
-            if ("".equals(value)) {
+            if (EMPTY.equals(value)) {
                 return null;
             }
             return Enum.valueOf(toType, value);

@@ -12,17 +12,19 @@ package org.codehaus.waffle.monitor;
 
 import static org.codehaus.waffle.monitor.Monitor.Level.DEBUG;
 import static org.codehaus.waffle.monitor.Monitor.Level.INFO;
+import static org.codehaus.waffle.monitor.Monitor.Level.WARN;
 
 import java.util.Set;
 
 import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.validation.BindErrorMessage;
 
 /**
  * Abstract implementation of Monitor that delegates writing to concrete subclasses.
  * 
  * @author Mauro Talevi
  */
-public abstract class AbstractWritingMonitor implements ActionMonitor {
+public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor {
 
     /**
      * Writes message for a given level. Concrete implementations should provide writing functionality.
@@ -61,5 +63,13 @@ public abstract class AbstractWritingMonitor implements ActionMonitor {
 
     public void actionMethodExecutionFailed(Exception exception) {
         trace(exception);
+    }
+    
+    public void bindFailed(Object bindModel, BindErrorMessage errorMessage){
+        write(WARN, "Bind failed for model " + bindModel + ": " + errorMessage);
+    }
+    
+    public void bindFailed(Object controller, Throwable cause){
+        write(WARN, "Bind failed for controller " + controller + ": " + cause);
     }
 }

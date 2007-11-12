@@ -25,6 +25,7 @@ import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ActionMonitor;
+import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
@@ -44,9 +45,13 @@ public interface ComponentRegistry {
 
     ActionMethodResponseHandler getActionMethodResponseHandler();
 
+    ActionMonitor getActionMonitor();
+
     ArgumentResolver getArgumentResolver();
 
     BindErrorMessageResolver getBindErrorMessageResolver();
+
+    BindMonitor getBindMonitor();
 
     ContextContainerFactory getContextContainerFactory();
 
@@ -62,8 +67,6 @@ public interface ComponentRegistry {
 
     MethodNameResolver getMethodNameResolver();
 
-    ActionMonitor getMonitor();
-
     RequestAttributeBinder getRequestAttributeBinder();
 
     TypeConverter getTypeConverter();
@@ -73,4 +76,5 @@ public interface ComponentRegistry {
     ViewDispatcher getViewDispatcher();
 
     ViewResolver getViewResolver();
+    
 }
