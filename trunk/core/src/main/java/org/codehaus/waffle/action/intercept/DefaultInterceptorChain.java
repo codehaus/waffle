@@ -17,11 +17,11 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 
-public class InterceptorChainImpl implements InterceptorChain {
+public class DefaultInterceptorChain implements InterceptorChain {
     private final Iterator<MethodInterceptor> iterator;
     private Object returnValue;
 
-    public InterceptorChainImpl(List<MethodInterceptor> interceptors) {
+    public DefaultInterceptorChain(List<MethodInterceptor> interceptors) {
         this.iterator = interceptors.iterator();
     }
 

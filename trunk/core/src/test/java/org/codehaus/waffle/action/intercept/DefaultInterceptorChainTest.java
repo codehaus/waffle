@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JMock.class)
-public class InterceptorChainImplTest {
+public class DefaultInterceptorChainTest {
     private final Mockery mockery = new Mockery();
 
     @Test
@@ -39,7 +39,7 @@ public class InterceptorChainImplTest {
         List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
         interceptors.add(methodInterceptor);
 
-        InterceptorChain interceptorChain = new InterceptorChainImpl(interceptors);
+        InterceptorChain interceptorChain = new DefaultInterceptorChain(interceptors);
         assertEquals("hello", interceptorChain.proceed(controllerDefinition, method, argument));
     }
 
@@ -59,7 +59,7 @@ public class InterceptorChainImplTest {
         List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
         interceptors.add(methodInterceptor);
 
-        InterceptorChainImpl interceptorChain = new InterceptorChainImpl(interceptors);
+        DefaultInterceptorChain interceptorChain = new DefaultInterceptorChain(interceptors);
         assertNull(interceptorChain.proceed(controllerDefinition, method, argument));
     }
 
