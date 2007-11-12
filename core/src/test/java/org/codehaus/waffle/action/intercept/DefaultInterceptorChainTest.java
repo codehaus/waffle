@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.monitor.ActionMonitor;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -25,6 +27,9 @@ public class DefaultInterceptorChainTest {
         final Object argument = "foobar";
 
         // Mock MethodInterceptor
+        final Object[] arguments = new Object[] {argument};
+        final String returnValue = "hello";
+
         final MethodInterceptor methodInterceptor = mockery.mock(MethodInterceptor.class);
         mockery.checking(new Expectations() {{
             one (methodInterceptor).accept(method);
@@ -32,14 +37,20 @@ public class DefaultInterceptorChainTest {
             one(methodInterceptor).intercept(with(same(controllerDefinition)),
                     with(same(method)),
                     with(any(InterceptorChain.class)),
-                    with(equal(new Object[] {argument})));
-            will(returnValue("hello"));
+                    with(equal(arguments)));
+            will(returnValue(returnValue));
         }});
 
         List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
         interceptors.add(methodInterceptor);
 
-        InterceptorChain interceptorChain = new DefaultInterceptorChain(interceptors);
+        // Mock ActionMonitor
+        final ActionMonitor actionMonitor = mockery.mock(ActionMonitor.class);
+        mockery.checking(new Expectations() {{
+            one (actionMonitor).methodIntercepted(method, arguments, returnValue);
+        }});
+        
+        InterceptorChain interceptorChain = new DefaultInterceptorChain(interceptors, actionMonitor);
         assertEquals("hello", interceptorChain.proceed(controllerDefinition, method, argument));
     }
 
@@ -59,7 +70,7 @@ public class DefaultInterceptorChainTest {
         List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
         interceptors.add(methodInterceptor);
 
-        DefaultInterceptorChain interceptorChain = new DefaultInterceptorChain(interceptors);
+        DefaultInterceptorChain interceptorChain = new DefaultInterceptorChain(interceptors, new SilentMonitor());
         assertNull(interceptorChain.proceed(controllerDefinition, method, argument));
     }
 

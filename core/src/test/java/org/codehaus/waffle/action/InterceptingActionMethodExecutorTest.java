@@ -14,9 +14,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Method;
+
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.junit.After;
 import org.junit.Assert;
@@ -24,10 +27,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
-import java.lang.reflect.Method;
-
 public class InterceptingActionMethodExecutorTest {
-    private ActionMethodExecutor actionMethodExecutor = new InterceptingActionMethodExecutor();
+
+    private ActionMethodExecutor actionMethodExecutor = new InterceptingActionMethodExecutor(new SilentMonitor());
 
     @Before
     public void setUp() throws Exception {

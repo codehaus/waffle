@@ -147,10 +147,11 @@ public class WaffleServletTest {
         }});
 
         // stub out what we don't want called ... execute it
-        WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(),
+        SilentMonitor monitor = new SilentMonitor();
+        WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
                                                         actionMethodResponseHandler,
-                                                        new SilentMonitor(),
-                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
+                                                        monitor,
+                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, monitor),
                                                         requestAttributeBinder,
                                                         null, validator) {
             @Override
@@ -208,10 +209,11 @@ public class WaffleServletTest {
         }});
 
         // stub out what we don't want called ... execute it
-        WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(),
+        SilentMonitor monitor = new SilentMonitor();
+        WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
                                                         actionMethodResponseHandler,
-                                                        new SilentMonitor(),
-                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
+                                                        monitor,
+                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, monitor),
                                                         requestAttributeBinder,
                                                         null, validator) {
             @Override

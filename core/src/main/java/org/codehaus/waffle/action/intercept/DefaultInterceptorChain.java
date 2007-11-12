@@ -11,6 +11,7 @@
 package org.codehaus.waffle.action.intercept;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -19,10 +20,12 @@ import java.util.List;
 
 public class DefaultInterceptorChain implements InterceptorChain {
     private final Iterator<MethodInterceptor> iterator;
+    private final ActionMonitor actionMonitor;
     private Object returnValue;
 
-    public DefaultInterceptorChain(List<MethodInterceptor> interceptors) {
+    public DefaultInterceptorChain(List<MethodInterceptor> interceptors, ActionMonitor actionMonitor) {
         this.iterator = interceptors.iterator();
+        this.actionMonitor = actionMonitor;
     }
 
     public Object proceed(ControllerDefinition controllerDefinition,
@@ -32,6 +35,7 @@ public class DefaultInterceptorChain implements InterceptorChain {
             MethodInterceptor methodInterceptor = iterator.next();
             if (methodInterceptor.accept(method)) {
                 returnValue = methodInterceptor.intercept(controllerDefinition, method, this, arguments);
+                actionMonitor.methodIntercepted(method, arguments, returnValue);
             } else {
                 return proceed(controllerDefinition, method, arguments); // recursive
             }
