@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="core/src/main/java"/>
+    <classpathentry kind="src" path="core/src/main/ruby"/>
 	<classpathentry kind="src" path="core/src/test/java"/>
+    <classpathentry kind="src" path="core/src/test/resources"/>
     <classpathentry kind="src" path="extensions/mock/src/main/java"/>
 	<classpathentry kind="src" path="extensions/taglib/src/main/java"/>
 	<classpathentry kind="src" path="extensions/taglib/src/test/java"/>
