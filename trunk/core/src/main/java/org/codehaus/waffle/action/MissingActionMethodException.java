@@ -5,6 +5,7 @@ package org.codehaus.waffle.action;
  *
  * @author Mauro Talevi
  */
+@SuppressWarnings("serial")
 public class MissingActionMethodException extends ActionMethodInvocationException {
 
     public MissingActionMethodException(String message) {

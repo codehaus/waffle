@@ -5,6 +5,7 @@ package org.codehaus.waffle.action;
  *
  * @author Paul Hammant
  */
+@SuppressWarnings("serial")
 public class MatchingActionMethodException extends ActionMethodInvocationException {
 
     public MatchingActionMethodException(String message) {

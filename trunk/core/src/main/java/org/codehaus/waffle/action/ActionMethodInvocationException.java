@@ -17,6 +17,7 @@ import org.codehaus.waffle.WaffleException;
  *
  * @author Michael Ward
  */
+@SuppressWarnings("serial")
 public class ActionMethodInvocationException extends WaffleException {
 
     public ActionMethodInvocationException(String message) {

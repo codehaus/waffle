@@ -5,6 +5,7 @@ package org.codehaus.waffle.action;
  *
  * @author Paul Hammant
  */
+@SuppressWarnings("serial")
 public class NoMatchingActionMethodException extends MatchingActionMethodException {
     private final String methodName;
     private final Class actionClass;
