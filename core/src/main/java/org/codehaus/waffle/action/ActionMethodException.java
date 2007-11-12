@@ -16,6 +16,7 @@ import org.codehaus.waffle.WaffleException;
  * This is a specialized exception that will be thrown directly from an ActionMethod.  Exceptions of this type
  * will set the response statusCode code and response body.
  */
+@SuppressWarnings("serial")
 public class ActionMethodException extends WaffleException {
     private final int statusCode;
     private final String message;

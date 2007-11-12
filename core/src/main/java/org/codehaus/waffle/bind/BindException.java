@@ -12,6 +12,7 @@ package org.codehaus.waffle.bind;
 
 import org.codehaus.waffle.WaffleException;
 
+@SuppressWarnings("serial")
 public class BindException extends WaffleException {
     public BindException() {
     }

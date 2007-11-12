@@ -16,6 +16,7 @@ package org.codehaus.waffle.action;
  *
  * @author Michael Ward
  */
+@SuppressWarnings("serial")
 public class AmbiguousActionSignatureMethodException extends MatchingActionMethodException {
 
     public AmbiguousActionSignatureMethodException(String message) {

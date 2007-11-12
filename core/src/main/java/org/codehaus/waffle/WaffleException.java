@@ -15,6 +15,7 @@ package org.codehaus.waffle;
  *
  * @author Michael Ward
  */
+@SuppressWarnings("serial")
 public class WaffleException extends RuntimeException {
     public WaffleException() {
         super();

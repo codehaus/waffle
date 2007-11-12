@@ -16,6 +16,7 @@ package org.codehaus.waffle.action;
  *
  * @author Mauro Talevi
  */
+@SuppressWarnings("serial")
 public class NoDefaultActionMethodException extends MissingActionMethodException {
 
     public NoDefaultActionMethodException(String message) {
