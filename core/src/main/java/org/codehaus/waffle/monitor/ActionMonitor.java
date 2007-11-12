@@ -12,8 +12,11 @@ package org.codehaus.waffle.monitor;
 
 import java.util.Set;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
+import org.codehaus.waffle.view.View;
 
 /**
  * A monitor for action-related events
@@ -37,5 +40,9 @@ public interface ActionMonitor extends Monitor {
     void argumentNameNotMatched(String name, String pattern);
 
     void methodNameResolved(String methodName, String methodKey, Set<String> keys);
+
+    void responseIsCommitted(HttpServletResponse response);
+
+    void viewDispatched(View view);
 
 }

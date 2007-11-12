@@ -19,8 +19,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * This interceptor ensure that only annotated methods are invokable as <i>Actions</i>.  Usage of this will help protect
- * your application against malicious attacks.
+ * This interceptor ensure that only annotated methods are invokable as <i>Actions</i>.  
+ * Usage of this will help protect your application against malicious attacks.
  */
 public class SecurityMethodInterceptor implements MethodInterceptor {
 

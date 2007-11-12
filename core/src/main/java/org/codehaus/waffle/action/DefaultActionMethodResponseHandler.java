@@ -20,15 +20,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * This handler will make decisions based on what is returned from the action method. For example:
- * <p/>
- * - A View response indicates which view the user should be directed (either redirected or forwarded) to.
- * <p/>
- * - A ActionMethodException will set the response status and sends the mesage directly (perfect for ajax).
- * <p/>
- * - otherwise the response value will be sent directly to the browser as a String via Object.toString() method.
+ * Handler that will make decisions based on what is returned from the action method:
+ * 
+ * <ol>
+ *  <li>A View response will be directed (either redirected or forwarded)</li>
+ *  <li>A ActionMethodException will set the response status and sends the message directly (perfect for ajax).</li>
+ *  <li>Otherwise the response value will be sent directly to the browser as a String via Object.toString() method.</li>
+ * </ol>
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public class DefaultActionMethodResponseHandler implements ActionMethodResponseHandler {
     private final ViewDispatcher viewDispatcher;
@@ -50,6 +51,7 @@ public class DefaultActionMethodResponseHandler implements ActionMethodResponseH
                        HttpServletResponse response,
                        ActionMethodResponse actionMethodResponse) throws IOException, ServletException {
         if (response.isCommitted()) {
+            actionMonitor.responseIsCommitted(response);
             return; // do NOT go any further
         }
 
@@ -58,6 +60,7 @@ public class DefaultActionMethodResponseHandler implements ActionMethodResponseH
         if (returnValue instanceof View) {
             View view = (View) returnValue;
             viewDispatcher.dispatch(request, response, view);
+            actionMonitor.viewDispatched(view);
         } else if (returnValue instanceof ActionMethodException) {
             ActionMethodException exception = (ActionMethodException) returnValue;
             actionMonitor.actionMethodExecutionFailed(exception); 
