@@ -19,6 +19,7 @@ import org.codehaus.waffle.view.XMLView;
  *
  * @author Paulo Silveira
  */
+@SuppressWarnings("serial")
 public class WaffleXMLServlet extends WaffleServlet {
 
     protected View buildViewToReferrer(ControllerDefinition controllerDefinition) {

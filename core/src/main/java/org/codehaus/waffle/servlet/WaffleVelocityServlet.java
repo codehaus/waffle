@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Michael Ward
  */
+@SuppressWarnings("serial")
 public class WaffleVelocityServlet extends VelocityViewServlet {
     private ControllerDefinitionFactory controllerDefinitionFactory;
 
