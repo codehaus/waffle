@@ -11,7 +11,7 @@
 package org.codehaus.waffle.action;
 
 import org.codehaus.waffle.action.intercept.InterceptorChain;
-import org.codehaus.waffle.action.intercept.InterceptorChainImpl;
+import org.codehaus.waffle.action.intercept.DefaultInterceptorChain;
 import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.codehaus.waffle.action.intercept.MethodInterceptorComparator;
 import org.codehaus.waffle.context.ContextContainer;
@@ -61,13 +61,13 @@ public class InterceptingActionMethodExecutor implements ActionMethodExecutor {
     private Object handleInvocation(ControllerDefinition controllerDefinition) throws IllegalAccessException, InvocationTargetException {
         ContextContainer container = RequestLevelContainer.get();
 
-        List<MethodInterceptor> methodInterceptors = new ArrayList<MethodInterceptor>();
-        methodInterceptors.addAll(container.getAllComponentInstancesOfType(MethodInterceptor.class));
-        Collections.sort(methodInterceptors, comparator);
+        List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
+        interceptors.addAll(container.getAllComponentInstancesOfType(MethodInterceptor.class));
+        Collections.sort(interceptors, comparator);
 
-        methodInterceptors.add(new MethodInvokingMethodInterceptor());
+        interceptors.add(new MethodInvokingMethodInterceptor());
 
-        InterceptorChain chain = new InterceptorChainImpl(methodInterceptors);
+        InterceptorChain chain = new DefaultInterceptorChain(interceptors);
         MethodDefinition methodDefinition = controllerDefinition.getMethodDefinition();
         Method method = methodDefinition.getMethod();
         List<Object> methodArguments = methodDefinition.getMethodArguments();
