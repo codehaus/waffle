@@ -38,8 +38,8 @@ public class AnnotatedMethodDefinitionFinder extends AbstractMethodDefinitionFin
                                            ArgumentResolver argumentResolver,
                                            TypeConverter typeConverter,
                                            MethodNameResolver methodNameResolver, 
-                                           ActionMonitor monitor) {
-        super(servletContext, argumentResolver, typeConverter, methodNameResolver, monitor);
+                                           ActionMonitor actionMonitor) {
+        super(servletContext, argumentResolver, typeConverter, methodNameResolver, actionMonitor);
     }
 
     protected List<Object> getArguments(Method method, HttpServletRequest request) {

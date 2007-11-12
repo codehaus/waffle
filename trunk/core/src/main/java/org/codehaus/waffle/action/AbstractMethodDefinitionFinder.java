@@ -50,18 +50,18 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private final ArgumentResolver argumentResolver;
     private final TypeConverter typeConverter;
     private final MethodNameResolver methodNameResolver;
-    private final ActionMonitor monitor;
+    private final ActionMonitor actionMonitor;
 
     public AbstractMethodDefinitionFinder(ServletContext servletContext,
                                           ArgumentResolver argumentResolver,
                                           TypeConverter typeConverter,
                                           MethodNameResolver methodNameResolver, 
-                                          ActionMonitor monitor) {
+                                          ActionMonitor actionMonitor) {
         this.servletContext = servletContext;
         this.argumentResolver = argumentResolver;
         this.typeConverter = typeConverter;
         this.methodNameResolver = methodNameResolver;
-        this.monitor = monitor;
+        this.actionMonitor = actionMonitor;
     }
 
     public MethodDefinition find(Object controller,
@@ -91,7 +91,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
         if (defaultMethodCache.containsKey(controllerType)) { // cache hit
             MethodDefinition methodDefinition = buildDefaultMethodDefinition(defaultMethodCache.get(controllerType), request);
-            monitor.defaultActionMethodCached(controllerType, methodDefinition);
+            actionMonitor.defaultActionMethodCached(controllerType, methodDefinition);
             return methodDefinition;
         }
 
@@ -105,7 +105,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
         
         if ( methodDefinition != null ){
-            monitor.defaultActionMethodFound(methodDefinition);
+            actionMonitor.defaultActionMethodFound(methodDefinition);
             return methodDefinition;
         }
         throw new NoDefaultActionMethodException(controllerType.getName());
@@ -122,7 +122,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
         List<Object> arguments = resolveArguments(request, iterator);
         MethodDefinition methodDefinition = findPragmaticMethodDefinition(request, response, methods, arguments);
-        monitor.pragmaticActionMethodFound(methodDefinition);
+        actionMonitor.pragmaticActionMethodFound(methodDefinition);
         return methodDefinition;
     }
 
@@ -138,7 +138,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
 
         MethodDefinition methodDefinition = methodDefinitions.get(0);
-        monitor.actionMethodFound(methodDefinition);
+        actionMonitor.actionMethodFound(methodDefinition);
         return methodDefinition;
     }
 

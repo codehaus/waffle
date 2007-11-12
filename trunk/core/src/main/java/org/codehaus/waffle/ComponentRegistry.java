@@ -45,11 +45,19 @@ public interface ComponentRegistry {
 
     ActionMethodResponseHandler getActionMethodResponseHandler();
 
-    ActionMonitor getActionMonitor();
-
     ArgumentResolver getArgumentResolver();
 
+    MethodDefinitionFinder getMethodDefinitionFinder();
+
+    MethodNameResolver getMethodNameResolver();
+
+    ActionMonitor getActionMonitor();
+
     BindErrorMessageResolver getBindErrorMessageResolver();
+
+    DataBinder getDataBinder();
+
+    RequestAttributeBinder getRequestAttributeBinder();
 
     BindMonitor getBindMonitor();
 
@@ -59,15 +67,7 @@ public interface ComponentRegistry {
 
     ControllerDefinitionFactory getControllerDefinitionFactory();
 
-    DataBinder getDataBinder();
-
     MessageResources getMessageResources();
-
-    MethodDefinitionFinder getMethodDefinitionFinder();
-
-    MethodNameResolver getMethodNameResolver();
-
-    RequestAttributeBinder getRequestAttributeBinder();
 
     TypeConverter getTypeConverter();
 

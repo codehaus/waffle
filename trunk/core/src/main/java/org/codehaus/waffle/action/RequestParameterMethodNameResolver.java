@@ -25,21 +25,21 @@ import org.codehaus.waffle.monitor.ActionMonitor;
  */
 public class RequestParameterMethodNameResolver implements MethodNameResolver {
     private String methodParameterKey = "method";
-    private ActionMonitor monitor;
+    private ActionMonitor actionMonitor;
 
-    public RequestParameterMethodNameResolver(ActionMonitor monitor) {
-        this.monitor = monitor;
+    public RequestParameterMethodNameResolver(ActionMonitor actionMonitor) {
+        this.actionMonitor = actionMonitor;
     }
 
-    public RequestParameterMethodNameResolver(RequestParameterMethodNameResolverConfig configuration, ActionMonitor monitor) {
+    public RequestParameterMethodNameResolver(RequestParameterMethodNameResolverConfig configuration, ActionMonitor actionMonitor) {
         this.methodParameterKey = configuration.getMethodParameterKey();
-        this.monitor = monitor;
+        this.actionMonitor = actionMonitor;
     }
 
     @SuppressWarnings({"unchecked"})
     public String resolve(HttpServletRequest request) {
         String methodName = request.getParameter(methodParameterKey);
-        monitor.methodNameResolved(methodName, methodParameterKey, request.getParameterMap().keySet());
+        actionMonitor.methodNameResolved(methodName, methodParameterKey, request.getParameterMap().keySet());
         return methodName;
     }
 }

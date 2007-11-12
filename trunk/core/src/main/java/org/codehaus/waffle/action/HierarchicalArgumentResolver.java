@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
  * 4. Application attribute
  *
  * else returns null
+ * 
+ * @author Micheal Ward
  */
 public class HierarchicalArgumentResolver implements ArgumentResolver {
     private final Pattern pattern = Pattern.compile("\\{(\\w+)\\}");
