@@ -13,6 +13,7 @@ package org.codehaus.waffle.action.intercept;
 import java.util.Comparator;
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class MethodInterceptorComparator implements Comparator<MethodInterceptor>, Serializable {
 
     public int compare(MethodInterceptor first, MethodInterceptor second) {
