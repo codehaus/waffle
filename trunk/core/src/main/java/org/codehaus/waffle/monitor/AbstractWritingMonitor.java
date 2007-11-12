@@ -62,7 +62,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write(INFO, "Method name '" + methodName + "' found for key '" + methodKey + "' among keys " + keys);
     }
 
-    public void argumentResolved(String name, Object value, Scope scope) {
+    public void argumentNameResolved(String name, Object value, Scope scope) {
         write(INFO, "Argument name '" + name + "' resolved to '" + value + "' in scope " + scope);        
     }
 

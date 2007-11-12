@@ -75,7 +75,7 @@ public class HierarchicalArgumentResolver implements ArgumentResolver {
                     }
                 }
             }
-            actionMonitor.argumentResolved(name, value, scope);
+            actionMonitor.argumentNameResolved(name, value, scope);
             return value; // return value, could be null
         }
 
