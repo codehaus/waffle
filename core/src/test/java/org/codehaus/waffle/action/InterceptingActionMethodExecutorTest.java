@@ -10,6 +10,10 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
@@ -36,7 +40,7 @@ public class InterceptingActionMethodExecutorTest {
     }
 
     @Test
-    public void executeShouldInvokeNoArgumentActionMethod() throws Exception {
+    public void canInvokeNoArgumentActionMethod() throws Exception {
         FakeController fakeController = new FakeController();
 
         MethodDefinition methodDefinition = new MethodDefinition(FakeController.class.getMethod("sayHello"));
@@ -49,7 +53,7 @@ public class InterceptingActionMethodExecutorTest {
     }
 
     @Test
-    public void executeShouldInvokeActionMethodWithArgumentValue() throws Exception {
+    public void canInvokeActionMethodWithArgumentValue() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("sayHello", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -59,12 +63,12 @@ public class InterceptingActionMethodExecutorTest {
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
 
-        Assert.assertNull(actionMethodResponse.getReturnValue());
-        Assert.assertEquals("foobar", fakeController.getName());
+        assertNull(actionMethodResponse.getReturnValue());
+        assertEquals("foobar", fakeController.getName());
     }
 
     @Test
-    public void executeShouldHandleNullArgumentValues() throws Exception {
+    public void canHandleNullArgumentValues() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("sayHello", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -74,12 +78,12 @@ public class InterceptingActionMethodExecutorTest {
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
 
-        Assert.assertNull(actionMethodResponse.getReturnValue());
-        Assert.assertNull(fakeController.getName());
+        assertNull(actionMethodResponse.getReturnValue());
+        assertNull(fakeController.getName());
     }
 
     @Test
-    public void executeShouldReturnValueFromActionMethod() throws Exception {
+    public void canReturnValueFromActionMethod() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("passThruMethod", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -88,11 +92,11 @@ public class InterceptingActionMethodExecutorTest {
         ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
-        Assert.assertEquals("mmmWaffles", actionMethodResponse.getReturnValue());
+        assertEquals("mmmWaffles", actionMethodResponse.getReturnValue());
     }
 
     @Test
-    public void executeShouldWrapCauseOfInvocationTargetExceptionAsActionMethodInvocationException() throws Exception {
+    public void canWrapCauseOfInvocationTargetExceptionAsActionMethodInvocationException() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("methodThrowsException", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -105,12 +109,12 @@ public class InterceptingActionMethodExecutorTest {
             actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
         } catch (ActionMethodInvocationException e) {
             Throwable rootCause = e.getCause();
-            Assert.assertEquals("mmmWaffles", rootCause.getMessage());
+            assertEquals("mmmWaffles", rootCause.getMessage());
         }
     }
 
     @Test
-    public void executeShouldReturnOriginalExceptionIfTypeIsActionMethodInvocationException() throws Exception {
+    public void canReturnOriginalExceptionIfTypeIsActionMethodInvocationException() throws Exception {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("actionThrowsActionMethodInvocationException", String.class);
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -122,12 +126,12 @@ public class InterceptingActionMethodExecutorTest {
         try {
             actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
         } catch (ActionMethodInvocationException e) {
-            Assert.assertEquals("BEARS!", e.getMessage());
+            assertEquals("BEARS!", e.getMessage());
         }
     }
 
     @Test
-    public void shouldSetActionResponseValueToExceptionIfTypeIsActionMethodException() throws NoSuchMethodException {
+    public void canSetActionResponseValueToExceptionIfTypeIsActionMethodException() throws NoSuchMethodException {
         FakeController fakeController = new FakeController();
         Method method = FakeController.class.getMethod("actionThrowsActionMethodException");
         MethodDefinition methodDefinition = new MethodDefinition(method);
@@ -137,7 +141,7 @@ public class InterceptingActionMethodExecutorTest {
 
         actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
 
-        Assert.assertTrue(actionMethodResponse.getReturnValue() instanceof ActionMethodException);
+        assertTrue(actionMethodResponse.getReturnValue() instanceof ActionMethodException);
     }
 
 }

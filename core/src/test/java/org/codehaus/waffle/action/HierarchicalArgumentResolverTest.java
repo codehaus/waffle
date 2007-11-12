@@ -23,7 +23,7 @@ public class HierarchicalArgumentResolverTest {
     private Mockery mockery = new Mockery();
 
     @Test
-    public void testResolveReturnsNameWhenArgumentNotInCurlyBrackets() {
+    public void canResolveNameWhenArgumentNotInCurlyBrackets() {
         ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null);
         assertEquals("foobar", argumentResolver.resolve(null, "foobar"));
     }

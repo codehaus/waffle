@@ -32,18 +32,18 @@ import java.io.IOException;
  */
 public class DefaultActionMethodResponseHandler implements ActionMethodResponseHandler {
     private final ViewDispatcher viewDispatcher;
-    private final ActionMonitor monitor;
+    private final ActionMonitor actionMonitor;
 
-    public DefaultActionMethodResponseHandler(ViewDispatcher viewDispatcher, ActionMonitor monitor) {
+    public DefaultActionMethodResponseHandler(ViewDispatcher viewDispatcher, ActionMonitor actionMonitor) {
         if (viewDispatcher == null) {
             throw new IllegalArgumentException("ViewDispatcher cannot be null");
         }
-        if (monitor == null) {
+        if (actionMonitor == null) {
             throw new IllegalArgumentException("ActionMonitor cannot be null");
         }
 
         this.viewDispatcher = viewDispatcher;
-        this.monitor = monitor;
+        this.actionMonitor = actionMonitor;
     }
 
     public void handle(HttpServletRequest request,
@@ -60,7 +60,8 @@ public class DefaultActionMethodResponseHandler implements ActionMethodResponseH
             viewDispatcher.dispatch(request, response, view);
         } else if (returnValue instanceof ActionMethodException) {
             ActionMethodException exception = (ActionMethodException) returnValue;
-            monitor.actionMethodExecutionFailed(exception); // todo ... this isn't really necessarily a true failure
+            actionMonitor.actionMethodExecutionFailed(exception); 
+            // todo ... this isn't really necessarily a true failure
             response.setStatus(exception.getStatusCode());
             handleResponse(response, exception.getMessage());
         } else {
