@@ -32,7 +32,7 @@ public interface ActionMonitor extends Monitor {
 
     void actionMethodExecutionFailed(Exception cause);
 
-    void argumentResolved(String name, Object value, Scope scope);
+    void argumentNameResolved(String name, Object value, Scope scope);
 
     void argumentNameNotMatched(String name, String pattern);
 

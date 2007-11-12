@@ -31,7 +31,7 @@ public class StubMonitor implements ActionMonitor, BindMonitor {
     public void argumentNameNotMatched(String name, String pattern) {
     }
 
-    public void argumentResolved(String name, Object value, Scope scope) {
+    public void argumentNameResolved(String name, Object value, Scope scope) {
     }
 
     public void bindFailed(Object bindModel, BindErrorMessage errorMessage) {
