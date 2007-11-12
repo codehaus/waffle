@@ -41,6 +41,7 @@ import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
@@ -79,12 +80,13 @@ public class WaffleServletTest {
             one(servletContext).getAttribute(ComponentRegistry.class.getName());
             will(returnValue(componentRegistry));
             // Component Registry...
-            one(componentRegistry).getControllerDefinitionFactory();
-            one(componentRegistry).getDataBinder();
             one(componentRegistry).getActionMethodExecutor();
             one(componentRegistry).getActionMethodResponseHandler();
-            one(componentRegistry).getValidator();
+            one(componentRegistry).getActionMonitor();
+            one(componentRegistry).getDataBinder();
             one(componentRegistry).getRequestAttributeBinder();
+            one(componentRegistry).getControllerDefinitionFactory();
+            one(componentRegistry).getValidator();
         }});
 
         WaffleServlet servlet = new WaffleServlet() {
@@ -145,12 +147,12 @@ public class WaffleServletTest {
         }});
 
         // stub out what we don't want called ... execute it
-        WaffleServlet waffleServlet = new WaffleServlet(null,
-                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
-                                                        new InterceptingActionMethodExecutor(),
+        WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(),
                                                         actionMethodResponseHandler,
-                                                        validator,
-                                                        requestAttributeBinder) {
+                                                        new SilentMonitor(),
+                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
+                                                        requestAttributeBinder,
+                                                        null, validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
@@ -206,12 +208,12 @@ public class WaffleServletTest {
         }});
 
         // stub out what we don't want called ... execute it
-        WaffleServlet waffleServlet = new WaffleServlet(null,
-                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
-                                                        new InterceptingActionMethodExecutor(),
+        WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(),
                                                         actionMethodResponseHandler,
-                                                        validator,
-                                                        requestAttributeBinder) {
+                                                        new SilentMonitor(),
+                                                        new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
+                                                        requestAttributeBinder,
+                                                        null, validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
@@ -287,11 +289,11 @@ public class WaffleServletTest {
 
         // stub out what we don't want called ... execute it
         WaffleServlet waffleServlet = new WaffleServlet(null,
-                new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
-                null,
                 actionMethodResponseHandler,
-                validator,
-                requestAttributeBinder) {
+                new SilentMonitor(),
+                new OgnlDataBinder(new DefaultTypeConverter(), null, new SilentMonitor()),
+                requestAttributeBinder,
+                null, validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, null);
@@ -342,9 +344,16 @@ public class WaffleServletTest {
 
         // Mock ActionMethodExecutor
         final ActionMethodExecutor actionMethodExecutor = mockery.mock(ActionMethodExecutor.class);
+        final ActionMethodInvocationException actionMethodInvocationException = new ActionMethodInvocationException("fake from test");
         mockery.checking(new Expectations() {{
             one(actionMethodExecutor).execute(with(any(ActionMethodResponse.class)), with(any(ControllerDefinition.class)));
-            will(throwException(new ActionMethodInvocationException("fake from test")));
+            will(throwException(actionMethodInvocationException));
+        }});
+
+        // Mock ActionMonitor
+        final ActionMonitor actionMonitor = mockery.mock(ActionMonitor.class);
+        mockery.checking(new Expectations() {{
+            allowing(actionMonitor).actionMethodExecutionFailed(actionMethodInvocationException);
         }});
 
         // Mock Validator
@@ -362,6 +371,10 @@ public class WaffleServletTest {
         mockMethodExecutorField.setAccessible(true);
         mockMethodExecutorField.set(waffleServlet, actionMethodExecutor);
 
+        Field mockMonitorField = WaffleServlet.class.getDeclaredField("actionMonitor");
+        mockMonitorField.setAccessible(true);
+        mockMonitorField.set(waffleServlet, actionMonitor);
+        
         Field validatorFactoryField = WaffleServlet.class.getDeclaredField("validator");
         validatorFactoryField.setAccessible(true);
         validatorFactoryField.set(waffleServlet, validator);
