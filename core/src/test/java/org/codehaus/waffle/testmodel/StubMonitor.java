@@ -3,6 +3,7 @@ package org.codehaus.waffle.testmodel;
 import java.util.Set;
 
 import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.BindErrorMessage;
@@ -27,9 +28,16 @@ public class StubMonitor implements ActionMonitor, BindMonitor {
     public void actionMethodExecutionFailed(Exception exception) {
     }
 
+    public void argumentNameNotMatched(String name, String pattern) {
+    }
+
+    public void argumentResolved(String name, Object value, Scope scope) {
+    }
+
     public void bindFailed(Object bindModel, BindErrorMessage errorMessage) {
     }
 
     public void bindFailed(Object controller, Throwable cause) {
     }
+
 }

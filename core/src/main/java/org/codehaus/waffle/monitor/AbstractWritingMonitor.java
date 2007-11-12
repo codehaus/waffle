@@ -17,6 +17,7 @@ import static org.codehaus.waffle.monitor.Monitor.Level.WARN;
 import java.util.Set;
 
 import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.validation.BindErrorMessage;
 
 /**
@@ -61,6 +62,14 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write(INFO, "Method name '" + methodName + "' found for key '" + methodKey + "' among keys " + keys);
     }
 
+    public void argumentResolved(String name, Object value, Scope scope) {
+        write(INFO, "Argument name '" + name + "' resolved to '" + value + "' in scope " + scope);        
+    }
+
+    public void argumentNameNotMatched(String name, String pattern) {
+        write(WARN, "Argument name '" + name + "' not matched by pattern '" + pattern + "'" );                
+    }
+    
     public void actionMethodExecutionFailed(Exception exception) {
         trace(exception);
     }

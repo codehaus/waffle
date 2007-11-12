@@ -10,10 +10,18 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.ComponentRegistry;
 import static org.codehaus.waffle.Constants.ERRORS_KEY;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -23,62 +31,68 @@ import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 /**
  * Waffle's FrontController for handling user requests.
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
+@SuppressWarnings("serial")
 public class WaffleServlet extends HttpServlet {
+    
     private static final String DEFAULT_VIEW_SUFFIX = ".jspx";
     private static final String DEFAULT_VIEW_PREFIX = "/";
     private static final String EMPTY = "";
-    private ControllerDefinitionFactory controllerDefinitionFactory;
-    private DataBinder dataBinder;
     private ActionMethodExecutor actionMethodExecutor;
     private ActionMethodResponseHandler actionMethodResponseHandler;
-    private Validator validator;
+    private ActionMonitor actionMonitor;
+    private DataBinder dataBinder;
     private RequestAttributeBinder requestAttributeBinder;
+    private ControllerDefinitionFactory controllerDefinitionFactory;
+    private Validator validator;
     private String viewPrefix;
     private String viewSuffix;
     private boolean componentsRetrieved = false;
 
+    /**
+     * Default constructor used by servlet container
+     */
     public WaffleServlet() {
+        // initialisation will be performed in init() method
     }
 
     /**
      * Constructor required by builder and useful for testing
      * 
-     * @param controllerDefinitionFactory
-     * @param dataBinder
      * @param actionMethodExecutor
      * @param actionMethodResponseHandler
-     * @param validator
+     * @param actionMonitor
+     * @param dataBinder
      * @param requestAttributeBinder
+     * @param controllerDefinitionFactory
+     * @param validator
      */
-    public WaffleServlet(ControllerDefinitionFactory controllerDefinitionFactory,
-                         DataBinder dataBinder,
-                         ActionMethodExecutor actionMethodExecutor,
+    public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
                          ActionMethodResponseHandler actionMethodResponseHandler,
-                         Validator validator,
-                         RequestAttributeBinder requestAttributeBinder) {
-        this.controllerDefinitionFactory = controllerDefinitionFactory;
-        this.dataBinder = dataBinder;
+                         ActionMonitor actionMonitor,
+                         DataBinder dataBinder,
+                         RequestAttributeBinder requestAttributeBinder,
+                         ControllerDefinitionFactory controllerDefinitionFactory, 
+                         Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
-        this.validator = validator;
+        this.actionMonitor = actionMonitor;
+        this.dataBinder = dataBinder;
         this.requestAttributeBinder = requestAttributeBinder;
+        this.controllerDefinitionFactory = controllerDefinitionFactory;
+        this.validator = validator;
         componentsRetrieved = true;
     }
 
@@ -97,12 +111,13 @@ public class WaffleServlet extends HttpServlet {
             // Retrieve required components from the Component Registry
             ComponentRegistry componentRegistry = ServletContextHelper
                     .getComponentRegistry(getServletContext());
-            controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();
-            dataBinder = componentRegistry.getDataBinder();
             actionMethodExecutor = componentRegistry.getActionMethodExecutor();
             actionMethodResponseHandler = componentRegistry.getActionMethodResponseHandler();
-            validator = componentRegistry.getValidator();
+            actionMonitor = componentRegistry.getActionMonitor();
+            dataBinder = componentRegistry.getDataBinder();
             requestAttributeBinder = componentRegistry.getRequestAttributeBinder();
+            controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();
+            validator = componentRegistry.getValidator();
         }
     }
 
@@ -167,6 +182,7 @@ public class WaffleServlet extends HttpServlet {
             requestAttributeBinder.bind(request, controllerDefinition.getController());
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
         } catch (ActionMethodInvocationException e) {
+            actionMonitor.actionMethodExecutionFailed(e);
             log("ERROR: " + e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }

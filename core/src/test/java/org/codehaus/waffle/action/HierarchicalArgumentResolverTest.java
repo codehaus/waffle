@@ -6,6 +6,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -24,7 +25,7 @@ public class HierarchicalArgumentResolverTest {
 
     @Test
     public void canResolveNameWhenArgumentNotInCurlyBrackets() {
-        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null);
+        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null, new SilentMonitor());
         assertEquals("foobar", argumentResolver.resolve(null, "foobar"));
     }
 
@@ -39,7 +40,7 @@ public class HierarchicalArgumentResolverTest {
             }
         });
 
-        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null);
+        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null, new SilentMonitor());
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
     }
 
@@ -56,7 +57,7 @@ public class HierarchicalArgumentResolverTest {
             }
         });
 
-        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null);
+        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null, new SilentMonitor());
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
     }
 
@@ -83,7 +84,7 @@ public class HierarchicalArgumentResolverTest {
                 will(returnValue(session));
             }
         });
-        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null);
+        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(null, new SilentMonitor());
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
     }
 
@@ -120,7 +121,7 @@ public class HierarchicalArgumentResolverTest {
             }
         });
 
-        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(servletContext);
+        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(servletContext, new SilentMonitor());
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
     }
 
@@ -148,7 +149,7 @@ public class HierarchicalArgumentResolverTest {
             }
         });
 
-        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(servletContext);
+        ArgumentResolver argumentResolver = new HierarchicalArgumentResolver(servletContext, new SilentMonitor());
         assertEquals("bar", argumentResolver.resolve(request, "{foo}"));
     }
 }
