@@ -1,20 +1,19 @@
 package org.codehaus.waffle.context.pico;
 
+import javax.servlet.ServletContext;
+
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jruby.Ruby;
 import org.jruby.javasupport.JavaUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.servlet.ServletContext;
-
 @RunWith(JMock.class)
 public class RubyScriptLoaderTest {
-    private final Mockery context = new JUnit4Mockery();
+    private final Mockery context = new Mockery();
 
     @Test
     public void startShouldFindAllResourcesAndLoadScriptsIntoRubyRuntime() {

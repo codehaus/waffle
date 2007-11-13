@@ -49,7 +49,6 @@ import org.codehaus.waffle.view.View;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -62,7 +61,7 @@ import org.picocontainer.defaults.DefaultPicoContainer;
  */
 @RunWith(JMock.class)
 public class WaffleServletTest {
-    private final Mockery mockery = new JUnit4Mockery();
+    private final Mockery mockery = new Mockery();
 
     @SuppressWarnings("serial")
     @Test

@@ -20,7 +20,6 @@ import java.util.Set;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -30,7 +29,7 @@ import org.junit.runner.RunWith;
 @RunWith(JMock.class)
 public class AbstractWritingMonitorTest {
 
-    private final Mockery mockery = new JUnit4Mockery();
+    private final Mockery mockery = new Mockery();
 
     @Test
     public void canWriteMessages() {

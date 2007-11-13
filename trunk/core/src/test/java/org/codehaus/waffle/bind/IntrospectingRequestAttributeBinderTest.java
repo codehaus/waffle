@@ -7,7 +7,6 @@ import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jruby.Ruby;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.junit.Test;
@@ -15,7 +14,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(JMock.class)
 public class IntrospectingRequestAttributeBinderTest {
-    private final Mockery context = new JUnit4Mockery();
+    private final Mockery context = new Mockery();
 
     @Test
     public void allControllerPropertiesShouldBeBoundAsRequestAttributes() {
