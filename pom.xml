@@ -10,7 +10,8 @@
   <description>
     Waffle is a Java action-based web framework that was built to support
     enterprise-level web-based business applications, without having a mandatory
-    XML configuration and a proprietory UI markup.  Its guiding principles
+    XML configuration (beyond the minimal web.xml required by any webapp) 
+    nor a proprietary UI markup language.  Its guiding principles
     are simplicity, pluggability and interoperability.
   </description>
   <url>http://waffle.codehaus.org</url>
