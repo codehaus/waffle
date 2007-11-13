@@ -21,7 +21,7 @@ public class SilentMonitor extends AbstractWritingMonitor {
         // write nothing
     }
 
-    protected void trace(Exception exception) {
+    protected void trace(Throwable exception) {
         // write nothing
     }
 }

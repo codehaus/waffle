@@ -49,13 +49,13 @@ public class IntrospectingRequestAttributeBinder implements RequestAttributeBind
                 }
             }
         } catch (IntrospectionException e) {
-            bindMonitor.bindFailed(controller, e);
+            bindMonitor.bindFailedForController(controller, e);
             throw new WaffleException(e);
         } catch (IllegalAccessException e) {
-            bindMonitor.bindFailed(controller, e);
+            bindMonitor.bindFailedForController(controller, e);
             throw new WaffleException(e);
         } catch (InvocationTargetException e) {
-            bindMonitor.bindFailed(controller, e);
+            bindMonitor.bindFailedForController(controller, e);
             throw new WaffleException(e);
         }
     }
