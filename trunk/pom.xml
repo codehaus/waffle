@@ -6,10 +6,11 @@
   <artifactId>waffle</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>Waffle Parent</name>
+  <name>Waffle</name>
   <description>
     Waffle is a Java action-based web framework that was built to support
-    enterprise-level web-based business applications.  Its guiding principles
+    enterprise-level web-based business applications, without having a mandatory
+    XML configuration and a proprietory UI markup.  Its guiding principles
     are simplicity, pluggability and interoperability.
   </description>
   <url>http://waffle.codehaus.org</url>
@@ -227,6 +228,16 @@
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <tagBase>https://svn.codehaus.org/waffle/tags</tagBase>
           </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>2.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>dependency-maven-plugin</artifactId>
+          <version>1.0</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo.groovy</groupId>
