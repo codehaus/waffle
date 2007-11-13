@@ -45,6 +45,7 @@ import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.AbstractWritingMonitor;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
 import org.codehaus.waffle.testmodel.StubActionMethodResponseHandler;
 import org.codehaus.waffle.testmodel.StubArgumentResolver;
@@ -127,7 +128,7 @@ public class PicoComponentRegistryTest {
             {
                 one(servletContext).getInitParameterNames();
                 will(returnValue(EMPTY_ENUMERATION));
-                exactly(18).of(servletContext).getInitParameter(with(any(String.class)));
+                exactly(19).of(servletContext).getInitParameter(with(any(String.class)));
             }
         });
 
@@ -148,6 +149,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getTypeConverter() instanceof OgnlTypeConverter);
         assertTrue(componentRegistry.getViewResolver() instanceof DefaultViewResolver);
         assertTrue(componentRegistry.getValidator() instanceof DefaultValidator);
+        assertTrue(componentRegistry.getServletMonitor() instanceof AbstractWritingMonitor);
     }
 
     @Test
@@ -194,6 +196,8 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubControllerDefinitionFactory.class.getName()));
                 one(servletContext).getInitParameter(ContextContainerFactory.class.getName());
                 will(returnValue(StubContextContainerFactory.class.getName()));
+                one(servletContext).getInitParameter(ServletMonitor.class.getName());
+                will(returnValue(StubMonitor.class.getName()));
             }
         });
         ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
