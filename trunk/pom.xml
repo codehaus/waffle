@@ -3,14 +3,14 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.waffle</groupId>
-  <artifactId>waffle-parent</artifactId>
+  <artifactId>waffle</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>Waffle Parent</name>
   <description>
-    Waffle is a Java web framework that makes the process of developing
-    Java based web applications easier. It was built to support
-    enterprise level web-based business applications.
+    Waffle is a Java action-based web framework that was built to support
+    enterprise-level web-based business applications.  Its guiding principles
+    are simplicity, pluggability and interoperability.
   </description>
   <url>http://waffle.codehaus.org</url>
 
