@@ -20,8 +20,8 @@ import org.codehaus.waffle.validation.BindErrorMessage;
  */
 public interface BindMonitor extends Monitor {
 
-    void bindFailed(Object bindModel, BindErrorMessage errorMessage);
+    void bindFailedForModel(Object bindModel, BindErrorMessage errorMessage);
 
-    void bindFailed(Object controller, Throwable cause);
+    void bindFailedForController(Object controller, Throwable cause);
     
 }

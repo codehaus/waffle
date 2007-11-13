@@ -43,7 +43,7 @@ public class AbstractWritingMonitorTest {
             }
 
             @Override
-            protected void trace(Exception exception) {
+            protected void trace(Throwable exception) {
                 // will not be tested here
             }
         };
@@ -67,7 +67,7 @@ public class AbstractWritingMonitorTest {
             }
 
             @Override
-            protected void trace(Exception exception) {
+            protected void trace(Throwable exception) {
                 exception.printStackTrace(new PrintWriter(monitorWriter));
             }
         };

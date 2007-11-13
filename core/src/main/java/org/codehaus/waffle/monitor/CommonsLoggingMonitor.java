@@ -75,7 +75,7 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
     }
 
     @Override
-    protected void trace(Exception exception) {
+    protected void trace(Throwable exception) {
         if (log.isErrorEnabled()) {
             log.error(exception.getMessage(), exception);
         }

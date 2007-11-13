@@ -45,10 +45,10 @@ public class StubMonitor implements ActionMonitor, BindMonitor {
     public void argumentNameResolved(String name, Object value, Scope scope) {
     }
 
-    public void bindFailed(Object bindModel, BindErrorMessage errorMessage) {
+    public void bindFailedForModel(Object bindModel, BindErrorMessage errorMessage) {
     }
 
-    public void bindFailed(Object controller, Throwable cause) {
+    public void bindFailedForController(Object controller, Throwable cause) {
     }
 
     public void responseIsCommitted(HttpServletResponse response) {

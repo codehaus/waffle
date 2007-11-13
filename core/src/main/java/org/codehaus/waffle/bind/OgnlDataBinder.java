@@ -55,12 +55,12 @@ public class OgnlDataBinder implements DataBinder {
                 String message = bindErrorMessageResolver.resolve(model, name, value);
                 BindErrorMessage errorMessage = new BindErrorMessage(name, value, message);
                 errorsContext.addErrorMessage(errorMessage);
-                bindMonitor.bindFailed(model, errorMessage);                
+                bindMonitor.bindFailedForModel(model, errorMessage);                
             } catch (BindException e) {
                 // by convention BindExceptions should provide the correct bind error message to display to the end-user
                 BindErrorMessage errorMessage = new BindErrorMessage(name, value, e.getMessage());
                 errorsContext.addErrorMessage(errorMessage);
-                bindMonitor.bindFailed(model, errorMessage);
+                bindMonitor.bindFailedForModel(model, errorMessage);
             }
         }
     }

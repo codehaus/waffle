@@ -10,13 +10,13 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.intercept;
 
-import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.monitor.ActionMonitor;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
+
+import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 public class DefaultInterceptorChain implements InterceptorChain {
     private final Iterator<MethodInterceptor> iterator;
