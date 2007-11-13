@@ -26,6 +26,7 @@ import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
@@ -76,5 +77,7 @@ public interface ComponentRegistry {
     ViewDispatcher getViewDispatcher();
 
     ViewResolver getViewResolver();
+
+    ServletMonitor getServletMonitor();
     
 }

@@ -31,7 +31,7 @@ import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
-import org.codehaus.waffle.monitor.ActionMonitor;
+import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
@@ -52,7 +52,7 @@ public class WaffleServlet extends HttpServlet {
     private static final String EMPTY = "";
     private ActionMethodExecutor actionMethodExecutor;
     private ActionMethodResponseHandler actionMethodResponseHandler;
-    private ActionMonitor actionMonitor;
+    private ServletMonitor servletMonitor;
     private DataBinder dataBinder;
     private RequestAttributeBinder requestAttributeBinder;
     private ControllerDefinitionFactory controllerDefinitionFactory;
@@ -73,7 +73,7 @@ public class WaffleServlet extends HttpServlet {
      * 
      * @param actionMethodExecutor
      * @param actionMethodResponseHandler
-     * @param actionMonitor
+     * @param servletMonitor
      * @param dataBinder
      * @param requestAttributeBinder
      * @param controllerDefinitionFactory
@@ -81,14 +81,14 @@ public class WaffleServlet extends HttpServlet {
      */
     public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
                          ActionMethodResponseHandler actionMethodResponseHandler,
-                         ActionMonitor actionMonitor,
+                         ServletMonitor servletMonitor,
                          DataBinder dataBinder,
                          RequestAttributeBinder requestAttributeBinder,
                          ControllerDefinitionFactory controllerDefinitionFactory, 
                          Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
-        this.actionMonitor = actionMonitor;
+        this.servletMonitor = servletMonitor;
         this.dataBinder = dataBinder;
         this.requestAttributeBinder = requestAttributeBinder;
         this.controllerDefinitionFactory = controllerDefinitionFactory;
@@ -113,7 +113,7 @@ public class WaffleServlet extends HttpServlet {
                     .getComponentRegistry(getServletContext());
             actionMethodExecutor = componentRegistry.getActionMethodExecutor();
             actionMethodResponseHandler = componentRegistry.getActionMethodResponseHandler();
-            actionMonitor = componentRegistry.getActionMonitor();
+            servletMonitor = componentRegistry.getServletMonitor();
             dataBinder = componentRegistry.getDataBinder();
             requestAttributeBinder = componentRegistry.getRequestAttributeBinder();
             controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();
@@ -182,7 +182,7 @@ public class WaffleServlet extends HttpServlet {
             requestAttributeBinder.bind(request, controllerDefinition.getController());
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
         } catch (ActionMethodInvocationException e) {
-            actionMonitor.actionMethodExecutionFailed(e);
+            servletMonitor.servletServiceFailed(e);
             log("ERROR: " + e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }

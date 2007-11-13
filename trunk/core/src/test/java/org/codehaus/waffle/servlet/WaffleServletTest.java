@@ -41,7 +41,7 @@ import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
-import org.codehaus.waffle.monitor.ActionMonitor;
+import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
@@ -81,7 +81,7 @@ public class WaffleServletTest {
             // Component Registry...
             one(componentRegistry).getActionMethodExecutor();
             one(componentRegistry).getActionMethodResponseHandler();
-            one(componentRegistry).getActionMonitor();
+            one(componentRegistry).getServletMonitor();
             one(componentRegistry).getDataBinder();
             one(componentRegistry).getRequestAttributeBinder();
             one(componentRegistry).getControllerDefinitionFactory();
@@ -351,10 +351,10 @@ public class WaffleServletTest {
             will(throwException(actionMethodInvocationException));
         }});
 
-        // Mock ActionMonitor
-        final ActionMonitor actionMonitor = mockery.mock(ActionMonitor.class);
+        // Mock ServletMonitor
+        final ServletMonitor servletMonitor = mockery.mock(ServletMonitor.class);
         mockery.checking(new Expectations() {{
-            allowing(actionMonitor).actionMethodExecutionFailed(actionMethodInvocationException);
+            allowing(servletMonitor).servletServiceFailed(actionMethodInvocationException);
         }});
 
         // Mock Validator
@@ -372,9 +372,9 @@ public class WaffleServletTest {
         mockMethodExecutorField.setAccessible(true);
         mockMethodExecutorField.set(waffleServlet, actionMethodExecutor);
 
-        Field mockMonitorField = WaffleServlet.class.getDeclaredField("actionMonitor");
+        Field mockMonitorField = WaffleServlet.class.getDeclaredField("servletMonitor");
         mockMonitorField.setAccessible(true);
-        mockMonitorField.set(waffleServlet, actionMonitor);
+        mockMonitorField.set(waffleServlet, servletMonitor);
         
         Field validatorFactoryField = WaffleServlet.class.getDeclaredField("validator");
         validatorFactoryField.setAccessible(true);

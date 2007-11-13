@@ -37,7 +37,7 @@ import org.codehaus.waffle.view.View;
  * 
  * @author Mauro Talevi
  */
-public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor {
+public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, ServletMonitor {
 
     private Map<String, Level> levels;
     private Map<String, String> templates;
@@ -63,6 +63,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("bindFailedForController", INFO);
         levels.put("responseIsCommitted", INFO);
         levels.put("viewDispatched", INFO);
+        levels.put("servletServiceFailed", WARN);
         return levels;
     }
 
@@ -82,6 +83,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         templates.put("bindFailedForController", "Bind failed for controller ''{0}'': {1}");
         templates.put("responseIsCommitted", "Response is committed for response: {0}");
         templates.put("viewDispatched", "View dispatched: {0}");
+        templates.put("servletServiceFailed", "Servlet service failed: {0}");
         return templates;
     }
 
@@ -175,6 +177,10 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
 
     public void viewDispatched(View view) {
         write("viewDispatched", view);
+    }
+    
+    public void servletServiceFailed(Exception cause){
+        write("servletServiceFailed", cause);        
     }
 
     /**
