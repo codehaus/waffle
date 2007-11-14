@@ -25,11 +25,6 @@
       <artifactId>waffle-taglib</artifactId>
       <version>${pom.version}</version>
     </dependency>
-    <dependency>
-      <groupId>${pom.groupId}</groupId>
-      <artifactId>waffle-webcontainer</artifactId>
-      <version>${pom.version}</version>
-    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -117,26 +112,6 @@
               </artifactItems>
             </configuration>
           </execution>         
-          <execution>
-            <id>unpack-javadoc-webcontainer</id>
-            <phase>install</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.build.directory}/site/javadoc/webcontainer</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>true</overWriteSnapshots>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>${pom.groupId}</groupId>
-                  <artifactId>waffle-webcontainer</artifactId>
-                  <version>${pom.version}</version>
-                  <classifier>javadoc</classifier>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>          
         </executions>
       </plugin>
       <plugin>
