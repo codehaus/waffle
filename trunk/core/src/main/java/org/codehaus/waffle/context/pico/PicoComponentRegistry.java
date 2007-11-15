@@ -49,6 +49,8 @@ import org.codehaus.waffle.monitor.ControllerMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
+import org.codehaus.waffle.monitor.ValidationMonitor;
+import org.codehaus.waffle.monitor.ViewMonitor;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
@@ -98,7 +100,9 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(ServletMonitor.class, SilentMonitor.class, servletContext);
         register(TypeConverter.class, OgnlTypeConverter.class, servletContext);
         register(Validator.class, DefaultValidator.class, servletContext);
+        register(ValidationMonitor.class, SilentMonitor.class, servletContext);
         register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
+        register(ViewMonitor.class, SilentMonitor.class, servletContext);
         register(ViewResolver.class, DefaultViewResolver.class, servletContext);
 
         // register other components
@@ -157,7 +161,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         
         String className = servletContext.getInitParameter(parameterName);
 
-        if (className == null || className.equals("")) {
+        if (className == null || className.length() == 0) {
             return defaultClass;
         } else {
             return loadClass(className);
@@ -179,11 +183,11 @@ public class PicoComponentRegistry implements ComponentRegistry {
     }
 
     /**
-     * Register the correct class to the underlying container
+     * Register the component class in the underlying container
      */
     private void register(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
-        Class<?> actualClass = locateComponentClass(key, defaultClass, servletContext);
-        picoContainer.registerComponentImplementation(key, actualClass);
+        Class<?> componentClass = locateComponentClass(key, defaultClass, servletContext);
+        picoContainer.registerComponentImplementation(key, componentClass);
     }
 
     /**
@@ -279,8 +283,16 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(Validator.class);
     }
 
+    public ValidationMonitor getValidationMonitor() {
+        return locateByType(ValidationMonitor.class);
+    }
+
     public ViewDispatcher getViewDispatcher() {
         return locateByType(ViewDispatcher.class);
+    }
+
+    public ViewMonitor getViewMonitor() {
+        return locateByType(ViewMonitor.class);
     }
 
     public ViewResolver getViewResolver() {

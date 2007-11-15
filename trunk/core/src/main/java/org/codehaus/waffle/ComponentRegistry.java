@@ -30,6 +30,8 @@ import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.ControllerMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
+import org.codehaus.waffle.monitor.ValidationMonitor;
+import org.codehaus.waffle.monitor.ViewMonitor;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
@@ -85,7 +87,11 @@ public interface ComponentRegistry {
 
     Validator getValidator();
 
+    ValidationMonitor getValidationMonitor();
+
     ViewDispatcher getViewDispatcher();
+
+    ViewMonitor getViewMonitor();
 
     ViewResolver getViewResolver();
 

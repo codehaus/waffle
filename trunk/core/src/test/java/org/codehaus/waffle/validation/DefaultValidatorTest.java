@@ -9,6 +9,7 @@ import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.codehaus.waffle.testmodel.FakeControllerValidator;
 import org.jmock.Expectations;
@@ -56,7 +57,7 @@ public class DefaultValidatorTest {
         ControllerDefinition controllerDefinition = new ControllerDefinition("theController", fakeController, methodDefinition);
 
         ErrorsContext errorsContext = new DefaultErrorsContext();
-        Validator validator = new DefaultValidator();
+        Validator validator = new DefaultValidator(new SilentMonitor());
         validator.validate(controllerDefinition, errorsContext);
 
         assertSame(errorsContext, fakeControllerValidator.errorsContext);
@@ -81,7 +82,7 @@ public class DefaultValidatorTest {
         ControllerDefinition controllerDefinition = new ControllerDefinition("theController", fakeController, null);
 
         ErrorsContext errorsContext = new DefaultErrorsContext();
-        Validator validator = new DefaultValidator();
+        Validator validator = new DefaultValidator(new SilentMonitor());
         validator.validate(controllerDefinition, errorsContext);
     }
 

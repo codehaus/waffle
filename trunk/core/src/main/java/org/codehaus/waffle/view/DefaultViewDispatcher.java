@@ -14,6 +14,9 @@ import javax.servlet.ServletException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.codehaus.waffle.monitor.ViewMonitor;
+
 import java.io.IOException;
 
 /**
@@ -21,30 +24,36 @@ import java.io.IOException;
  *
  * @author Michael Ward
  * @author Paulo Silveira
+ * @author Mauro Talevi
  */
 public class DefaultViewDispatcher implements ViewDispatcher {
     private final ViewResolver viewResolver;
+    private final ViewMonitor viewMonitor;
 
-    public DefaultViewDispatcher(ViewResolver viewResolver) {
+    public DefaultViewDispatcher(ViewResolver viewResolver, ViewMonitor viewMonitor) {
         this.viewResolver = viewResolver;
+        this.viewMonitor = viewMonitor;
     }
 
     // todo may need to handle ... http://java.sun.com/products/servlet/Filters.html for Character Encoding from request
     public void dispatch(HttpServletRequest request,
                          HttpServletResponse response,
                          View view) throws IOException, ServletException {
-        String url = viewResolver.resolve(view);
+        String path = viewResolver.resolve(view);
 
         if (view instanceof RedirectView) {
             RedirectView redirectView = (RedirectView) view;
-
             response.setStatus(redirectView.getStatusCode());
-            response.setHeader("Location", url);
+            response.setHeader("Location", path);
+            viewMonitor.viewRedirected(redirectView);
         } else if (view instanceof ResponderView) {
-            ((ResponderView) view).respond(request, response);
+            ResponderView responderView = (ResponderView) view;
+            responderView.respond(request, response);
+            viewMonitor.viewResponded(responderView);
         } else {
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher(url);
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher(path);
             requestDispatcher.forward(request, response);
+            viewMonitor.viewForwarded(path);
         }
     }
 }
