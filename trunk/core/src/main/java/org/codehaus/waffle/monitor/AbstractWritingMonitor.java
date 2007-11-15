@@ -64,6 +64,9 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("responseIsCommitted", INFO);
         levels.put("viewDispatched", INFO);
         levels.put("servletServiceFailed", WARN);
+        levels.put("componentRegistered", DEBUG);
+        levels.put("instanceRegistered", DEBUG);
+        levels.put("nonCachingComponentRegistered", DEBUG);
         return levels;
     }
 
@@ -83,6 +86,9 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         templates.put("bindFailedForController", "Bind failed for controller ''{0}'': {1}");
         templates.put("responseIsCommitted", "Response is committed for response: {0}");
         templates.put("viewDispatched", "View dispatched: {0}");
+        templates.put("componentRegistered", "Registered component of type {1} with key {0} and parameters {2}");
+        templates.put("instanceRegistered", "Registered instance {1} with key {0}");
+        templates.put("nonCachingComponentRegistered", "Registered non-caching component of type {1} with key {0} and parameters {2}");
         templates.put("servletServiceFailed", "Servlet service failed: {0}");
         return templates;
     }
@@ -175,13 +181,16 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("viewDispatched", view);
     }
     
-    public void componentRegistered(Object key, Class<?> clazz, Object[] parameters) {
+    public void componentRegistered(Object key, Class<?> type, Object[] parameters) {
+        write("componentRegistered", key, type, asList(parameters));
     }
 
     public void instanceRegistered(Object key, Object instance) {
+        write("instanceRegistered", key, instance);
     }
 
-    public void nonCachingComponentRegistered(Object key, Class<?> clazz, Object[] parameters) {
+    public void nonCachingComponentRegistered(Object key, Class<?> type, Object[] parameters) {
+        write("nonCachingComponentRegistered", key, type, asList(parameters));
     }
 
     public void servletServiceFailed(Exception cause){

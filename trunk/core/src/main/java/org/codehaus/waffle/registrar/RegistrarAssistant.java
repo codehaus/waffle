@@ -22,10 +22,10 @@ import java.lang.reflect.Constructor;
  * @author Michael Ward
  */
 public class RegistrarAssistant {
-    private final Class registrarClass;
-    private final Constructor constructor;
+    private final Class<?> registrarClass;
+    private final Constructor<?> constructor;
 
-    public RegistrarAssistant(Class registrarClass) {
+    public RegistrarAssistant(Class<?> registrarClass) {
         try {
             this.registrarClass = registrarClass;
             this.constructor = registrarClass.getConstructor(Registrar.class);

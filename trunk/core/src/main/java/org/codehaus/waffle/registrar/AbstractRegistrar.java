@@ -23,12 +23,12 @@ public abstract class AbstractRegistrar implements Registrar {
         this.delegate = delegate;
     }
 
-    public void register(Class clazz, Object... parameters) {
-        delegate.register(clazz, parameters);
+    public void register(Class<?> type, Object... parameters) {
+        delegate.register(type, parameters);
     }
 
-    public void register(Object key, Class clazz, Object... parameters) {
-        delegate.register(key, clazz, parameters);
+    public void register(Object key, Class<?> type, Object... parameters) {
+        delegate.register(key, type, parameters);
     }
 
     public void registerInstance(Object instance) {
@@ -39,12 +39,12 @@ public abstract class AbstractRegistrar implements Registrar {
         delegate.registerInstance(key, instance);
     }
 
-    public void registerNonCaching(Class clazz, Object... parameters) {
-        delegate.registerNonCaching(clazz, parameters);
+    public void registerNonCaching(Class<?> type, Object... parameters) {
+        delegate.registerNonCaching(type, parameters);
     }
 
-    public void registerNonCaching(Object key, Class clazz, Object... parameters) {
-        delegate.registerNonCaching(key, clazz, parameters);
+    public void registerNonCaching(Object key, Class<?> type, Object... parameters) {
+        delegate.registerNonCaching(key, type, parameters);
     }
 
     public void application() {
