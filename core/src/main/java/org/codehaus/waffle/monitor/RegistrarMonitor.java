@@ -17,9 +17,9 @@ package org.codehaus.waffle.monitor;
  */
 public interface RegistrarMonitor extends Monitor {
 
-    void componentRegistered(Object key, Class<?> clazz, Object[] parameters);
+    void componentRegistered(Object key, Class<?> type, Object[] parameters);
 
-    void nonCachingComponentRegistered(Object key, Class<?> clazz, Object[] parameters);
+    void nonCachingComponentRegistered(Object key, Class<?> type, Object[] parameters);
 
     void instanceRegistered(Object key, Object instance);    
 
