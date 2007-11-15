@@ -57,6 +57,7 @@ public class BeanPropertyConverter implements Converter {
         throw new UnsupportedOperationException("Converter only available for marshaling");
     }
 
+    @SuppressWarnings("unchecked")
     public boolean canConvert(Class clazz) {
         return true;
     }

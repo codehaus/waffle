@@ -10,13 +10,18 @@
  *****************************************************************************/
 package org.codehaus.waffle.view;
 
+/**
+ * The view resolver determines the path the next view
+ *
+ * @author Michael Ward
+ */
 public interface ViewResolver {
 
     /**
-     * Determine what the path is to the next view
+     * Resolves the view by return the path to the next view
      *
-     * @param view
-     * @return the path to the next View.
+     * @param view the View
+     * @return The path to the next View.
      */
     String resolve(View view);
 }

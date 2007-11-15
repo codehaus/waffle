@@ -9,17 +9,23 @@ import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.ControllerMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
+import org.codehaus.waffle.monitor.ValidationMonitor;
+import org.codehaus.waffle.monitor.ViewMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.validation.BindErrorMessage;
+import org.codehaus.waffle.view.RedirectView;
+import org.codehaus.waffle.view.ResponderView;
 import org.codehaus.waffle.view.View;
 
-public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor, RegistrarMonitor, ServletMonitor {
+public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor, RegistrarMonitor,
+        ServletMonitor, ValidationMonitor, ViewMonitor {
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
     }
@@ -30,18 +36,18 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void pragmaticActionMethodFound(MethodDefinition methodDefinition) {
     }
 
-    public void actionMethodFound(MethodDefinition methodDefinition) {        
+    public void actionMethodFound(MethodDefinition methodDefinition) {
     }
 
     public void actionMethodExecuted(ActionMethodResponse actionMethodResponse) {
-    }  
+    }
 
     public void actionMethodExecutionFailed(Exception exception) {
     }
 
     public void methodNameResolved(String methodName, String methodKey, Set<String> keys) {
     }
-    
+
     public void methodIntercepted(Method method, Object[] arguments, Object returnValue) {
     }
 
@@ -50,7 +56,7 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
 
     public void argumentNameResolved(String name, Object value, Scope scope) {
     }
-    
+
     public void responseIsCommitted(HttpServletResponse response) {
     }
 
@@ -84,7 +90,7 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void sessionContextContainerCreated(ContextContainer applicationContextContainer) {
     }
 
-    public void controllerNameResolved(String name, String path) {        
+    public void controllerNameResolved(String name, String path) {
     }
 
     public void controllerNotFound(String name) {
@@ -108,5 +114,22 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void servletServiceFailed(Exception cause) {
     }
 
+    public void controllerValidatorNotFound() {
+    }
+
+    public void methodDefinitionNotFound(ControllerDefinition controllerDefinition) {        
+    }
+
+    public void validationFailed(Exception cause) {
+    }
+
+    public void viewForwarded(String path) {
+    }
+
+    public void viewRedirected(RedirectView redirectView) {
+    }
+
+    public void viewResponded(ResponderView responderView) {
+    }
 
 }

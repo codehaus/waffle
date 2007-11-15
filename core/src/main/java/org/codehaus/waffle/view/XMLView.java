@@ -48,6 +48,7 @@ public class XMLView extends ResponderView {
         XStream xstream = new XStream(new DomDriver()) {
             protected MapperWrapper wrapMapper(MapperWrapper next) {
                 return new MapperWrapper(next) {
+                    @SuppressWarnings("unchecked")
                     @Override
                     public String serializedClass(Class type) {
                         String value = super.serializedClass(type);
@@ -61,6 +62,7 @@ public class XMLView extends ResponderView {
         };
         xstream.registerConverter(new BeanPropertyConverter(), -19);
         xstream.registerConverter(new CollectionConverter(xstream.getMapper()) {
+            @SuppressWarnings("unchecked")
             @Override
             public boolean canConvert(Class clazz) {
                 return Collection.class.isAssignableFrom(clazz);

@@ -30,8 +30,11 @@ import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.validation.BindErrorMessage;
+import org.codehaus.waffle.view.RedirectView;
+import org.codehaus.waffle.view.ResponderView;
 import org.codehaus.waffle.view.View;
 
 /**
@@ -39,7 +42,8 @@ import org.codehaus.waffle.view.View;
  * 
  * @author Mauro Talevi
  */
-public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor, RegistrarMonitor, ServletMonitor {
+public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor,
+        RegistrarMonitor, ServletMonitor, ValidationMonitor, ViewMonitor {
 
     private Map<String, Level> levels;
     private Map<String, String> templates;
@@ -80,6 +84,12 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("instanceRegistered", DEBUG);
         levels.put("nonCachingComponentRegistered", DEBUG);
         levels.put("servletServiceFailed", WARN);
+        levels.put("controllerValidatorNotFound", WARN);
+        levels.put("methodDefinitionNotFound", WARN);        
+        levels.put("validationFailed", WARN);  
+        levels.put("viewForwarded", DEBUG);        
+        levels.put("viewRedirected", DEBUG);
+        levels.put("viewResponded", DEBUG);        
         return levels;
     }
 
@@ -114,6 +124,12 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         templates.put("instanceRegistered", "Registered instance {1} with key {0}");
         templates.put("nonCachingComponentRegistered", "Registered non-caching component of type {1} with key {0} and parameters {2}");
         templates.put("servletServiceFailed", "Servlet service failed: {0}");
+        templates.put("controllerValidatorNotFound", "Controller validator not found");
+        templates.put("methodDefinitionNotFound", "Method definition not found in controller definition {0}");        
+        templates.put("validationFailed", "Validation failed: {0}");  
+        templates.put("viewForwarded", "View forwarded to path {0}");        
+        templates.put("viewRedirected", "View redirected: {0}");
+        templates.put("viewResponded", "View responded: {0}");
         return templates;
     }
 
@@ -148,6 +164,22 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         }
         return exceptions;
     }
+
+    /**
+     * Writes message for a given level. Concrete implementations should provide writing functionality.
+     * 
+     * @param level the Level
+     * @param message the message to write 
+     */
+    protected abstract void write(Level level, String message);
+
+    /**
+     * Traces an exception. Concrete implementations should provide writing functionality.
+     *
+     * @param exception the Throwable to trace
+     */
+    protected abstract void trace(Throwable exception);
+
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
         write("defaultActionMethodFound", methodDefinition);
@@ -265,19 +297,27 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("servletServiceFailed", cause);        
     }
     
-    /**
-     * Writes message for a given level. Concrete implementations should provide writing functionality.
-     * 
-     * @param level the Level
-     * @param message the message to write 
-     */
-    protected abstract void write(Level level, String message);
+    public void controllerValidatorNotFound() {
+        write("controllerValidatorNotFound");
+    }
 
-    /**
-     * Traces an exception. Concrete implementations should provide writing functionality.
-     *
-     * @param exception the Throwable to trace
-     */
-    protected abstract void trace(Throwable exception);
+    public void methodDefinitionNotFound(ControllerDefinition controllerDefinition) {
+        write("methodDefinitionNotFound", controllerDefinition);        
+    }
 
+    public void validationFailed(Exception cause) {
+        write("validationFailed", cause);        
+    }
+
+    public void viewForwarded(String path) {
+        write("viewForwarded", path);        
+    }
+
+    public void viewRedirected(RedirectView redirectView) {
+        write("viewRedirected", redirectView);        
+    }
+
+    public void viewResponded(ResponderView responderView) {
+        write("viewResponded", responderView);        
+    }
 }

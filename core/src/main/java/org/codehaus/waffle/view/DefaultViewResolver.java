@@ -11,15 +11,12 @@
 package org.codehaus.waffle.view;
 
 /**
- * The default view resolver
+ * The default ViewResolver simply returns the vale of the View being resolved.
  *
  * @author Michael Ward
  */
 public class DefaultViewResolver implements ViewResolver {
 
-    /**
-     * The Default ViewResolver simply return the vale of the View being reolved.
-     */
     public String resolve(View view) {
         return view.getValue();
     }

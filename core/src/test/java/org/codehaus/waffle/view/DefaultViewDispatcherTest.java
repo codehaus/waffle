@@ -1,18 +1,20 @@
 package org.codehaus.waffle.view;
 
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @author Michael Ward
@@ -46,7 +48,7 @@ public class DefaultViewDispatcherTest {
 
         ViewResolver viewResolver = mockViewResolver(view, PATH);
 
-        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(viewResolver);
+        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(viewResolver, new SilentMonitor());
         viewDispatcher.dispatch(mockRequest, mockResponse, view);
         Assert.assertTrue(view.isResponded());
     }
@@ -61,7 +63,7 @@ public class DefaultViewDispatcherTest {
             one(mockResponse).setHeader("Location", PATH);
         }});
 
-        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(viewResolver);
+        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(viewResolver, new SilentMonitor());
         viewDispatcher.dispatch(mockRequest, mockResponse, redirectView);
     }
 
@@ -78,7 +80,7 @@ public class DefaultViewDispatcherTest {
             one(requestDispatcher).forward(mockRequest, mockResponse);
         }});
 
-        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(viewResolver);
+        DefaultViewDispatcher viewDispatcher = new DefaultViewDispatcher(viewResolver, new SilentMonitor());
         viewDispatcher.dispatch(mockRequest, mockResponse, view);
     }
 
