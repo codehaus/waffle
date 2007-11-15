@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jruby.Ruby;
 import org.jruby.RubyBoolean;
 import org.jruby.javasupport.JavaEmbedUtils;
@@ -15,7 +16,7 @@ public class RubyAwarePicoContextContainerFactoryTest  {
 
     @Test
     public void canBuildApplicationContextContainer() {
-        RubyAwarePicoContextContainerFactory factory = new RubyAwarePicoContextContainerFactory(null);
+        RubyAwarePicoContextContainerFactory factory = new RubyAwarePicoContextContainerFactory(null, new SilentMonitor());
         ContextContainer contextContainer = factory.buildApplicationContextContainer();
         PicoContainer picoContainer = (MutablePicoContainer)contextContainer.getDelegate();
         Ruby runtime = (Ruby) picoContainer.getComponentInstance(Ruby.class);
