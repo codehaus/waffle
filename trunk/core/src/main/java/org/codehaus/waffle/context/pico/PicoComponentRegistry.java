@@ -80,17 +80,17 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(ActionMonitor.class, SilentMonitor.class, servletContext);
         register(ArgumentResolver.class, HierarchicalArgumentResolver.class, servletContext);
         register(BindErrorMessageResolver.class, DefaultBindErrorMessageResolver.class, servletContext);
-        register(DataBinder.class, OgnlDataBinder.class, servletContext);
-        register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
         register(BindMonitor.class, SilentMonitor.class, servletContext);
+        register(DataBinder.class, OgnlDataBinder.class, servletContext);
         register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
         register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
         register(MessageResources.class, DefaultMessageResources.class, servletContext);
         register(MethodDefinitionFinder.class, AnnotatedMethodDefinitionFinder.class, servletContext);
         register(MethodNameResolver.class, RequestParameterMethodNameResolver.class, servletContext);
-        register(TypeConverter.class, OgnlTypeConverter.class, servletContext);
+        register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
         register(ServletMonitor.class, SilentMonitor.class, servletContext);
+        register(TypeConverter.class, OgnlTypeConverter.class, servletContext);
         register(Validator.class, DefaultValidator.class, servletContext);
         register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
         register(ViewResolver.class, DefaultViewResolver.class, servletContext);
@@ -209,6 +209,10 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(BindErrorMessageResolver.class);
     }
 
+    public BindMonitor getBindMonitor() {
+        return locateByType(BindMonitor.class);
+    }
+
     public ContextContainerFactory getContextContainerFactory() {
         return locateByType(ContextContainerFactory.class);
     }
@@ -245,8 +249,8 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(RequestAttributeBinder.class);
     }
 
-    public BindMonitor getBindMonitor() {
-        return locateByType(BindMonitor.class);
+    public ServletMonitor getServletMonitor() {
+        return locateByType(ServletMonitor.class);
     }
     
     public TypeConverter getTypeConverter() {
@@ -263,10 +267,6 @@ public class PicoComponentRegistry implements ComponentRegistry {
 
     public ViewResolver getViewResolver() {
         return locateByType(ViewResolver.class);
-    }
-
-    public ServletMonitor getServletMonitor() {
-        return locateByType(ServletMonitor.class);
     }
 
 }

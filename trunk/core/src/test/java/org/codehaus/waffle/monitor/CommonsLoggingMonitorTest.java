@@ -38,20 +38,21 @@ public class CommonsLoggingMonitorTest {
     @Test
     public void canWriteWhenLoggingEnabled() {
         final Log log = mockery.mock(Log.class);
-        final String message = "message";
+        final String expectedMessage = "[WAFFLE]: message";
         mockery.checking(new Expectations() {
             {
                 one(log).isDebugEnabled(); will(returnValue(true));
-                one(log).debug(message);
+                one(log).debug(expectedMessage);
                 one(log).isErrorEnabled(); will(returnValue(true));
-                one(log).error(message);
+                one(log).error(expectedMessage);
                 one(log).isInfoEnabled(); will(returnValue(true));
-                one(log).info(message);
+                one(log).info(expectedMessage);
                 one(log).isWarnEnabled(); will(returnValue(true));
-                one(log).warn(message);
+                one(log).warn(expectedMessage);
             }
         });
 
+        String message = "message";
         final CommonsLoggingMonitor monitor = new CommonsLoggingMonitor(log);
         monitor.write(Level.DEBUG, message);
         monitor.write(Level.ERROR, message);

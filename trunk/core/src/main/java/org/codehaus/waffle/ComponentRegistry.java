@@ -11,7 +11,6 @@
 package org.codehaus.waffle;
 
 import ognl.TypeConverter;
-
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ArgumentResolver;
@@ -46,29 +45,31 @@ public interface ComponentRegistry {
 
     ActionMethodResponseHandler getActionMethodResponseHandler();
 
-    ArgumentResolver getArgumentResolver();
-
-    MethodDefinitionFinder getMethodDefinitionFinder();
-
-    MethodNameResolver getMethodNameResolver();
-
     ActionMonitor getActionMonitor();
 
+    ArgumentResolver getArgumentResolver();
+
     BindErrorMessageResolver getBindErrorMessageResolver();
-
-    DataBinder getDataBinder();
-
-    RequestAttributeBinder getRequestAttributeBinder();
 
     BindMonitor getBindMonitor();
 
     ContextContainerFactory getContextContainerFactory();
 
-    ControllerNameResolver getControllerNameResolver();
-
     ControllerDefinitionFactory getControllerDefinitionFactory();
 
+    ControllerNameResolver getControllerNameResolver();
+
+    DataBinder getDataBinder();
+
     MessageResources getMessageResources();
+
+    MethodDefinitionFinder getMethodDefinitionFinder();
+
+    MethodNameResolver getMethodNameResolver();
+
+    RequestAttributeBinder getRequestAttributeBinder();
+
+    ServletMonitor getServletMonitor();
 
     TypeConverter getTypeConverter();
 
@@ -78,6 +79,4 @@ public interface ComponentRegistry {
 
     ViewResolver getViewResolver();
 
-    ServletMonitor getServletMonitor();
-    
 }
