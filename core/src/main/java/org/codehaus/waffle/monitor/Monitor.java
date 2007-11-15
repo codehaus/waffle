@@ -22,6 +22,6 @@ package org.codehaus.waffle.monitor;
  */
 public interface Monitor {
     enum Level {
-        ERROR, INFO, WARN, DEBUG;
+        ERROR, INFO, WARN, DEBUG
     }
 }

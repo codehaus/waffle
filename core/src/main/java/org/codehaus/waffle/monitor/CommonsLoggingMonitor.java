@@ -50,6 +50,8 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
 
     @Override
     protected void write(Level level, String message) {
+        message = "[WAFFLE]: " + message;
+
         switch (level) {
             case ERROR:
                 if (log.isErrorEnabled()) {
@@ -77,7 +79,7 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
     @Override
     protected void trace(Throwable exception) {
         if (log.isErrorEnabled()) {
-            log.error(exception.getMessage(), exception);
+            log.error("[WAFFLE]:" +  exception.getMessage(), exception);
         }
     }
 
