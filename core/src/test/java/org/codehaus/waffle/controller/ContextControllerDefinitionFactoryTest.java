@@ -12,6 +12,7 @@ import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -62,7 +63,7 @@ public class ContextControllerDefinitionFactoryTest {
         });
 
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
-                new ContextPathControllerNameResolver());
+                new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor());
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
                 response);
 
@@ -93,7 +94,7 @@ public class ContextControllerDefinitionFactoryTest {
         final MethodDefinitionFinder finder = mockery.mock(MethodDefinitionFinder.class);
 
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
-                new ContextPathControllerNameResolver());
+                new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor());
 
         controllerDefinitionFactory.getControllerDefinition(request, response);
     }
@@ -107,7 +108,7 @@ public class ContextControllerDefinitionFactoryTest {
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         ContextControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(null,
-                null);
+                null, new SilentMonitor());
 
         controllerDefinitionFactory.findController("foobar", request);
     }

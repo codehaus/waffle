@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -28,7 +29,7 @@ public class RubyControllerDefinitionFactoryTest {
 
     @Test
     public void canHandleIRubyObject() {
-        RubyControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null);
+        RubyControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null, new SilentMonitor());
 
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
@@ -46,7 +47,7 @@ public class RubyControllerDefinitionFactoryTest {
 
     @Test
     public void canHandleNonRubyObjects() {
-        RubyControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null);
+        RubyControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null, new SilentMonitor());
 
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {

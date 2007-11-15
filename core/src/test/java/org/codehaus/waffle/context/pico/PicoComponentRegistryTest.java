@@ -46,6 +46,7 @@ import org.codehaus.waffle.monitor.AbstractWritingMonitor;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
+import org.codehaus.waffle.monitor.ControllerMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
@@ -130,7 +131,7 @@ public class PicoComponentRegistryTest {
             {
                 one(servletContext).getInitParameterNames();
                 will(returnValue(EMPTY_ENUMERATION));
-                exactly(21).of(servletContext).getInitParameter(with(any(String.class)));
+                exactly(22).of(servletContext).getInitParameter(with(any(String.class)));
             }
         });
 
@@ -143,6 +144,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getBindMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getContextContainerFactory() instanceof AbstractContextContainerFactory);
         assertTrue(componentRegistry.getContextMonitor() instanceof AbstractWritingMonitor);
+        assertTrue(componentRegistry.getControllerMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getControllerNameResolver() instanceof ContextPathControllerNameResolver);
         assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof ContextControllerDefinitionFactory);
         assertTrue(componentRegistry.getDataBinder() instanceof OgnlDataBinder);
@@ -190,6 +192,8 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubMonitor.class.getName()));
                 one(servletContext).getInitParameter(ControllerDefinitionFactory.class.getName());
                 will(returnValue(StubControllerDefinitionFactory.class.getName()));
+                one(servletContext).getInitParameter(ControllerMonitor.class.getName());
+                will(returnValue(StubMonitor.class.getName()));
                 one(servletContext).getInitParameter(ControllerNameResolver.class.getName());
                 will(returnValue(StubControllerNameResolver.class.getName()));
                 one(servletContext).getInitParameter(DataBinder.class.getName());

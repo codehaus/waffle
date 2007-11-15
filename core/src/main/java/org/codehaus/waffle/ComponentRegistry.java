@@ -27,6 +27,7 @@ import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
+import org.codehaus.waffle.monitor.ControllerMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.validation.Validator;
@@ -61,6 +62,8 @@ public interface ComponentRegistry {
     ContextMonitor getContextMonitor();
     
     ControllerDefinitionFactory getControllerDefinitionFactory();
+
+    ControllerMonitor getControllerMonitor();
 
     ControllerNameResolver getControllerNameResolver();
 

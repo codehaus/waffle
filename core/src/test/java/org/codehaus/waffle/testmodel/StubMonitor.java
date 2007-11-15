@@ -12,13 +12,14 @@ import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
+import org.codehaus.waffle.monitor.ControllerMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.View;
 
-public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, RegistrarMonitor, ServletMonitor {
+public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor, RegistrarMonitor, ServletMonitor {
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
     }
@@ -83,6 +84,18 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void sessionContextContainerCreated(ContextContainer applicationContextContainer) {
     }
 
+    public void controllerNameResolved(String name, String path) {        
+    }
+
+    public void controllerNotFound(String name) {
+    }
+
+    public void methodDefinitionNotFound(String controllerName) {
+    }
+
+    public void requestContextContainerNotFound() {
+    }
+
     public void componentRegistered(Object key, Class<?> clazz, Object[] parameters) {
     }
 
@@ -94,5 +107,6 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
 
     public void servletServiceFailed(Exception cause) {
     }
+
 
 }

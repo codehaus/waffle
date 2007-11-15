@@ -39,7 +39,7 @@ import org.codehaus.waffle.view.View;
  * 
  * @author Mauro Talevi
  */
-public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, ContextMonitor, RegistrarMonitor, ServletMonitor {
+public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor, RegistrarMonitor, ServletMonitor {
 
     private Map<String, Level> levels;
     private Map<String, String> templates;
@@ -72,6 +72,10 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("applicationContextContainerDestroyed", DEBUG);
         levels.put("sessionContextContainerCreated", DEBUG);
         levels.put("requestContextContainerCreated", DEBUG);
+        levels.put("controllerNameResolved", DEBUG);
+        levels.put("controllerNotFound", WARN);
+        levels.put("methodDefinitionNotFound", WARN);
+        levels.put("requestContextContainerNotFound", WARN);
         levels.put("componentRegistered", DEBUG);
         levels.put("instanceRegistered", DEBUG);
         levels.put("nonCachingComponentRegistered", DEBUG);
@@ -102,6 +106,10 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         templates.put("applicationContextContainerDestroyed", "Application context container destroyed");
         templates.put("sessionContextContainerCreated", "Session context container created with parent application container {0}");
         templates.put("requestContextContainerCreated", "Request context container created with parent session container {0}");
+        templates.put("controllerNameResolved", "Controller name resolved to {0} from path {1}");        
+        templates.put("controllerNotFound", "Controller not found for name {0}");
+        templates.put("methodDefinitionNotFound", "Method definition not found for controller name {0}");
+        templates.put("requestContextContainerNotFound", "Request level context container not found");
         templates.put("componentRegistered", "Registered component of type {1} with key {0} and parameters {2}");
         templates.put("instanceRegistered", "Registered instance {1} with key {0}");
         templates.put("nonCachingComponentRegistered", "Registered non-caching component of type {1} with key {0} and parameters {2}");
@@ -223,6 +231,22 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
 
     public void requestContextContainerCreated(ContextContainer sessionContextContainer){
         write("requestContextContainerCreated", sessionContextContainer);                                
+    }
+
+    public void controllerNameResolved(String name, String path) {
+        write("controllerNameResolved", name, path);        
+    }
+    
+    public void controllerNotFound(String name){
+        write("controllerNotFound", name);                
+    }
+
+    public void methodDefinitionNotFound(String controllerName){
+        write("methodDefinitionNotFound", controllerName);                
+    }
+
+    public void requestContextContainerNotFound(){
+        write("requestContextContainerNotFound");                        
     }
 
     public void componentRegistered(Object key, Class<?> type, Object[] parameters) {
