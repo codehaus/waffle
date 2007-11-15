@@ -1,134 +1,154 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-  <head>
-    <title>Pluggability</title>
-  </head>
-  <body>
+<head>
+  <title>Pluggability</title>
+</head>
+<body>
 
-  <h2>Pluggability</h2>
-  <p>
-    Waffle was designed to provide default functionality that should
-    be suitable for most any application. However in order to provide
-    complete flexibility Waffle allows its foundational components to be
-    over-written with custom implementations. As an example Waffle uses Ognl
-    for data binding properties from a users request to the actions. It is
-    easy to plug-in your own <b>org.codehaus.waffle.bind.DataBinder</b> by
-    adding the following to the applications <b>web.xml</b>:
-  </p>
+<h2>Pluggability</h2>
 
-  <textarea class="xml:nogutter:nocontrols" name="code">
-    <context-param>
-      <param-name>org.codehaus.waffle.bind.DataBinder</param-name>
-      <param-value>com.mycompany.MyDataBinder</param-value>
-    </context-param>
-  </textarea>
+<p>
+  Waffle was designed to provide default functionality that should
+  be suitable for most any application. However in order to provide
+  complete flexibility Waffle allows its foundational components to be
+  over-written with custom implementations. As an example Waffle uses Ognl
+  for data binding properties from a users request to the actions. It is
+  easy to plug-in your own <b>org.codehaus.waffle.bind.DataBinder</b> by
+  adding the following to the applications <b>web.xml</b>:
+</p>
 
-  <p>
-    The <b>param-name</b> defines the interface of the component to
-    be over-written and the <b>param-value</b> represents the implementing
-    class. The following table lists all of the components that can
-    currently be customized in Waffle:
-  </p>
-  <table class="bodyTable">
-    <tbody>
-      <tr class="a">
-        <td align="left"><b>Key Interface</b></td>
-      </tr>
-      <tr class="b">
-        <td align="left">org.codehaus.waffle.controller.ControllerDefinitionFactory</td>
-      </tr>
-      <tr class="a">
-        <td align="left">org.codehaus.waffle.action.ActionMethodExecutor</td>
-      </tr>
-      <tr class="b">
-        <td align="left">org.codehaus.waffle.action.ActionMethodResponseHandler</td>
-      </tr>
-      <tr class="a">
-        <td align="left">org.codehaus.waffle.action.ArgumentResolver</td>
-      </tr>
-      <tr class="b">
-        <td align="left">org.codehaus.waffle.bind.BindErrorMessageResolver</td>
-      </tr>
-      <tr class="a">
-        <td align="left">org.codehaus.waffle.bind.DataBinder</td>
-      </tr>
-      <tr class="b">
-        <td align="left">org.codehaus.waffle.context.ContextContainerFactory</td>
-      </tr>
-      <tr class="b">
-        <td align="left">org.codehaus.waffle.i18n.MessageResources</td>
-      </tr>
-      <tr class="a">
-        <td align="left">org.codehaus.waffle.action.MethodDefinitionFinder</td>
-      </tr>
-      <tr class="b">
-        <td align="left">org.codehaus.waffle.validation.Validator</td>
-      </tr>
-      <tr class="a">
-        <td align="left">org.codehaus.waffle.view.ViewDispatcher</td>
-      </tr>
-      <tr class="b">
-        <td align="left">org.codehaus.waffle.view.ViewResolver</td>
-      </tr>
-    </tbody>
-  </table>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <context-param>
+    <param-name>org.codehaus.waffle.bind.DataBinder</param-name>
+    <param-value>com.mycompany.MyDataBinder</param-value>
+  </context-param>
+</textarea>
 
-  <p>
-    Most application will never need to deal with any of these
-    components. But it is nice to know that you can change any of the
-    default behaviour if you so desire.
-  </p>
+<p>
+  The <b>param-name</b> defines the interface of the component to
+  be over-written and the <b>param-value</b> represents the implementing
+  class. The following table lists all of the components that can
+  currently be customized in Waffle:
+</p>
+<table class="bodyTable">
+  <tbody>
+    <tr class="a">
+      <td align="left"><b>Key Interface</b></td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.action.ActionMethodExecutor</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.action.ActionMethodResponseHandler</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.action.ArgumentResolver</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.action.MethodDefinitionFinder</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.action.MethodNameResolver</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.bind.BindErrorMessageResolver</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.bind.DataBinder</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.bind.RequestAttributeBinder</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.context.ContextContainerFactory</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.controller.ControllerDefinitionFactory</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.controller.ControllerNameResolver</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.i18n.MessageResources</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.monitor.ActionMonitor</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.monitor.BindMonitor</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.monitor.ServletMonitor</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.validation.Validator</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.view.ViewDispatcher</td>
+    </tr>
+    <tr class="b">
+      <td align="left">org.codehaus.waffle.view.ViewResolver</td>
+    </tr>
+  </tbody>
+</table>
 
-  <h2>Other components</h2>
+<p>
+  Most application will never need to deal with any of these
+  components. But it is nice to know that you can change any of the
+  default behaviour if you so desire.
+</p>
 
-  <p>
-    Waffle also allows you to plug-in your own custom components
-    which don't need to extend or implement any Waffle components. This is
-    easy to do by adding <b>context-param</b>'s to your <b>web.xml</b> file.
-    Notice the <b>register:</b> prefix in the <i>param-name</i> node below.
-    When Waffle runs across such <i>context-param</i> it will register it
-    for use in your application. You can also use the prefix <b>registerNonCaching:</b>
-    for those components that should be instantiated new each time.
-  </p>
+<h2>Other components</h2>
+
+<p>
+  Waffle also allows you to plug-in your own custom components
+  which don't need to extend or implement any Waffle components. This is
+  easy to do by adding <b>context-param</b>'s to your <b>web.xml</b> file.
+  Notice the <b>register:</b> prefix in the <i>param-name</i> node below.
+  When Waffle runs across such <i>context-param</i> it will register it
+  for use in your application. You can also use the prefix <b>registerNonCaching:</b>
+  for those components that should be instantiated new each time.
+</p>
 
 
-  <textarea class="xml:nogutter:nocontrols" name="code">
-    <context-param>
-      <param-name>register:java.util.List</param-name>
-      <param-value>java.util.ArrayList</param-value>
-    </context-param>
-  </textarea>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <context-param>
+    <param-name>register:java.util.List</param-name>
+    <param-value>java.util.ArrayList</param-value>
+  </context-param>
+</textarea>
 
-  <p>
-    For a more concrete example Waffle defines the interface <i>org.codehaus.waffle.bind.WaffleTypeConverter</i>.
-    Implementations of this interface allows you to write custom conversions
-    for a specific class type. The following is an example of how you can
-    register your converters with Waffle. Waffle's <i>OgnlTypeConverter</i>
-    is dependent on all <i>org.codehaus.waffle.bind.WaffleTypeConverter</i>
-    that are registered in the <b>web.xml</b>. So the following example will
-    provide 2 custom converters for use in your application.
-  </p>
+<p>
+  For a more concrete example Waffle defines the interface <i>org.codehaus.waffle.bind.WaffleTypeConverter</i>.
+  Implementations of this interface allows you to write custom conversions
+  for a specific class type. The following is an example of how you can
+  register your converters with Waffle. Waffle's <i>OgnlTypeConverter</i>
+  is dependent on all <i>org.codehaus.waffle.bind.WaffleTypeConverter</i>
+  that are registered in the <b>web.xml</b>. So the following example will
+  provide 2 custom converters for use in your application.
+</p>
 
-  <textarea class="xml:nogutter:nocontrols" name="code">
-    <context-param>
-      <param-name>register:MoneyConverter</param-name>
-      <param-value>com.mycompany.MoneyTypeConverter</param-value>
-    </context-param>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <context-param>
+    <param-name>register:MoneyConverter</param-name>
+    <param-value>com.mycompany.MoneyTypeConverter</param-value>
+  </context-param>
 
-    <context-param>
-      <param-name>register:ColorConverter</param-name>
-      <param-value>com.mycompany.ColorTypeConverter</param-value>
-    </context-param>
-  </textarea>
+  <context-param>
+    <param-name>register:ColorConverter</param-name>
+    <param-value>com.mycompany.ColorTypeConverter</param-value>
+  </context-param>
+</textarea>
 
-  <dl>
-    <dt>Note:</dt>
-    <dd>
-      Everything registered with Waffle must be registered under a
-      unique name. The interface name should be used when over-writing
-      default or providing unique behaviour.
-    </dd>
-  </dl>
+<dl>
+  <dt>Note:</dt>
+  <dd>
+    Everything registered with Waffle must be registered under a
+    unique name. The interface name should be used when over-writing
+    default or providing unique behaviour.
+  </dd>
+</dl>
 </body>
 
 </html>
