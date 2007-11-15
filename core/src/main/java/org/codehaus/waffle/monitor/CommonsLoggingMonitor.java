@@ -10,8 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import java.text.MessageFormat;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -22,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CommonsLoggingMonitor extends AbstractWritingMonitor {
 
-    private static final String WAFFLE_TEMPLATE = "[WAFFLE]: {0}";
+    private static final String WAFFLE = "[WAFFLE]: {0}";
     private final Log log;
 
     /**
@@ -56,22 +54,22 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
         switch (level) {
             case ERROR:
                 if (log.isErrorEnabled()) {
-                    log.error(format(message));
+                    log.error(format(WAFFLE, message));
                 }
                 break;
             case INFO:
                 if (log.isInfoEnabled()) {
-                    log.info(format(message));
+                    log.info(format(WAFFLE, message));
                 }
                 break;
             case WARN:
                 if (log.isWarnEnabled()) {
-                    log.warn(format(message));
+                    log.warn(format(WAFFLE, message));
                 }
                 break;
             case DEBUG:
                 if (log.isDebugEnabled()) {
-                    log.debug(format(message));
+                    log.debug(format(WAFFLE, message));
                 }
                 break;
         }
@@ -80,12 +78,8 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
     @Override
     protected void trace(Throwable exception) {
         if (log.isErrorEnabled()) {
-            log.error(format(exception.getMessage()), exception);
+            log.error(format(WAFFLE, exception.getMessage()), exception);
         }
-    }
-
-    private String format(String message) {
-        return MessageFormat.format(WAFFLE_TEMPLATE, message);
     }
 
 }
