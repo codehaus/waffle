@@ -37,7 +37,7 @@ import org.codehaus.waffle.view.View;
  * 
  * @author Mauro Talevi
  */
-public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, ServletMonitor {
+public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, RegistrarMonitor, ServletMonitor {
 
     private Map<String, Level> levels;
     private Map<String, String> templates;
@@ -175,6 +175,15 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("viewDispatched", view);
     }
     
+    public void componentRegistered(Object key, Class<?> clazz, Object[] parameters) {
+    }
+
+    public void instanceRegistered(Object key, Object instance) {
+    }
+
+    public void nonCachingComponentRegistered(Object key, Class<?> clazz, Object[] parameters) {
+    }
+
     public void servletServiceFailed(Exception cause){
         write("servletServiceFailed", cause);        
     }

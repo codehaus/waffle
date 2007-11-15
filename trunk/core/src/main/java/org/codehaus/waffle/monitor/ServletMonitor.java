@@ -10,8 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-
-
 /**
  * A monitor for servlet-related events
  * 

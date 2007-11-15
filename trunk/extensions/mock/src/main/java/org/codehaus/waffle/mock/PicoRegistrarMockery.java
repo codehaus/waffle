@@ -1,11 +1,10 @@
 package org.codehaus.waffle.mock;
 
-import org.picocontainer.MutablePicoContainer;
-
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Registrar Mockery that uses PicoContainer as the ContextContainer
@@ -19,6 +18,6 @@ public class PicoRegistrarMockery extends AbstractRegistrarMockery {
     }
 
     protected Registrar createRegistrar(ContextContainer container) {
-        return new PicoRegistrar((MutablePicoContainer) container.getDelegate());
+        return new PicoRegistrar((MutablePicoContainer) container.getDelegate(), getRegistrarMonitor(container));
     }
 }

@@ -10,11 +10,12 @@ import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.View;
 
-public class StubMonitor implements ActionMonitor, BindMonitor, ServletMonitor {
+public class StubMonitor implements ActionMonitor, BindMonitor, RegistrarMonitor, ServletMonitor {
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
     }
@@ -59,6 +60,15 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ServletMonitor {
     }
 
     public void servletServiceFailed(Exception cause) {
+    }
+
+    public void componentRegistered(Object key, Class<?> clazz, Object[] parameters) {
+    }
+
+    public void instanceRegistered(Object key, Object instance) {
+    }
+
+    public void nonCachingComponentRegistered(Object key, Class<?> clazz, Object[] parameters) {
     }
 
 }

@@ -11,24 +11,24 @@
 package org.codehaus.waffle.registrar;
 
 /**
- * Defines the available methods for registering Actions and Components.
+ * Defines the available methods for registering Controllers and Components.
  *
  * @author Michael Ward
  * @author Mauro Talevi
  */
 public interface Registrar {
     
-    void register(Class clazz, Object... parameters);
+    void register(Class<?> type, Object... parameters);
 
-    void register(Object key, Class clazz, Object... parameters);
+    void register(Object key, Class<?> type, Object... parameters);
 
     void registerInstance(Object instance);
 
     void registerInstance(Object key, Object instance);
 
-    void registerNonCaching(Class clazz, Object... parameters);
+    void registerNonCaching(Class<?> type, Object... parameters);
 
-    void registerNonCaching(Object key, Class clazz, Object... parameters);
+    void registerNonCaching(Object key, Class<?> type, Object... parameters);
 
     void application();
 

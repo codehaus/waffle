@@ -10,17 +10,17 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import org.codehaus.waffle.validation.BindErrorMessage;
-
 /**
- * A monitor for bind-related events
+ * A monitor for registrar-related events
  * 
  * @author Mauro Talevi
  */
-public interface BindMonitor extends Monitor {
+public interface RegistrarMonitor extends Monitor {
 
-    void bindFailedForModel(Object bindModel, BindErrorMessage errorMessage);
+    void componentRegistered(Object key, Class<?> clazz, Object[] parameters);
 
-    void bindFailedForController(Object controller, Throwable cause);
-    
+    void nonCachingComponentRegistered(Object key, Class<?> clazz, Object[] parameters);
+
+    void instanceRegistered(Object key, Object instance);    
+
 }

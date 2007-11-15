@@ -7,8 +7,7 @@ public class ParanamerRegistrarTest {
 
     @Test
     public void canAssertConfiguration() {
-        PicoRegistrarMockery mockery = new PicoRegistrarMockery();
-        mockery.assertConfiguration(ParanamerRegistrar.class);
+        new PicoRegistrarMockery().assertConfiguration(ParanamerRegistrar.class);
     }
 
 }
