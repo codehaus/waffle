@@ -10,13 +10,13 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
+import static java.text.MessageFormat.format;
 import static java.util.Arrays.asList;
 import static org.codehaus.waffle.monitor.Monitor.Level.DEBUG;
 import static org.codehaus.waffle.monitor.Monitor.Level.INFO;
 import static org.codehaus.waffle.monitor.Monitor.Level.WARN;
 
 import java.lang.reflect.Method;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -99,10 +99,6 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
             throw new NoSuchElementException(event);
         }
         return templates.get(event);
-    }
-
-    protected String format(String template, Object ... arguments) {
-        return MessageFormat.format(template, arguments);
     }
 
     protected void write(String event, Object... arguments) {
