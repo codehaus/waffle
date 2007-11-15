@@ -10,6 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
+import static java.text.MessageFormat.format;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -54,22 +56,26 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
         switch (level) {
             case ERROR:
                 if (log.isErrorEnabled()) {
-                    log.error(format(WAFFLE, message));
+                    Object[] arguments = { message };
+                    log.error(format(WAFFLE, arguments));
                 }
                 break;
             case INFO:
                 if (log.isInfoEnabled()) {
-                    log.info(format(WAFFLE, message));
+                    Object[] arguments = { message };
+                    log.info(format(WAFFLE, arguments));
                 }
                 break;
             case WARN:
                 if (log.isWarnEnabled()) {
-                    log.warn(format(WAFFLE, message));
+                    Object[] arguments = { message };
+                    log.warn(format(WAFFLE, arguments));
                 }
                 break;
             case DEBUG:
                 if (log.isDebugEnabled()) {
-                    log.debug(format(WAFFLE, message));
+                    Object[] arguments = { message };
+                    log.debug(format(WAFFLE, arguments));
                 }
                 break;
         }
@@ -78,7 +84,8 @@ public class CommonsLoggingMonitor extends AbstractWritingMonitor {
     @Override
     protected void trace(Throwable exception) {
         if (log.isErrorEnabled()) {
-            log.error(format(WAFFLE, exception.getMessage()), exception);
+            Object[] arguments = { exception.getMessage() };
+            log.error(format(WAFFLE, arguments), exception);
         }
     }
 
