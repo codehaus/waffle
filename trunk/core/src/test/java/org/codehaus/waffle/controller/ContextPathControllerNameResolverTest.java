@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -31,7 +32,7 @@ public class ContextPathControllerNameResolverTest {
             }
         });
 
-        ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver();
+        ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver(new SilentMonitor());
         assertEquals("foo/bar", controllerNameResolver.findControllerName(request));
     }
 
@@ -46,7 +47,7 @@ public class ContextPathControllerNameResolverTest {
             }
         });
 
-        ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver();
+        ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver(new SilentMonitor());
         assertEquals("foobar", controllerNameResolver.findControllerName(request));
     }
 
@@ -65,7 +66,7 @@ public class ContextPathControllerNameResolverTest {
             }
         });
 
-        ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver();
+        ControllerNameResolver controllerNameResolver = new ContextPathControllerNameResolver(new SilentMonitor());
         assertEquals("foobar", controllerNameResolver.findControllerName(request));
     }
 }
