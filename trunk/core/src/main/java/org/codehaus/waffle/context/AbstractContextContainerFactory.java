@@ -10,13 +10,15 @@
  *****************************************************************************/
 package org.codehaus.waffle.context;
 
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.registrar.Registrar;
-import org.codehaus.waffle.registrar.RegistrarAssistant;
+import static java.text.MessageFormat.format;
 
 import javax.servlet.ServletContext;
-import java.text.MessageFormat;
+
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.monitor.ContextMonitor;
+import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.registrar.RegistrarAssistant;
 
 /**
  * @author Michael Ward
@@ -26,9 +28,11 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
     protected final MessageResources messageResources;
     protected RegistrarAssistant registrarAssistant;
     protected ContextContainer applicationContextContainer;
+    private final ContextMonitor contextMonitor;
 
-    public AbstractContextContainerFactory(MessageResources messagesResources) {
+    public AbstractContextContainerFactory(MessageResources messagesResources, ContextMonitor contextMonitor) {
         this.messageResources = messagesResources;
+        this.contextMonitor = contextMonitor;
     }
 
     public RegistrarAssistant getRegistrarAssistant() {
@@ -36,25 +40,26 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
     }
 
     public void initialize(ServletContext servletContext) throws WaffleException {
-        handleRegistrar(servletContext);
+        initializeRegistrar(servletContext);
         servletContext.setAttribute(ContextContainerFactory.class.getName(), this); // register self to context
+        contextMonitor.contextInitialized();
     }
 
     /**
-     * Locate the Registrar from the ServletContext's InitParameter.
+     * Create the Registrar from the ServletContext's InitParameter.
      *
      * @param servletContext
      */
-    private void handleRegistrar(ServletContext servletContext) {
+    private void initializeRegistrar(ServletContext servletContext) {
         String registrarClassName = servletContext.getInitParameter(Registrar.class.getName());
 
         try {
             ClassLoader loader = this.getClass().getClassLoader();
-            Class clazz = loader.loadClass(registrarClassName);
-            registrarAssistant = new RegistrarAssistant(clazz);
+            Class<?> registrarClass = loader.loadClass(registrarClassName);
+            registrarAssistant = new RegistrarAssistant(registrarClass);
         } catch (ClassNotFoundException e) {
-            String message = MessageFormat
-                    .format("Unable to load the Registrar [{0}] defined as context-param in web.xml",
+            contextMonitor.registrarNotFound(registrarClassName);
+            String message = format("Unable to load the Registrar [{0}] defined as context-param in web.xml",
                             registrarClassName);
             throw new WaffleException(message, e);
         }
@@ -65,6 +70,7 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
         applicationContextContainer.registerComponentInstance(messageResources);
         buildApplicationLevelRegistry();
         applicationContextContainer.start();
+        contextMonitor.applicationContextContainerStarted();
     }
 
     public void destroy() {
@@ -72,6 +78,7 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
             applicationContextContainer.stop();
             applicationContextContainer.dispose();
             applicationContextContainer = null;
+            contextMonitor.applicationContextContainerDestroyed();
         }
     }
 
@@ -84,6 +91,10 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
         return applicationContextContainer;
     }
 
+    protected ContextMonitor getContextMonitor(){
+        return contextMonitor;
+    }
+    
     protected abstract ContextContainer buildApplicationContextContainer();
 
     protected abstract Registrar createRegistrar(ContextContainer contextContainer);

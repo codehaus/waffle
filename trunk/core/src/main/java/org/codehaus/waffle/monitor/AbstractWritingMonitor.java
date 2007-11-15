@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.View;
 
@@ -37,7 +39,7 @@ import org.codehaus.waffle.view.View;
  * 
  * @author Mauro Talevi
  */
-public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, RegistrarMonitor, ServletMonitor {
+public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, ContextMonitor, RegistrarMonitor, ServletMonitor {
 
     private Map<String, Level> levels;
     private Map<String, String> templates;
@@ -59,14 +61,21 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("methodIntercepted", INFO);
         levels.put("argumentNameResolved", INFO);
         levels.put("argumentNameNotMatched", INFO);
-        levels.put("bindFailedForModel", INFO);
-        levels.put("bindFailedForController", INFO);
         levels.put("responseIsCommitted", INFO);
         levels.put("viewDispatched", INFO);
-        levels.put("servletServiceFailed", WARN);
+        levels.put("bindFailedForModel", INFO);
+        levels.put("bindFailedForController", INFO);
+        levels.put("registrarCreated", INFO);
+        levels.put("registrarNotFound", WARN);
+        levels.put("contextInitialized", DEBUG);
+        levels.put("applicationContextContainerStarted", DEBUG);
+        levels.put("applicationContextContainerDestroyed", DEBUG);
+        levels.put("sessionContextContainerCreated", DEBUG);
+        levels.put("requestContextContainerCreated", DEBUG);
         levels.put("componentRegistered", DEBUG);
         levels.put("instanceRegistered", DEBUG);
         levels.put("nonCachingComponentRegistered", DEBUG);
+        levels.put("servletServiceFailed", WARN);
         return levels;
     }
 
@@ -82,10 +91,17 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         templates.put("methodIntercepted", "Method ''{0}'' intercepted with arguments {1} and returned value ''{2}''");
         templates.put("argumentNameResolved", "Argument name ''{0}'' resolved to ''{1}'' in scope ''{2}''");
         templates.put("argumentNameNotMatched", "Argument name ''{0}'' not matched by pattern ''{1}''");
-        templates.put("bindFailedForModel", "Bind failed for model ''{0}'': {1}");
-        templates.put("bindFailedForController", "Bind failed for controller ''{0}'': {1}");
         templates.put("responseIsCommitted", "Response is committed for response: {0}");
         templates.put("viewDispatched", "View dispatched: {0}");
+        templates.put("bindFailedForModel", "Bind failed for model ''{0}'': {1}");
+        templates.put("bindFailedForController", "Bind failed for controller ''{0}'': {1}");
+        templates.put("registrarCreated", "Registrar created {0} with monitor {1}");
+        templates.put("registrarNotFound", "Registrar not found {0}");
+        templates.put("contextInitialized", "Context initialized");
+        templates.put("applicationContextContainerStarted", "Application context container started");
+        templates.put("applicationContextContainerDestroyed", "Application context container destroyed");
+        templates.put("sessionContextContainerCreated", "Session context container created with parent application container {0}");
+        templates.put("requestContextContainerCreated", "Request context container created with parent session container {0}");
         templates.put("componentRegistered", "Registered component of type {1} with key {0} and parameters {2}");
         templates.put("instanceRegistered", "Registered instance {1} with key {0}");
         templates.put("nonCachingComponentRegistered", "Registered non-caching component of type {1} with key {0} and parameters {2}");
@@ -165,6 +181,14 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("argumentNameNotMatched", name, pattern);                
     }
     
+    public void responseIsCommitted(HttpServletResponse response) {
+        write("responseIsCommitted", response);        
+    }
+
+    public void viewDispatched(View view) {
+        write("viewDispatched", view);        
+    }
+
     public void bindFailedForModel(Object bindModel, BindErrorMessage errorMessage){
         write("bindFailedForModel", bindModel, errorMessage);
     }
@@ -173,14 +197,34 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("bindFailedForController", controller, cause);
     }
     
-    public void responseIsCommitted(HttpServletResponse response) {
-        write("responseIsCommitted", response);        
+    public void registrarCreated(Registrar registrar, RegistrarMonitor registrarMonitor) {
+        write("registrarCreated", registrar, registrarMonitor);         
     }
 
-    public void viewDispatched(View view) {
-        write("viewDispatched", view);
+    public void registrarNotFound(String registrarClassName) {
+        write("registrarNotFound", registrarClassName); 
+    }
+
+    public void contextInitialized() {
+        write("contextInitialized");        
     }
     
+    public void applicationContextContainerStarted() {
+        write("applicationContextContainerStarted");        
+    }
+
+    public void applicationContextContainerDestroyed() {
+        write("applicationContextContainerDestroyed");                
+    }
+
+    public void sessionContextContainerCreated(ContextContainer applicationContextContainer) {
+        write("sessionContextContainerCreated", applicationContextContainer);                        
+    }
+
+    public void requestContextContainerCreated(ContextContainer sessionContextContainer){
+        write("requestContextContainerCreated", sessionContextContainer);                                
+    }
+
     public void componentRegistered(Object key, Class<?> type, Object[] parameters) {
         write("componentRegistered", key, type, asList(parameters));
     }
@@ -196,7 +240,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
     public void servletServiceFailed(Exception cause){
         write("servletServiceFailed", cause);        
     }
-
+    
     /**
      * Writes message for a given level. Concrete implementations should provide writing functionality.
      * 

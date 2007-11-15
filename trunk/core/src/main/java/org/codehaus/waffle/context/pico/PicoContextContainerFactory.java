@@ -18,13 +18,16 @@ import org.codehaus.waffle.context.AbstractContextContainerFactory;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
+import org.picocontainer.ComponentMonitor;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.defaults.LifecycleStrategy;
 import org.picocontainer.monitors.NullComponentMonitor;
 
 /**
@@ -32,11 +35,11 @@ import org.picocontainer.monitors.NullComponentMonitor;
  * @author Mauro Talevi
  */
 public class PicoContextContainerFactory extends AbstractContextContainerFactory {
-    private final NullComponentMonitor nullComponentMonitor = new NullComponentMonitor();
-    private final PicoLifecycleStrategy picoLifecycleStrategy = new PicoLifecycleStrategy(nullComponentMonitor);
+    private final ComponentMonitor picoComponentMonitor = new NullComponentMonitor();
+    private final LifecycleStrategy picoLifecycleStrategy = new PicoLifecycleStrategy(picoComponentMonitor);
 
-    public PicoContextContainerFactory(MessageResources messageResources) {
-        super(messageResources);
+    public PicoContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor) {
+        super(messageResources, contextMonitor);
     }
 
     protected ContextContainer buildApplicationContextContainer() {
@@ -49,6 +52,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
 
         PicoContextContainer sessionContextContainer = new PicoContextContainer(delegate);
         registrarAssistant.executeDelegatingRegistrar(createRegistrar(sessionContextContainer), ContextLevel.SESSION);
+        getContextMonitor().sessionContextContainerCreated(applicationContextContainer);
         return sessionContextContainer;
     }
 
@@ -66,6 +70,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
 
             ContextContainer requestContextContainer = new PicoContextContainer(buildMutablePicoContainer(delegate));
             registrarAssistant.executeDelegatingRegistrar(createRegistrar(requestContextContainer), ContextLevel.REQUEST);
+            getContextMonitor().requestContextContainerCreated(sessionContextContainer);
             return requestContextContainer;
         } finally {
             messageResources.useLocale(request.getLocale());
@@ -76,12 +81,13 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
         RegistrarMonitor registrarMonitor = contextContainer.getComponentInstanceOfType(RegistrarMonitor.class);
         if ( registrarMonitor == null ){
             registrarMonitor = new SilentMonitor();
-            // TODO monitor it
         }
-        return new PicoRegistrar((MutablePicoContainer) contextContainer.getDelegate(), registrarMonitor);
+        Registrar registrar = new PicoRegistrar((MutablePicoContainer) contextContainer.getDelegate(), registrarMonitor);
+        getContextMonitor().registrarCreated(registrar, registrarMonitor);
+        return registrar;
     }
 
     private MutablePicoContainer buildMutablePicoContainer(PicoContainer parent) {
-        return new DefaultPicoContainer(nullComponentMonitor, picoLifecycleStrategy, parent);
+        return new DefaultPicoContainer(picoComponentMonitor, picoLifecycleStrategy, parent);
     }
 }

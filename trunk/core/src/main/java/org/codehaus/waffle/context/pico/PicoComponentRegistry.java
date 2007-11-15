@@ -44,6 +44,7 @@ import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -84,6 +85,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(BindMonitor.class, SilentMonitor.class, servletContext);
         register(DataBinder.class, OgnlDataBinder.class, servletContext);
         register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
+        register(ContextMonitor.class, SilentMonitor.class, servletContext);
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
         register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
         register(MessageResources.class, DefaultMessageResources.class, servletContext);
@@ -217,6 +219,10 @@ public class PicoComponentRegistry implements ComponentRegistry {
 
     public ContextContainerFactory getContextContainerFactory() {
         return locateByType(ContextContainerFactory.class);
+    }
+
+    public ContextMonitor getContextMonitor() {
+        return locateByType(ContextMonitor.class);
     }
 
     public ControllerNameResolver getControllerNameResolver() {

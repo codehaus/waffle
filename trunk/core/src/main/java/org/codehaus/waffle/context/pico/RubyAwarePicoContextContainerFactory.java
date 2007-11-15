@@ -1,20 +1,21 @@
 package org.codehaus.waffle.context.pico;
 
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.i18n.MessageResources;
-import org.jruby.Ruby;
-import org.picocontainer.MutablePicoContainer;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.monitor.ContextMonitor;
+import org.jruby.Ruby;
+import org.picocontainer.MutablePicoContainer;
+
 public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFactory {
 
-    public RubyAwarePicoContextContainerFactory(MessageResources messageResources) {
-        super(messageResources);
+    public RubyAwarePicoContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor) {
+        super(messageResources, contextMonitor);
     }
 
     @Override
