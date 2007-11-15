@@ -10,6 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
+import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RubyAwareRegistrar;
 import org.picocontainer.ComponentAdapter;
@@ -28,21 +29,24 @@ import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
  */
 public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final MutablePicoContainer picoContainer;
+    private final RegistrarMonitor registrarMonitor;
 
-    public PicoRegistrar(MutablePicoContainer picoContainer) {
+    public PicoRegistrar(MutablePicoContainer picoContainer, RegistrarMonitor registrarMonitor) {
         this.picoContainer = picoContainer;
+        this.registrarMonitor = registrarMonitor;
     }
 
-    public void register(Class clazz, Object ... parameters) {
-        this.register(clazz, clazz, parameters);
+    public void register(Class<?> type, Object ... parameters) {
+        this.register(type, type, parameters);
     }
 
-    public void register(Object key, Class clazz, Object ... parameters) {
+    public void register(Object key, Class<?> type, Object ... parameters) {
         if (parameters.length == 0) {
-            picoContainer.registerComponentImplementation(key, clazz);
+            picoContainer.registerComponentImplementation(key, type);
         } else {
-            picoContainer.registerComponentImplementation(key, clazz, picoParameters(parameters));
+            picoContainer.registerComponentImplementation(key, type, picoParameters(parameters));
         }
+        registrarMonitor.componentRegistered(key, type, parameters);
     }
 
     public void registerInstance(Object instance) {
@@ -51,28 +55,30 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
 
     public void registerInstance(Object key, Object instance) {
         picoContainer.registerComponentInstance(key, instance);
+        registrarMonitor.instanceRegistered(key, instance);
     }
 
-    public void registerNonCaching(Class clazz, Object ... parameters) {
-        this.registerNonCaching(clazz, clazz, parameters);
+    public void registerNonCaching(Class<?> type, Object ... parameters) {
+        this.registerNonCaching(type, type, parameters);
     }
 
-    public void registerNonCaching(Object key, Class clazz, Object ... parameters) {
+    public void registerNonCaching(Object key, Class<?> type, Object ... parameters) {
         ConstructorInjectionComponentAdapter componentAdapter;
 
         if (parameters.length == 0) {
-            componentAdapter = new ConstructorInjectionComponentAdapter(key, clazz);
+            componentAdapter = new ConstructorInjectionComponentAdapter(key, type);
         } else {
-            componentAdapter = new ConstructorInjectionComponentAdapter(key, clazz, picoParameters(parameters));
+            componentAdapter = new ConstructorInjectionComponentAdapter(key, type, picoParameters(parameters));
         }
 
         picoContainer.registerComponent(componentAdapter);
+        registrarMonitor.nonCachingComponentRegistered(key, type, parameters);
     }
 
     public void registerRubyScript(String key, String className) {
         ComponentAdapter componentAdapter = new RubyScriptComponentAdapter(key, className);
-        CachingComponentAdapter cachingComponentAcdapter = new CachingComponentAdapter(componentAdapter);
-        this.registerComponentAdapter(cachingComponentAcdapter);
+        CachingComponentAdapter cachingComponentAdapter = new CachingComponentAdapter(componentAdapter);
+        this.registerComponentAdapter(cachingComponentAdapter);
     }
     
     public void registerComponentAdapter(ComponentAdapter componentAdapter) {

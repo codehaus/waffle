@@ -10,20 +10,22 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.context.AbstractContextContainerFactory;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.registrar.pico.PicoRegistrar;
+import org.codehaus.waffle.monitor.RegistrarMonitor;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * @author Michael Ward
@@ -71,7 +73,12 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
     }
 
     protected Registrar createRegistrar(ContextContainer contextContainer) {
-        return new PicoRegistrar((MutablePicoContainer) contextContainer.getDelegate());
+        RegistrarMonitor registrarMonitor = contextContainer.getComponentInstanceOfType(RegistrarMonitor.class);
+        if ( registrarMonitor == null ){
+            registrarMonitor = new SilentMonitor();
+            // TODO monitor it
+        }
+        return new PicoRegistrar((MutablePicoContainer) contextContainer.getDelegate(), registrarMonitor);
     }
 
     private MutablePicoContainer buildMutablePicoContainer(PicoContainer parent) {

@@ -12,6 +12,7 @@ import java.util.Hashtable;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextLevel;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.codehaus.waffle.testmodel.CustomRegistrar;
 import org.junit.Test;
@@ -22,12 +23,12 @@ public class RegistrarAssistantTest {
     @Test
     public void canExecute() {
         DefaultPicoContainer picoContainer = new DefaultPicoContainer();
-        PicoRegistrar picoRegistrar = new PicoRegistrar(picoContainer);
+        Registrar registrar = new PicoRegistrar(picoContainer, new SilentMonitor());
         RegistrarAssistant registrarAssistant = new RegistrarAssistant(CustomRegistrar.class);
 
-        registrarAssistant.executeDelegatingRegistrar(picoRegistrar, ContextLevel.APPLICATION);
-        registrarAssistant.executeDelegatingRegistrar(picoRegistrar, ContextLevel.SESSION);
-        registrarAssistant.executeDelegatingRegistrar(picoRegistrar, ContextLevel.REQUEST);
+        registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.APPLICATION);
+        registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.SESSION);
+        registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.REQUEST);
 
         assertNotNull(picoContainer.getComponentInstance("application"));
         assertNotNull(picoContainer.getComponentInstance("session"));

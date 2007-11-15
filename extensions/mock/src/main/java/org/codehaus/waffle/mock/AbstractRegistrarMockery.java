@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.monitor.RegistrarMonitor;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarAssistant;
 import org.jmock.Mockery;
@@ -107,5 +109,14 @@ public abstract class AbstractRegistrarMockery extends Mockery {
     protected abstract ContextContainer createContextContainer();
 
     protected abstract Registrar createRegistrar(ContextContainer container);
+
+    protected RegistrarMonitor getRegistrarMonitor(ContextContainer container) {
+        RegistrarMonitor registrarMonitor = container.getComponentInstanceOfType(RegistrarMonitor.class);
+        if ( registrarMonitor == null ){
+            registrarMonitor = new SilentMonitor();
+            // TODO monitor it
+        }
+        return registrarMonitor;
+    }
 
 }

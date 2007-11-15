@@ -45,6 +45,7 @@ import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.AbstractWritingMonitor;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
 import org.codehaus.waffle.testmodel.StubActionMethodResponseHandler;
@@ -128,7 +129,7 @@ public class PicoComponentRegistryTest {
             {
                 one(servletContext).getInitParameterNames();
                 will(returnValue(EMPTY_ENUMERATION));
-                exactly(19).of(servletContext).getInitParameter(with(any(String.class)));
+                exactly(20).of(servletContext).getInitParameter(with(any(String.class)));
             }
         });
 
@@ -138,18 +139,19 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof DefaultActionMethodResponseHandler);
         assertTrue(componentRegistry.getActionMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getBindErrorMessageResolver() instanceof DefaultBindErrorMessageResolver);
-        assertTrue(componentRegistry.getDataBinder() instanceof OgnlDataBinder);
         assertTrue(componentRegistry.getBindMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getControllerNameResolver() instanceof ContextPathControllerNameResolver);
         assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof ContextControllerDefinitionFactory);
         assertTrue(componentRegistry.getContextContainerFactory() instanceof AbstractContextContainerFactory);
+        assertTrue(componentRegistry.getDataBinder() instanceof OgnlDataBinder);
         assertTrue(componentRegistry.getMethodNameResolver() instanceof RequestParameterMethodNameResolver);
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
-        assertTrue(componentRegistry.getViewDispatcher() instanceof DefaultViewDispatcher);
+        assertTrue(componentRegistry.getRegistrarMonitor() instanceof AbstractWritingMonitor);
+        assertTrue(componentRegistry.getServletMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getTypeConverter() instanceof OgnlTypeConverter);
+        assertTrue(componentRegistry.getViewDispatcher() instanceof DefaultViewDispatcher);
         assertTrue(componentRegistry.getViewResolver() instanceof DefaultViewResolver);
         assertTrue(componentRegistry.getValidator() instanceof DefaultValidator);
-        assertTrue(componentRegistry.getServletMonitor() instanceof AbstractWritingMonitor);
     }
 
     @Test
@@ -178,48 +180,52 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubArgumentResolver.class.getName()));
                 one(servletContext).getInitParameter(BindErrorMessageResolver.class.getName());
                 will(returnValue(StubBindErrorMessageResolver.class.getName()));
-                one(servletContext).getInitParameter(DataBinder.class.getName());
-                will(returnValue(StubDataBinder.class.getName()));
-                one(servletContext).getInitParameter(RequestAttributeBinder.class.getName());
-                will(returnValue(StubRequestAttributeBinder.class.getName()));
                 one(servletContext).getInitParameter(BindMonitor.class.getName());
                 will(returnValue(StubMonitor.class.getName()));
+                one(servletContext).getInitParameter(ControllerDefinitionFactory.class.getName());
+                will(returnValue(StubControllerDefinitionFactory.class.getName()));
+                one(servletContext).getInitParameter(ContextContainerFactory.class.getName());
+                will(returnValue(StubContextContainerFactory.class.getName()));
                 one(servletContext).getInitParameter(ControllerNameResolver.class.getName());
                 will(returnValue(StubControllerNameResolver.class.getName()));
+                one(servletContext).getInitParameter(DataBinder.class.getName());
+                will(returnValue(StubDataBinder.class.getName()));
+                one(servletContext).getInitParameter(RegistrarMonitor.class.getName());
+                will(returnValue(StubMonitor.class.getName()));
+                one(servletContext).getInitParameter(RequestAttributeBinder.class.getName());
+                will(returnValue(StubRequestAttributeBinder.class.getName()));
+                one(servletContext).getInitParameter(ServletMonitor.class.getName());
+                will(returnValue(StubMonitor.class.getName()));
                 one(servletContext).getInitParameter(TypeConverter.class.getName());
                 will(returnValue(DefaultTypeConverter.class.getName()));
                 one(servletContext).getInitParameter(ViewDispatcher.class.getName());
                 will(returnValue(StubViewDispatcher.class.getName()));
                 one(servletContext).getInitParameter(ViewResolver.class.getName());
                 will(returnValue(StubViewResolver.class.getName()));
-                one(servletContext).getInitParameter(ControllerDefinitionFactory.class.getName());
-                will(returnValue(StubControllerDefinitionFactory.class.getName()));
-                one(servletContext).getInitParameter(ContextContainerFactory.class.getName());
-                will(returnValue(StubContextContainerFactory.class.getName()));
-                one(servletContext).getInitParameter(ServletMonitor.class.getName());
-                will(returnValue(StubMonitor.class.getName()));
             }
         });
         ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
 
-        assertTrue(componentRegistry.getControllerNameResolver() instanceof StubControllerNameResolver);
-        assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof StubControllerDefinitionFactory);
+        assertTrue(componentRegistry.getActionMethodExecutor() instanceof StubActionMethodExecutor);
+        assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof StubActionMethodResponseHandler);
+        assertTrue(componentRegistry.getActionMonitor() instanceof StubMonitor);
         assertTrue(componentRegistry.getArgumentResolver() instanceof StubArgumentResolver);
         assertTrue(componentRegistry.getBindErrorMessageResolver() instanceof StubBindErrorMessageResolver);
+        assertTrue(componentRegistry.getBindMonitor() instanceof StubMonitor);
+        assertTrue(componentRegistry.getControllerNameResolver() instanceof StubControllerNameResolver);
+        assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof StubControllerDefinitionFactory);
         assertTrue(componentRegistry.getContextContainerFactory() instanceof StubContextContainerFactory);
         assertFalse(componentRegistry.getDataBinder() instanceof OgnlDataBinder);
-        assertTrue(componentRegistry.getActionMethodExecutor() instanceof StubActionMethodExecutor);
         assertTrue(componentRegistry.getMethodDefinitionFinder() instanceof StubMethodDefinitionFinder);
         assertTrue(componentRegistry.getMethodNameResolver() instanceof StubMethodNameResolver);
-        assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof StubActionMethodResponseHandler);
         assertTrue(componentRegistry.getMessageResources() instanceof StubMessageResources);
+        assertTrue(componentRegistry.getRegistrarMonitor() instanceof StubMonitor);
         assertTrue(componentRegistry.getRequestAttributeBinder() instanceof StubRequestAttributeBinder);
+        assertTrue(componentRegistry.getServletMonitor() instanceof StubMonitor);
         assertTrue(componentRegistry.getTypeConverter() instanceof DefaultTypeConverter);
         assertTrue(componentRegistry.getValidator() instanceof StubValidator);
         assertTrue(componentRegistry.getViewDispatcher() instanceof StubViewDispatcher);
         assertTrue(componentRegistry.getViewResolver() instanceof StubViewResolver);
-        assertTrue(componentRegistry.getActionMonitor() instanceof StubMonitor);
-        assertTrue(componentRegistry.getBindMonitor() instanceof StubMonitor);
     }
 
     public void testRegisterAdditionalComponents() {

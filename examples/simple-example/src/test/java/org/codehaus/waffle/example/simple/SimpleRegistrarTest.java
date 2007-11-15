@@ -7,8 +7,7 @@ public class SimpleRegistrarTest {
 
     @Test
     public void canAssertConfiguration() {
-        PicoRegistrarMockery mockery = new PicoRegistrarMockery();
-        mockery.assertConfiguration(SimpleRegistrar.class);
+        new PicoRegistrarMockery().assertConfiguration(SimpleRegistrar.class);
     }
 
 }
