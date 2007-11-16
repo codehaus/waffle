@@ -69,40 +69,40 @@ import org.picocontainer.defaults.DefaultPicoContainer;
  * @author Mauro Talevi
  */
 public class PicoComponentRegistry implements ComponentRegistry {
-    private final MutablePicoContainer picoContainer = new DefaultPicoContainer();
     private static final String REGISTER_KEY = "register:";
     private static final String REGISTER_NON_CACHING_KEY = "registerNonCaching:";
+    private final MutablePicoContainer picoContainer = new DefaultPicoContainer();
 
     /**
      * Register all waffle required components with the underlying container.
      */
     public PicoComponentRegistry(ServletContext servletContext) {
         picoContainer.registerComponentInstance(servletContext);
-
+        
         // register all known components
         register(ActionMethodExecutor.class, InterceptingActionMethodExecutor.class, servletContext);
         register(ActionMethodResponseHandler.class, DefaultActionMethodResponseHandler.class, servletContext);
-        register(ActionMonitor.class, SilentMonitor.class, servletContext);
         register(ArgumentResolver.class, HierarchicalArgumentResolver.class, servletContext);
-        register(BindErrorMessageResolver.class, DefaultBindErrorMessageResolver.class, servletContext);
-        register(BindMonitor.class, SilentMonitor.class, servletContext);
-        register(DataBinder.class, OgnlDataBinder.class, servletContext);
-        register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
-        register(ContextMonitor.class, SilentMonitor.class, servletContext);
-        register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
-        register(ControllerMonitor.class, SilentMonitor.class, servletContext);
-        register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
-        register(MessageResources.class, DefaultMessageResources.class, servletContext);
         register(MethodDefinitionFinder.class, AnnotatedMethodDefinitionFinder.class, servletContext);
         register(MethodNameResolver.class, RequestParameterMethodNameResolver.class, servletContext);
-        register(RegistrarMonitor.class, SilentMonitor.class, servletContext);
+        register(BindErrorMessageResolver.class, DefaultBindErrorMessageResolver.class, servletContext);
+        register(DataBinder.class, OgnlDataBinder.class, servletContext);
         register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
-        register(ServletMonitor.class, SilentMonitor.class, servletContext);
         register(TypeConverter.class, OgnlTypeConverter.class, servletContext);
-        register(Validator.class, DefaultValidator.class, servletContext);
+        register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
+        register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
+        register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
+        register(MessageResources.class, DefaultMessageResources.class, servletContext);
+        register(ActionMonitor.class, SilentMonitor.class, servletContext);
+        register(BindMonitor.class, SilentMonitor.class, servletContext);
+        register(ContextMonitor.class, SilentMonitor.class, servletContext);
+        register(ControllerMonitor.class, SilentMonitor.class, servletContext);
+        register(RegistrarMonitor.class, SilentMonitor.class, servletContext);
+        register(ServletMonitor.class, SilentMonitor.class, servletContext);
         register(ValidationMonitor.class, SilentMonitor.class, servletContext);
-        register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
         register(ViewMonitor.class, SilentMonitor.class, servletContext);
+        register(Validator.class, DefaultValidator.class, servletContext);
+        register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
         register(ViewResolver.class, DefaultViewResolver.class, servletContext);
 
         // register other components
@@ -134,7 +134,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
     }
 
     /**
-     * This method will locate the component Class to use.  Each of the components can be \
+     * This method will locate the component Class to use.  Each of the components can be 
      * overwritten by setting <code>context-param</code> in the applications <code>web.xml</code>.
      * <p/>
      * <code>
@@ -170,13 +170,15 @@ public class PicoComponentRegistry implements ComponentRegistry {
 
     /**
      * Loads class for a given name
+     * 
      * @param className the Class name
      * @return The Class for the name
      * @throws WaffleException if class not found
      */
     private static Class<?> loadClass(String className) {
-        try {                
-            return Class.forName(className);
+        try {
+            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+            return classLoader.loadClass(className);
         } catch (ClassNotFoundException e) {
             throw new WaffleException(e.getMessage(), e);
         }
@@ -215,24 +217,31 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(ArgumentResolver.class);
     }
 
+    public MethodDefinitionFinder getMethodDefinitionFinder() {
+        return locateByType(MethodDefinitionFinder.class);
+    }
+
+    public MethodNameResolver getMethodNameResolver() {
+        return locateByType(MethodNameResolver.class);
+    }
     public BindErrorMessageResolver getBindErrorMessageResolver() {
         return locateByType(BindErrorMessageResolver.class);
     }
 
-    public BindMonitor getBindMonitor() {
-        return locateByType(BindMonitor.class);
+    public DataBinder getDataBinder() {
+        return locateByType(DataBinder.class);
+    }
+
+    public RequestAttributeBinder getRequestAttributeBinder() {
+        return locateByType(RequestAttributeBinder.class);
+    }
+
+    public TypeConverter getTypeConverter() {
+        return locateByType(TypeConverter.class);
     }
 
     public ContextContainerFactory getContextContainerFactory() {
         return locateByType(ContextContainerFactory.class);
-    }
-
-    public ContextMonitor getContextMonitor() {
-        return locateByType(ContextMonitor.class);
-    }
-
-    public ControllerMonitor getControllerMonitor() {
-        return locateByType(ControllerMonitor.class);
     }
 
     public ControllerNameResolver getControllerNameResolver() {
@@ -243,42 +252,34 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(ControllerDefinitionFactory.class);
     }
 
-    public DataBinder getDataBinder() {
-        return locateByType(DataBinder.class);
-    }
-
     public MessageResources getMessageResources() {
         return locateByType(MessageResources.class);
-    }
-
-    public MethodDefinitionFinder getMethodDefinitionFinder() {
-        return locateByType(MethodDefinitionFinder.class);
-    }
-
-    public MethodNameResolver getMethodNameResolver() {
-        return locateByType(MethodNameResolver.class);
     }
 
     public ActionMonitor getActionMonitor() {
         return locateByType(ActionMonitor.class);
     }
 
-    public RegistrarMonitor getRegistrarMonitor() {
-        return locateByType(RegistrarMonitor.class);
+    public BindMonitor getBindMonitor() {
+        return locateByType(BindMonitor.class);
     }
 
-    public RequestAttributeBinder getRequestAttributeBinder() {
-        return locateByType(RequestAttributeBinder.class);
+    public ContextMonitor getContextMonitor() {
+        return locateByType(ContextMonitor.class);
+    }
+
+    public ControllerMonitor getControllerMonitor() {
+        return locateByType(ControllerMonitor.class);
+    }
+
+    public RegistrarMonitor getRegistrarMonitor() {
+        return locateByType(RegistrarMonitor.class);
     }
 
     public ServletMonitor getServletMonitor() {
         return locateByType(ServletMonitor.class);
     }
     
-    public TypeConverter getTypeConverter() {
-        return locateByType(TypeConverter.class);
-    }
-
     public Validator getValidator() {
         return locateByType(Validator.class);
     }
