@@ -46,14 +46,22 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         RegistrarMonitor, ServletMonitor, ValidationMonitor, ViewMonitor {
 
     private Map<String, Level> levels;
-    private Map<String, String> templates;
+    private Map<String, String> messages;
     
     protected AbstractWritingMonitor(){
-        this.levels = eventLevels();
-        this.templates = eventTemplates();
+        this.levels = monitorLevels();
+        this.messages = monitorMessages();
     }
    
-    protected Map<String, Level> eventLevels() {
+    /**
+     * Creates the default map of monitor levels, keyed on the event name. 
+     * Subclasses may override any of these by retrieving the levels via
+     * <code>super.monitorLevels()</code>, overwriting any entry and returning
+     * the map.
+     * 
+     * @return A Map<String, Level>
+     */
+    protected Map<String, Level> monitorLevels() {
         Map<String, Level> levels = new HashMap<String, Level>();
         levels.put("defaultActionMethodFound", INFO);
         levels.put("defaultActionMethodCached", DEBUG);
@@ -93,44 +101,54 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         return levels;
     }
 
-    protected Map<String, String> eventTemplates() {
-        Map<String, String> templates = new HashMap<String, String>();
-        templates.put("defaultActionMethodFound", "Default ActionMethod found: {0}");
-        templates.put("defaultActionMethodCached", "Default ActionMethod cached for controller {0}: {1}");
-        templates.put("pragmaticActionMethodFound", "Pragmatic ActionMethod found: {0}");
-        templates.put("actionMethodFound", "ActionMethod found: {0}");
-        templates.put("actionMethodExecuted", "ActionMethod executed with response: {0}");
-        templates.put("actionMethodExecutionFailed", "ActionMethod failed: {0}");
-        templates.put("methodNameResolved", "Method name ''{0}'' found for key ''{1}'' among keys {2}");
-        templates.put("methodIntercepted", "Method ''{0}'' intercepted with arguments {1} and returned value ''{2}''");
-        templates.put("argumentNameResolved", "Argument name ''{0}'' resolved to ''{1}'' in scope ''{2}''");
-        templates.put("argumentNameNotMatched", "Argument name ''{0}'' not matched by pattern ''{1}''");
-        templates.put("responseIsCommitted", "Response is committed for response: {0}");
-        templates.put("viewDispatched", "View dispatched: {0}");
-        templates.put("bindFailedForModel", "Bind failed for model ''{0}'': {1}");
-        templates.put("bindFailedForController", "Bind failed for controller ''{0}'': {1}");
-        templates.put("registrarCreated", "Registrar created {0} with monitor {1}");
-        templates.put("registrarNotFound", "Registrar not found {0}");
-        templates.put("contextInitialized", "Context initialized");
-        templates.put("applicationContextContainerStarted", "Application context container started");
-        templates.put("applicationContextContainerDestroyed", "Application context container destroyed");
-        templates.put("sessionContextContainerCreated", "Session context container created with parent application container {0}");
-        templates.put("requestContextContainerCreated", "Request context container created with parent session container {0}");
-        templates.put("controllerNameResolved", "Controller name resolved to {0} from path {1}");        
-        templates.put("controllerNotFound", "Controller not found for name {0}");
-        templates.put("methodDefinitionNotFound", "Method definition not found for controller name {0}");
-        templates.put("requestContextContainerNotFound", "Request level context container not found");
-        templates.put("componentRegistered", "Registered component of type {1} with key {0} and parameters {2}");
-        templates.put("instanceRegistered", "Registered instance {1} with key {0}");
-        templates.put("nonCachingComponentRegistered", "Registered non-caching component of type {1} with key {0} and parameters {2}");
-        templates.put("servletServiceFailed", "Servlet service failed: {0}");
-        templates.put("controllerValidatorNotFound", "Controller validator not found");
-        templates.put("methodDefinitionNotFound", "Method definition not found in controller definition {0}");        
-        templates.put("validationFailed", "Validation failed: {0}");  
-        templates.put("viewForwarded", "View forwarded to path {0}");        
-        templates.put("viewRedirected", "View redirected: {0}");
-        templates.put("viewResponded", "View responded: {0}");
-        return templates;
+    /**
+     * Creates the default map of monitor message templates, keyed on the event name. 
+     * Subclasses may override any of these by retrieving the messages via
+     * <code>super.monitorMessages()</code>, overwriting any entry and returning
+     * the map.  Message templates need to be maintained in a format compatible with 
+     * {@link MessageFormat} and will expect the same number of arguments as the event
+     * (with the argument index reflecting the argument order of the event).
+     * 
+     * @return A Map<String, String>
+     */
+    protected Map<String, String> monitorMessages() {
+        Map<String, String> messages = new HashMap<String, String>();
+        messages.put("defaultActionMethodFound", "Default ActionMethod found: {0}");
+        messages.put("defaultActionMethodCached", "Default ActionMethod cached for controller {0}: {1}");
+        messages.put("pragmaticActionMethodFound", "Pragmatic ActionMethod found: {0}");
+        messages.put("actionMethodFound", "ActionMethod found: {0}");
+        messages.put("actionMethodExecuted", "ActionMethod executed with response: {0}");
+        messages.put("actionMethodExecutionFailed", "ActionMethod failed: {0}");
+        messages.put("methodNameResolved", "Method name ''{0}'' found for key ''{1}'' among keys {2}");
+        messages.put("methodIntercepted", "Method ''{0}'' intercepted with arguments {1} and returned value ''{2}''");
+        messages.put("argumentNameResolved", "Argument name ''{0}'' resolved to ''{1}'' in scope ''{2}''");
+        messages.put("argumentNameNotMatched", "Argument name ''{0}'' not matched by pattern ''{1}''");
+        messages.put("responseIsCommitted", "Response is committed for response: {0}");
+        messages.put("viewDispatched", "View dispatched: {0}");
+        messages.put("bindFailedForModel", "Bind failed for model ''{0}'': {1}");
+        messages.put("bindFailedForController", "Bind failed for controller ''{0}'': {1}");
+        messages.put("registrarCreated", "Registrar created {0} with monitor {1}");
+        messages.put("registrarNotFound", "Registrar not found {0}");
+        messages.put("contextInitialized", "Context initialized");
+        messages.put("applicationContextContainerStarted", "Application context container started");
+        messages.put("applicationContextContainerDestroyed", "Application context container destroyed");
+        messages.put("sessionContextContainerCreated", "Session context container created with parent application container {0}");
+        messages.put("requestContextContainerCreated", "Request context container created with parent session container {0}");
+        messages.put("controllerNameResolved", "Controller name resolved to {0} from path {1}");        
+        messages.put("controllerNotFound", "Controller not found for name {0}");
+        messages.put("methodDefinitionNotFound", "Method definition not found for controller name {0}");
+        messages.put("requestContextContainerNotFound", "Request level context container not found");
+        messages.put("componentRegistered", "Registered component of type {1} with key {0} and parameters {2}");
+        messages.put("instanceRegistered", "Registered instance {1} with key {0}");
+        messages.put("nonCachingComponentRegistered", "Registered non-caching component of type {1} with key {0} and parameters {2}");
+        messages.put("servletServiceFailed", "Servlet service failed: {0}");
+        messages.put("controllerValidatorNotFound", "Controller validator not found");
+        messages.put("methodDefinitionNotFound", "Method definition not found in controller definition {0}");        
+        messages.put("validationFailed", "Validation failed: {0}");  
+        messages.put("viewForwarded", "View forwarded to path {0}");        
+        messages.put("viewRedirected", "View redirected: {0}");
+        messages.put("viewResponded", "View responded: {0}");
+        return messages;
     }
 
     private Level level(String event) {
@@ -141,10 +159,10 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
     }
 
     private String template(String event) {
-        if ( !templates.containsKey(event) ){
+        if ( !messages.containsKey(event) ){
             throw new NoSuchElementException(event);
         }
-        return templates.get(event);
+        return messages.get(event);
     }
 
     protected void write(String event, Object... arguments) {

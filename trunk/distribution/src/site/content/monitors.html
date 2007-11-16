@@ -56,9 +56,11 @@
   <p>
     Waffle provides an abstract implementation of <b>all</b> the monitor interfaces in 
     <b><a href="javadoc/core/org/codehaus/waffle/monitor/AbstractWritingMonitor.html">
-        org.codehaus.waffle.monitor.AbstractWritingMonitor</a></b> and two concrete implementations:
+        org.codehaus.waffle.monitor.AbstractWritingMonitor</a></b> and three concrete implementations:
     <b><a href="javadoc/core/org/codehaus/waffle/monitor/CommonsLoggingMonitor.html">
-        org.codehaus.waffle.monitor.CommonsLoggingMonitor</a></b> (which delegates to Commons Logging) 
+        org.codehaus.waffle.monitor.CommonsLoggingMonitor</a></b> (which delegates to Commons Logging),
+    <b><a href="javadoc/core/org/codehaus/waffle/monitor/ConsoleMonitor.html">
+        org.codehaus.waffle.monitor.ConsoleMonitor</a></b> (which writes to console) 
     and <b><a href="javadoc/core/org/codehaus/waffle/monitor/SilentMonitor.html">
         org.codehaus.waffle.monitor.SilentMonitor</a></b> (which writes nothing).
   </p>
@@ -68,20 +70,22 @@
         org.codehaus.waffle.monitor.AbstractWritingMonitor</a></b> defines a default 
         <b><a href="javadoc/core/org/codehaus/waffle/monitor/Monitor.Level.html">
         org.codehaus.waffle.monitor.Monitor.Level</a> for each event and a default message
-        template, which can be overridden via the <b>eventLevels()</b> and <b>eventTemplates()</b>
+        template, which can be overridden via the <b>monitorLevels()</b> and <b>monitorMessages()</b>
         methods.  By convention, the levels and templates are held in maps keyed on the event name:
         
    <textarea class="xml:nogutter:nocontrols" name="code">
-        protected Map<String, Level> eventLevels(){
-            Map<String, Level> levels = super.eventLevels();
+        @Override
+        protected Map<String, Level> monitorLevels(){
+            Map<String, Level> levels = super.monitorLevels();
             // change from INFO to DEBUG
             levels.put("defaultActionMethodFound", DEBUG); 
             return levels;
         }         
-        protected Map<String, String> eventTemplates(){
-            Map<String, Level> templates = super.eventTemplates();
-            // changed text to be more verbose
-            templates.put("defaultActionMethodFound", "The default ActionMethod has been found: {0}"); 
+        @Override
+        protected Map<String, String> monitorMessages(){
+            Map<String, Level> templates = super.monitorMessages();
+            // changed text to be cheeky 
+            templates.put("defaultActionMethodFound", "Ah-ha, found you: {0}"); 
             return templates;
         }         
    </textarea>
