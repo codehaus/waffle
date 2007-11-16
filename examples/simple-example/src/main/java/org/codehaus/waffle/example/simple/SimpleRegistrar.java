@@ -25,8 +25,6 @@ public class SimpleRegistrar extends AbstractRegistrar {
         register("calculator", CalculatorController.class);
         register("automobile", AutomobileController.class);
         register("automobileValidator", AutomobileControllerValidator.class);
-
-        //
         register("person", PersonController.class);
     }
 }
