@@ -212,11 +212,14 @@ parameter:</p>
 thrown, from an <b>ActionMethod</b> after it has been invoked. Below we
 define defines how each case is handled in the Waffle framework:</p>
 <ul>
-  <li><b>View</b> - An ActionMethod which returns an instance of <i>org.codehaus.waffle.view.View</i>
-  or <i>org.codehaus.waffle.view.RedirectView</i> will forward or
+  <li><b>View</b> - An ActionMethod which returns an instance of <i><a href="javadoc/core/org/codehaus/waffle/view/View.html">
+        org.codehaus.waffle.view.View</a></i>
+  or <i><a href="javadoc/core/org/codehaus/waffle/view/RedirectView.html">
+        org.codehaus.waffle.view.RedirectView</a></i> will forward or
   redirect, respectively. By default Waffle assumes that each View
   defines the full URL the user is to be sent to. This behavior can be
-  altered by definning a different implementation of the <i>org.codehaus.waffle.view.ViewResolver</i>.
+  altered by definning a different implementation of the <i><a href="javadoc/core/org/codehaus/waffle/view/ViewResolver.html">
+        org.codehaus.waffle.view.ViewResolver</a></i>.
   Waffle was built to be pluggable this is the first example of how
   Waffle components can be customized and configured. Read the section
   on Waffle's <a href="pluggability.html">pluggability</a> for further
