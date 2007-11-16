@@ -31,7 +31,27 @@
     Be sure to choose the snapshot with the latest timestamp in the filename.
   </p>
 
+<h2 id="maven">Using Maven 2 Artifacts</h2>
 
+  <p>
+    If you use Maven 2 as the build system (or one that is compatible with the Maven 2 Repository),
+    you can declare Waffle dependencies as
+    <textarea class="xml:nogutter:nocontrols" name="code">
+  <dependency> 
+    <groupId>org.codehaus.waffle</groupId>
+    <artifactId>waffle-[module]</artifactId>
+    <version>[version]</version>
+  </dependency>
+    </textarea>
+    specifying the desired module and version.  Currently, Waffle comprises of three modules:
+    <ul>
+      <li><a href="javadoc/core/index.html">core</a></li>
+      <li><a href="javadoc/mock/index.html">mock</a></li>
+      <li><a href="javadoc/taglib/index.html">taglib</a></li>
+    </ul>
+    Note that mock and taglib modules have a transitive dependency on core, so there is no need to declare
+    the core dependency if using mock and/or taglib.
+  </p>
 <div class="clear">
 <hr />
 </div>
