@@ -72,18 +72,22 @@ can be registered. Detailed examples of this will be discussed later.</p>
 files we still must create a <b>web.xml</b>. The web.xml example below
 has four points worth mentioning.</p>
 <ol type="1">
-  <li><b>org.codehaus.waffle.registrar.Registrar</b> is the key
+  <li><b><a href="javadoc/core/org/codehaus/waffle/registrar/Registrar.html">
+        org.codehaus.waffle.registrar.Registrar</a></b> is the key
   used to register your applications custom Registrar. The key is the
   fully qualified name of the basic Registrar interface.</li>
-  <li><b>org.codehaus.waffle.context.pico.PicoWaffleContextListener</b>
+  <li><b><a href="javadoc/core/org/codehaus/waffle/context/pico/PicoWaffleContextListener.html">
+        org.codehaus.waffle.context.pico.PicoWaffleContextListener</a></b>
   needs to be registered as a listener so that Waffle can be notified of
   context level (application, session) events.</li>
   <li>
-    <b>org.codehaus.waffle.context.WaffleRequestFilter</b> this is the Filter Waffle uses to handle request level
+    <b><a href="javadoc/core/org/codehaus/waffle/context/WaffleRequestFilter.html">
+        org.codehaus.waffle.context.WaffleRequestFilter</a></b> this is the Filter Waffle uses to handle request level
     events. This is superior to a RequestAttributeListeners implementation because we can ensure a request level
     container will only be created when appropriate (i.e. not when images or cascading style sheets are requested).
   </li>
-  <li><b>org.codehaus.waffle.servlet.WaffleServlet</b> is Waffle's front controller for handling requests.</li>
+  <li><b><a href="javadoc/core/org/codehaus/waffle/servlet/WaffleServlet.html">
+        org.codehaus.waffle.servlet.WaffleServlet</a></b> is Waffle's front controller for handling requests.</li>
 </ol>
 
 <textarea class="xml:nogutter:nocontrols" name="code">
