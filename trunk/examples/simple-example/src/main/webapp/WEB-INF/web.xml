@@ -12,14 +12,22 @@
         <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
         <param-value>org.codehaus.waffle.example.simple.SimpleRegistrar</param-value>
     </context-param>
-    <!-- 2. We are adding a Custom Converter to handle Date objects -->
+    <!-- 2. We are adding a custom components -->
     <context-param>
         <param-name>register:DateConverter</param-name>
         <param-value>org.codehaus.waffle.example.simple.DateTypeConverter</param-value>
     </context-param>
     <context-param>
         <param-name>org.codehaus.waffle.monitor.ActionMonitor</param-name>
-        <param-value>org.codehaus.waffle.monitor.CommonsLoggingMonitor</param-value>
+        <param-value>org.codehaus.waffle.example.simple.SimpleMonitor</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.codehaus.waffle.monitor.BindMonitor</param-name>
+        <param-value>org.codehaus.waffle.example.simple.SimpleMonitor</param-value>
+    </context-param>
+    <context-param>
+        <param-name>org.codehaus.waffle.monitor.RegistrarMonitor</param-name>
+        <param-value>org.codehaus.waffle.example.simple.SimpleMonitor</param-value>
     </context-param>
 
     <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
