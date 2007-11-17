@@ -17,40 +17,39 @@ import org.junit.runner.RunWith;
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
-public class OgnlTypeConverterTest {
+public class DelegatingTypeConverterTest {
 
     private Mockery mockery = new Mockery();
 
     @Test
     public void canConvertValueForEnum() {
-        OgnlTypeConverter converter = new OgnlTypeConverter();
+        DelegatingTypeConverter converter = new DelegatingTypeConverter();
         Object result = converter.convertValue("foobar", "APPLICATION", ContextLevel.class);
 
         assertEquals(ContextLevel.APPLICATION, result);
     }
 
     @Test
-    public void canHandleNulls() {
-        OgnlTypeConverter converter = new OgnlTypeConverter();
+    public void canConvertValueForIntegers() {
+        DelegatingTypeConverter converter = new DelegatingTypeConverter();
         int value = (Integer) converter.convertValue("foobar", "15", Integer.class);
 
         assertEquals(15, value);
     }
 
     @Test
-    public void canConvertDelegatesToWaffleTypeConverter() {
-        // Mock TypeConverter 
-        final ValueConverter waffleTypeConverter = mockery.mock(ValueConverter.class);
+    public void canDelegateToValueConverter() {
+        // Mock ValueConverter 
+        final ValueConverter valueConverter = mockery.mock(ValueConverter.class);
         mockery.checking(new Expectations() {
             {
-                one(waffleTypeConverter).accept(Vector.class);
+                one(valueConverter).accept(Vector.class);
                 will(returnValue(true));
-                one(waffleTypeConverter).convertValue(with(same("propertyName")), with(same("foobar")), with(same(Vector.class)));
+                one(valueConverter).convertValue(with(same("propertyName")), with(same("foobar")), with(same(Vector.class)));
                 will(returnValue(new Vector<Object>()));
             }
         });
-        ValueConverter[] waffleTypeConverters = {waffleTypeConverter};
-        OgnlTypeConverter converter = new OgnlTypeConverter(waffleTypeConverters);
+        DelegatingTypeConverter converter = new DelegatingTypeConverter(new ValueConverter[] {valueConverter});
 
         converter.convertValue("propertyName", "foobar", Vector.class);
     }

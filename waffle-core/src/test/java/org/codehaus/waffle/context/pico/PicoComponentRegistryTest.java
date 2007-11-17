@@ -32,7 +32,7 @@ import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.DefaultBindErrorMessageResolver;
 import org.codehaus.waffle.bind.OgnlDataBinder;
-import org.codehaus.waffle.bind.OgnlTypeConverter;
+import org.codehaus.waffle.bind.DelegatingTypeConverter;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.context.AbstractContextContainerFactory;
 import org.codehaus.waffle.context.ContextContainerFactory;
@@ -154,7 +154,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
         assertTrue(componentRegistry.getRegistrarMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getServletMonitor() instanceof AbstractWritingMonitor);
-        assertTrue(componentRegistry.getTypeConverter() instanceof OgnlTypeConverter);
+        assertTrue(componentRegistry.getTypeConverter() instanceof DelegatingTypeConverter);
         assertTrue(componentRegistry.getValidator() instanceof DefaultValidator);
         assertTrue(componentRegistry.getValidationMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getViewDispatcher() instanceof DefaultViewDispatcher);

@@ -58,7 +58,7 @@ public class OgnlDataBinderTest {
         });
 
         FakeController fakeController = new FakeController();
-        DataBinder binder = new OgnlDataBinder(new OgnlTypeConverter(), null, new SilentMonitor());
+        DataBinder binder = new OgnlDataBinder(new DelegatingTypeConverter(), null, new SilentMonitor());
         ErrorsContext errorsContext = new DefaultErrorsContext();
         binder.bind(request, null, errorsContext, fakeController);
 
