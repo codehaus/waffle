@@ -9,17 +9,17 @@
   <name>Waffle</name>
   <description>
     Waffle is a Java action-based web framework that was built to support
-    enterprise-level web-based business applications, without having a mandatory
+    enterprise-level business applications, with no mandatory
     XML configuration (beyond the minimal web.xml required by any webapp) 
-    nor a proprietary UI markup language.  Its guiding principles
-    are simplicity, pluggability and interoperability.
+    and no proprietary UI markup language.  Its guiding principles
+    are agility, simplicity, pluggability and interoperability.
   </description>
   <url>http://waffle.codehaus.org</url>
 
   <modules>
-    <module>core</module>
-    <module>extensions/mock</module>
-    <module>extensions/taglib</module>
+    <module>waffle-core</module>
+    <module>waffle-mock</module>
+    <module>waffle-taglib</module>
   </modules>
 
   <dependencyManagement>
@@ -349,17 +349,17 @@
       </properties>
     </profile>
     <profile>
-      <!-- Acceptance profile -->
-      <id>acceptance</id>
+      <!-- integration profile -->
+      <id>integration</id>
       <modules>
-        <module>extensions/taglib-acceptance</module>
+        <module>integration/waffle-taglib</module>
       </modules>
     </profile>
     <profile>
       <!-- Distribution profile -->
       <id>dist</id>
       <modules>
-        <module>distribution</module>
+        <module>waffle-distribution</module>
       </modules>
     </profile>
     <profile>
