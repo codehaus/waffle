@@ -1,0 +1,14 @@
+Botão para reinicializar o formulário
+
+	O botão de reinicialização de um formulário (reset button) é utilizado para voltar o formulário ao seu estado inicial.
+	
+Exemplo
+	
++--------------------
+<s:reset value="limpar"/>
++--------------------
+
+	No exemplo acima, você deve cadastrar a mensagem <limpar> no seu arquivo de internacionalização.
+
+	Note que o formulário volta para seu estado inicial, que não significa estar limpo, mas sim com os valores que
+	foram definidos como padrão de cada campo.

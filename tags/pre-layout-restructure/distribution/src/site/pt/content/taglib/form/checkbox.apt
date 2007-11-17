@@ -1,0 +1,18 @@
+Campos do tipo checkbox
+
+	Tags do tipo checkbox podem ser adicionadas com a utilização da tag s:checkbox
+	Você sempre pode utilizar código html puro:
+	
++--------------------
+<s:check name="esporte" checked="${true}" value="futebol" />
++--------------------
+
+	Que gerará:
+
++--------------------
+<input type="checkbox" name="esporte" checked="checked" value="futebol" />
++--------------------
+
+Valor padrão
+
+	O valor padrão do campo value é "true".

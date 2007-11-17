@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<title>Waffle Taglib</title>
+
+</head>
+<body>
+<h2>Introdução</h2>
+
+
+<p>
+	Waffle taglib é a tag library disponibilizada pelo Waffle para aumentar a produtividade do desenvolvedor ao
+	escrever páginas jsp.
+	O passo mais importante é adicionar a taglib ao seu jsp:
+
+<div class="source"><pre>
+<%@ taglib uri="http://waffle.codehaus.org" prefix="w" %>
+</pre></div>
+</p>
+
+<h2>Exemplo básico</h2>
+
+	O exemplo a seguir mostra um formulário a ser criado em uma tabela, com um campo invisível e alguns
+	de texto.
+	
+<div class="source"><pre>
+<w:form action="/fornecedor.armazena.logic" type="table" id="sendForm">
+	<w:hidden name="fornecedor.id"/>
+	<w:text name="fornecedor.codigo"/>
+	<w:text name="fornecedor.nome"/>
+	<w:text name="fornecedor.telefone"/>
+	<w:textarea name="fornecedor.detalhes" cols="60" rows="7">${fornecedor.detalhes}</w:textarea>
+	<w:submit value="enviar"/>
+</w:form>
+
+</pre></div>
+
+	Note que, devido a internacionalização, você deve registrar as seguintes chaves no seu arquivo de propriedades:
+	<fornecedor.nome>, <fornecedor.codigo>, <fornecedor.telefone>, <fornecedor.detalhes> e <enviar>.
+
+<div class="source"><pre>
+fornecedor.nome = Nome
+fornecedor.codigo = Código
+fornecedor.telefone = Telefone
+fornecedor.detalhes = Detalhes
+enviar = Enviar
+</pre></div>
+
+</p>
+
+<h2>Exemplo de um formulário de login</h2>
+
+<p>
+	O exemplo abaixo mostra um campo de texto e outro de senha para um formulário clássico de login:
+	
+<div class="source"><pre>
+<w:form action="/login.execute.logic" type="table" id="login">
+	<w:text name="username"/>
+	<w:password name="password"/>
+	<w:submit value="login"/>
+</w:form>
+</pre></div>
+	
+	Note que, devido a internacionalização, você deve registrar as seguintes chaves no seu arquivo de propriedades:
+	<username>, <password> e <login>.
+
+<div class="source"><pre>
+username = Usuário
+password = Senha
+login = Login
+</pre></div>
+</p>
+
+</body>
+</html>

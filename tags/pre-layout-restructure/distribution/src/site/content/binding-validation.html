@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Binding and Validation</title>
+  </head>
+  <body>
+
+    <h2>Binding and Validation</h2>
+
+    <h3>Binding</h3>
+
+    <p>
+      By default all binding of fields to <b>Controllers</b> is handled by Ognl. Waffle provides a custom extension to
+      Ognl's <i>ognl.DefaultTypeConverter</i> to support Java 5 <i>enums</i>. Fields of standard types (e.g. String,
+      Number, primitives) are bound to your controllers automatically. More complex or custom class types can also
+      easily be handled.
+    </p>
+
+    <p>
+      A common binding problem that many web application need to deal with is how to bind a String value to a Date
+      object. Of course each application and locale has it's own unique format. As an example we will build a class that
+      supports binding to a Date. From this example you'll gain an understanding of how to bind to any Class type.
+    </p>
+
+    <p>
+      Suppose we have the following Controller class <b>ControllerWithDateField</b> which has one field <b>startDate</b>
+      which is of course a <i>java.util.Date</i>:
+    </p>
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+      public class ControllerWithDateField {
+        private Date startDate;
+
+        public Date getStartDate() {
+          return startDate;
+        }
+
+        public void setStartDate(Date startDate) {
+          this.startDate = startDate;
+        }
+      }
+    </textarea>
+
+    <p>
+      You could imagine that the request to set this date field would be something similar to
+      <b>startDate=04-07-2006</b>. So inorder to bind this to the underlying Controller we will need to create a custom
+      class that will handle conversion for a specific type(s).
+    </p>
+
+
+    <h4>WaffleTypeConverter</h4>
+
+    <p>
+      Implementation of the <b>WaffleTypeConverter</b> interface is needed to handle these custom type conversions. This
+      interface defines two methods:
+    </p>
+
+    <table class="bodyTable">
+      <tbody>
+        <tr class="a">
+          <td align="left"><b>Method</b></td>
+          <td align="left"><b>Description</b></td>
+        </tr>
+        <tr class="b">
+          <td align="left">boolean accept(Class type)</td>
+          <td align="left">determine whether this implementation can
+          handle conversions for the class type passed.</td>
+        </tr>
+        <tr class="a">
+          <td align="left">Object convert(String propertyName, String
+          value, Class toType)</td>
+          <td align="left">responsible for handling the conversion
+          (only called if implementation returned true from the <i>accept()</i>
+          method.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Nothing clarifies a description better than an example so lets look at the implementation Waffle provides for
+      handling Date types:
+    </p>
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+      public class DateTypeConverter implements WaffleTypeConverter {
+
+        private MessageResources messageResources;
+
+        public DateTypeConverter(MessageResources messageResources) {
+            this.messageResources = messageResources;
+        }
+
+        /**
+         * Will accept any class stemming from <code>java.util.Date</code>
+         *
+         * @param type represent the type of the field a value is to be bound to
+         * @return true if isA Date
+         */
+        public boolean accept(Class type) {
+            return Date.class.isAssignableFrom(type);
+        }
+
+        public Object convert(String propertyName, String value, Class toType) throws BindException {
+            String format = messageResources.getMessageWithDefault("date.format", "dd-MM-yyyy");
+
+            try {
+                return new SimpleDateFormat(format).parse(value);
+            } catch (ParseException e) {
+                String errorMsg = messageResources.getMessage("date.bind.error", value, format);
+                throw new BindException(errorMsg, e);
+            }
+        }
+
+      }
+    </textarea>
+
+    <p>Now all that is left is to register this converter within the web.xml</p>
+
+    <textarea class="xml:nogutter:nocontrols" name="code">
+      <context-param>
+        <param-name>register:DateConverter</param-name>
+        <param-value>com.mycompany.DateTypeConverter</param-value>
+      </context-param>
+    </textarea>
+
+    <h3>Validation</h3>
+
+    <p>
+      Waffle allows you to do validations in to two ways. The simplest being to make your ActionMethod responsible for
+      validation. Simply add an <b>Errors</b> argument to your ActionMethod's argument list and Waffle will inject the
+      current instance of Errors to your method. In the example below the ActionMethod "addToCart" third argument is
+      an Errors object. The ActionMethod ensures that the quantity does not exceed 10, if so a new error message is
+      created and add to the Errors instance.
+    </p>
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+      public class ShoppingCartController implements Serializable {
+        private final MessageResources messageResources;
+        private final Cart cart;
+
+        public ShoppingCartController(MessageResources messageResources, Cart cart) {
+          this.messageResources = messageResources;
+          this.cart = cart;
+        }
+
+        // This ActionMethod handles its own validation
+        public void addToCart(long itemId, int quantity, Errors errors) {
+          if(quantity > 10) {
+            String message = messageResources.getMessage("quantity.error");
+            FieldError fieldError = new FieldError("quantity", quantity, message);
+            errors.addFieldError(fieldError);
+            return;
+          }
+
+          ...
+        }
+      }
+    </textarea>
+
+    <p>
+      The second means of Validation allows for an external validation class by follows a few simple conventions.
+      Suppose you have the following Controller registered under the name "foo":
+    </p>
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+      public class FooController {
+
+        public String sayHello(String firstName, String lastName) {
+          return "Hello, " + firstName + " " + lastName;
+        }
+
+        public void sayGoodbye() {
+          return "Later!!";
+        }
+      }
+    </textarea>
+
+    <p>
+      You can register any POJO you would like as a Validator. The only requirement is that it should be registered with
+      the suffix <i>Validator</i>.  In other words the POJO registered under the name <i>"fooValidator"</i> would be the
+      Validator for the controller registered under the name <i>"foo"</i>.  The Validator class will need to provide a
+      seperate method for each ActionMethod requiring sepearte validation. These validate methods will need to be named
+      identical to the ActionMethods they are providing validation for. The signature of the validate method is
+      identical with the additional first argument being of type <b>Errors</b>. The following is an example of such a
+      Validator:
+    </p>
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+      public class FooControllerValidator {
+
+        // This is the validator for the FooController.sayHello(String, String) Actionmethod
+        public void sayHello(Errors errors, String firstName, String lastName) {
+
+          // validate and add error message to the errors if applicable
+
+        }
+      }
+    </textarea>
+
+    <p>Notice this Validator does not need to extend any custom Waffle classes or interfaces.</p>
+  </body>
+
+</html>
