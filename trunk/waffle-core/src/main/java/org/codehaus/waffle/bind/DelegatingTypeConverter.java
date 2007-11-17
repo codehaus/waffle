@@ -24,16 +24,16 @@ import java.util.Map;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class OgnlTypeConverter implements TypeConverter {
+public class DelegatingTypeConverter implements TypeConverter {
     private static final String EMPTY = "";
     private final ValueConverter[] valueConverters;
     private final Map<Class<?>, ValueConverter> cache = new HashMap<Class<?>, ValueConverter>();
 
-    public OgnlTypeConverter() {
+    public DelegatingTypeConverter() {
         this.valueConverters = new ValueConverter[0];
     }
 
-    public OgnlTypeConverter(ValueConverter... valueConverters) {
+    public DelegatingTypeConverter(ValueConverter... valueConverters) {
         if (valueConverters == null) {
             this.valueConverters = new ValueConverter[0];
         } else {
@@ -84,10 +84,10 @@ public class OgnlTypeConverter implements TypeConverter {
             return Enum.valueOf(toType, value);
         }
 
-        ValueConverter waffleTypeConverter = findConverter(toType);
+        ValueConverter converter = findConverter(toType);
 
-        if (waffleTypeConverter != null) {
-            return waffleTypeConverter.convertValue(propertyName, value, toType);
+        if (converter != null) {
+            return converter.convertValue(propertyName, value, toType);
         }
 
         return OgnlOps.convertValue(value, toType);

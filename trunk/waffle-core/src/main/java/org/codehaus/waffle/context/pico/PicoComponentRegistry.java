@@ -33,7 +33,7 @@ import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.DefaultBindErrorMessageResolver;
 import org.codehaus.waffle.bind.IntrospectingRequestAttributeBinder;
 import org.codehaus.waffle.bind.OgnlDataBinder;
-import org.codehaus.waffle.bind.OgnlTypeConverter;
+import org.codehaus.waffle.bind.DelegatingTypeConverter;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ContextControllerDefinitionFactory;
@@ -88,7 +88,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(BindErrorMessageResolver.class, DefaultBindErrorMessageResolver.class, servletContext);
         register(DataBinder.class, OgnlDataBinder.class, servletContext);
         register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
-        register(TypeConverter.class, OgnlTypeConverter.class, servletContext);
+        register(TypeConverter.class, DelegatingTypeConverter.class, servletContext);
         register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
         register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);

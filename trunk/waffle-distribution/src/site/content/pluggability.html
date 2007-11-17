@@ -87,8 +87,8 @@
       <tr class="b">
         <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/TypeConverter.html">
         org.codehaus.waffle.bind.TypeConverter</a></td>
-        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/OgnlTypeConverter.html">
-        org.codehaus.waffle.bind.OgnlTypeConverter</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/DelegatingTypeConverter.html">
+        org.codehaus.waffle.bind.DelegatingTypeConverter</a></td>
       </tr>
       <tr class="b">
         <td align="left"><a href="javadoc/core/org/codehaus/waffle/context/ContextContainerFactory.html">
@@ -162,12 +162,12 @@
 
 <p>
   For a more concrete example Waffle defines the interface <i>
-  <a href="javadoc/core/org/codehaus/waffle/bind/WaffleTypeConverter.html">
-        org.codehaus.waffle.bind.WaffleTypeConverter</a></i>.
+  <a href="javadoc/core/org/codehaus/waffle/bind/ValueConverter.html">
+        org.codehaus.waffle.bind.ValueConverter</a></i>.
   Implementations of this interface allows you to write custom conversions
   for a specific class type. The following is an example of how you can
-  register your converters with Waffle. Waffle's <i>OgnlTypeConverter</i>
-  is dependent on all <i>org.codehaus.waffle.bind.WaffleTypeConverter</i>
+  register your converters with Waffle. Waffle's <i>DelegatingTypeConverter</i>
+  is dependent on all <i>org.codehaus.waffle.bind.ValueConverter</i>
   that are registered in the <b>web.xml</b>. So the following example will
   provide 2 custom converters for use in your application.
 </p>
