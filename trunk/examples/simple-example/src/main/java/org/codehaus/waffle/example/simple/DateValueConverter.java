@@ -1,7 +1,7 @@
-package org.codehaus.waffle.example.paranamer;
+package org.codehaus.waffle.example.simple;
 
 import org.codehaus.waffle.bind.BindException;
-import org.codehaus.waffle.bind.WaffleTypeConverter;
+import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.i18n.MessageResources;
 
 import java.text.ParseException;
@@ -11,10 +11,10 @@ import java.util.Date;
 /**
  * @author Michael Ward
  */
-public class DateTypeConverter implements WaffleTypeConverter {
+public class DateValueConverter implements ValueConverter {
     private final MessageResources messageResources;
 
-    public DateTypeConverter(MessageResources messageResources) {
+    public DateValueConverter(MessageResources messageResources) {
         this.messageResources = messageResources;
     }
 
@@ -24,11 +24,11 @@ public class DateTypeConverter implements WaffleTypeConverter {
      * @param type represent the type of the field a value is to be bound to
      * @return true if isA Date
      */
-    public boolean accept(Class type) {
+    public boolean accept(Class<?> type) {
         return Date.class.isAssignableFrom(type);
     }
 
-    public Object convert(String propertyName, String value, Class toType) throws BindException {
+    public Object convertValue(String propertyName, String value, Class<?> toType) throws BindException {
         if (value == null || value.equals("")) {
             return null;
         }

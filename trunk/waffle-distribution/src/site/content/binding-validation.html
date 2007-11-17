@@ -48,10 +48,10 @@
     </p>
 
 
-    <h4>WaffleTypeConverter</h4>
+    <h4>ValueConverter</h4>
 
     <p>
-      Implementation of the <b>WaffleTypeConverter</b> interface is needed to handle these custom type conversions. This
+      Implementation of the <b>ValueConverter</b> interface is needed to handle these custom value conversions. This
       interface defines two methods:
     </p>
 
@@ -67,7 +67,7 @@
           handle conversions for the class type passed.</td>
         </tr>
         <tr class="a">
-          <td align="left">Object convert(String propertyName, String
+          <td align="left">Object convertValue(String propertyName, String
           value, Class toType)</td>
           <td align="left">responsible for handling the conversion
           (only called if implementation returned true from the <i>accept()</i>
@@ -82,11 +82,11 @@
     </p>
 
     <textarea class="java:nogutter:nocontrols" name="code">
-      public class DateTypeConverter implements WaffleTypeConverter {
+      public class DateValueConverter implements ValueConverter {
 
         private MessageResources messageResources;
 
-        public DateTypeConverter(MessageResources messageResources) {
+        public DateValueConverter(MessageResources messageResources) {
             this.messageResources = messageResources;
         }
 
@@ -100,7 +100,7 @@
             return Date.class.isAssignableFrom(type);
         }
 
-        public Object convert(String propertyName, String value, Class toType) throws BindException {
+        public Object convertValue(String propertyName, String value, Class toType) throws BindException {
             String format = messageResources.getMessageWithDefault("date.format", "dd-MM-yyyy");
 
             try {
@@ -119,7 +119,7 @@
     <textarea class="xml:nogutter:nocontrols" name="code">
       <context-param>
         <param-name>register:DateConverter</param-name>
-        <param-value>com.mycompany.DateTypeConverter</param-value>
+        <param-value>com.mycompany.DateValueConverter</param-value>
       </context-param>
     </textarea>
 

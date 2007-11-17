@@ -40,16 +40,16 @@ public class OgnlTypeConverterTest {
     @Test
     public void canConvertDelegatesToWaffleTypeConverter() {
         // Mock TypeConverter 
-        final WaffleTypeConverter waffleTypeConverter = mockery.mock(WaffleTypeConverter.class);
+        final ValueConverter waffleTypeConverter = mockery.mock(ValueConverter.class);
         mockery.checking(new Expectations() {
             {
                 one(waffleTypeConverter).accept(Vector.class);
                 will(returnValue(true));
-                one(waffleTypeConverter).convert(with(same("propertyName")), with(same("foobar")), with(same(Vector.class)));
+                one(waffleTypeConverter).convertValue(with(same("propertyName")), with(same("foobar")), with(same(Vector.class)));
                 will(returnValue(new Vector<Object>()));
             }
         });
-        WaffleTypeConverter[] waffleTypeConverters = {waffleTypeConverter};
+        ValueConverter[] waffleTypeConverters = {waffleTypeConverter};
         OgnlTypeConverter converter = new OgnlTypeConverter(waffleTypeConverters);
 
         converter.convertValue("propertyName", "foobar", Vector.class);

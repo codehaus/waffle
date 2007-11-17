@@ -9,9 +9,9 @@ org.codehaus.waffle.example.paranamer.Item getId
 org.codehaus.waffle.example.paranamer.Item getName 
 org.codehaus.waffle.example.paranamer.Item setId int id 
 org.codehaus.waffle.example.paranamer.Item setName java.lang.String name 
-org.codehaus.waffle.example.paranamer.DateTypeConverter DateTypeConverter org.codehaus.waffle.i18n.MessageResources messageResources 
-org.codehaus.waffle.example.paranamer.DateTypeConverter accept java.lang.Class type 
-org.codehaus.waffle.example.paranamer.DateTypeConverter convert java.lang.String,java.lang.String,java.lang.Class propertyName,value,toType 
+org.codehaus.waffle.example.paranamer.DateValueConverter DateValueConverter org.codehaus.waffle.i18n.MessageResources messageResources 
+org.codehaus.waffle.example.paranamer.DateValueConverter accept java.lang.Class type 
+org.codehaus.waffle.example.paranamer.DateValueConverter convertValue java.lang.String,java.lang.String,java.lang.Class propertyName,value,toType 
 org.codehaus.waffle.example.paranamer.MyRegistrar MyRegistrar org.codehaus.waffle.registrar.Registrar delegate 
 org.codehaus.waffle.example.paranamer.MyRegistrar application 
 org.codehaus.waffle.example.paranamer.MyRegistrar session 

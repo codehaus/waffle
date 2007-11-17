@@ -18,25 +18,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An extension of Ognl's <code>DefaultTypeConverter</code> which handles Java 5 enums and will delegate
- * custom <code>WaffleTypeConverter</code>'s registered per application.
+ * An implementation of Ognl's <code>TypeConverter</code> which handles Java 5 enums and will delegate
+ * custom <code>ValueConverter</code>'s registered per application.
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public class OgnlTypeConverter implements TypeConverter {
     private static final String EMPTY = "";
-    private final WaffleTypeConverter[] waffleTypeConverters;
-    private final Map<Class, WaffleTypeConverter> cache = new HashMap<Class, WaffleTypeConverter>();
+    private final ValueConverter[] valueConverters;
+    private final Map<Class<?>, ValueConverter> cache = new HashMap<Class<?>, ValueConverter>();
 
     public OgnlTypeConverter() {
-        this.waffleTypeConverters = new WaffleTypeConverter[0];
+        this.valueConverters = new ValueConverter[0];
     }
 
-    public OgnlTypeConverter(WaffleTypeConverter... waffleTypeConverters) {
-        if (waffleTypeConverters == null) {
-            this.waffleTypeConverters = new WaffleTypeConverter[0];
+    public OgnlTypeConverter(ValueConverter... valueConverters) {
+        if (valueConverters == null) {
+            this.valueConverters = new ValueConverter[0];
         } else {
-            this.waffleTypeConverters = waffleTypeConverters;
+            this.valueConverters = valueConverters;
         }
     }
 
@@ -83,24 +84,24 @@ public class OgnlTypeConverter implements TypeConverter {
             return Enum.valueOf(toType, value);
         }
 
-        WaffleTypeConverter waffleTypeConverter = findConverter(toType);
+        ValueConverter waffleTypeConverter = findConverter(toType);
 
         if (waffleTypeConverter != null) {
-            return waffleTypeConverter.convert(propertyName, value, toType);
+            return waffleTypeConverter.convertValue(propertyName, value, toType);
         }
 
         return OgnlOps.convertValue(value, toType);
     }
 
-    private WaffleTypeConverter findConverter(Class toType) {
+    private ValueConverter findConverter(Class<?> toType) {
         if (cache.containsKey(toType)) { // cache hit
             return cache.get(toType);
         }
 
-        for (WaffleTypeConverter waffleTypeConverter : waffleTypeConverters) {
-            if (waffleTypeConverter.accept(toType)) {
-                cache.put(toType, waffleTypeConverter);
-                return waffleTypeConverter;
+        for (ValueConverter converter : valueConverters) {
+            if (converter.accept(toType)) {
+                cache.put(toType, converter);
+                return converter;
             }
         }
 
