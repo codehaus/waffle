@@ -19,7 +19,7 @@
     <!-- 2. We are adding a Custom Converter to handle Date objects -->
     <context-param>
         <param-name>register:DateConverter</param-name>
-        <param-value>org.codehaus.waffle.example.paranamer.DateTypeConverter</param-value>
+        <param-value>org.codehaus.waffle.example.paranamer.DateValueConverter</param-value>
     </context-param>
 
     <!-- 3. Waffle context listener (ServletContext and HttpSession) -->

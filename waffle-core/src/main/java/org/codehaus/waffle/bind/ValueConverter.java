@@ -11,13 +11,14 @@
 package org.codehaus.waffle.bind;
 
 /**
- * Implementation of this interface will be responsible for converting specific type(s).
+ * Implementation of this interface will be responsible for converting values of specific type(s).
  *
  * @author Michael Ward
  */
-public interface WaffleTypeConverter {
+public interface ValueConverter {
 
-    boolean accept(Class type);
+    boolean accept(Class<?> type);
 
-    Object convert(String propertyName, String value, Class toType) throws BindException;
+    Object convertValue(String propertyName, String value, Class<?> toType) throws BindException;
+
 }
