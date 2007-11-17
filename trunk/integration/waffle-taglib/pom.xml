@@ -7,8 +7,8 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <packaging>war</packaging>
-  <artifactId>waffle-acceptance</artifactId>
-  <name>Waffle Acceptance</name>
+  <artifactId>waffle-taglib-integration</artifactId>
+  <name>Waffle Taglib Integration</name>
 
   <dependencies>
     <dependency>
