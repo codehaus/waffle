@@ -10,19 +10,21 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind;
 
-import org.codehaus.waffle.monitor.BindMonitor;
-import org.codehaus.waffle.validation.BindErrorMessage;
-import org.codehaus.waffle.validation.ErrorsContext;
+import java.util.Enumeration;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import ognl.InappropriateExpressionException;
 import ognl.NoSuchPropertyException;
 import ognl.Ognl;
 import ognl.OgnlException;
 import ognl.TypeConverter;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
-import java.util.Map;
+import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.validation.BindErrorMessage;
+import org.codehaus.waffle.validation.ErrorsContext;
 
 /**
  * This DataBinder implementation is backed by <a href="http://www.ognl.org">Ognl: Object Graph Notation Language</a>.
@@ -35,8 +37,8 @@ public class OgnlDataBinder implements DataBinder {
     private final BindErrorMessageResolver bindErrorMessageResolver;
     private final BindMonitor bindMonitor;
 
-    public OgnlDataBinder(TypeConverter typeConverter, BindErrorMessageResolver bindErrorMessageResolver, BindMonitor bindMonitor) {
-        this.typeConverter = typeConverter;
+    public OgnlDataBinder(ValueConverterFinder valueConverterFinder, BindErrorMessageResolver bindErrorMessageResolver, BindMonitor bindMonitor) {
+        this.typeConverter = new DelegatingTypeConverter(valueConverterFinder);
         this.bindErrorMessageResolver = bindErrorMessageResolver;
         this.bindMonitor = bindMonitor;
     }

@@ -31,8 +31,8 @@ public class DelegatingTypeConverter implements TypeConverter {
         this.valueConverterFinder = new DefaultValueConverterFinder();
     }
 
-    public DelegatingTypeConverter(ValueConverter... valueConverters) {
-        this.valueConverterFinder = new DefaultValueConverterFinder(valueConverters);
+    public DelegatingTypeConverter(ValueConverterFinder valueConverterFinder) {
+        this.valueConverterFinder = valueConverterFinder;
     }
 
     /**

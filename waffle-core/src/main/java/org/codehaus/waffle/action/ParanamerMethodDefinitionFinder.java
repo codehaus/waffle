@@ -19,8 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ognl.TypeConverter;
-
+import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.monitor.ActionMonitor;
 
 import com.thoughtworks.paranamer.CachingParanamer;
@@ -41,10 +40,10 @@ public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFin
    
     public ParanamerMethodDefinitionFinder(ServletContext servletContext,
                                            ArgumentResolver argumentResolver,
-                                           TypeConverter typeConverter,
-                                           MethodNameResolver methodNameResolver, 
+                                           MethodNameResolver methodNameResolver,
+                                           ValueConverterFinder valueConverterFinder, 
                                            ActionMonitor actionMonitor) {
-        super(servletContext, argumentResolver, typeConverter, methodNameResolver, actionMonitor);
+        super(servletContext, argumentResolver, methodNameResolver, valueConverterFinder, actionMonitor);
     }
 
     protected List<Object> getArguments(Method method, HttpServletRequest request) {

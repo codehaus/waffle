@@ -14,8 +14,6 @@ import java.util.Enumeration;
 
 import javax.servlet.ServletContext;
 
-import ognl.TypeConverter;
-
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
@@ -31,10 +29,11 @@ import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.DefaultBindErrorMessageResolver;
+import org.codehaus.waffle.bind.DefaultValueConverterFinder;
 import org.codehaus.waffle.bind.IntrospectingRequestAttributeBinder;
 import org.codehaus.waffle.bind.OgnlDataBinder;
-import org.codehaus.waffle.bind.DelegatingTypeConverter;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ContextControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ContextPathControllerNameResolver;
@@ -88,7 +87,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(BindErrorMessageResolver.class, DefaultBindErrorMessageResolver.class, servletContext);
         register(DataBinder.class, OgnlDataBinder.class, servletContext);
         register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
-        register(TypeConverter.class, DelegatingTypeConverter.class, servletContext);
+        register(ValueConverterFinder.class, DefaultValueConverterFinder.class, servletContext);
         register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
         register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
@@ -236,8 +235,8 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(RequestAttributeBinder.class);
     }
 
-    public TypeConverter getTypeConverter() {
-        return locateByType(TypeConverter.class);
+    public ValueConverterFinder getValueConverterFinder() {
+        return locateByType(ValueConverterFinder.class);
     }
 
     public ContextContainerFactory getContextContainerFactory() {

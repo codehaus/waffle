@@ -49,7 +49,7 @@ public class DelegatingTypeConverterTest {
                 will(returnValue(new Vector<Object>()));
             }
         });
-        DelegatingTypeConverter converter = new DelegatingTypeConverter(new ValueConverter[] {valueConverter});
+        DelegatingTypeConverter converter = new DelegatingTypeConverter(new DefaultValueConverterFinder(valueConverter));
 
         converter.convertValue("propertyName", "foobar", Vector.class);
     }

@@ -18,9 +18,8 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import ognl.TypeConverter;
-
 import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
@@ -36,10 +35,10 @@ public class AnnotatedMethodDefinitionFinder extends AbstractMethodDefinitionFin
 
     public AnnotatedMethodDefinitionFinder(ServletContext servletContext,
                                            ArgumentResolver argumentResolver,
-                                           TypeConverter typeConverter,
-                                           MethodNameResolver methodNameResolver, 
+                                           MethodNameResolver methodNameResolver,
+                                           ValueConverterFinder valueConverterFinder, 
                                            ActionMonitor actionMonitor) {
-        super(servletContext, argumentResolver, typeConverter, methodNameResolver, actionMonitor);
+        super(servletContext, argumentResolver, methodNameResolver, valueConverterFinder, actionMonitor);
     }
 
     protected List<Object> getArguments(Method method, HttpServletRequest request) {
