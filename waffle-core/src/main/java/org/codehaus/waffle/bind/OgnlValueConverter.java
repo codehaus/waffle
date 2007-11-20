@@ -34,7 +34,7 @@ public class OgnlValueConverter implements ValueConverter {
         return true;
     }
 
-    public Object convertValue(String propertyName, String value, Class<?> toType) throws BindException {
+    public Object convertValue(String propertyName, String value, Class<?> toType) {
         return converter.convertValue(null, null, null, propertyName, value, toType);
     }
 

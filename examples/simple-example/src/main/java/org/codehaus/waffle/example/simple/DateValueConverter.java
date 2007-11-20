@@ -28,7 +28,7 @@ public class DateValueConverter implements ValueConverter {
         return Date.class.isAssignableFrom(type);
     }
 
-    public Object convertValue(String propertyName, String value, Class<?> toType) throws BindException {
+    public Object convertValue(String propertyName, String value, Class<?> toType) {
         if (value == null || value.equals("")) {
             return null;
         }
