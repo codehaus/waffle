@@ -10,12 +10,19 @@
     <h3>Binding</h3>
 
     <p>
-      By default all binding of fields to <b>Controllers</b> is handled by Ognl. Waffle provides a custom implementation of
-      Ognl's <i>ognl.TypeConverter</i> to support Java 5 <i>enums</i> and to delegate to Waffle <code>ValueConverters</code> if
-      defined. Fields of standard types (e.g. String, Number, primitives) are bound to your controllers automatically. More complex or custom class types can also
-      easily be handled.
+      By default all binding of fields to <b>Controllers</b> is handled by Ognl. Waffle's <i>OgnlDataBinder</i>
+      allows for the injection of a <i>ValueConverterFinder</i>, which by default is only configured to use
+      <i>OgnlValueConverter</i>, but can be customized to use any number of Waffle <code>ValueConverter</code>s.
+      The <i>OgnlValueConverter</i> allows fields of standard types (e.g. String, Number, primitives) to be 
+      bound to your controllers automatically. 
     </p>
 
+    <p>
+      <b>Note</b>:  If any custom converters are configured, the user needs to configure <b>all</b> converters,
+      including <i>OgnlValueConverter</i> if so desired.  Waffle does not hardcode any converters, it simply 
+      tries to make the default behaviour the most useful to the user.
+    </p>
+    
     <p>
       A common binding problem that many web application need to deal with is how to bind a String value to a Date
       object. Of course each application and locale has it's own unique format. As an example we will build a class that
@@ -68,7 +75,7 @@
         </tr>
         <tr class="a">
           <td align="left">Object convertValue(String propertyName, String
-          value, Class toType)</td>
+          value, Class type)</td>
           <td align="left">responsible for handling the conversion
           (only called if implementation returned true from the <i>accept()</i>
           method.</td>
@@ -100,7 +107,7 @@
             return Date.class.isAssignableFrom(type);
         }
 
-        public Object convertValue(String propertyName, String value, Class toType) throws BindException {
+        public Object convertValue(String propertyName, String value, Class type) throws BindException {
             String format = messageResources.getMessageWithDefault("date.format", "dd-MM-yyyy");
 
             try {
