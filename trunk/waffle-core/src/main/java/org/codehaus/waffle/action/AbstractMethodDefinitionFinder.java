@@ -30,6 +30,7 @@ import ognl.TypeConverter;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
@@ -48,18 +49,18 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private final Map<Class, Method> defaultMethodCache = new HashMap<Class, Method>();
     private final ServletContext servletContext;
     private final ArgumentResolver argumentResolver;
-    private final TypeConverter typeConverter;
+    private final ValueConverterFinder valueConverterFinder;
     private final MethodNameResolver methodNameResolver;
     private final ActionMonitor actionMonitor;
 
     public AbstractMethodDefinitionFinder(ServletContext servletContext,
                                           ArgumentResolver argumentResolver,
-                                          TypeConverter typeConverter,
-                                          MethodNameResolver methodNameResolver, 
+                                          MethodNameResolver methodNameResolver,
+                                          ValueConverterFinder valueConverterFinder, 
                                           ActionMonitor actionMonitor) {
         this.servletContext = servletContext;
         this.argumentResolver = argumentResolver;
-        this.typeConverter = typeConverter;
+        this.valueConverterFinder = valueConverterFinder;
         this.methodNameResolver = methodNameResolver;
         this.actionMonitor = actionMonitor;
     }
@@ -291,7 +292,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         if (isEmpty(value) && type.isPrimitive()) {
             value = null; // this allows Ognl to use that primitives default value
         }
-        return typeConverter.convertValue(null, null, null, null, value, type);
+        return valueConverterFinder.findConverter(type).convertValue(null, value, type);
     }
 
     private boolean isEmpty(String value) {

@@ -10,7 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle;
 
-import ognl.TypeConverter;
 
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
@@ -20,6 +19,7 @@ import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
@@ -83,7 +83,7 @@ public interface ComponentRegistry {
 
     ServletMonitor getServletMonitor();
 
-    TypeConverter getTypeConverter();
+    ValueConverterFinder getValueConverterFinder();
 
     Validator getValidator();
 

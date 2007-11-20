@@ -19,7 +19,7 @@ public class RubyDataBinder extends OgnlDataBinder {
     public RubyDataBinder(TypeConverter typeConverter,
                           BindErrorMessageResolver bindErrorMessageResolver,
                           ArgumentResolver argumentResolver, BindMonitor bindMonitor) {
-        super(typeConverter, bindErrorMessageResolver, bindMonitor);
+        super(new DefaultValueConverterFinder(), bindErrorMessageResolver, bindMonitor);
         this.argumentResolver = argumentResolver;
     }
 

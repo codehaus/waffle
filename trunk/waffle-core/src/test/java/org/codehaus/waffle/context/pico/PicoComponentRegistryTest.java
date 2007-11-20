@@ -16,9 +16,6 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import ognl.DefaultTypeConverter;
-import ognl.TypeConverter;
-
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
@@ -31,9 +28,10 @@ import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.DefaultBindErrorMessageResolver;
+import org.codehaus.waffle.bind.DefaultValueConverterFinder;
 import org.codehaus.waffle.bind.OgnlDataBinder;
-import org.codehaus.waffle.bind.DelegatingTypeConverter;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.context.AbstractContextContainerFactory;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ContextControllerDefinitionFactory;
@@ -154,7 +152,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
         assertTrue(componentRegistry.getRegistrarMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getServletMonitor() instanceof AbstractWritingMonitor);
-        assertTrue(componentRegistry.getTypeConverter() instanceof DelegatingTypeConverter);
+        assertTrue(componentRegistry.getValueConverterFinder() instanceof DefaultValueConverterFinder);
         assertTrue(componentRegistry.getValidator() instanceof DefaultValidator);
         assertTrue(componentRegistry.getValidationMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getViewDispatcher() instanceof DefaultViewDispatcher);
@@ -208,8 +206,8 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubRequestAttributeBinder.class.getName()));
                 one(servletContext).getInitParameter(ServletMonitor.class.getName());
                 will(returnValue(StubMonitor.class.getName()));
-                one(servletContext).getInitParameter(TypeConverter.class.getName());
-                will(returnValue(DefaultTypeConverter.class.getName()));
+                one(servletContext).getInitParameter(ValueConverterFinder.class.getName());
+                will(returnValue(DefaultValueConverterFinder.class.getName()));
 // TODO fails for some reason                
 //                one(servletContext).getInitParameter(Validator.class.getName());
 //                will(returnValue(StubValidator.class.getName()));
@@ -241,7 +239,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getRegistrarMonitor() instanceof StubMonitor);
         assertTrue(componentRegistry.getRequestAttributeBinder() instanceof StubRequestAttributeBinder);
         assertTrue(componentRegistry.getServletMonitor() instanceof StubMonitor);
-        assertTrue(componentRegistry.getTypeConverter() instanceof DefaultTypeConverter);
+        assertTrue(componentRegistry.getValueConverterFinder() instanceof DefaultValueConverterFinder);
         assertTrue(componentRegistry.getValidator() instanceof StubValidator);
         assertTrue(componentRegistry.getValidationMonitor() instanceof StubMonitor);
         assertTrue(componentRegistry.getViewDispatcher() instanceof StubViewDispatcher);
