@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ognl.OgnlRuntime;
-import ognl.TypeConverter;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
