@@ -10,9 +10,9 @@
     <h3>Binding</h3>
 
     <p>
-      By default all binding of fields to <b>Controllers</b> is handled by Ognl. Waffle provides a custom extension to
-      Ognl's <i>ognl.DefaultTypeConverter</i> to support Java 5 <i>enums</i>. Fields of standard types (e.g. String,
-      Number, primitives) are bound to your controllers automatically. More complex or custom class types can also
+      By default all binding of fields to <b>Controllers</b> is handled by Ognl. Waffle provides a custom implementation of
+      Ognl's <i>ognl.TypeConverter</i> to support Java 5 <i>enums</i> and to delegate to Waffle <code>ValueConverters</code> if
+      defined. Fields of standard types (e.g. String, Number, primitives) are bound to your controllers automatically. More complex or custom class types can also
       easily be handled.
     </p>
 
