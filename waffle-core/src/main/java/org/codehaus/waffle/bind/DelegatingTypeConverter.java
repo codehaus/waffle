@@ -10,12 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind;
 
+import java.lang.reflect.Member;
+import java.util.Map;
+
 import ognl.OgnlOps;
 import ognl.TypeConverter;
-
-import java.lang.reflect.Member;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * An implementation of Ognl's <code>TypeConverter</code> which handles Java 5 enums and will delegate
@@ -26,19 +25,14 @@ import java.util.Map;
  */
 public class DelegatingTypeConverter implements TypeConverter {
     private static final String EMPTY = "";
-    private final ValueConverter[] valueConverters;
-    private final Map<Class<?>, ValueConverter> cache = new HashMap<Class<?>, ValueConverter>();
+    private final ValueConverterFinder valueConverterFinder;
 
     public DelegatingTypeConverter() {
-        this.valueConverters = new ValueConverter[0];
+        this.valueConverterFinder = new DefaultValueConverterFinder();
     }
 
     public DelegatingTypeConverter(ValueConverter... valueConverters) {
-        if (valueConverters == null) {
-            this.valueConverters = new ValueConverter[0];
-        } else {
-            this.valueConverters = valueConverters;
-        }
+        this.valueConverterFinder = new DefaultValueConverterFinder(valueConverters);
     }
 
     /**
@@ -84,29 +78,13 @@ public class DelegatingTypeConverter implements TypeConverter {
             return Enum.valueOf(toType, value);
         }
 
-        ValueConverter converter = findConverter(toType);
+        ValueConverter converter = valueConverterFinder.findConverter(toType);
 
         if (converter != null) {
             return converter.convertValue(propertyName, value, toType);
         }
 
         return OgnlOps.convertValue(value, toType);
-    }
-
-    private ValueConverter findConverter(Class<?> toType) {
-        if (cache.containsKey(toType)) { // cache hit
-            return cache.get(toType);
-        }
-
-        for (ValueConverter converter : valueConverters) {
-            if (converter.accept(toType)) {
-                cache.put(toType, converter);
-                return converter;
-            }
-        }
-
-        cache.put(toType, null); // cache the null
-        return null;
     }
 
 }
