@@ -14,24 +14,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * <p>
  * Default implementation of <code>ValueConverterFinder</code> which caches
  * converters found per type.
+ * </p>
+ * <p>
+ * If no converters are specified, the <code>OgnlValueConverter</code> is used as default.
+ * </p>
  *
  * @author Michael Ward
  * @author Mauro Talevi
+ * @see OgnlValueConverter
  */
 public class DefaultValueConverterFinder implements ValueConverterFinder {
 
+    private static final ValueConverter DEFAULT_VALUE_CONVERTER = new OgnlValueConverter();
     private final Map<Class<?>, ValueConverter> cache = new HashMap<Class<?>, ValueConverter>();
     private final ValueConverter[] converters;
 
     public DefaultValueConverterFinder() {
-        this.converters = new ValueConverter[0];
+        this.converters = new ValueConverter[]{DEFAULT_VALUE_CONVERTER};
     }
 
     public DefaultValueConverterFinder(ValueConverter... converters) {
         if (converters == null) {
-            this.converters = new ValueConverter[0];
+            this.converters = new ValueConverter[]{DEFAULT_VALUE_CONVERTER};
         } else {
             this.converters = converters;
         }
