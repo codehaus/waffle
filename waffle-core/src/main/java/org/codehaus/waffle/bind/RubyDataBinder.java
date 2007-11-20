@@ -3,7 +3,6 @@ package org.codehaus.waffle.bind;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import ognl.TypeConverter;
 
 import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.controller.RubyController;
@@ -16,10 +15,10 @@ import org.jruby.runtime.builtin.IRubyObject;
 public class RubyDataBinder extends OgnlDataBinder {
     private final ArgumentResolver argumentResolver;
 
-    public RubyDataBinder(TypeConverter typeConverter,
+    public RubyDataBinder(ValueConverterFinder valueConverterFinder,
                           BindErrorMessageResolver bindErrorMessageResolver,
                           ArgumentResolver argumentResolver, BindMonitor bindMonitor) {
-        super(new DefaultValueConverterFinder(), bindErrorMessageResolver, bindMonitor);
+        super(valueConverterFinder, bindErrorMessageResolver, bindMonitor);
         this.argumentResolver = argumentResolver;
     }
 
