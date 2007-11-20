@@ -14,11 +14,27 @@ package org.codehaus.waffle.bind;
  * Implementation of this interface will be responsible for converting values of specific type(s).
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public interface ValueConverter {
 
+    /**
+     * Determines if converter is compatible with the given type
+     * 
+     * @param type the type of the field a value is to be bound to
+     * @return A boolean <code>true</code> is type is compatible
+     */
     boolean accept(Class<?> type);
 
-    Object convertValue(String propertyName, String value, Class<?> toType) throws BindException;
+    /**
+     * Converts a String value to an Object of a given type
+     * 
+     * @param propertyName the associated property name, which can be <code>null</code>
+     * @param value the String value
+     * @param toType  the Object type
+     * @return The converted Object
+     * @throws BindException if conversion fails
+     */
+    Object convertValue(String propertyName, String value, Class<?> toType);
 
 }
