@@ -21,12 +21,7 @@
       <groupId>org.jmock</groupId>
       <artifactId>jmock-junit4</artifactId>
       <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>compile</scope>
-    </dependency>
+    </dependency>   
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>

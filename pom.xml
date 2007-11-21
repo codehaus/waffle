@@ -8,11 +8,12 @@
   <version>1.0-SNAPSHOT</version>
   <name>Waffle</name>
   <description>
-    Waffle is a Java action-based web framework that was built to support
-    enterprise-level business applications, with no mandatory
-    XML configuration (beyond the minimal web.xml required by any webapp) 
-    and no proprietary UI markup language.  Its guiding principles
-    are agility, simplicity, pluggability and interoperability.
+    Waffle is a Java action-based web framework that was built to
+    support enterprise-level business applications, with no mandatory
+    XML configuration (beyond the minimal web.xml required by any
+    webapp) and no proprietary UI markup language. Its guiding
+    principles are agility, simplicity, pluggability and
+    interoperability.
   </description>
   <url>http://waffle.codehaus.org</url>
 
@@ -108,19 +109,6 @@
         <groupId>org.jmock</groupId>
         <artifactId>jmock-junit4</artifactId>
         <version>2.4.0</version>
-        <exclusions> 
-            <!-- Use junit:junit until issue fixed http://jira.codehaus.org/browse/SUREFIRE-370  -->
-            <exclusion>
-              <groupId>junit</groupId>
-              <artifactId>junit-dep</artifactId>
-            </exclusion>
-        </exclusions>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.4</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -130,10 +118,6 @@
     <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock-junit4</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
 
@@ -164,8 +148,11 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.3</version>
+          <version>2.4-20071121.115034-16</version> 
+          <!-- Using fixed snapshot until 2.4 released -->
+          <!-- Required to allow configuration of junitArtifactName -->
           <configuration>
+            <junitArtifactName>junit:junit-dep</junitArtifactName>
             <includes>
               <include>**/*Test.java</include>
             </includes>
@@ -490,6 +477,14 @@
   </repositories>
 
   <pluginRepositories>
+    <pluginRepository>
+      <id>apache-plugin-snapshot-repository</id>
+      <name>Apache Plugin Snapshot Repository</name>
+      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
     <pluginRepository>
       <id>codehaus-plugin-repository</id>
       <name>Codehaus Plugin Repository</name>
