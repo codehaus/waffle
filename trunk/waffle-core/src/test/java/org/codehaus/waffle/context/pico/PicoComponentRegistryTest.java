@@ -27,11 +27,11 @@ import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
-import org.codehaus.waffle.bind.DefaultBindErrorMessageResolver;
-import org.codehaus.waffle.bind.DefaultValueConverterFinder;
-import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.bind.ognl.OgnlBindErrorMessageResolver;
+import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
+import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.AbstractContextContainerFactory;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ContextControllerDefinitionFactory;
@@ -140,7 +140,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getActionMethodExecutor() instanceof InterceptingActionMethodExecutor);
         assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof DefaultActionMethodResponseHandler);
         assertTrue(componentRegistry.getActionMonitor() instanceof AbstractWritingMonitor);
-        assertTrue(componentRegistry.getBindErrorMessageResolver() instanceof DefaultBindErrorMessageResolver);
+        assertTrue(componentRegistry.getBindErrorMessageResolver() instanceof OgnlBindErrorMessageResolver);
         assertTrue(componentRegistry.getBindMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getContextContainerFactory() instanceof AbstractContextContainerFactory);
         assertTrue(componentRegistry.getContextMonitor() instanceof AbstractWritingMonitor);
@@ -152,7 +152,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
         assertTrue(componentRegistry.getRegistrarMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getServletMonitor() instanceof AbstractWritingMonitor);
-        assertTrue(componentRegistry.getValueConverterFinder() instanceof DefaultValueConverterFinder);
+        assertTrue(componentRegistry.getValueConverterFinder() instanceof OgnlValueConverterFinder);
         assertTrue(componentRegistry.getValidator() instanceof DefaultValidator);
         assertTrue(componentRegistry.getValidationMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getViewDispatcher() instanceof DefaultViewDispatcher);
@@ -207,7 +207,7 @@ public class PicoComponentRegistryTest {
                 one(servletContext).getInitParameter(ServletMonitor.class.getName());
                 will(returnValue(StubMonitor.class.getName()));
                 one(servletContext).getInitParameter(ValueConverterFinder.class.getName());
-                will(returnValue(DefaultValueConverterFinder.class.getName()));
+                will(returnValue(OgnlValueConverterFinder.class.getName()));
 // TODO fails for some reason                
 //                one(servletContext).getInitParameter(Validator.class.getName());
 //                will(returnValue(StubValidator.class.getName()));
@@ -239,7 +239,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getRegistrarMonitor() instanceof StubMonitor);
         assertTrue(componentRegistry.getRequestAttributeBinder() instanceof StubRequestAttributeBinder);
         assertTrue(componentRegistry.getServletMonitor() instanceof StubMonitor);
-        assertTrue(componentRegistry.getValueConverterFinder() instanceof DefaultValueConverterFinder);
+        assertTrue(componentRegistry.getValueConverterFinder() instanceof OgnlValueConverterFinder);
         assertTrue(componentRegistry.getValidator() instanceof StubValidator);
         assertTrue(componentRegistry.getValidationMonitor() instanceof StubMonitor);
         assertTrue(componentRegistry.getViewDispatcher() instanceof StubViewDispatcher);

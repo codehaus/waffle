@@ -18,8 +18,8 @@ import javax.servlet.http.HttpSession;
 import ognl.TypeConverter;
 
 import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.bind.DefaultValueConverterFinder;
-import org.codehaus.waffle.bind.OgnlValueConverter;
+import org.codehaus.waffle.bind.ognl.OgnlValueConverter;
+import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
@@ -60,7 +60,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new DefaultValueConverterFinder(), monitor);
+                new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethodNoValue.class.getMethod("foobar");
@@ -95,7 +95,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         ControllerWithDefaultActionMethod controller = new ControllerWithDefaultActionMethod();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethod.class.getMethod("foobar", String.class);
@@ -122,7 +122,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new DefaultValueConverterFinder(), monitor);
+                new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         assertNotSame(methodDefinition, methodDefinitionFinder.find(controller, request, response));
@@ -147,7 +147,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new DefaultValueConverterFinder(), monitor);
+                new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("noArgumentMethod");
@@ -182,7 +182,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
@@ -211,7 +211,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
 
         MethodDefinition definition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
@@ -248,7 +248,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
@@ -285,7 +285,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
 
         methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
@@ -309,7 +309,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new DefaultValueConverterFinder(), monitor);
+                new OgnlValueConverterFinder(), monitor);
 
         methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
@@ -343,7 +343,7 @@ public class ParanamerMethodDefinitionFinderTest {
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
@@ -377,7 +377,7 @@ public class ParanamerMethodDefinitionFinderTest {
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
@@ -411,7 +411,7 @@ public class ParanamerMethodDefinitionFinderTest {
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertEquals(99.99f, methodDefinition.getMethodArguments().get(0));
@@ -446,7 +446,7 @@ public class ParanamerMethodDefinitionFinderTest {
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertTrue((Boolean) methodDefinition.getMethodArguments().get(0));
@@ -471,7 +471,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new DefaultValueConverterFinder(), monitor);
+                new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequest",
@@ -499,7 +499,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new DefaultValueConverterFinder(), monitor);
+                new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnResponse",
@@ -537,7 +537,7 @@ public class ParanamerMethodDefinitionFinderTest {
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequestAndInteger",
@@ -574,7 +574,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new DefaultValueConverterFinder(), monitor);
+                new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnSession", HttpSession.class);
@@ -604,7 +604,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(servletContext, null, methodNameResolver,
-                new DefaultValueConverterFinder(), monitor);
+                new OgnlValueConverterFinder(), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnServletContext",
@@ -651,7 +651,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new DefaultValueConverterFinder(new OgnlValueConverter(typeConverter)), monitor);
+                methodNameResolver, new OgnlValueConverterFinder(new OgnlValueConverter(typeConverter)), monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("actionMethodNeedsCustomConverter", List.class);

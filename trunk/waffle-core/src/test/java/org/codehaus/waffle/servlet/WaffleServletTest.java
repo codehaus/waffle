@@ -33,9 +33,9 @@ import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.bind.DefaultValueConverterFinder;
-import org.codehaus.waffle.bind.OgnlDataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
+import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
@@ -149,7 +149,7 @@ public class WaffleServletTest {
         WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
                                                         actionMethodResponseHandler,
                                                         monitor,
-                                                        new OgnlDataBinder(new DefaultValueConverterFinder(), null, monitor),
+                                                        new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
                                                         requestAttributeBinder,
                                                         null, validator) {
             @Override
@@ -211,7 +211,7 @@ public class WaffleServletTest {
         WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
                                                         actionMethodResponseHandler,
                                                         monitor,
-                                                        new OgnlDataBinder(new DefaultValueConverterFinder(), null, monitor),
+                                                        new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
                                                         requestAttributeBinder,
                                                         null, validator) {
             @Override
@@ -291,7 +291,7 @@ public class WaffleServletTest {
         WaffleServlet waffleServlet = new WaffleServlet(null,
                 actionMethodResponseHandler,
                 new SilentMonitor(),
-                new OgnlDataBinder(new DefaultValueConverterFinder(), null, new SilentMonitor()),
+                new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
                 requestAttributeBinder,
                 null, validator) {
             @Override
@@ -365,7 +365,7 @@ public class WaffleServletTest {
         // Set up what normally would happen via "init()"
         Field dataBinderField = WaffleServlet.class.getDeclaredField("dataBinder");
         dataBinderField.setAccessible(true);
-        dataBinderField.set(waffleServlet, new OgnlDataBinder(new DefaultValueConverterFinder(), null, new SilentMonitor()));
+        dataBinderField.set(waffleServlet, new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()));
 
         Field mockMethodExecutorField = WaffleServlet.class.getDeclaredField("actionMethodExecutor");
         mockMethodExecutorField.setAccessible(true);

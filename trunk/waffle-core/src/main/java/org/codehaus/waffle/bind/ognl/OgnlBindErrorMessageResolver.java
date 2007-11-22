@@ -8,8 +8,9 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.bind;
+package org.codehaus.waffle.bind.ognl;
 
+import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.i18n.MessageResources;
 import ognl.OgnlContext;
 import ognl.OgnlException;
@@ -19,12 +20,12 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 
-public class DefaultBindErrorMessageResolver implements BindErrorMessageResolver {
+public class OgnlBindErrorMessageResolver implements BindErrorMessageResolver {
     private final static String BIND_ERROR_SUFFIX = ".bind.error";
     private final static String DEFAULT_BIND_ERROR = "default" + BIND_ERROR_SUFFIX;
     private final MessageResources messageResources;
 
-    public DefaultBindErrorMessageResolver(MessageResources messageResources) {
+    public OgnlBindErrorMessageResolver(MessageResources messageResources) {
         this.messageResources = messageResources;
     }
 

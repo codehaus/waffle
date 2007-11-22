@@ -8,7 +8,7 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.bind;
+package org.codehaus.waffle.bind.ognl;
 
 import java.util.Enumeration;
 import java.util.Map;
@@ -22,6 +22,10 @@ import ognl.Ognl;
 import ognl.OgnlException;
 import ognl.TypeConverter;
 
+import org.codehaus.waffle.bind.BindErrorMessageResolver;
+import org.codehaus.waffle.bind.BindException;
+import org.codehaus.waffle.bind.DataBinder;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;

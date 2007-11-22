@@ -8,10 +8,13 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.bind;
+package org.codehaus.waffle.bind.ognl;
 
 import java.lang.reflect.Member;
 import java.util.Map;
+
+import org.codehaus.waffle.bind.ValueConverter;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 
 import ognl.OgnlOps;
 import ognl.TypeConverter;
@@ -28,7 +31,7 @@ public class DelegatingTypeConverter implements TypeConverter {
     private final ValueConverterFinder valueConverterFinder;
 
     public DelegatingTypeConverter() {
-        this.valueConverterFinder = new DefaultValueConverterFinder();
+        this.valueConverterFinder = new OgnlValueConverterFinder();
     }
 
     public DelegatingTypeConverter(ValueConverterFinder valueConverterFinder) {

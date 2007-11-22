@@ -8,10 +8,13 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.bind;
+package org.codehaus.waffle.bind.ognl;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.codehaus.waffle.bind.ValueConverter;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 
 /**
  * <p>
@@ -26,17 +29,17 @@ import java.util.Map;
  * @author Mauro Talevi
  * @see OgnlValueConverter
  */
-public class DefaultValueConverterFinder implements ValueConverterFinder {
+public class OgnlValueConverterFinder implements ValueConverterFinder {
 
     private static final ValueConverter DEFAULT_VALUE_CONVERTER = new OgnlValueConverter();
     private final Map<Class<?>, ValueConverter> cache = new HashMap<Class<?>, ValueConverter>();
     private final ValueConverter[] converters;
 
-    public DefaultValueConverterFinder() {
+    public OgnlValueConverterFinder() {
         this.converters = new ValueConverter[]{DEFAULT_VALUE_CONVERTER};
     }
 
-    public DefaultValueConverterFinder(ValueConverter... converters) {
+    public OgnlValueConverterFinder(ValueConverter... converters) {
         if (converters == null) {
             this.converters = new ValueConverter[]{DEFAULT_VALUE_CONVERTER};
         } else {
