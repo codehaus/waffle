@@ -1,9 +1,10 @@
-package org.codehaus.waffle.bind;
+package org.codehaus.waffle.bind.ognl;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.Vector;
 
+import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.context.ContextLevel;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -49,7 +50,7 @@ public class DelegatingTypeConverterTest {
                 will(returnValue(new Vector<Object>()));
             }
         });
-        DelegatingTypeConverter converter = new DelegatingTypeConverter(new DefaultValueConverterFinder(valueConverter));
+        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
 
         converter.convertValue("propertyName", "foobar", Vector.class);
     }

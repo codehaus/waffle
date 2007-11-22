@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 
 import org.codehaus.waffle.action.ArgumentResolver;
+import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
 import org.codehaus.waffle.controller.RubyController;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;

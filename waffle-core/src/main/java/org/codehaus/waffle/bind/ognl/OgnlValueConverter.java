@@ -8,7 +8,9 @@
  *                                                                           *
  * Original code by: Mauro Talevi                                            *
  *****************************************************************************/
-package org.codehaus.waffle.bind;
+package org.codehaus.waffle.bind.ognl;
+
+import org.codehaus.waffle.bind.ValueConverter;
 
 import ognl.DefaultTypeConverter;
 import ognl.TypeConverter;

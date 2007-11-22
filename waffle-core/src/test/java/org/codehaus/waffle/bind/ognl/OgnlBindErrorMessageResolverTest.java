@@ -1,9 +1,10 @@
-package org.codehaus.waffle.bind;
+package org.codehaus.waffle.bind.ognl;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.MissingResourceException;
 
+import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.testmodel.FakeBean;
 import org.jmock.Expectations;
@@ -18,7 +19,7 @@ import org.junit.runner.RunWith;
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
-public class DefaultBindErrorMessageResolverTest {
+public class OgnlBindErrorMessageResolverTest {
 
     private Mockery mockery = new Mockery();
 
@@ -35,7 +36,7 @@ public class DefaultBindErrorMessageResolverTest {
             }
         });
 
-        BindErrorMessageResolver messageResolver = new DefaultBindErrorMessageResolver(messageResources);
+        BindErrorMessageResolver messageResolver = new OgnlBindErrorMessageResolver(messageResources);
         String message = messageResolver.resolve(new FakeBean(), "decimal", "bad-value");
 
         assertEquals("My Error Message", message);
@@ -58,7 +59,7 @@ public class DefaultBindErrorMessageResolverTest {
             }
         });
         
-        BindErrorMessageResolver messageResolver = new DefaultBindErrorMessageResolver(messageResources);
+        BindErrorMessageResolver messageResolver = new OgnlBindErrorMessageResolver(messageResources);
         String message = messageResolver.resolve(new FakeBean(), "count", "bad-value");
         assertEquals("The error message", message);
     }
@@ -83,14 +84,14 @@ public class DefaultBindErrorMessageResolverTest {
             }
         });
 
-        BindErrorMessageResolver messageResolver = new DefaultBindErrorMessageResolver(messageResources);
+        BindErrorMessageResolver messageResolver = new OgnlBindErrorMessageResolver(messageResources);
         String message = messageResolver.resolve(new FakeBean(), "count", "bad-value");
         assertEquals("The default error message", message);
     }
 
     @Test
     public void canFindBindErrorMessageKey() {
-        DefaultBindErrorMessageResolver messageResolver = new DefaultBindErrorMessageResolver(null);
+        OgnlBindErrorMessageResolver messageResolver = new OgnlBindErrorMessageResolver(null);
 
         // Primitive numbers and their wrappers
         assertEquals("number.bind.error", messageResolver.findBindErrorMessageKey(byte.class));
