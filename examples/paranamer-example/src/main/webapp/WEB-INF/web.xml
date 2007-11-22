@@ -18,10 +18,6 @@
     </context-param>
     <!-- 2. We are adding a Custom components objects -->
     <context-param>
-        <param-name>register:OgnlConverter</param-name>
-        <param-value>org.codehaus.waffle.bind.OgnlValueConverter</param-value>
-    </context-param>
-    <context-param>
         <param-name>register:DateConverter</param-name>
         <param-value>org.codehaus.waffle.example.paranamer.DateValueConverter</param-value>
     </context-param>
