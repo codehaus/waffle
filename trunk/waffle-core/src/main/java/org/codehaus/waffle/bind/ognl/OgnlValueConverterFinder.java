@@ -10,7 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.ognl;
 
+import static java.util.Arrays.asList;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.waffle.bind.ValueConverter;
@@ -18,11 +22,8 @@ import org.codehaus.waffle.bind.ValueConverterFinder;
 
 /**
  * <p>
- * Default implementation of <code>ValueConverterFinder</code> which caches
- * converters found per type.
- * </p>
- * <p>
- * If no converters are specified, the <code>OgnlValueConverter</code> is used as default.
+ * Implementation of <code>ValueConverterFinder</code> which caches converters 
+ * found per type and uses <code>OgnlValueConverter</code> as default converter.
  * </p>
  *
  * @author Michael Ward
@@ -31,19 +32,22 @@ import org.codehaus.waffle.bind.ValueConverterFinder;
  */
 public class OgnlValueConverterFinder implements ValueConverterFinder {
 
-    private static final ValueConverter DEFAULT_VALUE_CONVERTER = new OgnlValueConverter();
+    private static final ValueConverter OGNL_VALUE_CONVERTER = new OgnlValueConverter();
+    private final List<ValueConverter> DEFAULT_CONVERTERS = asList(OGNL_VALUE_CONVERTER);
     private final Map<Class<?>, ValueConverter> cache = new HashMap<Class<?>, ValueConverter>();
-    private final ValueConverter[] converters;
+    private final List<ValueConverter> converters;
 
     public OgnlValueConverterFinder() {
-        this.converters = new ValueConverter[]{DEFAULT_VALUE_CONVERTER};
+        this.converters = DEFAULT_CONVERTERS;
     }
 
     public OgnlValueConverterFinder(ValueConverter... converters) {
-        if (converters == null) {
-            this.converters = new ValueConverter[]{DEFAULT_VALUE_CONVERTER};
+        if (converters != null) {
+            this.converters = new ArrayList<ValueConverter>();
+            this.converters.addAll(asList(converters));
+            this.converters.addAll(DEFAULT_CONVERTERS);
         } else {
-            this.converters = converters;
+            this.converters = DEFAULT_CONVERTERS;            
         }
     }
 
