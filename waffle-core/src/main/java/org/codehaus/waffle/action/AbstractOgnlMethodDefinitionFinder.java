@@ -10,29 +10,24 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
+import static ognl.OgnlRuntime.getMethods;
+
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
-import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
- * Annotation-based method definition finder.
- * This is the default default definition finder used by Waffle.
- * <p/>
- * <b>Note</b>: Pragmatic method calls will always take precedence.
+ * Abstract method definition finder that uses Ognl to find methods
  * 
- * @author Michael Ward
+ * @author Mauro Talevi
  */
-public class AnnotatedMethodDefinitionFinder extends AbstractOgnlMethodDefinitionFinder {
+public abstract class AbstractOgnlMethodDefinitionFinder extends AbstractMethodDefinitionFinder {
 
-    public AnnotatedMethodDefinitionFinder(ServletContext servletContext,
+    public AbstractOgnlMethodDefinitionFinder(ServletContext servletContext,
                                            ArgumentResolver argumentResolver,
                                            MethodNameResolver methodNameResolver,
                                            ValueConverterFinder valueConverterFinder, 
@@ -40,19 +35,13 @@ public class AnnotatedMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
         super(servletContext, argumentResolver, methodNameResolver, valueConverterFinder, actionMonitor);
     }
 
-    protected List<Object> getArguments(Method method, HttpServletRequest request) {
-        if (method.isAnnotationPresent(ActionMethod.class)) {
-            ActionMethod actionMethod = method.getAnnotation(ActionMethod.class);
-            List<String> arguments = new ArrayList<String>(actionMethod.parameters().length);
-
-            for (String value : actionMethod.parameters()) {
-                arguments.add(formatArgument(value)); 
-            }
-
-            return resolveArguments(request, arguments.iterator());
+    @SuppressWarnings({"unchecked"})
+    protected List<Method> findMethods(Class<?> type, String methodName) {
+        List<Method> methods = getMethods(type, methodName, false);
+        if (methods == null) {
+            throw new NoMatchingActionMethodException(methodName, type);
         }
-
-        return Collections.emptyList();
+        return methods;
     }
-
+    
 }

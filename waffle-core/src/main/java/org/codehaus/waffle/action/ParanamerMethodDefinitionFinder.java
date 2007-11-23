@@ -27,15 +27,15 @@ import com.thoughtworks.paranamer.ParameterNamesNotFoundException;
 import com.thoughtworks.paranamer.Paranamer;
 
 /**
- * Pananamer-based method definition finder.
- * <p/>
- * This MethodDefinitionFinder is not the default used by Waffle. 
+ * Pananamer-based method definition finder, which can be used in alternative to
+ * other definition finders, eg {@link AnnotatedMethodDefinitionFinder}.
  * <p/>
  * <b>Note</b>: Pragmatic method calls will always take precedence.
  * 
  * @author Paul Hammant 
+ * @see AnnotatedMethodDefinitionFinder
  */
-public class ParanamerMethodDefinitionFinder extends AbstractMethodDefinitionFinder {
+public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitionFinder {
     private final CachingParanamer paranamer = new CachingParanamer();
    
     public ParanamerMethodDefinitionFinder(ServletContext servletContext,

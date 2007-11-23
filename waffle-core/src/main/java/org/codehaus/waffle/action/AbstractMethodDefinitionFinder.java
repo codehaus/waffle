@@ -142,23 +142,6 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinition;
     }
 
-    /**
-     * Returns the methods matching the type and name
-     * 
-     * @param type the Class in which to look for the method
-     * @param methodName the method name
-     * @return A List of methods
-     * @throws NoMatchingActionMethodException if no methods match
-     */
-    @SuppressWarnings({"unchecked"})
-    private List<Method> findMethods(Class type, String methodName) {
-        List<Method> methods = OgnlRuntime.getMethods(type, methodName, false);
-        if (methods == null) {
-            throw new NoMatchingActionMethodException(methodName, type);
-        }
-        return methods;
-    }
-
     private List<MethodDefinition> findMethodDefinitions(HttpServletRequest request, HttpServletResponse response, List<Method> methods) {
         List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
     
@@ -298,16 +281,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return isDefaultActionMethod(value) || value.length() == 0;
     }
     
-    // Protected methods, accessible by concrete subclasses
-
-    /**
-     * Returns the method arguments contained in the request
-     * 
-     * @param method the Method
-     * @param request the HttpServetRequest
-     * @return the list of arguments
-     */
-    protected abstract List<Object> getArguments(Method method, HttpServletRequest request);
+    // Protected methods, accessible by  subclasses
 
     /**
      * Wraps value in curly brackets to fit with default handling
@@ -337,5 +311,28 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
         return resolvedArguments;
     }
+
+    // Abstract methods - implementable by subclasses 
+    
+    /**
+     * Returns the method arguments contained in the request
+     * 
+     * @param method the Method
+     * @param request the HttpServetRequest
+     * @return the list of arguments
+     */
+    protected abstract List<Object> getArguments(Method method, HttpServletRequest request);
+
+    /**
+     * Returns the methods matching the type and name
+     * 
+     * @param type the Class in which to look for the method
+     * @param methodName the method name
+     * @return A List of methods
+     * @throws NoMatchingActionMethodException if no methods match
+     */
+    protected abstract List<Method> findMethods(Class<?> type, String methodName);
+
+
 
 }
