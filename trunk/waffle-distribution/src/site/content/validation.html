@@ -8,11 +8,12 @@
     <h2>Validation</h2>
 
     <p>
-      Waffle allows you to do validations in to two ways. The simplest being to make your ActionMethod responsible for
-      validation. Simply add an <b>Errors</b> argument to your ActionMethod's argument list and Waffle will inject the
-      current instance of Errors to your method. In the example below the ActionMethod "addToCart" third argument is
-      an Errors object. The ActionMethod ensures that the quantity does not exceed 10, if so a new error message is
-      created and add to the Errors instance.
+      Waffle allows you to do validations in to two ways.  The simplest being to make your ActionMethod responsible for
+      validation. Simply add an <b><a href="javadoc/core/org/codehaus/waffle/validation/ErrorsContext.html">
+        org.codehaus.waffle.validation.ErrorsContext</a></b> argument to your ActionMethod's argument list and Waffle will inject the
+      current instance of ErrorsContext to your method. In the example below the ActionMethod "addToCart" third argument is
+      an ErrorsContext object. The ActionMethod ensures that the quantity does not exceed 10, if so a new error message is
+      created and add to the ErrorsContext instance.
     </p>
 
     <textarea class="java:nogutter:nocontrols" name="code">
@@ -26,7 +27,7 @@
         }
 
         // This ActionMethod handles its own validation
-        public void addToCart(long itemId, int quantity, Errors errors) {
+        public void addToCart(long itemId, int quantity, ErrorsContext errors) {
           if(quantity > 10) {
             String message = messageResources.getMessage("quantity.error");
             FieldError fieldError = new FieldError("quantity", quantity, message);
