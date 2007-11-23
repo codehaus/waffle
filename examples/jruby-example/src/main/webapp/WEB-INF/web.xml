@@ -20,7 +20,7 @@
   </context-param>
   <context-param>
     <param-name>org.codehaus.waffle.bind.DataBinder</param-name>
-    <param-value>org.codehaus.waffle.bind.RubyDataBinder</param-value>
+    <param-value>org.codehaus.waffle.bind.ognl.RubyDataBinder</param-value>
   </context-param>
   <context-param>
     <param-name>org.codehaus.waffle.controller.ControllerDefinitionFactory</param-name>
