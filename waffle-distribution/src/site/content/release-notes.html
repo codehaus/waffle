@@ -1,12 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<title>Release Notes</title>
+<title>Release Notes - 1.0-rc-1</title>
 </head>
 <body>
-
-<h2>Release Notes - 1.0-rc-1</h2>
-
+    
 <h2>        Bug
 </h2>
 <ul>
@@ -26,6 +24,14 @@
 <li>[<a href='http://jira.codehaus.org/browse/WAFFLE-21'>WAFFLE-21</a>] -         Remove standard.jar dependency from waffle taglib
 </li>
 <li>[<a href='http://jira.codehaus.org/browse/WAFFLE-29'>WAFFLE-29</a>] -         Create Waffle Mock module
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-32'>WAFFLE-32</a>] -         Rename WaffleTypeConverter to ValueConverter
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-33'>WAFFLE-33</a>] -         Replace Ognl TypeConverter with ValueConverterFinder as pluggable interface
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-34'>WAFFLE-34</a>] -         Move Ognl-based bind implementations to separate  package
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-35'>WAFFLE-35</a>] -         Encapsulate Ognl-based action implementations in separate classes
 </li>
 </ul>
     
@@ -55,19 +61,6 @@
 </li>
 </ul>
         
-
-<h2> Migrating from 1.0-beta-1 to 1.0-rc-1
-</h2>
-
-<p>The following issues will break backward compatibility:
-</p>
-<ul>
-<li>Waffle Core artifactId has changed from waffle to waffle-core [<a href='http://jira.codehaus.org/browse/WAFFLE-31'>WAFFLE-31</a>]
-</li>
-<li>Mocks have been moved to Waffle Mock (artifactId waffle-mock) and upgraded to using jMock 2.
-[<a href='http://jira.codehaus.org/browse/WAFFLE-29'>WAFFLE-29</a>]
-</li>
-
 </body>
 
 
