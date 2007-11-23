@@ -29,7 +29,8 @@
     <page>registrar.html</page>
     <page>views.html</page>
     <page>pluggability.html</page>
-    <page>binding-validation.html</page>
+    <page>binding.html</page>
+    <page>validation.html</page>
     <page>lifecycle.html</page>
     <page>monitors.html</page>
     <page>ajax.html</page>
