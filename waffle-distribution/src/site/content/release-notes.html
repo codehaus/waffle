@@ -60,6 +60,33 @@
 <li>[<a href='http://jira.codehaus.org/browse/WAFFLE-31'>WAFFLE-31</a>] -         Rename artifactId of reactor and core
 </li>
 </ul>
+
+
+<h2> Migrating from 1.0-beta-1 to 1.0-rc-1
+</h2>
+
+<p>The following issues will break backward compatibility:
+</p>
+<ul>
+<li>Waffle Core artifactId changed from waffle to waffle-core 
+[<a href='http://jira.codehaus.org/browse/WAFFLE-31'>WAFFLE-31</a>]
+</li>
+<li>Waffle Monitor dependencies added
+[<a href='http://jira.codehaus.org/browse/WAFFLE-10'>WAFFLE-10</a>]
+</li>
+<li>Mocks moved to Waffle Mock (artifactId waffle-mock) and upgraded to using jMock 2.
+[<a href='http://jira.codehaus.org/browse/WAFFLE-29'>WAFFLE-29</a>]
+[<a href='http://jira.codehaus.org/browse/WAFFLE-30'>WAFFLE-30</a>]
+</li>
+<li>Waffle ValueConverterFinder replaced Ognl TypeConverter as pluggable interface
+[<a href='http://jira.codehaus.org/browse/WAFFLE-32'>WAFFLE-32</a>]
+[<a href='http://jira.codehaus.org/browse/WAFFLE-33'>WAFFLE-33</a>]
+</li>
+<li>Ognl-based implementations renamed and/or moved
+[<a href='http://jira.codehaus.org/browse/WAFFLE-34'>WAFFLE-34</a>]
+[<a href='http://jira.codehaus.org/browse/WAFFLE-35'>WAFFLE-35</a>]
+</li>
+</ul>        
         
 </body>
 
