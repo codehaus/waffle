@@ -12,6 +12,8 @@ package org.codehaus.waffle.validation;
 
 import java.util.List;
 
+import org.codehaus.waffle.validation.ErrorMessage.Type;
+
 /**
  * ErrorsContext holds error messages of different types
  *
@@ -24,31 +26,21 @@ public interface ErrorsContext {
 
     List<ErrorMessage> getAllErrorMessages();
 
-    List<BindErrorMessage> getAllBindErrorMessages();
+    List<? extends ErrorMessage> getErrorMessagesOfType(Type type);
 
-    List<FieldErrorMessage> getAllFieldErrorMessages();
-
-    List<GlobalErrorMessage> getAllGlobalErrorMessages();
-
-    List<BindErrorMessage> getBindErrorMessages(String fieldName);
-
-    List<FieldErrorMessage> getFieldErrorMessages(String fieldName);
+    List<? extends ErrorMessage> getErrorMessagesForField(Type type, String fieldName);
 
     boolean hasErrorMessages();
 
-    boolean hasBindErrorMessages(String fieldName);
+    boolean hasErrorMessagesOfType(Type type);
 
-    boolean hasFieldErrorMessages(String fieldName);
+    boolean hasErrorMessagesForField(Type type, String fieldName);
 
-    boolean hasGlobalErrorMessages();
+    int getErrorMessageCount();   
 
-    int getErrorMessageCount();
-
-    int getBindErrorMessageCount();
-
-    int getFieldErrorMessageCount();
-
-    int getGlobalErrorMessageCount();
+    int getErrorMessageCountOfType(Type type);
+    
+    int getErrorMessageCountForField(Type type, String fieldName);
 
 }
 

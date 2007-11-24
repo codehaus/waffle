@@ -10,6 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.validation;
 
+/**
+ * ErrorMessage associated to global validations.
+ *
+ * @author Mauro Talevi
+ */
 public class GlobalErrorMessage implements ErrorMessage {
     private String message;
 
@@ -17,6 +22,10 @@ public class GlobalErrorMessage implements ErrorMessage {
         this.message = message;
     }
 
+    public Type getType() {
+        return Type.GLOBAL;
+    }
+    
     public String getMessage() {
         return message;
     }
