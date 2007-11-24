@@ -9,8 +9,8 @@ import java.util.List;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
+import org.codehaus.waffle.validation.ErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
-import org.codehaus.waffle.validation.FieldErrorMessage;
 import org.junit.Test;
 
 public class AutomobileControllerValidatorTest {
@@ -44,7 +44,7 @@ public class AutomobileControllerValidatorTest {
 
         assertTrue(errorsContext.hasErrorMessages());
 
-        List<FieldErrorMessage> fieldValidationMessages = errorsContext.getFieldErrorMessages("speed");
+        List<? extends ErrorMessage> fieldValidationMessages = errorsContext.getErrorMessagesForField(ErrorMessage.Type.FIELD, "speed");
         assertEquals(1, fieldValidationMessages.size());
         assertEquals("Speed can NOT exceed the top speed [150]", fieldValidationMessages.get(0).getMessage());
     }

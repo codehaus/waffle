@@ -10,9 +10,18 @@
  *****************************************************************************/
 package org.codehaus.waffle.validation;
 
+/**
+ * ErrorMessage associated to bind validations.
+ * 
+ * @author Mauro Talevi
+ */
 public class BindErrorMessage extends FieldErrorMessage {
 
     public BindErrorMessage(String name, String value, String message) {
         super(name, value, message);
+    }
+    
+    public Type getType() {
+        return Type.BIND;
     }
 }

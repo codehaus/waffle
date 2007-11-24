@@ -21,6 +21,7 @@ import org.codehaus.waffle.testmodel.FakeBean;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
+import org.codehaus.waffle.validation.ErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -179,10 +180,10 @@ public class OgnlDataBinderTest {
         binder.bind(request, null, errorsContext, new FakeBean());
         assertTrue(errorsContext.hasErrorMessages());
 
-        List<BindErrorMessage> messages = errorsContext.getBindErrorMessages("count");
+        List<? extends ErrorMessage> messages = errorsContext.getErrorMessagesForField(ErrorMessage.Type.BIND, "count");
         assertEquals(1, messages.size());
 
-        BindErrorMessage bindValidationMessage = messages.get(0);
+        BindErrorMessage bindValidationMessage = (BindErrorMessage) messages.get(0);
         assertEquals("count", bindValidationMessage.getName());
         assertEquals("bad value", bindValidationMessage.getValue());
     }

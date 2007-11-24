@@ -11,8 +11,8 @@
 package org.codehaus.waffle.validation;
 
 /**
- * ErrorMessage that requires a name/value combination associate to the message.
- *
+ * ErrorMessage associated to field validations.
+ * 
  * @author Mauro Talevi
  */
 public class FieldErrorMessage implements ErrorMessage {
@@ -24,6 +24,10 @@ public class FieldErrorMessage implements ErrorMessage {
         this.name = name;
         this.value = value;
         this.message = message;
+    }
+
+    public Type getType() {
+        return Type.FIELD;
     }
 
     public String getMessage() {
@@ -49,4 +53,5 @@ public class FieldErrorMessage implements ErrorMessage {
         sb.append("]");
         return sb.toString();
     }
+
 }

@@ -10,8 +10,18 @@
  *****************************************************************************/
 package org.codehaus.waffle.validation;
 
+/**
+ * Represents a validation error message
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
 public interface ErrorMessage {
 
-    String getMessage();
+    enum Type { BIND, FIELD, GLOBAL };
+    
+    Type getType();
 
+    String getMessage();
+    
 }

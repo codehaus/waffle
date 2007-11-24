@@ -1,9 +1,10 @@
 package org.codehaus.waffle.taglib;
 
-import org.codehaus.waffle.validation.ErrorsContext;
-
 import java.util.List;
 import java.util.Map;
+
+import org.codehaus.waffle.validation.ErrorMessage;
+import org.codehaus.waffle.validation.ErrorsContext;
 
 public class Functions {
 
@@ -28,8 +29,8 @@ public class Functions {
         }
     }
 
-    public static List findFieldErrors(ErrorsContext errorsContext, String fieldName) {
-        return errorsContext.getFieldErrorMessages(fieldName);
+    public static List<? extends ErrorMessage> findFieldErrors(ErrorsContext errorsContext, String fieldName) {
+        return errorsContext.getErrorMessagesForField(ErrorMessage.Type.FIELD, fieldName);
     }
 
 }
