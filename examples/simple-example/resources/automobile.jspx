@@ -21,7 +21,11 @@
                 ${error.message}
             </div>
         </c:forEach>
+        <br/> Bind: <c:out value="${waffle:findErrors(errors, 'BIND')}"/>
+        <br/> Field: <c:out value="${waffle:findErrors(errors, 'FIELD')}"/>
+        <br/> Global: <c:out value="${waffle:findErrors(errors, 'GLOBAL')}"/>
     </c:if>
+
 
     <table>
         <tr>
@@ -33,12 +37,11 @@
         <tr>
             <td>Model:</td>
             <td>
-
                 <input type="text" value="${fn:escapeXml(model)}" name="model"/>
             </td>
         </tr>
 
-        <c:out value="${waffle:findFieldErrors(errors,'speed')}"/>
+        <c:out value="${waffle:findErrorsForField(errors, 'FIELD', 'speed')}"/>
 
         <tr>
             <td>Top Speed:</td>

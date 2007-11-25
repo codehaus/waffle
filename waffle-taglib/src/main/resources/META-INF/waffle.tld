@@ -23,11 +23,29 @@
   </function>
 
   <function>
-    <description>Find field errors for the name passed</description>
-    <name>findFieldErrors</name>
+    <name>findAllErrors</name>
+    <description>Find all errors</description>
     <function-class>org.codehaus.waffle.taglib.Functions</function-class>
     <function-signature>
-      java.util.List findFieldErrors(org.codehaus.waffle.validation.ErrorsContext, java.lang.String)
+      java.util.List findAllErrors(org.codehaus.waffle.validation.ErrorsContext)
+    </function-signature>
+  </function>
+
+  <function>
+    <name>findErrors</name>
+    <description>Find errors of type (BIND, FIELD, GLOBAL)</description>
+    <function-class>org.codehaus.waffle.taglib.Functions</function-class>
+    <function-signature>
+      java.util.List findErrors(org.codehaus.waffle.validation.ErrorsContext, java.lang.String)
+    </function-signature>
+  </function>
+
+  <function>
+    <name>findErrorsForField</name>
+    <description>Find errors of type (BIND, FIELD, GLOBAL) and field name</description>
+    <function-class>org.codehaus.waffle.taglib.Functions</function-class>
+    <function-signature>
+      java.util.List findErrorsForField(org.codehaus.waffle.validation.ErrorsContext, java.lang.String, java.lang.String)
     </function-signature>
   </function>
 

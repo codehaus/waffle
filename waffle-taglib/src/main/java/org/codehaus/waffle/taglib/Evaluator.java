@@ -12,23 +12,23 @@ import java.util.Map;
  */
 public class Evaluator {
 
+    private static final String EMPTY = "";
+
     public static Object evaluate(String key, PageContext jspContext) throws ELException, IOException {
         ExpressionEvaluator evaluator = jspContext.getExpressionEvaluator();
         String expression = "${" + jspContext.getAttribute("name") + "}";
         Object obj = evaluator.evaluate(expression, Object.class, jspContext.getVariableResolver(), null);
-        return obj == null ? "" : obj;
+        return obj == null ? EMPTY : obj;
     }
 
-    public static String getAttributes(Map attributes) {
+    public static String getAttributes(Map<String,String> attributes) {
         StringBuilder builder = new StringBuilder();
-        // note: dont know why "Map.Entry entry : " does not work here (guilherme) 
-        for (Object obj : attributes.entrySet()) {
-            Map.Entry entry = (Map.Entry) obj;
+        for ( String key : attributes.keySet() ){
             builder.append(' ')
-                    .append(entry.getKey())
-                    .append("=\"")
-                    .append(entry.getValue())
-                    .append('\"');
+            .append(key)
+            .append("=\"")
+            .append(attributes.get(key))
+            .append('\"');
         }
         return builder.toString();
     }
