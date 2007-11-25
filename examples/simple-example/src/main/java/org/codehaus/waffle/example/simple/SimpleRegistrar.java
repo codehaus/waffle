@@ -24,6 +24,8 @@ public class SimpleRegistrar extends AbstractRegistrar {
     public void session() {
         register("calculator", CalculatorController.class);
         register("automobile", AutomobileController.class);
+        //validation for automobile controller done in the controller itself
+        //uncomment registration of validator if you prefer to override it
         //register("automobileValidator", AutomobileControllerValidator.class);
         register("person", PersonController.class);
     }
