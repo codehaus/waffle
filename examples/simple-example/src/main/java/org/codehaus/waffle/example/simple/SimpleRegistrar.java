@@ -24,7 +24,7 @@ public class SimpleRegistrar extends AbstractRegistrar {
     public void session() {
         register("calculator", CalculatorController.class);
         register("automobile", AutomobileController.class);
-        register("automobileValidator", AutomobileControllerValidator.class);
+        //register("automobileValidator", AutomobileControllerValidator.class);
         register("person", PersonController.class);
     }
 }

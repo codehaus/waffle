@@ -1,5 +1,8 @@
 package org.codehaus.waffle.example.simple;
 
+import org.codehaus.waffle.validation.ErrorsContext;
+import org.codehaus.waffle.validation.FieldErrorMessage;
+
 public class AutomobileController {
     private String make = "ford";
     private String model = "mustang";
@@ -47,6 +50,13 @@ public class AutomobileController {
         speed += value;
     }
 
+    public void accelerate(ErrorsContext errorsContext, int value) {
+        if(speed > topSpeed) {
+            String message = "Speed cannot exceed top speed: "+topSpeed;
+            errorsContext.addErrorMessage(new FieldErrorMessage("speed", "" + speed, message));
+        }
+    }
+    
     public void stop() {
         speed = 0;
     }
