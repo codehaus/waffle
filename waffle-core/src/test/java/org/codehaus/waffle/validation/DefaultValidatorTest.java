@@ -36,13 +36,26 @@ public class DefaultValidatorTest {
 
     @Test
     public void canValidate() throws Exception {
+        String suffix = "Validator";
+        Validator validator = new DefaultValidator(new SilentMonitor());
+        assertValidator(validator, suffix);
+    }
+    
+    @Test
+    public void canValidateWithCustumSuffix() throws Exception {
+        String suffix = "Check";
+        Validator validator = new DefaultValidator(new DefaultValidatorConfiguration(suffix), new SilentMonitor());
+        assertValidator(validator, suffix);
+    }
+
+    private void assertValidator(Validator validator, final String suffix) throws NoSuchMethodException {
         final FakeControllerValidator fakeControllerValidator = new FakeControllerValidator();
 
         // Mock ContextContainer
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
             {
-                one(contextContainer).getComponentInstance("theControllerValidator");
+                one(contextContainer).getComponentInstance("theController"+suffix);
                 will(returnValue(fakeControllerValidator));
             }
         });
@@ -57,7 +70,6 @@ public class DefaultValidatorTest {
         ControllerDefinition controllerDefinition = new ControllerDefinition("theController", fakeController, methodDefinition);
 
         ErrorsContext errorsContext = new DefaultErrorsContext();
-        Validator validator = new DefaultValidator(new SilentMonitor());
         validator.validate(controllerDefinition, errorsContext);
 
         assertSame(errorsContext, fakeControllerValidator.errorsContext);

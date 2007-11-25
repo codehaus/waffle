@@ -29,16 +29,21 @@ import org.codehaus.waffle.monitor.ValidationMonitor;
  * @author Mauro Talevi
  */
 public class DefaultValidator implements Validator {
-    protected static final String VALIDATOR_SUFFIX = "Validator";
     private final ValidationMonitor validationMonitor;
-
+    private final ValidatorConfiguration validatorConfiguration;
+    
     public DefaultValidator(ValidationMonitor validationMonitor){
+        this(new DefaultValidatorConfiguration(), validationMonitor);        
+    }
+    
+    public DefaultValidator(ValidatorConfiguration validatorConfiguration, ValidationMonitor validationMonitor){
+        this.validatorConfiguration = validatorConfiguration;
         this.validationMonitor = validationMonitor;        
     }
 
     public void validate(ControllerDefinition controllerDefinition, ErrorsContext errorsContext) {
         ContextContainer container = RequestLevelContainer.get();
-        Object controllerValidator = container.getComponentInstance(controllerDefinition.getName() + VALIDATOR_SUFFIX);
+        Object controllerValidator = container.getComponentInstance(controllerDefinition.getName() + validatorConfiguration.getSuffix());
 
         if (controllerValidator == null) {
             validationMonitor.controllerValidatorNotFound();

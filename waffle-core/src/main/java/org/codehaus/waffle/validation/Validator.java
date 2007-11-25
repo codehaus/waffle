@@ -15,4 +15,5 @@ import org.codehaus.waffle.controller.ControllerDefinition;
 public interface Validator {
 
     void validate(ControllerDefinition controllerDefinition, ErrorsContext errorsContext);
+
 }

@@ -60,7 +60,8 @@
 
     <p>
       You can register any POJO you would like as a Validator. The only requirement is that it should be registered with
-      the suffix <i>Validator</i>.  In other words the POJO registered under the name <i>"fooValidator"</i> would be the
+      the suffix <i>Validator</i> (or a different suffix that can be configured via the <b>ValidatorConfiguration</b>).  
+      In other words the POJO registered under the name <i>"fooValidator"</i> would be the
       Validator for the controller registered under the name <i>"foo"</i>.  The Validator class will need to provide a
       seperate method for each ActionMethod requiring sepearte validation. These validate methods will need to be named
       identical to the ActionMethods they are providing validation for. The signature of the validate method is
