@@ -35,10 +35,9 @@ public class DefaultValidatorTest {
     }
 
     @Test
-    public void canValidate() throws Exception {
-        String suffix = "Validator";
+    public void canValidateWithDefaultSuffix() throws Exception {
         Validator validator = new DefaultValidator(new SilentMonitor());
-        assertValidator(validator, suffix);
+        assertValidator(validator, DefaultValidatorConfiguration.DEFAULT_SUFFIX);
     }
     
     @Test
