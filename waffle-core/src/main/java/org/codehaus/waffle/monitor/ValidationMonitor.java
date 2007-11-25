@@ -19,7 +19,7 @@ import org.codehaus.waffle.controller.ControllerDefinition;
  */
 public interface ValidationMonitor extends Monitor {
 
-    void controllerValidatorNotFound(String controllerValidatorName);
+    void controllerValidatorNotFound(String controllerValidatorName, String controllerName);
 
     void methodDefinitionNotFound(ControllerDefinition controllerDefinition);
 
