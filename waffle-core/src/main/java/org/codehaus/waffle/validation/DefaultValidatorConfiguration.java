@@ -11,7 +11,7 @@
 package org.codehaus.waffle.validation;
 
 public class DefaultValidatorConfiguration implements ValidatorConfiguration {
-    private static final String DEFAULT_SUFFIX = "Validator";
+    static final String DEFAULT_SUFFIX = "Validator";
     
     private String suffix;
     
