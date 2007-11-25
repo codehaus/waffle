@@ -50,6 +50,8 @@ public class WaffleServlet extends HttpServlet {
     private static final String DEFAULT_VIEW_SUFFIX = ".jspx";
     private static final String DEFAULT_VIEW_PREFIX = "/";
     private static final String EMPTY = "";
+    private static final String ERROR = "ERROR: ";
+    private static final String POST = "POST";
     private ActionMethodExecutor actionMethodExecutor;
     private ActionMethodResponseHandler actionMethodResponseHandler;
     private ServletMonitor servletMonitor;
@@ -165,7 +167,7 @@ public class WaffleServlet extends HttpServlet {
                     view = buildViewToReferrer(controllerDefinition);
                 } else if (actionMethodResponse.getReturnValue() == null) {
                     // Null or VOID indicate a Waffle convention (return to referring page)
-                    if (request.getMethod().equalsIgnoreCase("POST")) {
+                    if (request.getMethod().equalsIgnoreCase(POST)) {
                         // PRG (Post/Redirect/Get): see http://en.wikipedia.org/wiki/Post/Redirect/Get
                         String url = request.getRequestURL().toString();
                         view = new RedirectView(url, controllerDefinition.getController());
@@ -183,7 +185,7 @@ public class WaffleServlet extends HttpServlet {
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
         } catch (ActionMethodInvocationException e) {
             servletMonitor.servletServiceFailed(e);
-            log("ERROR: " + e.getMessage());
+            log(ERROR + e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
