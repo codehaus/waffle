@@ -43,15 +43,16 @@ public class DefaultValidator implements Validator {
 
     public void validate(ControllerDefinition controllerDefinition, ErrorsContext errorsContext) {
         ContextContainer container = RequestLevelContainer.get();
-        Object controllerValidator = container.getComponentInstance(controllerDefinition.getName() + validatorConfiguration.getSuffix());
+        String controllerValidatorName = controllerDefinition.getName() + validatorConfiguration.getSuffix();
+        Object controllerValidator = container.getComponentInstance(controllerValidatorName);
 
         if (controllerValidator == null) {
-            validationMonitor.controllerValidatorNotFound();
-            return; // doesn't exist ... go no further
+            // default to use validation in controller
+            controllerValidator = container.getComponentInstance(controllerDefinition.getName());
+            validationMonitor.controllerValidatorNotFound(controllerValidatorName);
         }
 
         MethodDefinition methodDefinition = controllerDefinition.getMethodDefinition();
-        
         if (methodDefinition == null) {
             validationMonitor.methodDefinitionNotFound(controllerDefinition);
             return; // no method ... go no further

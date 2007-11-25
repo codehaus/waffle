@@ -142,7 +142,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         messages.put("instanceRegistered", "Registered instance {1} with key {0}");
         messages.put("nonCachingComponentRegistered", "Registered non-caching component of type {1} with key {0} and parameters {2}");
         messages.put("servletServiceFailed", "Servlet service failed: {0}");
-        messages.put("controllerValidatorNotFound", "Controller validator not found");
+        messages.put("controllerValidatorNotFound", "Controller validator not found for name {0}");
         messages.put("methodDefinitionNotFound", "Method definition not found in controller definition {0}");        
         messages.put("validationFailed", "Validation failed: {0}");  
         messages.put("viewForwarded", "View forwarded to path {0}");        
@@ -315,8 +315,8 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("servletServiceFailed", cause);        
     }
     
-    public void controllerValidatorNotFound() {
-        write("controllerValidatorNotFound");
+    public void controllerValidatorNotFound(String controllerValidatorName) {
+        write("controllerValidatorNotFound", controllerValidatorName);
     }
 
     public void methodDefinitionNotFound(ControllerDefinition controllerDefinition) {

@@ -12,6 +12,7 @@ import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.codehaus.waffle.testmodel.FakeControllerValidator;
+import org.codehaus.waffle.testmodel.FakeControllerWithValidation;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -33,29 +34,40 @@ public class DefaultValidatorTest {
     public void tearDown() throws Exception {
         RequestLevelContainer.set(null);
     }
+    
+    @Test
+    public void canValidateWithControllerValidation() throws Exception {
+        FakeController fakeController = new FakeControllerWithValidation();
+        Validator validator = new DefaultValidator(new SilentMonitor());
+        assertValidation(validator, fakeController, null, DefaultValidatorConfiguration.DEFAULT_SUFFIX);
+    }
 
     @Test
-    public void canValidateWithDefaultSuffix() throws Exception {
+    public void canValidateWithControllerValidatorOfDefaultSuffix() throws Exception {
+        FakeController fakeController = new FakeController();
         Validator validator = new DefaultValidator(new SilentMonitor());
-        assertValidator(validator, DefaultValidatorConfiguration.DEFAULT_SUFFIX);
+        assertValidation(validator, fakeController, new FakeControllerValidator(), DefaultValidatorConfiguration.DEFAULT_SUFFIX);
     }
     
     @Test
-    public void canValidateWithCustumSuffix() throws Exception {
+    public void canValidateWithControllerValidatorOfCustomSuffix() throws Exception {
+        FakeController fakeController = new FakeController();
         String suffix = "Check";
         Validator validator = new DefaultValidator(new DefaultValidatorConfiguration(suffix), new SilentMonitor());
-        assertValidator(validator, suffix);
+        assertValidation(validator, fakeController, new FakeControllerValidator(), suffix);
     }
 
-    private void assertValidator(Validator validator, final String suffix) throws NoSuchMethodException {
-        final FakeControllerValidator fakeControllerValidator = new FakeControllerValidator();
-
+    private void assertValidation(Validator validator, final FakeController fakeController, final FakeControllerValidator fakeControllerValidator, final String suffix) throws NoSuchMethodException {
         // Mock ContextContainer
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
-            {
+            {                
                 one(contextContainer).getComponentInstance("theController"+suffix);
                 will(returnValue(fakeControllerValidator));
+                if (fakeControllerValidator == null) {
+                    one(contextContainer).getComponentInstance("theController");
+                    will(returnValue(fakeController));
+                }
             }
         });
         RequestLevelContainer.set(contextContainer);
@@ -65,14 +77,19 @@ public class DefaultValidatorTest {
         MethodDefinition methodDefinition = new MethodDefinition(method);
         methodDefinition.addMethodArgument("foobar");
 
-        FakeController fakeController = new FakeController();
         ControllerDefinition controllerDefinition = new ControllerDefinition("theController", fakeController, methodDefinition);
 
         ErrorsContext errorsContext = new DefaultErrorsContext();
         validator.validate(controllerDefinition, errorsContext);
 
-        assertSame(errorsContext, fakeControllerValidator.errorsContext);
-        assertEquals("foobar", fakeControllerValidator.value);
+        if ( fakeControllerValidator != null ){
+            assertSame(errorsContext, fakeControllerValidator.errorsContext);
+            assertEquals("foobar", fakeControllerValidator.value);
+        } else if ( fakeController instanceof FakeControllerWithValidation ){
+            FakeControllerWithValidation fakeControllerWithValidation = (FakeControllerWithValidation) fakeController;
+            assertSame(errorsContext, fakeControllerWithValidation.errorsContext);
+            assertEquals("foobar", fakeControllerWithValidation.value);            
+        }
     }
 
     @Test

@@ -6,23 +6,20 @@
  * style license a copy of which has been included with this distribution in *
  * the LICENSE.txt file.                                                     *
  *                                                                           *
- * Original code by: Mauro Talevi                                            *
+ * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.monitor;
+package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.validation.ErrorsContext;
 
-/**
- * A monitor for validation-related events
- * 
- * @author Mauro Talevi
- */
-public interface ValidationMonitor extends Monitor {
+public class FakeControllerWithValidation extends FakeController {
+   
+    public ErrorsContext errorsContext;
+    public String value;
 
-    void controllerValidatorNotFound(String controllerValidatorName);
-
-    void methodDefinitionNotFound(ControllerDefinition controllerDefinition);
-
-    void validationFailed(Exception cause);
+    public void sayHello(ErrorsContext errorsContext, String value) {
+        this.errorsContext = errorsContext;
+        this.value = value;
+    }
 
 }

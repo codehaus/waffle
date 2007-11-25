@@ -114,7 +114,7 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void servletServiceFailed(Exception cause) {
     }
 
-    public void controllerValidatorNotFound() {
+    public void controllerValidatorNotFound(String controllerValidatorName) {
     }
 
     public void methodDefinitionNotFound(ControllerDefinition controllerDefinition) {        
