@@ -1,20 +1,25 @@
 package org.codehaus.waffle.taglib;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.codehaus.waffle.validation.ErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
+import org.codehaus.waffle.validation.ErrorMessage.Type;
 
+/**
+ * A collection of utility functions accessible in taglibs
+ * 
+ * @author Guilherme Silveira
+ * @author Mauro Talevi
+ */
 public class Functions {
 
-    public static String retrieveAttributes(Map<String, String> att) {
-        StringBuilder sb = new StringBuilder(" ");
-        for (String key : att.keySet()) {
-            sb.append(key)
-                    .append("=\"")
-                    .append(att.get(key))
-                    .append("\" ");
+    public static String retrieveAttributes(Map<String, String> attributes) {
+        StringBuilder sb = new StringBuilder(' ');
+        for (String key : attributes.keySet()) {
+            sb.append(key).append("=\"").append(attributes.get(key)).append("\" ");
         }
         return sb.toString();
     }
@@ -28,9 +33,26 @@ public class Functions {
             throw new RuntimeException(e);
         }
     }
+    
+    public static List<? extends ErrorMessage> findAllErrors(ErrorsContext errorsContext) {
+        return errorsContext.getAllErrorMessages();
+    }
 
-    public static List<? extends ErrorMessage> findFieldErrors(ErrorsContext errorsContext, String fieldName) {
-        return errorsContext.getErrorMessagesForField(ErrorMessage.Type.FIELD, fieldName);
+    public static List<? extends ErrorMessage> findErrors(ErrorsContext errorsContext, String typeName) {
+        Type type = Enum.valueOf(ErrorMessage.Type.class, typeName);
+        return errorsContext.getErrorMessagesOfType(type);
+    }
+
+    public static List<? extends ErrorMessage> findErrorsForField(ErrorsContext errorsContext, String typeName, String fieldName) {
+        Type type = Enum.valueOf(ErrorMessage.Type.class, typeName);
+        switch ( type ){
+            case BIND: case FIELD:
+                return errorsContext.getErrorMessagesForField(type, fieldName);
+            case GLOBAL:
+                return errorsContext.getErrorMessagesOfType(type);
+            default:
+                return Collections.emptyList();           
+        }
     }
 
 }
