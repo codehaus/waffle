@@ -8,12 +8,24 @@
     <h2>Validation</h2>
 
     <p>
-      Waffle allows you to do validations in to two ways.  The simplest being to make your ActionMethod responsible for
-      validation. Simply add an <b><a href="javadoc/core/org/codehaus/waffle/validation/ErrorsContext.html">
-        org.codehaus.waffle.validation.ErrorsContext</a></b> argument to your ActionMethod's argument list and Waffle will inject the
-      current instance of ErrorsContext to your method. In the example below the ActionMethod "addToCart" third argument is
-      an ErrorsContext object. The ActionMethod ensures that the quantity does not exceed 10, if so a new error message is
-      created and add to the ErrorsContext instance.
+      Waffle allows validation of action methods by means of the <b><a href="javadoc/core/org/codehaus/waffle/validation/ErrorsContext.html">
+        org.codehaus.waffle.validation.ErrorsContext</a></b> interface.  The mechanism is simple and straightforward: 
+        to validate each ActionMethod, the user will need to add a method with the identical signature to the ActionMethod being validated
+        except for the additional first argument of type ErrorsContext. Waffle will inject automatically an instance of ErrorsContext to your method. 
+    </p>
+    <p>
+       Waffle allows the validation methods to be defined in two ways:
+       <ol>
+         <li>In a separate controller validator class, conventially named from the controller</li>
+         <li>In the same controller class</li>
+       </ol>
+       <b>Note</b>: if the validator class is found, it takes precendence over the validation methods in the controller class.
+    </p>
+    
+    <p>Let's work through an example.  Given the ActionMethod "addToCart" in the ShoppingCartController, the simplest way
+    to add validation is to add a new method with the additional ErrorsContext as the first argument. 
+    The ActionMethod ensures that the quantity does not exceed 10, if so a new error message is
+    created and add to the ErrorsContext instance.
     </p>
 
     <textarea class="java:nogutter:nocontrols" name="code">
@@ -26,8 +38,13 @@
           this.cart = cart;
         }
 
-        // This ActionMethod handles its own validation
-        public void addToCart(long itemId, int quantity, ErrorsContext errors) {
+        // This ActionMethod handles the add to chart functionality
+        public void addToCart(long itemId, int quantity) {
+            // add to cart functionality
+        }
+
+         // This method handles the validation of the ActionMethod above
+        public void addToCart(ErrorsContext errors, long itemId, int quantity) {
           if(quantity > 10) {
             String message = messageResources.getMessage("quantity.error");
             FieldError fieldError = new FieldError("quantity", quantity, message);
@@ -41,48 +58,37 @@
     </textarea>
 
     <p>
-      The second means of Validation allows for an external validation class by follows a few simple conventions.
-      Suppose you have the following Controller registered under the name "foo":
+      Alternatively, Waffle allows for an external validation class following a naming convention.
+      Suppose the ShoppingCartController is registered under the name "shoppingCart":
     </p>
-
-    <textarea class="java:nogutter:nocontrols" name="code">
-      public class FooController {
-
-        public String sayHello(String firstName, String lastName) {
-          return "Hello, " + firstName + " " + lastName;
-        }
-
-        public void sayGoodbye() {
-          return "Later!!";
-        }
-      }
-    </textarea>
 
     <p>
       You can register any POJO you would like as a Validator. The only requirement is that it should be registered with
-      the suffix <i>Validator</i> (or a different suffix that can be configured via the <b>ValidatorConfiguration</b>).  
+      the the conventional suffix <i>Validator</i> (or a different suffix that can be configured via the 
+      <b><a href="javadoc/core/org/codehaus/waffle/validation/ValidatorConfiguration.html">
+        org.codehaus.waffle.validation.ValidatorConfiguration</a></b>).  
       In other words the POJO registered under the name <i>"fooValidator"</i> would be the
       Validator for the controller registered under the name <i>"foo"</i>.  The Validator class will need to provide a
-      seperate method for each ActionMethod requiring sepearte validation. These validate methods will need to be named
-      identical to the ActionMethods they are providing validation for. The signature of the validate method is
-      identical with the additional first argument being of type <b><a href="javadoc/core/org/codehaus/waffle/validation/ErrorsContext.html">
-        org.codehaus.waffle.validation.ErrorsContext</a></b>. The following is an example of such a
+      separate method for each ActionMethod requiring validation. The following is an example of such a
       Validator:
     </p>
 
     <textarea class="java:nogutter:nocontrols" name="code">
-      public class FooControllerValidator {
+      public class ShoppingCartControllerValidator {
 
-        // This is the validator for the FooController.sayHello(String, String) Actionmethod
-        public void sayHello(ErrorsContext errors, String firstName, String lastName) {
+        // This method handles the validation of the ActionMethod in the ShoppingCartController
+        public void addToCart(ErrorsContext errors, long itemId, int quantity) {
+          if(quantity > 10) {
+            String message = messageResources.getMessage("quantity.error");
+            FieldError fieldError = new FieldError("quantity", quantity, message);
+            errors.addFieldError(fieldError);
+            return;
+          }
 
-          // validate and add error message to the errors if applicable
-
-        }
       }
     </textarea>
 
-    <p>Notice this Validator does not need to extend any custom Waffle classes or interfaces.</p>
+    <p><b>Note</b>: the validator class does not need to extend any custom Waffle classes or interfaces.</p>
   </body>
 
 </html>
