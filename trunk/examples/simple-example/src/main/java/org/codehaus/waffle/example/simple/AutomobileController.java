@@ -51,7 +51,7 @@ public class AutomobileController {
     }
 
     public void accelerate(ErrorsContext errorsContext, int value) {
-        if(speed > topSpeed) {
+        if(speed + value > topSpeed) {
             String message = "Speed cannot exceed top speed: "+topSpeed;
             errorsContext.addErrorMessage(new FieldErrorMessage("speed", "" + speed, message));
         }
