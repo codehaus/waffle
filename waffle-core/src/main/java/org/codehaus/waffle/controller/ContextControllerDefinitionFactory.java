@@ -70,16 +70,15 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
         if (requestLevelContainer == null) {
             controllerMonitor.requestContextContainerNotFound();
             String error = "No context container found at request level. "
-                    + "Please ensure that a WaffleRequestFilter was registered in the web.xml";
+                    + "Please ensure that a WaffleRequestFilter is registered in the web.xml";
             throw new WaffleException(error);
         }
 
         Object controller = requestLevelContainer.getComponentInstance(name);
         if (controller == null) {
             controllerMonitor.controllerNotFound(name);
-            String error = "No controller configured for the specified path: '"
-                    + request.getRequestURI() + "' (controller name='" + name + "') "
-                    + "Please ensure that controller '" + name + "' was registered in the Registrar.";
+            String error = "No controller '" + name + "' configured for the specified path: '"
+                    + request.getRequestURI() + ". Please ensure that controller '" + name + "' is registered in the Registrar.";
             throw new WaffleException(error);
         }
 
