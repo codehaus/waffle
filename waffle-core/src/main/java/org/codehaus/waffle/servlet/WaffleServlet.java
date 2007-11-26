@@ -11,6 +11,7 @@
 package org.codehaus.waffle.servlet;
 
 import static org.codehaus.waffle.Constants.ERRORS_KEY;
+import static org.codehaus.waffle.Constants.MESSAGES_KEY;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 
@@ -31,6 +32,7 @@ import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorsContext;
@@ -58,6 +60,7 @@ public class WaffleServlet extends HttpServlet {
     private DataBinder dataBinder;
     private RequestAttributeBinder requestAttributeBinder;
     private ControllerDefinitionFactory controllerDefinitionFactory;
+    private MessagesContext messagesContext;
     private Validator validator;
     private String viewPrefix;
     private String viewSuffix;
@@ -79,6 +82,7 @@ public class WaffleServlet extends HttpServlet {
      * @param dataBinder
      * @param requestAttributeBinder
      * @param controllerDefinitionFactory
+     * @param messagesContext
      * @param validator
      */
     public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
@@ -87,13 +91,14 @@ public class WaffleServlet extends HttpServlet {
                          DataBinder dataBinder,
                          RequestAttributeBinder requestAttributeBinder,
                          ControllerDefinitionFactory controllerDefinitionFactory, 
-                         Validator validator) {
+                         MessagesContext messagesContext, Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
         this.servletMonitor = servletMonitor;
         this.dataBinder = dataBinder;
         this.requestAttributeBinder = requestAttributeBinder;
         this.controllerDefinitionFactory = controllerDefinitionFactory;
+        this.messagesContext = messagesContext;
         this.validator = validator;
         componentsRetrieved = true;
     }
@@ -119,6 +124,7 @@ public class WaffleServlet extends HttpServlet {
             dataBinder = componentRegistry.getDataBinder();
             requestAttributeBinder = componentRegistry.getRequestAttributeBinder();
             controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();
+            messagesContext = componentRegistry.getMessagesContext();
             validator = componentRegistry.getValidator();
         }
     }
@@ -148,6 +154,7 @@ public class WaffleServlet extends HttpServlet {
                            HttpServletResponse response) throws ServletException, IOException {
         ErrorsContext errorsContext = new DefaultErrorsContext();
         request.setAttribute(ERRORS_KEY, errorsContext);
+        request.setAttribute(MESSAGES_KEY, messagesContext);
 
         ControllerDefinition controllerDefinition = getControllerDefinition(request, response);
         dataBinder.bind(request, response, errorsContext, controllerDefinition.getController());

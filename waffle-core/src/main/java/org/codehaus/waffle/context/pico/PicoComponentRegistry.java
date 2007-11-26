@@ -40,7 +40,9 @@ import org.codehaus.waffle.controller.ContextPathControllerNameResolver;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
@@ -91,6 +93,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
         register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
+        register(MessagesContext.class, DefaultMessagesContext.class, servletContext);
         register(MessageResources.class, DefaultMessageResources.class, servletContext);
         register(ActionMonitor.class, SilentMonitor.class, servletContext);
         register(BindMonitor.class, SilentMonitor.class, servletContext);
@@ -249,6 +252,10 @@ public class PicoComponentRegistry implements ComponentRegistry {
 
     public ControllerDefinitionFactory getControllerDefinitionFactory() {
         return locateByType(ControllerDefinitionFactory.class);
+    }
+
+    public MessagesContext getMessagesContext() {
+        return locateByType(MessagesContext.class);
     }
 
     public MessageResources getMessageResources() {
