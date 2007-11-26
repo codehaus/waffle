@@ -40,6 +40,8 @@ import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.i18n.DefaultMessagesContext;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
@@ -84,6 +86,7 @@ public class WaffleServletTest {
             one(componentRegistry).getDataBinder();
             one(componentRegistry).getRequestAttributeBinder();
             one(componentRegistry).getControllerDefinitionFactory();
+            one(componentRegistry).getMessagesContext();
             one(componentRegistry).getValidator();
         }});
 
@@ -116,6 +119,7 @@ public class WaffleServletTest {
             one(request).getParameterNames();
             will(returnValue(enumeration));
             one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(a(ErrorsContext.class)));
+            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(a(MessagesContext.class)));
             one(request).getMethod(); // todo need to test post
             will(returnValue("get"));
         }});
@@ -151,7 +155,7 @@ public class WaffleServletTest {
                                                         monitor,
                                                         new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
                                                         requestAttributeBinder,
-                                                        null, validator) {
+                                                        null, new DefaultMessagesContext(), validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
@@ -176,6 +180,7 @@ public class WaffleServletTest {
             one(request).getParameterNames();
             will(returnValue(enumeration));
             one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(a(ErrorsContext.class)));
+            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(a(MessagesContext.class)));
             one(request).getMethod();
             will(returnValue("post"));
             one(request).getRequestURL();
@@ -213,7 +218,7 @@ public class WaffleServletTest {
                                                         monitor,
                                                         new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
                                                         requestAttributeBinder,
-                                                        null, validator) {
+                                                        null, new DefaultMessagesContext(), validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
@@ -230,6 +235,7 @@ public class WaffleServletTest {
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
             one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
+            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(any(MessagesContext.class)));
             one(request).getServletPath();
             will(returnValue("/foobar"));
         }});
@@ -264,6 +270,7 @@ public class WaffleServletTest {
             one(request).getParameterNames();
             will(returnValue(enumeration));
             one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
+            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(a(MessagesContext.class)));
         }});
 
         // Mock HttpServletResponse
@@ -293,7 +300,7 @@ public class WaffleServletTest {
                 new SilentMonitor(),
                 new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
                 requestAttributeBinder,
-                null, validator) {
+                null, new DefaultMessagesContext(), validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, null);
@@ -321,6 +328,7 @@ public class WaffleServletTest {
             one(request).getParameterNames();
             will(returnValue(enumeration));
             one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
+            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(any(MessagesContext.class)));
         }});
 
         // Mock HttpServletResponse

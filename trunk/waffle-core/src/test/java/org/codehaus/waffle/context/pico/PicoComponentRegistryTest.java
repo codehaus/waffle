@@ -39,7 +39,9 @@ import org.codehaus.waffle.controller.ContextPathControllerNameResolver;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.AbstractWritingMonitor;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
@@ -58,6 +60,7 @@ import org.codehaus.waffle.testmodel.StubControllerDefinitionFactory;
 import org.codehaus.waffle.testmodel.StubControllerNameResolver;
 import org.codehaus.waffle.testmodel.StubDataBinder;
 import org.codehaus.waffle.testmodel.StubMessageResources;
+import org.codehaus.waffle.testmodel.StubMessagesContext;
 import org.codehaus.waffle.testmodel.StubMethodDefinitionFinder;
 import org.codehaus.waffle.testmodel.StubMethodNameResolver;
 import org.codehaus.waffle.testmodel.StubMonitor;
@@ -131,7 +134,7 @@ public class PicoComponentRegistryTest {
             {
                 one(servletContext).getInitParameterNames();
                 will(returnValue(EMPTY_ENUMERATION));
-                exactly(24).of(servletContext).getInitParameter(with(any(String.class)));
+                exactly(25).of(servletContext).getInitParameter(with(any(String.class)));
             }
         });
 
@@ -149,6 +152,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof ContextControllerDefinitionFactory);
         assertTrue(componentRegistry.getDataBinder() instanceof OgnlDataBinder);
         assertTrue(componentRegistry.getMethodNameResolver() instanceof RequestParameterMethodNameResolver);
+        assertTrue(componentRegistry.getMessagesContext() instanceof DefaultMessagesContext);
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
         assertTrue(componentRegistry.getRegistrarMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getServletMonitor() instanceof AbstractWritingMonitor);
@@ -172,6 +176,8 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubActionMethodExecutor.class.getName()));
                 one(servletContext).getInitParameter(Validator.class.getName());
                 will(returnValue(StubValidator.class.getName()));
+                one(servletContext).getInitParameter(MessagesContext.class.getName());
+                will(returnValue(StubMessagesContext.class.getName()));
                 one(servletContext).getInitParameter(MessageResources.class.getName());
                 will(returnValue(StubMessageResources.class.getName()));
                 one(servletContext).getInitParameter(MethodDefinitionFinder.class.getName());

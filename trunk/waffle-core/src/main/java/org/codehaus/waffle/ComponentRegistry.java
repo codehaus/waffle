@@ -24,6 +24,7 @@ import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
@@ -70,6 +71,8 @@ public interface ComponentRegistry {
     ControllerNameResolver getControllerNameResolver();
 
     DataBinder getDataBinder();
+
+    MessagesContext getMessagesContext();
 
     MessageResources getMessageResources();
 

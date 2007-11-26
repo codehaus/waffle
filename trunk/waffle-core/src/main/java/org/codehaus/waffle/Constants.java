@@ -16,4 +16,5 @@ public interface Constants {
     String VIEW_SUFFIX_KEY = "view.suffix";
     String CONTROLLER_KEY = "controller";
     String ERRORS_KEY = "errors";
+    String MESSAGES_KEY = "messages";
 }
