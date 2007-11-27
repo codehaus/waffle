@@ -16,6 +16,7 @@ import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -82,7 +83,7 @@ public class WaffleServlet extends HttpServlet {
      * @param dataBinder
      * @param requestAttributeBinder
      * @param controllerDefinitionFactory
-     * @param messagesContext
+     * @param messagesContext 
      * @param errorsContext
      * @param validator
      */
@@ -155,10 +156,9 @@ public class WaffleServlet extends HttpServlet {
      */
     protected void service(HttpServletRequest request,            
                            HttpServletResponse response) throws ServletException, IOException {        
-        errorsContext.clearErrorMessages();
-        request.setAttribute(ERRORS_KEY, errorsContext);
-        request.setAttribute(MESSAGES_KEY, messagesContext);
-
+        messagesContext.clearMessages();
+        addErrorsToRequest(request);
+        
         ControllerDefinition controllerDefinition = getControllerDefinition(request, response);
         dataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
         validator.validate(controllerDefinition, errorsContext);
@@ -193,10 +193,38 @@ public class WaffleServlet extends HttpServlet {
 
             requestAttributeBinder.bind(request, controllerDefinition.getController());
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
+            addMessagesToRequest(request, controllerDefinition.getController());
+
         } catch (ActionMethodInvocationException e) {
             servletMonitor.servletServiceFailed(e);
             log(ERROR + e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
+    private void addErrorsToRequest(HttpServletRequest request) {
+        errorsContext.clearErrorMessages();
+        request.setAttribute(ERRORS_KEY, errorsContext);
+    }
+
+    /**
+     * Use reflection to extract the MessagesContext from the "messages" field
+     * 
+     * @param request 
+     * @param controller
+     */
+    //TODO Consider using other conventions or introducing an optional interface
+    private void addMessagesToRequest(HttpServletRequest request, Object controller) {
+        try {
+            Field messagesField = controller.getClass().getDeclaredField("messages");
+            messagesField.setAccessible(true);
+            Object messages = messagesField.get(controller);
+            if ( messages instanceof MessagesContext ){
+                request.setAttribute(MESSAGES_KEY, (MessagesContext)messages);
+            }
+        } catch (Exception e) {
+            //TODO add event to monitor
+            e.printStackTrace();
         }
     }
 
