@@ -44,6 +44,7 @@ import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
+import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.View;
@@ -87,6 +88,7 @@ public class WaffleServletTest {
             one(componentRegistry).getRequestAttributeBinder();
             one(componentRegistry).getControllerDefinitionFactory();
             one(componentRegistry).getMessagesContext();
+            one(componentRegistry).getErrorsContext();
             one(componentRegistry).getValidator();
         }});
 
@@ -155,7 +157,7 @@ public class WaffleServletTest {
                                                         monitor,
                                                         new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
                                                         requestAttributeBinder,
-                                                        null, new DefaultMessagesContext(), validator) {
+                                                        null, new DefaultMessagesContext(), new DefaultErrorsContext(), validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
@@ -218,7 +220,7 @@ public class WaffleServletTest {
                                                         monitor,
                                                         new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
                                                         requestAttributeBinder,
-                                                        null, new DefaultMessagesContext(), validator) {
+                                                        null, new DefaultMessagesContext(), new DefaultErrorsContext(), validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
@@ -253,6 +255,10 @@ public class WaffleServletTest {
         Field actionFactoryField = WaffleServlet.class.getDeclaredField("controllerDefinitionFactory");
         actionFactoryField.setAccessible(true);
         actionFactoryField.set(waffleServlet, controllerDefinitionFactory);
+
+        Field errorsContextField = WaffleServlet.class.getDeclaredField("errorsContext");
+        errorsContextField.setAccessible(true);
+        errorsContextField.set(waffleServlet, new DefaultErrorsContext());
 
         waffleServlet.service(request, null);
     }
@@ -300,7 +306,7 @@ public class WaffleServletTest {
                 new SilentMonitor(),
                 new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
                 requestAttributeBinder,
-                null, new DefaultMessagesContext(), validator) {
+                null, new DefaultMessagesContext(), new DefaultErrorsContext(), validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, null);
@@ -375,14 +381,18 @@ public class WaffleServletTest {
         dataBinderField.setAccessible(true);
         dataBinderField.set(waffleServlet, new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()));
 
-        Field mockMethodExecutorField = WaffleServlet.class.getDeclaredField("actionMethodExecutor");
-        mockMethodExecutorField.setAccessible(true);
-        mockMethodExecutorField.set(waffleServlet, actionMethodExecutor);
+        Field actionMethodExecutorField = WaffleServlet.class.getDeclaredField("actionMethodExecutor");
+        actionMethodExecutorField.setAccessible(true);
+        actionMethodExecutorField.set(waffleServlet, actionMethodExecutor);
 
-        Field mockMonitorField = WaffleServlet.class.getDeclaredField("servletMonitor");
-        mockMonitorField.setAccessible(true);
-        mockMonitorField.set(waffleServlet, servletMonitor);
-        
+        Field servletMonitorField = WaffleServlet.class.getDeclaredField("servletMonitor");
+        servletMonitorField.setAccessible(true);
+        servletMonitorField.set(waffleServlet, servletMonitor);
+
+        Field errorsContextField = WaffleServlet.class.getDeclaredField("errorsContext");
+        errorsContextField.setAccessible(true);
+        errorsContextField.set(waffleServlet, new DefaultErrorsContext());
+
         Field validatorFactoryField = WaffleServlet.class.getDeclaredField("validator");
         validatorFactoryField.setAccessible(true);
         validatorFactoryField.set(waffleServlet, validator);

@@ -42,5 +42,7 @@ public interface ErrorsContext {
     
     int getErrorMessageCountForField(Type type, String fieldName);
 
+    void clearErrorMessages();
+    
 }
 
