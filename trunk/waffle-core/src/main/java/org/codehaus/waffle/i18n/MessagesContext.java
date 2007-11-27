@@ -29,7 +29,7 @@ public interface MessagesContext {
 
     List<String> getMessages();
 
-    int getMessagesCount();
+    int getMessageCount();
 
     void clearMessages();
     

@@ -14,7 +14,7 @@ public class DefaultMessagesContextTest  {
     public void canAddAndGetMessages() {
         MessagesContext messages = new DefaultMessagesContext();
         messages.addMessage("success", "Waffle action was executed");
-        assertEquals(1, messages.getMessagesCount());
+        assertEquals(1, messages.getMessageCount());
         assertEquals("Waffle action was executed", messages.getMessage("success"));
         assertEquals("Waffle action was executed", messages.getMessages().iterator().next());                
     }
@@ -23,12 +23,12 @@ public class DefaultMessagesContextTest  {
     public void canAddAndClearMessages() {
         MessagesContext messages = new DefaultMessagesContext();
         messages.addMessage("success", "Waffle action was executed");
-        assertEquals(1, messages.getMessagesCount());
+        assertEquals(1, messages.getMessageCount());
         messages.clearMessages();
-        assertEquals(0, messages.getMessagesCount());       
+        assertEquals(0, messages.getMessageCount());       
         // add again
         messages.addMessage("success", "Waffle action was executed");
-        assertEquals(1, messages.getMessagesCount());
+        assertEquals(1, messages.getMessageCount());
     }
 
 }

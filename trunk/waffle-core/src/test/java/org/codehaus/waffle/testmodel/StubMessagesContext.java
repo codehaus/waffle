@@ -20,7 +20,7 @@ public class StubMessagesContext implements MessagesContext {
         return null;
     }
 
-    public int getMessagesCount() {
+    public int getMessageCount() {
         return 0;
     }
 
