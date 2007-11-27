@@ -33,6 +33,7 @@ import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.ValidationMonitor;
 import org.codehaus.waffle.monitor.ViewMonitor;
+import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
@@ -87,6 +88,8 @@ public interface ComponentRegistry {
     ServletMonitor getServletMonitor();
 
     ValueConverterFinder getValueConverterFinder();
+
+    ErrorsContext getErrorsContext();
 
     Validator getValidator();
 

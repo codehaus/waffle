@@ -34,7 +34,6 @@ import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
-import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
@@ -61,6 +60,7 @@ public class WaffleServlet extends HttpServlet {
     private RequestAttributeBinder requestAttributeBinder;
     private ControllerDefinitionFactory controllerDefinitionFactory;
     private MessagesContext messagesContext;
+    private ErrorsContext errorsContext;
     private Validator validator;
     private String viewPrefix;
     private String viewSuffix;
@@ -83,6 +83,7 @@ public class WaffleServlet extends HttpServlet {
      * @param requestAttributeBinder
      * @param controllerDefinitionFactory
      * @param messagesContext
+     * @param errorsContext
      * @param validator
      */
     public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
@@ -91,7 +92,7 @@ public class WaffleServlet extends HttpServlet {
                          DataBinder dataBinder,
                          RequestAttributeBinder requestAttributeBinder,
                          ControllerDefinitionFactory controllerDefinitionFactory, 
-                         MessagesContext messagesContext, Validator validator) {
+                         MessagesContext messagesContext, ErrorsContext errorsContext, Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
         this.servletMonitor = servletMonitor;
@@ -99,6 +100,7 @@ public class WaffleServlet extends HttpServlet {
         this.requestAttributeBinder = requestAttributeBinder;
         this.controllerDefinitionFactory = controllerDefinitionFactory;
         this.messagesContext = messagesContext;
+        this.errorsContext = errorsContext;
         this.validator = validator;
         componentsRetrieved = true;
     }
@@ -125,6 +127,7 @@ public class WaffleServlet extends HttpServlet {
             requestAttributeBinder = componentRegistry.getRequestAttributeBinder();
             controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();
             messagesContext = componentRegistry.getMessagesContext();
+            errorsContext = componentRegistry.getErrorsContext();
             validator = componentRegistry.getValidator();
         }
     }
@@ -150,9 +153,9 @@ public class WaffleServlet extends HttpServlet {
      * @throws ServletException
      * @throws IOException
      */
-    protected void service(HttpServletRequest request,
-                           HttpServletResponse response) throws ServletException, IOException {
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+    protected void service(HttpServletRequest request,            
+                           HttpServletResponse response) throws ServletException, IOException {        
+        errorsContext.clearErrorMessages();
         request.setAttribute(ERRORS_KEY, errorsContext);
         request.setAttribute(MESSAGES_KEY, messagesContext);
 

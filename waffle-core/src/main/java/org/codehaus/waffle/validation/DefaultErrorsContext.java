@@ -228,6 +228,10 @@ public class DefaultErrorsContext implements ErrorsContext {
         return 0;
     }
 
-
+    public void clearErrorMessages() {
+        bindErrorMessages.clear();
+        fieldErrorMessages.clear();
+        globaErrorMessages.clear();        
+    }
    
 }

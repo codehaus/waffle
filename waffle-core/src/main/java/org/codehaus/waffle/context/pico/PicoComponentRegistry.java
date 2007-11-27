@@ -52,7 +52,9 @@ import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.monitor.ValidationMonitor;
 import org.codehaus.waffle.monitor.ViewMonitor;
+import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.DefaultValidator;
+import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
 import org.codehaus.waffle.view.DefaultViewResolver;
@@ -103,6 +105,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(ServletMonitor.class, SilentMonitor.class, servletContext);
         register(ValidationMonitor.class, SilentMonitor.class, servletContext);
         register(ViewMonitor.class, SilentMonitor.class, servletContext);
+        register(ErrorsContext.class, DefaultErrorsContext.class, servletContext);
         register(Validator.class, DefaultValidator.class, servletContext);
         register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
         register(ViewResolver.class, DefaultViewResolver.class, servletContext);
@@ -284,6 +287,10 @@ public class PicoComponentRegistry implements ComponentRegistry {
 
     public ServletMonitor getServletMonitor() {
         return locateByType(ServletMonitor.class);
+    }
+    
+    public ErrorsContext getErrorsContext() {
+        return locateByType(ErrorsContext.class);
     }
     
     public Validator getValidator() {
