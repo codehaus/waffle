@@ -128,7 +128,7 @@ public class WaffleServletTest {
 
         // Mock HttpServletResponse
         final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
-
+        
         Method method = NonDispatchingController.class.getMethod("increment");
         final MethodDefinition methodDefinition = new MethodDefinition(method);
 
@@ -256,6 +256,10 @@ public class WaffleServletTest {
         actionFactoryField.setAccessible(true);
         actionFactoryField.set(waffleServlet, controllerDefinitionFactory);
 
+        Field messagesContextField = WaffleServlet.class.getDeclaredField("messagesContext");
+        messagesContextField.setAccessible(true);
+        messagesContextField.set(waffleServlet, new DefaultMessagesContext());
+        
         Field errorsContextField = WaffleServlet.class.getDeclaredField("errorsContext");
         errorsContextField.setAccessible(true);
         errorsContextField.set(waffleServlet, new DefaultErrorsContext());
@@ -276,7 +280,7 @@ public class WaffleServletTest {
             one(request).getParameterNames();
             will(returnValue(enumeration));
             one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
-            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(a(MessagesContext.class)));
+            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(any(MessagesContext.class)));
         }});
 
         // Mock HttpServletResponse
@@ -334,7 +338,6 @@ public class WaffleServletTest {
             one(request).getParameterNames();
             will(returnValue(enumeration));
             one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
-            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(any(MessagesContext.class)));
         }});
 
         // Mock HttpServletResponse
@@ -389,6 +392,10 @@ public class WaffleServletTest {
         servletMonitorField.setAccessible(true);
         servletMonitorField.set(waffleServlet, servletMonitor);
 
+        Field messagesContextField = WaffleServlet.class.getDeclaredField("messagesContext");
+        messagesContextField.setAccessible(true);
+        messagesContextField.set(waffleServlet, new DefaultMessagesContext());
+        
         Field errorsContextField = WaffleServlet.class.getDeclaredField("errorsContext");
         errorsContextField.setAccessible(true);
         errorsContextField.set(waffleServlet, new DefaultErrorsContext());
@@ -452,14 +459,17 @@ public class WaffleServletTest {
 
     public class NonDispatchingController {
         private int count = 0;
-
+        private MessagesContext messages = new DefaultMessagesContext();
+        
         public void increment() {
             count += 1;
+            messages.addMessage("success", "Incremented count");
         }
 
         public int getCount() {
             return count;
         }
+        
     }
 
     public class StubServletOutputStream extends ServletOutputStream {

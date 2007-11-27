@@ -26,6 +26,13 @@
         <br/> Global: <c:out value="${waffle:findErrors(errors, 'GLOBAL')}"/>
     </c:if>
 
+    <c:if test="${messages.messageCount > 0}">
+        <c:forEach var="message" items="${messages.messages}">
+            <div style="color:green">
+                ${message}
+            </div>
+        </c:forEach>
+    </c:if>
 
     <table>
         <tr>
