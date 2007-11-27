@@ -35,7 +35,7 @@ public class DefaultMessagesContext implements MessagesContext {
         return new ArrayList<String>(messages.values());
     }
 
-    public int getMessagesCount() {
+    public int getMessageCount() {
         return messages.size();
     }
 
