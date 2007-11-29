@@ -56,17 +56,21 @@ public class AutomobileController {
 
     public void setTopSpeed(int topSpeed) {
         this.topSpeed = topSpeed;
+        messages.clearMessages();
         this.messages.addMessage("success", "Set top speed "+topSpeed);
     }
 
     public void accelerate(int value) {
         speed += value;
+        messages.clearMessages();
+        this.messages.addMessage("success", "Accellerated to speed "+speed);            
     }
 
     public void accelerate(ErrorsContext errorsContext, int value) {
         if(speed + value > topSpeed) {
             String message = "Speed cannot exceed top speed: "+topSpeed;
             errorsContext.addErrorMessage(new FieldErrorMessage("speed", "" + speed, message));
+            messages.clearMessages();
         }
     }
     
