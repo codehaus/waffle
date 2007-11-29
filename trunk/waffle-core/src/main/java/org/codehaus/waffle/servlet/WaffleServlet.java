@@ -60,8 +60,6 @@ public class WaffleServlet extends HttpServlet {
     private DataBinder dataBinder;
     private RequestAttributeBinder requestAttributeBinder;
     private ControllerDefinitionFactory controllerDefinitionFactory;
-    private MessagesContext messagesContext;
-    private ErrorsContext errorsContext;
     private Validator validator;
     private String viewPrefix;
     private String viewSuffix;
@@ -83,8 +81,6 @@ public class WaffleServlet extends HttpServlet {
      * @param dataBinder
      * @param requestAttributeBinder
      * @param controllerDefinitionFactory
-     * @param messagesContext 
-     * @param errorsContext
      * @param validator
      */
     public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
@@ -93,15 +89,13 @@ public class WaffleServlet extends HttpServlet {
                          DataBinder dataBinder,
                          RequestAttributeBinder requestAttributeBinder,
                          ControllerDefinitionFactory controllerDefinitionFactory, 
-                         MessagesContext messagesContext, ErrorsContext errorsContext, Validator validator) {
+                         Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
         this.servletMonitor = servletMonitor;
         this.dataBinder = dataBinder;
         this.requestAttributeBinder = requestAttributeBinder;
         this.controllerDefinitionFactory = controllerDefinitionFactory;
-        this.messagesContext = messagesContext;
-        this.errorsContext = errorsContext;
         this.validator = validator;
         componentsRetrieved = true;
     }
@@ -118,23 +112,29 @@ public class WaffleServlet extends HttpServlet {
         }
 
         if (!componentsRetrieved) {
-            // Retrieve required components from the Component Registry
-            ComponentRegistry componentRegistry = ServletContextHelper
-                    .getComponentRegistry(getServletContext());
-            actionMethodExecutor = componentRegistry.getActionMethodExecutor();
-            actionMethodResponseHandler = componentRegistry.getActionMethodResponseHandler();
-            servletMonitor = componentRegistry.getServletMonitor();
-            dataBinder = componentRegistry.getDataBinder();
-            requestAttributeBinder = componentRegistry.getRequestAttributeBinder();
-            controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();
-            messagesContext = componentRegistry.getMessagesContext();
-            errorsContext = componentRegistry.getErrorsContext();
-            validator = componentRegistry.getValidator();
+            // Retrieve instance components from the ComponentRegistry
+            ComponentRegistry registry = getComponentRegistry();
+            actionMethodExecutor = registry.getActionMethodExecutor();
+            actionMethodResponseHandler = registry.getActionMethodResponseHandler();
+            servletMonitor = registry.getServletMonitor();
+            dataBinder = registry.getDataBinder();
+            requestAttributeBinder = registry.getRequestAttributeBinder();
+            controllerDefinitionFactory = registry.getControllerDefinitionFactory();
+            validator = registry.getValidator();
         }
     }
 
+    private ComponentRegistry getComponentRegistry() {
+        return ServletContextHelper.getComponentRegistry(getServletContext());
+    }
+
     /**
-     * Obtain the controller the user is requesting.
+     * Obtain the controller defition the user is requesting.
+     * 
+     * @param request the HttpServletRequest
+     * @param response the HttpServletResponse
+     * @return A ControllerDefinition
+     * @throws ServletException if controller not found
      */
     protected ControllerDefinition getControllerDefinition(HttpServletRequest request,
                                                            HttpServletResponse response) throws ServletException {
@@ -149,16 +149,21 @@ public class WaffleServlet extends HttpServlet {
     /**
      * Responsible for servicing the requests from the users.
      *
-     * @param request
-     * @param response
+     * @param request the HttpServletResponse
+     * @param response the HttpServletResponse
      * @throws ServletException
      * @throws IOException
      */
     protected void service(HttpServletRequest request,            
                            HttpServletResponse response) throws ServletException, IOException {        
-        messagesContext.clearMessages();
-        addErrorsToRequest(request);
+        ComponentRegistry registry = getComponentRegistry();
+
+        ErrorsContext errorsContext = registry.getErrorsContext();
+        addErrorsToRequest(request, errorsContext);
         
+        MessagesContext messagesContext = registry.getMessagesContext();
+        messagesContext.clearMessages();
+
         ControllerDefinition controllerDefinition = getControllerDefinition(request, response);
         dataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
         validator.validate(controllerDefinition, errorsContext);
@@ -202,7 +207,7 @@ public class WaffleServlet extends HttpServlet {
         }
     }
 
-    private void addErrorsToRequest(HttpServletRequest request) {
+    private void addErrorsToRequest(HttpServletRequest request, ErrorsContext errorsContext) {
         errorsContext.clearErrorMessages();
         request.setAttribute(ERRORS_KEY, errorsContext);
     }
