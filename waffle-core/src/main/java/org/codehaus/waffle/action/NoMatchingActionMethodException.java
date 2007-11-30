@@ -8,9 +8,9 @@ package org.codehaus.waffle.action;
 @SuppressWarnings("serial")
 public class NoMatchingActionMethodException extends MatchingActionMethodException {
     private final String methodName;
-    private final Class actionClass;
+    private final Class<?> actionClass;
 
-    public NoMatchingActionMethodException(String methodName, Class actionClass) {
+    public NoMatchingActionMethodException(String methodName, Class<?> actionClass) {
         super("no matching methods for: " + methodName);
         this.methodName = methodName;
         this.actionClass = actionClass;
@@ -20,7 +20,7 @@ public class NoMatchingActionMethodException extends MatchingActionMethodExcepti
         return methodName;
     }
 
-    public Class getActionClass() {
+    public Class<?> getActionClass() {
         return actionClass;
     }
 }

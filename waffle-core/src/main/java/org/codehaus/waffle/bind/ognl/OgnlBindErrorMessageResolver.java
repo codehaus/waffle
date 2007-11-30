@@ -59,7 +59,7 @@ public class OgnlBindErrorMessageResolver implements BindErrorMessageResolver {
         return messageResources.getMessage(DEFAULT_BIND_ERROR, fieldName, value);
     }
 
-    protected String findBindErrorMessageKey(Class type) {
+    protected String findBindErrorMessageKey(Class<?> type) {
         if (byte.class.equals(type)
                 || short.class.equals(type)
                 || int.class.equals(type)

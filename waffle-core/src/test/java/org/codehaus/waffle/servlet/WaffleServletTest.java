@@ -125,7 +125,7 @@ public class WaffleServletTest {
                 exactly(2).of(errorsContext).hasErrorMessages();
                 will(returnValue(false));
                 one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
-                will(returnValue(new ArrayList()));
+                will(returnValue(new ArrayList<Object>()));
             }
         });
 
@@ -206,7 +206,7 @@ public class WaffleServletTest {
                 exactly(2).of(errorsContext).hasErrorMessages();
                 will(returnValue(false));
                 one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
-                will(returnValue(new ArrayList()));
+                will(returnValue(new ArrayList<Object>()));
             }
         });
 
@@ -275,6 +275,7 @@ public class WaffleServletTest {
         Assert.assertEquals(1, nonDispatchingController.getCount());
     }
 
+    @SuppressWarnings("serial")
     @Test(expected = ServletException.class)
     public void cannotServiceIfControllerNotFound() throws Exception {
         // Mock ErrorsContext
@@ -288,7 +289,7 @@ public class WaffleServletTest {
                 one(errorsContext).hasErrorMessages();
                 will(returnValue(false));
                 one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
-                will(returnValue(new ArrayList()));
+                will(returnValue(new ArrayList<Object>()));
             }
         });
 
