@@ -1,17 +1,18 @@
 package org.codehaus.waffle.example.simple;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.List;
-
 import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+
+import java.util.List;
 
 public class AutomobileControllerValidatorTest {
 
@@ -21,10 +22,13 @@ public class AutomobileControllerValidatorTest {
 
         AutomobileController controller = new AutomobileController();
         controller.setSpeed(50);
-        controller.setTopSpeed(150);
+        MessagesContext messagesContext = new DefaultMessagesContext(null);
+        controller.setTopSpeed(150, messagesContext);
+
+        assertEquals("Set top speed 150", messagesContext.getMessage("success"));
 
         AutomobileControllerValidator validator = new AutomobileControllerValidator(controller, messageResources);
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         validator.accelerate(errorsContext, 15);
 
         assertFalse(errorsContext.hasErrorMessages());
@@ -36,10 +40,10 @@ public class AutomobileControllerValidatorTest {
 
         AutomobileController controller = new AutomobileController();
         controller.setSpeed(140);
-        controller.setTopSpeed(150);
+        controller.setTopSpeed(150, new DefaultMessagesContext(null));
 
         AutomobileControllerValidator validator = new AutomobileControllerValidator(controller, messageResources);
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         validator.accelerate(errorsContext, 15);
 
         assertTrue(errorsContext.hasErrorMessages());

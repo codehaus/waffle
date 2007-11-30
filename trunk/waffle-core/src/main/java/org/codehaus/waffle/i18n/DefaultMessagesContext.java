@@ -10,6 +10,10 @@
  *****************************************************************************/
 package org.codehaus.waffle.i18n;
 
+import org.codehaus.waffle.Constants;
+import org.codehaus.waffle.Startable;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +24,14 @@ import java.util.Map;
  * 
  * @author Mauro Talevi
  */
-public class DefaultMessagesContext implements MessagesContext {
-    private final Map<String, String> messages = new HashMap<String, String>(); 
-    
+public class DefaultMessagesContext implements MessagesContext, Startable {
+    private final HttpServletRequest request;
+    private final Map<String, String> messages = new HashMap<String, String>();
+
+    public DefaultMessagesContext(HttpServletRequest request) {
+        this.request = request;
+    }
+
     public void addMessage(String key, String message) {
         messages.put(key, message);
     }
@@ -43,4 +52,11 @@ public class DefaultMessagesContext implements MessagesContext {
         messages.clear();
     }
 
+    public void start() {
+        request.setAttribute(Constants.MESSAGES_KEY, this);
+    }
+
+    public void stop() {
+        // do nothing
+    }
 }

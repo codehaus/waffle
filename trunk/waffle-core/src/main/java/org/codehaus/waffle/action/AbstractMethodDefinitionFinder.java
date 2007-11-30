@@ -10,6 +10,18 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.i18n.MessagesContext;
+import org.codehaus.waffle.monitor.ActionMonitor;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.text.MessageFormat;
@@ -20,31 +32,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import ognl.OgnlRuntime;
-
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.monitor.ActionMonitor;
-
 /**
  * Abstract base implementation for all method definition finders
- * 
+ *
  * @author Michael Ward
- * @author Paul Hammant 
+ * @author Paul Hammant
  * @author Mauro Talevi
  */
 public abstract class AbstractMethodDefinitionFinder implements MethodDefinitionFinder {
-    
+
     private static final String ARGUMENT_FORMAT = "'{'{0}'}'";
     private static final String PRAGMA_SEPARATOR = "|";
-    private static final String PRAGMA_REGEX = "\\"+PRAGMA_SEPARATOR;
-    
+    private static final String PRAGMA_REGEX = "\\" + PRAGMA_SEPARATOR;
+
     private final Map<Class, Method> defaultMethodCache = new HashMap<Class, Method>();
     private final ServletContext servletContext;
     private final ArgumentResolver argumentResolver;
@@ -55,7 +55,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     public AbstractMethodDefinitionFinder(ServletContext servletContext,
                                           ArgumentResolver argumentResolver,
                                           MethodNameResolver methodNameResolver,
-                                          ValueConverterFinder valueConverterFinder, 
+                                          ValueConverterFinder valueConverterFinder,
                                           ActionMonitor actionMonitor) {
         this.servletContext = servletContext;
         this.argumentResolver = argumentResolver;
@@ -103,8 +103,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                 break;
             }
         }
-        
-        if ( methodDefinition != null ){
+
+        if (methodDefinition != null) {
             actionMonitor.defaultActionMethodFound(methodDefinition);
             return methodDefinition;
         }
@@ -112,9 +112,9 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private MethodDefinition findPragmaticActionMethod(Object controller,
-                                                         String methodName,
-                                                         HttpServletRequest request,
-                                                         HttpServletResponse response) {
+                                                       String methodName,
+                                                       HttpServletRequest request,
+                                                       HttpServletResponse response) {
         Iterator<String> iterator = Arrays.asList(methodName.split(PRAGMA_REGEX)).iterator();
         methodName = iterator.next();
 
@@ -144,22 +144,22 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
     private List<MethodDefinition> findMethodDefinitions(HttpServletRequest request, HttpServletResponse response, List<Method> methods) {
         List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
-    
+
         for (Method method : methods) {
             if (Modifier.isPublic(method.getModifiers())) {
                 List<Object> arguments = getArguments(method, request);
                 try {
                     methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
-                } catch ( NoValidActionMethodException e) {
+                } catch (NoValidActionMethodException e) {
                     // continue
                 }
             }
         }
-    
+
         return methodDefinitions;
     }
-    
-     private MethodDefinition buildDefaultMethodDefinition(Method method, HttpServletRequest request) {
+
+    private MethodDefinition buildDefaultMethodDefinition(Method method, HttpServletRequest request) {
         MethodDefinition methodDefinition = new MethodDefinition(method);
         DefaultActionMethod defaultActionMethod = method.getAnnotation(DefaultActionMethod.class);
         List<String> arguments = new ArrayList<String>(defaultActionMethod.parameters().length);
@@ -177,7 +177,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private MethodDefinition findPragmaticMethodDefinition(HttpServletRequest request, HttpServletResponse response,
-            List<Method> methods, List<Object> arguments) {
+                                                           List<Method> methods, List<Object> arguments) {
         List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
 
         for (Method method : methods) {
@@ -202,9 +202,9 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private MethodDefinition buildMethodDefinition(HttpServletRequest request,
-                                              HttpServletResponse response,
-                                              Method method,
-                                              List<Object> arguments) {
+                                                   HttpServletResponse response,
+                                                   Method method,
+                                                   List<Object> arguments) {
         Class<?>[] actualParameterTypes = method.getParameterTypes();
         MethodDefinition methodDefinition = new MethodDefinition(method);
 
@@ -220,6 +220,10 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                     methodDefinition.addMethodArgument(request.getSession());
                 } else if (ServletContext.class.isAssignableFrom(type)) {
                     methodDefinition.addMethodArgument(servletContext);
+                } else if (MessagesContext.class.isAssignableFrom(type)) {
+                    ContextContainer requestContainer = RequestLevelContainer.get();
+                    MessagesContext messageContext = requestContainer.getComponentInstanceOfType(MessagesContext.class);
+                    methodDefinition.addMethodArgument(messageContext);
                 } else if (iterator.hasNext()) {
                     methodDefinition.addMethodArgument(iterator.next());
                 } else {
@@ -280,23 +284,23 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private boolean isEmpty(String value) {
         return isDefaultActionMethod(value) || value.length() == 0;
     }
-    
+
     // Protected methods, accessible by  subclasses
 
     /**
      * Wraps value in curly brackets to fit with default handling
-     * 
+     *
      * @param value the argument value
      * @return A formatted argument
      */
     protected String formatArgument(String value) {
-        return MessageFormat.format(ARGUMENT_FORMAT,value);
+        return MessageFormat.format(ARGUMENT_FORMAT, value);
     }
 
     /**
      * Resolves arguments by name
-     * 
-     * @param request the HttpServletRequest
+     *
+     * @param request   the HttpServletRequest
      * @param arguments the List of argument names
      * @return The List of resolved argument objects
      * @see ArgumentResolver
@@ -313,11 +317,11 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     // Abstract methods - implementable by subclasses 
-    
+
     /**
      * Returns the method arguments contained in the request
-     * 
-     * @param method the Method
+     *
+     * @param method  the Method
      * @param request the HttpServetRequest
      * @return the list of arguments
      */
@@ -325,14 +329,14 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
     /**
      * Returns the methods matching the type and name
-     * 
-     * @param type the Class in which to look for the method
+     *
+     * @param type       the Class in which to look for the method
      * @param methodName the method name
      * @return A List of methods
-     * @throws NoMatchingActionMethodException if no methods match
+     * @throws NoMatchingActionMethodException
+     *          if no methods match
      */
     protected abstract List<Method> findMethods(Class<?> type, String methodName);
-
 
 
 }

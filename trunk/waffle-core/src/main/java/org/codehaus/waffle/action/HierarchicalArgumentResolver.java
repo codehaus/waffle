@@ -39,7 +39,7 @@ public class HierarchicalArgumentResolver implements ArgumentResolver {
 
     public enum Scope {
         PARAMETER, REQUEST, SESSION, APPLICATION
-    };
+    }
 
     private final Pattern pattern = Pattern.compile("\\{(\\w+)\\}");
     private final ServletContext servletContext;

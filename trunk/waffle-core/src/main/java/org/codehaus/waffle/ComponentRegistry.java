@@ -24,7 +24,6 @@ import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
@@ -33,7 +32,6 @@ import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.ValidationMonitor;
 import org.codehaus.waffle.monitor.ViewMonitor;
-import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
@@ -62,9 +60,9 @@ public interface ComponentRegistry {
     BindMonitor getBindMonitor();
 
     ContextContainerFactory getContextContainerFactory();
-    
+
     ContextMonitor getContextMonitor();
-    
+
     ControllerDefinitionFactory getControllerDefinitionFactory();
 
     ControllerMonitor getControllerMonitor();
@@ -72,8 +70,6 @@ public interface ComponentRegistry {
     ControllerNameResolver getControllerNameResolver();
 
     DataBinder getDataBinder();
-
-    MessagesContext getMessagesContext();
 
     MessageResources getMessageResources();
 
@@ -88,8 +84,6 @@ public interface ComponentRegistry {
     ServletMonitor getServletMonitor();
 
     ValueConverterFinder getValueConverterFinder();
-
-    ErrorsContext getErrorsContext();
 
     Validator getValidator();
 

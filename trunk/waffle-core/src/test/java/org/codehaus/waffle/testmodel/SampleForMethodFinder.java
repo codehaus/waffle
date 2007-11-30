@@ -11,6 +11,7 @@
 package org.codehaus.waffle.testmodel;
 
 import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.i18n.MessagesContext;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,7 @@ public class SampleForMethodFinder {
     public HttpServletResponse response;
     public HttpSession session;
     public ServletContext servletContext;
+    private MessagesContext messagesContext;
 
     public void noArgumentMethod() {
         noArgumentMethodInvoked = true;
@@ -82,6 +84,11 @@ public class SampleForMethodFinder {
     @ActionMethod
     public void methodDependsOnSession(HttpSession session) {
         this.session = session;
+    }
+
+    @ActionMethod
+    public void methodDependsOnMessagesContext(MessagesContext messagesContext) {
+        this.messagesContext = messagesContext;
     }
 
     @ActionMethod

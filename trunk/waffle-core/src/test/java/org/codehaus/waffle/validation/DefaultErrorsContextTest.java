@@ -18,7 +18,7 @@ public class DefaultErrorsContextTest {
 
     @Test
     public void canCountMessage() {
-        ErrorsContext context = new DefaultErrorsContext();
+        ErrorsContext context = new DefaultErrorsContext(null);
         context.addErrorMessage(new BindErrorMessage("bind.error", "foobar", null));
         context.addErrorMessage(new FieldErrorMessage("field.error", "foobaz", null));
         context.addErrorMessage(new GlobalErrorMessage("global message"));
@@ -34,7 +34,7 @@ public class DefaultErrorsContextTest {
 
     @Test
     public void canDetermineIfContextHasMessagesByType() {
-        ErrorsContext context = new DefaultErrorsContext();
+        ErrorsContext context = new DefaultErrorsContext(null);
         assertFalse(context.hasErrorMessages());
 
         // bind errors
@@ -48,7 +48,7 @@ public class DefaultErrorsContextTest {
         assertTrue(context.hasErrorMessagesOfType(FIELD));
 
         // global errors
-        context = new DefaultErrorsContext();
+        context = new DefaultErrorsContext(null);
         assertFalse(context.hasErrorMessagesOfType(GLOBAL));
         context.addErrorMessage(new GlobalErrorMessage(null));
         assertTrue(context.hasErrorMessagesOfType(GLOBAL));
@@ -57,7 +57,7 @@ public class DefaultErrorsContextTest {
     
     @Test
     public void canGetAllErrorMessages() {
-        ErrorsContext context = new DefaultErrorsContext();
+        ErrorsContext context = new DefaultErrorsContext(null);
         assertEquals(0, context.getErrorMessagesOfType(BIND).size());
         assertEquals(0, context.getErrorMessagesOfType(FIELD).size());
         assertEquals(0, context.getErrorMessagesOfType(GLOBAL).size());
@@ -74,7 +74,7 @@ public class DefaultErrorsContextTest {
 
     @Test
     public void canGetErrorMessagesForField() {
-        ErrorsContext context = new DefaultErrorsContext();
+        ErrorsContext context = new DefaultErrorsContext(null);
         assertFalse(context.hasErrorMessagesForField(BIND, "fieldName"));
         assertEquals(0, context.getErrorMessagesForField(BIND, "fieldName").size());
         assertFalse(context.hasErrorMessagesForField(FIELD, "fieldName"));

@@ -10,20 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
@@ -33,11 +19,12 @@ import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
+import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
-import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.i18n.DefaultMessagesContext;
@@ -53,7 +40,20 @@ import org.jmock.integration.junit4.JMock;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.picocontainer.defaults.DefaultPicoContainer;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * 
@@ -114,39 +114,34 @@ public class WaffleServletTest {
     @SuppressWarnings("serial")
     @Test
     public void canServiceNonDispatchingController() throws Exception {
-        RequestLevelContainer.set(new PicoContextContainer(new DefaultPicoContainer()));
+        // Mock ErrorsContext
+        final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
+        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        mockery.checking(new Expectations() {
+            {
+                
+                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                will(returnValue(errorsContext));
+                exactly(2).of(errorsContext).hasErrorMessages();
+                will(returnValue(false));
+                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                will(returnValue(new ArrayList()));
+            }
+        });
+
+        RequestLevelContainer.set(contextContainer);
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
         final Enumeration<?> enumeration = Collections.enumeration(list);
 
-        // Mock ComponentRegistry        
-        final ComponentRegistry componentRegistry = mockery.mock(ComponentRegistry.class);
-        mockery.checking(new Expectations() {{
-            one(componentRegistry).getMessagesContext();
-            one(componentRegistry).getErrorsContext();
-        }});
-
-        // Mock ServletContext        
-        final ServletContext servletContext = mockery.mock(ServletContext.class);
-        mockery.checking(new Expectations() {{
-            one(servletContext).getAttribute(ComponentRegistry.class.getName());
-            will(returnValue(componentRegistry));
-        }});
-        
         // Mock ServletConfig
         final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
-        mockery.checking(new Expectations() {{
-            one(servletConfig).getServletContext();
-            will(returnValue(servletContext));
-        }});
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
             one(request).getParameterNames();
             will(returnValue(enumeration));
-            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(a(ErrorsContext.class)));
-            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(a(MessagesContext.class)));
             one(request).getMethod(); // todo need to test post
             will(returnValue("get"));
         }});
@@ -200,39 +195,34 @@ public class WaffleServletTest {
     @SuppressWarnings("serial")
     @Test // Testing Post/Redirect/Get - see http://en.wikipedia.org/wiki/Post/Redirect/Get
     public void serviceShouldCreateRedirectViewWhenReturnValueIsNullAndRequestWasAPost() throws Exception {
-        RequestLevelContainer.set(new PicoContextContainer(new DefaultPicoContainer()));
+        // Mock ErrorsContext
+        final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
+        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        mockery.checking(new Expectations() {
+            {
+
+                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                will(returnValue(errorsContext));
+                exactly(2).of(errorsContext).hasErrorMessages();
+                will(returnValue(false));
+                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                will(returnValue(new ArrayList()));
+            }
+        });
+
+        RequestLevelContainer.set(contextContainer);
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
         final Enumeration<?> enumeration = Collections.enumeration(list);
 
-        // Mock ComponentRegistry        
-        final ComponentRegistry componentRegistry = mockery.mock(ComponentRegistry.class);
-        mockery.checking(new Expectations() {{
-            one(componentRegistry).getMessagesContext();
-            one(componentRegistry).getErrorsContext();
-        }});
-
-        // Mock ServletContext        
-        final ServletContext servletContext = mockery.mock(ServletContext.class);
-        mockery.checking(new Expectations() {{
-            one(servletContext).getAttribute(ComponentRegistry.class.getName());
-            will(returnValue(componentRegistry));
-        }});
-        
         // Mock ServletConfig
         final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
-        mockery.checking(new Expectations() {{
-            one(servletConfig).getServletContext();
-            will(returnValue(servletContext));
-        }});
-        
+
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
             one(request).getParameterNames();
             will(returnValue(enumeration));
-            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(a(ErrorsContext.class)));
-            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(a(MessagesContext.class)));
             one(request).getMethod();
             will(returnValue("post"));
             one(request).getRequestURL();
@@ -287,33 +277,29 @@ public class WaffleServletTest {
 
     @Test(expected = ServletException.class)
     public void cannotServiceIfControllerNotFound() throws Exception {
-        
-        // Mock ComponentRegistry        
-        final ComponentRegistry componentRegistry = mockery.mock(ComponentRegistry.class);
-        mockery.checking(new Expectations() {{
-            one(componentRegistry).getMessagesContext();
-            one(componentRegistry).getErrorsContext();
-        }});
+        // Mock ErrorsContext
+        final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
+        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        mockery.checking(new Expectations() {
+            {
 
-        // Mock ServletContext        
-        final ServletContext servletContext = mockery.mock(ServletContext.class);
-        mockery.checking(new Expectations() {{
-            one(servletContext).getAttribute(ComponentRegistry.class.getName());
-            will(returnValue(componentRegistry));
-        }});
+                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                will(returnValue(errorsContext));
+                one(errorsContext).hasErrorMessages();
+                will(returnValue(false));
+                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                will(returnValue(new ArrayList()));
+            }
+        });
+
+        RequestLevelContainer.set(contextContainer);
         
         // Mock ServletConfig
         final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
-        mockery.checking(new Expectations() {{
-            one(servletConfig).getServletContext();
-            will(returnValue(servletContext));
-        }});
-        
+
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
-            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
-            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(any(MessagesContext.class)));
             one(request).getServletPath();
             will(returnValue("/foobar"));
         }});
@@ -343,38 +329,31 @@ public class WaffleServletTest {
     @SuppressWarnings("serial")
     @Test
     public void cannotServiceIfMethodDefinitionIsNull() throws Exception {
+        // Mock ErrorsContext
+        final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
+        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        mockery.checking(new Expectations() {
+            {
+                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                will(returnValue(errorsContext));
+                one(errorsContext).hasErrorMessages();
+                will(returnValue(false));
+            }
+        });
+
+        RequestLevelContainer.set(contextContainer);
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
         final Enumeration<?> enumeration = Collections.enumeration(list);
-
-        // Mock ComponentRegistry        
-        final ComponentRegistry componentRegistry = mockery.mock(ComponentRegistry.class);
-        mockery.checking(new Expectations() {{
-            one(componentRegistry).getMessagesContext();
-            one(componentRegistry).getErrorsContext();
-        }});
-
-        // Mock ServletContext        
-        final ServletContext servletContext = mockery.mock(ServletContext.class);
-        mockery.checking(new Expectations() {{
-            one(servletContext).getAttribute(ComponentRegistry.class.getName());
-            will(returnValue(componentRegistry));
-        }});
         
         // Mock ServletConfig
         final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
-        mockery.checking(new Expectations() {{
-            one(servletConfig).getServletContext();
-            will(returnValue(servletContext));
-        }});
-        
+
         // Mock HttpServletRequest
         final HttpServletRequest request  = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
             one(request).getParameterNames();
             will(returnValue(enumeration));
-            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
-            one(request).setAttribute(with(equal(Constants.MESSAGES_KEY)), with(any(MessagesContext.class)));
         }});
 
         // Mock HttpServletResponse
@@ -425,37 +404,32 @@ public class WaffleServletTest {
     @SuppressWarnings({"serial", "ThrowableInstanceNeverThrown"})
     @Test
     public void canThrowExceptionInMethodInvocation() throws Exception {
+        // Mock ErrorsContext
+        final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
+        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        mockery.checking(new Expectations() {
+            {
+                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                will(returnValue(errorsContext));
+                one(errorsContext).hasErrorMessages();
+                will(returnValue(false));
+            }
+        });
+
+        RequestLevelContainer.set(contextContainer);
+
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
         final Enumeration<?> enumeration = Collections.enumeration(list);
 
-        // Mock ComponentRegistry        
-        final ComponentRegistry componentRegistry = mockery.mock(ComponentRegistry.class);
-        mockery.checking(new Expectations() {{
-            one(componentRegistry).getMessagesContext();
-            one(componentRegistry).getErrorsContext();
-        }});
-
-        // Mock ServletContext        
-        final ServletContext servletContext = mockery.mock(ServletContext.class);
-        mockery.checking(new Expectations() {{
-            one(servletContext).getAttribute(ComponentRegistry.class.getName());
-            will(returnValue(componentRegistry));
-        }});
-        
-        // Mock ServletConfig
+        // Mock ServletContext
         final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
-        mockery.checking(new Expectations() {{
-            one(servletConfig).getServletContext();
-            will(returnValue(servletContext));
-        }});
-        
+
         // Mock HttpServletRequest
         final HttpServletRequest request  = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
             one(request).getParameterNames();
             will(returnValue(enumeration));
-            one(request).setAttribute(with(equal(Constants.ERRORS_KEY)), with(any(ErrorsContext.class)));
         }});
 
         // Mock HttpServletResponse
@@ -572,7 +546,7 @@ public class WaffleServletTest {
 
     public class NonDispatchingController {
         private int count = 0;
-        private MessagesContext messages = new DefaultMessagesContext();
+        private MessagesContext messages = new DefaultMessagesContext(null);
         
         public void increment() {
             count += 1;

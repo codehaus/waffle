@@ -61,7 +61,7 @@ public class OgnlDataBinderTest {
 
         FakeController fakeController = new FakeController();
         DataBinder binder = new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor());
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, fakeController);
 
         assertEquals("foobar", fakeController.getName());
@@ -88,7 +88,7 @@ public class OgnlDataBinderTest {
 
         FakeController fakeController = new FakeController();
         DataBinder binder = new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor());
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, fakeController);
 
         assertNull(fakeController.getContextLevel());
@@ -115,7 +115,7 @@ public class OgnlDataBinderTest {
         FakeController fakeController = new FakeController();
         DataBinder binder = new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor());
 
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, fakeController);
         assertFalse(errorsContext.hasErrorMessages());
     }
@@ -144,7 +144,7 @@ public class OgnlDataBinderTest {
         FakeController fakeController = new FakeController();
         DataBinder binder = new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor());
 
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, fakeController);
         assertFalse(errorsContext.hasErrorMessages());
     }
@@ -176,7 +176,7 @@ public class OgnlDataBinderTest {
 
         DataBinder binder = new OgnlDataBinder(new OgnlValueConverterFinder(), resolver, new SilentMonitor());
 
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, new FakeBean());
         assertTrue(errorsContext.hasErrorMessages());
 
@@ -211,7 +211,7 @@ public class OgnlDataBinderTest {
             }
         };
 
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, new FakeBean());
         assertTrue(errorsContext.hasErrorMessages());
     }
