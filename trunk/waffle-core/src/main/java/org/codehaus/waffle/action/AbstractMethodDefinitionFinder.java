@@ -45,7 +45,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private static final String PRAGMA_SEPARATOR = "|";
     private static final String PRAGMA_REGEX = "\\" + PRAGMA_SEPARATOR;
 
-    private final Map<Class, Method> defaultMethodCache = new HashMap<Class, Method>();
+    private final Map<Class<?>, Method> defaultMethodCache = new HashMap<Class<?>, Method>();
     private final ServletContext servletContext;
     private final ArgumentResolver argumentResolver;
     private final ValueConverterFinder valueConverterFinder;
@@ -87,7 +87,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private MethodDefinition findDefaultActionMethod(Object controller, HttpServletRequest request) {
-        Class controllerType = controller.getClass();
+        Class<?> controllerType = controller.getClass();
 
         if (defaultMethodCache.containsKey(controllerType)) { // cache hit
             MethodDefinition methodDefinition = buildDefaultMethodDefinition(defaultMethodCache.get(controllerType), request);
@@ -241,7 +241,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition) {
-        Class[] methodParameterTypes = methodDefinition.getMethod().getParameterTypes();
+        Class<?>[] methodParameterTypes = methodDefinition.getMethod().getParameterTypes();
         List<Object> methodArguments = methodDefinition.getMethodArguments();
 
         if (methodParameterTypes.length != methodArguments.size()) {
@@ -249,7 +249,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
 
         for (int i = 0; i < methodParameterTypes.length; i++) {
-            Class methodParameterType = methodParameterTypes[i];
+            Class<?> methodParameterType = methodParameterTypes[i];
 
             // the types must be assignable to be considered a valid method (assume true if actualParameterType is null)
             if (methodArguments.get(i) != null) {
@@ -274,7 +274,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return true;
     }
 
-    private Object convertValue(String value, Class type) {
+    private Object convertValue(String value, Class<?> type) {
         if (isEmpty(value) && type.isPrimitive()) {
             value = null; // this allows Ognl to use that primitives default value
         }
