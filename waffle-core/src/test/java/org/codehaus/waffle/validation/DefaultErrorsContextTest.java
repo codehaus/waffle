@@ -1,13 +1,17 @@
 package org.codehaus.waffle.validation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.codehaus.waffle.Constants;
 import static org.codehaus.waffle.validation.ErrorMessage.Type.BIND;
 import static org.codehaus.waffle.validation.ErrorMessage.Type.FIELD;
 import static org.codehaus.waffle.validation.ErrorMessage.Type.GLOBAL;
-
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 
@@ -86,7 +90,23 @@ public class DefaultErrorsContextTest {
         context.addErrorMessage(new FieldErrorMessage("fieldName", null, null));
         assertTrue(context.hasErrorMessagesForField(FIELD, "fieldName"));
         assertEquals(1, context.getErrorMessagesForField(FIELD, "fieldName").size());
+    }
 
+    @Test
+    public void shouldSelfRegisterOnStart() {
+        Mockery mockery = new Mockery();
+
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        final DefaultErrorsContext context = new DefaultErrorsContext(request);
+
+        mockery.checking(new Expectations() {
+            {
+                one(request).setAttribute(Constants.ERRORS_KEY, context);
+            }
+        });
+
+        context.start();
     }
 
 }
