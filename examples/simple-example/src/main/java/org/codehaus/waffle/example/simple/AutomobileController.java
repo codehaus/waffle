@@ -1,6 +1,5 @@
 package org.codehaus.waffle.example.simple;
 
-import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.FieldErrorMessage;
@@ -11,16 +10,9 @@ public class AutomobileController {
     private int speed = 0;
     private int topSpeed;
 
-    private MessagesContext messages;
-    
     public AutomobileController(){
-        this(new DefaultMessagesContext());              
     }
     
-    public AutomobileController(MessagesContext messages) {
-        this.messages = messages;
-    }
-
     public void init(String make, String model) {
         this.make = make;
         this.model = model;
@@ -54,32 +46,24 @@ public class AutomobileController {
         return topSpeed;
     }
 
-    public void setTopSpeed(int topSpeed) {
+    public void setTopSpeed(int topSpeed, MessagesContext messagesContext) {
         this.topSpeed = topSpeed;
-        messages.clearMessages();
-        this.messages.addMessage("success", "Set top speed "+topSpeed);
+        messagesContext.addMessage("success", "Set top speed "+topSpeed);
     }
 
     public void accelerate(int value) {
         speed += value;
-        messages.clearMessages();
-        this.messages.addMessage("success", "Accellerated to speed "+speed);            
     }
 
     public void accelerate(ErrorsContext errorsContext, int value) {
         if(speed + value > topSpeed) {
             String message = "Speed cannot exceed top speed: "+topSpeed;
             errorsContext.addErrorMessage(new FieldErrorMessage("speed", "" + speed, message));
-            messages.clearMessages();
         }
     }
     
     public void stop() {
         speed = 0;
-    }
-
-    public MessagesContext getMessages() {
-        return messages;
     }
     
 }

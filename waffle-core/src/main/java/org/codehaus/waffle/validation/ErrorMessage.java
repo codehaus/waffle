@@ -18,7 +18,7 @@ package org.codehaus.waffle.validation;
  */
 public interface ErrorMessage {
 
-    enum Type { BIND, FIELD, GLOBAL };
+    enum Type { BIND, FIELD, GLOBAL }
     
     Type getType();
 

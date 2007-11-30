@@ -13,7 +13,7 @@ public class FunctionsTest {
 
     @Test
     public void canFindErrors() {
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         errorsContext.addErrorMessage(new BindErrorMessage("bind", "value", "message bind"));
         errorsContext.addErrorMessage(new FieldErrorMessage("field", "value", "message field"));
         errorsContext.addErrorMessage(new GlobalErrorMessage("global"));

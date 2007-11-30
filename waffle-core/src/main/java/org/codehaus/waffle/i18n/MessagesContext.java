@@ -16,10 +16,10 @@ import java.util.List;
 /**
  * MessagesContext holds user business-level messages. Controllers can depend on it and use it to pass messages to the
  * view. It is not meant to display validation error messages, which are designed to be handled via the
- * {@link ErrorsContext}.
+ * {@link org.codehaus.waffle.validation.ErrorsContext}.
  * 
  * @author Mauro Talevi
- * @see ErrorsContext
+ * @see org.codehaus.waffle.validation.ErrorsContext
  */
 public interface MessagesContext {
 

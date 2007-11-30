@@ -12,6 +12,10 @@ package org.codehaus.waffle.registrar;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextLevel;
+import org.codehaus.waffle.i18n.DefaultMessagesContext;
+import org.codehaus.waffle.i18n.MessagesContext;
+import org.codehaus.waffle.validation.DefaultErrorsContext;
+import org.codehaus.waffle.validation.ErrorsContext;
 
 import java.lang.reflect.Constructor;
 
@@ -44,6 +48,8 @@ public class RegistrarAssistant {
                 registrar.session();
             } else if (ContextLevel.REQUEST.equals(contextLevel)) {
                 registrar.request();
+                registrar.register((Object)ErrorsContext.class, DefaultErrorsContext.class);
+                registrar.register((Object)MessagesContext.class, DefaultMessagesContext.class);
             }
         } catch (Exception e) {
             throw new WaffleException("Unable to use registrar [" + registrarClass + "]", e);

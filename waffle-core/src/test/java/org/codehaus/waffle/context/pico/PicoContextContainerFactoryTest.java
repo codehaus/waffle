@@ -10,19 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Collection;
-import java.util.Locale;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.Startable;
 import org.codehaus.waffle.context.AbstractContextContainerFactory;
@@ -30,6 +17,7 @@ import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.testmodel.ApplicationLevelComponent;
@@ -37,16 +25,28 @@ import org.codehaus.waffle.testmodel.CustomRegistrar;
 import org.codehaus.waffle.testmodel.FakeBean;
 import org.codehaus.waffle.testmodel.RequestLevelComponent;
 import org.codehaus.waffle.testmodel.SessionLevelComponent;
+import org.codehaus.waffle.validation.ErrorsContext;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.defaults.DefaultPicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Collection;
+import java.util.Locale;
 
 /**
  * 
@@ -63,7 +63,6 @@ public class PicoContextContainerFactoryTest {
     @Test
     public void canBuildEachContextLevelContainer() {
         final PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources, new SilentMonitor());
-
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);
@@ -321,9 +320,13 @@ public class PicoContextContainerFactoryTest {
 
         StubStartable startable = new StubStartable();
         container.registerComponentInstance(startable);
-
+        
         // Test lifecycle
-        PicoContainer picoContainer = (PicoContainer) container.getDelegate();
+        MutablePicoContainer picoContainer = (MutablePicoContainer) container.getDelegate();
+
+        // Remove ErrorsContext and MessagesContext prior to starting... (assert they existed)
+        assertNotNull(picoContainer.unregisterComponent(ErrorsContext.class));
+        assertNotNull(picoContainer.unregisterComponent(MessagesContext.class));
         picoContainer.start();
 
         assertTrue(startable.started);

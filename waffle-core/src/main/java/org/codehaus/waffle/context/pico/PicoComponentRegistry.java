@@ -10,10 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
-import java.util.Enumeration;
-
-import javax.servlet.ServletContext;
-
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
@@ -40,9 +36,7 @@ import org.codehaus.waffle.controller.ContextPathControllerNameResolver;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNameResolver;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
-import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
@@ -52,9 +46,7 @@ import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.monitor.ValidationMonitor;
 import org.codehaus.waffle.monitor.ViewMonitor;
-import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.DefaultValidator;
-import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
 import org.codehaus.waffle.view.DefaultViewResolver;
@@ -64,6 +56,9 @@ import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
 import org.picocontainer.defaults.DefaultPicoContainer;
+
+import javax.servlet.ServletContext;
+import java.util.Enumeration;
 
 /**
  * PicoContainer-based implementation of Waffle's ComponentRegistry
@@ -81,7 +76,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
      */
     public PicoComponentRegistry(ServletContext servletContext) {
         picoContainer.registerComponentInstance(servletContext);
-        
+
         // register all known components
         register(ActionMethodExecutor.class, InterceptingActionMethodExecutor.class, servletContext);
         register(ActionMethodResponseHandler.class, DefaultActionMethodResponseHandler.class, servletContext);
@@ -95,7 +90,6 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
         register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
-        register(MessagesContext.class, DefaultMessagesContext.class, servletContext);
         register(MessageResources.class, DefaultMessageResources.class, servletContext);
         register(ActionMonitor.class, SilentMonitor.class, servletContext);
         register(BindMonitor.class, SilentMonitor.class, servletContext);
@@ -105,7 +99,6 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(ServletMonitor.class, SilentMonitor.class, servletContext);
         register(ValidationMonitor.class, SilentMonitor.class, servletContext);
         register(ViewMonitor.class, SilentMonitor.class, servletContext);
-        register(ErrorsContext.class, DefaultErrorsContext.class, servletContext);
         register(Validator.class, DefaultValidator.class, servletContext);
         register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
         register(ViewResolver.class, DefaultViewResolver.class, servletContext);
@@ -139,13 +132,13 @@ public class PicoComponentRegistry implements ComponentRegistry {
     }
 
     /**
-     * This method will locate the component Class to use.  Each of the components can be 
+     * This method will locate the component Class to use.  Each of the components can be
      * overwritten by setting <code>context-param</code> in the applications <code>web.xml</code>.
      * <p/>
      * <code>
      * &lt;context-param&gt;
-     *   &lt;param-name&gt;org.codehaus.waffle.actions.ControllerDefinitionFactory&lt;/param-name&gt;
-     *   &lt;param-value&gt;org.myurl.FooBarControllerFactory&lt;/param-value&gt;
+     * &lt;param-name&gt;org.codehaus.waffle.actions.ControllerDefinitionFactory&lt;/param-name&gt;
+     * &lt;param-value&gt;org.myurl.FooBarControllerFactory&lt;/param-value&gt;
      * &lt;/context-param&gt;
      * </code>
      *
@@ -156,14 +149,14 @@ public class PicoComponentRegistry implements ComponentRegistry {
      */
     protected static Class<?> locateComponentClass(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
         String parameterName;
-        if ( key instanceof Class ){
-            parameterName = ((Class<?>)key).getName();
-        } else if ( key instanceof String ){
+        if (key instanceof Class) {
+            parameterName = ((Class<?>) key).getName();
+        } else if (key instanceof String) {
             parameterName = (String) key;
         } else {
-            return defaultClass;            
+            return defaultClass;
         }
-        
+
         String className = servletContext.getInitParameter(parameterName);
 
         if (className == null || className.length() == 0) {
@@ -175,7 +168,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
 
     /**
      * Loads class for a given name
-     * 
+     *
      * @param className the Class name
      * @return The Class for the name
      * @throws WaffleException if class not found
@@ -229,6 +222,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
     public MethodNameResolver getMethodNameResolver() {
         return locateByType(MethodNameResolver.class);
     }
+
     public BindErrorMessageResolver getBindErrorMessageResolver() {
         return locateByType(BindErrorMessageResolver.class);
     }
@@ -255,10 +249,6 @@ public class PicoComponentRegistry implements ComponentRegistry {
 
     public ControllerDefinitionFactory getControllerDefinitionFactory() {
         return locateByType(ControllerDefinitionFactory.class);
-    }
-
-    public MessagesContext getMessagesContext() {
-        return locateByType(MessagesContext.class);
     }
 
     public MessageResources getMessageResources() {
@@ -288,11 +278,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
     public ServletMonitor getServletMonitor() {
         return locateByType(ServletMonitor.class);
     }
-    
-    public ErrorsContext getErrorsContext() {
-        return locateByType(ErrorsContext.class);
-    }
-    
+
     public Validator getValidator() {
         return locateByType(Validator.class);
     }

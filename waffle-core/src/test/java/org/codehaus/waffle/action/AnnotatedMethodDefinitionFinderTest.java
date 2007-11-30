@@ -23,6 +23,10 @@ import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
+import org.codehaus.waffle.i18n.MessagesContext;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.validation.ErrorsContext;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -575,6 +579,45 @@ public class AnnotatedMethodDefinitionFinderTest {
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnSession", HttpSession.class);
+
+        assertEquals(expectedMethod, methodDefinition.getMethod());
+    }
+
+    @Test
+    public void canDependOnMessagesContext() throws Exception {
+        // Mock MessagesContext
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        mockery.checking(new Expectations() {
+            {
+                one(contextContainer).getComponentInstanceOfType(MessagesContext.class);
+                will(returnValue(messageContext));
+            }
+        });
+
+        RequestLevelContainer.set(contextContainer);
+
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodDependsOnMessagesContext"));
+            }
+        });
+
+        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, methodNameResolver,
+                new OgnlValueConverterFinder(), monitor);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
+
+        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnMessagesContext", MessagesContext.class);
 
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }

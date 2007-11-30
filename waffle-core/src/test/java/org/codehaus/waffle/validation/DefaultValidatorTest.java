@@ -79,7 +79,7 @@ public class DefaultValidatorTest {
 
         ControllerDefinition controllerDefinition = new ControllerDefinition("theController", fakeController, methodDefinition);
 
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         validator.validate(controllerDefinition, errorsContext);
 
         if ( fakeControllerValidator != null ){
@@ -109,7 +109,7 @@ public class DefaultValidatorTest {
         FakeController fakeController = new FakeController();
         ControllerDefinition controllerDefinition = new ControllerDefinition("theController", fakeController, null);
 
-        ErrorsContext errorsContext = new DefaultErrorsContext();
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
         Validator validator = new DefaultValidator(new SilentMonitor());
         validator.validate(controllerDefinition, errorsContext);
     }

@@ -10,32 +10,30 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import static java.text.MessageFormat.format;
-import static java.util.Arrays.asList;
+import org.codehaus.waffle.action.ActionMethodResponse;
+import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
+import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.controller.ControllerDefinition;
 import static org.codehaus.waffle.monitor.Monitor.Level.DEBUG;
 import static org.codehaus.waffle.monitor.Monitor.Level.INFO;
 import static org.codehaus.waffle.monitor.Monitor.Level.WARN;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletResponse;
-
-import org.codehaus.waffle.action.ActionMethodResponse;
-import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.ResponderView;
 import org.codehaus.waffle.view.View;
+
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
+import static java.text.MessageFormat.format;
+import java.util.ArrayList;
+import static java.util.Arrays.asList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 /**
  * Abstract implementation of Monitor that delegates writing to concrete subclasses.
@@ -106,7 +104,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
      * Subclasses may override any of these by retrieving the messages via
      * <code>super.monitorMessages()</code>, overwriting any entry and returning
      * the map.  Message templates need to be maintained in a format compatible with 
-     * {@link MessageFormat} and will expect the same number of arguments as the event
+     * {@link java.text.MessageFormat} and will expect the same number of arguments as the event
      * (with the argument index reflecting the argument order of the event).
      * 
      * @return A Map<String, String>

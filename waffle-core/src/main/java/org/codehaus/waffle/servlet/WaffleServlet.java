@@ -10,20 +10,9 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import static org.codehaus.waffle.Constants.ERRORS_KEY;
-import static org.codehaus.waffle.Constants.MESSAGES_KEY;
+import org.codehaus.waffle.ComponentRegistry;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -31,14 +20,21 @@ import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
-import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -48,7 +44,7 @@ import org.codehaus.waffle.view.View;
  */
 @SuppressWarnings("serial")
 public class WaffleServlet extends HttpServlet {
-    
+
     private static final String DEFAULT_VIEW_SUFFIX = ".jspx";
     private static final String DEFAULT_VIEW_PREFIX = "/";
     private static final String EMPTY = "";
@@ -74,7 +70,7 @@ public class WaffleServlet extends HttpServlet {
 
     /**
      * Constructor required by builder and useful for testing
-     * 
+     *
      * @param actionMethodExecutor
      * @param actionMethodResponseHandler
      * @param servletMonitor
@@ -88,7 +84,7 @@ public class WaffleServlet extends HttpServlet {
                          ServletMonitor servletMonitor,
                          DataBinder dataBinder,
                          RequestAttributeBinder requestAttributeBinder,
-                         ControllerDefinitionFactory controllerDefinitionFactory, 
+                         ControllerDefinitionFactory controllerDefinitionFactory,
                          Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
@@ -130,8 +126,8 @@ public class WaffleServlet extends HttpServlet {
 
     /**
      * Obtain the controller defition the user is requesting.
-     * 
-     * @param request the HttpServletRequest
+     *
+     * @param request  the HttpServletRequest
      * @param response the HttpServletResponse
      * @return A ControllerDefinition
      * @throws ServletException if controller not found
@@ -149,20 +145,15 @@ public class WaffleServlet extends HttpServlet {
     /**
      * Responsible for servicing the requests from the users.
      *
-     * @param request the HttpServletResponse
+     * @param request  the HttpServletResponse
      * @param response the HttpServletResponse
      * @throws ServletException
      * @throws IOException
      */
-    protected void service(HttpServletRequest request,            
-                           HttpServletResponse response) throws ServletException, IOException {        
-        ComponentRegistry registry = getComponentRegistry();
-
-        ErrorsContext errorsContext = registry.getErrorsContext();
-        addErrorsToRequest(request, errorsContext);
-        
-        MessagesContext messagesContext = registry.getMessagesContext();
-        messagesContext.clearMessages();
+    protected void service(HttpServletRequest request,
+                           HttpServletResponse response) throws ServletException, IOException {
+        ContextContainer requestContainer = RequestLevelContainer.get();
+        ErrorsContext errorsContext = requestContainer.getComponentInstanceOfType(ErrorsContext.class);
 
         ControllerDefinition controllerDefinition = getControllerDefinition(request, response);
         dataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
@@ -198,38 +189,11 @@ public class WaffleServlet extends HttpServlet {
 
             requestAttributeBinder.bind(request, controllerDefinition.getController());
             actionMethodResponseHandler.handle(request, response, actionMethodResponse);
-            addMessagesToRequest(request, controllerDefinition.getController());
 
         } catch (ActionMethodInvocationException e) {
             servletMonitor.servletServiceFailed(e);
             log(ERROR + e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
-        }
-    }
-
-    private void addErrorsToRequest(HttpServletRequest request, ErrorsContext errorsContext) {
-        errorsContext.clearErrorMessages();
-        request.setAttribute(ERRORS_KEY, errorsContext);
-    }
-
-    /**
-     * Use reflection to extract the MessagesContext from the "messages" field
-     * 
-     * @param request 
-     * @param controller
-     */
-    //TODO Consider using other conventions or introducing an optional interface
-    private void addMessagesToRequest(HttpServletRequest request, Object controller) {
-        try {
-            Field messagesField = controller.getClass().getDeclaredField("messages");
-            messagesField.setAccessible(true);
-            Object messages = messagesField.get(controller);
-            if ( messages instanceof MessagesContext ){
-                request.setAttribute(MESSAGES_KEY, (MessagesContext)messages);
-            }
-        } catch (Exception e) {
-            //TODO add event to monitor
-            e.printStackTrace();
         }
     }
 

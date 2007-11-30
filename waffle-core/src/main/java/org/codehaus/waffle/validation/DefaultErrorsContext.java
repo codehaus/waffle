@@ -10,13 +10,16 @@
  *****************************************************************************/
 package org.codehaus.waffle.validation;
 
+import org.codehaus.waffle.Constants;
+import org.codehaus.waffle.Startable;
+import org.codehaus.waffle.validation.ErrorMessage.Type;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.codehaus.waffle.validation.ErrorMessage.Type;
 
 /**
  * Default implementation of ErrorsContext.
@@ -24,10 +27,15 @@ import org.codehaus.waffle.validation.ErrorMessage.Type;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class DefaultErrorsContext implements ErrorsContext {
+public class DefaultErrorsContext implements ErrorsContext, Startable {
+    private final HttpServletRequest request;
     private final Map<String, List<BindErrorMessage>> bindErrorMessages = new HashMap<String, List<BindErrorMessage>>(); // todo this should only have one bind per field MAX
     private final Map<String, List<FieldErrorMessage>> fieldErrorMessages = new HashMap<String, List<FieldErrorMessage>>();
     private final List<GlobalErrorMessage> globaErrorMessages = new ArrayList<GlobalErrorMessage>();
+
+    public DefaultErrorsContext(HttpServletRequest request) {
+        this.request = request;
+    }
 
     public void addErrorMessage(ErrorMessage message) {
         switch ( message.getType() ){
@@ -233,5 +241,12 @@ public class DefaultErrorsContext implements ErrorsContext {
         fieldErrorMessages.clear();
         globaErrorMessages.clear();        
     }
-   
+
+    public void start() {
+        request.setAttribute(Constants.ERRORS_KEY, this);
+    }
+
+    public void stop() {
+        /// does nothing
+    }
 }
