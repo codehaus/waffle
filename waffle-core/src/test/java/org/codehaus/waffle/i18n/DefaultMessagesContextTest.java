@@ -3,7 +3,6 @@ package org.codehaus.waffle.i18n;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.Constants;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
