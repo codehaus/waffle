@@ -3,6 +3,12 @@ package org.codehaus.waffle.i18n;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+import org.codehaus.waffle.validation.DefaultErrorsContext;
+import org.codehaus.waffle.Constants;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 
@@ -29,6 +35,22 @@ public class DefaultMessagesContextTest  {
         // add again
         messages.addMessage("success", "Waffle action was executed");
         assertEquals(1, messages.getMessageCount());
+    }
+
+    @Test
+    public void shouldSelfRegisterOnStart() {
+        Mockery mockery = new Mockery();
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        final DefaultMessagesContext context = new DefaultMessagesContext(request);
+
+        mockery.checking(new Expectations() {
+            {
+                one(request).setAttribute(Constants.MESSAGES_KEY, context);
+            }
+        });
+
+        context.start();
     }
 
 }
