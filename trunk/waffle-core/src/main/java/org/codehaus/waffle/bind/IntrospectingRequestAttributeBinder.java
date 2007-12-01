@@ -1,5 +1,12 @@
 package org.codehaus.waffle.bind;
 
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.controller.RubyController;
+import org.codehaus.waffle.monitor.BindMonitor;
+import org.jruby.javasupport.JavaEmbedUtils;
+import org.jruby.runtime.builtin.IRubyObject;
+
+import javax.servlet.http.HttpServletRequest;
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -8,14 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.controller.RubyController;
-import org.codehaus.waffle.monitor.BindMonitor;
-import org.jruby.javasupport.JavaEmbedUtils;
-import org.jruby.runtime.builtin.IRubyObject;
 
 /**
  * This implementation can handle all standard Java objects and RubyControllers are handled specially (instance_variables)
@@ -43,8 +42,8 @@ public class IntrospectingRequestAttributeBinder implements RequestAttributeBind
 
             for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
                 Method readMethod = propertyDescriptor.getReadMethod();
-                // skip getClass() method and any get/is methods that take arguments
-                if (readMethod.getParameterTypes().length == 0 && !readMethod.getName().equals("getClass")) {
+
+                if(readMethod != null && readMethod.getParameterTypes().length == 0 && !readMethod.getName().equals("getClass")) {
                     request.setAttribute(propertyDescriptor.getName(), readMethod.invoke(controller));
                 }
             }

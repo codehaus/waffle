@@ -1,8 +1,8 @@
 package org.codehaus.waffle.example.simple;
 
-import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.FieldErrorMessage;
+import org.codehaus.waffle.i18n.MessagesContext;
 
 public class AutomobileController {
     private String make = "ford";
@@ -46,9 +46,8 @@ public class AutomobileController {
         return topSpeed;
     }
 
-    public void setTopSpeed(int topSpeed, MessagesContext messagesContext) {
+    public void setTopSpeed(int topSpeed) {
         this.topSpeed = topSpeed;
-        messagesContext.addMessage("success", "Set top speed "+topSpeed);
     }
 
     public void accelerate(int value) {
@@ -62,7 +61,8 @@ public class AutomobileController {
         }
     }
     
-    public void stop() {
+    public void stop(MessagesContext messagesContext) {
+        messagesContext.addMessage("stop", "Stop called");
         speed = 0;
     }
     
