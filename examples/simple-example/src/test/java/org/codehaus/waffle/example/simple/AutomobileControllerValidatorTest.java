@@ -1,9 +1,7 @@
 package org.codehaus.waffle.example.simple;
 
 import org.codehaus.waffle.i18n.DefaultMessageResources;
-import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessageResources;
-import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
@@ -22,10 +20,7 @@ public class AutomobileControllerValidatorTest {
 
         AutomobileController controller = new AutomobileController();
         controller.setSpeed(50);
-        MessagesContext messagesContext = new DefaultMessagesContext(null);
-        controller.setTopSpeed(150, messagesContext);
-
-        assertEquals("Set top speed 150", messagesContext.getMessage("success"));
+        controller.setTopSpeed(150);
 
         AutomobileControllerValidator validator = new AutomobileControllerValidator(controller, messageResources);
         ErrorsContext errorsContext = new DefaultErrorsContext(null);
@@ -40,7 +35,7 @@ public class AutomobileControllerValidatorTest {
 
         AutomobileController controller = new AutomobileController();
         controller.setSpeed(140);
-        controller.setTopSpeed(150, new DefaultMessagesContext(null));
+        controller.setTopSpeed(150);
 
         AutomobileControllerValidator validator = new AutomobileControllerValidator(controller, messageResources);
         ErrorsContext errorsContext = new DefaultErrorsContext(null);

@@ -1,7 +1,5 @@
 package org.codehaus.waffle.bind;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.codehaus.waffle.controller.RubyController;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
@@ -11,6 +9,8 @@ import org.jruby.Ruby;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RunWith(JMock.class)
 public class IntrospectingRequestAttributeBinderTest {
@@ -29,6 +29,14 @@ public class IntrospectingRequestAttributeBinderTest {
         binder.bind(request, new SimpleController());
     }
 
+    @Test
+    public void shouldNotThrowNullPointerExceptionWhenControllerMissingReadMethodForProperty() {
+        final ControllerWithMissingReadMethod controller = new ControllerWithMissingReadMethod();
+
+        IntrospectingRequestAttributeBinder binder = new IntrospectingRequestAttributeBinder(new SilentMonitor());
+        binder.bind(null, controller);
+    }
+
     class SimpleController {
         private String name = "my controller";
 
@@ -38,6 +46,13 @@ public class IntrospectingRequestAttributeBinderTest {
 
         public Object getNull() {
             return null;
+        }
+    }
+
+    class ControllerWithMissingReadMethod {
+        @SuppressWarnings({"UnusedDeclaration"})
+        public void setName(String name) {
+            // do nothing
         }
     }
 
