@@ -23,6 +23,10 @@ public abstract class AbstractRegistrar implements Registrar {
         this.delegate = delegate;
     }
 
+    public boolean isRegistered(Object typeOrInstance){
+        return delegate.isRegistered(typeOrInstance);
+    }
+    
     public void register(Class<?> type, Object... parameters) {
         delegate.register(type, parameters);
     }
