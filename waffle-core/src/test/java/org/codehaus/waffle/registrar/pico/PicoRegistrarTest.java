@@ -12,6 +12,7 @@ package org.codehaus.waffle.registrar.pico;
 
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -51,6 +52,7 @@ public class PicoRegistrarTest {
         
         Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
         registrar.register(type);
+        assertTrue(registrar.isRegistered(type));
 
         FakeController controllerOne = (FakeController) pico.getComponentInstance(FakeController.class);
         FakeController controllerTwo = (FakeController) pico.getComponentInstance(FakeController.class);
@@ -73,7 +75,8 @@ public class PicoRegistrarTest {
 
         Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
         registrar.register(key, type);
-
+        assertTrue(registrar.isRegistered(type));
+        
         FakeController controllerOne = (FakeController) pico.getComponentInstance(key);
         FakeController controllerTwo = (FakeController) pico.getComponentInstance(key);
 
@@ -96,7 +99,8 @@ public class PicoRegistrarTest {
         
         Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
         registrar.registerInstance(fakeController);
-
+        assertTrue(registrar.isRegistered(fakeController));
+        
         assertSame(fakeController, pico.getComponentInstanceOfType(FakeController.class));
     }
 
@@ -115,11 +119,12 @@ public class PicoRegistrarTest {
         
         Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
         registrar.registerInstance(key, fakeController);
-
+        assertTrue(registrar.isRegistered(key));
+        
         assertSame(fakeController, pico.getComponentInstance("foobar"));
         assertSame(fakeController, pico.getComponentInstanceOfType(FakeController.class));
     }
-
+     
     @Test
     public void canRegisterNonCachingComponent() {
         MutablePicoContainer pico = new DefaultPicoContainer();
@@ -134,7 +139,8 @@ public class PicoRegistrarTest {
 
         Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
         registrar.registerNonCaching(type);
-
+        assertTrue(registrar.isRegistered(type));
+        
         FakeController controllerOne = (FakeController) pico.getComponentInstance(FakeController.class);
         FakeController controllerTwo = (FakeController) pico.getComponentInstance(FakeController.class);
 
@@ -156,7 +162,8 @@ public class PicoRegistrarTest {
 
         Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
         registrar.registerNonCaching(key, type);
-
+        assertTrue(registrar.isRegistered(type));
+        
         FakeController controllerOne = (FakeController) pico.getComponentInstance("foobar");
         FakeController controllerTwo = (FakeController) pico.getComponentInstance("foobar");
 

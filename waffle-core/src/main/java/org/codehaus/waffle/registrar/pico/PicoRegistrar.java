@@ -36,6 +36,14 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
         this.registrarMonitor = registrarMonitor;
     }
 
+    public boolean isRegistered(Object typeOrInstance) {
+        if ( typeOrInstance instanceof Class ){
+            Class<?> type = (Class<?>)typeOrInstance;
+            return picoContainer.getComponentInstancesOfType(type).size() > 0;
+        }
+        return picoContainer.getComponentInstance(typeOrInstance) != null;
+    }
+
     public void register(Class<?> type, Object ... parameters) {
         this.register(type, type, parameters);
     }
@@ -104,4 +112,5 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     public void request() {
         // does nothing!
     }
+
 }

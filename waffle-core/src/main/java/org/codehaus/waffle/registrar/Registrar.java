@@ -17,6 +17,8 @@ package org.codehaus.waffle.registrar;
  * @author Mauro Talevi
  */
 public interface Registrar {
+
+    boolean isRegistered(Object typeOrInstance);
     
     void register(Class<?> type, Object... parameters);
 
