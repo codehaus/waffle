@@ -118,7 +118,7 @@
         <scope>test</scope>
       </dependency>
       <dependency> 
-        <!-- junit:junit is required by surefire until 2.4 is released and it can be configured to use junit:junit-dep -->
+        <!-- junit:junit is required by surefire until 2.3.1 or 2.4 is released and it can be configured to use junit:junit-dep -->
         <groupId>junit</groupId>
         <artifactId>junit</artifactId>
         <version>4.4</version>
