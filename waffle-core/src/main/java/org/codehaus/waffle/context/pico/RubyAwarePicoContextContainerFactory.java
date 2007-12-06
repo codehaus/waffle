@@ -1,16 +1,17 @@
 package org.codehaus.waffle.context.pico;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.jruby.Ruby;
 import org.picocontainer.MutablePicoContainer;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFactory {
 
@@ -23,6 +24,7 @@ public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFa
         ContextContainer contextContainer = super.buildApplicationContextContainer();
 
         Ruby runtime = Ruby.getDefaultInstance();
+        runtime.getLoadService().init(new ArrayList()); // this must be called, else we won't be able to load scripts!!
         loadRubyScriptFromClassLoader("org/codehaus/waffle/erb_extension.rb", runtime);
         loadRubyScriptFromClassLoader("org/codehaus/waffle/waffle.rb", runtime);
 

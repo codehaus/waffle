@@ -30,7 +30,11 @@ module Waffle
       Dir.new(path).each do |entry|
         file = "#{path}#{entry}"
         if File.file?(file) # TODO need to recursively search directories
-          load(file) if file =~ /.rb$/
+          begin
+            load(file) if file =~ /.rb$/
+          rescue Exception => e
+            p "[WAFFLE] Error loading ruby script: #{e}" # TODO plugin monitoring/logging  
+          end
         end
       end
     end

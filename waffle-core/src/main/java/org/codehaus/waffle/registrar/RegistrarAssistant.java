@@ -48,11 +48,11 @@ public class RegistrarAssistant {
                 registrar.session();
             } else if (ContextLevel.REQUEST.equals(contextLevel)) {
                 registrar.request();
-                if ( !registrar.isRegistered(ErrorsContext.class) ){
-                    registrar.register((Object)ErrorsContext.class, DefaultErrorsContext.class);                    
+                if (!registrar.isRegistered(ErrorsContext.class)) {
+                    registrar.register((Object) ErrorsContext.class, DefaultErrorsContext.class);
                 }
-                if ( !registrar.isRegistered(MessagesContext.class) ){
-                    registrar.register((Object)MessagesContext.class, DefaultMessagesContext.class);
+                if (!registrar.isRegistered(MessagesContext.class)) {
+                    registrar.register((Object) MessagesContext.class, DefaultMessagesContext.class);
                 }
             }
         } catch (Exception e) {

@@ -10,15 +10,14 @@
  *****************************************************************************/
 package org.codehaus.waffle.context;
 
-import static java.text.MessageFormat.format;
-
-import javax.servlet.ServletContext;
-
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarAssistant;
+
+import javax.servlet.ServletContext;
+import static java.text.MessageFormat.format;
 
 /**
  * @author Michael Ward
@@ -68,6 +67,11 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
         applicationContextContainer = buildApplicationContextContainer();
         applicationContextContainer.registerComponentInstance(servletContext);
         applicationContextContainer.registerComponentInstance(messageResources);
+
+        // TODO register monitors to application context from component registry
+        // ComponentRegistry componentRegistry = ServletContextHelper.getComponentRegistry(servletContext);
+        // applicationContextContainer.registerComponentInstance(componentRegistry.getRegistrarMonitor());
+
         buildApplicationLevelRegistry();
         applicationContextContainer.start();
         contextMonitor.applicationContextContainerStarted();

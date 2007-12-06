@@ -19,9 +19,18 @@ package org.codehaus.waffle.registrar;
 public interface Registrar {
 
     boolean isRegistered(Object typeOrInstance);
-    
+
+    /**
+     * @param type represent both the key and type the object will be registered under
+     * @param parameters any parameters needed to satisfy the component being registered
+     */
     void register(Class<?> type, Object... parameters);
 
+    /**
+     * @param key represent the key the object will be registered under
+     * @param type represent the component type
+     * @param parameters any parameters needed to satisfy the component being registered
+     */
     void register(Object key, Class<?> type, Object... parameters);
 
     void registerInstance(Object instance);
