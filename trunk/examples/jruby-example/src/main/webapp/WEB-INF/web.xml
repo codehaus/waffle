@@ -12,6 +12,23 @@
     <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
     <param-value>org.codehaus.waffle.example.jruby.JRubyRegistrar</param-value>
   </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.monitor.RegistrarMonitor</param-name>
+    <param-value>org.codehaus.waffle.monitor.CommonsLoggingMonitor</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.monitor.ActionMonitor</param-name>
+    <param-value>org.codehaus.waffle.monitor.CommonsLoggingMonitor</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.monitor.ContextMonitor</param-name>
+    <param-value>org.codehaus.waffle.monitor.CommonsLoggingMonitor</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.monitor.BindMonitor</param-name>
+    <param-value>org.codehaus.waffle.monitor.CommonsLoggingMonitor</param-value>
+  </context-param>
+
 
   <!-- Ruby Specific components -->
   <context-param>
@@ -30,7 +47,8 @@
   <!-- Define a relative path to the ruby script directory (for development) -->
   <context-param>
     <param-name>org.codehaus.waffle.ruby.path</param-name>
-    <param-value>dir:../src/main/ruby/</param-value><!-- this needs to be more forgiving -->
+    <param-value>dir:../../src/main/ruby/</param-value>
+    <!-- this needs to be more forgiving -->
   </context-param>
 
   <listener>
@@ -67,7 +85,7 @@
     <servlet-name>waffle</servlet-name>
     <url-pattern>*.waffle</url-pattern>
   </servlet-mapping>
-  
+
   <servlet-mapping>
     <servlet-name>rhtml</servlet-name>
     <url-pattern>*.rhtml</url-pattern>
