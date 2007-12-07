@@ -2,6 +2,13 @@ function fireMethod(methodName) {
     createElementSubmitForm(document.forms[0], methodName);
 }
 
+function fireMultipartMethod(methodName) {
+	var form = document.forms[0];
+	form.method="post";
+    form.encoding="multipart/form-data";
+	createElementSubmitForm(form, methodName);
+}
+
 function createElementSubmitForm(form, methodName) {
     var method = document.createElement("input");
     method.setAttribute("type", "hidden");
