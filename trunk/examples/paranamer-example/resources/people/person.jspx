@@ -17,7 +17,7 @@
     <script src="../scripts/prototype.js" type="text/javascript">
         // keep this space
     </script>
-    <script src="../scripts/myscript.js" type="text/javascript">
+    <script src="../js/waffle/action.js" type="text/javascript">
         // keep this space
     </script>
 </head>
@@ -48,7 +48,7 @@
         </c:forEach>
     </table>
 
-    <a href="javascript:fireMethod('create');">New</a>
+    <a href="javascript:fireActionMethod('create');">New</a>
 
     <!-- Example of partial page -->
     <div id="editArea">

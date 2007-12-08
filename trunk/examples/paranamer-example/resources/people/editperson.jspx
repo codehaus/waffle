@@ -43,8 +43,8 @@
     </div>
 
     <br/>
-    <a href="javascript:fireMethod('save');">Save</a> |
-    <a href="javascript:fireMethod('cancel');">Cancel</a>
+    <a href="javascript:fireActionMethod('save');">Save</a> |
+    <a href="javascript:fireActionMethod('cancel');">Cancel</a>
 
     <jsp:directive.include file="../fielderrors.jspx"/>
 

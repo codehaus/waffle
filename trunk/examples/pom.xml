@@ -50,6 +50,16 @@
       <artifactId>standard</artifactId>
       <scope>runtime</scope>
     </dependency>    
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>      
+    </dependency>
   </dependencies>
 
   <build>
@@ -57,6 +67,33 @@
        <plugin>
          <groupId>org.apache.maven.plugins</groupId>
          <artifactId>maven-war-plugin</artifactId>
+       </plugin>
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-dependency-plugin</artifactId>
+         <executions>
+           <execution>
+             <id>unpack-resources</id>
+             <phase>process-resources</phase>
+             <goals>
+               <goal>unpack</goal>
+             </goals>
+             <configuration>
+               <outputDirectory>
+                 ${project.build.directory}/${pom.artifactId}-${pom.version}
+               </outputDirectory>
+               <overWriteReleases>false</overWriteReleases>
+               <overWriteSnapshots>true</overWriteSnapshots>
+               <artifactItems>
+                 <artifactItem>
+                   <groupId>${pom.groupId}</groupId>
+                   <artifactId>waffle-resources</artifactId>
+                   <version>${pom.version}</version>
+                 </artifactItem>
+               </artifactItems>
+             </configuration>
+           </execution>
+         </executions>
        </plugin>
        <plugin>
         <groupId>org.codehaus.mojo.groovy</groupId>

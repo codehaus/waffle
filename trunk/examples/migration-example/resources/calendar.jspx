@@ -9,7 +9,7 @@
 
 
 <head>
-    <script src="scripts/myscript.js" type="text/javascript">
+    <script src="js/waffle/action.js" type="text/javascript">
         // keep this space
     </script>
 </head>
@@ -39,7 +39,7 @@
             </select></th>
         </tr>
     </table>
-    <a href="javascript:fireMethod('listMonths|{language}|{year}');">List
+    <a href="javascript:fireActionMethod('listMonths|{language}|{year}');">List
         Months</a></form>
 
 <table>
