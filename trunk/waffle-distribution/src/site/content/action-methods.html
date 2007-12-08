@@ -54,9 +54,9 @@
   <textarea class="html:nogutter:nocontrols" name="code">
     <a href="http://host/shoppingCart.waffle?method=addToCart|54|{quantity}">Buy football</a>
 
-    <input type="button" value="Buy football" onclick="fireMethod('addToCart|54|{quantity}');"/>
+    <input type="button" value="Buy football" onclick="fireActionMethod('addToCart|54|{quantity}');"/>
 
-    <a href="javascript:fireMethod('addToCart|54|{quantity}');">Buy football</a>
+    <a href="javascript:fireActionMethod('addToCart|54|{quantity}');">Buy football</a>
   </textarea>
 
   <p>Notice that the second argument <b>{quantity}</b> is wrapped between curly brackets which signals that Waffle will
@@ -79,28 +79,50 @@
   </p>
 
   <dl>
-    <dt>Note:</dt>
-    <dd>
-      Use this javascript to dynamically add a "method" parameter to your form before submitting the form.
+    <dt><b>Note:</b></dt>
+    <dd>The javascript to fire an action method is contained in waffle-resources jar and can be simply unpacked in webapp.  
+    To use the following needs to be declared:
     </dd>
+    
+      <textarea class="html:nogutter:nocontrols" name="code">
+    <script src="js/waffle/action.js" type="text/javascript">
+        // keep this space
+    </script>
+     </textarea>
+     
+      The maven-dependency-plugin makes it easy to unpack the content of the waffle-resources jar to the
+      webapp context:
+
+      <textarea class="xml:nogutter:nocontrols" name="code">
+     <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-dependency-plugin</artifactId>
+         <executions>
+           <execution>
+             <id>unpack-resources</id>
+             <phase>process-resources</phase>
+             <goals>
+               <goal>unpack</goal>
+             </goals>
+             <configuration>
+               <outputDirectory>
+                 ${project.build.directory}/${pom.artifactId}-${pom.version}
+               </outputDirectory>
+               <overWriteReleases>false</overWriteReleases>
+               <overWriteSnapshots>true</overWriteSnapshots>
+               <artifactItems>
+                 <artifactItem>
+                   <groupId>org.codehaus.waffle</groupId>
+                   <artifactId>waffle-resources</artifactId>
+                   <version>[chosen version]</version>
+                 </artifactItem>
+               </artifactItems>
+             </configuration>
+           </execution>
+         </executions>
+       </plugin>
+      </textarea>
   </dl>
-
-  <textarea class="js:nogutter:nocontrols" name="code">
-    function fireMethod(methodName) {
-      createElementSubmitForm(document.forms[0], methodName);
-    }
-
-    function createElementSubmitForm(form, methodName) {
-        var method = document.createElement("input");
-        method.setAttribute("type", "hidden");
-        method.setAttribute("name", "method");
-        method.value = methodName;
-
-        form.appendChild(method);
-        form.submit();
-        return true;
-    }
-  </textarea>
 
   <h3>The ActionMethod annotation (default)</h3>
 
