@@ -1,16 +1,15 @@
 package org.codehaus.waffle.controller;
 
-import java.lang.reflect.Method;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.monitor.ControllerMonitor;
 import org.jruby.runtime.builtin.IRubyObject;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 
 public class RubyControllerDefinitionFactory extends ContextControllerDefinitionFactory {
     private final MethodNameResolver methodNameResolver;
@@ -26,7 +25,8 @@ public class RubyControllerDefinitionFactory extends ContextControllerDefinition
 
     public RubyControllerDefinitionFactory(MethodDefinitionFinder methodDefinitionFinder,
                                            ControllerNameResolver controllerNameResolver,
-                                           MethodNameResolver methodNameResolver, ControllerMonitor controllerMonitor) {
+                                           MethodNameResolver methodNameResolver,
+                                           ControllerMonitor controllerMonitor) {
         super(methodDefinitionFinder, controllerNameResolver, controllerMonitor);
         this.methodNameResolver = methodNameResolver;
     }

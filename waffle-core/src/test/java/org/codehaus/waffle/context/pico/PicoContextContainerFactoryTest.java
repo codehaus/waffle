@@ -62,7 +62,8 @@ public class PicoContextContainerFactoryTest {
 
     @Test
     public void canBuildEachContextLevelContainer() {
-        final PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources, new SilentMonitor());
+        final PicoContextContainerFactory contextContainerFactory
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);
@@ -132,7 +133,8 @@ public class PicoContextContainerFactoryTest {
 
     @Test
     public void canInitializeContext() {
-        final AbstractContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources, new SilentMonitor());
+        final AbstractContextContainerFactory contextContainerFactory
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);
@@ -230,7 +232,8 @@ public class PicoContextContainerFactoryTest {
 
     @Test
     public void canBuildApplicationContextContainerWithLifecycle() {
-        PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources, new SilentMonitor());
+        PicoContextContainerFactory contextContainerFactory
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
         ContextContainer container = contextContainerFactory.buildApplicationContextContainer();
 
         StubStartable startable = new StubStartable();
@@ -249,7 +252,8 @@ public class PicoContextContainerFactoryTest {
 
     @Test
     public void canBuildSessionLevelContainerWithLifecycle() {
-        final PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources, new SilentMonitor());
+        final PicoContextContainerFactory contextContainerFactory
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);
@@ -280,7 +284,8 @@ public class PicoContextContainerFactoryTest {
 
     @Test
     public void canBuildRequestLevelContainerWithLifecycle() {
-        final PicoContextContainerFactory contextContainerFactory = new PicoContextContainerFactory(messageResources, new SilentMonitor());
+        final PicoContextContainerFactory contextContainerFactory
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);

@@ -17,7 +17,6 @@ import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
-import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.picocontainer.ComponentMonitor;
@@ -37,9 +36,13 @@ import javax.servlet.http.HttpSession;
 public class PicoContextContainerFactory extends AbstractContextContainerFactory {
     private final ComponentMonitor picoComponentMonitor = new NullComponentMonitor();
     private final LifecycleStrategy picoLifecycleStrategy = new PicoLifecycleStrategy(picoComponentMonitor);
+    private final RegistrarMonitor registrarMonitor;
 
-    public PicoContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor) {
+    public PicoContextContainerFactory(MessageResources messageResources,
+                                       ContextMonitor contextMonitor,
+                                       RegistrarMonitor registrarMonitor) {
         super(messageResources, contextMonitor);
+        this.registrarMonitor = registrarMonitor;
     }
 
     protected ContextContainer buildApplicationContextContainer() {
@@ -78,10 +81,6 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
     }
 
     protected Registrar createRegistrar(ContextContainer contextContainer) {
-        RegistrarMonitor registrarMonitor = contextContainer.getComponentInstanceOfType(RegistrarMonitor.class);
-        if ( registrarMonitor == null ){
-            registrarMonitor = new SilentMonitor();
-        }
         Registrar registrar = new PicoRegistrar((MutablePicoContainer) contextContainer.getDelegate(), registrarMonitor);
         getContextMonitor().registrarCreated(registrar, registrarMonitor);
         return registrar;
