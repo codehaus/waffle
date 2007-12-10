@@ -68,10 +68,6 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
         applicationContextContainer.registerComponentInstance(servletContext);
         applicationContextContainer.registerComponentInstance(messageResources);
 
-        // TODO register monitors to application context from component registry
-        // ComponentRegistry componentRegistry = ServletContextHelper.getComponentRegistry(servletContext);
-        // applicationContextContainer.registerComponentInstance(componentRegistry.getRegistrarMonitor());
-
         buildApplicationLevelRegistry();
         applicationContextContainer.start();
         contextMonitor.applicationContextContainerStarted();
