@@ -12,23 +12,11 @@ function fireActionMethod(methodName) {
     submitInputMethod(form, methodName);
 }
 
-function fireActionMethod(methodName, formId) {
-    var form = document.getElementById(formId);
-    submitInputMethod(form, methodName);
-}
-
 function fireMultipartActionMethod(methodName) {
 	var form = document.forms[0];
 	form.method="post";
     form.encoding="multipart/form-data";
 	submitInputMethod(form, methodName);
-}
-
-function fireMultipartActionMethod(methodName, formId) {
-    var form = document.getElementById(formId);
-    form.method="post";
-    form.encoding="multipart/form-data";
-    submitInputMethod(form, methodName);
 }
 
 function submitInputMethod(form, methodName) {
