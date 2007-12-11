@@ -7,25 +7,41 @@
  * the LICENSE.txt file.                                                     *
  *****************************************************************************/
 
-function fireActionMethod(methodName) {
-	var form = document.forms[0];
-    submitInputMethod(form, methodName);
+function findForm(formId) {
+  if(formId == null) {
+    return document.forms[0];
+  } else {
+    return document.getElementById(formId);
+  }
 }
 
-function fireMultipartActionMethod(methodName) {
-	var form = document.forms[0];
-	form.method="post";
-    form.encoding="multipart/form-data";
-	submitInputMethod(form, methodName);
+/**
+ * @param methodName
+ * @param formId reference to the form id (optional)
+ */
+function fireActionMethod(methodName, formId) {
+  var form = findForm(formId);
+  submitInputMethod(form, methodName);
+}
+
+/**
+ * @param methodName
+ * @param formId reference to the form id (optional)
+ */
+function fireMultipartActionMethod(methodName, formId) {
+  var form = findForm(formId);
+  form.method="post";
+  form.encoding="multipart/form-data";
+  submitInputMethod(form, methodName);
 }
 
 function submitInputMethod(form, methodName) {
-    var method = document.createElement("input");
-    method.setAttribute("type", "hidden");
-    method.setAttribute("name", "method");
-    method.value = methodName;
+  var method = document.createElement("input");
+  method.setAttribute("type", "hidden");
+  method.setAttribute("name", "method");
+  method.value = methodName;
 
-    form.appendChild(method);
-    form.submit();
-    return true;
+  form.appendChild(method);
+  form.submit();
+  return true;
 }
