@@ -95,19 +95,15 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             return methodDefinition;
         }
 
-        MethodDefinition methodDefinition = null;
         for (Method method : controllerType.getMethods()) {
             if (method.isAnnotationPresent(DefaultActionMethod.class)) {
                 defaultMethodCache.put(controllerType, method); // add to cache
-                methodDefinition = buildDefaultMethodDefinition(method, request);
-                break;
+                MethodDefinition methodDefinition = buildDefaultMethodDefinition(method, request);
+                actionMonitor.defaultActionMethodFound(methodDefinition);
+                return methodDefinition;
             }
         }
 
-        if (methodDefinition != null) {
-            actionMonitor.defaultActionMethodFound(methodDefinition);
-            return methodDefinition;
-        }
         throw new NoDefaultActionMethodException(controllerType.getName());
     }
 
