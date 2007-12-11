@@ -31,11 +31,6 @@
         <configuration>
           <webXml>${basedir}/src/main/webapp/WEB-INF/${framework}-web.xml</webXml>
           <warName>${pom.artifactId}</warName>
-          <webResources>
-            <resource>
-              <directory>${basedir}/resources</directory>
-            </resource>
-          </webResources>
         </configuration>
       </plugin>
     </plugins>
