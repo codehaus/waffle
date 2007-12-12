@@ -18,6 +18,7 @@ import org.codehaus.waffle.testmodel.ConstructorInjectionComponent;
 import org.codehaus.waffle.testmodel.FakeBean;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.codehaus.waffle.testmodel.SetterInjectionComponent;
+import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -27,14 +28,17 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.monitors.NullComponentMonitor;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
 import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.defaults.LifecycleStrategy;
 
 /**
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
 public class PicoRegistrarTest {
+    private LifecycleStrategy lifecycleStrategy = new PicoLifecycleStrategy(new NullComponentMonitor());
 
     private Mockery mockery = new Mockery();
 
@@ -52,7 +56,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, registrarMonitor)
+        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor)
                 .register(type);
         assertTrue(registrar.isRegistered(type));
 
@@ -75,7 +79,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
         registrar.register(key, type);
         assertTrue(registrar.isRegistered(type));
 
@@ -98,7 +102,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
         registrar.registerInstance(fakeController);
         assertTrue(registrar.isRegistered(fakeController));
 
@@ -118,7 +122,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
         registrar.registerInstance(key, fakeController);
         assertTrue(registrar.isRegistered(key));
 
@@ -138,7 +142,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
         registrar.registerNonCaching(type);
         assertTrue(registrar.isRegistered(type));
 
@@ -161,7 +165,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
         registrar.registerNonCaching(key, type);
         assertTrue(registrar.isRegistered(type));
 
@@ -178,7 +182,7 @@ public class PicoRegistrarTest {
         ConstructorInjectionComponentAdapter componentAdapter
                 = new ConstructorInjectionComponentAdapter("a", FakeController.class);
 
-        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, new SilentMonitor());
+        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, lifecycleStrategy, new SilentMonitor());
         picoRegistrar.registerComponentAdapter(componentAdapter);
 
         FakeController controllerOne = (FakeController) pico.getComponentInstance("a");
@@ -191,7 +195,7 @@ public class PicoRegistrarTest {
     public void canSwitchInstantiationType() {
         FakeBean fakeBean = new FakeBean();
         MutablePicoContainer pico = new DefaultPicoContainer();
-        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, new SilentMonitor());
+        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, lifecycleStrategy, new SilentMonitor());
 
         picoRegistrar.registerInstance(fakeBean)
                 .register(ConstructorInjectionComponent.class)
