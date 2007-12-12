@@ -32,6 +32,7 @@ public class PicoLifecycleStrategy extends DefaultLifecycleStrategy {
         super(monitor);
     }
 
+    @Override
     public void start(Object component) {
         if (component != null && component instanceof Startable) {
             long str = System.currentTimeMillis();
@@ -47,6 +48,7 @@ public class PicoLifecycleStrategy extends DefaultLifecycleStrategy {
         }
     }
 
+    @Override
     public void stop(Object component) {
         if (component != null && component instanceof Startable) {
             long str = System.currentTimeMillis();
@@ -62,6 +64,7 @@ public class PicoLifecycleStrategy extends DefaultLifecycleStrategy {
         }
     }
 
+    @Override
     public boolean hasLifecycle(Class type) {
         return Startable.class.isAssignableFrom(type) || super.hasLifecycle(type);
     }

@@ -23,32 +23,43 @@ public abstract class AbstractRegistrar implements Registrar {
         this.delegate = delegate;
     }
 
+    public Registrar setInjectionType(InjectionType injectionType) {
+        delegate.setInjectionType(injectionType);
+        return this;
+    }
+
     public boolean isRegistered(Object typeOrInstance){
         return delegate.isRegistered(typeOrInstance);
     }
     
-    public void register(Class<?> type, Object... parameters) {
+    public Registrar register(Class<?> type, Object... parameters) {
         delegate.register(type, parameters);
+        return this;
     }
 
-    public void register(Object key, Class<?> type, Object... parameters) {
+    public Registrar register(Object key, Class<?> type, Object... parameters) {
         delegate.register(key, type, parameters);
+        return this;
     }
 
-    public void registerInstance(Object instance) {
+    public Registrar registerInstance(Object instance) {
         delegate.registerInstance(instance);
+        return this;
     }
 
-    public void registerInstance(Object key, Object instance) {
+    public Registrar registerInstance(Object key, Object instance) {
         delegate.registerInstance(key, instance);
+        return this;
     }
 
-    public void registerNonCaching(Class<?> type, Object... parameters) {
+    public Registrar registerNonCaching(Class<?> type, Object... parameters) {
         delegate.registerNonCaching(type, parameters);
+        return this;
     }
 
-    public void registerNonCaching(Object key, Class<?> type, Object... parameters) {
+    public Registrar registerNonCaching(Object key, Class<?> type, Object... parameters) {
         delegate.registerNonCaching(key, type, parameters);
+        return this;
     }
 
     public void application() {
