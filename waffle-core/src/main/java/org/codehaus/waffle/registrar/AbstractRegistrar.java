@@ -23,8 +23,8 @@ public abstract class AbstractRegistrar implements Registrar {
         this.delegate = delegate;
     }
 
-    public Registrar setInjectionType(InjectionType injectionType) {
-        delegate.setInjectionType(injectionType);
+    public Registrar useInjection(Injection injectionType) {
+        delegate.useInjection(injectionType);
         return this;
     }
 

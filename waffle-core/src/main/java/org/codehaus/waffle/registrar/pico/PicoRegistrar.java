@@ -11,7 +11,6 @@
 package org.codehaus.waffle.registrar.pico;
 
 import org.codehaus.waffle.monitor.RegistrarMonitor;
-import org.codehaus.waffle.registrar.InjectionType;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RubyAwareRegistrar;
 import org.picocontainer.ComponentAdapter;
@@ -34,7 +33,7 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final MutablePicoContainer picoContainer;
     private final LifecycleStrategy lifecycleStrategy;
     private final RegistrarMonitor registrarMonitor;
-    private InjectionType injectionType = InjectionType.CONSTRUCTOR;
+    private Injection injection = Injection.CONSTRUCTOR;
 
     public PicoRegistrar(MutablePicoContainer picoContainer,
                          LifecycleStrategy lifecycleStrategy,
@@ -44,8 +43,8 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
         this.registrarMonitor = registrarMonitor;
     }
 
-    public Registrar setInjectionType(InjectionType injectionType) {
-        this.injectionType = injectionType;
+    public Registrar useInjection(Injection injection) {
+        this.injection = injection;
         return this;
     }
 
@@ -114,7 +113,7 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     }
 
     private ComponentAdapter buildComponentAdapter(Object key, Class<?> type, Object... parameters) {
-        if (injectionType == InjectionType.CONSTRUCTOR) {
+        if (injection == Injection.CONSTRUCTOR) {
             ConstructorInjectionComponentAdapterFactory factory
                     = new ConstructorInjectionComponentAdapterFactory(false, lifecycleStrategy);
 
