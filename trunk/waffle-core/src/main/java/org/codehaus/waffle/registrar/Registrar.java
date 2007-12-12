@@ -18,8 +18,25 @@ package org.codehaus.waffle.registrar;
  */
 public interface Registrar {
 
-    Registrar setInjectionType(InjectionType injectionType);
+    enum Injection {
+        CONSTRUCTOR, // default
+        SETTER
+    }
+    
+    /**
+     * Use the given injection type for component instantiation
+     * 
+     * @param injection the Injection to use
+     * @return The Registrar
+     */
+    Registrar useInjection(Injection injection);
 
+    /**
+     * Determines if a component is already registered
+     * 
+     * @param typeOrInstance the component Class type or Object instance/key
+     * @return A boolean flag, <code>true</code> if component is registered
+     */
     boolean isRegistered(Object typeOrInstance);
 
     /**
