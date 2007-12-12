@@ -10,7 +10,9 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
+import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
+import org.codehaus.waffle.registrar.InjectionType;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RubyAwareRegistrar;
 import org.picocontainer.ComponentAdapter;
@@ -18,7 +20,9 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
 import org.picocontainer.defaults.CachingComponentAdapter;
 import org.picocontainer.defaults.ConstantParameter;
-import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
+import org.picocontainer.defaults.ConstructorInjectionComponentAdapterFactory;
+import org.picocontainer.defaults.SetterInjectionComponentAdapterFactory;
+import org.picocontainer.monitors.NullComponentMonitor;
 
 /**
  * This Registrar is backed by PicoContainer for managing Dependency Injection.  This registrar
@@ -30,57 +34,64 @@ import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
 public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final MutablePicoContainer picoContainer;
     private final RegistrarMonitor registrarMonitor;
+    private InjectionType injectionType = InjectionType.CONSTRUCTOR;
 
     public PicoRegistrar(MutablePicoContainer picoContainer, RegistrarMonitor registrarMonitor) {
         this.picoContainer = picoContainer;
         this.registrarMonitor = registrarMonitor;
     }
 
+    public Registrar setInjectionType(InjectionType injectionType) {
+        this.injectionType = injectionType;
+        return this;
+    }
+
     public boolean isRegistered(Object typeOrInstance) {
-        if ( typeOrInstance instanceof Class ){
-            Class<?> type = (Class<?>)typeOrInstance;
+        if (typeOrInstance instanceof Class) {
+            Class<?> type = (Class<?>) typeOrInstance;
             return picoContainer.getComponentInstancesOfType(type).size() > 0;
         }
         return picoContainer.getComponentInstance(typeOrInstance) != null;
     }
 
-    public void register(Class<?> type, Object ... parameters) {
+    public Registrar register(Class<?> type, Object... parameters) {
         this.register(type, type, parameters);
+        return this;
     }
 
-    public void register(Object key, Class<?> type, Object ... parameters) {
-        if (parameters.length == 0) {
-            picoContainer.registerComponentImplementation(key, type);
-        } else {
-            picoContainer.registerComponentImplementation(key, type, picoParameters(parameters));
-        }
+    public Registrar register(Object key, Class<?> type, Object... parameters) {
+        ComponentAdapter componentAdapter = buildComponentAdapter(key, type, parameters);
+        CachingComponentAdapter cachingComponentAdapter = new CachingComponentAdapter(componentAdapter);
+        this.registerComponentAdapter(cachingComponentAdapter);
+
         registrarMonitor.componentRegistered(key, type, parameters);
+
+        return this;
     }
 
-    public void registerInstance(Object instance) {
+    public Registrar registerInstance(Object instance) {
         this.registerInstance(instance, instance);
+        return this;
     }
 
-    public void registerInstance(Object key, Object instance) {
+    public Registrar registerInstance(Object key, Object instance) {
         picoContainer.registerComponentInstance(key, instance);
         registrarMonitor.instanceRegistered(key, instance);
+
+        return this;
     }
 
-    public void registerNonCaching(Class<?> type, Object ... parameters) {
+    public Registrar registerNonCaching(Class<?> type, Object... parameters) {
         this.registerNonCaching(type, type, parameters);
+        return this;
     }
 
-    public void registerNonCaching(Object key, Class<?> type, Object ... parameters) {
-        ConstructorInjectionComponentAdapter componentAdapter;
-
-        if (parameters.length == 0) {
-            componentAdapter = new ConstructorInjectionComponentAdapter(key, type);
-        } else {
-            componentAdapter = new ConstructorInjectionComponentAdapter(key, type, picoParameters(parameters));
-        }
+    public Registrar registerNonCaching(Object key, Class<?> type, Object... parameters) {
+        ComponentAdapter componentAdapter = buildComponentAdapter(key, type, parameters);
 
         picoContainer.registerComponent(componentAdapter);
         registrarMonitor.nonCachingComponentRegistered(key, type, parameters);
+        return this;
     }
 
     public void registerRubyScript(String key, String className) {
@@ -88,7 +99,7 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
         CachingComponentAdapter cachingComponentAdapter = new CachingComponentAdapter(componentAdapter);
         this.registerComponentAdapter(cachingComponentAdapter);
     }
-    
+
     public void registerComponentAdapter(ComponentAdapter componentAdapter) {
         picoContainer.registerComponent(componentAdapter);
     }
@@ -97,8 +108,34 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
         Parameter[] picoParameters = new Parameter[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
             picoParameters[i] = new ConstantParameter(parameters[i]);
-        }        
+        }
         return picoParameters;
+    }
+
+    // TODO PicoLifecycleStrategy should not need to be instantiated each time ... should be passed into this instance?
+    private ComponentAdapter buildComponentAdapter(Object key, Class<?> type, Object... parameters) {
+        if (injectionType == InjectionType.CONSTRUCTOR) {
+            ConstructorInjectionComponentAdapterFactory factory
+                    = new ConstructorInjectionComponentAdapterFactory(false, new PicoLifecycleStrategy(new NullComponentMonitor()));
+
+            if (parameters.length == 0) {
+                return factory.createComponentAdapter(key, type, null);
+            } else {
+                return factory.createComponentAdapter(key, type, picoParameters(parameters));
+            }
+        }
+
+        // handle Setter Injection...
+        SetterInjectionComponentAdapterFactory factory
+                = new SetterInjectionComponentAdapterFactory(false, new PicoLifecycleStrategy(new NullComponentMonitor()));
+
+        if (parameters.length == 0) {
+            return factory.createComponentAdapter(key, type, null);
+        } else {
+            return factory.createComponentAdapter(key, type, picoParameters(parameters));
+
+        }
+
     }
 
     public void application() {

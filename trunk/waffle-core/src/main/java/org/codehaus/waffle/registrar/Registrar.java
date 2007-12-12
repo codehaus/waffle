@@ -18,28 +18,30 @@ package org.codehaus.waffle.registrar;
  */
 public interface Registrar {
 
+    Registrar setInjectionType(InjectionType injectionType);
+
     boolean isRegistered(Object typeOrInstance);
 
     /**
      * @param type represent both the key and type the object will be registered under
      * @param parameters any parameters needed to satisfy the component being registered
      */
-    void register(Class<?> type, Object... parameters);
+    Registrar register(Class<?> type, Object... parameters);
 
     /**
      * @param key represent the key the object will be registered under
      * @param type represent the component type
      * @param parameters any parameters needed to satisfy the component being registered
      */
-    void register(Object key, Class<?> type, Object... parameters);
+    Registrar register(Object key, Class<?> type, Object... parameters);
 
-    void registerInstance(Object instance);
+    Registrar registerInstance(Object instance);
 
-    void registerInstance(Object key, Object instance);
+    Registrar registerInstance(Object key, Object instance);
 
-    void registerNonCaching(Class<?> type, Object... parameters);
+    Registrar registerNonCaching(Class<?> type, Object... parameters);
 
-    void registerNonCaching(Object key, Class<?> type, Object... parameters);
+    Registrar registerNonCaching(Object key, Class<?> type, Object... parameters);
 
     void application();
 
