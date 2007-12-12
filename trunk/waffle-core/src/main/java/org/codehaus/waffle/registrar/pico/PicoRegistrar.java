@@ -17,6 +17,7 @@ import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
 import org.picocontainer.defaults.CachingComponentAdapter;
+import org.picocontainer.defaults.ComponentAdapterFactory;
 import org.picocontainer.defaults.ConstantParameter;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapterFactory;
 import org.picocontainer.defaults.LifecycleStrategy;
@@ -113,26 +114,20 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     }
 
     private ComponentAdapter buildComponentAdapter(Object key, Class<?> type, Object... parameters) {
+        ComponentAdapterFactory factory = null;
+
         if (injection == Injection.CONSTRUCTOR) {
-            ConstructorInjectionComponentAdapterFactory factory
-                    = new ConstructorInjectionComponentAdapterFactory(false, lifecycleStrategy);
-
-            if (parameters.length == 0) {
-                return factory.createComponentAdapter(key, type, null);
-            } else {
-                return factory.createComponentAdapter(key, type, picoParameters(parameters));
-            }
+            factory = new ConstructorInjectionComponentAdapterFactory(false, lifecycleStrategy);
+        } else if (injection == Injection.SETTER) {
+            factory = new SetterInjectionComponentAdapterFactory(false, lifecycleStrategy);
+        } else {
+            throw new IllegalArgumentException("Invalid injection " + injection);
         }
-
-        // handle Setter Injection...
-        SetterInjectionComponentAdapterFactory factory
-                = new SetterInjectionComponentAdapterFactory(false, lifecycleStrategy);
 
         if (parameters.length == 0) {
             return factory.createComponentAdapter(key, type, null);
         } else {
             return factory.createComponentAdapter(key, type, picoParameters(parameters));
-
         }
 
     }
