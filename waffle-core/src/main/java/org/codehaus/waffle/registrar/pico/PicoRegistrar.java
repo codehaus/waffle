@@ -10,7 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
-import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.InjectionType;
 import org.codehaus.waffle.registrar.Registrar;
@@ -21,8 +20,8 @@ import org.picocontainer.Parameter;
 import org.picocontainer.defaults.CachingComponentAdapter;
 import org.picocontainer.defaults.ConstantParameter;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapterFactory;
+import org.picocontainer.defaults.LifecycleStrategy;
 import org.picocontainer.defaults.SetterInjectionComponentAdapterFactory;
-import org.picocontainer.monitors.NullComponentMonitor;
 
 /**
  * This Registrar is backed by PicoContainer for managing Dependency Injection.  This registrar
@@ -33,11 +32,15 @@ import org.picocontainer.monitors.NullComponentMonitor;
  */
 public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final MutablePicoContainer picoContainer;
+    private final LifecycleStrategy lifecycleStrategy;
     private final RegistrarMonitor registrarMonitor;
     private InjectionType injectionType = InjectionType.CONSTRUCTOR;
 
-    public PicoRegistrar(MutablePicoContainer picoContainer, RegistrarMonitor registrarMonitor) {
+    public PicoRegistrar(MutablePicoContainer picoContainer,
+                         LifecycleStrategy lifecycleStrategy,
+                         RegistrarMonitor registrarMonitor) {
         this.picoContainer = picoContainer;
+        this.lifecycleStrategy = lifecycleStrategy;
         this.registrarMonitor = registrarMonitor;
     }
 
@@ -63,7 +66,6 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
         ComponentAdapter componentAdapter = buildComponentAdapter(key, type, parameters);
         CachingComponentAdapter cachingComponentAdapter = new CachingComponentAdapter(componentAdapter);
         this.registerComponentAdapter(cachingComponentAdapter);
-
         registrarMonitor.componentRegistered(key, type, parameters);
 
         return this;
@@ -77,7 +79,6 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     public Registrar registerInstance(Object key, Object instance) {
         picoContainer.registerComponentInstance(key, instance);
         registrarMonitor.instanceRegistered(key, instance);
-
         return this;
     }
 
@@ -112,11 +113,10 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
         return picoParameters;
     }
 
-    // TODO PicoLifecycleStrategy should not need to be instantiated each time ... should be passed into this instance?
     private ComponentAdapter buildComponentAdapter(Object key, Class<?> type, Object... parameters) {
         if (injectionType == InjectionType.CONSTRUCTOR) {
             ConstructorInjectionComponentAdapterFactory factory
-                    = new ConstructorInjectionComponentAdapterFactory(false, new PicoLifecycleStrategy(new NullComponentMonitor()));
+                    = new ConstructorInjectionComponentAdapterFactory(false, lifecycleStrategy);
 
             if (parameters.length == 0) {
                 return factory.createComponentAdapter(key, type, null);
@@ -127,7 +127,7 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
 
         // handle Setter Injection...
         SetterInjectionComponentAdapterFactory factory
-                = new SetterInjectionComponentAdapterFactory(false, new PicoLifecycleStrategy(new NullComponentMonitor()));
+                = new SetterInjectionComponentAdapterFactory(false, lifecycleStrategy);
 
         if (parameters.length == 0) {
             return factory.createComponentAdapter(key, type, null);
