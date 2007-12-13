@@ -22,7 +22,11 @@ public class SelectTest extends IntegrationTest {
 
     public void testAcceptsNullAsContent() {
         open("select.jsp");
-        assertEquals(0, selenium.getSelectOptions("nulledList").length);
+        String[] options = selenium.getSelectOptions("nulledList");
+        assertTrue(options.length <= 1);
+        if (options.length != 0) {
+            assertEquals("", options[0]);
+        }
     }
 
 }
