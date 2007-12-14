@@ -2,6 +2,7 @@
 <html>
 <head><title>Errors tag acceptance test</title></head>
 <body>
+<h1>Errors tag test:</h1>
 <h2>All errors:</h2>
 <ul id="allErrors">
   <w:errors>
@@ -36,6 +37,17 @@
     </li>
   </w:errors>
 </ul>
+
+<h1>Messages tag test:</h1>
+<p><a id="showMessagesAction" href="products.waffle?method=showMessages">Show Messages</a></p>
+<ul id="messages">
+  <w:messages>
+    <li>${message}</li>
+  </w:messages>
+</ul>
+
+<p id="successMessage"><w:message key="success"/></p>
+<p id="failureMessage"><w:message key="failure"/></p>
 
 </body>
 </html>

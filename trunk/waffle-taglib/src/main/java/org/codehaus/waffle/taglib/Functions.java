@@ -7,6 +7,7 @@ import java.util.Map;
 import org.codehaus.waffle.validation.ErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.ErrorMessage.Type;
+import org.codehaus.waffle.i18n.MessagesContext;
 
 /**
  * A collection of utility functions accessible in taglibs
@@ -55,4 +56,7 @@ public class Functions {
         }
     }
 
+    public static String findMessageForKey(MessagesContext messagesContext, String key) {
+        return messagesContext.getMessage(key);
+    }
 }
