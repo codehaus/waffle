@@ -7,17 +7,21 @@ public class ErrorsTest extends IntegrationTest {
 
     public void testGlobalErrorMessages() {
         open("products.waffle");
-        selenium.refresh();
-        selenium.submit("productForm");
 
         int globalErrorCount = selenium.getXpathCount("//ul[@id='allErrors']/li").intValue();
+        assertEquals(0, globalErrorCount);
+
+        selenium.submit("productForm");
+        selenium.waitForPageToLoad("2000");
+
+        globalErrorCount = selenium.getXpathCount("//ul[@id='allErrors']/li").intValue();
         assertEquals(3, globalErrorCount);
     }
 
     public void testEmptySubmitGeneratesTwoFieldErrorMessages() {
         open("products.waffle");
-        selenium.refresh();
         selenium.submit("productForm");
+        selenium.waitForPageToLoad("2000");
 
         int nameErrorsCount = selenium.getXpathCount("//ul[@id='nameErrors']/li").intValue();
         assertEquals(1, nameErrorsCount);
@@ -28,9 +32,9 @@ public class ErrorsTest extends IntegrationTest {
 
     public void testPriceEmptyGeneratesOneFieldErrorMessage() {
         open("products.waffle");
-        selenium.refresh();
         selenium.type("nameField", "John Travolta");
         selenium.submit("productForm");
+        selenium.waitForPageToLoad("2000");
 
         int nameErrorsCount = selenium.getXpathCount("//ul[@id='nameErrors']/li").intValue();
         assertEquals(0, nameErrorsCount);
@@ -44,6 +48,7 @@ public class ErrorsTest extends IntegrationTest {
         selenium.refresh();
         selenium.type("priceField", "10");
         selenium.submit("productForm");
+        selenium.waitForPageToLoad("2000");
 
         int nameErrorsCount = selenium.getXpathCount("//ul[@id='nameErrors']/li").intValue();
         assertEquals(1, nameErrorsCount);
@@ -54,10 +59,10 @@ public class ErrorsTest extends IntegrationTest {
 
     public void testFormFilledGeneratesNoErrorMessages() {
         open("products.waffle");
-        selenium.refresh();
         selenium.type("nameField", "Luke");
         selenium.type("priceField", "10");
         selenium.submit("productForm");
+        selenium.waitForPageToLoad("2000");
 
         int nameErrorsCount = selenium.getXpathCount("//ul[@id='nameErrors']/li").intValue();
         assertEquals(0, nameErrorsCount);
