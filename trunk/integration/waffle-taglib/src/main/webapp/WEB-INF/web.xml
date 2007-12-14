@@ -1,10 +1,46 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<web-app id="WebApp_ID" version="2.4"
-	xmlns="http://java.sun.com/xml/ns/j2ee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-	<display-name>waffle taglib acceptance tests</display-name>
+  <display-name>waffle taglib acceptance tests</display-name>
+
+  <!-- 1. This is how an application registers its custom Registrar -->
+  <context-param>
+    <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
+    <param-value>org.codehaus.waffle.taglib.acceptance.TaglibAcceptanceRegistrar</param-value>
+  </context-param>
+
+  <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
+  <listener>
+    <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
+  </listener>
+
+  <!-- 4. Waffle request filter (responsible for request level context) -->
+  <filter>
+    <filter-name>WaffleRequestFilter</filter-name>
+    <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>WaffleRequestFilter</filter-name>
+    <url-pattern>*.waffle</url-pattern>
+  </filter-mapping>
+
+  <!-- 5. Register Waffle's FrontController servlet -->
+  <servlet>
+    <servlet-name>waffle</servlet-name>
+    <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+    <init-param>
+      <param-name>view.suffix</param-name>
+      <param-value>.jsp</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>waffle</servlet-name>
+    <url-pattern>*.waffle</url-pattern>
+  </servlet-mapping>
 
 </web-app>

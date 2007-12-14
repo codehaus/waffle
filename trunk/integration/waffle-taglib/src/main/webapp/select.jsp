@@ -12,10 +12,10 @@
  
 <% 
 	List<Product> lista = new ArrayList<Product>();
-	lista.add(new Product(1,"trabant"));
-	lista.add(new Product(2,"wartburg"));
-	lista.add(new Product(3,"skoda"));
-	lista.add(new Product(null, "nasty"));
+	lista.add(new Product(1,"trabant", 10.0));
+	lista.add(new Product(2,"wartburg", 20.0));
+	lista.add(new Product(3,"skoda", 30.0));
+	lista.add(new Product(null, "nasty", 40.0));
 	pageContext.setAttribute("lista",lista);
 %>
 
