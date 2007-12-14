@@ -10,18 +10,9 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
+import org.codehaus.waffle.ComponentRegistry;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -39,6 +30,13 @@ import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.lang.reflect.Method;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -217,7 +215,7 @@ public class WaffleServlet extends HttpServlet {
         // look for PRG annotation
         PRG prg = method.getAnnotation(PRG.class);
         if ( prg != null ){
-            return prg.use();
+            return prg.value();
         }
         // else default to true
         return true;
