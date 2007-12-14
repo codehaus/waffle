@@ -84,6 +84,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
         MutablePicoContainer delegateContainer = (MutablePicoContainer) contextContainer.getDelegate();
         Registrar registrar = new PicoRegistrar(delegateContainer, picoLifecycleStrategy, registrarMonitor);
         getContextMonitor().registrarCreated(registrar, registrarMonitor);
+        
         return registrar;
     }
 
