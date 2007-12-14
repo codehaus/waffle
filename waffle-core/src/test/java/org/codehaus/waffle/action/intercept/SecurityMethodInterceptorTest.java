@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -88,7 +87,7 @@ public class SecurityMethodInterceptorTest {
 
     public class MyController {
 
-        @DefaultActionMethod
+        @ActionMethod(asDefault=true)
         public void methodWithDefaultActionMethod() {
 
         }

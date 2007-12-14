@@ -1,10 +1,10 @@
 package org.codehaus.waffle.example.mydvds.action;
 
-import org.codehaus.waffle.example.mydvds.persistence.PersistenceManager;
+import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.example.mydvds.model.Dvd;
 import org.codehaus.waffle.example.mydvds.model.Passport;
 import org.codehaus.waffle.example.mydvds.model.User;
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+import org.codehaus.waffle.example.mydvds.persistence.PersistenceManager;
 
 public class DvdsController {
 
@@ -19,7 +19,7 @@ public class DvdsController {
     }
 
     // just to be intercepted
-    @DefaultActionMethod
+    @ActionMethod(asDefault=true)
     public void index() {
     }
 

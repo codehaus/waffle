@@ -27,8 +27,7 @@ import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+import org.codehaus.waffle.action.annotation.PRG;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.context.ContextContainer;
@@ -208,22 +207,17 @@ public class WaffleServlet extends HttpServlet {
     }
 
     /**
-     * Determine if PRG paradigm is used from the "prg" attribute of the action method annotations
+     * Determine if PRG paradigm is used from the @PRG annotation of the action method
      * 
      * @param methodDefinition the MethodDefinition
-     * @return A boolean flag, defaults to <code>true</code> 
+     * @return A boolean flag, defaults to <code>true</code> if no annotation found
      */
     private boolean usePRG(MethodDefinition methodDefinition) {
         Method method = methodDefinition.getMethod();
-        // first check ActionMethod annotation
-        ActionMethod actionMethod = method.getAnnotation(ActionMethod.class);
-        if ( actionMethod != null ){
-            return actionMethod.prg();
-        }
-        // then check DefaultActionMethod annotation
-        DefaultActionMethod defaultActionMethod = method.getAnnotation(DefaultActionMethod.class);
-        if ( defaultActionMethod != null ){
-            return defaultActionMethod.prg();
+        // look for PRG annotation
+        PRG prg = method.getAnnotation(PRG.class);
+        if ( prg != null ){
+            return prg.use();
         }
         // else default to true
         return true;
