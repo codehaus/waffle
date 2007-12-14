@@ -16,7 +16,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * @deprecated Use @ActionMethod(asDefault=true)
+ * @deprecated Use @ActionMethod(asDefault=true).  @DefaultActionMethod is not supported anymore and will be ignored.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

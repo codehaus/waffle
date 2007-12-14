@@ -10,13 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.intercept;
 
-import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.action.ActionMethodInvocationException;
-import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import org.codehaus.waffle.action.ActionMethodInvocationException;
+import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.controller.ControllerDefinition;
 
 /**
  * This interceptor ensure that only annotated methods are invokable as <i>Actions</i>.  
@@ -32,9 +31,7 @@ public class SecurityMethodInterceptor implements MethodInterceptor {
                             Method method,
                             InterceptorChain chain,
                             Object... arguments) throws IllegalAccessException, InvocationTargetException {
-        if (method.isAnnotationPresent(DefaultActionMethod.class)) {
-            return chain.proceed(controllerDefinition, method, arguments);
-        } else if (method.isAnnotationPresent(ActionMethod.class)) {
+        if (method.isAnnotationPresent(ActionMethod.class)) {
             return chain.proceed(controllerDefinition, method, arguments);
         }
 
