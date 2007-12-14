@@ -15,9 +15,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Annotation to control action method properties. 
+ * 
+ * @author Mauro Talevi
+ * @author Michael Ward
+ */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ActionMethod {
     String[] parameters() default {};
-    boolean prg() default true;
+    boolean asDefault() default false;
 }

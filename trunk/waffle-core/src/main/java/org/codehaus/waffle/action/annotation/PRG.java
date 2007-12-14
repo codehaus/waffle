@@ -10,16 +10,20 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.annotation;
 
-import java.lang.annotation.Target;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * @deprecated Use @ActionMethod(asDefault=true)
+ * Annotation to control the use of the PRG (Post/Redirect/Get) paradigm. 
+ * See http://en.wikipedia.org/wiki/Post/Redirect/Get
+ * 
+ * @author Mauro Talevi
+ * @author Michael Ward
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DefaultActionMethod {
-    String[] parameters() default {};
+public @interface PRG {
+    boolean use() default true;
 }

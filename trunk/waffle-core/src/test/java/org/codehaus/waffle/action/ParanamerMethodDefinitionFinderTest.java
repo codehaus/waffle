@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 import ognl.TypeConverter;
 
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
+import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverter;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.monitor.ActionMonitor;
@@ -660,7 +660,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
     public class ControllerWithDefaultActionMethod {
 
-        @DefaultActionMethod(parameters = { "helloworld" })
+        @ActionMethod(asDefault=true, parameters = { "helloworld" })
         public void foobar(String value) {
 
         }
@@ -668,7 +668,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
     public class ControllerWithDefaultActionMethodNoValue {
 
-        @DefaultActionMethod
+        @ActionMethod(asDefault=true)
         public void foobar() {
 
         }

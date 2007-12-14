@@ -222,7 +222,7 @@
     been triggered. For that Waffle provides the <b>DefaultActionMethod</b> annotation. In the example below we have a
     <i>CheckoutController</i> that will calculate the shipping cost by default when no other ActionMethod has been
     triggered. The method that has been annotated with
-    <b>@DefaultActionMethod(parameters = <a name=""theCart", "customerAddress"">"theCart",
+    <b>@ActionMethod(asDefault=true, parameters = <a name=""theCart", "customerAddress"">"theCart",
       "customerAddress"</a>)</b>. These two values, <b>theCart</b> and <b>customerAddress</b>, will be used
     to resolve that methods arguments.
   </p>
@@ -236,7 +236,7 @@
           this.shippingCalculator = shippingCalculator;
       }
 
-      @DefaultActionMethod(parameters = {"theCart", "customerAddress"})
+      @ActionMethod(asDefault=true, parameters = {"theCart", "customerAddress"})
       public void calculate(Cart cart, Address address) {
           shippingCost = shippingCalculator.calculate(cart, address);
       }

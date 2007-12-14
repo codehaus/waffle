@@ -10,18 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.action.annotation.DefaultActionMethod;
-import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
-import org.codehaus.waffle.i18n.MessagesContext;
-import org.codehaus.waffle.monitor.ActionMonitor;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.text.MessageFormat;
@@ -31,6 +19,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.i18n.MessagesContext;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
  * Abstract base implementation for all method definition finders
@@ -96,7 +97,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
 
         for (Method method : controllerType.getMethods()) {
-            if (method.isAnnotationPresent(DefaultActionMethod.class)) {
+            if (isDefaultActionMethod(method)) {
                 defaultMethodCache.put(controllerType, method); // add to cache
                 MethodDefinition methodDefinition = buildDefaultMethodDefinition(method, request);
                 actionMonitor.defaultActionMethodFound(methodDefinition);
@@ -105,6 +106,14 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
 
         throw new NoDefaultActionMethodException(controllerType.getName());
+    }
+
+    private boolean isDefaultActionMethod(Method method) {
+        ActionMethod actionMethod = method.getAnnotation(ActionMethod.class);
+        if ( actionMethod != null ){
+            return actionMethod.asDefault();
+        }
+        return false;
     }
 
     private MethodDefinition findPragmaticActionMethod(Object controller,
@@ -157,7 +166,10 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
     private MethodDefinition buildDefaultMethodDefinition(Method method, HttpServletRequest request) {
         MethodDefinition methodDefinition = new MethodDefinition(method);
-        DefaultActionMethod defaultActionMethod = method.getAnnotation(DefaultActionMethod.class);
+        if ( !isDefaultActionMethod(method) ){
+            throw new NoDefaultActionMethodException("Method "+method+" is not annotated with @ActionMethod(asDefault=true).");
+        }
+        ActionMethod defaultActionMethod = method.getAnnotation(ActionMethod.class);
         List<String> arguments = new ArrayList<String>(defaultActionMethod.parameters().length);
 
         for (String value : defaultActionMethod.parameters()) {
