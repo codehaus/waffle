@@ -10,14 +10,25 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.ComponentRegistry;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.action.annotation.DefaultActionMethod;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.context.ContextContainer;
@@ -29,12 +40,6 @@ import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -165,20 +170,25 @@ public class WaffleServlet extends HttpServlet {
             View view = null;
 
             if (errorsContext.hasErrorMessages() || methodDefinition == null) {
-                view = buildViewToReferrer(controllerDefinition);
+                view = buildReferringView(controllerDefinition);
             } else {
                 actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
 
                 if (errorsContext.hasErrorMessages()) {
-                    view = buildViewToReferrer(controllerDefinition);
-                } else if (actionMethodResponse.getReturnValue() == null) {
+                    view = buildReferringView(controllerDefinition);
+                } else if (actionMethodResponse.getReturnValue() == null) {                    
                     // Null or VOID indicate a Waffle convention (return to referring page)
+                    // unless PRG is disabled 
                     if (request.getMethod().equalsIgnoreCase(POST)) {
-                        // PRG (Post/Redirect/Get): see http://en.wikipedia.org/wiki/Post/Redirect/Get
-                        String url = request.getRequestURL().toString();
-                        view = new RedirectView(url, controllerDefinition.getController());
+                        if ( usePRG(methodDefinition) ){
+                            // PRG (Post/Redirect/Get): see http://en.wikipedia.org/wiki/Post/Redirect/Get
+                            view = buildRedirectingView(request, controllerDefinition);                            
+                        } else {
+                            // PRG is disabled
+                            view = buildReferringView(controllerDefinition);
+                        }
                     } else { // was a GET
-                        view = buildViewToReferrer(controllerDefinition);
+                        view = buildReferringView(controllerDefinition);
                     }
                 }
             }
@@ -198,11 +208,49 @@ public class WaffleServlet extends HttpServlet {
     }
 
     /**
-     * Build a view back to the referring page (use the Controller's name as the View name).
+     * Determine if PRG paradigm is used from the "prg" attribute of the action method annotations
+     * 
+     * @param methodDefinition the MethodDefinition
+     * @return A boolean flag, defaults to <code>true</code> 
      */
-    protected View buildViewToReferrer(ControllerDefinition controllerDefinition) {
+    private boolean usePRG(MethodDefinition methodDefinition) {
+        Method method = methodDefinition.getMethod();
+        // first check ActionMethod annotation
+        ActionMethod actionMethod = method.getAnnotation(ActionMethod.class);
+        if ( actionMethod != null ){
+            return actionMethod.prg();
+        }
+        // then check DefaultActionMethod annotation
+        DefaultActionMethod defaultActionMethod = method.getAnnotation(DefaultActionMethod.class);
+        if ( defaultActionMethod != null ){
+            return defaultActionMethod.prg();
+        }
+        // else default to true
+        return true;
+    }
+
+    /**
+     * Build a view back to the referring page, using the Controller's name as the View name.
+     * 
+     * @param controllerDefinition the ControllerDefinition
+     * @return The View
+     */
+    protected View buildReferringView(ControllerDefinition controllerDefinition) {
         String controllerValue = viewPrefix + controllerDefinition.getName() + viewSuffix;
         return new View(controllerValue, controllerDefinition.getController());
     }
+    
+    /**
+     * Build redirecting view, used by PRG paradigm.
+     * 
+     * @param request the request
+     * @param controllerDefinition the ControllerDefinition
+     * @return The RedirectView
+     */
+    protected View buildRedirectingView(HttpServletRequest request, ControllerDefinition controllerDefinition) {
+        String url = request.getRequestURL().toString();
+        return new RedirectView(url, controllerDefinition.getController());
+    }
+
 
 }
