@@ -49,6 +49,11 @@
     </function-signature>
   </function>
 
+  <tag-file>
+		<name>errors</name>
+		<path>/META-INF/tags/errors.tag</path>
+	</tag-file>
+
   <!-- checkbox tag -->
   <tag>
     <name>checkbox</name>
