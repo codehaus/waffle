@@ -1,12 +1,12 @@
 package org.codehaus.waffle.example.simple;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.fileupload.FileItem;
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.action.annotation.PRG;
 import org.codehaus.waffle.io.FileUploader;
+
+import java.util.Collection;
+import java.util.List;
 
 public class UploadController {
    
@@ -19,7 +19,7 @@ public class UploadController {
     }
 
     @ActionMethod(asDefault=true)
-    @PRG(use=false) // PRG needs to be disabled to allow request-scope content to be accessible in referring view
+    @PRG(false) // PRG needs to be disabled to allow request-scope content to be accessible in referring view
     public void upload(){ 
         files = uploader.getFileItems();
         errors = uploader.getErrors();        
