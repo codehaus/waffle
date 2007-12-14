@@ -508,7 +508,7 @@ public class WaffleServletTest {
         viewSuffixField.set(waffleServlet, "-suffix");
 
         ControllerDefinition controllerDefinition = new ControllerDefinition("foobar", null, null);
-        View view = waffleServlet.buildViewToReferrer(controllerDefinition);
+        View view = waffleServlet.buildReferringView(controllerDefinition);
 
         Assert.assertEquals("prefix-foobar-suffix", view.getValue());
     }

@@ -30,6 +30,15 @@
 
     <br/>
 
+     <table>
+        <c:forEach var="file" items="${files}" varStatus="status">
+            <tr class="${status.index % 2 eq 0 ? 'even' : 'odd'}">
+                <td>${file.name}</td>
+                <td>${file.string}</td>
+            </tr>
+        </c:forEach>
+     </table>
+     
 </form>
 </body>
 

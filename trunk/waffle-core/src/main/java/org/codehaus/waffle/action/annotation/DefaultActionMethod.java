@@ -19,4 +19,5 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DefaultActionMethod {
     String[] parameters() default {};
+    boolean prg() default true;
 }
