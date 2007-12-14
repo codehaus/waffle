@@ -106,6 +106,10 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     }
 
     private Parameter[] picoParameters(Object[] parameters) {
+        if(parameters.length == 0) {
+            return null; // pico expects a null when no parameters
+        }
+
         Parameter[] picoParameters = new Parameter[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
             picoParameters[i] = new ConstantParameter(parameters[i]);
@@ -114,22 +118,17 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     }
 
     private ComponentAdapter buildComponentAdapter(Object key, Class<?> type, Object... parameters) {
-        ComponentAdapterFactory factory = null;
+        ComponentAdapterFactory componentAdapterFactory;
 
         if (injection == Injection.CONSTRUCTOR) {
-            factory = new ConstructorInjectionComponentAdapterFactory(false, lifecycleStrategy);
+            componentAdapterFactory = new ConstructorInjectionComponentAdapterFactory(false, lifecycleStrategy);
         } else if (injection == Injection.SETTER) {
-            factory = new SetterInjectionComponentAdapterFactory(false, lifecycleStrategy);
+            componentAdapterFactory = new SetterInjectionComponentAdapterFactory(false, lifecycleStrategy);
         } else {
             throw new IllegalArgumentException("Invalid injection " + injection);
         }
 
-        if (parameters.length == 0) {
-            return factory.createComponentAdapter(key, type, null);
-        } else {
-            return factory.createComponentAdapter(key, type, picoParameters(parameters));
-        }
-
+        return componentAdapterFactory.createComponentAdapter(key, type, picoParameters(parameters));
     }
 
     public void application() {
