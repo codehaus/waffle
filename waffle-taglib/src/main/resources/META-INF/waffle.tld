@@ -49,9 +49,28 @@
     </function-signature>
   </function>
 
+  <function>
+    <name>findMessageForKey</name>
+    <description>Find message for the ginven key</description>
+    <function-class>org.codehaus.waffle.taglib.Functions</function-class>
+    <function-signature>
+      java.lang.String findMessageForKey(org.codehaus.waffle.i18n.MessagesContext, java.lang.String)
+    </function-signature>
+  </function>
+
   <tag-file>
 		<name>errors</name>
 		<path>/META-INF/tags/errors.tag</path>
+	</tag-file>
+
+  <tag-file>
+		<name>messages</name>
+		<path>/META-INF/tags/messages.tag</path>
+	</tag-file>
+
+  <tag-file>
+		<name>message</name>
+		<path>/META-INF/tags/message.tag</path>
 	</tag-file>
 
   <!-- checkbox tag -->
