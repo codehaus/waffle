@@ -384,7 +384,7 @@
     </profile>
     <profile>
       <!-- Distribution profile -->
-      <id>dist</id>
+      <id>distribution</id>
       <modules>
         <module>waffle-distribution</module>
       </modules>

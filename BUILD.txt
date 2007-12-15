@@ -17,7 +17,7 @@ Build profiles:
 Note:  profiles are additive and the default profile is always active.
 Eg, build with integration tests, reporting and distribution:
 
-mvn -Pintegration,reporting,dist install
+mvn -Pintegration,reporting,distribution install
 
 Build and deploy examples to Jetty (skipping tests on releasable modules):
 
