@@ -9,8 +9,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.serialisation.Serializer;
-import org.codehaus.waffle.serialisation.XStreamSerializer;
+import org.codehaus.waffle.io.Serializer;
+import org.codehaus.waffle.io.XStreamSerializer;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.collections.CollectionConverter;
