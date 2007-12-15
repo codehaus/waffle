@@ -22,11 +22,11 @@ import org.apache.commons.fileupload.FileItem;
 public interface FileUploader {
 
     /**
-     * Returns the FileItems for uploaded files
+     * Returns the uploaded files
      * 
-     * @return A List of FileItems
+     * @return A List of FileItems, one for each uploaded file
      */
-    List<FileItem> getFileItems();
+    List<FileItem> getFiles();
 
     /**
      * Returns errors generated when parsing the multipart request.
