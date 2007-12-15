@@ -25,9 +25,9 @@
     <h3>Waffle file upload</h3>
 
     <input type="file" name="importFile"/>
+    <br/>
     
     <a href="javascript:fireMultipartActionMethod('upload');">Upload File</a>
-
     <br/>
 
      <table>

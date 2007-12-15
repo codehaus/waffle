@@ -13,6 +13,7 @@ public class UploadController {
     private FileUploader uploader;
     private Collection<String> errors;
     private List<FileItem> files;
+    private String comment;
     
     public UploadController(FileUploader uploader) {
         this.uploader = uploader;
@@ -21,7 +22,7 @@ public class UploadController {
     @ActionMethod(asDefault=true)
     @PRG(false) // PRG needs to be disabled to allow request-scope content to be accessible in referring view
     public void upload(){ 
-        files = uploader.getFileItems();
+        files = uploader.getFiles();
         errors = uploader.getErrors();        
     }
 
@@ -31,6 +32,14 @@ public class UploadController {
 
     public List<FileItem> getFiles() {
         return files;
+    }
+    
+    public String getComment(){
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
     
 }
