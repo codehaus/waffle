@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
@@ -38,10 +39,10 @@ import org.codehaus.waffle.Startable;
  * @author Mauro Talevi
  */
 public class RequestFileUploader implements Startable, FileUploader {
-    private final HttpServletRequest request;
+    private final HttpServletRequestWrapper request;
     private final FileItemFactory itemFactory;
-    private Collection<String> errors = new ArrayList<String>();
-    private List<FileItem> fileItems = new ArrayList<FileItem>();
+    protected Collection<String> errors = new ArrayList<String>();
+    protected List<FileItem> fileItems = new ArrayList<FileItem>();
 
     /**
      * Creates RequestFileUploader
@@ -50,7 +51,7 @@ public class RequestFileUploader implements Startable, FileUploader {
      * @param itemFactory the FileItemFactory
      */
     public RequestFileUploader(HttpServletRequest request, FileItemFactory itemFactory) {
-        this.request = request;
+        this.request = new HttpServletRequestWrapper(request);
         this.itemFactory = itemFactory;
     }
 
@@ -65,6 +66,17 @@ public class RequestFileUploader implements Startable, FileUploader {
         return files;
     }
 
+    public List<FileItem> getFormFields() {
+        List<FileItem> fields = new ArrayList<FileItem>();
+        // only return form fields
+        for (FileItem file : fileItems) {
+            if ( file.isFormField() ){
+                fields.add(file);
+            }
+        }
+        return fields;
+    }
+    
     public Collection<String> getErrors() {
         return errors;
     }
@@ -77,7 +89,7 @@ public class RequestFileUploader implements Startable, FileUploader {
      * Upload files on request start
      */
     public void start() {
-        uploadFiles(request, itemFactory);
+        uploadFileItems(request, itemFactory);
     }
 
     /**
@@ -88,13 +100,14 @@ public class RequestFileUploader implements Startable, FileUploader {
     }
 
     /**
-     * Processes request to retrieve file uploads and records any errors.
+     * Parses a multipart request to upload file items and records any errors.
+     * Non-multipart requests are ignored.
      * 
      * @param request the HttpServletRequest
      * @param itemFactory the FileItemFactory
      */
     @SuppressWarnings("unchecked")
-    private void uploadFiles(HttpServletRequest request, FileItemFactory itemFactory) {
+    protected void uploadFileItems(HttpServletRequest request, FileItemFactory itemFactory) {
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
                 ServletFileUpload fileUpload = new ServletFileUpload(itemFactory);
@@ -102,10 +115,9 @@ public class RequestFileUploader implements Startable, FileUploader {
                 fileItems.clear();
                 fileItems.addAll(fileUpload.parseRequest(request));
             } catch (FileUploadException e) {
-                errors.add("Failed to upload files: " + e.getMessage());
+                errors.add("Failed to upload file items: " + e.getMessage());
             }
         }
     }
-
 
 }

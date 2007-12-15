@@ -27,6 +27,13 @@ public interface FileUploader {
      * @return A List of FileItems, one for each uploaded file
      */
     List<FileItem> getFiles();
+    
+    /**
+     * Returns the form fields
+     * 
+     * @return A List of FileItems, one for each form field
+     */
+    List<FileItem> getFormFields();
 
     /**
      * Returns errors generated when parsing the multipart request.

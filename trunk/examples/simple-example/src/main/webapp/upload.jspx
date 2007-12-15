@@ -24,6 +24,9 @@
 
     <h3>Waffle file upload</h3>
 
+    <input type="text" name="comment" value=""/> - enter a comment
+    <br/>
+
     <input type="file" name="importFile"/>
     <br/>
     
@@ -31,10 +34,21 @@
     <br/>
 
      <table>
+        <th colspan="2">Files uploaded</th>
         <c:forEach var="file" items="${files}" varStatus="status">
             <tr class="${status.index % 2 eq 0 ? 'even' : 'odd'}">
-                <td>${file.name}</td>
+                <td>${file.fieldName}(${file.name})</td>
                 <td>${file.string}</td>
+            </tr>
+        </c:forEach>
+     </table>
+
+     <table>
+        <th colspan="2">Form fields</th>
+        <c:forEach var="field" items="${formFields}" varStatus="status">
+            <tr class="${status.index % 2 eq 0 ? 'even' : 'odd'}">
+                <td>${field.fieldName}</td>
+                <td>${field.string}</td>
             </tr>
         </c:forEach>
      </table>
