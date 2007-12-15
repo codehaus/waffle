@@ -28,12 +28,14 @@
     <page>i18n.html</page>
     <page>registrar.html</page>
     <page>views.html</page>
+    <page>prg.html</page>
     <page>pluggability.html</page>
     <page>binding.html</page>
     <page>validation.html</page>
     <page>lifecycle.html</page>
     <page>monitors.html</page>
     <page>ajax.html</page>
+    <page>file-upload.html</page>
     <page>webxml.html</page>
     <page>webapp-structure.html</page>
   </section>

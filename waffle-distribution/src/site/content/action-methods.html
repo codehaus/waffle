@@ -124,7 +124,7 @@
       </textarea>
   </dl>
 
-  <h3>The ActionMethod annotation (default)</h3>
+  <h3>The ActionMethod annotation (default behavior)</h3>
 
   <p>
     The <b>ActionMethod</b> annotation allows you to define the parameter names that should be used to resolve your
@@ -214,17 +214,16 @@
     </dd>
   </dl>
 
-  <h3>The DefaultActionMethod annotation</h3>
+  <h3>The default ActionMethod</h3>
 
   <p>
     Many time when a user first visits a page you may want to ensure that the action instance is properly initialized.
     In other words you may want a default ActionMethod to be triggered on that Controller when no other ActionMethod has
-    been triggered. For that Waffle provides the <b>DefaultActionMethod</b> annotation. In the example below we have a
+    been triggered. For that Waffle provides the <b>asDefault</b> attribute in <b>ActionMethod</b> annotation. In the example below we have a
     <i>CheckoutController</i> that will calculate the shipping cost by default when no other ActionMethod has been
     triggered. The method that has been annotated with
-    <b>@ActionMethod(asDefault=true, parameters = <a name=""theCart", "customerAddress"">"theCart",
-      "customerAddress"</a>)</b>. These two values, <b>theCart</b> and <b>customerAddress</b>, will be used
-    to resolve that methods arguments.
+    <b>@ActionMethod(asDefault=true, parameters = "theCart", "customerAddress")</b>. 
+    These two values, <b>theCart</b> and <b>customerAddress</b>, will be used to resolve that methods arguments.
   </p>
 
   <textarea class="java:nogutter:nocontrols" name="code">
@@ -251,7 +250,7 @@
   <dl>
     <dt>Note:</dt>
     <dd>
-      DefaultActionMethod annotations are also used when utilizing ParaNamer. They are needed so Waffle can handle
+      ActionMethod annotations are also used when utilizing ParaNamer. They are needed so Waffle can handle
       requests when no ActionMethod has been signalled.
     </dd>
   </dl>
@@ -276,7 +275,7 @@
     </li>
     <li>
       <b>null or void</b> - When an ActionMethod has a return type of <i>void</i> or when your ActionMethod returns a
-      <i>null</i> Waffle will simply redirect back to the referring page.
+      <i>null</i> Waffle will simply redirect back to the referring page, unless <a href="prg.html">PRG</a> is disabled.
     </li>
     <li>
       <b>Exception</b> - When an exception is thrown Waffle will set the response status to 400 (BAD REQUEST) and then
