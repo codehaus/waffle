@@ -1,7 +1,7 @@
 package org.codehaus.waffle.taglib.acceptance;
 
 /**
- * @Author Fabio Kung
+ * @author Fabio Kung
  */
 public class MessagesTest extends IntegrationTest {
 

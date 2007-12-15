@@ -4,7 +4,7 @@ import org.codehaus.waffle.registrar.AbstractRegistrar;
 import org.codehaus.waffle.registrar.Registrar;
 
 /**
- * @Author Fabio Kung
+ * @author Fabio Kung
  */
 public class TaglibAcceptanceRegistrar extends AbstractRegistrar {
 

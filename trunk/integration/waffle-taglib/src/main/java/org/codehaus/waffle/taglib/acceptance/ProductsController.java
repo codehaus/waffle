@@ -7,7 +7,7 @@ import org.codehaus.waffle.validation.GlobalErrorMessage;
 import org.codehaus.waffle.i18n.MessagesContext;
 
 /**
- * @Author Fabio Kung
+ * @author Fabio Kung
  */
 public class ProductsController {
 

@@ -5,7 +5,7 @@ import org.codehaus.waffle.validation.FieldErrorMessage;
 import org.codehaus.waffle.validation.GlobalErrorMessage;
 
 /**
- * @Author Fabio Kung
+ * @author Fabio Kung
  */
 public class ProductsControllerValidator {
     public void add(ErrorsContext errors, String name, Double price) {

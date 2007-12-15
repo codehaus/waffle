@@ -1,7 +1,7 @@
 package org.codehaus.waffle.example.mydvds.model;
 
 /**
- * @Author Fabio Kung
+ * @author Fabio Kung
  */
 public class Passport {
     private User user;
