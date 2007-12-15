@@ -1,8 +1,8 @@
 Build system: 
 
 JDK required: 1.5+
-Maven (http://maven.apache.org) required: 2.0.5+
-JRuby (http://jruby.codehaus.org) required: 1.0+
+Maven (http://maven.apache.org) required: 2.0.8+
+JRuby (http://jruby.codehaus.org) required: 1.0.2+
 
 Build profiles:  
 
