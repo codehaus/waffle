@@ -1,0 +1,17 @@
+Atributos básicos
+
+	As tags de formulário possuem diversos elementos básicos que são comuns entre elas.
+	
+	Nesta página você encontra a descrição de algum deles.
+
+render	
+
+	O atributo <render> indica se o item deve ser mostrado ou não no resultado (código html). O uso comum
+	desse atributo é para verificar se uma determinada condição é verdadeira:
+
++--------------------
+<s:text name="usuario.cpf" render="${devoMostrarCampoCpf}""/>
++--------------------
+
+	Note que o valor de <devoMostrarCampoCpf> será verificado uma única vez - durante o processod de render
+	de sua página jsp.
