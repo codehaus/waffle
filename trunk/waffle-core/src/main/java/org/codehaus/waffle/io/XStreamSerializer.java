@@ -8,7 +8,7 @@
  *                                                                           *
  * Original code by: Mauro Talevi                                            *
  *****************************************************************************/
-package org.codehaus.waffle.serialisation;
+package org.codehaus.waffle.io;
 
 import java.io.Reader;
 import java.io.Writer;
