@@ -9,8 +9,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.serialisation.Serialiser;
-import org.codehaus.waffle.serialisation.XStreamSerialiser;
+import org.codehaus.waffle.serialisation.Serializer;
+import org.codehaus.waffle.serialisation.XStreamSerializer;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.collections.CollectionConverter;
@@ -36,14 +36,14 @@ public class XMLView extends ResponderView {
     }
 
     private String serialise(Object attribute) {
-        Serialiser serialiser = createSerialiser();
+        Serializer serialiser = createSerialiser();
         Writer writer = new StringWriter();
         serialiser.marshall(attribute, writer);
         return writer.toString();
     }
 
     //TODO: should the serialiser(s) be registered in ComponentRegistry?
-    private Serialiser createSerialiser() {
+    private Serializer createSerialiser() {
         // TODO: should we stream.setMode(XStream.NO_REFERENCES); ?
         XStream xstream = new XStream(new DomDriver()) {
             protected MapperWrapper wrapMapper(MapperWrapper next) {
@@ -68,7 +68,7 @@ public class XMLView extends ResponderView {
                 return Collection.class.isAssignableFrom(clazz);
             }
         }, -18);
-        return new XStreamSerialiser(xstream);
+        return new XStreamSerializer(xstream);
     }
 
 }

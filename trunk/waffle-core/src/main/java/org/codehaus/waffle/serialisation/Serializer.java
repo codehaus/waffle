@@ -13,39 +13,27 @@ package org.codehaus.waffle.serialisation;
 import java.io.Reader;
 import java.io.Writer;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
 /**
- * XStream-based serialiser.  Delegates to XStream the marshalling.
+ * Serializer is responsible for marshalling and unmarshalling objects.
  * 
  * @author Mauro Talevi
  */
-public class XStreamSerialiser implements Serialiser {
-    
-    private XStream xstream;
-    
-    /**
-     * Creates a XStreamSerialiser with default XStream instance with minimal dependencies
-     */
-    public XStreamSerialiser(){
-        this(new XStream(new DomDriver()));
-    }
+public interface Serializer {
 
     /**
-     * Creates a XStreamSerialiser with a given XStream instance
-     * @param xstream the XStream instance
+     * Marshalls object to a writer
+     * 
+     * @param object the Object to marshall
+     * @param writer the writer to which the object is marshalled
      */
-    public XStreamSerialiser(XStream xstream) {
-        this.xstream = xstream;
-    }
+    void marshall(Object object, Writer writer);
 
-    public void marshall(Object object, Writer writer) {
-        xstream.toXML(object, writer);
-    }
-
-    public Object unmarshall(Reader reader) {
-        return xstream.fromXML(reader);
-    }
+    /**
+     * Unmarshalls object from reader input
+     * 
+     * @param reader the input resource
+     * @return An unmarshalled Object
+     */
+    Object unmarshall(Reader reader);
 
 }
