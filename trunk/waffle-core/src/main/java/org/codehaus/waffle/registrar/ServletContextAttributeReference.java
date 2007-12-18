@@ -10,14 +10,9 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar;
 
-public abstract class AbstractArgument implements Argument {
-    private Object key;
-
-    public AbstractArgument(Object key) {
-        this.key = key;
-    }
-
-    public Object getKey() {
-        return key;
+public class ServletContextAttributeReference extends AbstractReference {
+    
+    public ServletContextAttributeReference(String key) {
+        super(key);
     }
 }

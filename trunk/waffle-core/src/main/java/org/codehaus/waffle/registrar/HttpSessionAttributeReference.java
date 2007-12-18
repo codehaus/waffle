@@ -10,10 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar;
 
-public class ComponentArgument extends AbstractArgument {
-
-    public ComponentArgument(Object key) {
+public class HttpSessionAttributeReference extends AbstractReference {
+    public HttpSessionAttributeReference(Object key) {
         super(key);
     }
-
 }

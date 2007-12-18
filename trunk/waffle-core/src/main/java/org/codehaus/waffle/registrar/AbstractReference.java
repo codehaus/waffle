@@ -10,8 +10,14 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar;
 
-public class RequestParameterArgument extends AbstractArgument{
-    public RequestParameterArgument(Object key) {
-        super(key);
+public abstract class AbstractReference implements Reference {
+    private Object key;
+
+    public AbstractReference(Object key) {
+        this.key = key;
+    }
+
+    public Object getKey() {
+        return key;
     }
 }

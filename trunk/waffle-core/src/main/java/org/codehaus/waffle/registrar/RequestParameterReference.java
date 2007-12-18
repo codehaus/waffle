@@ -10,9 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar;
 
-public class ServletContextAttributeArgument extends AbstractArgument {
-    
-    public ServletContextAttributeArgument(String key) {
+public class RequestParameterReference extends AbstractReference {
+    public RequestParameterReference(Object key) {
         super(key);
     }
 }
