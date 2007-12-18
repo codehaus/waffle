@@ -5,7 +5,7 @@ public class HiddenTagTest extends IntegrationTest {
 	public void testChecksTheRenderedAttributeSetToFalse() {
 	    try {
 		open("hidden.jsp");
-		selenium.getElementIndex("renderedFalse");
+		getSelenium().getElementIndex("renderedFalse");
 		fail();
 	    } catch( Exception e ) {
 		assertTrue(true);

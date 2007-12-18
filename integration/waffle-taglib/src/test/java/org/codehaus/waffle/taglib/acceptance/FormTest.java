@@ -4,8 +4,8 @@ public class FormTest extends IntegrationTest {
 
 	public void testHonorsRenderAttribute() {
 		open("form.jsp");
-		assertFalse(selenium.isElementPresent("notRendered"));
-		assertTrue(selenium.isElementPresent("rendered"));
+		assertFalse(getSelenium().isElementPresent("notRendered"));
+		assertTrue(getSelenium().isElementPresent("rendered"));
 	}
 
 }
