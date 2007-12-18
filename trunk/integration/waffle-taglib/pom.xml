@@ -41,7 +41,7 @@
     <dependency>
       <groupId>org.openqa.selenium.client-drivers</groupId>
       <artifactId>selenium-java-client-driver</artifactId>
-      <version>0.9.3-SNAPSHOT</version>
+      <version>0.9.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -125,7 +125,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <testFailureIgnore>true</testFailureIgnore>
+          <testFailureIgnore>false</testFailureIgnore>
           <skip>true</skip>
         </configuration>
         <executions>
@@ -148,7 +148,7 @@
                 </property>
               </systemProperties>
               <includes>
-                <include>**/acceptance/**/*Test.java</include>
+                <include>**/acceptance/**/*Suite.java</include>
               </includes>
             </configuration>
           </execution>
