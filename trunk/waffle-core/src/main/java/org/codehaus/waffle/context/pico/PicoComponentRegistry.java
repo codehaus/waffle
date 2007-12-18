@@ -12,6 +12,8 @@ package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.registrar.pico.PicoContainerParameterResolver;
+import org.codehaus.waffle.registrar.pico.DefaultPicoContainerParameterResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.AnnotatedMethodDefinitionFinder;
@@ -102,6 +104,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(Validator.class, DefaultValidator.class, servletContext);
         register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
         register(ViewResolver.class, DefaultViewResolver.class, servletContext);
+        register(PicoContainerParameterResolver.class, DefaultPicoContainerParameterResolver.class, servletContext);
 
         // register other components
         registerOtherComponents(servletContext);

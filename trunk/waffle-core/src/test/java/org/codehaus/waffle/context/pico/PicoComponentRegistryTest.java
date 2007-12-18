@@ -1,22 +1,7 @@
 package org.codehaus.waffle.context.pico;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
-
-import javax.servlet.ServletContext;
-
 import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.registrar.pico.PicoContainerParameterResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ArgumentResolver;
@@ -65,6 +50,7 @@ import org.codehaus.waffle.testmodel.StubRequestAttributeBinder;
 import org.codehaus.waffle.testmodel.StubValidator;
 import org.codehaus.waffle.testmodel.StubViewDispatcher;
 import org.codehaus.waffle.testmodel.StubViewResolver;
+import org.codehaus.waffle.testmodel.StubPicoContainerParameterResolver;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
@@ -74,9 +60,23 @@ import org.codehaus.waffle.view.ViewResolver;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
+
+import javax.servlet.ServletContext;
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 
 /**
  * 
@@ -131,7 +131,7 @@ public class PicoComponentRegistryTest {
             {
                 one(servletContext).getInitParameterNames();
                 will(returnValue(EMPTY_ENUMERATION));
-                exactly(24).of(servletContext).getInitParameter(with(any(String.class)));
+                exactly(25).of(servletContext).getInitParameter(with(any(String.class)));
             }
         });
 
@@ -219,6 +219,8 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubMonitor.class.getName()));
                 one(servletContext).getInitParameter(ViewResolver.class.getName());
                 will(returnValue(StubViewResolver.class.getName()));
+                one(servletContext).getInitParameter(PicoContainerParameterResolver.class.getName());
+                will(returnValue(StubPicoContainerParameterResolver.class.getName()));
             }
         });
         ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);

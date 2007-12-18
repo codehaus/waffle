@@ -15,7 +15,7 @@ import org.picocontainer.Parameter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.PicoVisitor;
 
-public abstract class AbstractWaffleParameter implements Parameter {
+abstract class AbstractWaffleParameter implements Parameter {
     private final String key;
 
     public AbstractWaffleParameter(String key) {

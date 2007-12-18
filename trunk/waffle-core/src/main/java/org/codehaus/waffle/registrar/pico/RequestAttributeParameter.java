@@ -15,9 +15,9 @@ import org.picocontainer.PicoContainer;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class RequestAttributeParameter extends AbstractWaffleParameter {
+class RequestAttributeParameter extends AbstractWaffleParameter {
 
-    public RequestAttributeParameter(String key) {
+    protected RequestAttributeParameter(String key) {
         super(key);
     }
 
