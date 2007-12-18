@@ -1,10 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<title>Waffle</title></head>
 
-<html>
-<head>
-<title>Waffle</title>
 
-</head>
 <body>
 <h2>Waffle Web Framework</h2>
 
@@ -16,29 +14,28 @@ possible number of source lines to achieve that.</p>
 <p>Waffle is different from the multitude of web frameworks that
 exist today, in that Waffle:</p>
 <ul>
-  <li>does <b>not</b> have any mandatory XML configuration files
+  <li>has no mandatory XML configuration files
   (beyond a minimalist web.xml required by any J2EE-compliant webapp)</li>
-  <li>does <b>not</b> have a proprietary UI templating language</li>
-  <li>does <b>not</b> have a base action class to extend or interface to implement</li>
-  <li>does <b>not</b> have a cumbersome setter-based injection mechanism and an execute method for controllers</li>
-  <li>does <b>not</b> have a steep learning curve</li>
+  <li>is interoperable with best-of-breed UI templating technologies</li>
+  <li>does not have a base&nbsp;controller class to extend or interface to implement</li>
+  <li>has controller classes that can support multiple actions, each a single method<b></b> rather than a sequence of initialiation/settter/execute methods</li><li>has a small learning curve</li>
 </ul>
 
 <p>Application built upon Waffle only need to be aware of three
 things:</p>
 <ol type="1">
   <li><b>Controllers</b> - in Waffle <b>a
-  Controller is simply a plain old Java object (POJO)</b>, ie it does <b>not</b>
+  Controller class is simply a plain old Java object (POJO)</b>, ie it does <b>not</b>
   need to extend or implement any specific class or interface.</li>
-  <li><b>ActionMethod</b> - in Waffle <b>an ActionMethod is
-  simply a method defined in your Controller class</b>. Any method can be
+  <li><b>Action Method</b>&nbsp;- in Waffle <b>an Action Method is
+  simply a method defined in your Controller class</b> (and optionally annotated with @ActionMethod). Any method can be
   used regardless of its signature or return type. Waffle will react
   differently depending on what is returned from the ActionMethod, see
   <a href="action-methods.html">Action Methods</a> for further details.</li>
-  <li><b>Registrar</b> - the Registrar is where the <i>Controllers</i>, 
+  <li><b>Registrar</b> - the Registrar class is where the <i>Controllers</i>, 
   and other components your application depends on, are registered. 
   Typically, most web frameworks require your applications to create special XML file(s) 
-  for this, but int Waffle <b>Registrars are Java object that allow you to implement
+  for this, but int Waffle <b>Registrars are Java objects that allow you to implement
   your business logic more efficiently</b>.  Of course, Waffle does allow - 
   but <b>does not mandate</b> - a Registrar to read a configuration from a file,   
   be it XML or a scripting language.  
@@ -51,7 +48,7 @@ things:</p>
 </ul>
 <h3>Choices of markup language</h3>
 <p>As Waffle does not come with a HTML markup technology, it plays
-well with other 'best practice' solutions:</p>
+well with other 'best practice' and established solutions, such as:</p>
 <ul>
   <li>JSP - with or without supplied taglibs</li>
   <li>Freemarker</li>
@@ -68,7 +65,4 @@ well with other 'best practice' solutions:</p>
 
 <div class="clear"></div>
 
-</body>
-
-
-</html>
+</body></html>

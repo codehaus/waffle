@@ -85,39 +85,12 @@
     <autodetection-disabled>
       <facet-type id="web">
         <modules>
-          <module name="waffle-migration-example">
-            <files>
-              <file url="file://$PROJECT_DIR$/examples/migration-example/src/main/webapp/WEB-INF/web.xml" />
-            </files>
-          </module>
-          <module name="waffle-simple-example">
-            <files>
-              <file url="file://$PROJECT_DIR$/examples/simple-example/exploded/WEB-INF/web.xml" />
-              <file url="file://$PROJECT_DIR$/examples/simple-example/src/main/webapp/WEB-INF/web.xml" />
-              <file url="file://$PROJECT_DIR$/examples/simple-example/target/waffle-simple-example-1.0-SNAPSHOT/WEB-INF/web.xml" />
-            </files>
-          </module>
-          <module name="waffle-freemarker-example">
-            <files>
-              <file url="file://$PROJECT_DIR$/examples/freemarker-example/src/main/webapp/WEB-INF/web.xml" />
-            </files>
-          </module>
-          <module name="waffle-paranamer-example">
-            <files>
-              <file url="file://$PROJECT_DIR$/examples/paranamer-example/exploded/WEB-INF/web.xml" />
-              <file url="file://$PROJECT_DIR$/examples/paranamer-example/src/main/webapp/WEB-INF/web.xml" />
-            </files>
-          </module>
-          <module name="waffle-jruby-example">
-            <files>
-              <file url="file://$PROJECT_DIR$/examples/jruby-example/src/main/webapp/WEB-INF/web.xml" />
-            </files>
-          </module>
-          <module name="waffle-mydvds-example">
-            <files>
-              <file url="file://$PROJECT_DIR$/examples/mydvds-example/src/main/webapp/WEB-INF/web.xml" />
-            </files>
-          </module>
+          <module name="waffle-migration-example" />
+          <module name="waffle-simple-example" />
+          <module name="waffle-freemarker-example" />
+          <module name="waffle-paranamer-example" />
+          <module name="waffle-jruby-example" />
+          <module name="waffle-mydvds-example" />
           <module name="waffle">
             <files>
               <file url="file://$PROJECT_DIR$/integration/waffle-taglib/src/main/webapp/WEB-INF/web.xml" />
@@ -433,8 +406,5 @@
   <component name="com.intellij.profile.ui.ErrorOptionsConfigurable" proportions="" version="1">
     <option name="myLastEditedConfigurable" />
   </component>
-  <UsedPathMacros>
-    <macro name="M2_REPOSITORY" />
-  </UsedPathMacros>
 </project>
 
