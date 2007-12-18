@@ -10,7 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar;
 
-public interface Argument {
+public interface Reference {
 
     Object getKey();
 

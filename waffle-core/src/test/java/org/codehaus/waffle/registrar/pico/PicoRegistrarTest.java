@@ -14,7 +14,7 @@ import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
-import org.codehaus.waffle.registrar.ComponentArgument;
+import org.codehaus.waffle.registrar.ComponentReference;
 import org.codehaus.waffle.testmodel.ComponentWithParameterDependencies;
 import org.codehaus.waffle.testmodel.ConstructorInjectionComponent;
 import org.codehaus.waffle.testmodel.FakeBean;
@@ -234,7 +234,7 @@ public class PicoRegistrarTest {
 
         picoRegistrar.registerInstance("one", "foo")
                 .registerInstance("two", "bar")
-                .register("component", ComponentWithParameterDependencies.class, new ComponentArgument("one"), new ComponentArgument("two"));
+                .register("component", ComponentWithParameterDependencies.class, new ComponentReference("one"), new ComponentReference("two"));
 
         ComponentWithParameterDependencies component = (ComponentWithParameterDependencies) pico.getComponentInstance("component");
 
