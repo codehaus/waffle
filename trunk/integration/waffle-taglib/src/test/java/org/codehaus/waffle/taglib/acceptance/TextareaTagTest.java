@@ -4,7 +4,7 @@ public class TextareaTagTest extends IntegrationTest {
 
     public void testChecksTheTextareaCreation() {
         open("textarea.jsp");
-        assertTrue(selenium.isElementPresent("itsName"));
+        assertTrue(getSelenium().isElementPresent("itsName"));
     }
 
     public void testContainsItsBodyAsValue() {

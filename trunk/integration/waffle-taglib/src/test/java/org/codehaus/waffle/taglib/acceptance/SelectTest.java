@@ -4,25 +4,24 @@ public class SelectTest extends IntegrationTest {
 
 	public void testAllowsTheUserToSpecifyTheSelectedValue() {
 		open("select.jsp");
-		assertEquals("SelectTest", selenium.getTitle());
-		assertEquals(2, selenium.getSelectedId("produto.id.selected.2"));
+		assertEquals("SelectTest", getSelenium().getTitle());
+		assertEquals(2, getSelenium().getSelectedId("produto.id.selected.2"));
 	}
 
 	public void testHonorsRenderAttribute() {
 		open("select.jsp");
-		verifyTrue(!selenium.isElementPresent("notRendered"));
-		verifyTrue(selenium.isElementPresent("rendered"));
-		checkForVerificationErrors();
+		assertTrue(!getSelenium().isElementPresent("notRendered"));
+		assertTrue(getSelenium().isElementPresent("rendered"));
 	}
 
     public void testAcceptsNullAsSelectedValue() {
         open("select.jsp");
-        assertEquals("", selenium.getSelectedId("produto.id.selected.null"));
+        assertEquals("", getSelenium().getSelectedId("produto.id.selected.null"));
     }
 
     public void testAcceptsNullAsContent() {
         open("select.jsp");
-        String[] options = selenium.getSelectOptions("nulledList");
+        String[] options = getSelenium().getSelectOptions("nulledList");
         assertTrue(options.length <= 1);
         if (options.length != 0) {
             assertEquals("", options[0]);

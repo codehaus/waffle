@@ -4,13 +4,13 @@ public class CheckBoxTest extends IntegrationTest {
 
 	public void testAllowsTheDefaultCheckedToBeCheckedOrNot() {
 		open("checkbox.jsp");
-		assertTrue(selenium.isChecked("checkedTrue"));
-		assertFalse(selenium.isChecked("checkedFalse"));
+		assertTrue(getSelenium().isChecked("checkedTrue"));
+		assertFalse(getSelenium().isChecked("checkedFalse"));
 	}
 
 	public void testSetsTheDefaultCheckedToFalse() {
 		open("checkbox.jsp");
-		assertFalse(selenium.isChecked("noChecked"));
+		assertFalse(getSelenium().isChecked("noChecked"));
 	}
 
 }
