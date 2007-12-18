@@ -1,6 +1,8 @@
 package org.codehaus.waffle.taglib.acceptance;
 
 import com.thoughtworks.selenium.SeleneseTestCase;
+import com.thoughtworks.selenium.Selenium;
+import junit.framework.TestCase;
 
 /**
  * A basic integration test class that runs all tests in browser
@@ -8,17 +10,12 @@ import com.thoughtworks.selenium.SeleneseTestCase;
  * @author Guilherme Silveira
  * @author Nico Steppat
  */
-public abstract class IntegrationTest extends SeleneseTestCase {
+public abstract class IntegrationTest extends TestCase {
 
-	public void setUp() throws Exception {        
-		String browserString = System.getProperty("seleniumBrowserString");
-        setUp("http://localhost:8080", browserString);
-	}
-
-	protected void open(String url) {
+    protected void open(String url) {
 		String contextPath = System.getProperty("seleniumContextPath");
-        selenium.open(contextPath + url);
-        selenium.waitForPageToLoad("2000");
+        getSelenium().open(contextPath + url);
+        getSelenium().waitForPageToLoad("2000");
 	}
 
     protected Field field(String localizer) {
@@ -33,8 +30,12 @@ public abstract class IntegrationTest extends SeleneseTestCase {
         }
 
         public String value() {
-            return selenium.getValue(localizer);
+            return getSelenium().getValue(localizer);
         }
+    }
+
+    public Selenium getSelenium() {
+        return AcceptanceSuite.getSelenium();
     }
     
 }
