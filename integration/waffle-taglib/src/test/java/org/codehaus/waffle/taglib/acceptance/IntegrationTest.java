@@ -14,6 +14,9 @@ public abstract class IntegrationTest extends TestCase {
 
     protected void open(String url) {
 		String contextPath = System.getProperty("seleniumContextPath");
+        if(contextPath == null) {
+            contextPath = "/waffle-taglib-integration/";
+        }
         getSelenium().open(contextPath + url);
         getSelenium().waitForPageToLoad("2000");
 	}

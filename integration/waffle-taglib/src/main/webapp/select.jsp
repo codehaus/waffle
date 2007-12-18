@@ -27,7 +27,7 @@
 </div>
 
 test selected=2 <br />
-<w:select var="produto" name="produto.id.selected.2" items="${lista}" value="id" selected="${2}">
+<w:select var="produto" name="produto.id.selected.2" id="produto.id.selected.2" items="${lista}" value="id" selected="${2}">
         ${produto.name}
 </w:select>
 
