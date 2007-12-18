@@ -23,9 +23,9 @@ import org.picocontainer.defaults.ConstantParameter;
 
 public class DefaultPicoContainerParameterResolver implements PicoContainerParameterResolver {
 
-    public Parameter resolve(Object arg) {
-        if (arg instanceof Reference) {
-            Reference reference = (Reference) arg;
+    public Parameter resolve(Object argument) {
+        if (argument instanceof Reference) {
+            Reference reference = (Reference) argument;
 
             if (reference instanceof ComponentReference) {
                 return new ComponentParameter(reference.getKey());
@@ -39,9 +39,9 @@ public class DefaultPicoContainerParameterResolver implements PicoContainerParam
                 return new ServletContextAttributeParameter(reference.getKey().toString());
             }
         } else {
-            return new ConstantParameter(arg);
+            return new ConstantParameter(argument);
         }
 
-        throw new WaffleException("Unable to resolve a pico parameter for " + arg);
+        throw new WaffleException("Unable to resolve a pico parameter for " + argument);
     }
 }
