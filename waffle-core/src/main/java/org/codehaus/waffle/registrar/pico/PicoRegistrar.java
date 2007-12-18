@@ -18,7 +18,6 @@ import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
 import org.picocontainer.defaults.CachingComponentAdapter;
 import org.picocontainer.defaults.ComponentAdapterFactory;
-import org.picocontainer.defaults.ConstantParameter;
 import org.picocontainer.defaults.ConstructorInjectionComponentAdapterFactory;
 import org.picocontainer.defaults.LifecycleStrategy;
 import org.picocontainer.defaults.SetterInjectionComponentAdapterFactory;
@@ -32,14 +31,17 @@ import org.picocontainer.defaults.SetterInjectionComponentAdapterFactory;
  */
 public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final MutablePicoContainer picoContainer;
+    private final PicoContainerParameterResolver picoContainerParameterResolver;
     private final LifecycleStrategy lifecycleStrategy;
     private final RegistrarMonitor registrarMonitor;
     private Injection injection = Injection.CONSTRUCTOR;
 
     public PicoRegistrar(MutablePicoContainer picoContainer,
+                         PicoContainerParameterResolver picoContainerParameterResolver,
                          LifecycleStrategy lifecycleStrategy,
                          RegistrarMonitor registrarMonitor) {
         this.picoContainer = picoContainer;
+        this.picoContainerParameterResolver = picoContainerParameterResolver;
         this.lifecycleStrategy = lifecycleStrategy;
         this.registrarMonitor = registrarMonitor;
     }
@@ -106,13 +108,13 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     }
 
     private Parameter[] picoParameters(Object[] parameters) {
-        if(parameters.length == 0) {
+        if (parameters.length == 0) {
             return null; // pico expects a null when no parameters
         }
 
         Parameter[] picoParameters = new Parameter[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
-            picoParameters[i] = new ConstantParameter(parameters[i]);
+            picoParameters[i] = picoContainerParameterResolver.resolve(parameters[i]);
         }
         return picoParameters;
     }

@@ -37,7 +37,7 @@ public class RegistrarAssistantTest {
     @Test
     public void canExecuteWithDefaultErrorsAndMessagesContexts() {
         DefaultPicoContainer picoContainer = new DefaultPicoContainer();
-        Registrar registrar = new PicoRegistrar(picoContainer, lifecycleStrategy, new SilentMonitor());
+        Registrar registrar = new PicoRegistrar(picoContainer, null, lifecycleStrategy, new SilentMonitor());
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         registrar.registerInstance(request);
         RegistrarAssistant registrarAssistant = new RegistrarAssistant(CustomRegistrar.class);
@@ -56,7 +56,7 @@ public class RegistrarAssistantTest {
     @Test
     public void canExecuteWithCustomErrorsAndMessagesContexts() {
         DefaultPicoContainer picoContainer = new DefaultPicoContainer();
-        Registrar registrar = new PicoRegistrar(picoContainer, lifecycleStrategy, new SilentMonitor());
+        Registrar registrar = new PicoRegistrar(picoContainer, null, lifecycleStrategy, new SilentMonitor());
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         registrar.registerInstance(request);
         RegistrarAssistant registrarAssistant = new RegistrarAssistant(CustomRegistrarWithContexts.class);

@@ -10,14 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
 import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.registrar.ComponentArgument;
+import org.codehaus.waffle.testmodel.ComponentWithParameterDependencies;
 import org.codehaus.waffle.testmodel.ConstructorInjectionComponent;
 import org.codehaus.waffle.testmodel.FakeBean;
 import org.codehaus.waffle.testmodel.FakeController;
@@ -25,6 +23,9 @@ import org.codehaus.waffle.testmodel.SetterInjectionComponent;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
@@ -56,7 +57,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor)
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor)
                 .register(type);
         assertTrue(registrar.isRegistered(type));
 
@@ -79,7 +80,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
         registrar.register(key, type);
         assertTrue(registrar.isRegistered(type));
 
@@ -102,7 +103,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
         registrar.registerInstance(fakeController);
         assertTrue(registrar.isRegistered(fakeController));
 
@@ -122,7 +123,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
         registrar.registerInstance(key, fakeController);
         assertTrue(registrar.isRegistered(key));
 
@@ -142,7 +143,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
         registrar.registerNonCaching(type);
         assertTrue(registrar.isRegistered(type));
 
@@ -165,7 +166,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
         registrar.registerNonCaching(key, type);
         assertTrue(registrar.isRegistered(type));
 
@@ -182,7 +183,7 @@ public class PicoRegistrarTest {
         ConstructorInjectionComponentAdapter componentAdapter
                 = new ConstructorInjectionComponentAdapter("a", FakeController.class);
 
-        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, lifecycleStrategy, new SilentMonitor());
+        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
         picoRegistrar.registerComponentAdapter(componentAdapter);
 
         FakeController controllerOne = (FakeController) pico.getComponentInstance("a");
@@ -195,7 +196,7 @@ public class PicoRegistrarTest {
     public void canSwitchInjectionType() {
         FakeBean fakeBean = new FakeBean();
         MutablePicoContainer pico = new DefaultPicoContainer();
-        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, lifecycleStrategy, new SilentMonitor());
+        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
 
         picoRegistrar.registerInstance(fakeBean)
                 .register(ConstructorInjectionComponent.class)
@@ -208,5 +209,37 @@ public class PicoRegistrarTest {
         // ensure both constructed correctly
         assertSame(fakeBean, cia.getFakeBean());
         assertSame(fakeBean, sia.getFakeBean());
+    }
+
+    @Test
+    public void canRegisterComponentWithConstantParameters() {
+        MutablePicoContainer pico = new DefaultPicoContainer();
+        PicoContainerParameterResolver parameterResolver = new DefaultPicoContainerParameterResolver();
+        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor());
+
+        picoRegistrar.register("component", ComponentWithParameterDependencies.class, "foo", "bar");
+
+        ComponentWithParameterDependencies component = (ComponentWithParameterDependencies) pico.getComponentInstance("component");
+
+        // ensure both constructed correctly
+        assertSame("foo", component.getValueOne());
+        assertSame("bar", component.getValueTwo());
+    }
+
+    @Test
+    public void canRegisterComponentWithNamedDependecy() {
+        MutablePicoContainer pico = new DefaultPicoContainer();
+        PicoContainerParameterResolver parameterResolver = new DefaultPicoContainerParameterResolver();
+        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor());
+
+        picoRegistrar.registerInstance("one", "foo")
+                .registerInstance("two", "bar")
+                .register("component", ComponentWithParameterDependencies.class, new ComponentArgument("one"), new ComponentArgument("two"));
+
+        ComponentWithParameterDependencies component = (ComponentWithParameterDependencies) pico.getComponentInstance("component");
+
+        // ensure both constructed correctly
+        assertSame("foo", component.getValueOne());
+        assertSame("bar", component.getValueTwo());
     }
 }

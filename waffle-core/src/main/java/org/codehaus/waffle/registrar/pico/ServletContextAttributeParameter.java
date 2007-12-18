@@ -15,9 +15,9 @@ import org.picocontainer.PicoContainer;
 
 import javax.servlet.ServletContext;
 
-public class ServletContextAttributeParameter extends AbstractWaffleParameter {
+class ServletContextAttributeParameter extends AbstractWaffleParameter {
 
-    public ServletContextAttributeParameter(String key) {
+    protected ServletContextAttributeParameter(String key) {
         super(key);
     }
 

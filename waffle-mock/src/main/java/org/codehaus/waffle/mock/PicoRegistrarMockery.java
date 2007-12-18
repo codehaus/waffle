@@ -22,6 +22,6 @@ public class PicoRegistrarMockery extends AbstractRegistrarMockery {
 
     protected Registrar createRegistrar(ContextContainer container) {
         LifecycleStrategy lifecycleStrategy = new PicoLifecycleStrategy(new NullComponentMonitor());
-        return new PicoRegistrar((MutablePicoContainer) container.getDelegate(), lifecycleStrategy, getRegistrarMonitor(container));
+        return new PicoRegistrar((MutablePicoContainer) container.getDelegate(), null, lifecycleStrategy, getRegistrarMonitor(container));
     }
 }
