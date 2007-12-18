@@ -1,8 +1,6 @@
-
-<html>
-<head>
-<title>Registrar</title>
-</head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<title>Registrar</title></head>
 <body>
 
 
@@ -10,15 +8,12 @@
 <p>Now you should have an understanding of how Controllers and
 ActionMethods work in Waffle and it has been mentioned that no custom
 XML configuration files are needed. So how does everything get wired up?
-<b>With simple java code.</b></p>
-<p>Inorder to register Controllers (and other components Controllers
+<b>With a simple java class called a Registrar.</b></p>
+<p>In order to register Controllers (and other components Controllers
 may have dependencies on) we are required to extend the <i>AbstractRegistrar</i>
-class. It is the <i>AbstractRegistrar</i> class that makes the magic
-happen. A Registrar is used to register Waffle Actions and other
-components that satisfy constructor dependencies.</p>
+class. A Registrar class is used to register Waffle Actions and dependant components at various scopes.</p>
 
-<textarea class="java:nogutter:nocontrols" name="code">
-  public class CustomRegistrar extends AbstractRegistrar {
+<textarea class="java:nogutter:nocontrols" name="code">  public class CustomRegistrar extends AbstractRegistrar {
     public CustomRegistrar(Registrar delegate) {
       super(delegate);
     }
@@ -31,17 +26,16 @@ components that satisfy constructor dependencies.</p>
   }
 </textarea>
 
-<p>Notice the method "session"? This links the method to
-'session level controllers'.</p>
-<p>The CustomRegistrar (or whatever you choose to call it) needs to
+<p>Notice the method "session" method name? This marks the component as
+'session level' within the application.</p>
+<p>The registrar class name (CustomRegistrar in this case) needs to
 be referenced in the <i>web.xml</i> (yes we can't completely get away
 from XML if we want to play in the J2EE world).</p>
 
-<textarea class="xml:nogutter:nocontrols" name="code">
-  <context-param>
-    <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
-    <param-value>com.thoughtworks.CustomRegistrar</param-value>
-  </context-param>
+<textarea class="xml:nogutter:nocontrols" name="code">  &lt;context-param&gt;
+    &lt;param-name&gt;org.codehaus.waffle.registrar.Registrar&lt;/param-name&gt;
+    &lt;param-value&gt;com.thoughtworks.CustomRegistrar&lt;/param-value&gt;
+  &lt;/context-param&gt;
 </textarea>
 
 <p>Let's dig deeper into how the Registrar works and what
@@ -49,41 +43,39 @@ functionality it provides. Assume we have the following three Classes in
 our application.</p>
 <h3>Store.java</h3>
 
-<textarea class="java:nogutter:nocontrols" name="code">
-  public class Store {
-    ...
+<textarea class="java:nogutter:nocontrols" name="code">  public class Store {
+    // other methods that characterize Store
   }
 </textarea>
 
 <h3>ShoppingCart.java</h3>
 
-<textarea class="java:nogutter:nocontrols" name="code">
-  public class ShoppingCart {
+<textarea class="java:nogutter:nocontrols" name="code">  public class ShoppingCart {
     private Store store;
 
     public ShoppingCart(Store store) {
       this.store = store;
     }
+    // other methods that leverage Store
   }
 </textarea>
 
 <h3>CheckoutController.java</h3>
 
-<textarea class="java:nogutter:nocontrols" name="code">
-  public class CheckoutController {
+<textarea class="java:nogutter:nocontrols" name="code">  public class CheckoutController {
     private ShoppingCart shoppingCart;
 
     public CheckoutController(ShoppingCart shoppingCart) {
       this.shoppingCart = shoppingCart;
     }
+    // other methods that leverage ShoppingCart
   }
 </textarea>
 
 <p>With these classes one could imagine the Registrar looking
 similar to:</p>
 
-<textarea class="java:nogutter:nocontrols" name="code">
-  public class CustomRegistrar extends AbstractRegistrar {
+<textarea class="java:nogutter:nocontrols" name="code">  public class CustomRegistrar extends AbstractRegistrar {
     public CustomRegistrar(Registrar delegate) {
       super(delegate);
     }
@@ -107,7 +99,7 @@ similar to:</p>
 
 <p>Components registered to the Application context level are shared
 across all users. Session level components are shared for a user across
-requests. And request level components only live as long as the request.</p>
+requests. And request level components only live as long as the request - they are garbage collected after the request.</p>
 <dl>
   <dt>NOTE:</dt>
   <dd>As with any web application care must be taken to ensure data
@@ -160,8 +152,7 @@ concurrent sessions, and a session will more than likely handle several
 request (maybe not simultaneously). Of course a session from one user
 cannot be accessed by a session from another user, same hold true for
 requests.</p>
-<img src="images/context-hierarchy.png"
-  alt="Context level hierarchy seperation" />
+<img src="images/context-hierarchy.png" alt="Context level hierarchy seperation">
 <dl>
   <dt>NOTE:</dt>
   <dd>To prevent exceptions registration of components should
@@ -233,6 +224,4 @@ some our examples, we illustrate one called MyRegistrar. It can be
 called whatever you like. UserRegistrar, AdminRegistrar,
 AdminActionSetup, AdminSetup are all good names if the they make sense
 to you.</p>
-</body>
-
-</html>
+</body></html>
