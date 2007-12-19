@@ -16,4 +16,12 @@ public class ComponentReference extends AbstractReference {
         super(key);
     }
 
+    /**
+     * This method can be statically imported into an Application's Registrar allowing
+     * for a more fluent interface to define components and their dependencies
+     */
+    public static ComponentReference component(Object key) {
+        return new ComponentReference(key);
+    }
+
 }

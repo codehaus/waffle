@@ -11,7 +11,17 @@
 package org.codehaus.waffle.registrar;
 
 public class RequestAttributeReference extends AbstractReference {
+    
     public RequestAttributeReference(String key) {
         super(key);
     }
+
+    /**
+     * This method can be statically imported into an Application's Registrar allowing
+     * for a more fluent interface to define components and their dependencies
+     */
+    public static RequestAttributeReference request(String key) {
+        return new RequestAttributeReference(key);
+    }
+    
 }
