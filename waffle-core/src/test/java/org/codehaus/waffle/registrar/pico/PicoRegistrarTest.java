@@ -227,7 +227,7 @@ public class PicoRegistrarTest {
     }
 
     @Test
-    public void canRegisterComponentWithNamedDependecy() {
+    public void canRegisterComponentWithNamedDependency() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         ParameterResolver parameterResolver = new DefaultParameterResolver(null);
         PicoRegistrar picoRegistrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor());
