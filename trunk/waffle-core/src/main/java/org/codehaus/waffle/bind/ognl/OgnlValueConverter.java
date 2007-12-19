@@ -36,8 +36,8 @@ public class OgnlValueConverter implements ValueConverter {
         return true;
     }
 
-    public Object convertValue(String propertyName, String value, Class<?> toType) {
-        return converter.convertValue(null, null, null, propertyName, value, toType);
+    public <T> T convertValue(String propertyName, String value, Class<T> toType) {
+        return (T) converter.convertValue(null, null, null, propertyName, value, toType);
     }
 
 }

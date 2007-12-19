@@ -1,16 +1,14 @@
 package org.codehaus.waffle.example.simple;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import ognl.OgnlException;
-
 import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.junit.Assert;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DateValueConverterTest {
 
@@ -25,7 +23,7 @@ public class DateValueConverterTest {
     @Test
     public void canConvert() throws OgnlException {
         DateValueConverter converter = new DateValueConverter(new DefaultMessageResources());
-        Date date = (Date) converter.convertValue("property-name", "19-09-2004", Date.class);
+        Date date = converter.convertValue("property-name", "19-09-2004", Date.class);
 
         Assert.assertEquals("09-19-2004", new SimpleDateFormat("MM-dd-yyyy").format(date));
     }
@@ -39,7 +37,7 @@ public class DateValueConverterTest {
     @Test
     public void canUseDefaultFormatWhenNoAlternativeProvided() {
         DateValueConverter converter = new DateValueConverter(new DefaultMessageResources());
-        Date date = (Date) converter.convertValue("property-name", "00-21-1986", Date.class);
+        Date date = converter.convertValue("property-name", "00-21-1986", Date.class);
 
         assertNotNull(date);
     }

@@ -274,7 +274,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return true;
     }
 
-    private Object convertValue(String value, Class<?> type) {
+    private <T> T convertValue(String value, Class<T> type) {
         if (isEmpty(value) && type.isPrimitive()) {
             value = null; // this allows Ognl to use that primitives default value
         }

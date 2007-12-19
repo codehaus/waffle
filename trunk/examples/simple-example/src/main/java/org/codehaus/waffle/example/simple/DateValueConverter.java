@@ -28,7 +28,8 @@ public class DateValueConverter implements ValueConverter {
         return Date.class.isAssignableFrom(type);
     }
 
-    public Object convertValue(String propertyName, String value, Class<?> toType) {
+    @SuppressWarnings({"unchecked"})
+    public <T> T convertValue(String propertyName, String value, Class<T> toType) {
         if (value == null || value.equals("")) {
             return null;
         }
@@ -36,7 +37,7 @@ public class DateValueConverter implements ValueConverter {
         String datePattern = messageResources.getMessageWithDefault("date.format", "dd-MM-yyyy");
 
         try {
-            return new SimpleDateFormat(datePattern).parse(value);
+            return (T) new SimpleDateFormat(datePattern).parse(value);
         } catch (ParseException e) {
             String fieldName = messageResources.getMessageWithDefault(propertyName, propertyName);
             String message = messageResources.getMessage("date.bind.error", fieldName, value, datePattern);
