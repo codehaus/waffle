@@ -69,17 +69,13 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                                  HttpServletResponse response) throws WaffleException {
         String methodName = methodNameResolver.resolve(request);
 
-        if (isDefaultActionMethod(methodName)) {
+        if (methodName == null) {
             return findDefaultActionMethod(controller, request);
         } else if (isPragmaticActionMethod(methodName)) { // pragmatic definition takes precedence
             return findPragmaticActionMethod(controller, methodName, request, response);
         } else {
             return findActionMethod(controller, request, response, methodName);
         }
-    }
-
-    private boolean isDefaultActionMethod(String methodName) {
-        return methodName == null;
     }
 
     private boolean isPragmaticActionMethod(String methodName) {
@@ -286,7 +282,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private boolean isEmpty(String value) {
-        return isDefaultActionMethod(value) || value.length() == 0;
+        return value == null || value.length() == 0;
     }
 
     // Protected methods, accessible by  subclasses
