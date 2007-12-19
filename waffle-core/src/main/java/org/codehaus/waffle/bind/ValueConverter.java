@@ -35,6 +35,6 @@ public interface ValueConverter {
      * @return The converted Object
      * @throws BindException if conversion fails
      */
-    Object convertValue(String propertyName, String value, Class<?> toType);
+    <T> T convertValue(String propertyName, String value, Class<T> toType);
 
 }
