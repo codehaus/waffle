@@ -8,8 +8,10 @@
     <classpathentry kind="src" path="waffle-resources/src/main/resources"/>
 	<classpathentry kind="src" path="waffle-taglib/src/main/java"/>
 	<classpathentry kind="src" path="waffle-taglib/src/test/java"/>
+    <!-- MT: commented until AcceptanceSuite dependencies issues sorted
 	<classpathentry kind="src" path="integration/waffle-taglib/src/main/java"/>
 	<classpathentry kind="src" path="integration/waffle-taglib/src/test/java"/>
+    -->
 	<classpathentry kind="src" path="examples/freemarker-example/src/main/java"/>
 	<classpathentry kind="src" path="examples/freemarker-example/src/test/java"/>
 	<classpathentry kind="src" path="examples/jruby-example/src/main/java"/>
