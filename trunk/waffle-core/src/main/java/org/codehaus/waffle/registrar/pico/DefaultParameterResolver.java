@@ -21,7 +21,7 @@ import org.picocontainer.Parameter;
 import org.picocontainer.defaults.ComponentParameter;
 import org.picocontainer.defaults.ConstantParameter;
 
-public class DefaultPicoContainerParameterResolver implements PicoContainerParameterResolver {
+public class DefaultParameterResolver implements ParameterResolver {
 
     public Parameter resolve(Object argument) {
         if (argument instanceof Reference) {

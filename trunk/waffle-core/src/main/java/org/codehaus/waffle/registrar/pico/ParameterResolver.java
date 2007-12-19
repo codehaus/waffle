@@ -8,13 +8,10 @@
  *                                                                           *
  * Original code by: Michael Ward                                            *
  *****************************************************************************/
-package org.codehaus.waffle.testmodel;
+package org.codehaus.waffle.registrar.pico;
 
-import org.codehaus.waffle.registrar.pico.PicoContainerParameterResolver;
 import org.picocontainer.Parameter;
 
-public class StubPicoContainerParameterResolver implements PicoContainerParameterResolver {
-    public Parameter resolve(Object arg) {
-        return null;
-    }
+public interface ParameterResolver {
+    Parameter resolve(Object arg);
 }
