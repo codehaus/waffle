@@ -30,7 +30,7 @@ import org.codehaus.waffle.bind.IntrospectingRequestAttributeBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.bind.StringTransmuter;
-import org.codehaus.waffle.bind.StringTransmuterImpl;
+import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.ognl.OgnlBindErrorMessageResolver;
 import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
@@ -90,7 +90,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(BindErrorMessageResolver.class, OgnlBindErrorMessageResolver.class, servletContext);
         register(DataBinder.class, OgnlDataBinder.class, servletContext);
         register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
-        register(StringTransmuter.class, StringTransmuterImpl.class, servletContext);
+        register(StringTransmuter.class, DefaultStringTransmuter.class, servletContext);
         register(ValueConverterFinder.class, OgnlValueConverterFinder.class, servletContext);
         register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);

@@ -1,9 +1,9 @@
 package org.codehaus.waffle.bind;
 
-public class StringTransmuterImpl implements StringTransmuter {
+public class DefaultStringTransmuter implements StringTransmuter {
     private final ValueConverterFinder valueConverterFinder;
 
-    public StringTransmuterImpl(ValueConverterFinder valueConverterFinder) {
+    public DefaultStringTransmuter(ValueConverterFinder valueConverterFinder) {
         this.valueConverterFinder = valueConverterFinder;
     }
 

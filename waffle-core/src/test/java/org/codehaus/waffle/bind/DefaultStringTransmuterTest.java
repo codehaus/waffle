@@ -8,7 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JMock.class)
-public class StringTransmuterImplTest {
+public class DefaultStringTransmuterTest {
     private final Mockery mockery = new Mockery();
 
     @Test
@@ -24,7 +24,7 @@ public class StringTransmuterImplTest {
             }
         });
 
-        StringTransmuter stringTransmuter = new StringTransmuterImpl(valueConverterFinder);
+        StringTransmuter stringTransmuter = new DefaultStringTransmuter(valueConverterFinder);
         assertEquals(Float.valueOf(99.9f), stringTransmuter.transmute("foobar", Float.class));
     }
 
@@ -41,7 +41,7 @@ public class StringTransmuterImplTest {
             }
         });
 
-        StringTransmuter stringTransmuter = new StringTransmuterImpl(valueConverterFinder);
+        StringTransmuter stringTransmuter = new DefaultStringTransmuter(valueConverterFinder);
         assertEquals(Integer.valueOf(54), stringTransmuter.transmute("", Integer.class));
     }
     
@@ -58,7 +58,7 @@ public class StringTransmuterImplTest {
             }
         });
 
-        StringTransmuter stringTransmuter = new StringTransmuterImpl(valueConverterFinder);
+        StringTransmuter stringTransmuter = new DefaultStringTransmuter(valueConverterFinder);
         assertEquals(Float.valueOf(2.0f), stringTransmuter.transmute("", float.class));
     }
 }
