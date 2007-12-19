@@ -7,7 +7,7 @@ public class HttpSessionAttributeReferenceTest {
 
     @Test
     public void canConstructInstanceFromSessionMethod() {
-        Reference reference = HttpSessionAttributeReference.session("foo");
+        Reference reference = HttpSessionAttributeReference.sessionAttribute("foo");
         Assert.assertEquals("foo", reference.getKey());
     }
 }

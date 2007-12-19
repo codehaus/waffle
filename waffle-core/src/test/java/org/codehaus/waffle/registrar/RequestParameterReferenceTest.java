@@ -7,7 +7,7 @@ public class RequestParameterReferenceTest {
 
     @Test
     public void canConstructInstanceFromParameterMethod() {
-        Reference reference = RequestParameterReference.parameter("foo");
+        Reference reference = RequestParameterReference.requestParameter("foo");
         Assert.assertEquals("foo", reference.getKey());
     }
 }
