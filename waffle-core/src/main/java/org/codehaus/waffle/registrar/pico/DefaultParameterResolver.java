@@ -17,11 +17,17 @@ import org.codehaus.waffle.registrar.RequestAttributeReference;
 import org.codehaus.waffle.registrar.ServletContextAttributeReference;
 import org.codehaus.waffle.registrar.RequestParameterReference;
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.bind.StringTransmuter;
 import org.picocontainer.Parameter;
 import org.picocontainer.defaults.ComponentParameter;
 import org.picocontainer.defaults.ConstantParameter;
 
 public class DefaultParameterResolver implements ParameterResolver {
+    private final StringTransmuter stringTransmuter;
+
+    public DefaultParameterResolver(StringTransmuter stringTransmuter) {
+        this.stringTransmuter = stringTransmuter;
+    }
 
     public Parameter resolve(Object argument) {
         if (argument instanceof Reference) {
@@ -30,7 +36,7 @@ public class DefaultParameterResolver implements ParameterResolver {
             if (reference instanceof ComponentReference) {
                 return new ComponentParameter(reference.getKey());
             } else if(reference instanceof RequestParameterReference) {
-                return new RequestParameterParameter(reference.getKey().toString());
+                return new RequestParameterParameter(reference.getKey().toString(), stringTransmuter);
             } else if(reference instanceof RequestAttributeReference) {
                 return new RequestAttributeParameter(reference.getKey().toString());
             } else if(reference instanceof HttpSessionAttributeReference) {
