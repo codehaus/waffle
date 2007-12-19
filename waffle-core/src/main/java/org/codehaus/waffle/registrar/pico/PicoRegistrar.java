@@ -31,17 +31,17 @@ import org.picocontainer.defaults.SetterInjectionComponentAdapterFactory;
  */
 public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final MutablePicoContainer picoContainer;
-    private final PicoContainerParameterResolver picoContainerParameterResolver;
+    private final ParameterResolver parameterResolver;
     private final LifecycleStrategy lifecycleStrategy;
     private final RegistrarMonitor registrarMonitor;
     private Injection injection = Injection.CONSTRUCTOR;
 
     public PicoRegistrar(MutablePicoContainer picoContainer,
-                         PicoContainerParameterResolver picoContainerParameterResolver,
+                         ParameterResolver parameterResolver,
                          LifecycleStrategy lifecycleStrategy,
                          RegistrarMonitor registrarMonitor) {
         this.picoContainer = picoContainer;
-        this.picoContainerParameterResolver = picoContainerParameterResolver;
+        this.parameterResolver = parameterResolver;
         this.lifecycleStrategy = lifecycleStrategy;
         this.registrarMonitor = registrarMonitor;
     }
@@ -114,7 +114,7 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
 
         Parameter[] picoParameters = new Parameter[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
-            picoParameters[i] = picoContainerParameterResolver.resolve(parameters[i]);
+            picoParameters[i] = parameterResolver.resolve(parameters[i]);
         }
         return picoParameters;
     }

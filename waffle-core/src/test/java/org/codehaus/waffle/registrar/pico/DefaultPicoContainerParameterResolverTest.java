@@ -25,13 +25,13 @@ public class DefaultPicoContainerParameterResolverTest {
 
     @Test
     public void canResolveConstantParameters() {
-        PicoContainerParameterResolver parameterResolver = new DefaultPicoContainerParameterResolver();
+        ParameterResolver parameterResolver = new DefaultParameterResolver();
         Assert.assertTrue(parameterResolver.resolve("foobar") instanceof ConstantParameter);
     }
 
     @Test
     public void canResolveComponentParameters() {
-        PicoContainerParameterResolver parameterResolver = new DefaultPicoContainerParameterResolver();
+        ParameterResolver parameterResolver = new DefaultParameterResolver();
         Reference reference = new ComponentReference("foo");
 
         Assert.assertTrue(parameterResolver.resolve(reference) instanceof ComponentParameter);
@@ -39,7 +39,7 @@ public class DefaultPicoContainerParameterResolverTest {
 
     @Test
     public void canResolveRequestParameterParameter() {
-        PicoContainerParameterResolver parameterResolver = new DefaultPicoContainerParameterResolver();
+        ParameterResolver parameterResolver = new DefaultParameterResolver();
         Reference reference = new RequestParameterReference("foo");
 
         Assert.assertTrue(parameterResolver.resolve(reference) instanceof RequestParameterParameter);
@@ -47,7 +47,7 @@ public class DefaultPicoContainerParameterResolverTest {
     
     @Test
     public void canResolveRequestAttributeParameter() {
-        PicoContainerParameterResolver parameterResolver = new DefaultPicoContainerParameterResolver();
+        ParameterResolver parameterResolver = new DefaultParameterResolver();
         Reference reference = new RequestAttributeReference("foo");
 
         Assert.assertTrue(parameterResolver.resolve(reference) instanceof RequestAttributeParameter);
@@ -55,7 +55,7 @@ public class DefaultPicoContainerParameterResolverTest {
 
     @Test
     public void canResolveHttpSessionAttributeParameter() {
-        PicoContainerParameterResolver parameterResolver = new DefaultPicoContainerParameterResolver();
+        ParameterResolver parameterResolver = new DefaultParameterResolver();
         Reference reference = new HttpSessionAttributeReference("foo");
 
         Assert.assertTrue(parameterResolver.resolve(reference) instanceof HttpSessionAttributeParameter);
@@ -63,7 +63,7 @@ public class DefaultPicoContainerParameterResolverTest {
 
     @Test
     public void canResolveServletContextAttributeParameter() {
-        PicoContainerParameterResolver parameterResolver = new DefaultPicoContainerParameterResolver();
+        ParameterResolver parameterResolver = new DefaultParameterResolver();
         Reference reference = new ServletContextAttributeReference("foo");
 
         Assert.assertTrue(parameterResolver.resolve(reference) instanceof ServletContextAttributeParameter);

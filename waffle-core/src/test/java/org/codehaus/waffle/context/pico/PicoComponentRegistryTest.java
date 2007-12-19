@@ -1,7 +1,7 @@
 package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.ComponentRegistry;
-import org.codehaus.waffle.registrar.pico.PicoContainerParameterResolver;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ArgumentResolver;
@@ -50,7 +50,7 @@ import org.codehaus.waffle.testmodel.StubRequestAttributeBinder;
 import org.codehaus.waffle.testmodel.StubValidator;
 import org.codehaus.waffle.testmodel.StubViewDispatcher;
 import org.codehaus.waffle.testmodel.StubViewResolver;
-import org.codehaus.waffle.testmodel.StubPicoContainerParameterResolver;
+import org.codehaus.waffle.testmodel.StubParameterResolver;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
@@ -219,8 +219,8 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubMonitor.class.getName()));
                 one(servletContext).getInitParameter(ViewResolver.class.getName());
                 will(returnValue(StubViewResolver.class.getName()));
-                one(servletContext).getInitParameter(PicoContainerParameterResolver.class.getName());
-                will(returnValue(StubPicoContainerParameterResolver.class.getName()));
+                one(servletContext).getInitParameter(ParameterResolver.class.getName());
+                will(returnValue(StubParameterResolver.class.getName()));
             }
         });
         ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
