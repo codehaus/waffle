@@ -7,7 +7,7 @@ public class RequestAttributeReferenceTest {
 
     @Test
     public void canConstructInstanceFromRequestMethod() {
-        Reference reference = RequestAttributeReference.request("foo");
+        Reference reference = RequestAttributeReference.requestAttribute("foo");
         Assert.assertEquals("foo", reference.getKey());
     }
 }

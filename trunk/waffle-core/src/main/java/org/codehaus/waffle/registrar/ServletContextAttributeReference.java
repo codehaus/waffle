@@ -20,7 +20,7 @@ public class ServletContextAttributeReference extends AbstractReference {
      * This method can be statically imported into an Application's Registrar allowing
      * for a more fluent interface to define components and their dependencies
      */
-    public static ServletContextAttributeReference servletContext(String key) {
+    public static ServletContextAttributeReference servletContextAttribute(String key) {
         return new ServletContextAttributeReference(key);
     }
 }
