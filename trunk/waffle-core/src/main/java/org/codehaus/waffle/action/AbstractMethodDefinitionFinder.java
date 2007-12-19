@@ -10,6 +10,18 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.i18n.MessagesContext;
+import org.codehaus.waffle.monitor.ActionMonitor;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.text.MessageFormat;
@@ -19,19 +31,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
-import org.codehaus.waffle.i18n.MessagesContext;
-import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
  * Abstract base implementation for all method definition finders
@@ -110,10 +109,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
     private boolean isDefaultActionMethod(Method method) {
         ActionMethod actionMethod = method.getAnnotation(ActionMethod.class);
-        if ( actionMethod != null ){
-            return actionMethod.asDefault();
-        }
-        return false;
+        return actionMethod != null && actionMethod.asDefault();
     }
 
     private MethodDefinition findPragmaticActionMethod(Object controller,
