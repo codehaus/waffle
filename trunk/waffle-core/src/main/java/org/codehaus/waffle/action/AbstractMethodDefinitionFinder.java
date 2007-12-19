@@ -12,7 +12,7 @@ package org.codehaus.waffle.action;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.i18n.MessagesContext;
@@ -48,18 +48,18 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private final Map<Class<?>, Method> defaultMethodCache = new HashMap<Class<?>, Method>();
     private final ServletContext servletContext;
     private final ArgumentResolver argumentResolver;
-    private final ValueConverterFinder valueConverterFinder;
+    private final StringTransmuter stringTransmuter;
     private final MethodNameResolver methodNameResolver;
     private final ActionMonitor actionMonitor;
 
     public AbstractMethodDefinitionFinder(ServletContext servletContext,
                                           ArgumentResolver argumentResolver,
                                           MethodNameResolver methodNameResolver,
-                                          ValueConverterFinder valueConverterFinder,
+                                          StringTransmuter stringTransmuter,
                                           ActionMonitor actionMonitor) {
         this.servletContext = servletContext;
         this.argumentResolver = argumentResolver;
-        this.valueConverterFinder = valueConverterFinder;
+        this.stringTransmuter = stringTransmuter;
         this.methodNameResolver = methodNameResolver;
         this.actionMonitor = actionMonitor;
     }
@@ -260,7 +260,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                         try {
                             // Can the String be converted to the parameter type? If so convert it...
                             String value = (String) methodArguments.get(i);
-                            methodArguments.set(i, convertValue(value, methodParameterType));
+                            methodArguments.set(i, stringTransmuter.transmute(value, methodParameterType));
                         } catch (Exception e) {
                             return false; // Can't convert String value
                         }
@@ -272,17 +272,6 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
 
         return true;
-    }
-
-    private <T> T convertValue(String value, Class<T> type) {
-        if (isEmpty(value) && type.isPrimitive()) {
-            value = null; // this allows Ognl to use that primitives default value
-        }
-        return valueConverterFinder.findConverter(type).convertValue(null, value, type);
-    }
-
-    private boolean isEmpty(String value) {
-        return value == null || value.length() == 0;
     }
 
     // Protected methods, accessible by  subclasses

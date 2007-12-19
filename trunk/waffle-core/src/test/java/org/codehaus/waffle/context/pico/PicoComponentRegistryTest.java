@@ -1,7 +1,6 @@
 package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.ComponentRegistry;
-import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.ArgumentResolver;
@@ -13,7 +12,9 @@ import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.bind.StringTransmuterImpl;
 import org.codehaus.waffle.bind.ognl.OgnlBindErrorMessageResolver;
 import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
@@ -34,6 +35,7 @@ import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.ValidationMonitor;
 import org.codehaus.waffle.monitor.ViewMonitor;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
 import org.codehaus.waffle.testmodel.StubActionMethodResponseHandler;
 import org.codehaus.waffle.testmodel.StubArgumentResolver;
@@ -46,11 +48,12 @@ import org.codehaus.waffle.testmodel.StubMessageResources;
 import org.codehaus.waffle.testmodel.StubMethodDefinitionFinder;
 import org.codehaus.waffle.testmodel.StubMethodNameResolver;
 import org.codehaus.waffle.testmodel.StubMonitor;
+import org.codehaus.waffle.testmodel.StubParameterResolver;
 import org.codehaus.waffle.testmodel.StubRequestAttributeBinder;
+import org.codehaus.waffle.testmodel.StubStringTransmuter;
 import org.codehaus.waffle.testmodel.StubValidator;
 import org.codehaus.waffle.testmodel.StubViewDispatcher;
 import org.codehaus.waffle.testmodel.StubViewResolver;
-import org.codehaus.waffle.testmodel.StubParameterResolver;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
@@ -131,7 +134,7 @@ public class PicoComponentRegistryTest {
             {
                 one(servletContext).getInitParameterNames();
                 will(returnValue(EMPTY_ENUMERATION));
-                exactly(25).of(servletContext).getInitParameter(with(any(String.class)));
+                exactly(26).of(servletContext).getInitParameter(with(any(String.class)));
             }
         });
 
@@ -152,6 +155,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
         assertTrue(componentRegistry.getRegistrarMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getServletMonitor() instanceof AbstractWritingMonitor);
+        assertTrue(componentRegistry.getStringTransmuter() instanceof StringTransmuterImpl);
         assertTrue(componentRegistry.getValueConverterFinder() instanceof OgnlValueConverterFinder);
         assertTrue(componentRegistry.getValidator() instanceof DefaultValidator);
         assertTrue(componentRegistry.getValidationMonitor() instanceof AbstractWritingMonitor);
@@ -206,6 +210,8 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubRequestAttributeBinder.class.getName()));
                 one(servletContext).getInitParameter(ServletMonitor.class.getName());
                 will(returnValue(StubMonitor.class.getName()));
+                one(servletContext).getInitParameter(StringTransmuter.class.getName());
+                will(returnValue(StubStringTransmuter.class.getName()));
                 one(servletContext).getInitParameter(ValueConverterFinder.class.getName());
                 will(returnValue(OgnlValueConverterFinder.class.getName()));
 //TODO fails for some reason

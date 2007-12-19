@@ -1,33 +1,28 @@
 package org.codehaus.waffle.action;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import ognl.TypeConverter;
-
 import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.bind.ognl.OgnlValueConverter;
-import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
+import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 
@@ -58,9 +53,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new OgnlValueConverterFinder(), monitor);
+                stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethodNoValue.class.getMethod("foobar");
@@ -93,9 +91,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         ControllerWithDefaultActionMethod controller = new ControllerWithDefaultActionMethod();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethod.class.getMethod("foobar", String.class);
@@ -120,9 +121,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new OgnlValueConverterFinder(), monitor);
+                stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         assertNotSame(methodDefinition, methodDefinitionFinder.find(controller, request, response));
@@ -145,9 +149,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new OgnlValueConverterFinder(), monitor);
+                stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("noArgumentMethod");
@@ -180,9 +187,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
@@ -206,12 +216,15 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         // Mock ArgumentResolver
         final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
 
         MethodDefinition definition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
@@ -246,9 +259,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
@@ -283,9 +299,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
 
         methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
@@ -307,9 +326,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new OgnlValueConverterFinder(), monitor);
+                stringTransmuter, monitor);
 
         methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
@@ -340,10 +362,19 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("45", int.class);
+                will(returnValue(45));
+            }
+        });
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
@@ -374,10 +405,19 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("45", int.class);
+                will(returnValue(45));
+            }
+        });
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
@@ -408,10 +448,19 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("99.99", Float.class);
+                will(returnValue(99.99f));
+            }
+        });
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertEquals(99.99f, methodDefinition.getMethodArguments().get(0));
@@ -443,10 +492,19 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("true", boolean.class);
+                will(returnValue(true));
+            }
+        });
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertTrue((Boolean) methodDefinition.getMethodArguments().get(0));
@@ -469,9 +527,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new OgnlValueConverterFinder(), monitor);
+                stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequest",
@@ -497,9 +558,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new OgnlValueConverterFinder(), monitor);
+                stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnResponse",
@@ -534,10 +598,19 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("99", int.class);
+                will(returnValue(99));
+            }
+        });
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(), monitor);
+                methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequestAndInteger",
@@ -572,9 +645,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                new OgnlValueConverterFinder(), monitor);
+                stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnSession", HttpSession.class);
@@ -602,9 +678,12 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(servletContext, null, methodNameResolver,
-                new OgnlValueConverterFinder(), monitor);
+                stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnServletContext",
@@ -640,18 +719,18 @@ public class ParanamerMethodDefinitionFinderTest {
             }
         });
 
-        // Mock TypeConverter
-        final TypeConverter typeConverter = mockery.mock(TypeConverter.class);
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
         mockery.checking(new Expectations() {
             {
-                one(typeConverter).convertValue(null, null, null, null, "blah", List.class);
+                one(stringTransmuter).transmute("blah", List.class);
                 will(returnValue(Collections.EMPTY_LIST));
             }
         });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
         MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, new OgnlValueConverterFinder(new OgnlValueConverter(typeConverter)), monitor);
+                methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("actionMethodNeedsCustomConverter", List.class);

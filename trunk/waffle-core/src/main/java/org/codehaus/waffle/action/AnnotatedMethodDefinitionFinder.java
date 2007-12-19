@@ -10,17 +10,16 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
+import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.bind.StringTransmuter;
+import org.codehaus.waffle.monitor.ActionMonitor;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-
-import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
  * Annotation-based method definition finder.
@@ -35,9 +34,9 @@ public class AnnotatedMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
     public AnnotatedMethodDefinitionFinder(ServletContext servletContext,
                                            ArgumentResolver argumentResolver,
                                            MethodNameResolver methodNameResolver,
-                                           ValueConverterFinder valueConverterFinder, 
+                                           StringTransmuter stringTransmuter,
                                            ActionMonitor actionMonitor) {
-        super(servletContext, argumentResolver, methodNameResolver, valueConverterFinder, actionMonitor);
+        super(servletContext, argumentResolver, methodNameResolver, stringTransmuter, actionMonitor);
     }
 
     protected List<Object> getArguments(Method method, HttpServletRequest request) {

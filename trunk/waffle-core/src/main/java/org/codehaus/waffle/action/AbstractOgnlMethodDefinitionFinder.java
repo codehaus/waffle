@@ -11,14 +11,12 @@
 package org.codehaus.waffle.action;
 
 import static ognl.OgnlRuntime.getMethods;
-
-import java.lang.reflect.Method;
-import java.util.List;
+import org.codehaus.waffle.bind.StringTransmuter;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 import javax.servlet.ServletContext;
-
-import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.monitor.ActionMonitor;
+import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * Abstract method definition finder that uses Ognl to find methods
@@ -30,9 +28,9 @@ public abstract class AbstractOgnlMethodDefinitionFinder extends AbstractMethodD
     public AbstractOgnlMethodDefinitionFinder(ServletContext servletContext,
                                            ArgumentResolver argumentResolver,
                                            MethodNameResolver methodNameResolver,
-                                           ValueConverterFinder valueConverterFinder, 
+                                           StringTransmuter stringTransmuter,
                                            ActionMonitor actionMonitor) {
-        super(servletContext, argumentResolver, methodNameResolver, valueConverterFinder, actionMonitor);
+        super(servletContext, argumentResolver, methodNameResolver, stringTransmuter, actionMonitor);
     }
 
     @SuppressWarnings({"unchecked"})

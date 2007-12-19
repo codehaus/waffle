@@ -10,21 +10,19 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import com.thoughtworks.paranamer.CachingParanamer;
+import com.thoughtworks.paranamer.ParameterNamesNotFoundException;
+import com.thoughtworks.paranamer.Paranamer;
+import org.codehaus.waffle.bind.StringTransmuter;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.monitor.ActionMonitor;
-
-import com.thoughtworks.paranamer.CachingParanamer;
-import com.thoughtworks.paranamer.ParameterNamesNotFoundException;
-import com.thoughtworks.paranamer.Paranamer;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Pananamer-based method definition finder, which can be used in alternative to
@@ -41,9 +39,9 @@ public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
     public ParanamerMethodDefinitionFinder(ServletContext servletContext,
                                            ArgumentResolver argumentResolver,
                                            MethodNameResolver methodNameResolver,
-                                           ValueConverterFinder valueConverterFinder, 
+                                           StringTransmuter stringTransmuter, 
                                            ActionMonitor actionMonitor) {
-        super(servletContext, argumentResolver, methodNameResolver, valueConverterFinder, actionMonitor);
+        super(servletContext, argumentResolver, methodNameResolver, stringTransmuter, actionMonitor);
     }
 
     protected List<Object> getArguments(Method method, HttpServletRequest request) {
