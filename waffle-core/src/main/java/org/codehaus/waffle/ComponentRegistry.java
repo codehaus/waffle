@@ -19,6 +19,7 @@ import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
@@ -82,6 +83,8 @@ public interface ComponentRegistry {
     RequestAttributeBinder getRequestAttributeBinder();
 
     ServletMonitor getServletMonitor();
+
+    StringTransmuter getStringTransmuter();
 
     ValueConverterFinder getValueConverterFinder();
 

@@ -12,8 +12,9 @@ package org.codehaus.waffle.bind;
 
 /**
  * This interface is used to simplify converting (transmuting) a String value into a given type.
+ * Should automatically determine the correct ValueConverter to use.
  */
 public interface StringTransmuter {
 
-    
+    <T> T transmute(String value, Class<T> toType);
 }
