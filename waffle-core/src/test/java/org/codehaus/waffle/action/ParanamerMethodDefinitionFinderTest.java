@@ -37,6 +37,7 @@ public class ParanamerMethodDefinitionFinderTest {
 
     private ActionMonitor monitor = new SilentMonitor();
 
+    @Test
     public void testDefaultMethodReturned() throws NoSuchMethodException {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -114,12 +115,10 @@ public class ParanamerMethodDefinitionFinderTest {
 
         // Mock MethodNameResolver
         final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
-        mockery.checking(new Expectations() {
-            {
-                exactly(2).of(methodNameResolver).resolve(with(same(request)));
-                will(returnValue(null));
-            }
-        });
+        mockery.checking(new Expectations() {{
+            exactly(2).of(methodNameResolver).resolve(with(same(request)));
+            will(returnValue(null));
+        }});
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
