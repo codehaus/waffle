@@ -118,19 +118,6 @@
         <groupId>org.jmock</groupId>
         <artifactId>jmock-junit4</artifactId>
         <version>2.4.0</version>
-        <exclusions>
-          <exclusion>
-            <groupId>junit</groupId>
-            <artifactId>junit-dep</artifactId>
-          </exclusion>
-        </exclusions>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <!-- junit:junit is required by surefire until 2.3.1 or 2.4 is released and it can be configured to use junit:junit-dep -->
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.4</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -140,10 +127,6 @@
     <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock-junit4</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
 
@@ -174,8 +157,9 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.3</version>
+          <version>2.3.1</version>
           <configuration>
+            <junitArtifactName>junit:junit-dep</junitArtifactName>
             <includes>
               <include>**/*Test.java</include>
             </includes>
