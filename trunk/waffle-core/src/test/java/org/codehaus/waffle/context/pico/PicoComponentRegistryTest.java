@@ -14,7 +14,7 @@ import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.bind.StringTransmuterImpl;
+import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.ognl.OgnlBindErrorMessageResolver;
 import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
@@ -155,7 +155,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getMessageResources() instanceof DefaultMessageResources);
         assertTrue(componentRegistry.getRegistrarMonitor() instanceof AbstractWritingMonitor);
         assertTrue(componentRegistry.getServletMonitor() instanceof AbstractWritingMonitor);
-        assertTrue(componentRegistry.getStringTransmuter() instanceof StringTransmuterImpl);
+        assertTrue(componentRegistry.getStringTransmuter() instanceof DefaultStringTransmuter);
         assertTrue(componentRegistry.getValueConverterFinder() instanceof OgnlValueConverterFinder);
         assertTrue(componentRegistry.getValidator() instanceof DefaultValidator);
         assertTrue(componentRegistry.getValidationMonitor() instanceof AbstractWritingMonitor);
