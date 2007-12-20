@@ -15,9 +15,9 @@ import org.picocontainer.PicoContainer;
 
 import javax.servlet.http.HttpSession;
 
-class HttpSessionAttributeParameter extends AbstractWaffleParameter {
+class SessionAttributeParameter extends AbstractWaffleParameter {
 
-    protected HttpSessionAttributeParameter(String key) {
+    protected SessionAttributeParameter(String key) {
         super(key);
     }
 

@@ -10,9 +10,9 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar;
 
-public class HttpSessionAttributeReference extends AbstractReference {
+public class SessionAttributeReference extends AbstractReference {
     
-    public HttpSessionAttributeReference(Object key) {
+    public SessionAttributeReference(Object key) {
         super(key);
     }
 
@@ -20,7 +20,7 @@ public class HttpSessionAttributeReference extends AbstractReference {
      * This method can be statically imported into an Application's Registrar allowing
      * for a more fluent interface to define components and their dependencies
      */
-    public static HttpSessionAttributeReference sessionAttribute(Object key) {
-        return new HttpSessionAttributeReference(key);
+    public static SessionAttributeReference sessionAttribute(Object key) {
+        return new SessionAttributeReference(key);
     }
 }
