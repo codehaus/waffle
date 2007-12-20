@@ -35,7 +35,7 @@
             <th>Email</th>
             <th>Date of Birth</th>
         </tr>
-        <c:forEach var="person" items="${persons}" varStatus="status">
+        <c:forEach var="person" items="${people}" varStatus="status">
             <tr class="${status.index % 2 eq 0 ? 'even' : 'odd'}">
                 <td>
                     <a href="person.waffle?method=select|${person.id}">${person.id}</a>

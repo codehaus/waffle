@@ -31,11 +31,11 @@ public class SimpleRegistrar extends AbstractRegistrar {
         //register("automobileValidator", AutomobileControllerValidator.class);
         register("person", PersonController.class);
     }
-    
+
     @Override
     public void request() {
-        register("fileItemFactory", DiskFileItemFactory.class);
-        register("uploader", RequestFileUploader.class);
-        register("upload", UploadController.class);
-    }    
+        register("fileItemFactory", DiskFileItemFactory.class)
+                .register("uploader", RequestFileUploader.class)
+                .register("upload", UploadController.class);
+    }
 }

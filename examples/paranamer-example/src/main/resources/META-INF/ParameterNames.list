@@ -21,7 +21,7 @@ org.codehaus.waffle.example.paranamer.action.CalculatorController multiply float
 org.codehaus.waffle.example.paranamer.action.CalculatorController subtract long,long firstNumber,secondNumber 
 org.codehaus.waffle.example.paranamer.action.HelloWorldController getGreeting 
 org.codehaus.waffle.example.paranamer.action.PersonController PersonController org.codehaus.waffle.example.paranamer.dao.PersonDAO personDAO 
-org.codehaus.waffle.example.paranamer.action.PersonController getPersons 
+org.codehaus.waffle.example.paranamer.action.PersonController getPeople 
 org.codehaus.waffle.example.paranamer.action.PersonController getPerson 
 org.codehaus.waffle.example.paranamer.action.PersonController cancel 
 org.codehaus.waffle.example.paranamer.action.PersonController create 

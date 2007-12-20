@@ -13,7 +13,7 @@ public class PersonController {
         this.personDAO = personDAO;
     }
 
-    public Collection<Person> getPersons() {
+    public Collection<Person> getPeople() {
         return personDAO.findAll();
     }
 
