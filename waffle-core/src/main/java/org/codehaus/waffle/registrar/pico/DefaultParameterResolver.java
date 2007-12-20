@@ -12,7 +12,7 @@ package org.codehaus.waffle.registrar.pico;
 
 import org.codehaus.waffle.registrar.Reference;
 import org.codehaus.waffle.registrar.ComponentReference;
-import org.codehaus.waffle.registrar.HttpSessionAttributeReference;
+import org.codehaus.waffle.registrar.SessionAttributeReference;
 import org.codehaus.waffle.registrar.RequestAttributeReference;
 import org.codehaus.waffle.registrar.ServletContextAttributeReference;
 import org.codehaus.waffle.registrar.RequestParameterReference;
@@ -39,8 +39,8 @@ public class DefaultParameterResolver implements ParameterResolver {
                 return new RequestParameterParameter(reference.getKey().toString(), stringTransmuter);
             } else if(reference instanceof RequestAttributeReference) {
                 return new RequestAttributeParameter(reference.getKey().toString());
-            } else if(reference instanceof HttpSessionAttributeReference) {
-                return new HttpSessionAttributeParameter(reference.getKey().toString());
+            } else if(reference instanceof SessionAttributeReference) {
+                return new SessionAttributeParameter(reference.getKey().toString());
             } else if(reference instanceof ServletContextAttributeReference) {
                 return new ServletContextAttributeParameter(reference.getKey().toString());
             }

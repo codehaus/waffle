@@ -12,7 +12,7 @@ package org.codehaus.waffle.registrar.pico;
 
 import org.codehaus.waffle.registrar.Reference;
 import org.codehaus.waffle.registrar.ComponentReference;
-import org.codehaus.waffle.registrar.HttpSessionAttributeReference;
+import org.codehaus.waffle.registrar.SessionAttributeReference;
 import org.codehaus.waffle.registrar.RequestAttributeReference;
 import org.codehaus.waffle.registrar.RequestParameterReference;
 import org.codehaus.waffle.registrar.ServletContextAttributeReference;
@@ -54,11 +54,11 @@ public class DefaultPicoContainerParameterResolverTest {
     }
 
     @Test
-    public void canResolveHttpSessionAttributeParameter() {
+    public void canResolveSessionAttributeParameter() {
         ParameterResolver parameterResolver = new DefaultParameterResolver(null);
-        Reference reference = new HttpSessionAttributeReference("foo");
+        Reference reference = new SessionAttributeReference("foo");
 
-        Assert.assertTrue(parameterResolver.resolve(reference) instanceof HttpSessionAttributeParameter);
+        Assert.assertTrue(parameterResolver.resolve(reference) instanceof SessionAttributeParameter);
     }
 
     @Test
