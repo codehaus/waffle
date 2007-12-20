@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-  <title>Persons rhtml listing</title>
+  <title>People rhtml listing</title>
   <style type="text/css" title="currentStyle" media="screen">
     @import "stylesheets/style.css";
   </style>
@@ -24,7 +24,7 @@
       <th>Email</th>
       <th>Date of Birth</th>
     </tr>
-    <% @persons.each_with_index do |person, index| %>
+    <% @people.each_with_index do |person, index| %>
       <tr class="<%= index % 2 == 0 ? 'even' : 'odd' %>">
         <td>
           <%= %{<a href="person.waffle?method=select|#{person.get_id}">#{person.get_id}</a>} %>
