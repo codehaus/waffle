@@ -10,11 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.mock;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.MessageResources;
@@ -23,6 +18,11 @@ import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarAssistant;
 import org.jmock.Mockery;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Abstract jMock 2.x Mockery for asserting Registrars are defined correctly.
@@ -89,7 +89,6 @@ public abstract class AbstractRegistrarMockery extends Mockery {
     }
 
     public void assertRequestContext(Class<?> customRegistrarClass) {
-
         ContextContainer container = createContextContainer();
         container.registerComponentInstance(servletContext);
         container.registerComponentInstance(httpSession);

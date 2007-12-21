@@ -142,7 +142,7 @@ public class WaffleServletTest {
         mockery.checking(new Expectations() {{
             one(request).getParameterNames();
             will(returnValue(enumeration));
-            one(request).getMethod(); // todo need to test post
+            one(request).getMethod();
             will(returnValue("get"));
         }});
 
