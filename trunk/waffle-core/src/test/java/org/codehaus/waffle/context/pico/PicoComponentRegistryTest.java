@@ -214,9 +214,6 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubStringTransmuter.class.getName()));
                 one(servletContext).getInitParameter(ValueConverterFinder.class.getName());
                 will(returnValue(OgnlValueConverterFinder.class.getName()));
-//TODO fails for some reason
-//                one(servletContext).getInitParameter(Validator.class.getName());
-//                will(returnValue(StubValidator.class.getName()));
                 one(servletContext).getInitParameter(ValidationMonitor.class.getName());
                 will(returnValue(StubMonitor.class.getName()));
                 one(servletContext).getInitParameter(ViewDispatcher.class.getName());
