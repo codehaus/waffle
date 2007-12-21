@@ -36,6 +36,7 @@ public class OgnlValueConverter implements ValueConverter {
         return true;
     }
 
+    @SuppressWarnings({"unchecked"})
     public <T> T convertValue(String propertyName, String value, Class<T> toType) {
         return (T) converter.convertValue(null, null, null, propertyName, value, toType);
     }

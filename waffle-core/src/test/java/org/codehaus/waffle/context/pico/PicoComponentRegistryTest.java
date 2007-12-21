@@ -11,10 +11,10 @@ import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
+import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.ognl.OgnlBindErrorMessageResolver;
 import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
@@ -255,9 +255,9 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getViewResolver() instanceof StubViewResolver);
     }
 
-    // TODO mward this needs to be revived
-    public void testRegisterAdditionalComponents() {
-        List<String> names = new ArrayList<String>();
+    @Test
+    public void canRegisterAdditionalComponents() {
+        final List<String> names = new ArrayList<String>();
         names.add("register:NameCanBeAnything");
         
         // Mock ServletContext
@@ -265,8 +265,8 @@ public class PicoComponentRegistryTest {
         mockery.checking(new Expectations() {
             {
                 one(servletContext).getInitParameterNames();
-                will(returnValue(EMPTY_ENUMERATION));
-                exactly(17).of(servletContext).getInitParameter(with(any(String.class)));
+                will(returnValue(Collections.enumeration(names)));
+                exactly(26).of(servletContext).getInitParameter(with(any(String.class)));
                 one(servletContext).getInitParameter("register:NameCanBeAnything");
                 will(returnValue("java.util.ArrayList"));
             }
@@ -279,8 +279,9 @@ public class PicoComponentRegistryTest {
         assertSame(list, componentRegistry.locateByKey("NameCanBeAnything"));
     }
 
-    public void testRegisterNonCachingCustomComponent() throws Exception {
-        List<String> names = new ArrayList<String>();
+    @Test
+    public void canRegisterNonCachingCustomComponent() throws Exception {
+        final List<String> names = new ArrayList<String>();
         names.add("registerNonCaching:FooBar");
 
         // Mock ServletContext
@@ -288,8 +289,8 @@ public class PicoComponentRegistryTest {
         mockery.checking(new Expectations() {
             {
                 one(servletContext).getInitParameterNames();
-                will(returnValue(EMPTY_ENUMERATION));
-                exactly(17).of(servletContext).getInitParameter(with(any(String.class)));
+                will(returnValue(Collections.enumeration(names)));
+                exactly(26).of(servletContext).getInitParameter(with(any(String.class)));
                 one(servletContext).getInitParameter("registerNonCaching:FooBar");
                 will(returnValue("java.util.ArrayList"));
             }
