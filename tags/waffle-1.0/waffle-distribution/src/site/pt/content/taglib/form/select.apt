@@ -1,0 +1,77 @@
+Exemplo simples
+
++------------
+<s:select var="conta" name="conta.id" items="${contas}" value="id">
+	${conta.nome}
+</f:select>
++------------
+
+	Gera uma combo box:
+	
++------------
+<select name="conta.id">
+	<option value="1">Conta Corrente</option>
+	<option value="2">Conta Poupança</option>
+	<option value="3">Conta Investimento</option>
+</select>
++------------
+	
+Exemplo com linha vazia
+
++------------
+<s:select var="conta" name="conta.id" items="${contas}" value="id" addEmpty="true">
+	${conta.nome}
+</f:select>
++------------
+
+	Gera:
+	
++------------
+<select name="conta.id">
+	<option value=""></option>
+	<option value="1">Conta Corrente</option>
+	<option value="2">Conta Poupança</option>
+	<option value="3">Conta Investimento</option>
+</select>
++------------
+
+Exemplo com seleção padrão
+
++------------
+<s:select var="conta" name="conta.id" items="${contas}" value="id" selected="${2}">
+	${conta.nome}
+</f:select>
++------------
+
+	Gera:
+	
++------------
+<select name="conta.id">
+	<option value="1">Conta Corrente</option>
+	<option value="2" selected>Conta Poupança</option>
+	<option value="3">Conta Investimento</option>
+</select>
++------------
+
+
+Radio Buttons
+
+	Para gerar radio buttons invês de combo box usa-se o atributo <type="radio">. Por exemplo
+	
++------------
+<s:select type="radio" var="conta" name="conta.id" items="${contas}" value="id" selected="${2}">
+	${conta.nome}
+</f:select>
++------------
+
+	Gera:
+
++------------
+<input type="radio" value="1" name="conta.id"/>Conta Corrente<br/>
+<input type="radio" value="2" name="conta.id" checked="checked"/>Conta Poupança<br/>
+<input type="radio" value="3" name="conta.id"/>Conta Investimento<br/>
++------------
+
+
+
+	

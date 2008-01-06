@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Post/Redirect/Get</title>
+  </head>
+  <body>
+
+  <h2>Post/Redirect/Get Pattern</h2>
+
+  <p>
+    Waffle adopts by default the <a href="http://en.wikipedia.org/wiki/Post/Redirect/Get">PRG pattern</a>. 
+    Any POST request from an action method that has a void return type or returns a null value will  
+    do a redirect as GET back to the posted page.  The PRG paradigm as the advantage of allowing 
+    back button and refresh support for free.
+  </p>
+  <p>
+    The PRG pattern can become problematic for request-scoped controllers that need to display the content
+    of the operation in the referring view.  For this reason, the PRG behavior can be disabled via the 
+    @PRG annotation on the action method:
+  
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class RequestScopedController {
+
+      @ActionMethod(asDefault=true)
+      @PRG(false) // PRG needs to be disabled to allow request-scope content to be accessible in referring view
+      public void calculateSomething(){ 
+        // calculate something that we'd want to display in referring view
+      }
+    }
+  </textarea>
+    
+  </body>
+</html>

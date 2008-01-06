@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.waffle</groupId>
+    <artifactId>waffle-examples</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>waffle-migration-example</artifactId>
+  <packaging>war</packaging>
+  <name>Waffle Migration Example</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts-taglib</artifactId>
+      <version>1.3.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts-tiles</artifactId>
+      <version>1.3.5</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <webXml>${basedir}/src/main/webapp/WEB-INF/${framework}-web.xml</webXml>
+          <warName>${pom.artifactId}</warName>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- Change framework to 'struts' or 'waffle' -->
+  <properties>
+    <framework>waffle</framework>
+  </properties>
+</project>

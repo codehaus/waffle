@@ -1,0 +1,16 @@
+Botões
+
+	Para criar um botão em seu formulário você pode utilizar a tag <w:button>. Essa tag recebe um atributo
+	chamado value, que será o valor do botão, internacionalizado.
+	
+Exemplo
+	
++--------------------
+<w:button value="execute" onClick="alert('Selecionado');"/>
++--------------------
+
+	No exemplo acima, você deve cadastrar a mensagem <executar> no seu arquivo de internacionalização.
+
++--------------------
+execute = Executar
++--------------------

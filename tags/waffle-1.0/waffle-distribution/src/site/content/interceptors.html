@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+  <head>
+    <title>Method Interceptors</title>
+  </head>
+
+  <body>
+
+
+    <h2>MethodInterceptor</h2>
+
+    <p>
+      A <b>MethodInterceptor</b> is a simple interface that allows you to intercept ActionMethods before and after they
+      have been invoked. This before and after interception provides AOP type of functionality.
+    </p>
+
+    <p>
+      Let's look at a simple example to obtain a clear idea of how this can be leveraged. Notice that in this example
+      the <b>boolean accept(Method)</b> will only intercept calls to <i>AutomobileController.accelerate(String)</i>
+      method. The <b>intercept</b> method below is a trivial example that ensures that the value to be invoke on the
+      event is less than <i>50</i>, if not that value is replaced with the value <i>0</i>. Finally, the call to
+      <b>chain.proceed()</b> allows for propogation to the next MethodInterceptor, or to actually invoking the
+      <i>ActionMethod</i>. Of course if you did not want the ActionMethod to be invoke you would NOT call the
+      <i>proceed</i> method (you could return different value or throw an Exception).
+    </p>
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+      public class MyMethodInterceptor implements MethodInterceptor {
+        private final Method accelerateMethod;
+
+        public MyMethodInterceptor() {
+          try {
+            accelerateMethod = AutomobileController.class.getMethod(&quot;accelerate&quot;, Integer.class);
+          } catch(Exception e) {
+              throw new RuntimeException(e);
+          }
+        }
+
+        public boolean accept(Method eventMethod) {
+          return accelerateMethod.equals(eventMethod);
+        }
+
+        public Object intercept(ControllerDefinition controllerDefinition,
+                                Method method,
+                                InterceptorChain chain,
+                                Object ... arguments)
+                                throws IllegalAccessException, InvocationTargetException {
+
+          Integer value = (Integer)arguments[0];
+
+          if(value &gt; 50) {
+            arguments[0] == &quot;0&quot;; // change input to '0'
+          }
+
+          return chain.proceed(controllerDefinition, method, arguments);
+        }
+      }
+    </textarea>
+
+
+    <p>
+      <i>MethodInterceptor</i> are registered with Waffle through the Registrar. So like other components in Waffle
+      MethodInterceptors can take advantage of Dependency Injection.
+    </p>
+
+    <h3>Sortable</h3>
+
+    <p>
+      You can ensure that your MethodInterceptors are called in a particular order by having them implement the
+      <i><a href="javadoc/core/org/codehaus/waffle/intercept/Sortable.html">
+        org.codehaus.waffle.intercept.Sortable</a></i> interface. Non-Sortable MethodInterceptors will be placed at
+      the end of the InterceptorChain.
+    </p>
+  </body>
+
+</html>
