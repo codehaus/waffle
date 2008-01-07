@@ -1,0 +1,34 @@
+Waffle blank project
+
+CREATING YOUR PROJECT USING ECLIPSE
+
+1. Unzip the blank project file
+
+2. Copy the entire folder to your workspace with a custom name, i.e.
+   'myproject'
+
+3. Enter eclipse
+
+4. Create a new java project with exactly the same name that you have created
+   your folder: 'myproject'
+
+	Eclipse will detect all settings which have already been generated for
+	you and your project is ready to be used.
+
+DEFAULT INDEX.JSP
+
+	There is already a default index.jsp file which shows how to use the jstl
+	fmt	tag library for internationalization.
+
+SOURCE FILES
+
+Add your source files to src/main/java.
+
+RESOURCE FILES
+
+All your configuration files should be placed under src/main/resources.
+
+HTML AND JSP FILES
+
+	All your html, images and jsp files - all files that should be available for
+	the end user - should be placed on the web folder.

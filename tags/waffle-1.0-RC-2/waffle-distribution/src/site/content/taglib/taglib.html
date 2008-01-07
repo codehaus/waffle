@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Waffle Taglib</title>
+</head>
+<body>
+
+
+<h2>Introduction</h2>
+<p>Waffle taglib is a sample library which aimed at making it easier
+to create custom forms using the JSP technology. The most important step
+it to declare the taglib itself in your jsp file:</p>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;%@ taglib uri=&quot;http://waffle.codehaus.org&quot; prefix=&quot;w&quot; %&gt;
+</textarea>
+
+<h2>Basic usage</h2>
+<p>The following example shows how to create a form inside a table,
+containing many different fields:</p>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:form action=&quot;/supplier.save.logic&quot; type=&quot;table&quot; id=&quot;sendForm&quot;&gt;
+        &lt;w:hidden name=&quot;supplier.id&quot;/&gt;
+        &lt;w:text name=&quot;supplier.code&quot;/&gt;
+        &lt;w:text name=&quot;supplier.name&quot;/&gt;
+        &lt;w:text name=&quot;supplier.phone&quot;/&gt;
+        &lt;w:textarea name=&quot;supplier.details&quot; cols=&quot;60&quot; rows=&quot;7&quot;&gt;${supplier.details}&lt;/w:textarea&gt;
+        &lt;w:submit value=&quot;send&quot;/&gt;
+  &lt;/w:form&gt;
+</textarea>
+
+<p>Due to internationalization issues, you should add the following
+items to your messages.properties file: <i>supplier.name</i>, <i>supplier.code</i>,
+<i>supplier.phone</i>, <i>supplier.details</i> and <i>send</i>.</p>
+<textarea class="java:nogutter:nocontrols" name="code">
+  supplier.name = Name
+  supplier.code = Code
+  supplier.phone = Phone
+  supplier.details = Details
+  send = send
+</textarea>
+<h2>Login form example</h2>
+<p>The following example shows a sample login form:</p>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:form action=&quot;/login.execute.logic&quot; type=&quot;table&quot; id=&quot;login&quot;&gt;
+        &lt;w:text name=&quot;username&quot;/&gt;
+        &lt;w:password name=&quot;password&quot;/&gt;
+        &lt;w:submit value=&quot;login&quot;/&gt;
+  &lt;/w:form&gt;
+</textarea>
+
+<p>Once again, due to internationalization issues, you should
+register add the following items to your messages.properties file: <i>username</i>,
+<i>password</i> and <i>login</i>.</p>
+<textarea class="java:nogutter:nocontrols" name="code">
+  username = Username
+  password = Password
+  login = Login
+</textarea>
+</body>
+
+</html>

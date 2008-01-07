@@ -1,0 +1,24 @@
+Build system: 
+
+JDK required: 1.5+
+Maven (http://maven.apache.org) required: 2.0.8+
+JRuby (http://jruby.codehaus.org) required: 1.0.2+
+
+Build profiles:  
+
+- default: builds all releasable modules
+- reporting:  builds reports
+- distribution:  builds distribution
+- integration:  builds integration tests
+- examples:  builds examples
+- nt: no-test, builds skipping unit tests 
+- jetty|tomcat|geronimo:  set webapp.deploy.dir to the appropriate value
+
+Note:  profiles are additive and the default profile is always active.
+Eg, build with integration tests, reporting and distribution:
+
+mvn -Pintegration,reporting,distribution install
+
+Build and deploy examples to Jetty (skipping tests on releasable modules):
+
+mvn -Pexamples,nt,jetty install
