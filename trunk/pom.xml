@@ -3,7 +3,7 @@
   <groupId>org.codehaus.waffle</groupId>
   <artifactId>waffle</artifactId>
   <packaging>pom</packaging>
-  <version>1.0-RC-2</version>
+  <version>1.0-SNAPSHOT</version>
   <name>Waffle</name>
   <description>
     Waffle is a Java action-based web framework that was built to
