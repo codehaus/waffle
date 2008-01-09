@@ -16,7 +16,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to control action method properties. 
+ * <p>This annotation identifies a method as being an Action Method.
+ * See {@link org.codehaus.waffle.action.intercept.SecurityMethodInterceptor} to protect your application
+ * from potential security risk (e.g. hackers).</p>
  * 
  * @author Mauro Talevi
  * @author Michael Ward
@@ -25,5 +27,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ActionMethod {
     String[] parameters() default {};
+
+    /**
+     * When set signal that the annotated method should be invoked when no other ActionMethod was requested.
+     *
+     * @return true if the annotated method should be <i>default</i>.
+     */
     boolean asDefault() default false;
 }

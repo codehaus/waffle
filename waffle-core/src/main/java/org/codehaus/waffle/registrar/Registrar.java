@@ -11,7 +11,9 @@
 package org.codehaus.waffle.registrar;
 
 /**
- * Defines the available methods for registering Controllers and Components.
+ * <p>Defines the available methods for registering Controllers and Components.
+ * By default Constructor based dependency injection is utilized.
+ * </p>
  *
  * @author Michael Ward
  * @author Mauro Talevi
@@ -52,18 +54,48 @@ public interface Registrar {
      */
     Registrar register(Object key, Class<?> type, Object... parameters);
 
+    /**
+     * Register an instance directly with the current context.
+     *
+     * @param instance to be registered
+     * @return The current Registrar which allows for chaining registration calls.
+     */
     Registrar registerInstance(Object instance);
 
+    /**
+     * Register an instance directly with the current context under the given key.
+     *
+     * @param key the key the instance is to be registered under
+     * @param instance to be registered
+     * @return The current Registrar which allows for chaining registration calls.
+     */
     Registrar registerInstance(Object key, Object instance);
 
     Registrar registerNonCaching(Class<?> type, Object... parameters);
 
     Registrar registerNonCaching(Object key, Class<?> type, Object... parameters);
 
+    /**
+     * Components registered in this method will be availables for the life of the Application.
+     *
+     * @see org.codehaus.waffle.context.ContextLevel#APPLICATION
+     * @see javax.servlet.ServletContextListener
+     */
     void application();
 
+    /**
+     * Components registered in this method will be availables for the life of a Users session.
+     *
+     * @see org.codehaus.waffle.context.ContextLevel#SESSION
+     * @see javax.servlet.http.HttpSessionListener
+     */
     void session();
 
+    /**
+     * Components registered in this method will be availables for the life of a request.
+     *
+     * @see org.codehaus.waffle.context.ContextLevel#REQUEST
+     */
     void request();
     
 }
