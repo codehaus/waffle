@@ -38,14 +38,27 @@ import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
 
 /**
- * Component registry which allows Waffle to have a pluggable architecture.
+ * <p>Responsible for maintaining Waffle framework components, which allows Waffle to have a pluggable architecture.</p>
  *
  * @author Michael Ward
  * @author Mauro Talevi
  */
 public interface ComponentRegistry {
+
+    /**
+     * Retrieve a component via the key it was registered under
+     *
+     * @param key the key the component was registered under
+     * @return the component registered
+     */
     <T> T locateByKey(Object key);
 
+    /**
+     * Retrieve a component by type.  Be cautious of making ambiguous requests.
+     *
+     * @param t the type of the component requested
+     * @return the component registered
+     */
     <T> T locateByType(Class<T> t);
 
     ActionMethodExecutor getActionMethodExecutor();
