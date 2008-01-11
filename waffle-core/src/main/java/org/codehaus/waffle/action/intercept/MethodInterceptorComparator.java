@@ -13,9 +13,24 @@ package org.codehaus.waffle.action.intercept;
 import java.util.Comparator;
 import java.io.Serializable;
 
+/**
+ * <p>Comparator implementation that is used by Waffle to ensure that MethodInterceptors are executed in
+ * the correct order.</p>
+ */
 @SuppressWarnings("serial")
 public class MethodInterceptorComparator implements Comparator<MethodInterceptor>, Serializable {
 
+    /**
+     * Will compare both MethodInterceptors being compared to determine the correct evaluation order.
+     *
+     * @see org.codehaus.waffle.action.intercept.Sortable
+     *
+     * @param first the first MethodInterceptor to be compared
+     * @param second the second MethodInterceptor to be compared
+     * @return a negative integer, zero, or a positive integer as the
+     *         first MethodInterceptor is less than, equal to, or greater than the
+     *         second. 
+     */
     public int compare(MethodInterceptor first, MethodInterceptor second) {
         if (first instanceof Sortable && second instanceof Sortable) {
             Sortable one = (Sortable) first;

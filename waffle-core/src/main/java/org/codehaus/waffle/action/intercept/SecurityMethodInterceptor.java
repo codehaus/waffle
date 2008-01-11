@@ -10,23 +10,34 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.intercept;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.controller.ControllerDefinition;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 /**
- * This interceptor ensure that only annotated methods are invokable as <i>Actions</i>.  
+ * <p>This interceptor ensure that only {@link ActionMethod} annotated methods are invokable as {@code Actions}.
  * Usage of this will help protect your application against malicious attacks.
  */
 public class SecurityMethodInterceptor implements MethodInterceptor {
 
+    /**
+     * Will always return true (intercepts ALL action methods)
+     *
+     * {@inheritDoc}
+     */
     public boolean accept(Method actionMethod) {
         return true; // intercept all!!!!
     }
 
+    /**
+     * Ensure that the action method tobe invoked is annotated with the {@link ActionMethod} annotation.  If no annotation
+     * is present a {@link ActionMethodInvocationException} will be thrown.
+     *
+     * {@inheritDoc}
+     */
     public Object intercept(ControllerDefinition controllerDefinition,
                             Method method,
                             InterceptorChain chain,
