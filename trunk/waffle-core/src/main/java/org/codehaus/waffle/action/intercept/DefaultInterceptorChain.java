@@ -10,14 +10,20 @@
  *****************************************************************************/
 package org.codehaus.waffle.action.intercept;
 
+import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.monitor.ActionMonitor;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
 
-import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.monitor.ActionMonitor;
-
+/**
+ * <p>This is Waffle's default implementation of the {@link org.codehaus.waffle.action.intercept.InterceptorChain}
+ * which iterates over each {@link org.codehaus.waffle.action.intercept.MethodInterceptor} registered with Waffle.
+ * Each method interceptor will have an opportunity to intercept the ActionMethod o be invoked.
+ * </p>
+ */
 public class DefaultInterceptorChain implements InterceptorChain {
     private final Iterator<MethodInterceptor> iterator;
     private final ActionMonitor actionMonitor;
@@ -28,6 +34,9 @@ public class DefaultInterceptorChain implements InterceptorChain {
         this.actionMonitor = actionMonitor;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public Object proceed(ControllerDefinition controllerDefinition,
                           Method method,
                           Object... arguments) throws IllegalAccessException, InvocationTargetException {

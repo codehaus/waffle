@@ -26,6 +26,13 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ActionMethod {
+
+    /**
+     * Used to define the parameter names that should be used to resolve an action methods
+     * arguments (order is important).
+     *
+     * @return the parameter names to resolve with
+     */
     String[] parameters() default {};
 
     /**

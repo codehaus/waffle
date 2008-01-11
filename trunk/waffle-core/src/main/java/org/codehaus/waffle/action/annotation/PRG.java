@@ -16,8 +16,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to control the use of the PRG (Post/Redirect/Get) paradigm. 
- * See http://en.wikipedia.org/wiki/Post/Redirect/Get
+ * <p>Annotation to control the use of the PRG (Post/Redirect/Get) paradigm.
+ * See <a href="http://en.wikipedia.org/wiki/Post/Redirect/Get">http://en.wikipedia.org/wiki/Post/Redirect/Get</a></p>
  * 
  * @author Mauro Talevi
  * @author Michael Ward
