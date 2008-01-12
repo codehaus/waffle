@@ -33,6 +33,14 @@ public abstract class AbstractOgnlMethodDefinitionFinder extends AbstractMethodD
         super(servletContext, argumentResolver, methodNameResolver, stringTransmuter, actionMonitor);
     }
 
+    /**
+     * Inspects the class (aka Type) and finds all methods with that name.  
+     *
+     * @param type       the Class in which to look for the method
+     * @param methodName the method name
+     * @return A List of methods
+     * @throws NoMatchingActionMethodException if no methods match
+     */
     @SuppressWarnings({"unchecked"})
     protected List<Method> findMethods(Class<?> type, String methodName) {
         List<Method> methods = getMethods(type, methodName, false);
