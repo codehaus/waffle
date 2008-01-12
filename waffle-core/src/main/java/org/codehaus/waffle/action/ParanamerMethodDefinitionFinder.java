@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Pananamer-based method definition finder, which can be used in alternative to
- * other definition finders, eg {@link AnnotatedMethodDefinitionFinder}.
- * <p/>
+ * <p>Pananamer-based method definition finder, which can be used in alternative to
+ * other definition finders, eg {@link AnnotatedMethodDefinitionFinder}.<p>
+ * <br/><br/>
  * <b>Note</b>: Pragmatic method calls will always take precedence.
  * 
  * @author Paul Hammant 
@@ -44,6 +44,14 @@ public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
         super(servletContext, argumentResolver, methodNameResolver, stringTransmuter, actionMonitor);
     }
 
+    /**
+     * Uses {@link Paranamer} to determine the parameter names to use to resolve the
+     * argument values.
+     *
+     * @param method the action method to be invoked
+     * @param request the HttpServetRequest
+     * @return the resolved list of arguments needed to satisfy the action method invocation
+     */
     protected List<Object> getArguments(Method method, HttpServletRequest request) {
         Class<?>[] parameterTypes = method.getParameterTypes();
         String[] parameterNames = null;

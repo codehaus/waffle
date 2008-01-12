@@ -22,10 +22,10 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Annotation-based method definition finder.
- * This is the default default definition finder used by Waffle.
- * <p/>
- * <b>Note</b>: Pragmatic method calls will always take precedence.
+ * <p>Annotation-based method definition finder. This is the default default definition finder used by Waffle.
+ * <br/><br/>
+ * <b>Note</b>: Pragmatic method calls always take precedence over other types.
+ * </p>
  * 
  * @author Michael Ward
  */
@@ -39,6 +39,14 @@ public class AnnotatedMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
         super(servletContext, argumentResolver, methodNameResolver, stringTransmuter, actionMonitor);
     }
 
+    /**
+     * Inspects the method's {@code ActionMethod} annotation to determine the parameter names to use to resolve the
+     * argument values.
+     *
+     * @param method the action method to be invoked
+     * @param request the HttpServetRequest
+     * @return the resolved list of arguments needed to satisfy the action method invocation
+     */
     protected List<Object> getArguments(Method method, HttpServletRequest request) {
         if (method.isAnnotationPresent(ActionMethod.class)) {
             ActionMethod actionMethod = method.getAnnotation(ActionMethod.class);

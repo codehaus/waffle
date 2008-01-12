@@ -63,7 +63,10 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         this.methodNameResolver = methodNameResolver;
         this.actionMonitor = actionMonitor;
     }
-
+    
+    /**
+     * {@inheritDoc}
+     */
     public MethodDefinition find(Object controller,
                                  HttpServletRequest request,
                                  HttpServletResponse response) throws WaffleException {
@@ -176,8 +179,10 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinition;
     }
 
-    private MethodDefinition findPragmaticMethodDefinition(HttpServletRequest request, HttpServletResponse response,
-                                                           List<Method> methods, List<Object> arguments) {
+    private MethodDefinition findPragmaticMethodDefinition(HttpServletRequest request,
+                                                           HttpServletResponse response,
+                                                           List<Method> methods,
+                                                           List<Object> arguments) {
         List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
 
         for (Method method : methods) {
@@ -308,11 +313,11 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     // Abstract methods - implementable by subclasses 
 
     /**
-     * Returns the method arguments contained in the request
+     * Returns the resolved list of method arguments.
      *
-     * @param method  the Method
+     * @param method  the action method to be invoked
      * @param request the HttpServetRequest
-     * @return the list of arguments
+     * @return the resolved list of arguments needed to satisfy the action method invocation
      */
     protected abstract List<Object> getArguments(Method method, HttpServletRequest request);
 

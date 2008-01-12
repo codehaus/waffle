@@ -13,8 +13,8 @@ package org.codehaus.waffle.action;
 import org.codehaus.waffle.WaffleException;
 
 /**
- * This is a specialized exception that will be thrown directly from an ActionMethod.  Exceptions of this type
- * will set the response statusCode code and response body.
+ * <p>This is a specialized exception that will be thrown directly from an ActionMethod.  Exceptions of this type
+ * will set the response statusCode code and response body.</p>
  */
 @SuppressWarnings("serial")
 public class ActionMethodException extends WaffleException {
@@ -32,6 +32,9 @@ public class ActionMethodException extends WaffleException {
         this.message = message;
     }
 
+    /**
+     * Returns the the {@code javax.servlet.http.HttpServletResponse} status should be set to.
+     */
     public int getStatusCode() {
         return statusCode;
     }
