@@ -10,14 +10,14 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.codehaus.waffle.monitor.ActionMonitor;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
- * Implementation of method name resolver which returns the value of a configurable action parameter key,
+ * <p>Implementation of method name resolver which returns the value of a configurable action parameter key,
  * which defaults to 'method'.
- * <p/>
+ * </p><br/>
  * The resolved name is monitored along with the available parameter key set.
  * 
  * @author Michael Ward
@@ -36,6 +36,13 @@ public class RequestParameterMethodNameResolver implements MethodNameResolver {
         this.actionMonitor = actionMonitor;
     }
 
+    /**
+     * This implementation determines the method name from the request parameters (the default parameter name
+     * used is <code><b>method</b></code>).
+     *
+     * @param request
+     * @return
+     */
     @SuppressWarnings({"unchecked"})
     public String resolve(HttpServletRequest request) {
         String methodName = request.getParameter(methodParameterKey);

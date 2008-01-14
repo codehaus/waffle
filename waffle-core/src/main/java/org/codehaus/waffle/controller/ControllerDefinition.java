@@ -13,13 +13,14 @@ package org.codehaus.waffle.controller;
 import org.codehaus.waffle.action.MethodDefinition;
 
 /**
- * In Waffle a Controller can be any Pojo.  Controllers are registered per application
+ * <p>In Waffle a Controller can be any Pojo.  Controllers are registered per application
  * with a custom <code>Registrar</code>.  This class is, a wrapper to merge both
  * the name the controller was registered under and the actual controller instance.
  * <br/>
  * <b>NOTE:</b>  This is required so that Waffle can properly direct to a
  * view when no 'controller method' request parameter was found, which typically occurs
  * when a user first enters a web application.
+ * </p>
  *
  * @author Michael Ward
  */
@@ -34,14 +35,24 @@ public class ControllerDefinition {
         this.methodDefinition = methodDefinition;
     }
 
+    /**
+     * The name the controller is registered under in Waffle.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * The controller (Pojo) this definition is wrapping
+     */
     public Object getController() {
         return controller;
     }
 
+    /**
+     * The method definition which defines tha method and argument values to be invoked
+     * on the controller
+     */
     public MethodDefinition getMethodDefinition() {
         return methodDefinition;
     }
