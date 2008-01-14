@@ -16,18 +16,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * <p>Custom implementation of this interface will be able to act in response to the values returned from an
+ * ActionMethod.
+ *
  * @author Michael Ward
  */
 public interface ActionMethodResponseHandler {
 
     /**
-     * Custom implementation of this interface will be able to act in response to the values returned from an
-     * ActionMethod.  Regardless of the implementation an ActionMethodResponse value of null should return to the referring
-     * page.
+     * Handles response from an action method invocation. Regardless of the implementation an ActionMethodResponse
+     * value of {@code null} indicates that the user should be return to the referring page.
      *
      * @param request
      * @param response
-     * @param actionMethodResponse - a value of null should return to the refering page
+     * @param actionMethodResponse
      * @throws java.io.IOException
      * @throws javax.servlet.ServletException
      */

@@ -27,26 +27,33 @@ public class MethodDefinition {
         this.method = method;
     }
 
+    /**
+     * The method that is to be invoked on the controller
+     */
     public Method getMethod() {
         return method;
     }
 
+    /**
+     * The argument values that will be used to satisfy the invocation of the action method
+     */
     public List<Object> getMethodArguments() {
         return arguments;
     }
 
+    /**
+     * Allows resolved argument to be added.  Arguments should be added in order.
+     */
     public void addMethodArgument(Object argument) {
         arguments.add(argument);
     }
     
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("[MethodDefinition method=");
-        sb.append(method);
-        sb.append(", arguments=");
-        sb.append(arguments);
-        sb.append("]");
+        StringBuilder sb = new StringBuilder("[MethodDefinition method=")
+                .append(method)
+                .append(", arguments=")
+                .append(arguments).append("]");
         return sb.toString();
     }
 }

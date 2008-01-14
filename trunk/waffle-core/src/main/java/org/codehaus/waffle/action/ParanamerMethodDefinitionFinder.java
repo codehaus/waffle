@@ -26,7 +26,7 @@ import java.util.List;
 
 /**
  * <p>Pananamer-based method definition finder, which can be used in alternative to
- * other definition finders, eg {@link AnnotatedMethodDefinitionFinder}.<p>
+ * other definition finders, eg {@link AnnotatedMethodDefinitionFinder}.</p>
  * <br/><br/>
  * <b>Note</b>: Pragmatic method calls will always take precedence.
  * 

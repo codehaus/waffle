@@ -28,10 +28,10 @@ public class ActionMethodResponse {
 
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("[ActionMethodResponse returnValue=");
-        sb.append(returnValue);
-        sb.append("]");
-        return sb.toString();
+        return new StringBuilder()
+                .append("[ActionMethodResponse returnValue=")
+                .append(returnValue)
+                .append("]")
+                .toString();
     }
 }
