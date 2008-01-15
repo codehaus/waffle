@@ -1,6 +1,7 @@
 package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
@@ -18,8 +19,9 @@ public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFa
 
     public RubyAwarePicoContextContainerFactory(MessageResources messageResources,
                                                 ContextMonitor contextMonitor,
-                                                RegistrarMonitor registrarMonitor) {
-        super(messageResources, contextMonitor, registrarMonitor);
+                                                RegistrarMonitor registrarMonitor,
+                                                ParameterResolver parameterResolver) {
+        super(messageResources, contextMonitor, registrarMonitor, parameterResolver);
     }
 
     @Override

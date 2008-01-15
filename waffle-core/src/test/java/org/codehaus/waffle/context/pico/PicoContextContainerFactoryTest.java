@@ -20,11 +20,14 @@ import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
+import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.codehaus.waffle.testmodel.ApplicationLevelComponent;
 import org.codehaus.waffle.testmodel.CustomRegistrar;
 import org.codehaus.waffle.testmodel.FakeBean;
 import org.codehaus.waffle.testmodel.RequestLevelComponent;
 import org.codehaus.waffle.testmodel.SessionLevelComponent;
+import org.codehaus.waffle.testmodel.StubParameterResolver;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -45,6 +48,7 @@ import org.picocontainer.monitors.NullComponentMonitor;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Locale;
 
@@ -63,7 +67,7 @@ public class PicoContextContainerFactoryTest {
     @Test
     public void canBuildEachContextLevelContainer() {
         final PicoContextContainerFactory contextContainerFactory
-                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor(), null);
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);
@@ -134,7 +138,7 @@ public class PicoContextContainerFactoryTest {
     @Test
     public void canInitializeContext() {
         final AbstractContextContainerFactory contextContainerFactory
-                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor(), null);
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);
@@ -233,7 +237,7 @@ public class PicoContextContainerFactoryTest {
     @Test
     public void canBuildApplicationContextContainerWithLifecycle() {
         PicoContextContainerFactory contextContainerFactory
-                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor(), null);
         ContextContainer container = contextContainerFactory.buildApplicationContextContainer();
 
         StubStartable startable = new StubStartable();
@@ -253,7 +257,7 @@ public class PicoContextContainerFactoryTest {
     @Test
     public void canBuildSessionLevelContainerWithLifecycle() {
         final PicoContextContainerFactory contextContainerFactory
-                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor(), null);
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);
@@ -285,7 +289,7 @@ public class PicoContextContainerFactoryTest {
     @Test
     public void canBuildRequestLevelContainerWithLifecycle() {
         final PicoContextContainerFactory contextContainerFactory
-                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor());
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor(), null);
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);
@@ -339,6 +343,51 @@ public class PicoContextContainerFactoryTest {
 
         picoContainer.stop();
         assertTrue(startable.stopped);
+    }
+
+    /**
+     * WAFFLE-52 : ensure PicoRegistrar is not constructed without passing ParameterResolver
+     */
+    @Test
+    public void canBuildRegistrar() throws Exception {
+        ParameterResolver parameterResolver = new StubParameterResolver();
+        SilentMonitor registrarMonitor = new SilentMonitor();
+        final PicoContextContainerFactory contextContainerFactory
+                = new PicoContextContainerFactory(messageResources, new SilentMonitor(), registrarMonitor, parameterResolver);
+
+        // Mock MutablePicoContainer
+        final MutablePicoContainer picoContainer = mockery.mock(MutablePicoContainer.class);
+
+        // Mock ContextContainer
+        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        mockery.checking(new Expectations() {
+            {
+                one(contextContainer).getDelegate();
+                will(returnValue(picoContainer));
+            }
+        });
+
+        Registrar registrar = contextContainerFactory.createRegistrar(contextContainer);
+
+        // Ensure 'picoContainer' was set
+        Field picoContainerField = PicoRegistrar.class.getDeclaredField("picoContainer");
+        picoContainerField.setAccessible(true);
+        assertSame(picoContainer, picoContainerField.get(registrar));
+
+        // ensure 'parameterResolver' was set
+        Field parameterResolverField = PicoRegistrar.class.getDeclaredField("parameterResolver");
+        parameterResolverField.setAccessible(true);
+        assertSame(parameterResolver, parameterResolverField.get(registrar));
+
+        // ensure 'picoLifecycleStrategy' is not Null
+        Field lifecycleStrategyField = PicoRegistrar.class.getDeclaredField("lifecycleStrategy");
+        lifecycleStrategyField.setAccessible(true);
+        assertTrue(lifecycleStrategyField.get(registrar) instanceof PicoLifecycleStrategy);
+
+        // ensure 'registrarMonitor' was set
+        Field registrarMonitorField = PicoRegistrar.class.getDeclaredField("registrarMonitor");
+        registrarMonitorField.setAccessible(true);
+        assertSame(registrarMonitor, registrarMonitorField.get(registrar));
     }
 
     public class StubStartable implements Startable {
