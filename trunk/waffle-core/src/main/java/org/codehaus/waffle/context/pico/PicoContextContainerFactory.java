@@ -19,6 +19,7 @@ import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
@@ -37,12 +38,15 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
     private final ComponentMonitor picoComponentMonitor = new NullComponentMonitor();
     private final LifecycleStrategy picoLifecycleStrategy = new PicoLifecycleStrategy(picoComponentMonitor);
     private final RegistrarMonitor registrarMonitor;
+    private final ParameterResolver parameterResolver;
 
     public PicoContextContainerFactory(MessageResources messageResources,
                                        ContextMonitor contextMonitor,
-                                       RegistrarMonitor registrarMonitor) {
+                                       RegistrarMonitor registrarMonitor,
+                                       ParameterResolver parameterResolver) {
         super(messageResources, contextMonitor);
         this.registrarMonitor = registrarMonitor;
+        this.parameterResolver = parameterResolver;
     }
 
     protected ContextContainer buildApplicationContextContainer() {
@@ -82,7 +86,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
 
     protected Registrar createRegistrar(ContextContainer contextContainer) {
         MutablePicoContainer delegateContainer = (MutablePicoContainer) contextContainer.getDelegate();
-        Registrar registrar = new PicoRegistrar(delegateContainer, null, picoLifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(delegateContainer, parameterResolver, picoLifecycleStrategy, registrarMonitor);
         getContextMonitor().registrarCreated(registrar, registrarMonitor);
         
         return registrar;
