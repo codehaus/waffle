@@ -8,7 +8,7 @@ public class ServletContextAttributeReferenceTest {
 
     @Test
     public void canConstructInstanceFromParameterMethod() {
-        Reference reference = servletContextAttribute("foo");
+        ServletContextAttributeReference reference = servletContextAttribute("foo");
         Assert.assertEquals("foo", reference.getKey());
     }
 }

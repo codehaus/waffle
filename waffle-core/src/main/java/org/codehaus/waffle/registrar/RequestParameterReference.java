@@ -12,7 +12,7 @@ package org.codehaus.waffle.registrar;
 
 public class RequestParameterReference extends AbstractReference {
 
-    public RequestParameterReference(Object key) {
+    public RequestParameterReference(String key) {
         super(key);
     }
 
@@ -20,7 +20,7 @@ public class RequestParameterReference extends AbstractReference {
      * This method can be statically imported into an Application's Registrar allowing
      * for a more fluent interface to define components and their dependencies
      */
-    public static RequestAttributeReference requestParameter(String key) {
-        return new RequestAttributeReference(key);
+    public static RequestParameterReference requestParameter(String key) {
+        return new RequestParameterReference(key);
     }
 }

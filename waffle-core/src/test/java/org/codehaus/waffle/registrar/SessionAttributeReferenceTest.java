@@ -8,7 +8,7 @@ public class SessionAttributeReferenceTest {
 
     @Test
     public void canConstructInstanceFromSessionMethod() {
-        Reference reference = sessionAttribute("foo");
+        SessionAttributeReference reference = sessionAttribute("foo");
         Assert.assertEquals("foo", reference.getKey());
     }
 }
