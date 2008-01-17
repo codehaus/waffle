@@ -30,7 +30,7 @@ public class RequestParameterParameterTest {
 
     @Test
     public void componentDependsOnRequestParameter() {
-        // Mock
+        // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         // Mock HttpServletRequest
@@ -44,7 +44,7 @@ public class RequestParameterParameterTest {
             }
         });
 
-        Parameter[] parameters = {new RequestParameterParameter("foobar", stringTransmuter)};
+        Parameter[] parameters = {new RequestParameterParameter("foobar", stringTransmuter, null)};
 
         MutablePicoContainer pico = new DefaultPicoContainer();
         pico.registerComponentInstance(request);
@@ -53,5 +53,32 @@ public class RequestParameterParameterTest {
         DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponentInstance("x");
 
         assertEquals("helloWorld", dependsOnValue.getValue());
+    }
+
+    @Test
+    public void willReturnDefaultValueWhenTransmuterReturnsNull() {
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                exactly(2).of(request).getParameter("foobar");
+                will(returnValue(null));
+                exactly(2).of(stringTransmuter).transmute(null, String.class);
+                will(returnValue(null));
+            }
+        });
+
+        Parameter[] parameters = {new RequestParameterParameter("foobar", stringTransmuter, "the default value")};
+
+        MutablePicoContainer pico = new DefaultPicoContainer();
+        pico.registerComponentInstance(request);
+        pico.registerComponentImplementation("x", DependsOnValue.class, parameters);
+
+        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponentInstance("x");
+
+        assertEquals("the default value", dependsOnValue.getValue());
     }
 }
