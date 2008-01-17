@@ -10,14 +10,16 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
+import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
+import org.picocontainer.PicoException;
 import org.picocontainer.defaults.DefaultPicoContainer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.ArrayList;
 
 public class PicoContextContainer implements ContextContainer {
     private final MutablePicoContainer delegate;
@@ -47,7 +49,11 @@ public class PicoContextContainer implements ContextContainer {
     }
 
     public Object getComponentInstance(Object key) {
-        return delegate.getComponentInstance(key);
+        try {
+            return delegate.getComponentInstance(key);
+        } catch (PicoException e) {
+            throw new WaffleException("Unable to construct component '" + key  +"'.", e);
+        }
     }
 
     @SuppressWarnings({"unchecked"})
