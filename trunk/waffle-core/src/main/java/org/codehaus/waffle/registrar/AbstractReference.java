@@ -10,6 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar;
 
+/**
+ * Simple abstract implementation which manages the associated <i>key</i>.
+ *
+ * @author Michael Ward
+ */
 public abstract class AbstractReference implements Reference {
     private Object key;
 
