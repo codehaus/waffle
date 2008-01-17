@@ -13,6 +13,8 @@ package org.codehaus.waffle.bind;
 /**
  * Not to be confused with the {@link ValueConverter} this interface is used to simplify converting (transmuting) a
  * String value into a given type.
+ *
+ * @author Michael Ward
  */
 public interface StringTransmuter {
 

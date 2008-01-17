@@ -44,6 +44,7 @@ public interface Registrar {
     /**
      * @param type represent both the key and type the object will be registered under
      * @param parameters any parameters needed to satisfy the component being registered
+     * @return The current Registrar which allows for chaining registration calls.
      */
     Registrar register(Class<?> type, Object... parameters);
 
@@ -51,6 +52,7 @@ public interface Registrar {
      * @param key represent the key the object will be registered under
      * @param type represent the component type
      * @param parameters any parameters needed to satisfy the component being registered
+     * @return The current Registrar which allows for chaining registration calls.
      */
     Registrar register(Object key, Class<?> type, Object... parameters);
 
