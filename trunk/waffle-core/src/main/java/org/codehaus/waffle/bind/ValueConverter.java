@@ -11,7 +11,8 @@
 package org.codehaus.waffle.bind;
 
 /**
- * Implementation of this interface will be responsible for converting values of specific type(s).
+ * Implementation of this interface will be responsible for converting String values to the specific type.  These are
+ * registered with Waffle through the {@code web.xml}.
  *
  * @author Michael Ward
  * @author Mauro Talevi
@@ -29,7 +30,8 @@ public interface ValueConverter {
     /**
      * Converts a String value to an Object of a given type
      * 
-     * @param propertyName the associated property name, which can be <code>null</code>
+     * @param propertyName the associated property name, which can be <code>null</code>, also needed to present
+     *                     customized error messages.
      * @param value the String value
      * @param toType  the Object type
      * @return The converted Object
