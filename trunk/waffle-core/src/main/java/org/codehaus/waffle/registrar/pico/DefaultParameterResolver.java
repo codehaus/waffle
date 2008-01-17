@@ -36,7 +36,8 @@ public class DefaultParameterResolver implements ParameterResolver {
             if (reference instanceof ComponentReference) {
                 return new ComponentParameter(reference.getKey());
             } else if(reference instanceof RequestParameterReference) {
-                return new RequestParameterParameter(reference.getKey().toString(), stringTransmuter);
+                RequestParameterReference requestParameterReference = (RequestParameterReference) reference;
+                return new RequestParameterParameter(reference.getKey().toString(), stringTransmuter, requestParameterReference.getDefaultValue());
             } else if(reference instanceof RequestAttributeReference) {
                 return new RequestAttributeParameter(reference.getKey().toString());
             } else if(reference instanceof SessionAttributeReference) {

@@ -25,10 +25,12 @@ import javax.servlet.http.HttpServletRequest;
  */
 class RequestParameterParameter extends AbstractWaffleParameter {
     private final StringTransmuter stringTransmuter;
+    private final Object defaultValue;
 
-    protected RequestParameterParameter(String key, StringTransmuter stringTransmuter) {
+    protected RequestParameterParameter(String key, StringTransmuter stringTransmuter, Object defaultValue) {
         super(key);
         this.stringTransmuter = stringTransmuter;
+        this.defaultValue = defaultValue;
     }
 
     @SuppressWarnings({"unchecked"})
@@ -36,6 +38,12 @@ class RequestParameterParameter extends AbstractWaffleParameter {
         HttpServletRequest request = (HttpServletRequest) picoContainer
                 .getComponentInstanceOfType(HttpServletRequest.class);
         String value = request.getParameter(getKey());
-        return stringTransmuter.transmute(value, expectedType);
+        Object result = stringTransmuter.transmute(value, expectedType);
+
+        if(result == null) {
+            return defaultValue;
+        }
+
+        return result;
     }
 }

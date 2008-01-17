@@ -12,7 +12,7 @@ package org.codehaus.waffle.registrar;
 
 public class SessionAttributeReference extends AbstractReference {
     
-    public SessionAttributeReference(Object key) {
+    public SessionAttributeReference(String key) {
         super(key);
     }
 
@@ -20,7 +20,7 @@ public class SessionAttributeReference extends AbstractReference {
      * This method can be statically imported into an Application's Registrar allowing
      * for a more fluent interface to define components and their dependencies
      */
-    public static SessionAttributeReference sessionAttribute(Object key) {
+    public static SessionAttributeReference sessionAttribute(String key) {
         return new SessionAttributeReference(key);
     }
 }
