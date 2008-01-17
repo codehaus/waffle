@@ -1,14 +1,14 @@
 package org.codehaus.waffle.registrar;
 
-import org.junit.Test;
-import org.junit.Assert;
 import static org.codehaus.waffle.registrar.RequestParameterReference.requestParameter;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 public class RequestParameterReferenceTest {
 
     @Test
     public void canConstructInstanceFromParameterMethod() {
-        Reference reference = requestParameter("foo");
-        Assert.assertEquals("foo", reference.getKey());
+        RequestParameterReference reference = requestParameter("foo");
+        assertEquals("foo", reference.getKey());
     }
 }
