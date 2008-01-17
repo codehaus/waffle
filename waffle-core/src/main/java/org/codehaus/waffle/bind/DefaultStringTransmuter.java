@@ -1,5 +1,9 @@
 package org.codehaus.waffle.bind;
 
+/**
+ * This implementation uses the {@link org.codehaus.waffle.bind.ValueConverterFinder} and its resulting
+ * {@link ValueConverter} to transform a String value into the specified type.
+ */
 public class DefaultStringTransmuter implements StringTransmuter {
     private final ValueConverterFinder valueConverterFinder;
 

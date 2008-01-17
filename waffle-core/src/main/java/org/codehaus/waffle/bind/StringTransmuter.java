@@ -11,10 +11,17 @@
 package org.codehaus.waffle.bind;
 
 /**
- * This interface is used to simplify converting (transmuting) a String value into a given type.
- * Should automatically determine the correct ValueConverter to use.
+ * Not to be confused with the {@link ValueConverter} this interface is used to simplify converting (transmuting) a
+ * String value into a given type.
  */
 public interface StringTransmuter {
 
+    /**
+     * Convert (transmute) the string value into the Type requested
+     *
+     * @param value the String value
+     * @param toType the Object type
+     * @return The converted Object
+     */
     <T> T transmute(String value, Class<T> toType);
 }
