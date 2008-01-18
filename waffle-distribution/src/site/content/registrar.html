@@ -153,18 +153,17 @@ request (maybe not simultaneously). Of course a session from one user
 cannot be accessed by a session from another user, same hold true for
 requests.</p>
 <img src="images/context-hierarchy.png" alt="Context level hierarchy seperation">
-<dl>
-  <dt>NOTE:</dt>
-  <dd>To prevent exceptions registration of components should
-  follow these rules:
+
+<p>
+<b>NOTE:</b> To prevent exceptions registration of components should follow these rules:
   <ul>
     <li>key names must be unique</li>
     <li>do not register the same component multiple times</li>
     <li>ambiguous dependencies (two different implementation of an
     interface and a class dependent on a implementation)</li>
   </ul>
-  </dd>
-</dl>
+</p>
+
 <p>By default the <i>"register"</i> methods cache
 instances created within the framework. That is, only a single managed
 instance is created. Again that is a "single managed instance"
@@ -182,40 +181,37 @@ but rather a new instance of that component each time.</p>
       <td align="left"><b>Description</b></td>
     </tr>
     <tr class="b">
-      <td align="left"><b>void register(Class componentClass)</b></td>
-      <td align="left">This method is useful for registering
-      components other than Actions.</td>
-    </tr>
-    <tr class="a">
-      <td align="left"><b>void register(Object key, Class
-      componentClass)</b></td>
-      <td align="left">Register the componentClass under the key
-      name (key is used to locate Action from request).</td>
+      <td align="left"><b>Registrar useInjection(Injection injection)</b></td>
+      <td align="left">Allows to change the type of Injection used, which defaults to Injection.CONSTRUCTOR.  
+      Injection.SETTER is also supported</td>
     </tr>
     <tr class="b">
-      <td align="left"><b>void registerNonCaching(Class
-      componentClass)</b></td>
-      <td align="left">A new instance will be created for each
-      class with the defined dependency.</td>
-    </tr>
-    <tr class="a">
-      <td align="left"><b>void registerNonCaching(Object key,
-      Class componentClass)</b></td>
-      <td align="left">Similar to <i>void register(Object key,
-      Class componentClass)</i> except that a new instance will be created
-      for each dependent class.</td>
+      <td align="left"><b>boolean isRegistered(Object typeOrInstance)</b></td>
+      <td align="left">Determines if a component is already registered for a given type or instance</td>
     </tr>
     <tr class="b">
-      <td align="left"><b>void registerInstance(Object
-      instance)</b></td>
-      <td align="left">This method is useful for registering an
-      instance directly.</td>
+      <td align="left"><b>void register(Class componentClass, Object... parameters)</b></td>
+      <td align="left">Registers a component (useful for components other than Actions)</td>
     </tr>
     <tr class="a">
-      <td align="left"><b>void registerInstance(Object key,
-      Object instance)</b></td>
-      <td align="left">Register the instance directly with the
-      underlying container under the key name provided.</td>
+      <td align="left"><b>void register(Object key, Class componentClass, Object... parameters)</b></td>
+      <td align="left">Register a component under a specific key (keys are used to locate Controllers from request)</td>
+    </tr>
+    <tr class="b">
+      <td align="left"><b>void registerNonCaching(Class componentClass, Object... parameters)</b></td>
+      <td align="left">Registers a component in non-caching mode, ie with new instance created for each class with the defined dependency</td>
+    </tr>
+    <tr class="a">
+      <td align="left"><b>void registerNonCaching(Object key, Class componentClass, Object... parameters)</b></td>
+      <td align="left">Registers a component in non-caching mode, ie with new instance created for each class with the defined dependency</td>
+    </tr>
+    <tr class="b">
+      <td align="left"><b>void registerInstance(Object instance)</b></td>
+      <td align="left">Registers a component instance directly</td>
+    </tr>
+    <tr class="a">
+      <td align="left"><b>void registerInstance(Object key,  Object instance)</b></td>
+      <td align="left">Registers a component instance directly under a specific key</td>
     </tr>
   </tbody>
 </table>
