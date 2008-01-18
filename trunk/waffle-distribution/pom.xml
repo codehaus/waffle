@@ -37,7 +37,6 @@
           <skinPath>templates/skin.html</skinPath>
           <resourcePaths>resources</resourcePaths>
           <outputDirectoryPath>${project.build.directory}/site</outputDirectoryPath>
-          <localisations>pt</localisations>
         </configuration>
         <executions>
           <execution>
