@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="waffle-core/src/test/java"/>
     <classpathentry kind="src" path="waffle-core/src/test/resources"/>
     <classpathentry kind="src" path="waffle-mock/src/main/java"/>
+    <classpathentry kind="src" path="waffle-mock/src/test/java"/>
     <classpathentry kind="src" path="waffle-resources/src/main/resources"/>
 	<classpathentry kind="src" path="waffle-taglib/src/main/java"/>
 	<classpathentry kind="src" path="waffle-taglib/src/test/java"/>
