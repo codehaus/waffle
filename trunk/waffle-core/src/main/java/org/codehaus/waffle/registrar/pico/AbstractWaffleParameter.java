@@ -15,6 +15,11 @@ import org.picocontainer.Parameter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.PicoVisitor;
 
+/**
+ * A base for Waffle's implementation of PicoContainer Parameter.
+ *
+ * @author Michael Ward
+ */
 abstract class AbstractWaffleParameter implements Parameter {
     private final String key;
 
@@ -31,7 +36,7 @@ abstract class AbstractWaffleParameter implements Parameter {
     }
 
     public void verify(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class clazz) {
-
+        // do nothing
     }
 
     public void accept(PicoVisitor picoVisitor) {

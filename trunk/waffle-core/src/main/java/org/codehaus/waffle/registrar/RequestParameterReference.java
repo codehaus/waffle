@@ -11,7 +11,9 @@
 package org.codehaus.waffle.registrar;
 
 /**
- * Allows for a component dependency to be resolved from a {@code ServletRequest} parameter.
+ * <p>Allows for a component dependency to be resolved from a {@code ServletRequest} parameter</p>
+ * <br/>
+ * <p><b>NOTE:</b> This should only be utilized from {@link org.codehaus.waffle.registrar.Registrar#request()}.</p>
  *
  * @author Michael Ward
  */
@@ -51,6 +53,7 @@ public class RequestParameterReference extends AbstractReference {
      * @param key is the <code>String</code> specifying the name of the request parameter.
      */
     public static RequestParameterReference requestParameter(String key) {
+        // TODO mward: need to determine current context and if NOT 'request' an exception should be thrown!
         return new RequestParameterReference(key);
     }
 
@@ -63,6 +66,7 @@ public class RequestParameterReference extends AbstractReference {
      *        default value since the standard default value will be returned (e.g. int => 0, double => 0.0)
      */
     public static RequestParameterReference requestParameter(String key, Object defaultValue) {
+        // TODO mward: need to determine current context and if NOT 'request' an exception should be thrown!
         return new RequestParameterReference(key, defaultValue);
     }
 }

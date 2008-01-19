@@ -11,6 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
+/**
+ * A JRuby specific extension to the {@link ContextControllerDefinitionFactory} if the controller found is an instance
+ * of {@code IRubyObject} then that object will be wrapped with a {@link RubyController}.
+ *
+ * @author Michael Ward
+ */
 public class RubyControllerDefinitionFactory extends ContextControllerDefinitionFactory {
     private final MethodNameResolver methodNameResolver;
     private static final Method executeMethod;
@@ -31,6 +37,14 @@ public class RubyControllerDefinitionFactory extends ContextControllerDefinition
         this.methodNameResolver = methodNameResolver;
     }
 
+    /**
+     * Delegates the lookup of the controller to its super class the result will be wrapped as {@code RubyController} if
+     * the type is a {@code IRubyObject}
+     *
+     * @param name the name of the controller being requested
+     * @param request the current request
+     * @return the controller requested.
+     */
     @Override
     protected Object findController(String name, HttpServletRequest request) {
         Object controller = super.findController(name, request);

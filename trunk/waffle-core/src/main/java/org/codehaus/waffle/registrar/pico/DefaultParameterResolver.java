@@ -22,6 +22,11 @@ import org.picocontainer.Parameter;
 import org.picocontainer.defaults.ComponentParameter;
 import org.picocontainer.defaults.ConstantParameter;
 
+/**
+ * This base implementation will determine the correct {@code Parameter} based on the argument being resolved.
+ *
+ * @author Michael Ward
+ */
 public class DefaultParameterResolver implements ParameterResolver {
     private final StringTransmuter stringTransmuter;
 
@@ -29,6 +34,13 @@ public class DefaultParameterResolver implements ParameterResolver {
         this.stringTransmuter = stringTransmuter;
     }
 
+    /**
+     * An argument of type Reference will be mapped to the correct Parameter implemntation while other types
+     * will be treated as a constant ({@code ConstantParameter})
+     *
+     * @param argument the argument to be resolved
+     * @return the correct Parameter.
+     */
     public Parameter resolve(Object argument) {
         if (argument instanceof Reference) {
             Reference reference = (Reference) argument;
