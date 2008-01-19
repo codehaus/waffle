@@ -15,6 +15,10 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+/**
+ *
+ * @author Michael Ward
+ */
 public class DefaultMessageResources implements MessageResources {
     private final static ThreadLocal<Locale> userLocale = new ThreadLocal<Locale>();
     public final String bundleName;

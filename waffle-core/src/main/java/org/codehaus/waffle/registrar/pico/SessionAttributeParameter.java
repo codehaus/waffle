@@ -15,6 +15,11 @@ import org.picocontainer.PicoContainer;
 
 import javax.servlet.http.HttpSession;
 
+/**
+ * Will resolve value from the {@code HttpSession} attribute.
+ *
+ * @author Michael Ward
+ */
 class SessionAttributeParameter extends AbstractWaffleParameter {
 
     protected SessionAttributeParameter(String key) {

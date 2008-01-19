@@ -13,6 +13,8 @@ package org.codehaus.waffle.view;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Indicates that the view should be redirected to.
+ *
  * @author Michael Ward
  */
 public class RedirectView extends View {

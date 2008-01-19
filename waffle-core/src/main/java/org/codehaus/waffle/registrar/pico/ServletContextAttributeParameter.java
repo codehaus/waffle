@@ -15,6 +15,11 @@ import org.picocontainer.PicoContainer;
 
 import javax.servlet.ServletContext;
 
+/**
+ * Will resolve value from the {@code ServletContext} attribute.
+ *
+ * @author Michael Ward
+ */
 class ServletContextAttributeParameter extends AbstractWaffleParameter {
 
     protected ServletContextAttributeParameter(String key) {

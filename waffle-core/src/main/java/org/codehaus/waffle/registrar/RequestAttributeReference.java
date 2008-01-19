@@ -11,7 +11,9 @@
 package org.codehaus.waffle.registrar;
 
 /**
- * Allows for a component dependency to be resolved from a {@code ServletRequest} attribute.
+ * <p>Allows for a component dependency to be resolved from a {@code ServletRequest} attribute.</p>
+ * <br/>
+ * <p><b>NOTE:</b> This should only be utilized from {@link org.codehaus.waffle.registrar.Registrar#request()}.</p>
  *
  * @author Michael Ward
  */
@@ -31,6 +33,7 @@ public class RequestAttributeReference extends AbstractReference {
      * @param key is the <code>String</code> specifying the name of the request attribute.
      */
     public static RequestAttributeReference requestAttribute(String key) {
+        // TODO mward: need to determine current context and if NOT 'request' an exception should be thrown!
         return new RequestAttributeReference(key);
     }
     

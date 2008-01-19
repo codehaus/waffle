@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * This is a wrapper for the underlying ruby script
+ *
+ * @author Michael Ward
  */
 public class RubyController {
     private String methodName;
@@ -31,6 +33,11 @@ public class RubyController {
         return rubyObject;
     }
 
+    /**
+     * This will invoke the method on the ruby object instance this controller is maintaining.
+     *
+     * @return the result from the method invocation.
+     */
     public Object execute() {
         Ruby runtime = rubyObject.getRuntime();
         String[] strings = methodName.split("\\|");

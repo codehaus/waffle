@@ -10,20 +10,28 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import javax.servlet.ServletContext;
-
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.WaffleContextListener;
 
+import javax.servlet.ServletContext;
 import java.text.MessageFormat;
 
+/**
+ * @author Michael Ward
+ */
 public class ServletContextHelper {
 
     private ServletContextHelper() {
         // should not be instantiated
     }
 
+    /**
+     * Allows access to Waffle core components
+     *
+     * @param servletContext
+     * @return the ComponentRegistry for the running application
+     */
     public static ComponentRegistry getComponentRegistry(ServletContext servletContext) {
         ComponentRegistry componentRegistry = (ComponentRegistry) servletContext
                 .getAttribute(ComponentRegistry.class.getName());

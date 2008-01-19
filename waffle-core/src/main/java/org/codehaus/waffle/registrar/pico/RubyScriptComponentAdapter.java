@@ -9,6 +9,11 @@ import org.picocontainer.PicoInitializationException;
 import org.picocontainer.PicoIntrospectionException;
 import org.picocontainer.PicoVisitor;
 
+/**
+ * This ComponentAdapter implementation is needed to correctly instantiate a Ruby script for use in Waffle.
+ *
+ * @author Michael Ward
+ */
 public class RubyScriptComponentAdapter implements ComponentAdapter {
     private final Object componentKey;
     private final String rubyClassName;

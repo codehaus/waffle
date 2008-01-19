@@ -15,6 +15,11 @@ import org.picocontainer.PicoContainer;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * Will resolve value from the {@code HttpServletRequest} attribute.
+ *
+ * @author Michael Ward
+ */
 class RequestAttributeParameter extends AbstractWaffleParameter {
 
     protected RequestAttributeParameter(String key) {
