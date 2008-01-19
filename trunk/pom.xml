@@ -3,7 +3,7 @@
   <groupId>org.codehaus.waffle</groupId>
   <artifactId>waffle</artifactId>
   <packaging>pom</packaging>
-  <version>1.0</version>
+  <version>1.1-SNAPSHOT</version>
   <name>Waffle</name>
   <description>
     Waffle is a Java action-based web framework that was built to
@@ -423,8 +423,8 @@
   </contributors>
 
   <scm>
-    <developerConnection>scm:svn:https://svn.codehaus.org/waffle/tags/waffle-1.0</developerConnection>
-    <url>http://svn.codehaus.org/waffle/tags/waffle-1.0</url>
+    <developerConnection>scm:svn:https://svn.codehaus.org/waffle/trunk</developerConnection>
+    <url>http://svn.codehaus.org/waffle/trunk</url>
   </scm>
 
   <distributionManagement>
