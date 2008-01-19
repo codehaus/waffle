@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>File Upload</title>
+  </head>
+  <body>
+
+  <h2>File Upload</h2>
+
+  <p>
+    Waffle provides support for uploading files, using <a href="http://commons.apache.org/fileupload">Commons FileUpload</a>. 
+    File uploads are abstracted by Waffle's <a href="javadoc/core/org/codehaus/waffle/io/FileUploader.html">
+    org.codehaus.waffle.io.FileUploader</a> interface which can be declared as dependency by the controllers.
+    Waffle provides a <a href="javadoc/core/org/codehaus/waffle/io/RequestFileUploader.html">request-based implementation</a>.        
+  </p>
+  <p>
+    Let's walk through an example.  The controller would simply decare the dependency:
+
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class UploadController {
+      private final FileUploader;
+
+      public UploadController(FileUploader uploader) {
+          this.uploader = uploader;
+      }
+
+      @ActionMethod(asDefault=true)
+      @PRG(false) // PRG needs to be disabled to allow request-scope content to be accessible in referring view
+      public void upload(){ 
+        files = uploader.getFiles();
+        formFields = uploader.getFormFields();
+        errors = uploader.getErrors();        
+      }
+
+      public Collection<String> getErrors() {
+        return errors;
+      }
+
+      public List<FileItem> getFiles() {
+        return files;
+      }
+
+      public List<FileItem> getFormFields() {
+        return formFields;
+      }
+    }
+  </textarea>
+
+  The <code>RequestFileUploader</code> needs to be registered in at request scope, along with any dependency it needs.
+  <textarea class="java:nogutter:nocontrols" name="code">
+    @Override
+    public void request() {
+        register("fileItemFactory", DiskFileItemFactory.class);
+        register("uploader", RequestFileUploader.class);
+        register("upload", UploadController.class);
+    }    
+  </textarea>
+
+  A few comments are in order:
+  <ul>
+    <li>By default, Waffle adopts the <a href="prg.html">PRG pattern</a>, 
+  which for request-scoped controllers would not allow the content of the request to be made available to the view, because it would be redirected
+  to a new request.  Hence, we disable it via the @PRG annotation to show the uploaded files in the referring view.
+    </li>
+    <li>Waffle honours to the FileUpload interfaces, which allows the implementations and the configuration to be controlled by the
+  user via the registrar.  In particular, Waffle by default uses FileUpload's resource cleanup mechanism, detailed in the 
+  <a href="http://commons.apache.org/fileupload/using.html">user guide</a>.
+    </li>
+  </ul>
+    
+  </body>
+</html>

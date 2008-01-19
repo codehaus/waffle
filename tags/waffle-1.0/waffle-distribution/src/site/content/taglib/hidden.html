@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>Hidden Tag</title>
+</head>
+<body>
+
+
+<h2>Hidden Tag</h2>
+
+<p>You can use the <i>hidden</i> tag in order to create hidden html fields:</p>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:hidden name=&quot;fornecedor.id&quot; value=&quot;${fornecedor.id}&quot;/&gt;
+</textarea>
+<p>The <b>w:hidden</b> tag does not add rows to your form, if it has some type of table display.</p>
+
+<h2>Default value</h2>
+
+<p>The default <i>value</i> attribute value is the expression language evaluation of the name attribute. Therefore the
+  result from writing:</p>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:hidden name=&quot;supplier.id&quot; value=&quot;${supplier.id}&quot;/&gt;
+</textarea>
+
+<p>Is the same one as:</p>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;w:hidden name=&quot;supplier.id&quot;/&gt;
+</textarea>
+
+</body>
+
+</html>
