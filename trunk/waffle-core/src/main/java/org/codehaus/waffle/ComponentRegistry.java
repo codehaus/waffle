@@ -38,8 +38,11 @@ import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
 
 /**
- * <p>Responsible for maintaining Waffle framework components, which allows Waffle to have a pluggable architecture.</p>
- *
+ * <p>
+ * ComponentRegistry is responsible for maintaining Waffle components and allowing Waffle to have a pluggable
+ * architecture.
+ * </p>
+ * 
  * @author Michael Ward
  * @author Mauro Talevi
  */

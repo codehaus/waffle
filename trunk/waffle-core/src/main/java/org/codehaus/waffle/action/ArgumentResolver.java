@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * Implementation of this interface are responsible for resolving an action methods argument value by name.  The means
  * by which argument resolution is handled is to the discretion of the implementation
+ * 
+ * @author Michael Ward
  */
 public interface ArgumentResolver {
 
