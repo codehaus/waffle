@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2005,2006 Michael Ward                                      *
+ * Copyright (c) 2005-2008 Michael Ward                                      *
  * All rights reserved.                                                      *
  * ------------------------------------------------------------------------- *
  * The software in this package is published under the terms of the BSD      *
