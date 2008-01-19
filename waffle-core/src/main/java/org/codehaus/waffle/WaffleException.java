@@ -11,7 +11,7 @@
 package org.codehaus.waffle;
 
 /**
- * <p>The Base Exception type in the Waffle framework.</p>
+ * <p>The base Exception that all other Waffle exceptions extend.</p>
  *
  * @author Michael Ward
  */

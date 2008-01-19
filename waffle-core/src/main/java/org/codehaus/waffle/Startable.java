@@ -15,6 +15,7 @@ package org.codehaus.waffle;
  * as it relates to the context they have been registered with in the application's Registrar.
  * </p>
  *
+ * @author Michael Ward
  * @see org.codehaus.waffle.registrar.Registrar#application()
  * @see org.codehaus.waffle.registrar.Registrar#session()
  * @see org.codehaus.waffle.registrar.Registrar#request() 
