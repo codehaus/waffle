@@ -1,0 +1,39 @@
+<div xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <div id="selected" class="items">
+        <div style="float:left; font-weight:bold">Selected</div>
+        <br style="clear:both"/>
+        <c:forEach var="item" items="${selected}" varStatus="status">
+            <div class="item_selected" id="remove|${status.index}">${item.name}</div>
+        </c:forEach>
+    </div>
+
+    <div id="available" class="items">
+        <div style="float:left; font-weight:bold">Available</div>
+        <br style="clear:both"/>
+        <c:forEach var="item" items="${available}" varStatus="status">
+            <div class="item_available" id="add|${status.index}">${item.name}</div>
+        </c:forEach>
+    </div>
+
+    <script type="text/javascript">
+        makeDraggable("item_selected");
+        makeDraggable("item_available");
+
+        Droppables.add('available', {
+            accept: "item_selected",
+            onDrop:handleDrop,
+            onHover: function(drag, drop) {
+                new Effect.Highlight(drop)
+            }
+        });
+
+        Droppables.add('selected', {
+            accept: "item_available",
+            onDrop:handleDrop,
+            onHover: function(drag, drop) {
+                new Effect.Highlight(drop)
+            }
+        });
+    </script>
+</div>
+

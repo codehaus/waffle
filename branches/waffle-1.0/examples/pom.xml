@@ -1,0 +1,123 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.waffle</groupId>
+    <artifactId>waffle</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>waffle-examples</artifactId>
+  <packaging>pom</packaging>
+  <name>Waffle Examples</name>
+
+  <modules>
+    <module>simple-example</module>
+    <module>jruby-example</module>
+    <module>freemarker-example</module>
+    <module>paranamer-example</module>
+    <module>migration-example</module>
+    <module>mydvds-example</module>
+  </modules>
+  
+  <dependencies>
+    <dependency>
+      <groupId>${pom.groupId}</groupId>
+      <artifactId>waffle-core</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${pom.groupId}</groupId>
+      <artifactId>waffle-mock</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${pom.groupId}</groupId>
+      <artifactId>waffle-taglib</artifactId>
+      <version>${pom.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <scope>runtime</scope>      
+    </dependency>
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <scope>runtime</scope>
+    </dependency>    
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <version>1.2.14</version>      
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-war-plugin</artifactId>
+       </plugin>
+       <plugin>
+         <groupId>org.apache.maven.plugins</groupId>
+         <artifactId>maven-dependency-plugin</artifactId>
+         <executions>
+           <execution>
+             <id>unpack-resources</id>
+             <phase>process-resources</phase>
+             <goals>
+               <goal>unpack</goal>
+             </goals>
+             <configuration>
+               <outputDirectory>
+                 ${project.build.directory}/${pom.artifactId}-${pom.version}
+               </outputDirectory>
+               <overWriteReleases>false</overWriteReleases>
+               <overWriteSnapshots>true</overWriteSnapshots>
+               <artifactItems>
+                 <artifactItem>
+                   <groupId>${pom.groupId}</groupId>
+                   <artifactId>waffle-resources</artifactId>
+                   <version>${pom.version}</version>
+                 </artifactItem>
+               </artifactItems>
+             </configuration>
+           </execution>
+         </executions>
+       </plugin>
+       <plugin>
+        <groupId>org.codehaus.mojo.groovy</groupId>
+        <artifactId>groovy-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>install</phase>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+            <configuration>
+              <source>
+                  def ant = new AntBuilder()
+                  def webapp = "${project.build.directory}/${pom.artifactId}.war"
+                  if ( new File(webapp).exists() ){
+                    ant.echo(message: "Deploying ${webapp} to ${webapp.deploy.dir}")
+                    ant.copy(file: "${webapp}", 
+                            todir: "${webapp.deploy.dir}", verbose: true, overwrite: true)
+                  }
+              </source>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

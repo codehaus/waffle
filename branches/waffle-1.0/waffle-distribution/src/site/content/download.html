@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Download</title>
+</head>
+
+<body>
+
+<h2>Stable releases</h2>
+
+  <p>
+    The stable releases of Waffle can be found on the
+    <a href="http://repository.codehaus.org/org/codehaus/waffle">repository</a>:
+    <ul>
+      <li><a href="http://repository.codehaus.org/org/codehaus/waffle/waffle-distribution/1.0/waffle-distribution-1.0bin.zip">1.0 bin distribution</a> (19 January 2008)</li>
+    </ul>
+    <ul>
+      <li><a href="http://repository.codehaus.org/org/codehaus/waffle/waffle-distribution/1.0-RC-2/waffle-distribution-1.0-RC-2-bin.zip">1.0-RC-2 bin distribution</a> (6 January 2008)</li>
+    </ul>
+    <ul>
+      <li><a href="http://repository.codehaus.org/org/codehaus/waffle/waffle-distribution/1.0-RC-1/waffle-distribution-1.0-RC-1-bin.zip">1.0-RC-1 bin distribution</a> (15 December 2007)</li>
+    </ul>
+    <ul>
+      <li><a href="http://repository.codehaus.org/org/codehaus/waffle/waffle-distribution/1.0-beta-1/waffle-distribution-1.0-beta-1-bin.zip">1.0-beta-1 bin distribution</a> (28 July 2007)</li>
+    </ul>
+  </p>
+
+<h2 id="snapshot">Latest Snapshot</h2>
+
+  <p>
+    The snapshot builds of Waffle can be found on the
+    <a href="http://snapshots.repository.codehaus.org/org/codehaus/waffle">snapshots repository</a>:
+    <ul>
+      <li><a href="http://snapshots.repository.codehaus.org/org/codehaus/waffle/waffle-distribution/1.1-SNAPSHOT/">waffle-distribution-bin.zip</a></li>
+    </ul>
+
+    Be sure to choose the snapshot with the latest timestamp in the filename.
+  </p>
+
+<h2 id="maven">Using Maven 2 Artifacts</h2>
+
+  <p>
+    If you use Maven 2 as the build system (or one that is compatible with the Maven 2 Repository),
+    you can declare Waffle dependencies as
+    <textarea class="xml:nogutter:nocontrols" name="code">
+  <dependency> 
+    <groupId>org.codehaus.waffle</groupId>
+    <artifactId>waffle-[module]</artifactId>
+    <version>[version]</version>
+  </dependency>
+    </textarea>
+    specifying the desired module and version.  Currently, Waffle comprises of three Java modules:
+    <ul>
+      <li><a href="javadoc/core/index.html">core</a></li>
+      <li><a href="javadoc/mock/index.html">mock</a></li>
+      <li><a href="javadoc/taglib/index.html">taglib</a></li>
+    </ul>    
+    Note that mock and taglib modules have a transitive dependency on core, so there is no need to declare
+    the core dependency if using mock and/or taglib.
+  </p>
+  <p>
+    Additionally, the waffle-resources module contains non-Java resources such as Javascript, which 
+    can be included in the webapp via the maven-dependency-plugin:unpack goal.
+  </p>
+<div class="clear">
+<hr />
+</div>
+
+</body>
+</html>

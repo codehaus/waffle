@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Release Notes</title>
+</head>
+<body>
+
+
+<h1>Waffle - Version 1.0</h1>
+        
+<h2>        Bug
+</h2>
+<ul>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-54'>WAFFLE-54</a>] -         RequestParameterReference incorrectly returns RequestAttributeReference
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-56'>WAFFLE-56</a>] -         PicoRegistrarMockery().assertConfiguration(...) does not handle registrar's that utilize Reference's
+</li>
+</ul>
+    
+<h2>        Improvement
+</h2>
+<ul>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-52'>WAFFLE-52</a>] -         Allow component registration with the same interface but different implementation
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-55'>WAFFLE-55</a>] -         RequestParameterReference should allow for a default value if the parameter cannot be resolved.
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-57'>WAFFLE-57</a>] -         PicoContextContainer.getComponentInstance() should wrap any PicoException that is thrown.
+</li>
+</ul>
+                
+
+<h1>Waffle - Version 1.0-rc-2</h1>
+
+<h2>        Improvement
+</h2>
+<ul>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-52'>WAFFLE-52</a>] -         explicit component registration (i.e. register components with the same interface but different implementation)
+</li>
+</ul>
+
+<h2>        Task
+</h2>
+<ul>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-51'>WAFFLE-51</a>] -         Upgrade to Surefire 2.3.1
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-53'>WAFFLE-53</a>] -         Upgrade maven-release-plugin to 2.0-beta-7
+</li>
+</ul>
+    
+<h1>Waffle - Version 1.0-rc-1</h1>
+        
+<h2>        Bug
+</h2>
+<ul>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-13'>WAFFLE-13</a>] -         dateTimePicker does not respect the label attribute
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-15'>WAFFLE-15</a>] -         SelectTag throws NPE when selected item is null
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-16'>WAFFLE-16</a>] -         SelectTag creates a new option if there is no form type definition
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-22'>WAFFLE-22</a>] -         Example webapps failing in Tomcat 6.0
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-26'>WAFFLE-26</a>] -         Select tag does not accept null as content
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-27'>WAFFLE-27</a>] -         build with jruby 1.0.1 fails
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-36'>WAFFLE-36</a>] -         http://waffle.codehaus.org/binding-validation.html contains wrong examples/class names
+</li>
+</ul>
+    
+<h2>        Improvement
+</h2>
+<ul>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-11'>WAFFLE-11</a>] -         Support Setter Injection from Registrar
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-12'>WAFFLE-12</a>] -         Handle missing session container in Tomcat
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-18'>WAFFLE-18</a>] -         Add MyDVDs example webapp
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-19'>WAFFLE-19</a>] -         ActionMethod exception stacktraces are always lost
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-21'>WAFFLE-21</a>] -         Remove standard.jar dependency from waffle taglib
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-29'>WAFFLE-29</a>] -         Create Waffle Mock module
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-32'>WAFFLE-32</a>] -         Rename WaffleTypeConverter to ValueConverter
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-33'>WAFFLE-33</a>] -         Replace Ognl TypeConverter with ValueConverterFinder as pluggable interface
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-34'>WAFFLE-34</a>] -         Move Ognl-based bind implementations to separate  package
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-35'>WAFFLE-35</a>] -         Encapsulate Ognl-based action implementations in separate classes
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-38'>WAFFLE-38</a>] -         Introduce ErrorMessage type in ErrorsContext 
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-39'>WAFFLE-39</a>] -         Update taglib Functions to expose all error finding methods 
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-42'>WAFFLE-42</a>] -         ErrorsContext should not instantiated in the WaffleServlet
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-45'>WAFFLE-45</a>] -         Add isRegistered(Object) method to Registrar
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-47'>WAFFLE-47</a>] -         Action methods should be configurable to override the default PRG (Post\Redirect\Get) behavior.
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-48'>WAFFLE-48</a>] -         Refactor annotations
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-50'>WAFFLE-50</a>] -         Rename Serializer and move to io package.
+</li>
+</ul>
+    
+<h2>        New Feature
+</h2>
+<ul>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-2'>WAFFLE-2</a>] -         Add Waffle taglib
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-6'>WAFFLE-6</a>] -         Support Views written in Ruby ERB
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-10'>WAFFLE-10</a>] -         Add monitoring
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-41'>WAFFLE-41</a>] -         Add MessagesContext
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-43'>WAFFLE-43</a>] -         Add errors and messages tags
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-44'>WAFFLE-44</a>] -         Add support for file uploads 
+</li>
+</ul>
+    
+<h2>        Task
+</h2>
+<ul>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-5'>WAFFLE-5</a>] -         Use XSite for docs
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-28'>WAFFLE-28</a>] -         Convert all unit tests to JUnit 4/JMock 2
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-30'>WAFFLE-30</a>] -         Upgrade to jMock 2.4
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-31'>WAFFLE-31</a>] -         Rename artifactId of reactor and core
+</li>
+<li>[<a href='http://jira.codehaus.org/browse/WAFFLE-46'>WAFFLE-46</a>] -         Create Waffle Resources module
+</li>
+</ul>
+        
+<h2> Migrating from 1.0-beta-1 to 1.0-rc-1
+</h2>
+
+<p>The following issues will break backward compatibility:
+</p>
+<ul>
+<li>Waffle Core artifactId changed from waffle to waffle-core 
+[<a href='http://jira.codehaus.org/browse/WAFFLE-31'>WAFFLE-31</a>]
+</li>
+<li>Waffle Monitor dependencies added
+[<a href='http://jira.codehaus.org/browse/WAFFLE-10'>WAFFLE-10</a>]
+</li>
+<li>Mocks moved to Waffle Mock (artifactId waffle-mock) and upgraded to using jMock 2.
+[<a href='http://jira.codehaus.org/browse/WAFFLE-29'>WAFFLE-29</a>]
+[<a href='http://jira.codehaus.org/browse/WAFFLE-30'>WAFFLE-30</a>]
+</li>
+<li>Waffle ValueConverterFinder replaced Ognl TypeConverter as pluggable interface
+[<a href='http://jira.codehaus.org/browse/WAFFLE-32'>WAFFLE-32</a>]
+[<a href='http://jira.codehaus.org/browse/WAFFLE-33'>WAFFLE-33</a>]
+</li>
+<li>Ognl-based implementations renamed and/or moved
+[<a href='http://jira.codehaus.org/browse/WAFFLE-34'>WAFFLE-34</a>]
+[<a href='http://jira.codehaus.org/browse/WAFFLE-35'>WAFFLE-35</a>]
+</li>
+<li>Validation errors context changed and simplified
+[<a href='http://jira.codehaus.org/browse/WAFFLE-38'>WAFFLE-38</a>]
+[<a href='http://jira.codehaus.org/browse/WAFFLE-39'>WAFFLE-39</a>]
+</li>
+<li>Refactored annotations
+[<a href='http://jira.codehaus.org/browse/WAFFLE-47'>WAFFLE-47</a>]
+[<a href='http://jira.codehaus.org/browse/WAFFLE-48'>WAFFLE-48</a>]
+</li>
+<li>Registrar interface enhanced
+[<a href='http://jira.codehaus.org/browse/WAFFLE-11'>WAFFLE-11</a>]
+[<a href='http://jira.codehaus.org/browse/WAFFLE-45'>WAFFLE-45</a>]
+</li>
+
+
+</ul>        
+        
+</body>
+
+
+</html>
