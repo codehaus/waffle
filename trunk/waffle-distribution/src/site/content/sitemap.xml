@@ -21,7 +21,7 @@
     <link title="Issue Tracking">http://jira.codehaus.org/browse/WAFFLE</link>
   </section>
   <section>
-    <name>Developing with Waffle</name>
+    <name>Developing Java web apps</name>
     <page>action-controllers.html</page>
     <page>action-methods.html</page>
     <page>interceptors.html</page>
@@ -38,6 +38,11 @@
     <page>file-upload.html</page>
     <page>webxml.html</page>
     <page>webapp-structure.html</page>
+  </section>
+  <section>
+    <name>Developing Ruby webapps</name>
+    <page>ruby-controllers.html</page>
+    <page>erb-views.html</page>
   </section>
   <section>
     <name>Taglib</name>
