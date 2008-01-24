@@ -2,7 +2,7 @@
 
 <html>
 <head>
-<title>Ajax</title>
+<title>Simple Ajax</title>
 </head>
 <body>
 
@@ -10,7 +10,7 @@
 
   <p>
     Waffle was built to be easy to develop with and this ease extends to Ajax support as well. Utilizing AJAX in Waffle
-    application is straightforward and simple. The examples here use the
+    application is straightforward and simple. The examples here use the well known
     <a href="http://prototype.conio.net/">Prototype JavaScript Framework</a>.
   </p>
 
@@ -84,6 +84,9 @@
       }
     }
   </textarea>
+
+  <p>The document that comes back over the wire per Ajax request, is a one-line toString() transformation on the int 
+	result of the random() method.  This is performed by DefaultActionMethodResponseHandler.</p>
 
   <h3>Partial page rendering</h3>
 
