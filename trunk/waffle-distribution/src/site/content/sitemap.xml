@@ -34,10 +34,14 @@
     <page>validation.html</page>
     <page>lifecycle.html</page>
     <page>monitors.html</page>
-    <page>ajax.html</page>
     <page>file-upload.html</page>
     <page>webxml.html</page>
     <page>webapp-structure.html</page>
+  </section>
+  <section>
+    <name>Web 2.0</name>
+    <page>ajax.html</page>
+    <page>dynamic.html</page>
   </section>
   <section>
     <name>Developing Ruby webapps</name>
