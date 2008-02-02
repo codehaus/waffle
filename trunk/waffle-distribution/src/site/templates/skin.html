@@ -13,9 +13,15 @@
   <script defer type="text/javascript" src="./scripts/pngfix.js"></script>
   <![endif]-->
 
-  <script type="text/javascript" src="./scripts/prototype.js">
+  <script type="text/javascript" src="./scripts/mootools-beta-1.2b2.js">
     //
   </script>
+  <script type="text/javascript" src="./scripts/docs.js">
+    //
+  </script>
+  <style media="screen" type="text/css">
+div.MGroupContent{display: none}
+</style>
   <meta name="verify-v1" content="UsIBiaQhhmjFrBwcJ2n4XIvEImPNG4SMVP365rRcpxE="/>
   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
 </head>
@@ -26,26 +32,30 @@
     <div class="clear"></div>
   </div>
 
-  <div id="breadcrumbs">
-    <div class="left"> Last Published: 19 January 2008</div>
+  <!--<div id="breadcrumbs">
+    <div class="left"></div>
     <div class="clear"></div>
-  </div>
+  </div>-->
 
-  <div id="leftColumn">
 
-    <div id="navColumn">
+    <div id="Menu">
       <#list sitemap.sections as section>
-        <h1>${section.name}</h1>
-        <ul>
-          <#list section.pages as otherPage>
-            <#if otherPage=page>
-              <li><strong>${otherPage.title}</strong></li>
+        <div class="MGroup MEntry">
+          <a>${section.name}</a>
+          <div id="MGroupContent${section_index}" class="MGroupContent" style="display: block;">
+            <#list section.pages as otherPage>
+              <#if otherPage=page>
+                <div class="MFile MEntry" id="MSelected">${otherPage.title}</div>
               <#else>
-                <li><a href="${otherPage.href}">${otherPage.title}</a></li>
-            </#if>
-          </#list>
-        </ul>
+                <div class="MFile MEntry">
+                  <a href="${otherPage.href}">${otherPage.title}</a>
+                </div>
+              </#if>
+            </#list>
+          </div>
+        </div>
       </#list>
+
 
       <h1>Hosted at</h1>
 
@@ -69,7 +79,6 @@
         //
       </script>
     </div>
-  </div>
 
   <div id="bodyColumn">
     <div id="contentBox">
@@ -81,6 +90,7 @@
   </div>
   <div class="clear"></div>
   <div id="footer">
+    <div class="left"> Last Published: 19 January 2008</div>
     <div class="right">&#169; 2008</div>
     <div class="clear"></div>
   </div>
