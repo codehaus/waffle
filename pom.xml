@@ -457,17 +457,6 @@
       <url>http://repository.codehaus.org</url>
     </repository>
     <repository>
-      <id>codehaus-snapshot-repository</id>
-      <name>Codehaus Snapshot Repository</name>
-      <url>http://snapshots.repository.codehaus.org</url>
-    </repository>
-    <repository>
-      <id>codehaus-legacy-repository</id>
-      <name>Codehaus Legacy Repository</name>
-      <url>http://dist.codehaus.org</url>
-      <layout>legacy</layout>
-    </repository>
-    <repository>
       <id>openqa-repository</id>
       <name>OpenQA Repository</name>
       <url>http://maven.openqa.org/</url>
@@ -476,32 +465,19 @@
 
   <pluginRepositories>
     <pluginRepository>
-      <id>apache-plugin-snapshot-repository</id>
-      <name>Apache Plugin Snapshot Repository</name>
-      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-    <pluginRepository>
-      <id>codehaus-plugin-repository</id>
-      <name>Codehaus Plugin Repository</name>
+      <id>codehaus-repository</id>
+      <name>Codehaus Repository</name>
       <url>http://repository.codehaus.org</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>codehaus-plugin-snapshot-repository</id>
-      <name>Codehaus Plugin Snapshot Repository</name>
-      <url>http://snapshots.repository.codehaus.org</url>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </snapshots>
     </pluginRepository>
     <pluginRepository>
-      <id>openqa-plugin-snapshot-repository</id>
-      <name>OpenQA Plugin Snapshot Repository</name>
+      <id>openqa-repository</id>
+      <name>OpenQA Repository</name>
       <url>http://maven.openqa.org</url>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
