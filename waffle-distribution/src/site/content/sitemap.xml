@@ -46,6 +46,7 @@
   <section>
     <name>Developing Ruby webapps</name>
     <page>ruby-controllers.html</page>
+    <page>accessing-java-from-ruby.html</page>
     <page>erb-views.html</page>
   </section>
   <section>
