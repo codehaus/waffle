@@ -1,15 +1,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
-<head>
-<title>Ruby Controllers</title>
-</head>
-<body>
+<html><head>
+<title>Ruby Controllers</title></head>
 
-
-<h2>Fill me in Mike?</h2>
-
-say something in release notes too - ERB is mentioned but not Ruby controllers per se, or when.
-
-</body>
-
-</html>
+<body>Ever wish you could utilize Ruby from your Java based web applications?<br /><br />Waffle,
+a Java based Web Framework, now provides built in support for JRuby.
+This will allow you to easily write your Controllers in Ruby. The
+integration is simple and straightforward, taking advantage of
+functionality Waffle provides (without being a Rails clone). <br /><br />A
+key feature of Waffle has always been its pluggable architecture. From
+the beginning we believed that the default behavior defined by the
+Waffle team might not be suitable for every situation. Therefor Waffle
+was built following an Interface driven approach. Practically all of
+Waffle's built-in functionality can easily be extended or replaced.
+This design made integrating JRuby support quite easy. The next 3 steps
+give a brief overview of how to integrate JRuby support into your
+Waffle based applications.<br /><br />Step 1 - configure Waffle to be "Ruby Aware"<br /><br />Waffle
+avoids XML like the plague but we still need to have a web.xml for our
+applications. This web.xml is where we can take advantage of Waffle's
+pluggability. The following three context-param nodes need to be added
+to your applications web.xml. This alerts Waffle that a few of its
+foundational components should be replaced with alternate
+implementations.<br /><br />&lt;context-param&gt;<br />&nbsp; &lt;param-name&gt;org.codehaus.waffle.context.ContextContainerFactory&lt;/param-name&gt;<br />&nbsp; &lt;param-value&gt;org.codehaus.waffle.context.pico.RubyAwarePicoContextContainerFactory&lt;/param-value&gt;<br />&lt;/context-param&gt;<br />&lt;context-param&gt;<br />&nbsp; &lt;param-name&gt;org.codehaus.waffle.bind.DataBinder&lt;/param-name&gt;<br />&nbsp; &lt;param-value&gt;org.codehaus.waffle.bind.RubyDataBinder&lt;/param-value&gt;<br />&lt;/context-param&gt;<br />&lt;context-param&gt;<br />&nbsp; &lt;param-name&gt;org.codehaus.waffle.controller.ControllerDefinitionFactory&lt;/param-name&gt;<br />&nbsp; &lt;param-value&gt;org.codehaus.waffle.controller.RubyControllerDefinitionFactory&lt;/param-value&gt;<br />&lt;/context-param&gt;<br /><br />Step
+2 - Your application's Registrar should extended
+AbstractRubyAwareRegistrar. This exposes a new registration method to
+use within your Registrar ... registerRubyScript(String key, String
+className). See the example below: <br />public class MyRegistrar extends AbstractRubyAwareRegistrar {<br /><br />&nbsp; public MyRegistrar(Registrar delegate) {<br />&nbsp;&nbsp;&nbsp; super(delegate);<br />&nbsp; }<br />&nbsp;&nbsp; &nbsp;<br />&nbsp; @Override<br />&nbsp; public void application() {<br />&nbsp;&nbsp;&nbsp; registerRubyScript("foobar", "FooBar");<br />&nbsp; }<br />&nbsp; ...<br />}<br /><br />In
+this example the Ruby class named 'FooBar' will be exposed as a
+Controller under the name 'foobar' (e.g.
+http://localhost:8080/jruby/foobar.waffle).<br /><br />Step 3 - Write
+your Ruby Controller class. Notice in the following example that your
+class does not need to extend or include anything.<br />class FooBar<br /><br />&nbsp; def index # This is the default action<br />&nbsp;&nbsp;&nbsp; "&lt;h1&gt;Hello World&lt;/h1&gt;"<br />&nbsp; end<br />&nbsp; <br />end<br /><br />And
+that is all the steps required to integrate JRuby within your Waffle
+Applications. In my next post I will uncover details on how to access
+registered components from your Ruby based controllers as well as
+explain the built in conventions that make writing Ruby controllers so
+easy.</body></html>
