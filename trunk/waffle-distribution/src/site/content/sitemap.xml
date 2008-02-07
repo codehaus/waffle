@@ -8,19 +8,6 @@
     <page>release-notes.html</page>
   </section>
   <section>
-    <name>JavaDoc</name>
-    <link title="Core">javadoc/core/index.html</link>
-    <link title="Mock">javadoc/mock/index.html</link>
-    <link title="Taglib">javadoc/taglib/index.html</link>
-  </section>
-  <section>
-    <name>Waffle Resources</name>
-    <page>mailing-lists.html</page>
-    <page>team-list.html</page>
-    <page>source-repository.html</page>
-    <link title="Issue Tracking">http://jira.codehaus.org/browse/WAFFLE</link>
-  </section>
-  <section>
     <name>Developing Java web apps</name>
     <page>action-controllers.html</page>
     <page>action-methods.html</page>
@@ -39,15 +26,26 @@
     <page>webapp-structure.html</page>
   </section>
   <section>
+    <name>Developing Ruby web apps</name>
+    <page>ruby-controllers.html</page>
+    <page>accessing-java-from-ruby.html</page>
+    <page>erb-views.html</page>
+  </section>
+  <section>
     <name>Web 2.0</name>
     <page>ajax.html</page>
     <page>dynamic.html</page>
   </section>
   <section>
-    <name>Developing Ruby webapps</name>
-    <page>ruby-controllers.html</page>
-    <page>accessing-java-from-ruby.html</page>
-    <page>erb-views.html</page>
+    <name>Examples</name>
+    <page>examples/examples.html</page>
+    <page>examples/hello-world.html</page>
+    <page>examples/simple-calculator.html</page>
+  </section>
+  <section>
+    <name>Tutorials</name>
+    <page>tutorials/tutorial-one.html</page>
+    <page>tutorials/tutorial-two.html</page>
   </section>
   <section>
     <name>Taglib</name>
@@ -63,15 +61,17 @@
     <page>taglib/textarea.html</page>
   </section>
   <section>
-    <name>Examples</name>
-    <page>examples/examples.html</page>
-    <page>examples/hello-world.html</page>
-    <page>examples/simple-calculator.html</page>
+    <name>Waffle Resources</name>
+    <page>mailing-lists.html</page>
+    <page>team-list.html</page>
+    <page>source-repository.html</page>
+    <link title="Issue Tracking">http://jira.codehaus.org/browse/WAFFLE</link>
   </section>
   <section>
-    <name>Tutorials</name>
-    <page>tutorials/tutorial-one.html</page>
-    <page>tutorials/tutorial-two.html</page>
+    <name>JavaDoc</name>
+    <link title="Core">javadoc/core/index.html</link>
+    <link title="Mock">javadoc/mock/index.html</link>
+    <link title="Taglib">javadoc/taglib/index.html</link>
   </section>
   <section>
     <name>Miscellaneous</name>
