@@ -26,7 +26,7 @@ to your applications web.xml. This alerts Waffle that a few of its
 foundational components should be replaced with alternate
 implementations.
 
-<textarea class="java:nogutter:nocontrols" name="code">&lt;context-param&gt;
+<textarea class="xml:nogutter:nocontrols" name="code">&lt;context-param&gt;
 &nbsp; &lt;param-name&gt;org.codehaus.waffle.context.ContextContainerFactory&lt;/param-name&gt;
 &nbsp; &lt;param-value&gt;org.codehaus.waffle.context.pico.RubyAwarePicoContextContainerFactory&lt;/param-value&gt;
 &lt;/context-param&gt;
@@ -48,8 +48,8 @@ className). See the example below:
 <textarea class="java:nogutter:nocontrols" name="code">public class MyRegistrar extends AbstractRubyAwareRegistrar {
 &nbsp; public MyRegistrar(Registrar delegate) {
 &nbsp;&nbsp;&nbsp; super(delegate);
-&nbsp; }&nbsp;&nbsp; &nbsp;
-	&nbsp; @Override
+&nbsp; }
+&nbsp; @Override
 &nbsp; public void application() {
 &nbsp;&nbsp;&nbsp; registerRubyScript("foobar", "FooBar");
 &nbsp; }
@@ -63,7 +63,7 @@ http://localhost:8080/jruby/foobar.waffle).
 your Ruby Controller class. Notice in the following example that your
 class does not need to extend or include anything.
 
-<textarea class="java:nogutter:nocontrols" name="code">class FooBar
+<textarea class="ruby:nogutter:nocontrols" name="code">class FooBar
 &nbsp; def index # This is the default action
 &nbsp;&nbsp;&nbsp; "&lt;h1&gt;Hello World&lt;/h1&gt;"
 &nbsp; end&nbsp; 

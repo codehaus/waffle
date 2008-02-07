@@ -4,20 +4,20 @@
 
 </head>
 <body>
-<h2>Access your Java components from&nbsp;Ruby Actions.</h2>
+<h2>Access your Java components from Ruby Actions.</h2>
 Here we examine Ruby based controllers, and the invoking of Java
 functionaility from them. Consider:<br />
 <textarea class="java:nogutter:nocontrols" name="code">
 public class MyRegistrar extends AbstractRubyAwareRegistrar {
-&nbsp; public MyRegistrar(Registrar delegate) {
-&nbsp;&nbsp;&nbsp; super(delegate);
-&nbsp; }
+  public MyRegistrar(Registrar delegate) {
+    super(delegate);
+  }
 
-&nbsp;@Override
-&nbsp; public void application() {
-&nbsp;&nbsp;&nbsp;register("person_dao", PersonDAOImpl.class);
-&nbsp;&nbsp;&nbsp; registerRubyScript("person", "PersonController");
-&nbsp; }
+  @Override
+  public void application() {
+    register("person_dao", PersonDAOImpl.class);
+    registerRubyScript("person", "PersonController");
+  }
 }</textarea>
 A
 DAO, PersonDAOImpl, is registered under the name "person_dao" and we
@@ -27,26 +27,26 @@ that this Ruby PersonController will need access to that DAO object.
 Gaining
 access to this DAO from the controller is easy in Waffle, just call the
 locate method:<br />
-<textarea class="java:nogutter:nocontrols" name="code">
+<textarea class="ruby:nogutter:nocontrols" name="code">
 class PersonController
-&nbsp; def index
-&nbsp;&nbsp;&nbsp; @person_dao = locate(example.PersonDAO)
-&nbsp;&nbsp;&nbsp; @people = @person_dao.findAll
-&nbsp;&nbsp;&nbsp; render 'person.rhtml'
-&nbsp;end
+  def index
+    @person_dao = locate(example.PersonDAO)
+    @people = @person_dao.findAll
+    render 'person.rhtml'
+  end
 end</textarea>
 Notice
 that we were able to retrieve the DAO by its interface. Additionally,
 since this DAO was registered with a key you can use a convention to
 retrieve the component. The convention is "locate_&lt;component
 key&gt;", here is the same controller using the locate_ convention:<br />
-<textarea class="java:nogutter:nocontrols" name="code">class
+<textarea class="ruby:nogutter:nocontrols" name="code">class
 PersonController
-&nbsp; def index
-&nbsp;&nbsp;&nbsp; @person_dao = locate_person_dao
-&nbsp;&nbsp;&nbsp; @people = @person_dao.findAll
-&nbsp;&nbsp;&nbsp; render 'person.rhtml'
-&nbsp;end
+  def index
+    @person_dao = locate_person_dao
+    @people = @person_dao.findAll
+    render 'person.rhtml'
+  end
 end</textarea>
 As
 you can see this makes writing Ruby based Controllers/Actions with
