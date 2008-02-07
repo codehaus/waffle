@@ -1,23 +1,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html><head><meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type" />
 <title>Accessing Java from Ruby</title></head>
-
 <body>
 
 Waffle: How to access your Java components from your Ruby Actions.<br /><br />In
 my last post I gave an overview of how you can easily integrate JRuby
 with Waffle. Now we will examine Ruby based controller in a bit more
 depth. Lets assume we have the following Waffle Registrar for our
-application:<br /><br />public class MyRegistrar extends AbstractRubyAwareRegistrar {<br /><br />&nbsp; public MyRegistrar(Registrar delegate) {<br />&nbsp;&nbsp;&nbsp; super(delegate);<br />&nbsp; }<br /><br />&nbsp; @Override<br />&nbsp; public void application() {<br />&nbsp;&nbsp;&nbsp; register("the_dao", PersonDAOImpl.class);<br /><br />&nbsp;&nbsp;&nbsp; registerRubyScript("person", "PersonController");<br />&nbsp; }<br />}<br /><br />A
+application:<br /><pre>public class MyRegistrar extends AbstractRubyAwareRegistrar {<br />&nbsp; public MyRegistrar(Registrar delegate) {<br />&nbsp;&nbsp;&nbsp; super(delegate);<br />&nbsp; }</pre><pre><br />&nbsp; @Override<br />&nbsp; public void application() {<br />&nbsp;&nbsp;&nbsp; register("the_dao", PersonDAOImpl.class);<br />&nbsp;&nbsp;&nbsp; registerRubyScript("person", "PersonController");<br />&nbsp; }<br />}</pre>A
 DAO, PersonDAOImpl, is registered under the name "the_dao" and we have
 one Ruby based controller available. Now its probably safe to assume
 that this Ruby PersonController will need access to the DAO. Gaining
 access to this DAO from the controller is easy in Waffle, just call the
-locate method:<br />class PersonController<br /><br />&nbsp; def index<br />&nbsp;&nbsp;&nbsp; @person_dao = locate(example.PersonDAO)<br /><br />&nbsp;&nbsp;&nbsp; @people = @person_dao.findAll<br />&nbsp;&nbsp;&nbsp; render 'person.rhtml'<br />&nbsp; end<br /><br />end<br /><br />Notice
+locate method:<br /><pre>class PersonController<br />&nbsp; def index<br />&nbsp;&nbsp;&nbsp; @person_dao = locate(example.PersonDAO)<br />&nbsp;&nbsp;&nbsp; @people = @person_dao.findAll<br />&nbsp;&nbsp;&nbsp; render 'person.rhtml'<br />&nbsp; end<br />end</pre>Notice
 that we were able to retrieve the DAO by its interface. Additionally,
 since this DAO was registered with a key you can use a convention to
 retrieve the component. The convention is "locate_&lt;component
-key&gt;", here is the same controller using the locate_ convention:<br />class PersonController<br /><br />&nbsp; def index<br />&nbsp;&nbsp;&nbsp; @person_dao = locate_the_dao<br /><br />&nbsp;&nbsp;&nbsp; @people = @person_dao.findAll<br />&nbsp;&nbsp;&nbsp; render 'person.rhtml'<br />&nbsp; end<br /><br />end<br /><br />As
+key&gt;", here is the same controller using the locate_ convention:<br /><pre>class PersonController<br />&nbsp; def index<br />&nbsp;&nbsp;&nbsp; @person_dao = locate_the_dao<br />&nbsp;&nbsp;&nbsp; @people = @person_dao.findAll<br />&nbsp;&nbsp;&nbsp; render 'person.rhtml'<br />&nbsp; end<br />end</pre>As
 you can see this makes writing Ruby based Controllers/Actions with
 Waffle really easy. In my next post I'll detail how to access request
 parameter and context attributes with ease.
