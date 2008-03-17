@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
-        version="2.1">
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
 
-  <tlib-version>1.0</tlib-version>
-  <jsp-version>1.2</jsp-version>
-  <short-name>waffle</short-name>
+  <tlib-version>1.1</tlib-version>
+  <short-name>w</short-name>
   <uri>http://waffle.codehaus.org</uri>
   <display-name>Waffle tag library</display-name>
 
@@ -45,7 +44,8 @@
     <description>Find errors of type (BIND, FIELD, GLOBAL) and field name</description>
     <function-class>org.codehaus.waffle.taglib.Functions</function-class>
     <function-signature>
-      java.util.List findErrorsForField(org.codehaus.waffle.validation.ErrorsContext, java.lang.String, java.lang.String)
+      java.util.List findErrorsForField(org.codehaus.waffle.validation.ErrorsContext, java.lang.String,
+      java.lang.String)
     </function-signature>
   </function>
 
@@ -59,19 +59,19 @@
   </function>
 
   <tag-file>
-		<name>errors</name>
-		<path>/META-INF/tags/errors.tag</path>
-	</tag-file>
+    <name>errors</name>
+    <path>/META-INF/tags/errors.tag</path>
+  </tag-file>
 
   <tag-file>
-		<name>messages</name>
-		<path>/META-INF/tags/messages.tag</path>
-	</tag-file>
+    <name>messages</name>
+    <path>/META-INF/tags/messages.tag</path>
+  </tag-file>
 
   <tag-file>
-		<name>message</name>
-		<path>/META-INF/tags/message.tag</path>
-	</tag-file>
+    <name>message</name>
+    <path>/META-INF/tags/message.tag</path>
+  </tag-file>
 
   <!-- checkbox tag -->
   <tag>
@@ -115,8 +115,8 @@
   <!-- Calendar -->
   <tag>
     <name>calendar</name>
-    <tagclass>org.codehaus.waffle.taglib.form.CalendarTag</tagclass>
-    <bodycontent>empty</bodycontent>
+    <tag-class>org.codehaus.waffle.taglib.form.CalendarTag</tag-class>
+    <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
     <attribute>
       <name>label</name>
@@ -149,8 +149,8 @@
   <!-- Time -->
   <tag>
     <name>time</name>
-    <tagclass>org.codehaus.waffle.taglib.form.TimeTag</tagclass>
-    <bodycontent>empty</bodycontent>
+    <tag-class>org.codehaus.waffle.taglib.form.TimeTag</tag-class>
+    <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
     <attribute>
       <name>rendered</name>
@@ -194,8 +194,8 @@
   <!-- date -->
   <tag>
     <name>date</name>
-    <tagclass>org.codehaus.waffle.taglib.form.DateTag</tagclass>
-    <bodycontent>empty</bodycontent>
+    <tag-class>org.codehaus.waffle.taglib.form.DateTag</tag-class>
+    <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
     <description>Date tag</description>
     <attribute>
@@ -240,8 +240,8 @@
   <!-- number -->
   <tag>
     <name>number</name>
-    <tagclass>org.codehaus.waffle.taglib.form.NumberTag</tagclass>
-    <bodycontent>empty</bodycontent>
+    <tag-class>org.codehaus.waffle.taglib.form.NumberTag</tag-class>
+    <body-content>empty</body-content>
     <dynamic-attributes>true</dynamic-attributes>
     <description>Number tag</description>
     <attribute>
@@ -276,9 +276,9 @@
 
   <tag>
     <name>select</name>
-    <tagclass>org.codehaus.waffle.taglib.form.SelectTag</tagclass>
-    <bodycontent>scriptless</bodycontent>
-    <info>Tag for select box.</info>
+    <tag-class>org.codehaus.waffle.taglib.form.SelectTag</tag-class>
+    <body-content>scriptless</body-content>
+    <description>Tag for select box.</description>
     <dynamic-attributes>true</dynamic-attributes>
     <attribute>
       <name>rendered</name>
@@ -335,9 +335,9 @@
 
   <tag>
     <name>selectTokens</name>
-    <tagclass>org.codehaus.waffle.taglib.form.SelectTokensTag</tagclass>
-    <bodycontent>scriptless</bodycontent>
-    <info>Tag for select box based on tokens.</info>
+    <tag-class>org.codehaus.waffle.taglib.form.SelectTokensTag</tag-class>
+    <body-content>scriptless</body-content>
+    <description>Tag for select box based on tokens.</description>
     <dynamic-attributes>true</dynamic-attributes>
     <attribute>
       <name>rendered</name>
