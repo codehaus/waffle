@@ -98,7 +98,6 @@ public class PicoContextContainerFactoryTest {
         assertFalse(sessionLevelComponent.isStopped());
         assertEquals(applicationLevelComponent, sessionLevelComponent.getApplicationLevelComponent());
 
-
         // Mock HttpSession
         final HttpSession httpSession = mockery.mock(HttpSession.class);
         mockery.checking(new Expectations() {
