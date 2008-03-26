@@ -1,9 +1,15 @@
 package org.codehaus.waffle.context;
 
+import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.testmodel.StubContextContainerFactory;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+import org.junit.Assert;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
-import java.lang.reflect.Field;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -12,14 +18,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.codehaus.waffle.ComponentRegistry;
-import org.codehaus.waffle.testmodel.StubContextContainerFactory;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
-import org.jmock.integration.junit4.JMock;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import java.lang.reflect.Field;
 
 
 /**
@@ -80,6 +79,8 @@ public class WaffleRequestFilterTest {
 
     @Test
     public void canDoFilter() throws Exception {
+        CurrentHttpServletRequest.set(null); // ensure clear
+
         // Mock ContextContainer
         final ContextContainer container = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
@@ -121,6 +122,8 @@ public class WaffleRequestFilterTest {
         field.set(filter, contextContainerFactory);
 
         filter.doFilter(request, response, filterChain);
+
+        Assert.assertSame("Filter should have set request", request, CurrentHttpServletRequest.get());
     }
 
 }

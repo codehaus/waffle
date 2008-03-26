@@ -56,6 +56,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
     public ContextContainer buildSessionLevelContainer() {
         MutablePicoContainer parentContainer = (MutablePicoContainer) applicationContextContainer.getDelegate();
         MutablePicoContainer delegate = buildMutablePicoContainer(parentContainer);
+        delegate.registerComponent(new HttpSessionComponentAdapter());
 
         PicoContextContainer sessionContextContainer = new PicoContextContainer(delegate);
         registrarAssistant.executeDelegatingRegistrar(createRegistrar(sessionContextContainer), ContextLevel.SESSION);
@@ -69,7 +70,6 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
             PicoContextContainer sessionContextContainer = (PicoContextContainer) session.getAttribute(Constants.SESSION_CONTAINER_KEY);
             if (sessionContextContainer == null) {
                 sessionContextContainer = (PicoContextContainer) buildSessionLevelContainer();
-                sessionContextContainer.registerComponentInstance(session);
                 session.setAttribute(Constants.SESSION_CONTAINER_KEY, sessionContextContainer);
                 sessionContextContainer.start();
             }

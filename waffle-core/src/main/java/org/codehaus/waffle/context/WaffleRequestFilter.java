@@ -36,6 +36,7 @@ public class WaffleRequestFilter implements Filter {
                          ServletResponse response,
                          FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
+        CurrentHttpServletRequest.set(httpServletRequest);
         ContextContainer requestContextContainer = contextContainerFactory
                 .buildRequestLevelContainer(httpServletRequest);
 
