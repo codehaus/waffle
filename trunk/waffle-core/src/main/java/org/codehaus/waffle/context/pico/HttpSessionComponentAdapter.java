@@ -17,14 +17,10 @@ import org.picocontainer.PicoIntrospectionException;
 import org.picocontainer.PicoVisitor;
 import org.codehaus.waffle.context.CurrentHttpServletRequest;
 
-/**
- * This class allows for components to be dependent on an HttpSession without actually adding the session to the
- * picocontainer.  Without this serilaization issue can occur when an application server tries to serialize a
- * users session (<a href="http://jira.codehaus.org/browse/WAFFLE-60">WAFFLE-60</a>.)  
- *
- * @author Michael Ward
- */
 import javax.servlet.http.HttpSession;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 public class HttpSessionComponentAdapter implements ComponentAdapter {
     private final Class componentImplementation = HttpSession.class;
@@ -38,7 +34,9 @@ public class HttpSessionComponentAdapter implements ComponentAdapter {
     }
 
     public Object getComponentInstance(PicoContainer container) throws PicoInitializationException, PicoIntrospectionException {
-        return CurrentHttpServletRequest.get().getSession();
+        return Proxy.newProxyInstance(HttpSession.class.getClassLoader(),
+                                      new Class[] {HttpSession.class},
+                                      new HttpSessionProxy());
     }
 
     public void verify(PicoContainer container) throws PicoIntrospectionException {
@@ -47,5 +45,14 @@ public class HttpSessionComponentAdapter implements ComponentAdapter {
 
     public void accept(PicoVisitor visitor) {
         // do nothing
+    }
+
+    private static class HttpSessionProxy implements InvocationHandler {
+
+        public Object invoke(Object proxy, Method method, Object... args) throws Throwable {
+            HttpSession session = CurrentHttpServletRequest.get().getSession();
+
+            return method.invoke(session, args);
+        }
     }
 }
