@@ -10,13 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
-import org.jmock.Expectations;
+import org.codehaus.waffle.context.CurrentHttpServletRequest;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import static org.junit.Assert.assertSame;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.codehaus.waffle.context.CurrentHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,21 +29,12 @@ public class HttpSessionComponentAdapterTest {
     private Mockery mockery = new Mockery();
 
     @Test
-    public void doIt() {
+    public void shouldReturnProxyToHttpSession() {
         HttpSessionComponentAdapter componentAdapter = new HttpSessionComponentAdapter();
 
         // Mock ServletContext
         final HttpServletRequest httpServletRequest = mockery.mock(HttpServletRequest.class);
-        final HttpSession httpSession = mockery.mock(HttpSession.class);
         CurrentHttpServletRequest.set(httpServletRequest);
-        
-        mockery.checking(new Expectations() {
-            {
-                one(httpServletRequest).getSession();
-                will(returnValue(httpSession));
-            }
-        });
-
-        assertSame(httpSession, componentAdapter.getComponentInstance(null));
+        Assert.assertTrue(componentAdapter.getComponentInstance(null) instanceof HttpSession);
     }
 }
