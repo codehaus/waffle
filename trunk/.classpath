@@ -22,6 +22,12 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="**" kind="src" output="waffle-taglib/src/main/resources" path="waffle-taglib/src/main/resources"/>
+	<classpathentry kind="src" output="target-eclipse/classes" path="waffle-testing/src/main/java"/>
+	<classpathentry kind="src" output="target-eclipse/test-classes" path="waffle-testing/src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules/profiles[examples,integration]"/>
 	<classpathentry kind="output" path="target-eclipse/classes"/>
