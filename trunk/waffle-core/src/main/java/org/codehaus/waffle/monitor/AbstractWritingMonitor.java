@@ -90,6 +90,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("instanceRegistered", DEBUG);
         levels.put("nonCachingComponentRegistered", DEBUG);
         levels.put("servletServiceFailed", WARN);
+        levels.put("servletServiceRequested", DEBUG);
         levels.put("controllerValidatorNotFound", WARN);
         levels.put("methodDefinitionNotFound", WARN);        
         levels.put("validationFailed", WARN);  
@@ -140,6 +141,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         messages.put("instanceRegistered", "Registered instance {1} with key {0}");
         messages.put("nonCachingComponentRegistered", "Registered non-caching component of type {1} with key {0} and parameters {2}");
         messages.put("servletServiceFailed", "Servlet service failed: {0}");
+        messages.put("servletServiceRequested", "Servlet service requested with parameters: {0}");
         messages.put("controllerValidatorNotFound", "Controller validator {0} not found: defaulting to controller {1}");
         messages.put("methodDefinitionNotFound", "Method definition not found in controller definition {0}");        
         messages.put("validationFailed", "Validation failed: {0}");  
@@ -313,6 +315,10 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("servletServiceFailed", cause);        
     }
     
+    public void servletServiceRequested(Map<String, List<String>> parameters){
+        write("servletServiceRequested", parameters);        
+    }
+
     public void controllerValidatorNotFound(String controllerValidatorName, String controllerName) {
         write("controllerValidatorNotFound", controllerValidatorName, controllerName);
     }

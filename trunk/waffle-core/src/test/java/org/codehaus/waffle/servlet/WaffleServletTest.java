@@ -10,6 +10,22 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
@@ -40,20 +56,6 @@ import org.jmock.integration.junit4.JMock;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.List;
 
 /**
  * 
@@ -140,7 +142,7 @@ public class WaffleServletTest {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
-            one(request).getParameterNames();
+            atLeast(1).of(request).getParameterNames();
             will(returnValue(enumeration));
             one(request).getMethod();
             will(returnValue("get"));
@@ -221,7 +223,7 @@ public class WaffleServletTest {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
-            one(request).getParameterNames();
+            atLeast(1).of(request).getParameterNames();
             will(returnValue(enumeration));
             one(request).getMethod();
             will(returnValue("post"));
@@ -275,7 +277,7 @@ public class WaffleServletTest {
         Assert.assertEquals(1, nonDispatchingController.getCount());
     }
 
-    @SuppressWarnings("serial")
+    @SuppressWarnings({ "serial", "unchecked" })
     @Test(expected = ServletException.class)
     public void cannotServiceIfControllerNotFound() throws Exception {
         // Mock ErrorsContext
@@ -298,9 +300,14 @@ public class WaffleServletTest {
         // Mock ServletConfig
         final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
 
+        List<?> list = Collections.EMPTY_LIST;
+        final Enumeration<?> enumeration = Collections.enumeration(list);
+
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
+            atLeast(1).of(request).getParameterNames();
+            will(returnValue(enumeration));
             one(request).getServletPath();
             will(returnValue("/foobar"));
         }});
@@ -319,10 +326,20 @@ public class WaffleServletTest {
             }
         };
 
+        // Mock ServletMonitor
+        final ServletMonitor servletMonitor = mockery.mock(ServletMonitor.class);
+        mockery.checking(new Expectations() {{
+            allowing(servletMonitor).servletServiceRequested(with(any(Map.class)));
+        }});
+        
         // Set up what normally would happen via "init()"
         Field actionFactoryField = WaffleServlet.class.getDeclaredField("controllerDefinitionFactory");
         actionFactoryField.setAccessible(true);
         actionFactoryField.set(waffleServlet, controllerDefinitionFactory);
+
+        Field servletMonitorField = WaffleServlet.class.getDeclaredField("servletMonitor");
+        servletMonitorField.setAccessible(true);
+        servletMonitorField.set(waffleServlet, servletMonitor);
 
         waffleServlet.service(request, null);
     }
@@ -353,7 +370,7 @@ public class WaffleServletTest {
         // Mock HttpServletRequest
         final HttpServletRequest request  = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
-            one(request).getParameterNames();
+            atLeast(1).of(request).getParameterNames();
             will(returnValue(enumeration));
         }});
 
@@ -402,7 +419,7 @@ public class WaffleServletTest {
         waffleServlet.service(request, response);
     }
 
-    @SuppressWarnings({"serial", "ThrowableInstanceNeverThrown"})
+    @SuppressWarnings({"serial", "ThrowableInstanceNeverThrown", "unchecked"})
     @Test
     public void canThrowExceptionInMethodInvocation() throws Exception {
         // Mock ErrorsContext
@@ -429,7 +446,7 @@ public class WaffleServletTest {
         // Mock HttpServletRequest
         final HttpServletRequest request  = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {{
-            one(request).getParameterNames();
+            atLeast(1).of(request).getParameterNames();
             will(returnValue(enumeration));
         }});
 
@@ -466,6 +483,7 @@ public class WaffleServletTest {
         // Mock ServletMonitor
         final ServletMonitor servletMonitor = mockery.mock(ServletMonitor.class);
         mockery.checking(new Expectations() {{
+            allowing(servletMonitor).servletServiceRequested(with(any(Map.class)));
             allowing(servletMonitor).servletServiceFailed(actionMethodInvocationException);
         }});
 

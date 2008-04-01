@@ -10,6 +10,10 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
+import java.util.List;
+import java.util.Map;
+
+
 /**
  * A monitor for servlet-related events
  * 
@@ -19,4 +23,6 @@ public interface ServletMonitor extends Monitor {
 
     void servletServiceFailed(Exception cause);
     
+    void servletServiceRequested(Map<String, List<String>> parameters);
+
 }
