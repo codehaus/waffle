@@ -21,6 +21,7 @@ import org.codehaus.waffle.view.View;
 
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.Set;
 
 public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor, RegistrarMonitor,
@@ -111,6 +112,9 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     }
 
     public void servletServiceFailed(Exception cause) {
+    }
+    
+    public void servletServiceRequested(Map parameters) {
     }
 
     public void controllerValidatorNotFound(String controllerValidatorName, String controllerName) {

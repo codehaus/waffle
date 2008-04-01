@@ -10,9 +10,24 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.ComponentRegistry;
+import static java.util.Arrays.asList;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -30,13 +45,6 @@ import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.lang.reflect.Method;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -154,6 +162,7 @@ public class WaffleServlet extends HttpServlet {
      */
     protected void service(HttpServletRequest request,
                            HttpServletResponse response) throws ServletException, IOException {
+        servletMonitor.servletServiceRequested(parametersOf(request));
         ContextContainer requestContainer = RequestLevelContainer.get();
         ErrorsContext errorsContext = requestContainer.getComponentInstanceOfType(ErrorsContext.class);
 
@@ -202,6 +211,16 @@ public class WaffleServlet extends HttpServlet {
             log(ERROR + e.getMessage());
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, List<String>> parametersOf(HttpServletRequest request) {
+        Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+        for ( Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ){
+            String name = e.nextElement();
+            parameters.put(name, asList(request.getParameterValues(name)));
+        }
+        return parameters;
     }
 
     /**
