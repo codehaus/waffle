@@ -20,6 +20,7 @@
     <module>waffle-mock</module>
     <module>waffle-resources</module>
     <module>waffle-taglib</module>
+    <module>waffle-testing</module>
   </modules>
 
   <dependencyManagement>
