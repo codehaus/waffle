@@ -3,12 +3,15 @@ package org.codehaus.waffle.example.freemarker.action;
 import org.codehaus.waffle.example.freemarker.dao.PersonDAO;
 import org.codehaus.waffle.example.freemarker.model.Person;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class PersonController {
     private final PersonDAO personDAO;
     private Person person;
-
+    private List<String> selectedIds = new ArrayList<String>();
+    
     public PersonController(PersonDAO personDAO) {
         this.personDAO = personDAO;
     }
@@ -17,6 +20,22 @@ public class PersonController {
         return personDAO.findAll();
     }
 
+    public List<String> getSelectedIds(){
+        return selectedIds;
+    }
+    
+    public void setSelectedIds(List<String> ids){
+        selectedIds = ids;
+    }
+
+    public Collection<Person> getSelectedPeople() {
+        List<Person> selected = new ArrayList<Person>();
+        for ( String id : selectedIds ){
+            selected.add(personDAO.findById(Long.parseLong(id)));
+        }
+        return selected;
+    }
+    
     public void remove(Long personId) {
         personDAO.delete(personId);
     }
@@ -25,6 +44,10 @@ public class PersonController {
         this.person = personDAO.findById(id);
     }
 
+    public void show() {
+        //do nothing:  the selected Ids and people are automatically populated
+    }
+    
     public void save() {
         personDAO.save(person);
     }

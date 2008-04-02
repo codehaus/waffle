@@ -16,6 +16,11 @@
         <param-name>org.codehaus.waffle.action.MethodDefinitionFinder</param-name>
         <param-value>org.codehaus.waffle.action.ParanamerMethodDefinitionFinder</param-value>
     </context-param>
+    <context-param>  
+    	<param-name>register:ListValueConverter</param-name>  
+    	<param-value>org.codehaus.waffle.bind.converters.ListValueConverter</param-value>  
+  	</context-param>  
+  
 
     <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
