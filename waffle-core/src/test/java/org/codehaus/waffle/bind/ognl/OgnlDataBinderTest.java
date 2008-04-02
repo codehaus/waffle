@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -236,7 +235,7 @@ public class OgnlDataBinderTest {
         });
 
         DataBinder binder = new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()) {
-            protected void handleConvert(String parameterName, String parameterValue, Object model) {
+            protected Object handleConvert(String parameterName, String parameterValue, Object model) {
                 throw new BindException("fake from test");
             }
         };

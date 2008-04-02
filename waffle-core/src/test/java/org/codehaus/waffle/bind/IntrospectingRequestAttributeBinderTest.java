@@ -22,7 +22,11 @@ public class IntrospectingRequestAttributeBinderTest {
 
         context.checking(new Expectations() {{
             one (request).setAttribute("name", "my controller");
+            one (request).getAttribute("name");
+            will(returnValue("my controller"));
             one (request).setAttribute("null", null);
+            one (request).getAttribute("null");
+            will(returnValue(null));
         }});
 
         IntrospectingRequestAttributeBinder binder = new IntrospectingRequestAttributeBinder(new SilentMonitor());

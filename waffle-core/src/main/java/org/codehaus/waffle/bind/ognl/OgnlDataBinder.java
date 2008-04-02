@@ -52,21 +52,22 @@ public class OgnlDataBinder implements DataBinder {
         Enumeration<String> parameterNames = request.getParameterNames();
 
         while (parameterNames.hasMoreElements()) {
-            String name = parameterNames.nextElement();           
-            String value = getParameterValue(request, name);
+            String parameterName = parameterNames.nextElement();           
+            String parameterValue = getParameterValue(request, parameterName);
 
             try {
-                handleConvert(name, value, controller);
+                Object dataValue = handleConvert(parameterName, parameterValue, controller);
+                bindMonitor.dataValueBoundToController(parameterName, dataValue, controller);
             } catch (OgnlException e) {
-                String message = bindErrorMessageResolver.resolve(controller, name, value);
-                BindErrorMessage errorMessage = new BindErrorMessage(name, value, message);
+                String message = bindErrorMessageResolver.resolve(controller, parameterName, parameterValue);
+                BindErrorMessage errorMessage = new BindErrorMessage(parameterName, parameterValue, message);
                 errorsContext.addErrorMessage(errorMessage);
-                bindMonitor.bindFailedForModel(controller, errorMessage);                
+                bindMonitor.dataBindFailed(controller, errorMessage);                
             } catch (BindException e) {
                 // by convention BindExceptions should provide the correct bind error message to display to the end-user
-                BindErrorMessage errorMessage = new BindErrorMessage(name, value, e.getMessage());
+                BindErrorMessage errorMessage = new BindErrorMessage(parameterName, parameterValue, e.getMessage());
                 errorsContext.addErrorMessage(errorMessage);
-                bindMonitor.bindFailedForModel(controller, errorMessage);
+                bindMonitor.dataBindFailed(controller, errorMessage);
             }
         }
     }
@@ -94,7 +95,7 @@ public class OgnlDataBinder implements DataBinder {
     }
 
     @SuppressWarnings("unchecked")
-    protected void handleConvert(String propertyName,
+    protected Object handleConvert(String propertyName,
                                  String parameterValue,
                                  Object controller) throws OgnlException, BindException {
         try {
@@ -102,6 +103,7 @@ public class OgnlDataBinder implements DataBinder {
             Map ognlContext = Ognl.createDefaultContext(controller);
             Ognl.setTypeConverter(ognlContext, typeConverter);
             Ognl.setValue(tree, ognlContext, controller, parameterValue);
+            return Ognl.getValue(tree, ognlContext, controller);
         } catch (NoSuchPropertyException ignore) {
             // ignore NoSuchPropertyException
         } catch (InappropriateExpressionException ignore) {
@@ -112,6 +114,7 @@ public class OgnlDataBinder implements DataBinder {
             }
             throw e;
         }
+        return parameterValue;
     }
 
 }
