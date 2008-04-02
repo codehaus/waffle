@@ -44,17 +44,20 @@ public class IntrospectingRequestAttributeBinder implements RequestAttributeBind
                 Method readMethod = propertyDescriptor.getReadMethod();
 
                 if(readMethod != null && readMethod.getParameterTypes().length == 0 && !readMethod.getName().equals("getClass")) {
-                    request.setAttribute(propertyDescriptor.getName(), readMethod.invoke(controller));
+                    String name = propertyDescriptor.getName();
+                    request.setAttribute(name, readMethod.invoke(controller));
+                    Object value = request.getAttribute(name);
+                    bindMonitor.attributeValueBoundFromController(name, value, controller);
                 }
             }
         } catch (IntrospectionException e) {
-            bindMonitor.bindFailedForController(controller, e);
+            bindMonitor.attributeBindFailed(controller, e);
             throw new WaffleException(e);
         } catch (IllegalAccessException e) {
-            bindMonitor.bindFailedForController(controller, e);
+            bindMonitor.attributeBindFailed(controller, e);
             throw new WaffleException(e);
         } catch (InvocationTargetException e) {
-            bindMonitor.bindFailedForController(controller, e);
+            bindMonitor.attributeBindFailed(controller, e);
             throw new WaffleException(e);
         }
     }

@@ -1,6 +1,7 @@
 package org.codehaus.waffle.testmodel;
 
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -64,13 +65,16 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void viewDispatched(View view) {
     }
 
-    public void bindFailedForModel(Object bindModel, BindErrorMessage errorMessage) {
+    public void dataBindFailed(Object controller, BindErrorMessage errorMessage) {
     }
 
-    public void bindFailedForController(Object controller, Throwable cause) {
+    public void attributeBindFailed(Object controller, Throwable cause) {
     }
 
-    public void valueBound(String name, String value, Object controller) {
+    public void attributeValueBoundFromController(String name, Object value, Object controller) {
+    }
+
+    public void dataValueBoundToController(String name, Object value, Object controller) {
     }
 
     public void contextInitialized() {
@@ -118,7 +122,7 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void servletServiceFailed(Exception cause) {
     }
     
-    public void servletServiceRequested(Map parameters) {
+    public void servletServiceRequested(Map<String, List<String>> parameters) {
     }
 
     public void controllerValidatorNotFound(String controllerValidatorName, String controllerName) {
