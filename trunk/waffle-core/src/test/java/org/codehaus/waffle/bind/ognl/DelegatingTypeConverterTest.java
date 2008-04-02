@@ -1,10 +1,14 @@
 package org.codehaus.waffle.bind.ognl;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
-import java.util.Vector;
+import java.util.List;
 
+import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.bind.ValueConverter;
+import org.codehaus.waffle.bind.converters.ListValueConverter;
 import org.codehaus.waffle.context.ContextLevel;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -37,21 +41,43 @@ public class DelegatingTypeConverterTest {
 
         assertEquals(15, value);
     }
-
+    
     @Test
-    public void canDelegateToValueConverter() {
+    public void canDelegateToListValueConverter() {
+        final ValueConverter valueConverter = new ListValueConverter();
+        final List<String> list = asList("one","two");
+        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
+
+        Object convertedValue = converter.convertValue("propertyName", "one,two", List.class);
+        assertEquals(convertedValue, list);
+    }
+    
+    @Test(expected=BindException.class)
+    public void cannotDelegateToListValueConverterNullValue() {
+        final ValueConverter valueConverter = new ListValueConverter();
+        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
+        
+        converter.convertValue("propertyName", null, List.class);
+    }
+    
+    @Test
+    public void canDelegateToCustomValueConverter() {
         // Mock ValueConverter 
         final ValueConverter valueConverter = mockery.mock(ValueConverter.class);
+        final CustomType type = new CustomType(){};
         mockery.checking(new Expectations() {
             {
-                one(valueConverter).accept(Vector.class);
+                one(valueConverter).accept(CustomType.class);
                 will(returnValue(true));
-                one(valueConverter).convertValue(with(same("propertyName")), with(same("foobar")), with(same(Vector.class)));
-                will(returnValue(new Vector<Object>()));
+                one(valueConverter).convertValue(with(same("propertyName")), with(same("foobar")), with(same(CustomType.class)));
+                will(returnValue(type));
             }
         });
         DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
 
-        converter.convertValue("propertyName", "foobar", Vector.class);
+        Object convertedValue = converter.convertValue("propertyName", "foobar", CustomType.class);
+        assertSame(convertedValue, type);
     }
+    
+    private static interface CustomType {};
 }

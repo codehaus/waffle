@@ -48,37 +48,60 @@ public class OgnlDataBinder implements DataBinder {
     }
     
     @SuppressWarnings({"unchecked"})
-    public void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext, Object model) {
+    public void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext, Object controller) {
         Enumeration<String> parameterNames = request.getParameterNames();
 
         while (parameterNames.hasMoreElements()) {
-            String name = parameterNames.nextElement();
-            String value = request.getParameter(name);
+            String name = parameterNames.nextElement();           
+            String value = getParameterValue(request, name);
 
             try {
-                handleConvert(name, value, model);
+                handleConvert(name, value, controller);
             } catch (OgnlException e) {
-                String message = bindErrorMessageResolver.resolve(model, name, value);
+                String message = bindErrorMessageResolver.resolve(controller, name, value);
                 BindErrorMessage errorMessage = new BindErrorMessage(name, value, message);
                 errorsContext.addErrorMessage(errorMessage);
-                bindMonitor.bindFailedForModel(model, errorMessage);                
+                bindMonitor.bindFailedForModel(controller, errorMessage);                
             } catch (BindException e) {
                 // by convention BindExceptions should provide the correct bind error message to display to the end-user
                 BindErrorMessage errorMessage = new BindErrorMessage(name, value, e.getMessage());
                 errorsContext.addErrorMessage(errorMessage);
-                bindMonitor.bindFailedForModel(model, errorMessage);
+                bindMonitor.bindFailedForModel(controller, errorMessage);
             }
         }
     }
 
+    private String getParameterValue(HttpServletRequest request, String name) {
+        // Look for multiple values and join them if found
+        String[] values = request.getParameterValues(name);
+        if ( values == null ){
+            return null;
+        }
+        // Joining a single value will return the equivalent of request.getParameter(name)
+        return join(values, ",");
+    }
+
+    // Could use commons-lang StringUtils.join() but avoid introducing a dependency for such a trivial operation
+    private String join(String[] values, String separator) {
+        StringBuilder sb = new StringBuilder();
+        for ( int i = 0; i < values.length; i++ ){
+            sb.append(values[i]);
+            if ( i < values.length - 1 ){
+                sb.append(separator);
+            }
+        }
+        return sb.toString();
+    }
+
+    @SuppressWarnings("unchecked")
     protected void handleConvert(String propertyName,
                                  String parameterValue,
-                                 Object model) throws OgnlException, BindException {
+                                 Object controller) throws OgnlException, BindException {
         try {
             Object tree = Ognl.parseExpression(propertyName);
-            Map ognlContext = Ognl.createDefaultContext(model);
+            Map ognlContext = Ognl.createDefaultContext(controller);
             Ognl.setTypeConverter(ognlContext, typeConverter);
-            Ognl.setValue(tree, ognlContext, model, parameterValue);
+            Ognl.setValue(tree, ognlContext, controller, parameterValue);
         } catch (NoSuchPropertyException ignore) {
             // ignore NoSuchPropertyException
         } catch (InappropriateExpressionException ignore) {

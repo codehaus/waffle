@@ -1,11 +1,13 @@
 package org.codehaus.waffle.bind.ognl;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
@@ -15,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.bind.DataBinder;
+import org.codehaus.waffle.bind.converters.ListValueConverter;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeBean;
@@ -40,7 +43,7 @@ public class OgnlDataBinderTest {
     private Mockery mockery = new Mockery();
 
     @Test
-    public void canBind() {
+    public void canBindSingleValue() {
         List<String> parameters = new ArrayList<String>();
         parameters.add("name");
         parameters.add("contextLevel");
@@ -52,10 +55,10 @@ public class OgnlDataBinderTest {
             {
                 one(request).getParameterNames();
                 will(returnValue(enumeration));
-                one(request).getParameter("name");
-                will(returnValue("foobar"));
-                one(request).getParameter("contextLevel");
-                will(returnValue("APPLICATION"));
+                one(request).getParameterValues("name");
+                will(returnValue(new String[]{"foobar"}));
+                one(request).getParameterValues("contextLevel");
+                will(returnValue(new String[]{"APPLICATION"}));
             }
         });
 
@@ -68,7 +71,34 @@ public class OgnlDataBinderTest {
         assertEquals(ContextLevel.APPLICATION, fakeController.getContextLevel());
         assertFalse(errorsContext.hasErrorMessages());
     }
+    
+    @Test
+    public void canBindListValues() {
+        List<String> parameters = new ArrayList<String>();
+        parameters.add("list");
+        final Enumeration<String> enumeration = Collections.enumeration(parameters);
 
+        // Mock HttpServletRequest
+        final String[] values = new String[]{"foo", "bar"};
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        mockery.checking(new Expectations() {
+            {
+                one(request).getParameterNames();
+                will(returnValue(enumeration));
+                one(request).getParameterValues("list");
+                will(returnValue(values));
+            }
+        });
+
+        FakeController fakeController = new FakeController();
+        DataBinder binder = new OgnlDataBinder(new OgnlValueConverterFinder(new ListValueConverter()), null, new SilentMonitor());
+        ErrorsContext errorsContext = new DefaultErrorsContext(null);
+        binder.bind(request, null, errorsContext, fakeController);
+
+        assertEquals(asList(values), fakeController.getList());
+        assertFalse(errorsContext.hasErrorMessages());
+    }
+       
     @Test
     public void canBindEmptyValueForEnum() {
         List<String> parameters = new ArrayList<String>();
@@ -81,8 +111,8 @@ public class OgnlDataBinderTest {
             {
                 one(request).getParameterNames();
                 will(returnValue(enumeration));
-                one(request).getParameter("contextLevel");
-                will(returnValue(""));
+                one(request).getParameterValues("contextLevel");
+                will(returnValue(new String[]{""}));
             }
         });
 
@@ -107,8 +137,8 @@ public class OgnlDataBinderTest {
             {
                 one(request).getParameterNames();
                 will(returnValue(enumeration));
-                one(request).getParameter("method");
-                will(returnValue("this should cause a NoSuchPropertyException!"));
+                one(request).getParameterValues("method");
+                will(returnValue(new String[]{"this should cause a NoSuchPropertyException!"}));
             }
         });
 
@@ -136,8 +166,8 @@ public class OgnlDataBinderTest {
             {
                 one(request).getParameterNames();
                 will(returnValue(enumeration));
-                one(request).getParameter("x-01234567-s");
-                will(returnValue("blah"));
+                one(request).getParameterValues("x-01234567-s");
+                will(returnValue(new String[]{"blah"}));
             }
         });
 
@@ -161,8 +191,8 @@ public class OgnlDataBinderTest {
             {
                 one(request).getParameterNames();
                 will(returnValue(enumeration));
-                one(request).getParameter("count");
-                will(returnValue("bad value"));
+                one(request).getParameterValues("count");
+                will(returnValue(new String[]{"bad value"}));
             }
         });
 
@@ -170,7 +200,7 @@ public class OgnlDataBinderTest {
         final BindErrorMessageResolver resolver = mockery.mock(BindErrorMessageResolver.class);
         mockery.checking(new Expectations() {
             {
-                one(resolver).resolve(with(an(FakeBean.class)), with(same("count")), with(same("bad value")));
+                one(resolver).resolve(with(an(FakeBean.class)), with(equal("count")), with(equal("bad value")));
             }
         });
 
@@ -200,8 +230,8 @@ public class OgnlDataBinderTest {
             {
                 one(request).getParameterNames();
                 will(returnValue(enumeration));
-                one(request).getParameter("count");
-                will(returnValue("bad value"));
+                one(request).getParameterValues("count");
+                will(returnValue(new String[]{"bad value"}));
             }
         });
 

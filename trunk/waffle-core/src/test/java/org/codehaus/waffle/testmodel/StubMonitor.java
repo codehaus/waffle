@@ -1,8 +1,14 @@
 package org.codehaus.waffle.testmodel;
 
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.codehaus.waffle.action.ActionMethodResponse;
-import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.ActionMonitor;
@@ -18,11 +24,6 @@ import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.ResponderView;
 import org.codehaus.waffle.view.View;
-
-import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
-import java.util.Map;
-import java.util.Set;
 
 public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor, RegistrarMonitor,
         ServletMonitor, ValidationMonitor, ViewMonitor {
@@ -67,6 +68,9 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     }
 
     public void bindFailedForController(Object controller, Throwable cause) {
+    }
+
+    public void valueBound(String name, String value, Object controller) {
     }
 
     public void contextInitialized() {

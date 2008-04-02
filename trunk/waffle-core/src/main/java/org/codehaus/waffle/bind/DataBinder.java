@@ -16,12 +16,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Implementor of this interface are responsible for binding the values from
- * the request to the model.
- *
+ * Implementor of this interface are responsible for binding the values from the request to the controller.
+ * 
  * @author Michael Ward
  */
 public interface DataBinder {
-    
-    void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext, Object model);
+
+    /**
+     * Bind parameters values from the request to the controller
+     * 
+     * @param request the HttpServletRequest containing the parameter values
+     * @param response the HttpServletResponse
+     * @param errorsContext the ErrorsContext
+     * @param controller the controller instance
+     */
+    void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext, Object controller);
+
 }
