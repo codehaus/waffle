@@ -54,6 +54,7 @@ public class DelegatingTypeConverter implements TypeConverter {
      * @return Converted value Object of type toType or TypeConverter.NoConversionPossible to indicate that the
      *         conversion was not possible.
      */
+    @SuppressWarnings("unchecked")
     public Object convertValue(Map context,
                                Object target,
                                Member member,

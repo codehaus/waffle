@@ -10,18 +10,21 @@
  *****************************************************************************/
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.context.ContextLevel;
-import org.codehaus.waffle.view.View;
-import org.codehaus.waffle.action.ActionMethodInvocationException;
-import org.codehaus.waffle.action.ActionMethodException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.waffle.action.ActionMethodException;
+import org.codehaus.waffle.action.ActionMethodInvocationException;
+import org.codehaus.waffle.context.ContextLevel;
+import org.codehaus.waffle.view.View;
+
 public class FakeController {
     private String name;
     private String[] values;
+    private List<String> list;
     private Long numericValue;
     private ContextLevel contextLevel;
     private HttpServletRequest request;
@@ -43,6 +46,7 @@ public class FakeController {
     public void setNumericValue(Long numericValue) {
         this.numericValue = numericValue;
     }// used to prove we can set an enum with ognl
+
     public ContextLevel getContextLevel() {
         return contextLevel;
     }
@@ -83,6 +87,14 @@ public class FakeController {
         return values;
     }
 
+    public List<String> getList() {
+        return list;
+    }
+
+    public void setList(List<String> list) {
+        this.list = list;
+    }
+
     public void sayHelloAlso(StringBuffer sb) {
         setName(sb.toString());
     }
@@ -117,6 +129,6 @@ public class FakeController {
     }
 
     public String toString() {
-        return "FakeController: " + name + " hash: " + hashCode();
+        return "[FakeController name: " + name + ", list: "+list+", hash: " + hashCode()+"]";
     }
 }
