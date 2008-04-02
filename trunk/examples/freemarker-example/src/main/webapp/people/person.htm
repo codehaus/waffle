@@ -26,6 +26,7 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Date of Birth</th>
+            <th>Select</th>
         </tr>
         <#list people as person>
             <tr class="odd">
@@ -36,11 +37,23 @@
                 <td>${person.lastName}</td>
                 <td>${person.email}</td>
                 <td>${person.dateOfBirth?string("dd-MM-yyyy")}</td>
+                <td><input type="checkbox" name="selectedIds" id="selectedIds" value="${person.id}"/></td>
             </tr>
         </#list>
     </table>
 
-    <a href="javascript:fireActionMethod('create');">New</a>
+    <a href="javascript:fireActionMethod('create');">New</a>; <a href="javascript:fireActionMethod('show');">Show Selected</a>
+
+    <div id="showArea">
+    	Selected people are:
+        <table>
+        <#list selectedPeople as person>
+	        <tr class="odd">
+                <td>${person.firstName} ${person.lastName} (${person.id})</td>
+            </tr>
+        </#list>
+        </table>
+	</div>
 
     <!-- Example of partial page -->
     <div id="editArea">
