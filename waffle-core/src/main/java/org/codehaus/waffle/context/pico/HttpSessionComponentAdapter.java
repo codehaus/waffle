@@ -18,18 +18,22 @@ import org.picocontainer.PicoVisitor;
 import org.codehaus.waffle.context.CurrentHttpServletRequest;
 
 import javax.servlet.http.HttpSession;
+
+import java.io.Serializable;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
-public class HttpSessionComponentAdapter implements ComponentAdapter {
-    private final Class componentImplementation = HttpSession.class;
+@SuppressWarnings("serial")
+public class HttpSessionComponentAdapter implements ComponentAdapter, Serializable {
+    
+    private final Class<?> componentImplementation = HttpSession.class;
 
     public Object getComponentKey() {
         return componentImplementation;
     }
 
-    public Class getComponentImplementation() {
+    public Class<?> getComponentImplementation() {
         return componentImplementation;
     }
 
@@ -49,7 +53,7 @@ public class HttpSessionComponentAdapter implements ComponentAdapter {
 
     private static class HttpSessionProxy implements InvocationHandler {
 
-        public Object invoke(Object proxy, Method method, Object... args) throws Throwable {
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
             HttpSession session = CurrentHttpServletRequest.get().getSession();
 
             return method.invoke(session, args);
