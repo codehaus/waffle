@@ -2,8 +2,8 @@ package org.codehaus.waffle.example.freemarker;
 
 import org.codehaus.waffle.registrar.AbstractRegistrar;
 import org.codehaus.waffle.registrar.Registrar;
-import org.codehaus.waffle.example.freemarker.action.PersonController;
-import org.codehaus.waffle.example.freemarker.dao.SimplePersonDAO;
+import org.codehaus.waffle.example.freemarker.controller.PersonController;
+import org.codehaus.waffle.example.freemarker.persister.SimplePersonDAO;
 
 public class FreemarkerRegistrar extends AbstractRegistrar {
 
