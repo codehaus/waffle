@@ -1,11 +1,12 @@
 package org.codehaus.waffle.example.freemarker.controller;
 
-import org.codehaus.waffle.example.freemarker.model.Person;
-import org.codehaus.waffle.example.freemarker.persister.PersonPersister;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import org.codehaus.waffle.example.freemarker.model.Person;
+import org.codehaus.waffle.example.freemarker.persister.PersistablePerson;
+import org.codehaus.waffle.example.freemarker.persister.PersonPersister;
 
 public class PersonController {
     private final PersonPersister persister;
@@ -53,7 +54,7 @@ public class PersonController {
     }
     
     public void create() {
-        person = new Person();
+        person = new PersistablePerson();
     }
 
     public void cancel() {
