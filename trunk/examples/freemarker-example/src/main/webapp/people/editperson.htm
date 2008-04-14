@@ -1,3 +1,4 @@
+<#import "/ftl/waffle.ftl" as w>
 <div class="editContainer" xmlns="http://www.w3.org/1999/xhtml">
 
     <h3>Edit Person</h3>
@@ -30,6 +31,11 @@
     <div class="fieldRow">
         <label for="person.email">Email:</label>
         <input type="text" name="person.email" id="person.email" value="${person.email}"/>
+        <br style="clear:both"/>
+    </div>
+    <div class="fieldRow">
+        <label for="person.skills">Skills:</label>
+        <@w.selectMultiple "person.skills" controller.getSkills() person.getSkills() "size='5'"/>
         <br style="clear:both"/>
     </div>
     <!-- TODO fix freemarker exception when submitting date

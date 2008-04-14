@@ -1,6 +1,7 @@
 package org.codehaus.waffle.example.freemarker.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class PersonController {
     private final PersonPersister persister;
     private Person person;
     private List<String> selectedIds = new ArrayList<String>();
+    private List<String> skills = Arrays.asList("Magician", "Apprentice");
     
     public PersonController(PersonPersister persister) {
         this.persister = persister;
@@ -69,4 +71,8 @@ public class PersonController {
         this.person = person;
     }
 
+    public List<String> getSkills() {
+        return skills;
+    }
+    
 }

@@ -1,3 +1,4 @@
+<#import "/ftl/waffle.ftl" as w>
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -26,6 +27,7 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Date of Birth</th>
+            <th>Skills</th>
             <th>Select</th>
         </tr>
         <#list people as person>
@@ -37,6 +39,7 @@
                 <td>${person.lastName}</td>
                 <td>${person.email}</td>
                 <td>${person.dateOfBirth?string("dd-MM-yyyy")}</td>
+                <td><@w.asCSV person.getSkills() /> </p></td>
                 <td><input type="checkbox" name="selectedIds" id="selectedIds" value="${person.id}"/></td>
             </tr>
         </#list>
