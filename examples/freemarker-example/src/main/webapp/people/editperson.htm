@@ -1,18 +1,11 @@
 <#import "/ftl/waffle/form.ftl" as w>
+<#import "/ftl/waffle/validation.ftl" as v>
 <div class="editContainer" xmlns="http://www.w3.org/1999/xhtml">
 
     <h3>Edit Person</h3>
 
-    <#if errors.hasErrorMessages()>
-        <div class="errors">
-            <#list errors.allErrorMessages as error>
-                <div class="error">
-                  ${error.message}
-                </div>
-            </#list>
-        </div>
-    </#if>
-
+    <@v.errorsAsDiv errors />
+    
     <div class="fieldRow">
         <label for="person.id">Id:</label>
         <@w.text "person.id" "${person.id}" "readonly='true' disabled='true'"/>
