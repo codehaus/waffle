@@ -1,37 +1,33 @@
 package org.codehaus.waffle.example.freemarker.persister;
 
 import org.codehaus.waffle.example.freemarker.model.Person;
-import org.codehaus.waffle.example.freemarker.persister.PersonDAO;
+import org.codehaus.waffle.example.freemarker.persister.PersonPersister;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SimplePersonDAO implements PersonDAO {
+public class SimplePersonPersister implements PersonPersister {
     private static long COUNT = 3;
     private final Map<Long, Person> map = new HashMap<Long, Person>();
 
-    public SimplePersonDAO() {
+    public SimplePersonPersister() {
+        loadPeople();
+    }
+
+    private void loadPeople() {
+        addPerson(1L, "Harry", "Potter", "hp@gryffindor.com");
+        addPerson(2L, "Ronald", "Weasly", "rw@gryffindor.com");
+        addPerson(3L, "Hermione", "Granger", "hg@gryffindor.com");
+    }
+
+    private void addPerson(Long id, String firstName, String lastName, String email) {
         Person person = new Person();
-        person.setId(1L);
-        person.setFirstName("Harry");
-        person.setLastName("Potter");
-        person.setEmail("hp@gryffindor.com");
-        map.put(1L, person);
-
-        person = new Person();
-        person.setId(2L);
-        person.setFirstName("Ronald");
-        person.setLastName("Weasly");
-        person.setEmail("rw@gryffindor.com");
-        map.put(2L, person);
-
-        person = new Person();
-        person.setId(3L);
-        person.setFirstName("Hermione");
-        person.setLastName("Granger");
-        person.setEmail("hg@gryffindor.com");
-        map.put(3L, person);
+        person.setId(id);
+        person.setFirstName(firstName);
+        person.setLastName(lastName);
+        person.setEmail(email);
+        map.put(id, person);
     }
 
     public Person findById(Long personId) {

@@ -1,23 +1,23 @@
 package org.codehaus.waffle.example.freemarker.controller;
 
 import org.codehaus.waffle.example.freemarker.model.Person;
-import org.codehaus.waffle.example.freemarker.persister.PersonDAO;
+import org.codehaus.waffle.example.freemarker.persister.PersonPersister;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class PersonController {
-    private final PersonDAO personDAO;
+    private final PersonPersister persister;
     private Person person;
     private List<String> selectedIds = new ArrayList<String>();
     
-    public PersonController(PersonDAO personDAO) {
-        this.personDAO = personDAO;
+    public PersonController(PersonPersister persister) {
+        this.persister = persister;
     }
 
     public Collection<Person> getPeople() {
-        return personDAO.findAll();
+        return persister.findAll();
     }
 
     public List<String> getSelectedIds(){
@@ -31,17 +31,17 @@ public class PersonController {
     public Collection<Person> getSelectedPeople() {
         List<Person> selected = new ArrayList<Person>();
         for ( String id : selectedIds ){
-            selected.add(personDAO.findById(Long.parseLong(id)));
+            selected.add(persister.findById(Long.parseLong(id)));
         }
         return selected;
     }
     
     public void remove(Long personId) {
-        personDAO.delete(personId);
+        persister.delete(personId);
     }
 
     public void select(Long id) {
-        this.person = personDAO.findById(id);
+        this.person = persister.findById(id);
     }
 
     public void show() {
@@ -49,7 +49,7 @@ public class PersonController {
     }
     
     public void save() {
-        personDAO.save(person);
+        persister.save(person);
     }
     
     public void create() {

@@ -3,7 +3,7 @@ package org.codehaus.waffle.example.freemarker;
 import org.codehaus.waffle.registrar.AbstractRegistrar;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.example.freemarker.controller.PersonController;
-import org.codehaus.waffle.example.freemarker.persister.SimplePersonDAO;
+import org.codehaus.waffle.example.freemarker.persister.SimplePersonPersister;
 
 public class FreemarkerRegistrar extends AbstractRegistrar {
 
@@ -13,7 +13,7 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
 
     @Override
     public void application() {
-        register(SimplePersonDAO.class);
+        register(SimplePersonPersister.class);
     }
 
     @Override
