@@ -40,16 +40,16 @@ public class DateValueConverter implements ValueConverter {
     public <T> T convertValue(String propertyName, String value, Class<T> toType) {
         String fieldName = messageResources.getMessageWithDefault(propertyName, propertyName);
         if (value == null || value.equals("")) {
-            String message = messageResources.getMessageWithDefault("bind.error.date.missing", "Missing date value for field ", fieldName);
+            String message = messageResources.getMessageWithDefault("bind.error.date.missing", "Missing date value for field {0}", fieldName);
             throw new BindException(message);
         }
 
-        String datePattern = messageResources.getMessageWithDefault("date.format", "dd/MM/yyyy");
+        String dateFormat = messageResources.getMessageWithDefault("date.format", "dd/MM/yyyy");
 
         try {
-            return (T) new SimpleDateFormat(datePattern).parse(value);
+            return (T) new SimpleDateFormat(dateFormat).parse(value);
         } catch (ParseException e) {
-            String message = messageResources.getMessageWithDefault("bind.error.date.invalid", "Date {1} invalid for field {0} with pattern {2}", fieldName, value, datePattern);
+            String message = messageResources.getMessageWithDefault("bind.error.date.invalid", "Invalid date {1} (using format {2}) for field {0}", fieldName, value, dateFormat);
             throw new BindException(message);
         }
     }

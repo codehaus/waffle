@@ -27,13 +27,23 @@
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
+        <label for="person.dateOfBirth">Date Of Birth:</label>
+        <@w.text "person.dateOfBirth" "${person.dateOfBirth?string('dd/MM/yyyy')}"/> 
+        <br style="clear:both"/>
+    </div>
+    <div class="fieldRow">
         <label for="person.skills">Skills:</label>
         <@w.selectMultiple "person.skills" controller.getSkills() person.getSkills() "size='5'"/>
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
-        <label for="person.dateOfBirth">Date Of Birth:</label>
-        <@w.text "person.dateOfBirth" "${person.dateOfBirth?string('dd/MM/yyyy')}"/> 
+        <label for="person.levels">Levels:</label>
+        <@w.textAsCSV "person.levels" person.getLevels() /> 
+        <br style="clear:both"/>
+    </div>
+    <div class="fieldRow">
+        <label for="person.grades">Grades:</label>
+        <@w.textAsCSV "person.grades" person.getGrades() /> 
         <br style="clear:both"/>
     </div>
 

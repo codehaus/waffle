@@ -14,6 +14,8 @@ public class PersistablePerson implements Person {
     private String email;
     private Date dateOfBirth;
     private List<String> skills;
+    private List<Integer> levels;
+    private List<Double> grades;
 
     public PersistablePerson() {
         id = new Long(0);
@@ -22,6 +24,8 @@ public class PersistablePerson implements Person {
         email = "";
         dateOfBirth = new Date();
         skills = new ArrayList<String>();
+        levels = new ArrayList<Integer>();
+        grades = new ArrayList<Double>();
     }
 
     public PersistablePerson(Person person) {
@@ -31,6 +35,8 @@ public class PersistablePerson implements Person {
         this.email = person.getEmail();
         this.dateOfBirth = person.getDateOfBirth();
         this.skills = person.getSkills();
+        this.levels = person.getLevels();
+        this.grades = person.getGrades();
     }
 
     public Long getId() {
@@ -81,9 +87,22 @@ public class PersistablePerson implements Person {
         this.skills = skills;
     }
     
-    @Override
-    public String toString() {
-        return "Person "+firstName+" has skills "+skills;
+    public List<Integer> getLevels() {
+        System.out.println("Levels ... "+levels);
+        return levels;
+    }
+
+    public void setLevels(List<Integer> levels) {
+        this.levels = levels;
+    }
+
+    public List<Double> getGrades() {
+        System.out.println("Grades ... "+grades);
+        return grades;
     }
     
+    public void setGrades(List<Double> grades) {
+        this.grades = grades;
+    }
+
 }
