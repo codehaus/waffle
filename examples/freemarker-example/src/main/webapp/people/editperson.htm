@@ -38,12 +38,11 @@
         <@w.selectMultiple "person.skills" controller.getSkills() person.getSkills() "size='5'"/>
         <br style="clear:both"/>
     </div>
-    <!-- TODO fix freemarker exception when submitting date
     <div class="fieldRow">
         <label for="person.dateOfBirth">Date Of Birth:</label>
-        <input type="text" name="person.dateOfBirth" id="person.dateOfBirth" value="${person.dateOfBirth?string("dd-MM-yyyy")}"/>
+        <@w.text "person.dateOfBirth" "${person.dateOfBirth?string('dd/MM/yyyy')}"/> 
         <br style="clear:both"/>
-    </div>-->
+    </div>
 
     <br/>
     <a href="javascript:fireActionMethod('save');">Save</a> |

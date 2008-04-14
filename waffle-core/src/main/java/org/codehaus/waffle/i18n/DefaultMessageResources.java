@@ -10,14 +10,18 @@
  *****************************************************************************/
 package org.codehaus.waffle.i18n;
 
-import java.text.MessageFormat;
+import static java.text.MessageFormat.format;
+import static java.util.ResourceBundle.getBundle;
+
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- *
+ * Default ResourceBundle-based implementation of MessageResorces.
+ * 
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public class DefaultMessageResources implements MessageResources {
     private final static ThreadLocal<Locale> userLocale = new ThreadLocal<Locale>();
@@ -42,17 +46,15 @@ public class DefaultMessageResources implements MessageResources {
     }
 
     public String getMessage(String key, Object ... arguments) {
-        ResourceBundle resourceBundle = ResourceBundle
-                .getBundle(bundleName, userLocale.get());
-        String message = resourceBundle.getString(key);
-        return MessageFormat.format(message, arguments);
+        ResourceBundle resourceBundle = getBundle(bundleName, userLocale.get());
+        return format(resourceBundle.getString(key), arguments);
     }
 
     public String getMessageWithDefault(String key, String defaultValue, Object ... arguments) {
         try {
-            return this.getMessage(key, arguments);
+            return getMessage(key, arguments);
         } catch (MissingResourceException e) {
-            return defaultValue;
+            return format(defaultValue, arguments);
         }
     }
 
