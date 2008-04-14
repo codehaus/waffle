@@ -15,22 +15,22 @@
 
     <div class="fieldRow">
         <label for="person.id">Id:</label>
-        <input type="text" name="person.id" id="person.id" value="${person.id}" readonly="true" disabled="true"/>
+        <@w.text "person.id" "${person.id}" "readonly='true' disabled='true'"/>
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
         <label for="person.firstName">First Name:</label>
-        <input type="text" name="person.firstName" id="person.firstName" value="${person.firstName}"/>
+        <@w.text "person.firstName" "${person.firstName}"/>
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
         <label for="person.lastName">Last Name:</label>
-        <input type="text" name="person.lastName" id="person.lastName" value="${person.lastName}"/>
+        <@w.text "person.lastName" "${person.lastName}"/>
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
         <label for="person.email">Email:</label>
-        <input type="text" name="person.email" id="person.email" value="${person.email}"/>
+        <@w.text "person.email" "${person.email}"/>
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
