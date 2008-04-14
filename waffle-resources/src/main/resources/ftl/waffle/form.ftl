@@ -29,6 +29,39 @@
 </#macro>
 
 <#--
+ * Show a checkbox input element with a given value
+ *
+ * @param field the name of the field to bind the element to 
+ * @param value the value 
+ * @param attributes any additional attributes for the element (defaults to "")
+-->
+<#macro checkbox field value attributes="">
+    <input type="checkbox" id="${field}" name="${field}" value="${value}" ${attributes}/>    
+</#macro>
+
+<#--
+ * Show a radio input element with a given value
+ *
+ * @param field the name of the field to bind the element to 
+ * @param value the value 
+ * @param attributes any additional attributes for the element (defaults to "")
+-->
+<#macro radio field value attributes="">
+    <input type="radio" id="${field}" name="${field}" value="${value}" ${attributes}/>    
+</#macro>
+
+<#--
+ * Show a text input element with a given value
+ *
+ * @param field the name of the field to bind the element to 
+ * @param value the value
+ * @param attributes any additional attributes for the element (defaults to "")
+-->
+<#macro text field value attributes="">
+    <input type="text" id="${field}" name="${field}" value="${value}" ${attributes}/>
+</#macro>
+
+<#--
  * Show a select input element allowing a value to be chosen from a list of options.
  *
  * @param field the name of the field to bind the element to 

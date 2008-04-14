@@ -45,7 +45,6 @@ public class SimplePersonPersister implements PersonPersister {
                 ((PersistablePerson)person).setId(++COUNT);
             }
             map.put(person.getId(), person);
-            System.out.println("Saved "+person);
         }
     }
 

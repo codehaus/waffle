@@ -40,7 +40,7 @@
                 <td>${person.email}</td>
                 <td>${person.dateOfBirth?string("dd-MM-yyyy")}</td>
                 <td><@w.asCSV person.getSkills() /> </p></td>
-                <td><input type="checkbox" name="selectedIds" id="selectedIds" value="${person.id}"/></td>
+                <td><@w.checkbox "selectedIds" "${person.id}" /></td>
             </tr>
         </#list>
     </table>
