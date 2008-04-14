@@ -1,11 +1,17 @@
 package org.codehaus.waffle.testing.view.freemarker;
 
+import static org.codehaus.waffle.Constants.CONTROLLER_KEY;
+import static org.codehaus.waffle.Constants.ERRORS_KEY;
+import static org.codehaus.waffle.Constants.MESSAGES_KEY;
+
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.testing.view.ViewProcessor;
+import org.codehaus.waffle.validation.DefaultErrorsContext;
 
 import freemarker.template.Configuration;
 import freemarker.template.ObjectWrapper;
@@ -86,15 +92,24 @@ public class FreemarkerProcessor implements ViewProcessor {
     }
 
     /**
-     * Creates an data model for the given controller
+     * Creates an data model for the given controller.
+     * The data model contains:
+     * <ul>
+     *   <li>"base": ""</li>
+     *   <li>"controller": controller instance</li>
+     *   <li>"errors": the default errors context</li>
+     *   <li>"messages": the default messages context</li>
+     * </ul>
      * 
      * @param controller the controller instance
      * @return A Map<String, Object>
      */
     public Map<String, Object> createDataModel(Object controller) {
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("base", "/");
-        model.put("controller", controller);
+        model.put("base", "");
+        model.put(CONTROLLER_KEY, controller);
+        model.put(ERRORS_KEY, new DefaultErrorsContext(null));
+        model.put(MESSAGES_KEY, new DefaultMessagesContext(null));
         return model;
     }
 
