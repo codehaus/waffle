@@ -22,7 +22,7 @@ public class SimplePersonPersister implements PersonPersister {
     }
 
     private void addPerson(Long id, String firstName, String lastName, String email) {
-        Person person = new Person();
+        PersistablePerson person = new PersistablePerson();
         person.setId(id);
         person.setFirstName(firstName);
         person.setLastName(lastName);
@@ -32,7 +32,7 @@ public class SimplePersonPersister implements PersonPersister {
 
     public Person findById(Long personId) {
         // create a copy so that edits don't propogate to the map
-        return new Person(map.get(personId));
+        return new PersistablePerson(map.get(personId));
     }
 
     public Collection<Person> findAll() {
@@ -40,10 +40,12 @@ public class SimplePersonPersister implements PersonPersister {
     }
 
     public void save(Person person) {
-        if(person.getId().equals(new Long(0))) {
-            person.setId(++COUNT);
+        if ( person instanceof PersistablePerson ){            
+            if(person.getId().equals(new Long(0))) {
+                ((PersistablePerson)person).setId(++COUNT);
+            }
+            map.put(person.getId(), person);
         }
-        map.put(person.getId(), person);
     }
 
     public void delete(Long personId) {
