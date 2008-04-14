@@ -10,6 +10,7 @@ import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.converters.ListValueConverter;
 import org.codehaus.waffle.context.ContextLevel;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -44,7 +45,7 @@ public class DelegatingTypeConverterTest {
     
     @Test
     public void canDelegateToListValueConverter() {
-        final ValueConverter valueConverter = new ListValueConverter();
+        final ValueConverter valueConverter = new ListValueConverter(new DefaultMessageResources());
         final List<String> list = asList("one","two");
         DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
 
@@ -54,7 +55,7 @@ public class DelegatingTypeConverterTest {
     
     @Test(expected=BindException.class)
     public void cannotDelegateToListValueConverterNullValue() {
-        final ValueConverter valueConverter = new ListValueConverter();
+        final ValueConverter valueConverter = new ListValueConverter(new DefaultMessageResources());
         DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
         
         converter.convertValue("propertyName", null, List.class);

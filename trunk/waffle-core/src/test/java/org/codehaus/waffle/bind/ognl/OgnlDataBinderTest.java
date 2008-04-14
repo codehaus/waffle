@@ -18,6 +18,7 @@ import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.bind.DataBinder;
 import org.codehaus.waffle.bind.converters.ListValueConverter;
 import org.codehaus.waffle.context.ContextLevel;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeBean;
 import org.codehaus.waffle.testmodel.FakeController;
@@ -90,7 +91,7 @@ public class OgnlDataBinderTest {
         });
 
         FakeController fakeController = new FakeController();
-        DataBinder binder = new OgnlDataBinder(new OgnlValueConverterFinder(new ListValueConverter()), null, new SilentMonitor());
+        DataBinder binder = new OgnlDataBinder(new OgnlValueConverterFinder(new ListValueConverter(new DefaultMessageResources())), null, new SilentMonitor());
         ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, fakeController);
 
