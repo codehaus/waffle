@@ -10,8 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
+import static java.lang.Double.parseDouble;
+import static java.lang.Integer.parseInt;
 import static java.util.Arrays.asList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.waffle.bind.BindException;
@@ -19,8 +22,9 @@ import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.i18n.MessageResources;
 
 /**
- * <code>ValueConverter</code> that converts a CSV value to a List of Strings. 
- * A <code>null</code> value will cause a BindException to thrown.
+ * <code>ValueConverter</code> that converts a CSV value to a List. A <code>null</code> value will cause a
+ * BindException to thrown. The converter also looks to see if the values in the list are integers or doubles and if so
+ * parses them.
  * 
  * @author Mauro Talevi
  */
@@ -41,10 +45,52 @@ public class ListValueConverter implements ValueConverter {
         if (value == null) {
             String fieldName = messageResources.getMessageWithDefault(propertyName, propertyName);
             String message = messageResources.getMessageWithDefault("bind.error.list.missing",
-                    "Missing list value for field {0} for list {1}", fieldName);
+                    "Missing list value for field {0}", fieldName);
             throw new BindException(message);
         }
-        return (T) asList(value.split(","));
+        List<String> values = asList(value.split(","));        
+        if ( values.size() == 0 ){
+            return (T) values;
+        }
+        if ( areIntegers(values) ){
+            return (T) toIntegers(values);
+        } else if ( areDoubles(values)) {
+            return (T) toDoubles(values);
+        }
+        return (T) values;
     }
 
+    private boolean areIntegers(List<String> values) {
+        try {
+            parseInt(values.get(0));
+            return true;
+        } catch ( NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private List<Integer> toIntegers(List<String> values) {
+        List<Integer> list = new ArrayList<Integer>();
+        for ( String value : values ){
+            list.add(parseInt(value));
+        }
+        return list;
+    }
+    
+    private boolean areDoubles(List<String> values) {
+        try {
+            parseDouble(values.get(0));
+            return true;
+        } catch ( NumberFormatException e) {
+            return false;
+        }
+    }
+
+    private List<Double> toDoubles(List<String> values) {
+        List<Double> list = new ArrayList<Double>();
+        for ( String value : values ){
+            list.add(parseDouble(value));
+        }
+        return list;
+    }
 }

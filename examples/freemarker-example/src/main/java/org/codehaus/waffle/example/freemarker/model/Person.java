@@ -17,4 +17,8 @@ public interface Person {
 
     public List<String> getSkills();
     
+    public List<Integer> getLevels();
+    
+    public List<Double> getGrades();
+    
 }

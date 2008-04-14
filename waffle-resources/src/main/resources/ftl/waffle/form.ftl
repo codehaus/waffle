@@ -20,6 +20,18 @@
 </#function>
 
 <#--
+ * Joins list values 
+ *
+ * @param values the values to join
+ * @param separator the separator to join list with
+ -->
+<#function join values separator>
+    <#assign result = ''>
+    <#list values as value>><#assign result=result+value><#if value_has_next><#assign result=result+separator></#if></#list>
+    <#return result>
+</#function>
+
+<#--
  * Shows values as CSV
  *
  * @param values the sequence of values
@@ -59,6 +71,18 @@
 -->
 <#macro text field value attributes="">
     <input type="text" id="${field}" name="${field}" value="${value}" ${attributes}/>
+</#macro>
+
+<#--
+ * Show a text input element with a given values as CSV
+ *
+ * @param field the name of the field to bind the element to 
+ * @param values the values
+ * @param attributes any additional attributes for the element (defaults to "")
+-->
+<#macro textAsCSV field values attributes="">
+    <#assign csv=join(values,",")>
+    <input type="text" id="${field}" name="${field}" value="${csv}" ${attributes}/>
 </#macro>
 
 <#--
