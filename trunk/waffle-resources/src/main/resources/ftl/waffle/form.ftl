@@ -1,6 +1,6 @@
 <#ftl strip_whitespace=true>
 <#--
- * A collection of FTL (Freemarker Template Language) functions and macros for use in Waffle web applications
+ * A collection of FTL (Freemarker Template Language) functions and macros to use in HTML forms 
  *
  * @author Mauro Talevi
  -->
