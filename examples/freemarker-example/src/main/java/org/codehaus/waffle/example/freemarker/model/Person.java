@@ -1,6 +1,7 @@
 package org.codehaus.waffle.example.freemarker.model;
 
 import java.util.Date;
+import java.util.List;
 
 public interface Person {
 
@@ -14,4 +15,6 @@ public interface Person {
 
     public Date getDateOfBirth();
 
+    public List<String> getSkills();
+    
 }
