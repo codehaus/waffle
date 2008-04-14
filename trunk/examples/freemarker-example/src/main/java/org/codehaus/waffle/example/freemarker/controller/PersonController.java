@@ -1,7 +1,7 @@
-package org.codehaus.waffle.example.freemarker.action;
+package org.codehaus.waffle.example.freemarker.controller;
 
-import org.codehaus.waffle.example.freemarker.dao.PersonDAO;
 import org.codehaus.waffle.example.freemarker.model.Person;
+import org.codehaus.waffle.example.freemarker.persister.PersonDAO;
 
 import java.util.ArrayList;
 import java.util.Collection;
