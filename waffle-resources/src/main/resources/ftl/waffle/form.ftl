@@ -27,7 +27,7 @@
  -->
 <#function join values separator>
     <#assign result = ''>
-    <#list values as value>><#assign result=result+value><#if value_has_next><#assign result=result+separator></#if></#list>
+    <#list values as value><#assign result=result+value><#if value_has_next><#assign result=result+separator></#if></#list>
     <#return result>
 </#function>
 
@@ -37,7 +37,7 @@
  * @param values the sequence of values
  -->
 <#macro asCSV values>
-    <#list values as value>${value}<#if value_has_next>,</#if></#list>
+    <#assign csv=join(values,",")>${csv}
 </#macro>
 
 <#--
