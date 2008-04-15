@@ -88,7 +88,6 @@ public class PersistablePerson implements Person {
     }
     
     public List<Integer> getLevels() {
-        System.out.println("Levels ... "+levels);
         return levels;
     }
 
@@ -97,7 +96,6 @@ public class PersistablePerson implements Person {
     }
 
     public List<Double> getGrades() {
-        System.out.println("Grades ... "+grades);
         return grades;
     }
     
