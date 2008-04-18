@@ -37,6 +37,10 @@ public class PersonController {
         person = null;
     }
 
+    public void fail(){
+        throw new RuntimeException("I'm a failing method");
+    }
+    
     public Person getPerson() {
         return person;
     }
@@ -44,5 +48,5 @@ public class PersonController {
     public void setPerson(Person person) {
         this.person = person;
     }
-
+    
 }

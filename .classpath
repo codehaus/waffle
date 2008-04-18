@@ -35,6 +35,13 @@
             <attribute name="maven.type" value="test"/>
         </attributes>
     </classpathentry>
+    <classpathentry kind="src" output="target-eclipse/classes" path="examples/simple-example/src/main/java"/>
+    <classpathentry kind="src" output="target-eclipse/classes" path="examples/simple-example/src/main/webapp"/>
+    <classpathentry kind="src" output="target-eclipse/test-classes" path="examples/simple-example/src/test/java">
+        <attributes>
+            <attribute name="maven.type" value="test"/>
+        </attributes>
+    </classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules/profiles[examples,integration]"/>
 	<classpathentry kind="output" path="target-eclipse/classes"/>

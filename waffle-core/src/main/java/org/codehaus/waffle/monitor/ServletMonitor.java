@@ -21,7 +21,7 @@ import java.util.Map;
  */
 public interface ServletMonitor extends Monitor {
 
-    void servletServiceFailed(Exception cause);
+    void actionMethodInvocationFailed(Exception cause);
     
     void servletServiceRequested(Map<String, List<String>> parameters);
 

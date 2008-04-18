@@ -49,6 +49,7 @@ import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
+import org.codehaus.waffle.validation.ErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.View;
@@ -390,7 +391,7 @@ public class WaffleServletTest {
             one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
         }});
 
-        // Mock
+        // Mock RequestAttributeBinder
         final RequestAttributeBinder requestAttributeBinder = mockery.mock(RequestAttributeBinder.class);
         mockery.checking(new Expectations() {{
             one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
@@ -422,7 +423,7 @@ public class WaffleServletTest {
 
     @SuppressWarnings({"serial", "unchecked"})
     @Test
-    public void canThrowExceptionInMethodInvocation() throws Exception {
+    public void canHandleExceptionsInMethodInvocation() throws Exception {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
@@ -432,6 +433,7 @@ public class WaffleServletTest {
                 will(returnValue(errorsContext));
                 one(errorsContext).hasErrorMessages();
                 will(returnValue(false));
+                one(errorsContext).addErrorMessage(with(any(ErrorMessage.class)));
             }
         });
 
@@ -450,23 +452,47 @@ public class WaffleServletTest {
             atLeast(1).of(request).getParameterNames();
             will(returnValue(enumeration));
         }});
-
+        
         // Mock HttpServletResponse
         final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // MethodDefinition
+        Method method = NonDispatchingController.class.getMethod("increment");
+        final MethodDefinition methodDefinition = new MethodDefinition(method);
+        
+        // Mock ActionMethodResponseHandler
+        final ActionMethodResponseHandler actionMethodResponseHandler = mockery.mock(ActionMethodResponseHandler.class);
         mockery.checking(new Expectations() {{
-            one(response).sendError(with(equal(HttpServletResponse.SC_INTERNAL_SERVER_ERROR)), with(any(String.class)));
+            one(actionMethodResponseHandler).handle(with(same(request)), with(same(response)), with(any(ActionMethodResponse.class)));
         }});
 
+        // Mock Validator
+        final Validator validator = mockery.mock(Validator.class);
+        mockery.checking(new Expectations() {{
+            allowing(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+        }});
+
+        // Mock RequestAttributeBinder
+        final RequestAttributeBinder requestAttributeBinder = mockery.mock(RequestAttributeBinder.class);
+        mockery.checking(new Expectations() {{
+            one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
+        }});
+        
         // stub out what we don't want called ... execute it
-        WaffleServlet servlet = new WaffleServlet() {
+        WaffleServlet servlet = new WaffleServlet(null,
+                actionMethodResponseHandler,
+                new SilentMonitor(),
+                new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
+                requestAttributeBinder,
+                null, validator) {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
-                return new ControllerDefinition("no name", nonDispatchingController, new MethodDefinition(null));
-            }            
+                return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
+            }
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
-            }
+            }            
             @Override
             public void log(String string) {
                 // ignore
@@ -485,13 +511,7 @@ public class WaffleServletTest {
         final ServletMonitor servletMonitor = mockery.mock(ServletMonitor.class);
         mockery.checking(new Expectations() {{
             allowing(servletMonitor).servletServiceRequested(with(any(Map.class)));
-            allowing(servletMonitor).servletServiceFailed(actionMethodInvocationException);
-        }});
-
-        // Mock Validator
-        final Validator validator = mockery.mock(Validator.class);
-        mockery.checking(new Expectations() {{
-            one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+            allowing(servletMonitor).actionMethodInvocationFailed(actionMethodInvocationException);
         }});
 
         // Set up what normally would happen via "init()"
@@ -506,10 +526,6 @@ public class WaffleServletTest {
         Field servletMonitorField = WaffleServlet.class.getDeclaredField("servletMonitor");
         servletMonitorField.setAccessible(true);
         servletMonitorField.set(servlet, servletMonitor);
-
-        Field validatorFactoryField = WaffleServlet.class.getDeclaredField("validator");
-        validatorFactoryField.setAccessible(true);
-        validatorFactoryField.set(servlet, validator);
 
         servlet.service(request, response);
     }
