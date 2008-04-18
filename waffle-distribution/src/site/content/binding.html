@@ -83,36 +83,42 @@
     </p>
 
     <textarea class="java:nogutter:nocontrols" name="code">
-      public class DateValueConverter implements ValueConverter {
+public class DateValueConverter implements ValueConverter {
+    static final String BIND_ERROR_DATE_KEY = "bind.error.date";
+    static final String BIND_ERROR_DATE_MISSING_KEY = "bind.error.date.missing";
+    static final String DATE_FORMAT_KEY = "date.format";
+    static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
+    static final String DEFAULT_DATE_MESSAGE = "Invalid date {1} (using format {2}) for field {0}";
+    static final String DEFAULT_DATE_MISSING_MESSAGE = "Missing date value for field {0}";
+    private final MessageResources messageResources;
 
-        private MessageResources messageResources;
+    public DateValueConverter(MessageResources messageResources) {
+        this.messageResources = messageResources;
+    }
 
-        public DateValueConverter(MessageResources messageResources) {
-            this.messageResources = messageResources;
+    public boolean accept(Class<?> type) {
+        return Date.class.isAssignableFrom(type);
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public <T> T convertValue(String propertyName, String value, Class<T> toType) {
+        String fieldName = messageResources.getMessageWithDefault(propertyName, propertyName);
+        if (value == null || value.trim().length() == 0) {
+            String message = messageResources.getMessageWithDefault(BIND_ERROR_DATE_MISSING_KEY, DEFAULT_DATE_MISSING_MESSAGE, fieldName);
+            throw new BindException(message);
         }
 
-        /**
-         * Will accept any class stemming from <code>java.util.Date</code>
-         *
-         * @param type represent the type of the field a value is to be bound to
-         * @return true if isA Date
-         */
-        public boolean accept(Class type) {
-            return Date.class.isAssignableFrom(type);
+        String dateFormat = messageResources.getMessageWithDefault(DATE_FORMAT_KEY, DEFAULT_DATE_FORMAT);
+
+        try {
+            return (T) new SimpleDateFormat(dateFormat).parse(value);
+        } catch (ParseException e) {
+            String message = messageResources.getMessageWithDefault(BIND_ERROR_DATE_KEY, DEFAULT_DATE_MESSAGE, fieldName, value, dateFormat);
+            throw new BindException(message);
         }
+    }
 
-        public Object convertValue(String propertyName, String value, Class type) throws BindException {
-            String format = messageResources.getMessageWithDefault("date.format", "dd-MM-yyyy");
-
-            try {
-                return new SimpleDateFormat(format).parse(value);
-            } catch (ParseException e) {
-                String errorMsg = messageResources.getMessage("date.bind.error", value, format);
-                throw new BindException(errorMsg, e);
-            }
-        }
-
-      }
+}
     </textarea>
 
     <p>Now all that is left is to register this converter within the web.xml</p>
@@ -120,10 +126,36 @@
     <textarea class="xml:nogutter:nocontrols" name="code">
       <context-param>
         <param-name>register:DateConverter</param-name>
-        <param-value>com.mycompany.DateValueConverter</param-value>
+        <param-value>org.codehaus.waffle.bind.converters.DateValueConverter</param-value>
       </context-param>
     </textarea>
- 
+
+   <h3>Waffle Custom ValueConverters</h3>
+
+    <p>
+      Waffle provides for the users' convenience custom <b>ValueConverter</b> for common types, such as Date or List.  These need 
+      to be registered in the web.xml and of course can be replaced with other custom implementations.
+    </p> 
+
+    <table class="bodyTable">
+      <tbody>
+        <tr class="a">
+          <td align="left"><b>ValueConverter</b></td>
+          <td align="left"><b>Description</b></td>
+        </tr>
+        <tr class="b">
+          <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/DateValueConverter.html">org.codehaus.waffle.bind.converters.DateValueConverter</a>
+          </td>
+          <td align="left">Converts date values with configurable date format and error messages.</td>
+        </tr>
+        <tr class="b">
+          <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/ListValueConverter.html">org.codehaus.waffle.bind.converters.ListValueConverter</a>
+          </td>
+          <td align="left">Converts CSV values with configurable error messages.</td>
+        </tr>
+      </tbody>
+    </table>
+
   </body>
 
 </html>
