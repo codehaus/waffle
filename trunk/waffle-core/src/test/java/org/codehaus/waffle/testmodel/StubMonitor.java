@@ -119,7 +119,7 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void nonCachingComponentRegistered(Object key, Class<?> clazz, Object[] parameters) {
     }
 
-    public void servletServiceFailed(Exception cause) {
+    public void actionMethodInvocationFailed(Exception cause) {
     }
     
     public void servletServiceRequested(Map<String, List<String>> parameters) {

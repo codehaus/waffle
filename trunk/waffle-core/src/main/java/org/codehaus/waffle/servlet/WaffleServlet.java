@@ -41,6 +41,7 @@ import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
+import org.codehaus.waffle.validation.GlobalErrorMessage;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
@@ -57,7 +58,6 @@ public class WaffleServlet extends HttpServlet {
     private static final String DEFAULT_VIEW_SUFFIX = ".jspx";
     private static final String DEFAULT_VIEW_PREFIX = "/";
     private static final String EMPTY = "";
-    private static final String ERROR = "ERROR: ";
     private static final String POST = "POST";
     private ActionMethodExecutor actionMethodExecutor;
     private ActionMethodResponseHandler actionMethodResponseHandler;
@@ -169,12 +169,12 @@ public class WaffleServlet extends HttpServlet {
         dataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
         validator.validate(controllerDefinition, errorsContext);
 
+        ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
+        View view = null;
+        
         try {
-            ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
-            MethodDefinition methodDefinition = controllerDefinition.getMethodDefinition();
-            View view = null;
 
-            if (errorsContext.hasErrorMessages() || methodDefinition == null) {
+            if (errorsContext.hasErrorMessages() || noMethodDefinition(controllerDefinition)) {
                 view = buildReferringView(controllerDefinition);
             } else {
                 actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
@@ -185,7 +185,7 @@ public class WaffleServlet extends HttpServlet {
                     // Null or VOID indicate a Waffle convention (return to referring page)
                     // unless PRG is disabled 
                     if (request.getMethod().equalsIgnoreCase(POST)) {
-                        if ( usePRG(methodDefinition) ){
+                        if ( usePRG(controllerDefinition.getMethodDefinition()) ){
                             // PRG (Post/Redirect/Get): see http://en.wikipedia.org/wiki/Post/Redirect/Get
                             view = buildRedirectingView(request, controllerDefinition);                            
                         } else {
@@ -198,18 +198,23 @@ public class WaffleServlet extends HttpServlet {
                 }
             }
 
-            if (view != null) {
-                actionMethodResponse.setReturnValue(view);
-            }
-
-            requestAttributeBinder.bind(request, controllerDefinition.getController());
-            actionMethodResponseHandler.handle(request, response, actionMethodResponse);
-
         } catch (ActionMethodInvocationException e) {
-            servletMonitor.servletServiceFailed(e);
-            log(ERROR + e.getMessage());
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            errorsContext.addErrorMessage(new GlobalErrorMessage("Action method invocation failed: "+e.getMessage(), e));
+            view = buildReferringView(controllerDefinition);
+            servletMonitor.actionMethodInvocationFailed(e);
         }
+        
+        if (view != null) {
+            actionMethodResponse.setReturnValue(view);
+        }
+
+        requestAttributeBinder.bind(request, controllerDefinition.getController());
+        actionMethodResponseHandler.handle(request, response, actionMethodResponse);
+
+    }
+
+    private boolean noMethodDefinition(ControllerDefinition controllerDefinition) {
+        return controllerDefinition.getMethodDefinition() == null;
     }
 
     @SuppressWarnings("unchecked")

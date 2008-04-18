@@ -27,6 +27,16 @@
 
     <h3>Waffle example: Select Person</h3>
 
+    <c:if test="${errors.errorMessageCount > 0}">
+        <div class="errors">
+            <c:forEach var="error" items="${errors.allErrorMessages}">
+                <div class="error">
+                    ${error.message}
+                </div>
+            </c:forEach>
+        </div>
+    </c:if>
+    
     <table>
         <tr>
             <th>Id</th>
@@ -48,7 +58,8 @@
         </c:forEach>
     </table>
 
-    <a href="javascript:fireActionMethod('create');">New</a>
+    <a href="javascript:fireActionMethod('create');">New</a> or 
+    <a href="javascript:fireActionMethod('fail');">Click to see a failing call</a>
 
     <!-- Example of partial page -->
     <div id="editArea">

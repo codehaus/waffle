@@ -10,6 +10,7 @@
  *****************************************************************************/
 package org.codehaus.waffle.validation;
 
+
 /**
  * ErrorMessage associated to global validations.
  *
@@ -17,9 +18,15 @@ package org.codehaus.waffle.validation;
  */
 public class GlobalErrorMessage implements ErrorMessage {
     private String message;
+    private Throwable cause;
 
     public GlobalErrorMessage(String message) {
+        this(message, null);
+    }
+
+    public GlobalErrorMessage(String message, Throwable cause) {
         this.message = message;
+        this.cause = cause;
     }
 
     public Type getType() {
@@ -28,6 +35,10 @@ public class GlobalErrorMessage implements ErrorMessage {
     
     public String getMessage() {
         return message;
+    }
+    
+    public Throwable getCause(){
+        return cause;
     }
 
 }
