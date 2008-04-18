@@ -16,7 +16,6 @@ import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
