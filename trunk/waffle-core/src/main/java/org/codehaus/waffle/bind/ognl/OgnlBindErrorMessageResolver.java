@@ -20,9 +20,26 @@ import java.beans.IntrospectionException;
 import java.lang.reflect.Method;
 import java.util.MissingResourceException;
 
+/**
+ * Ognl-based BindErrorMessageResolver, which uses the following convention for the message resource bundles: all bind
+ * error keys use prefix "bind.error." to which the type object it appended, eg
+ * <ul>
+ * <li>"bind.error.number": a bind error for any number (short, int, float, double, long)</li>
+ * <li>"bind.error.boolean": a bind error for a boolean</li>
+ * <li>"bind.error.[type.getName()]": a bind error for the type</li>
+ * <li>"bind.error.default": any other bind error that does not satisfy any of the above</li>
+ * </ul>
+ * The default bind error also has a default message (cf OgnlBindErrorMessageResolver#DEFAULT_MESSAGE) if the default
+ * key is not found.
+ * 
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
 public class OgnlBindErrorMessageResolver implements BindErrorMessageResolver {
-    private final static String BIND_ERROR_SUFFIX = ".bind.error";
-    private final static String DEFAULT_BIND_ERROR = "default" + BIND_ERROR_SUFFIX;
+    static final String BIND_ERROR_KEY_PREFIX = "bind.error.";
+    static final String NUMBER_NAME = "number";
+    static final String DEFAULT_NAME = "default";
+    static final String DEFAULT_MESSAGE = "Invalid value ''{1}'' for field ''{0}''";
     private final MessageResources messageResources;
 
     public OgnlBindErrorMessageResolver(MessageResources messageResources) {
@@ -34,7 +51,7 @@ public class OgnlBindErrorMessageResolver implements BindErrorMessageResolver {
 
         try {
             // Is a custom bind error message defined for this field?
-            return messageResources.getMessage(fieldName + BIND_ERROR_SUFFIX, value);
+            return messageResources.getMessage(keyFor(fieldName), value);
         } catch (MissingResourceException ignore) {
             // ignore ... common to not have custom
         }
@@ -43,7 +60,7 @@ public class OgnlBindErrorMessageResolver implements BindErrorMessageResolver {
             // Get the type for the "setter" and try to find a message for the type
             Method method = OgnlRuntime.getSetMethod(new OgnlContext(), model.getClass(), propertyName);
 
-            if(method != null) {
+            if (method != null) {
                 String key = findBindErrorMessageKey(method.getParameterTypes()[0]);
                 return messageResources.getMessage(key, fieldName, value);
             }
@@ -56,7 +73,7 @@ public class OgnlBindErrorMessageResolver implements BindErrorMessageResolver {
         }
 
         // Get the default bind error message
-        return messageResources.getMessage(DEFAULT_BIND_ERROR, fieldName, value);
+        return messageResources.getMessageWithDefault(keyFor(DEFAULT_NAME), DEFAULT_MESSAGE, fieldName, value);
     }
 
     protected String findBindErrorMessageKey(Class<?> type) {
@@ -67,13 +84,19 @@ public class OgnlBindErrorMessageResolver implements BindErrorMessageResolver {
                 || float.class.equals(type)
                 || double.class.equals(type)
                 || Number.class.isAssignableFrom(type)) {
-            return "number" + BIND_ERROR_SUFFIX;
+            return keyFor(NUMBER_NAME);
         }
 
         if(Boolean.class.isAssignableFrom(type)) {
-            return boolean.class + BIND_ERROR_SUFFIX;
+            return keyFor(boolean.class.getName());
         }
 
-        return type.getName() + BIND_ERROR_SUFFIX;
+        return keyFor(type.getName());
     }
+    
+    static String keyFor(String name) {
+        return BIND_ERROR_KEY_PREFIX + name;
+    }
+
+
 }
