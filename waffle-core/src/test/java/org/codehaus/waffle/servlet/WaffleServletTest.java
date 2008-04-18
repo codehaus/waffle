@@ -45,6 +45,7 @@ import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ControllerNotFoundException;
 import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
@@ -78,6 +79,8 @@ public class WaffleServletTest {
             will(returnValue(null));
             one(servletConfig).getInitParameter(Constants.VIEW_SUFFIX_KEY);
             will(returnValue(".jsp"));
+            one(servletConfig).getInitParameter(Constants.ERRORS_VIEW_KEY);
+            will(returnValue("errors"));
         }});
 
         // Mock ComponentRegistry        
@@ -174,6 +177,13 @@ public class WaffleServletTest {
             one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
         }});
 
+        // Mock ControllerDefinitionFactory
+        final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+        mockery.checking(new Expectations() {{
+            one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)));
+            will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
+        }});
+        
         // stub out what we don't want called ... execute it
         SilentMonitor monitor = new SilentMonitor();
         WaffleServlet servlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
@@ -181,11 +191,7 @@ public class WaffleServletTest {
                                                         monitor,
                                                         new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
                                                         requestAttributeBinder,
-                                                        null, validator) {
-            @Override
-            protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
-                return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
-            }
+                                                        controllerDefinitionFactory, validator) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
@@ -257,6 +263,13 @@ public class WaffleServletTest {
             one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
         }});
 
+        // Mock ControllerDefinitionFactory
+        final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+        mockery.checking(new Expectations() {{
+            one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)));
+            will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
+        }});
+        
         // stub out what we don't want called ... execute it
         SilentMonitor monitor = new SilentMonitor();
         WaffleServlet servlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
@@ -264,11 +277,7 @@ public class WaffleServletTest {
                                                         monitor,
                                                         new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
                                                         requestAttributeBinder,
-                                                        null, validator) {
-            @Override
-            protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
-                return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
-            }
+                                                        controllerDefinitionFactory, validator) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
@@ -280,20 +289,16 @@ public class WaffleServletTest {
     }
 
     @SuppressWarnings({ "serial", "unchecked" })
-    @Test(expected = ServletException.class)
-    public void cannotServiceIfControllerNotFound() throws Exception {
+    @Test
+    public void canHandleControllerNotFound() throws Exception {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
             {
-
                 one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
                 will(returnValue(errorsContext));
-                one(errorsContext).hasErrorMessages();
-                will(returnValue(false));
-                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
-                will(returnValue(new ArrayList<Object>()));
+                one(errorsContext).addErrorMessage(with(any(ErrorMessage.class)));
             }
         });
 
@@ -310,21 +315,39 @@ public class WaffleServletTest {
         mockery.checking(new Expectations() {{
             atLeast(1).of(request).getParameterNames();
             will(returnValue(enumeration));
-            one(request).getServletPath();
-            will(returnValue("/foobar"));
+        }});
+        
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+        
+        // Mock ActionMethodResponseHandler
+        final ActionMethodResponseHandler actionMethodResponseHandler = mockery.mock(ActionMethodResponseHandler.class);
+        mockery.checking(new Expectations() {{
+            one(actionMethodResponseHandler).handle(with(same(request)), with(same(response)), with(any(ActionMethodResponse.class)));
         }});
 
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
         mockery.checking(new Expectations() {{
-            one(controllerDefinitionFactory).getControllerDefinition(request, null);
-            will(returnValue(new ControllerDefinition("junk", null, null)));
+            one(controllerDefinitionFactory).getControllerDefinition(request, response);
+            will(throwException(new ControllerNotFoundException("No controller found ")));
         }});
 
-        WaffleServlet servlet = new WaffleServlet(){
+        
+        // stub out what we don't want called ... execute it
+        WaffleServlet servlet = new WaffleServlet(null,
+                actionMethodResponseHandler,
+                new SilentMonitor(),
+                new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
+                null,
+                controllerDefinitionFactory, null) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
+            }            
+            @Override
+            public void log(String string) {
+                // ignore
             }
         };
 
@@ -343,7 +366,7 @@ public class WaffleServletTest {
         servletMonitorField.setAccessible(true);
         servletMonitorField.set(servlet, servletMonitor);
 
-        servlet.service(request, null);
+        servlet.service(request, response);
     }
 
     @SuppressWarnings("serial")
@@ -397,17 +420,20 @@ public class WaffleServletTest {
             one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
         }});
 
+        // Mock ControllerDefinitionFactory
+        final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+        mockery.checking(new Expectations() {{
+            one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)));
+            will(returnValue(new ControllerDefinition("no name", nonDispatchingController, null)));
+        }});
+        
         // stub out what we don't want called ... execute it
         WaffleServlet servlet = new WaffleServlet(null,
                 actionMethodResponseHandler,
                 new SilentMonitor(),
                 new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
                 requestAttributeBinder,
-                null, validator) {
-            @Override
-            protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
-                return new ControllerDefinition("no name", nonDispatchingController, null);
-            }
+                controllerDefinitionFactory, validator) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
@@ -478,17 +504,20 @@ public class WaffleServletTest {
             one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
         }});
         
+        // Mock ControllerDefinitionFactory
+        final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+        mockery.checking(new Expectations() {{
+            one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)));
+            will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
+        }});
+        
         // stub out what we don't want called ... execute it
         WaffleServlet servlet = new WaffleServlet(null,
                 actionMethodResponseHandler,
                 new SilentMonitor(),
                 new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
                 requestAttributeBinder,
-                null, validator) {
-            @Override
-            protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
-                return new ControllerDefinition("no name", nonDispatchingController, methodDefinition);
-            }
+                controllerDefinitionFactory, validator) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
@@ -563,6 +592,8 @@ public class WaffleServletTest {
             one(servletConfig).getInitParameter(Constants.VIEW_PREFIX_KEY);
             will(returnValue("/WEB-INF/jsp"));
             one(servletConfig).getInitParameter(Constants.VIEW_SUFFIX_KEY);
+            one(servletConfig).getInitParameter(Constants.ERRORS_VIEW_KEY);
+            will(returnValue("errors"));            
         }});
 
         WaffleServlet servlet = new WaffleServlet() {

@@ -15,11 +15,11 @@ import static org.codehaus.waffle.Constants.CONTROLLER_KEY;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MissingActionMethodException;
 import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.ContextContainerNotFoundException;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.monitor.ControllerMonitor;
 
@@ -69,17 +69,13 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
 
         if (requestLevelContainer == null) {
             controllerMonitor.requestContextContainerNotFound();
-            String error = "No context container found at request level. "
-                    + "Please ensure that a WaffleRequestFilter is registered in the web.xml";
-            throw new WaffleException(error);
+            throw new ContextContainerNotFoundException("No Waffle context container found at request level.  WaffleRequestFilter must be registered in the web.xml");
         }
 
         Object controller = requestLevelContainer.getComponentInstance(name);
         if (controller == null) {
             controllerMonitor.controllerNotFound(name);
-            String error = "No controller '" + name + "' configured for the specified path: '"
-                    + request.getRequestURI() + ". Please ensure that controller '" + name + "' is registered in the Registrar.";
-            throw new WaffleException(error);
+            throw new ControllerNotFoundException(("No controller '" + name + "' is configured in the Registrar for the request path '"+request.getRequestURI()+"'"));
         }
 
         return controller;
