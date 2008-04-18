@@ -10,6 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -53,7 +55,6 @@ import org.codehaus.waffle.view.View;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -174,7 +175,7 @@ public class WaffleServletTest {
 
         // stub out what we don't want called ... execute it
         SilentMonitor monitor = new SilentMonitor();
-        WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
+        WaffleServlet servlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
                                                         actionMethodResponseHandler,
                                                         monitor,
                                                         new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
@@ -190,13 +191,13 @@ public class WaffleServletTest {
             }
         };
 
-        waffleServlet.service(request, response);
-        Assert.assertEquals(1, nonDispatchingController.getCount());
+        servlet.service(request, response);
+        assertEquals(1, nonDispatchingController.getCount());
     }
 
     @SuppressWarnings("serial")
     @Test // Testing Post/Redirect/Get - see http://en.wikipedia.org/wiki/Post/Redirect/Get
-    public void serviceShouldCreateRedirectViewWhenReturnValueIsNullAndRequestWasAPost() throws Exception {
+    public void canCreateRedirectViewWhenReturnValueIsNullAndRequestWasAPost() throws Exception {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
@@ -257,7 +258,7 @@ public class WaffleServletTest {
 
         // stub out what we don't want called ... execute it
         SilentMonitor monitor = new SilentMonitor();
-        WaffleServlet waffleServlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
+        WaffleServlet servlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
                                                         actionMethodResponseHandler,
                                                         monitor,
                                                         new OgnlDataBinder(new OgnlValueConverterFinder(), null, monitor),
@@ -273,8 +274,8 @@ public class WaffleServletTest {
             }
         };
 
-        waffleServlet.service(request, response);
-        Assert.assertEquals(1, nonDispatchingController.getCount());
+        servlet.service(request, response);
+        assertEquals(1, nonDispatchingController.getCount());
     }
 
     @SuppressWarnings({ "serial", "unchecked" })
@@ -319,7 +320,7 @@ public class WaffleServletTest {
             will(returnValue(new ControllerDefinition("junk", null, null)));
         }});
 
-        WaffleServlet waffleServlet = new WaffleServlet(){
+        WaffleServlet servlet = new WaffleServlet(){
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
@@ -335,13 +336,13 @@ public class WaffleServletTest {
         // Set up what normally would happen via "init()"
         Field actionFactoryField = WaffleServlet.class.getDeclaredField("controllerDefinitionFactory");
         actionFactoryField.setAccessible(true);
-        actionFactoryField.set(waffleServlet, controllerDefinitionFactory);
+        actionFactoryField.set(servlet, controllerDefinitionFactory);
 
         Field servletMonitorField = WaffleServlet.class.getDeclaredField("servletMonitor");
         servletMonitorField.setAccessible(true);
-        servletMonitorField.set(waffleServlet, servletMonitor);
+        servletMonitorField.set(servlet, servletMonitor);
 
-        waffleServlet.service(request, null);
+        servlet.service(request, null);
     }
 
     @SuppressWarnings("serial")
@@ -396,7 +397,7 @@ public class WaffleServletTest {
         }});
 
         // stub out what we don't want called ... execute it
-        WaffleServlet waffleServlet = new WaffleServlet(null,
+        WaffleServlet servlet = new WaffleServlet(null,
                 actionMethodResponseHandler,
                 new SilentMonitor(),
                 new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
@@ -416,10 +417,10 @@ public class WaffleServletTest {
             }
         };
 
-        waffleServlet.service(request, response);
+        servlet.service(request, response);
     }
 
-    @SuppressWarnings({"serial", "ThrowableInstanceNeverThrown", "unchecked"})
+    @SuppressWarnings({"serial", "unchecked"})
     @Test
     public void canThrowExceptionInMethodInvocation() throws Exception {
         // Mock ErrorsContext
@@ -457,7 +458,7 @@ public class WaffleServletTest {
         }});
 
         // stub out what we don't want called ... execute it
-        WaffleServlet waffleServlet = new WaffleServlet() {
+        WaffleServlet servlet = new WaffleServlet() {
             @Override
             protected ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
                 return new ControllerDefinition("no name", nonDispatchingController, new MethodDefinition(null));
@@ -496,39 +497,39 @@ public class WaffleServletTest {
         // Set up what normally would happen via "init()"
         Field dataBinderField = WaffleServlet.class.getDeclaredField("dataBinder");
         dataBinderField.setAccessible(true);
-        dataBinderField.set(waffleServlet, new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()));
+        dataBinderField.set(servlet, new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()));
 
         Field actionMethodExecutorField = WaffleServlet.class.getDeclaredField("actionMethodExecutor");
         actionMethodExecutorField.setAccessible(true);
-        actionMethodExecutorField.set(waffleServlet, actionMethodExecutor);
+        actionMethodExecutorField.set(servlet, actionMethodExecutor);
 
         Field servletMonitorField = WaffleServlet.class.getDeclaredField("servletMonitor");
         servletMonitorField.setAccessible(true);
-        servletMonitorField.set(waffleServlet, servletMonitor);
+        servletMonitorField.set(servlet, servletMonitor);
 
         Field validatorFactoryField = WaffleServlet.class.getDeclaredField("validator");
         validatorFactoryField.setAccessible(true);
-        validatorFactoryField.set(waffleServlet, validator);
+        validatorFactoryField.set(servlet, validator);
 
-        waffleServlet.service(request, response);
+        servlet.service(request, response);
     }
 
     @Test
     public void canBuildViewToReferrer() throws Exception {
-        WaffleServlet waffleServlet = new WaffleServlet();
+        WaffleServlet servlet = new WaffleServlet();
 
         Field viewPrefixField = WaffleServlet.class.getDeclaredField("viewPrefix");
         viewPrefixField.setAccessible(true);
-        viewPrefixField.set(waffleServlet, "prefix-");
+        viewPrefixField.set(servlet, "prefix-");
 
         Field viewSuffixField = WaffleServlet.class.getDeclaredField("viewSuffix");
         viewSuffixField.setAccessible(true);
-        viewSuffixField.set(waffleServlet, "-suffix");
+        viewSuffixField.set(servlet, "-suffix");
 
         ControllerDefinition controllerDefinition = new ControllerDefinition("foobar", null, null);
-        View view = waffleServlet.buildReferringView(controllerDefinition);
+        View view = servlet.buildReferringView(controllerDefinition);
 
-        Assert.assertEquals("prefix-foobar-suffix", view.getValue());
+        assertEquals("prefix-foobar-suffix", view.getValue());
     }
 
     @SuppressWarnings("serial")
