@@ -11,6 +11,7 @@
 package org.codehaus.waffle.servlet;
 
 import static java.util.Arrays.asList;
+import static org.codehaus.waffle.Constants.ERRORS_VIEW_KEY;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -55,8 +57,9 @@ import org.codehaus.waffle.view.View;
 @SuppressWarnings("serial")
 public class WaffleServlet extends HttpServlet {
 
-    private static final String DEFAULT_VIEW_SUFFIX = ".jspx";
     private static final String DEFAULT_VIEW_PREFIX = "/";
+    private static final String DEFAULT_VIEW_SUFFIX = ".jspx";
+    private static final String DEFAULT_ERRORS_VIEW = "errors";
     private static final String EMPTY = "";
     private static final String POST = "POST";
     private ActionMethodExecutor actionMethodExecutor;
@@ -68,6 +71,7 @@ public class WaffleServlet extends HttpServlet {
     private Validator validator;
     private String viewPrefix;
     private String viewSuffix;
+    private String errorsView;
     private boolean componentsRetrieved = false;
 
     /**
@@ -106,15 +110,9 @@ public class WaffleServlet extends HttpServlet {
     }
 
     public void init() throws ServletException {
-        viewPrefix = getInitParameter(VIEW_PREFIX_KEY);
-        if (viewPrefix == null || viewPrefix.equals(EMPTY)) {
-            viewPrefix = DEFAULT_VIEW_PREFIX; // default
-        }
-
-        viewSuffix = getInitParameter(VIEW_SUFFIX_KEY);
-        if (viewSuffix == null || viewSuffix.equals(EMPTY)) {
-            viewSuffix = DEFAULT_VIEW_SUFFIX; // default
-        }
+        viewPrefix = initParam(VIEW_PREFIX_KEY, DEFAULT_VIEW_PREFIX);
+        viewSuffix = initParam(VIEW_SUFFIX_KEY, DEFAULT_VIEW_SUFFIX);
+        errorsView = initParam(ERRORS_VIEW_KEY, DEFAULT_ERRORS_VIEW);
 
         if (!componentsRetrieved) {
             // Retrieve instance components from the ComponentRegistry
@@ -129,26 +127,16 @@ public class WaffleServlet extends HttpServlet {
         }
     }
 
-    private ComponentRegistry getComponentRegistry() {
-        return ServletContextHelper.getComponentRegistry(getServletContext());
+    private String initParam(String key, String defaultValue) {
+        String value = getInitParameter(key);
+        if (value == null || value.equals(EMPTY)) {
+            value = defaultValue; // default
+        }
+        return value;
     }
 
-    /**
-     * Obtain the controller defition the user is requesting.
-     *
-     * @param request  the HttpServletRequest
-     * @param response the HttpServletResponse
-     * @return A ControllerDefinition
-     * @throws ServletException if controller not found
-     */
-    protected ControllerDefinition getControllerDefinition(HttpServletRequest request,
-                                                           HttpServletResponse response) throws ServletException {
-        ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response);
-        if (controllerDefinition.getController() == null) {
-            throw new ServletException("Unable to locate the Waffle Controller: " + request.getServletPath());
-        }
-
-        return controllerDefinition;
+    private ComponentRegistry getComponentRegistry() {
+        return ServletContextHelper.getComponentRegistry(getServletContext());
     }
 
     /**
@@ -165,52 +153,55 @@ public class WaffleServlet extends HttpServlet {
         ContextContainer requestContainer = RequestLevelContainer.get();
         ErrorsContext errorsContext = requestContainer.getComponentInstanceOfType(ErrorsContext.class);
 
-        ControllerDefinition controllerDefinition = getControllerDefinition(request, response);
-        dataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
-        validator.validate(controllerDefinition, errorsContext);
-
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         View view = null;
-        
         try {
+            ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
+            response);
+            dataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
+            validator.validate(controllerDefinition, errorsContext);
+            try {
 
-            if (errorsContext.hasErrorMessages() || noMethodDefinition(controllerDefinition)) {
-                view = buildReferringView(controllerDefinition);
-            } else {
-                actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
-
-                if (errorsContext.hasErrorMessages()) {
+                if (errorsContext.hasErrorMessages() || noMethodDefinition(controllerDefinition)) {
                     view = buildReferringView(controllerDefinition);
-                } else if (actionMethodResponse.getReturnValue() == null) {                    
-                    // Null or VOID indicate a Waffle convention (return to referring page)
-                    // unless PRG is disabled 
-                    if (request.getMethod().equalsIgnoreCase(POST)) {
-                        if ( usePRG(controllerDefinition.getMethodDefinition()) ){
-                            // PRG (Post/Redirect/Get): see http://en.wikipedia.org/wiki/Post/Redirect/Get
-                            view = buildRedirectingView(request, controllerDefinition);                            
-                        } else {
-                            // PRG is disabled
+                } else {
+                    actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+
+                    if (errorsContext.hasErrorMessages()) {
+                        view = buildReferringView(controllerDefinition);
+                    } else if (actionMethodResponse.getReturnValue() == null) {
+                        // Null or VOID indicate a Waffle convention (return to referring page)
+                        // unless PRG is disabled 
+                        if (request.getMethod().equalsIgnoreCase(POST)) {
+                            if (usePRG(controllerDefinition.getMethodDefinition())) {
+                                // PRG (Post/Redirect/Get): see http://en.wikipedia.org/wiki/Post/Redirect/Get
+                                view = buildRedirectingView(request, controllerDefinition);
+                            } else {
+                                // PRG is disabled
+                                view = buildReferringView(controllerDefinition);
+                            }
+                        } else { // was a GET
                             view = buildReferringView(controllerDefinition);
                         }
-                    } else { // was a GET
-                        view = buildReferringView(controllerDefinition);
                     }
                 }
-            }
 
-        } catch (ActionMethodInvocationException e) {
-            errorsContext.addErrorMessage(new GlobalErrorMessage("Action method invocation failed: "+e.getMessage(), e));
-            view = buildReferringView(controllerDefinition);
-            servletMonitor.actionMethodInvocationFailed(e);
+            } catch (ActionMethodInvocationException e) {
+                errorsContext.addErrorMessage(new GlobalErrorMessage("Action method invocation failed for controller "
+                        + controllerDefinition.getName() + ", :" + e.getMessage(), e));
+                view = buildReferringView(controllerDefinition);
+                servletMonitor.actionMethodInvocationFailed(e);
+            }
+            requestAttributeBinder.bind(request, controllerDefinition.getController());
+        } catch (WaffleException e) {      
+            errorsContext.addErrorMessage(new GlobalErrorMessage(e.getMessage(), e));
+            view = buildErrorsView(request);
         }
         
         if (view != null) {
             actionMethodResponse.setReturnValue(view);
         }
-
-        requestAttributeBinder.bind(request, controllerDefinition.getController());
         actionMethodResponseHandler.handle(request, response, actionMethodResponse);
-
     }
 
     private boolean noMethodDefinition(ControllerDefinition controllerDefinition) {
@@ -267,5 +258,15 @@ public class WaffleServlet extends HttpServlet {
         return new RedirectView(url, controllerDefinition.getController());
     }
 
+    /**
+     * Builds the errors view, for cases in which the context container or the controller are not found.
+     * The user can extend and override behaviour, eg to throw a ServletException.
+     * 
+     * @param request the HttpServletRequest
+     * @return The View
+     */
+    protected View buildErrorsView(HttpServletRequest request) throws ServletException {
+        return buildReferringView(new ControllerDefinition(errorsView, null, null));
+    }
 
 }
