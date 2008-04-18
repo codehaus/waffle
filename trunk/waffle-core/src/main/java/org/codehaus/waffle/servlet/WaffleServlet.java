@@ -163,12 +163,12 @@ public class WaffleServlet extends HttpServlet {
             try {
 
                 if (errorsContext.hasErrorMessages() || noMethodDefinition(controllerDefinition)) {
-                    view = buildReferringView(controllerDefinition);
+                    view = buildView(controllerDefinition);
                 } else {
                     actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
 
                     if (errorsContext.hasErrorMessages()) {
-                        view = buildReferringView(controllerDefinition);
+                        view = buildView(controllerDefinition);
                     } else if (actionMethodResponse.getReturnValue() == null) {
                         // Null or VOID indicate a Waffle convention (return to referring page)
                         // unless PRG is disabled 
@@ -178,19 +178,19 @@ public class WaffleServlet extends HttpServlet {
                                 view = buildRedirectingView(request, controllerDefinition);
                             } else {
                                 // PRG is disabled
-                                view = buildReferringView(controllerDefinition);
+                                view = buildView(controllerDefinition);
                             }
                         } else { // was a GET
-                            view = buildReferringView(controllerDefinition);
+                            view = buildView(controllerDefinition);
                         }
                     }
                 }
 
             } catch (ActionMethodInvocationException e) {
+                servletMonitor.actionMethodInvocationFailed(e);
                 errorsContext.addErrorMessage(new GlobalErrorMessage("Action method invocation failed for controller "
                         + controllerDefinition.getName() + ", :" + e.getMessage(), e));
-                view = buildReferringView(controllerDefinition);
-                servletMonitor.actionMethodInvocationFailed(e);
+                view = buildActionMethodFailureView(controllerDefinition);
             }
             requestAttributeBinder.bind(request, controllerDefinition.getController());
         } catch (WaffleException e) {      
@@ -241,7 +241,7 @@ public class WaffleServlet extends HttpServlet {
      * @param controllerDefinition the ControllerDefinition
      * @return The View
      */
-    protected View buildReferringView(ControllerDefinition controllerDefinition) {
+    protected View buildView(ControllerDefinition controllerDefinition) {
         String controllerValue = viewPrefix + controllerDefinition.getName() + viewSuffix;
         return new View(controllerValue, controllerDefinition.getController());
     }
@@ -259,14 +259,27 @@ public class WaffleServlet extends HttpServlet {
     }
 
     /**
+     * Builds the view for action method failures, by default the referring view. 
+     * The user can extend and override behaviour, eg to throw a ServletException.
+     * 
+     * @param controllerDefinition the ControllerDefinition
+     * @return The referring View
+     * @throws ServletException if required
+     */
+    protected View buildActionMethodFailureView(ControllerDefinition controllerDefinition) throws ServletException {
+        return buildView(controllerDefinition);
+    }
+
+    /**
      * Builds the errors view, for cases in which the context container or the controller are not found.
      * The user can extend and override behaviour, eg to throw a ServletException.
      * 
      * @param request the HttpServletRequest
-     * @return The View
+     * @return The referring View
+     * @throws ServletException if required
      */
     protected View buildErrorsView(HttpServletRequest request) throws ServletException {
-        return buildReferringView(new ControllerDefinition(errorsView, null, null));
+        return buildView(new ControllerDefinition(errorsView, null, null));
     }
 
 }
