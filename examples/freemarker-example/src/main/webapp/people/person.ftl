@@ -1,20 +1,18 @@
 <#import "/ftl/waffle/form.ftl" as w>
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 <head>
     <title>Select a person</title>
     <style type="text/css" title="currentStyle" media="screen">
-        @import "../stylesheets/style.css";
+        @import "${base}/stylesheets/style.css";
     </style>
-    <script src="../scripts/prototype.js" type="text/javascript">
+    <script src="${base}/scripts/prototype.js" type="text/javascript">
         // keep this space
     </script>
-    <script src="../js/waffle/action.js" type="text/javascript">
+    <script src="${base}/js/waffle/action.js" type="text/javascript">
         // keep this space
     </script>
 </head>
-
 <body>
 <form action="${base}/people/person.foo" method="post">
 
