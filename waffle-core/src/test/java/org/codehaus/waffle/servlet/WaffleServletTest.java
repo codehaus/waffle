@@ -290,7 +290,7 @@ public class WaffleServletTest {
 
     @SuppressWarnings({ "serial", "unchecked" })
     @Test
-    public void canHandleControllerNotFound() throws Exception {
+    public void canHandleSystemExceptions() throws Exception {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
@@ -354,6 +354,7 @@ public class WaffleServletTest {
         // Mock ServletMonitor
         final ServletMonitor servletMonitor = mockery.mock(ServletMonitor.class);
         mockery.checking(new Expectations() {{
+            allowing(servletMonitor).servletServiceFailed(with(any(WaffleException.class)));
             allowing(servletMonitor).servletServiceRequested(with(any(Map.class)));
         }});
         
