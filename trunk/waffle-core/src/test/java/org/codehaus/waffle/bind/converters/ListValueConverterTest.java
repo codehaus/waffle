@@ -3,7 +3,9 @@ package org.codehaus.waffle.bind.converters;
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import java.util.Locale;
@@ -58,11 +60,26 @@ public class ListValueConverterTest {
     }
 
     @Test
+    public void canHandleMissingValues() {
+        ListValueConverter converter = new ListValueConverter(new DefaultMessageResources());
+        assertNull(converter.convertValue("property-name", null, List.class));
+        assertNull(converter.convertValue("property-name", "", List.class));
+        assertNull(converter.convertValue("property-name", " ", List.class));
+     }
+
+    @Test
     public void canFailConversionWithCustomErrorMessages() {
         DefaultMessageResources resources = new DefaultMessageResources(configuration);
-        ListValueConverter converter = new ListValueConverter(resources);
+        ListValueConverter converter = new ListValueConverter(resources){
+
+            @Override
+            protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
+               throw newBindException(key, defaultMessage, parameters);
+            }
+        };
         try {
             converter.convertValue("property-name", null, List.class);
+            fail("Expected BindException");
         } catch ( BindException e) {
             assertEquals(format(resources.getMessage(ListValueConverter.BIND_ERROR_LIST_KEY), "property-name"), e.getMessage());
         }
@@ -70,9 +87,15 @@ public class ListValueConverterTest {
 
     @Test
     public void canFailConversionWithDefaultErrorMessages() {
-        ListValueConverter converter = new ListValueConverter(new DefaultMessageResources());
+        ListValueConverter converter = new ListValueConverter(new DefaultMessageResources()){
+            @Override
+            protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
+               throw newBindException(key, defaultMessage, parameters);
+            }
+        };
         try {
             converter.convertValue("property-name", null, List.class);
+            fail("Expected BindException");
         } catch ( BindException e) {
             assertEquals(format(ListValueConverter.DEFAULT_LIST_MESSAGE, "property-name"), e.getMessage());
         }

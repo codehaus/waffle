@@ -10,13 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
-import org.codehaus.waffle.bind.BindException;
-import org.codehaus.waffle.bind.ValueConverter;
-import org.codehaus.waffle.i18n.MessageResources;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.codehaus.waffle.i18n.MessageResources;
 
 /**
  * <code>ValueConverter</code> that converts Date values.  The date format is configurable via the message resources bundle.
@@ -31,17 +29,16 @@ import java.util.Date;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class DateValueConverter implements ValueConverter {
+public class DateValueConverter extends AbstractValueConverter {
     static final String BIND_ERROR_DATE_KEY = "bind.error.date";
     static final String BIND_ERROR_DATE_MISSING_KEY = "bind.error.date.missing";
     static final String DATE_FORMAT_KEY = "date.format";
     static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
     static final String DEFAULT_DATE_MESSAGE = "Invalid date {1} (using format {2}) for field {0}";
     static final String DEFAULT_DATE_MISSING_MESSAGE = "Missing date value for field {0}";
-    private final MessageResources messageResources;
 
     public DateValueConverter(MessageResources messageResources) {
-        this.messageResources = messageResources;
+        super(messageResources);
     }
 
     public boolean accept(Class<?> type) {
@@ -50,19 +47,17 @@ public class DateValueConverter implements ValueConverter {
 
     @SuppressWarnings({"unchecked"})
     public <T> T convertValue(String propertyName, String value, Class<T> toType) {
-        String fieldName = messageResources.getMessageWithDefault(propertyName, propertyName);
-        if (value == null || value.trim().length() == 0) {
-            String message = messageResources.getMessageWithDefault(BIND_ERROR_DATE_MISSING_KEY, DEFAULT_DATE_MISSING_MESSAGE, fieldName);
-            throw new BindException(message);
+        String fieldName = messageFor(propertyName, propertyName);
+        if ( missingValue(value) ) {            
+            return (T) convertMissingValue(BIND_ERROR_DATE_MISSING_KEY, DEFAULT_DATE_MISSING_MESSAGE, fieldName);
         }
 
-        String dateFormat = messageResources.getMessageWithDefault(DATE_FORMAT_KEY, DEFAULT_DATE_FORMAT);
+        String dateFormat = messageFor(DATE_FORMAT_KEY, DEFAULT_DATE_FORMAT);
 
         try {
             return (T) new SimpleDateFormat(dateFormat).parse(value);
         } catch (ParseException e) {
-            String message = messageResources.getMessageWithDefault(BIND_ERROR_DATE_KEY, DEFAULT_DATE_MESSAGE, fieldName, value, dateFormat);
-            throw new BindException(message);
+            throw newBindException(BIND_ERROR_DATE_KEY, DEFAULT_DATE_MESSAGE, fieldName, value, dateFormat);
         }
     }
 

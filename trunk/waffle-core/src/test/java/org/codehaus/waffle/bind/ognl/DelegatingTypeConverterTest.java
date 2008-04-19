@@ -2,11 +2,11 @@ package org.codehaus.waffle.bind.ognl;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.List;
 
-import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.converters.ListValueConverter;
 import org.codehaus.waffle.context.ContextLevel;
@@ -30,37 +30,23 @@ public class DelegatingTypeConverterTest {
     @Test
     public void canConvertValueForEnum() {
         DelegatingTypeConverter converter = new DelegatingTypeConverter();
-        Object result = converter.convertValue("foobar", "APPLICATION", ContextLevel.class);
-
-        assertEquals(ContextLevel.APPLICATION, result);
+        assertEquals(ContextLevel.APPLICATION, converter.convertValue("foobar", "APPLICATION", ContextLevel.class));
     }
 
     @Test
     public void canConvertValueForIntegers() {
         DelegatingTypeConverter converter = new DelegatingTypeConverter();
-        int value = (Integer) converter.convertValue("foobar", "15", Integer.class);
-
-        assertEquals(15, value);
+        assertEquals(15, converter.convertValue("foobar", "15", Integer.class));
     }
     
     @Test
     public void canDelegateToListValueConverter() {
         final ValueConverter valueConverter = new ListValueConverter(new DefaultMessageResources());
-        final List<String> list = asList("one","two");
         DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
-
-        Object convertedValue = converter.convertValue("propertyName", "one,two", List.class);
-        assertEquals(convertedValue, list);
+        assertEquals(asList("one","two"), converter.convertValue("propertyName", "one,two", List.class));
+        assertNull(converter.convertValue("propertyName", "", List.class));
     }
-    
-    @Test(expected=BindException.class)
-    public void cannotDelegateToListValueConverterNullValue() {
-        final ValueConverter valueConverter = new ListValueConverter(new DefaultMessageResources());
-        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
         
-        converter.convertValue("propertyName", null, List.class);
-    }
-    
     @Test
     public void canDelegateToCustomValueConverter() {
         // Mock ValueConverter 
@@ -75,9 +61,7 @@ public class DelegatingTypeConverterTest {
             }
         });
         DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
-
-        Object convertedValue = converter.convertValue("propertyName", "foobar", CustomType.class);
-        assertSame(convertedValue, type);
+        assertSame(type, converter.convertValue("propertyName", "foobar", CustomType.class));
     }
     
     private static interface CustomType {};
