@@ -56,7 +56,7 @@
     <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
     <init-param>
       <param-name>view.suffix</param-name>
-      <param-value>.htm</param-value>
+      <param-value>.ftl</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
@@ -82,12 +82,12 @@
 
   <servlet-mapping>
     <servlet-name>sitemesh-freemarker</servlet-name>
-    <url-pattern>*.htm</url-pattern>
+    <url-pattern>*.ftl</url-pattern>
   </servlet-mapping>
 
   <!-- Welcome files -->
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.ftl</welcome-file>
   </welcome-file-list>
 
   <!-- Security -->

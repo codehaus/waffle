@@ -55,6 +55,6 @@
     <a href="javascript:fireActionMethod('save');">Save</a> |
     <a href="javascript:fireActionMethod('cancel');">Cancel</a>
 
-    <#include "../fielderrors.htm" parse="true">
+    <#include "../fielderrors.ftl" parse="true">
 
 </div>
