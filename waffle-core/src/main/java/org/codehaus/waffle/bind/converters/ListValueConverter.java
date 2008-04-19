@@ -19,8 +19,6 @@ import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.waffle.bind.BindException;
-import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.i18n.MessageResources;
 
 /**
@@ -37,15 +35,14 @@ import org.codehaus.waffle.i18n.MessageResources;
  * 
  * @author Mauro Talevi
  */
-public class ListValueConverter implements ValueConverter {
+public class ListValueConverter extends AbstractValueConverter {
 
     static final String BIND_ERROR_LIST_KEY = "bind.error.list";
     static final String DEFAULT_LIST_MESSAGE = "Invalid list value for field {0}";
     private static final String COMMA = ",";
-    private final MessageResources messageResources;
 
     public ListValueConverter(MessageResources messageResources) {
-        this.messageResources = messageResources;
+        super(messageResources);
     }
 
     public boolean accept(Class<?> type) {
@@ -54,12 +51,12 @@ public class ListValueConverter implements ValueConverter {
 
     @SuppressWarnings( { "unchecked" })
     public <T> T convertValue(String propertyName, String value, Class<T> toType) {
-        if (value == null) {
-            String fieldName = messageResources.getMessageWithDefault(propertyName, propertyName);
-            String message = messageResources.getMessageWithDefault(BIND_ERROR_LIST_KEY,
-                    DEFAULT_LIST_MESSAGE, fieldName);
-            throw new BindException(message);
+
+        if ( missingValue(value)){
+            String fieldName = messageFor(propertyName, propertyName);
+            return (T)convertMissingValue(BIND_ERROR_LIST_KEY, DEFAULT_LIST_MESSAGE, fieldName);
         }
+
         List<String> values = asList(value.split(COMMA));        
         if ( values.size() == 0 ){
             return (T) values;

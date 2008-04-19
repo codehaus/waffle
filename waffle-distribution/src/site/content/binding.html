@@ -156,6 +156,25 @@ public class DateValueConverter implements ValueConverter {
       </tbody>
     </table>
 
+    <p>
+      Note that by default these converters handle missing values (ie <code>null</code> or empty) by return a <code>null</code> converted value,  
+      The behaviour can be nonetheless overridden by extending the converters to throw a new <code>BindException</code> in the 
+      <code>convertMissingValue</code> method:
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+public class StringDateValueConverter extends DateValueConverter {
+   public StrictDateValueConverter(MessageResources messageResources) {
+        super(messageResources);
+    }
+
+    @Override
+    protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
+        throw newBindException(key, defaultMessage, parameters);
+    }
+}
+    </textarea>
+    </p> 
+
   </body>
 
 </html>
