@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <decorators defaultdir="/">
-    <decorator name="main" page="siteDecorator.htm">
+    <decorator name="main" page="layout.ftl">
         <pattern>/*</pattern>
     </decorator>
 </decorators>

@@ -61,7 +61,7 @@
     <!-- Example of partial page -->
     <div id="editArea">
       <#if person?exists>
-        <#include "editperson.htm" parse="true">
+        <#include "editperson.ftl" parse="true">
       </#if>
     </div>
 
