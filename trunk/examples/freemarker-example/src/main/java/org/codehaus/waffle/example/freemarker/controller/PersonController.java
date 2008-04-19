@@ -14,7 +14,7 @@ import org.codehaus.waffle.example.freemarker.persister.PersonPersister;
 public class PersonController implements Serializable {
     private final PersonPersister persister;
     private Person person;
-    private List<String> selectedIds = new ArrayList<String>();
+    private List<Long> selectedIds = new ArrayList<Long>();
     private List<String> skills = Arrays.asList("Magician", "Apprentice");
     
     public PersonController(PersonPersister persister) {
@@ -25,18 +25,18 @@ public class PersonController implements Serializable {
         return persister.findAll();
     }
 
-    public List<String> getSelectedIds(){
+    public List<Long> getSelectedIds(){
         return selectedIds;
     }
     
-    public void setSelectedIds(List<String> ids){
+    public void setSelectedIds(List<Long> ids){
         selectedIds = ids;
     }
 
     public Collection<Person> getSelectedPeople() {
         List<Person> selected = new ArrayList<Person>();
-        for ( String id : selectedIds ){
-            selected.add(persister.findById(Long.parseLong(id)));
+        for (long id : selectedIds) {
+            selected.add(persister.findById(id));
         }
         return selected;
     }
