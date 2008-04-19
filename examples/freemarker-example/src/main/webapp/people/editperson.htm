@@ -28,7 +28,11 @@
     </div>
     <div class="fieldRow">
         <label for="person.dateOfBirth">Date Of Birth:</label>
-        <@w.text "person.dateOfBirth" "${person.dateOfBirth?string('dd/MM/yyyy')}"/> 
+        <#if person.dateOfBirth??>
+            <@w.text "person.dateOfBirth" "${person.dateOfBirth?string('dd/MM/yyyy')}"/>
+        <#else>
+            <@w.text "person.dateOfBirth" ""/>
+        </#if> 
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
@@ -38,12 +42,12 @@
     </div>
     <div class="fieldRow">
         <label for="person.levels">Levels:</label>
-        <@w.textAsCSV "person.levels" person.getLevels() /> 
+        <@w.textAsCSV "person.levels" person.getLevels()![] /> 
         <br style="clear:both"/>
     </div>
     <div class="fieldRow">
         <label for="person.grades">Grades:</label>
-        <@w.textAsCSV "person.grades" person.getGrades() /> 
+        <@w.textAsCSV "person.grades" person.getGrades()![] /> 
         <br style="clear:both"/>
     </div>
 

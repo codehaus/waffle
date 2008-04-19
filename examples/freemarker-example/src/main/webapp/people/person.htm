@@ -38,8 +38,8 @@
                 <td>${person.firstName}</td>
                 <td>${person.lastName}</td>
                 <td>${person.email}</td>
-                <td>${person.dateOfBirth?string("dd/MM/yyyy")}</td>
-                <td><@w.asCSV person.getSkills() /> </p></td>
+                <td><#if person.dateOfBirth??>${person.dateOfBirth?string("dd/MM/yyyy")}</#if></td>
+                <td><@w.asCSV person.getSkills()![] /> </p></td>
                 <td><@w.checkbox "selectedIds" "${person.id}" /></td>
             </tr>
         </#list>
