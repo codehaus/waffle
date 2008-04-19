@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.waffle</groupId>
@@ -17,7 +18,7 @@
     <module>migration-example</module>
     <module>mydvds-example</module>
   </modules>
-  
+
   <dependencies>
     <dependency>
       <groupId>${pom.groupId}</groupId>
@@ -42,13 +43,13 @@
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>jstl</artifactId>
-      <scope>runtime</scope>      
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>taglibs</groupId>
       <artifactId>standard</artifactId>
       <scope>runtime</scope>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
@@ -57,67 +58,90 @@
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
-      <version>1.2.14</version>      
+      <version>1.2.14</version>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
-       <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-war-plugin</artifactId>
-       </plugin>
-       <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-dependency-plugin</artifactId>
-         <executions>
-           <execution>
-             <id>unpack-resources</id>
-             <phase>process-resources</phase>
-             <goals>
-               <goal>unpack</goal>
-             </goals>
-             <configuration>
-               <outputDirectory>
-                 ${project.build.directory}/${pom.artifactId}-${pom.version}
-               </outputDirectory>
-               <overWriteReleases>false</overWriteReleases>
-               <overWriteSnapshots>true</overWriteSnapshots>
-               <artifactItems>
-                 <artifactItem>
-                   <groupId>${pom.groupId}</groupId>
-                   <artifactId>waffle-resources</artifactId>
-                   <version>${pom.version}</version>
-                 </artifactItem>
-               </artifactItems>
-             </configuration>
-           </execution>
-         </executions>
-       </plugin>
-       <plugin>
-        <groupId>org.codehaus.mojo.groovy</groupId>
-        <artifactId>groovy-maven-plugin</artifactId>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <phase>install</phase>
+            <id>unpack-resources</id>
+            <phase>process-resources</phase>
             <goals>
-              <goal>execute</goal>
+              <goal>unpack</goal>
             </goals>
             <configuration>
-              <source>
-                  def ant = new AntBuilder()
-                  def webapp = "${project.build.directory}/${pom.artifactId}.war"
-                  if ( new File(webapp).exists() ){
-                    ant.echo(message: "Deploying ${webapp} to ${webapp.deploy.dir}")
-                    ant.copy(file: "${webapp}", 
-                            todir: "${webapp.deploy.dir}", verbose: true, overwrite: true)
-                  }
-              </source>
+              <outputDirectory>${project.build.directory}/${pom.artifactId}-${pom.version}</outputDirectory>
+              <overWriteReleases>false</overWriteReleases>
+              <overWriteSnapshots>true</overWriteSnapshots>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${pom.groupId}</groupId>
+                  <artifactId>waffle-resources</artifactId>
+                  <version>${pom.version}</version>
+                </artifactItem>
+              </artifactItems>
             </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>deploy-webapp</id>
+            <phase>install</phase>
+            <configuration>
+              <tasks>
+                <echo>Deploying webapp ${webapp.name} to ${webapp.deploy.dir}</echo>
+                <copy file="${project.build.directory}/${webapp.name}.war" todir="${webapp.deploy.dir}" verbose="true"
+                  overwrite="true" failonerror="false" />
+                <delete dir="${webapp.deploy.dir}/${webapp.name}" verbose="true" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
-
+  <profiles>
+    <profile>
+      <!-- Tomcat profile:  equivalent to -Dwebapp.deploy.dir=${env.TOMCAT_HOME}/webapps -->
+      <id>tomcat</id>
+      <properties>
+        <webapp.deploy.dir>${env.TOMCAT_HOME}/webapps</webapp.deploy.dir>
+      </properties>
+    </profile>
+    <profile>
+      <!-- Jetty profile:  equivalent to -Dwebapp.deploy.dir=${env.JETTY_HOME}/webapps -->
+      <id>jetty</id>
+      <properties>
+        <webapp.deploy.dir>${env.JETTY_HOME}/webapps</webapp.deploy.dir>
+      </properties>
+    </profile>
+    <profile>
+      <!-- Geronimo profile:  equivalent to -Dwebapp.deploy.dir=${env.GERONIMO_HOME}/deploy -->
+      <id>geronimo</id>
+      <properties>
+        <webapp.deploy.dir>${env.GERONIMO_HOME}/deploy</webapp.deploy.dir>
+      </properties>
+    </profile>
+  </profiles>
+  <properties>
+    <webapp.name>${pom.artifactId}</webapp.name>
+    <webapp.deploy.dir>${java.io.tmpdir}/webapps</webapp.deploy.dir>
+  </properties>
 </project>
