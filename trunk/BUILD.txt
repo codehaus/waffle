@@ -10,9 +10,8 @@ Build profiles:
 - reporting:  builds reports
 - distribution:  builds distribution
 - integration:  builds integration tests
-- examples:  builds examples
-- nt: no-test, builds skipping unit tests 
-- jetty|tomcat|geronimo:  set webapp.deploy.dir to the appropriate value
+- nt: no-test: builds skipping unit tests 
+- examples:  builds examples (using profile [jetty|tomcat|geronimo] copies example wars upon install to the appropriate deploy dir)
 
 Note:  profiles are additive and the default profile is always active.
 Eg, build with integration tests, reporting and distribution:
@@ -21,4 +20,4 @@ mvn -Pintegration,reporting,distribution install
 
 Build and deploy examples to Jetty (skipping tests on releasable modules):
 
-mvn -Pexamples,nt,jetty install
+mvn -Pnt,examples,jetty install

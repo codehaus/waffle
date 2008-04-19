@@ -6,7 +6,7 @@
 
   <display-name>Waffle Freemarker/Sitemesh Example</display-name>
 
-  <!-- 1. This is how an application registers its custom Registrar -->
+  <!-- Waffle Registrar and custom components -->
   <context-param>
     <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
     <param-value>org.codehaus.waffle.example.freemarker.FreemarkerRegistrar</param-value>
@@ -24,37 +24,33 @@
     <param-value>org.codehaus.waffle.bind.converters.ListValueConverter</param-value>
   </context-param>
 
-  <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
+  <!-- Waffle context listener -->
   <listener>
     <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
   </listener>
 
-  <!-- Sitemesh's filter -->
+  <!-- Filters -->
   <filter>
-    <filter-name>sitemesh</filter-name>
+    <filter-name>sitemesh-page</filter-name>
     <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
   </filter>
 
-  <!-- 4. Waffle request filter (responsible for request level context) -->
   <filter>
-    <filter-name>WaffleRequestFilter</filter-name>
+    <filter-name>waffle-request</filter-name>
     <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
   </filter>
 
-  <!-- Sitemesh's filter mapping -->
   <filter-mapping>
-    <filter-name>sitemesh</filter-name>
+    <filter-name>sitemesh-page</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
 
-
-  <!-- 4. Waffle request filter mapping -->
   <filter-mapping>
-    <filter-name>WaffleRequestFilter</filter-name>
+    <filter-name>waffle-request</filter-name>
     <url-pattern>*.foo</url-pattern>
   </filter-mapping>
 
-  <!-- 5. Register Waffle's FrontController servlet -->
+  <!-- Servlets -->
   <servlet>
     <servlet-name>waffle</servlet-name>
     <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
@@ -65,7 +61,6 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
-  <!-- Sitemesh's freemarker servlet -->
   <servlet>
     <servlet-name>sitemesh-freemarker</servlet-name>
     <servlet-class>com.opensymphony.module.sitemesh.freemarker.FreemarkerDecoratorServlet</servlet-class>
@@ -74,27 +69,28 @@
       <param-value>/</param-value>
     </init-param>
     <init-param>
-      <param-name>default_encoding</param-name>
-      <param-value>ISO-8859-1</param-value>
+      <param-name>object_wrapper</param-name>
+      <param-value>beans</param-value>
     </init-param>
-    <load-on-startup>1</load-on-startup>
+    <load-on-startup>2</load-on-startup>
   </servlet>
-
-  <!-- Sitemesh's freemarker servlet mapping -->
-  <servlet-mapping>
-    <servlet-name>sitemesh-freemarker</servlet-name>
-    <url-pattern>*.htm</url-pattern>
-  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>waffle</servlet-name>
     <url-pattern>*.foo</url-pattern>
   </servlet-mapping>
 
+  <servlet-mapping>
+    <servlet-name>sitemesh-freemarker</servlet-name>
+    <url-pattern>*.htm</url-pattern>
+  </servlet-mapping>
+
+  <!-- Welcome files -->
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
+  <!-- Security -->
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>no_access</web-resource-name>

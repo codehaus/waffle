@@ -307,31 +307,6 @@
       </reporting>
     </profile>
     <profile>
-      <!-- Tomcat profile:  equivalent to -Dwebapp.deploy.dir=${env.TOMCAT_HOME}/webapps -->
-      <id>tomcat</id>
-      <properties>
-        <webapp.deploy.dir>
-          ${env.TOMCAT_HOME}/webapps
-        </webapp.deploy.dir>
-      </properties>
-    </profile>
-    <profile>
-      <!-- Jetty profile:  equivalent to -Dwebapp.deploy.dir=${env.JETTY_HOME}/webapps -->
-      <id>jetty</id>
-      <properties>
-        <webapp.deploy.dir>${env.JETTY_HOME}/webapps</webapp.deploy.dir>
-      </properties>
-    </profile>
-    <profile>
-      <!-- Geronimo profile:  equivalent to -Dwebapp.deploy.dir=${env.GERONIMO_HOME}/deploy -->
-      <id>geronimo</id>
-      <properties>
-        <webapp.deploy.dir>
-          ${env.GERONIMO_HOME}/deploy
-        </webapp.deploy.dir>
-      </properties>
-    </profile>
-    <profile>
       <!-- integration profile -->
       <id>integration</id>
       <modules>
@@ -353,10 +328,6 @@
       </modules>
     </profile>
   </profiles>
-
-  <properties>
-    <webapp.deploy.dir>${java.io.tmpdir}/webapps</webapp.deploy.dir>
-  </properties>
 
   <licenses>
     <license>
