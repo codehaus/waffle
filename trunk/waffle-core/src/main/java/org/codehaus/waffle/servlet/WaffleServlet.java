@@ -62,16 +62,16 @@ public class WaffleServlet extends HttpServlet {
     private static final String DEFAULT_ERRORS_VIEW = "errors";
     private static final String EMPTY = "";
     private static final String POST = "POST";
-    private ActionMethodExecutor actionMethodExecutor;
-    private ActionMethodResponseHandler actionMethodResponseHandler;
-    private ServletMonitor servletMonitor;
-    private DataBinder dataBinder;
-    private RequestAttributeBinder requestAttributeBinder;
-    private ControllerDefinitionFactory controllerDefinitionFactory;
-    private Validator validator;
     private String viewPrefix;
     private String viewSuffix;
     private String errorsView;
+    private ActionMethodExecutor actionMethodExecutor;
+    private ActionMethodResponseHandler actionMethodResponseHandler;
+    private ControllerDefinitionFactory controllerDefinitionFactory;
+    private DataBinder dataBinder;
+    private RequestAttributeBinder requestAttributeBinder;
+    private Validator validator;
+    private ServletMonitor servletMonitor;
     private boolean componentsRetrieved = false;
 
     /**
@@ -119,12 +119,13 @@ public class WaffleServlet extends HttpServlet {
             ComponentRegistry registry = getComponentRegistry();
             actionMethodExecutor = registry.getActionMethodExecutor();
             actionMethodResponseHandler = registry.getActionMethodResponseHandler();
-            servletMonitor = registry.getServletMonitor();
+            controllerDefinitionFactory = registry.getControllerDefinitionFactory();
             dataBinder = registry.getDataBinder();
             requestAttributeBinder = registry.getRequestAttributeBinder();
-            controllerDefinitionFactory = registry.getControllerDefinitionFactory();
             validator = registry.getValidator();
+            servletMonitor = registry.getServletMonitor();
         }
+        servletMonitor.servletInitialized(this);
     }
 
     private String initParam(String key, String defaultValue) {
@@ -194,6 +195,7 @@ public class WaffleServlet extends HttpServlet {
             }
             requestAttributeBinder.bind(request, controllerDefinition.getController());
         } catch (WaffleException e) {      
+            servletMonitor.servletServiceFailed(e);
             errorsContext.addErrorMessage(new GlobalErrorMessage(e.getMessage(), e));
             view = buildErrorsView(request);
         }
@@ -280,6 +282,32 @@ public class WaffleServlet extends HttpServlet {
      */
     protected View buildErrorsView(HttpServletRequest request) throws ServletException {
         return buildView(new ControllerDefinition(errorsView, null, null));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[WaffleServlet ");
+        sb.append(" viewPrefix=");
+        sb.append(viewPrefix);
+        sb.append(", viewSuffix=");
+        sb.append(viewSuffix);
+        sb.append(", errorsView=");
+        sb.append(errorsView);
+        sb.append(", actionMethodExecutor=");
+        sb.append(actionMethodExecutor);
+        sb.append(", actionMethodResponseHandler=");
+        sb.append(actionMethodResponseHandler);
+        sb.append(", controllerDefinitionFactory=");
+        sb.append(controllerDefinitionFactory);
+        sb.append(", dataBinder=");
+        sb.append(dataBinder);
+        sb.append(", requestAttributeBinder=");
+        sb.append(requestAttributeBinder);
+        sb.append(", validator=");
+        sb.append(validator);
+        sb.append("]");
+        return sb.toString();
     }
 
 }

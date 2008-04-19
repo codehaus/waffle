@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -122,6 +123,12 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void actionMethodInvocationFailed(Exception cause) {
     }
     
+    public void servletInitialized(Servlet servlet) {
+    }
+    
+    public void servletServiceFailed(Exception cause) {
+    }
+
     public void servletServiceRequested(Map<String, List<String>> parameters) {
     }
 

@@ -10,30 +10,33 @@
  *****************************************************************************/
 package org.codehaus.waffle.monitor;
 
-import org.codehaus.waffle.action.ActionMethodResponse;
-import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
-import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.controller.ControllerDefinition;
+import static java.text.MessageFormat.format;
+import static java.util.Arrays.asList;
 import static org.codehaus.waffle.monitor.Monitor.Level.DEBUG;
 import static org.codehaus.waffle.monitor.Monitor.Level.INFO;
 import static org.codehaus.waffle.monitor.Monitor.Level.WARN;
-import org.codehaus.waffle.registrar.Registrar;
-import org.codehaus.waffle.validation.BindErrorMessage;
-import org.codehaus.waffle.view.RedirectView;
-import org.codehaus.waffle.view.ResponderView;
-import org.codehaus.waffle.view.View;
 
-import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import static java.text.MessageFormat.format;
 import java.util.ArrayList;
-import static java.util.Arrays.asList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import javax.servlet.Servlet;
+import javax.servlet.http.HttpServletResponse;
+
+import org.codehaus.waffle.action.ActionMethodResponse;
+import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.validation.BindErrorMessage;
+import org.codehaus.waffle.view.RedirectView;
+import org.codehaus.waffle.view.ResponderView;
+import org.codehaus.waffle.view.View;
 
 /**
  * Abstract implementation of Monitor that delegates writing to concrete subclasses.
@@ -92,6 +95,8 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("instanceRegistered", DEBUG);
         levels.put("nonCachingComponentRegistered", DEBUG);
         levels.put("actionMethodInvocationFailed", WARN);
+        levels.put("servletInitialized", INFO);
+        levels.put("servletServiceFailed", WARN);
         levels.put("servletServiceRequested", DEBUG);
         levels.put("controllerValidatorNotFound", WARN);
         levels.put("methodDefinitionNotFound", WARN);        
@@ -145,6 +150,8 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         messages.put("instanceRegistered", "Registered instance ''{1}'' with key ''{0}''");
         messages.put("nonCachingComponentRegistered", "Registered non-caching component of type ''{1}'' with key ''{0}'' and parameters ''{2}''");
         messages.put("actionMethodInvocationFailed", "ActionMethod invocation failed: {0}");
+        messages.put("servletInitialized", "Servlet initialized: {0}");
+        messages.put("servletServiceFailed", "Servlet service failed: {0}");
         messages.put("servletServiceRequested", "Servlet service requested with parameters: {0}");
         messages.put("controllerValidatorNotFound", "Controller validator ''{0}'' not found: defaulting to controller ''{1}''");
         messages.put("methodDefinitionNotFound", "Method definition not found in controller definition ''{0}''");        
@@ -325,6 +332,14 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
 
     public void actionMethodInvocationFailed(Exception cause){
         write("actionMethodInvocationFailed", cause);        
+    }
+
+    public void servletInitialized(Servlet servlet) {
+        write("servletInitialized", servlet);
+    }
+    
+    public void servletServiceFailed(Exception cause){
+        write("servletServiceFailed", cause);        
     }
     
     public void servletServiceRequested(Map<String, List<String>> parameters){
