@@ -10,6 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.validation;
 
+import static java.util.Arrays.asList;
+
 
 /**
  * ErrorMessage associated to global validations.
@@ -41,4 +43,14 @@ public class GlobalErrorMessage implements ErrorMessage {
         return cause;
     }
 
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("[GlobalErrorMessage message=");
+        sb.append(message);
+        sb.append(", stackTrace=");
+        sb.append(asList(cause.getStackTrace()));
+        sb.append("]");
+        return sb.toString();
+    }
 }
