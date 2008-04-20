@@ -34,7 +34,7 @@
         </#list>
     </table>
 
-    <a href="javascript:fireActionMethod('create');">New</a>; <a href="javascript:fireActionMethod('show');">Show Selected</a>
+    <a href="javascript:fireActionMethod('create');">New</a>; <a href="javascript:fireActionMethod('export');">Export Selected</a>
 
     <div id="showArea">
     	Selected people are:
