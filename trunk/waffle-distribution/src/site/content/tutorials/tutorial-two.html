@@ -209,35 +209,8 @@ parameter:</p>
 
 <h4>ActionMethod return types</h4>
 <p>Waffle will react differently depending on what is returned, or
-thrown, from an <b>ActionMethod</b> after it has been invoked. Below we
-define defines how each case is handled in the Waffle framework:</p>
-<ul>
-  <li><b>View</b> - An ActionMethod which returns an instance of <i><a href="javadoc/core/org/codehaus/waffle/view/View.html">
-        org.codehaus.waffle.view.View</a></i>
-  or <i><a href="javadoc/core/org/codehaus/waffle/view/RedirectView.html">
-        org.codehaus.waffle.view.RedirectView</a></i> will forward or
-  redirect, respectively. By default Waffle assumes that each View
-  defines the full URL the user is to be sent to. This behavior can be
-  altered by definning a different implementation of the <i><a href="javadoc/core/org/codehaus/waffle/view/ViewResolver.html">
-        org.codehaus.waffle.view.ViewResolver</a></i>.
-  Waffle was built to be pluggable this is the first example of how
-  Waffle components can be customized and configured. Read the section
-  on Waffle's <a href="pluggability.html">pluggability</a> for further
-  details.</li>
-  <li><b>null or void</b> - When an ActionMethod has a return type
-  of <i>void</i> or when your ActionMethod returns a <i>null</i> Waffle
-  will simply redirect back to the referring page.</li>
-  <li><b>Exception</b> - When an exception is thrown Waffle will
-  set the response status to 400 (BAD REQUEST) and then send the
-  contents of the message directly to the requestor. This functionality
-  is especially useful when handling Ajax type of requests.</li>
-  <li><b>Other</b> - All other objects will have their toString()
-  method called and the resulting value will be sent back to the
-  requestor. This is similar to how Exceptions are handled, without the
-  response status being set to an error code. This is useful for Ajax
-  type of requests. Imagine these type of ActionMethod returning HTML or
-  JSON messages directly.</li>
-</ul>
+thrown, from an <b>ActionMethod</b> after it has been invoked.  See <a href="action-methods.html">Action Methods</a> for more details.
+</p>
 
 <h4>Caveat: Ambiguous methods</h4>
 <p>Waffle determines which ActionMethod to invoke by examining the

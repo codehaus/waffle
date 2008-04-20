@@ -264,10 +264,10 @@
 
   <ul>
     <li><b>View</b> - An ActionMethod which returns an instance of <i><a href="javadoc/core/org/codehaus/waffle/view/View.html">
-        org.codehaus.waffle.view.View</a></i> or
-      <i><a href="javadoc/core/org/codehaus/waffle/view/RedirectView.html">
-        org.codehaus.waffle.view.RedirectView</a></i> will forward or redirect, respectively. By default Waffle assumes
-      that each View defines the full URL the user is to be sent to. This behavior can be altered by definning a
+        org.codehaus.waffle.view.View</a></i> (or its subtypes <i><a href="javadoc/core/org/codehaus/waffle/view/RedirectView.html">
+        org.codehaus.waffle.view.RedirectView</a></i> and <i><a href="javadoc/core/org/codehaus/waffle/view/ExportView.html">
+        org.codehaus.waffle.view.ExportView</a></i>) will forward, redirect or export content, respectively. By default Waffle assumes
+      that each View defines the full URL the user is to be sent to. This behavior can be altered by defining a
       different implementation of the <i><a href="javadoc/core/org/codehaus/waffle/view/ViewResolver.html">
         org.codehaus.waffle.view.ViewResolver</a></i>. Waffle was built to be pluggable
       this is the first example of how Waffle components can be customized and configured. Read the section on
