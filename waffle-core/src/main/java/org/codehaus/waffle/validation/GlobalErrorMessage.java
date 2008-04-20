@@ -10,7 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.validation;
 
-import static java.util.Arrays.asList;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -39,8 +40,21 @@ public class GlobalErrorMessage implements ErrorMessage {
         return message;
     }
     
+    public List<String> getStackMessages(){
+        List<String> messages = new ArrayList<String>();
+        addStackMessages(cause, messages);
+        return messages;        
+    }
+
     public Throwable getCause(){
         return cause;
+    }
+    
+    private void addStackMessages(Throwable cause, List<String> messages) {
+        if ( cause != null ){
+            messages.add(cause.getMessage());
+            addStackMessages(cause.getCause(), messages);
+        }
     }
 
     @Override
@@ -48,9 +62,10 @@ public class GlobalErrorMessage implements ErrorMessage {
         StringBuffer sb = new StringBuffer();
         sb.append("[GlobalErrorMessage message=");
         sb.append(message);
-        sb.append(", stackTrace=");
-        sb.append(asList(cause.getStackTrace()));
+        sb.append(", stackMessages=");
+        sb.append(getStackMessages());
         sb.append("]");
         return sb.toString();
     }
+
 }
