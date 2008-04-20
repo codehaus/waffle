@@ -4,12 +4,13 @@
 <head>
   <title>${title}</title>
   ${head}
+  <#include "resources.ftl" parse="true">
 </head>
 <body>
-  ~ Standard Header ~
+  <#include "header.ftl" parse="true">
   <hr/>
     ${body}
   <hr/>
-  ~ Decorator Added Footer ~
+  <#include "footer.ftl" parse="true">
 </body>
 </html>
