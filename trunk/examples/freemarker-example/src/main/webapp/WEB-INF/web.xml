@@ -47,7 +47,7 @@
 
   <filter-mapping>
     <filter-name>waffle-request</filter-name>
-    <url-pattern>*.foo</url-pattern>
+    <url-pattern>*.action</url-pattern>
   </filter-mapping>
 
   <!-- Servlets -->
@@ -77,7 +77,7 @@
 
   <servlet-mapping>
     <servlet-name>waffle</servlet-name>
-    <url-pattern>*.foo</url-pattern>
+    <url-pattern>*.action</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

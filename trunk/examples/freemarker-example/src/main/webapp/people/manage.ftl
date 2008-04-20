@@ -5,7 +5,7 @@
     <title>Select a person</title>  
 </head>
 <body>
-<form action="${base}/people/person.foo" method="post">
+<form action="${base}/people/manage.action" method="post">
 
     <h3>Waffle example: Select Person</h3>
 
@@ -22,7 +22,7 @@
         <#list people as person>
             <tr class="odd">
                 <td>
-                    <a href="${base}/people/person.foo?method=select|${person.id}">${person.id}</a>
+                    <a href="${base}/people/manage.action?method=select|${person.id}">${person.id}</a>
                 </td>
                 <td>${person.firstName}</td>
                 <td>${person.lastName}</td>
@@ -50,7 +50,7 @@
     <!-- Example of partial page -->
     <div id="editArea">
       <#if person?exists>
-        <#include "editperson.ftl" parse="true">
+        <#include "edit.ftl" parse="true">
       </#if>
     </div>
 
