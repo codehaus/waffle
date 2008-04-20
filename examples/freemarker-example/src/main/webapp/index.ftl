@@ -3,13 +3,9 @@
 <html>
 <head>
   <title>Waffle: FreeMarker example</title>
-    <style type="text/css" title="currentStyle" media="screen">
-        @import "stylesheets/style.css";
-    </style>
 </head>
 <body>
     <h1>Waffle example with Freemarker</h1>
-    <p>Welcome to the Waffle Freemarker/Sitemesh example.  Click on the link below to go to the single controller for this example</p>
-    <a href="people/person.foo">People Maintenance</a>
+    <p>Welcome to the Waffle Freemarker/Sitemesh example.  Choose an action from the navigation</p>
 </body>
 </html>

@@ -4,13 +4,15 @@
 <head>
   <title>${title}</title>
   ${head}
-  <#include "resources.ftl" parse="true">
+  <#include "/resources.ftl" parse="true">
 </head>
 <body>
-  <#include "header.ftl" parse="true">
+  <#include "/header.ftl" parse="true">
+  <hr/>
+  <#include "/navigation.ftl" parse="true">
   <hr/>
     ${body}
   <hr/>
-  <#include "footer.ftl" parse="true">
+  <#include "/footer.ftl" parse="true">
 </body>
 </html>

@@ -18,6 +18,6 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
 
     @Override
     public void session() {
-        register("people/person", PersonController.class);
+        register("people/manage", PersonController.class);
     }
 }
