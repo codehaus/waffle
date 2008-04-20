@@ -1,17 +1,19 @@
 package org.codehaus.waffle.validation;
 
-import org.codehaus.waffle.Constants;
+import static java.util.Arrays.asList;
 import static org.codehaus.waffle.validation.ErrorMessage.Type.BIND;
 import static org.codehaus.waffle.validation.ErrorMessage.Type.FIELD;
 import static org.codehaus.waffle.validation.ErrorMessage.Type.GLOBAL;
-import org.jmock.Expectations;
-import org.jmock.Mockery;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.codehaus.waffle.Constants;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.junit.Test;
 
 /**
  * 
@@ -34,6 +36,13 @@ public class DefaultErrorsContextTest {
         assertEquals(1, context.getErrorMessageCountForField(FIELD, "field.error"));
         assertEquals(1, context.getErrorMessageCountOfType(GLOBAL));
         assertEquals(1, context.getErrorMessageCountForField(GLOBAL, "any.field.name"));
+    }
+    
+    @Test
+    public void canRetrieveStackMessagesFromGlobalErrorMessage() {
+        Throwable cause = new Throwable("1", new Throwable("2", new Throwable("3")));
+        GlobalErrorMessage errorMessage = new GlobalErrorMessage("global message", cause);
+        assertEquals(asList("1", "2", "3"), errorMessage.getStackMessages());
     }
 
     @Test

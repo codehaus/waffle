@@ -190,7 +190,7 @@ public class WaffleServlet extends HttpServlet {
             } catch (ActionMethodInvocationException e) {
                 servletMonitor.actionMethodInvocationFailed(e);
                 errorsContext.addErrorMessage(new GlobalErrorMessage("Action method invocation failed for controller "
-                        + controllerDefinition + ": " + e.getMessage(), e));
+                        + controllerDefinition, e));
                 view = buildActionMethodFailureView(controllerDefinition);
             }
             requestAttributeBinder.bind(request, controllerDefinition.getController());
