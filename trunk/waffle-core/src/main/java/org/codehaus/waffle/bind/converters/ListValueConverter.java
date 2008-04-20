@@ -10,12 +10,10 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
-import static java.lang.Double.parseDouble;
-import static java.lang.Float.parseFloat;
-import static java.lang.Integer.parseInt;
-import static java.lang.Long.parseLong;
 import static java.util.Arrays.asList;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +28,7 @@ import org.codehaus.waffle.i18n.MessageResources;
  *  <li>"bind.error.list" ({@link #BIND_ERROR_LIST_KEY}): list is <code>null</code> or empty (message defaults to {@link #DEFAULT_LIST_MESSAGE})</li>
  * </ul>
  *  
- * The converter also looks to see if the values in the list are numbers (in order: longs, ints, doubles or floats) and if so
- * parses them to the appropriate Number instance.
+ * The converter also looks to see if the values in the list are numbers and if so parses them using the default <code>NumberFormat</code> instance.
  * 
  * @author Mauro Talevi
  */
@@ -61,84 +58,32 @@ public class ListValueConverter extends AbstractValueConverter {
         if ( values.size() == 0 ){
             return (T) values;
         }
-        if ( areLongs(values) ){
-            return (T) toLongs(values);
-        } else if ( areIntegers(values) ){
-            return (T) toIntegers(values);
-        } else if ( areDoubles(values)) {
-            return (T) toDoubles(values);
-        } else if ( areFloats(values) ){
-            return (T) toFloats(values);
-        } 
+        if ( areNumbers(values) ){
+            return (T) toNumbers(values);            
+        }
         return (T) values;
     }
-
-    private boolean areLongs(List<String> values) {
+    
+    private boolean areNumbers(List<String> values) {
         try {
-            parseLong(values.get(0));
+            NumberFormat.getInstance().parse(values.get(0));
             return true;
-        } catch ( NumberFormatException e) {
+        } catch ( ParseException e) {
             return false;
         }
-    }
-
-    private List<Long> toLongs(List<String> values) {
-        List<Long> list = new ArrayList<Long>();
-        for ( String value : values ){
-            list.add(parseLong(value));
-        }
-        return list;
     }
     
-    private boolean areIntegers(List<String> values) {
-        try {
-            parseInt(values.get(0));
-            return true;
-        } catch ( NumberFormatException e) {
-            return false;
-        }
-    }
-
-    private List<Integer> toIntegers(List<String> values) {
-        List<Integer> list = new ArrayList<Integer>();
+    private List<Number> toNumbers(List<String> values) {
+        NumberFormat format = NumberFormat.getInstance();
+        List<Number> list = new ArrayList<Number>();
         for ( String value : values ){
-            list.add(parseInt(value));
-        }
-        return list;
-    }
-    
-    private boolean areDoubles(List<String> values) {
-        try {
-            parseDouble(values.get(0));
-            return true;
-        } catch ( NumberFormatException e) {
-            return false;
-        }
-    }
-
-    private List<Double> toDoubles(List<String> values) {
-        List<Double> list = new ArrayList<Double>();
-        for ( String value : values ){
-            list.add(parseDouble(value));
+            try {
+                list.add(format.parse(value));                
+            } catch (ParseException e) {
+                // skip unparseable
+            }
         }
         return list;
     }
 
-    private boolean areFloats(List<String> values) {
-        try {
-            parseFloat(values.get(0));
-            return true;
-        } catch ( NumberFormatException e) {
-            return false;
-        }
-    }
-
-    private List<Float> toFloats(List<String> values) {
-        List<Float> list = new ArrayList<Float>();
-        for ( String value : values ){
-            list.add(parseFloat(value));
-        }
-        return list;
-    }
-    
 }
