@@ -24,4 +24,17 @@ public class BindErrorMessage extends FieldErrorMessage {
     public Type getType() {
         return Type.BIND;
     }
+    
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer("[BindErrorMessage name=");
+        sb.append(getName());
+        sb.append(", value=");
+        sb.append(getValue());
+        sb.append(", message=");
+        sb.append(getMessage());
+        sb.append("]");
+        return sb.toString();
+    }
+
 }
