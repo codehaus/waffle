@@ -56,4 +56,11 @@ public class ControllerDefinition {
     public MethodDefinition getMethodDefinition() {
         return methodDefinition;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[ControllerDefinition name=").append(name).append(", controller=")
+                .append(controller).append(", methodDefinition=").append(methodDefinition).append("]");
+        return sb.toString();
+    }
 }
