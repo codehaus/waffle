@@ -9,6 +9,8 @@ import java.util.List;
 import org.codehaus.waffle.example.freemarker.model.Person;
 import org.codehaus.waffle.example.freemarker.persister.PersistablePerson;
 import org.codehaus.waffle.example.freemarker.persister.PersonPersister;
+import org.codehaus.waffle.view.ExportView;
+import org.codehaus.waffle.view.View;
 
 @SuppressWarnings("serial")
 public class PersonController implements Serializable {
@@ -40,6 +42,18 @@ public class PersonController implements Serializable {
         }
         return selected;
     }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    public List<String> getSkills() {
+        return skills;
+    }
     
     public void remove(Long personId) {
         persister.delete(personId);
@@ -65,16 +79,20 @@ public class PersonController implements Serializable {
         person = null;
     }
 
-    public Person getPerson() {
-        return person;
+    public View export() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Id,First Name,Last Name,Date of Birth\n");
+        for ( Person person : getSelectedPeople() ){
+            sb.append(person.getId());
+            sb.append(",");
+            sb.append(person.getFirstName());
+            sb.append(",");
+            sb.append(person.getLastName());
+            sb.append(",");
+            sb.append(person.getDateOfBirth());
+            sb.append("\n");
+        }
+        return new ExportView(this, "text/csv", sb.toString().getBytes(), "export.csv");
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
-    }
-
-    public List<String> getSkills() {
-        return skills;
-    }
-    
 }
