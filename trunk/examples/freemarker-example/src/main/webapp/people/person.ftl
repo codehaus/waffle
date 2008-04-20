@@ -4,9 +4,9 @@
 <head>
     <title>Select a person</title>
     <style type="text/css" title="currentStyle" media="screen">
-        @import "${base}/stylesheets/style.css";
+        @import "${base}/style/style.css";
     </style>
-    <script src="${base}/scripts/prototype.js" type="text/javascript">
+    <script src="${base}/js/prototype.js" type="text/javascript">
         // keep this space
     </script>
     <script src="${base}/js/waffle/action.js" type="text/javascript">
