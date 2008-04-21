@@ -6,7 +6,10 @@ import static org.codehaus.waffle.validation.ErrorMessage.Type.FIELD;
 import static org.codehaus.waffle.validation.ErrorMessage.Type.GLOBAL;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,11 +42,17 @@ public class DefaultErrorsContextTest {
     }
     
     @Test
-    public void canRetrieveStackMessagesFromErrorMessages() {
+    public void canRetrieveCauseFromErrorMessages() {
         Throwable cause = new Throwable("1", new Throwable("2", new Throwable("3")));
-        assertEquals(asList("1", "2", "3"), new BindErrorMessage("bind.error", "foobar", null, cause).getStackMessages());
-        assertEquals(asList("1", "2", "3"), new FieldErrorMessage("field.error", "foobaz", null, cause).getStackMessages());
-        assertEquals(asList("1", "2", "3"), new GlobalErrorMessage("global message", cause).getStackMessages());
+        List<String> stackMessages = asList("1", "2", "3");
+        assertCauseExists(new BindErrorMessage("bind.error", "foobar", null, cause), stackMessages, cause);
+        assertCauseExists(new FieldErrorMessage("field.error", "foobaz", null, cause), stackMessages, cause);
+        assertCauseExists(new GlobalErrorMessage("global message", cause), stackMessages, cause);
+    }
+
+    private void assertCauseExists(ErrorMessage errorMessage, List<String> stackMessages, Throwable cause) {
+        assertEquals(stackMessages, errorMessage.getStackMessages());
+        assertSame(cause, errorMessage.getCause());
     }
 
     @Test
