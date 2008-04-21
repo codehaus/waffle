@@ -27,8 +27,8 @@ import org.codehaus.waffle.i18n.MessageResources;
  * <li>"bind.error.list" ({@link #BIND_ERROR_LIST_KEY}): list is <code>null</code> or empty (message defaults to
  * {@link #DEFAULT_LIST_MESSAGE})</li>
  * </ul>
- * The converter first attempts to parse the values as numbers (using the default <code>NumberFormat</code> instance)
- * and if not successful returns the string values.
+ * The converter first attempts to parse the values as numbers (using the <code>NumberFormat</code> instance provided,
+ * which defaults to <code>NumberFormat.getInstance()</code>) and if not successful returns the string values.
  * 
  * @author Mauro Talevi
  */
@@ -37,9 +37,15 @@ public class ListValueConverter extends AbstractValueConverter {
     static final String BIND_ERROR_LIST_KEY = "bind.error.list";
     static final String DEFAULT_LIST_MESSAGE = "Invalid list value for field {0}";
     private static final String COMMA = ",";
+    private NumberFormat numberFormat;
 
     public ListValueConverter(MessageResources messageResources) {
+        this(messageResources, NumberFormat.getInstance());
+    }
+
+    public ListValueConverter(MessageResources messageResources, NumberFormat numberFormat) {
         super(messageResources);
+        this.numberFormat = numberFormat;
     }
 
     public boolean accept(Class<?> type) {
@@ -66,10 +72,9 @@ public class ListValueConverter extends AbstractValueConverter {
     }
 
     private List<Number> toNumbers(List<String> values) throws ParseException {
-        NumberFormat format = NumberFormat.getInstance();
         List<Number> list = new ArrayList<Number>();
         for (String value : values) {
-            list.add(format.parse(value));
+            list.add(numberFormat.parse(value));
         }
         return list;
     }
