@@ -96,7 +96,7 @@ public class DateValueConverter implements ValueConverter {
         this.messageResources = messageResources;
     }
 
-    public boolean accept(Class<?> type) {
+    public boolean accept(Class type) {
         return Date.class.isAssignableFrom(type);
     }
 
@@ -151,7 +151,9 @@ public class DateValueConverter implements ValueConverter {
         <tr class="b">
           <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/ListValueConverter.html">org.codehaus.waffle.bind.converters.ListValueConverter</a>
           </td>
-          <td align="left">Converts CSV values with configurable error messages.</td>
+          <td align="left">Converts CSV values with configurable error messages.  It attempts to parse values as numbers (using the injectable <code>NumberFormat</code> instance,
+              which defaults to <code>NumberFormat.getInstance()</code>) and if not successful returns list of string values.
+          </td>
         </tr>
       </tbody>
     </table>
