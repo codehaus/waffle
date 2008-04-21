@@ -20,16 +20,17 @@ import javax.servlet.http.HttpServletResponse;
 public class RedirectView extends View {
     private int statusCode;
 
-    public RedirectView(String value, Object fromController) {
-        this(value, fromController, HttpServletResponse.SC_SEE_OTHER);
+    public RedirectView(String path, Object controller) {
+        this(path, controller, HttpServletResponse.SC_SEE_OTHER);
     }
 
-    public RedirectView(String value, Object fromController, int statusCode) {
-        super(value, fromController);
+    public RedirectView(String path, Object controller, int statusCode) {
+        super(path, controller);
         this.statusCode = statusCode;
     }
 
     public int getStatusCode() {
         return statusCode;
     }
+    
 }

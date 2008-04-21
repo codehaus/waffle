@@ -575,7 +575,7 @@ public class WaffleServletTest {
         ControllerDefinition controllerDefinition = new ControllerDefinition("foobar", null, null);
         View view = servlet.buildView(controllerDefinition);
 
-        assertEquals("prefix-foobar-suffix", view.getValue());
+        assertEquals("prefix-foobar-suffix", view.getPath());
     }
 
     @SuppressWarnings("serial")

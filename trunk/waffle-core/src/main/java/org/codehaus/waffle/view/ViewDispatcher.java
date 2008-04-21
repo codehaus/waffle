@@ -16,10 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * Responsible for dispatching a view
+ * 
  * @author Michael Ward
  */
 public interface ViewDispatcher {
 
-    void dispatch(HttpServletRequest request, HttpServletResponse response, View view)
-            throws IOException, ServletException;
+    void dispatch(HttpServletRequest request, HttpServletResponse response, View view) throws IOException,
+            ServletException;
 }
