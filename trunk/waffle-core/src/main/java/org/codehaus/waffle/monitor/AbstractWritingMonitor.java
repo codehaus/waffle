@@ -230,8 +230,8 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("actionMethodExecuted", actionMethodResponse);        
     }
     
-    public void actionMethodExecutionFailed(Exception exception) {
-        write("actionMethodExecutionFailed", exception);    
+    public void actionMethodExecutionFailed(Exception cause) {
+        write("actionMethodExecutionFailed", cause); 
     }
     
     public void methodNameResolved(String methodName, String methodKey, Set<String> keys) {
@@ -258,7 +258,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("viewDispatched", view);        
     }
 
-    public void attributeBindFailed(Object controller, Throwable cause){
+    public void attributeBindFailed(Object controller, Exception cause){
         write("attributeBindFailed", controller, cause);
     }
 
@@ -266,7 +266,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("attributeValueBoundFromController", name, value, controller);
     }
 
-    public void dataBindFailed(Object controller, BindErrorMessage errorMessage, Throwable cause){
+    public void dataBindFailed(Object controller, BindErrorMessage errorMessage, Exception cause){
         write("dataBindFailed", controller, errorMessage, cause);
     }
     
@@ -331,7 +331,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
     }
 
     public void actionMethodInvocationFailed(Exception cause){
-        write("actionMethodInvocationFailed", cause);        
+        write("actionMethodInvocationFailed", cause);
     }
 
     public void servletInitialized(Servlet servlet) {
@@ -339,7 +339,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
     }
     
     public void servletServiceFailed(Exception cause){
-        write("servletServiceFailed", cause);        
+        write("servletServiceFailed", cause);
     }
     
     public void servletServiceRequested(Map<String, List<String>> parameters){
@@ -355,7 +355,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
     }
 
     public void validationFailed(Exception cause) {
-        write("validationFailed", cause);        
+        write("validationFailed", cause);
     }
 
     public void viewForwarded(String path) {
