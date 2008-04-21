@@ -23,7 +23,7 @@ public interface BindMonitor extends Monitor {
 
     void attributeValueBoundFromController(String name, Object value, Object controller);
 
-    void dataBindFailed(Object controller, BindErrorMessage errorMessage);
+    void dataBindFailed(Object controller, BindErrorMessage errorMessage, Throwable cause);
 
     void dataValueBoundToController(String name, Object value, Object controller);
     

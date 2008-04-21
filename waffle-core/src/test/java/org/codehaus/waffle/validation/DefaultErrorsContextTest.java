@@ -39,10 +39,11 @@ public class DefaultErrorsContextTest {
     }
     
     @Test
-    public void canRetrieveStackMessagesFromGlobalErrorMessage() {
+    public void canRetrieveStackMessagesFromErrorMessages() {
         Throwable cause = new Throwable("1", new Throwable("2", new Throwable("3")));
-        GlobalErrorMessage errorMessage = new GlobalErrorMessage("global message", cause);
-        assertEquals(asList("1", "2", "3"), errorMessage.getStackMessages());
+        assertEquals(asList("1", "2", "3"), new BindErrorMessage("bind.error", "foobar", null, cause).getStackMessages());
+        assertEquals(asList("1", "2", "3"), new FieldErrorMessage("field.error", "foobaz", null, cause).getStackMessages());
+        assertEquals(asList("1", "2", "3"), new GlobalErrorMessage("global message", cause).getStackMessages());
     }
 
     @Test

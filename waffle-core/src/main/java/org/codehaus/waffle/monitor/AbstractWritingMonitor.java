@@ -133,7 +133,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         messages.put("viewDispatched", "View dispatched: {0}");
         messages.put("attributeBindFailed", "Attribute bind failed from controller ''{0}'': {1}");
         messages.put("attributeValueBoundFromController", "Attribute value ''{1}'' bound for name ''{0}'' from controller ''{2}''");        
-        messages.put("dataBindFailed", "Data bind failed to controller ''{0}'': {1}");
+        messages.put("dataBindFailed", "Data bind failed to controller ''{0}'' with message {1}: {2}");
         messages.put("dataValueBoundToController", "Data value ''{1}'' bound for name ''{0}'' to controller ''{2}''");        
         messages.put("registrarCreated", "Registrar ''{0}'' created  with monitor ''{1}''");
         messages.put("registrarNotFound", "Registrar ''{0}'' not found");
@@ -266,8 +266,8 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("attributeValueBoundFromController", name, value, controller);
     }
 
-    public void dataBindFailed(Object controller, BindErrorMessage errorMessage){
-        write("dataBindFailed", controller, errorMessage);
+    public void dataBindFailed(Object controller, BindErrorMessage errorMessage, Throwable cause){
+        write("dataBindFailed", controller, errorMessage, cause);
     }
     
     public void dataValueBoundToController(String name, Object value, Object controller) {
