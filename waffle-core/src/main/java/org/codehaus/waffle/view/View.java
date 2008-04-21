@@ -11,39 +11,45 @@
 package org.codehaus.waffle.view;
 
 /**
- * 
- * Represents the value of the view that the resolver will dispatch.
- * View holds:
+ * Represents the view that the resolver will dispatch.  View holds:
  * <ol>
- *   <li>the value from the controller method</li>
+ *   <li>the path of the view</li>
  *   <li>the controller object </li>
  * </ol>
- * this allows for more granular decisions on how to handle a View
+ * which allows for more granular decisions on how to handle a View.
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public class View {
-    private final String value;
+    private final String path;
     private final Object controller;
 
     /**
      * Creates a View
      * 
-     * @param value represents the name of the View to be resolved
+     * @param path represents the path of the View to be resolved
      * @param controller the controller where the view originated from
      */
-    public View(String value, Object controller) {
-        this.value = value;
+    public View(String path, Object controller) {
+        this.path = path;
         this.controller = controller;
     }
 
     /**
-     * Returns the view value.  The term "value" is used to be purposely open ended.
+     * Returns the view path
      * 
-     * @return The View value
+     * @return The View path
+     */
+    public String getPath() {
+        return path;
+    }
+    
+    /**
+     * @deprecated Use #getPath()
      */
     public String getValue() {
-        return value;
+        return getPath();
     }
 
     /**

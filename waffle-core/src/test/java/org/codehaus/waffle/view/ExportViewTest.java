@@ -1,6 +1,7 @@
 package org.codehaus.waffle.view;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -15,10 +16,13 @@ public class ExportViewTest {
         String content = "1,2,3";
         String contentType = "text/csv";
         String filename = "export.csv";
-        ExportView view = new ExportView(null, contentType, content.getBytes(), filename);
+        Object controller = new Object();
+        ExportView view = new ExportView(controller, contentType, content.getBytes(), filename);
         assertEquals(content, new String(view.getContent()));
         assertEquals(contentType, view.getContentType());
         assertEquals(filename, view.getFilename());
+        assertEquals(controller, view.getController());
+        assertNull(view.getPath());
     }
 
 }

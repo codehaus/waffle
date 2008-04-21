@@ -11,8 +11,8 @@
 package org.codehaus.waffle.view;
 
 /**
- * Indicates that the view should contain export data.
- *
+ * Indicates that the view has content which should be exported to a filename using the given content type.
+ * 
  * @author Mauro Talevi
  */
 public class ExportView extends View {
@@ -20,8 +20,8 @@ public class ExportView extends View {
     private final byte[] content;
     private final String filename;
 
-    public ExportView(Object fromController, String contentType, byte[] content, String filename) {
-        super(null, fromController);
+    public ExportView(Object controller, String contentType, byte[] content, String filename) {
+        super(null, controller);
         this.contentType = contentType;
         this.content = content;
         this.filename = filename;        
