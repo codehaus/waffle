@@ -66,7 +66,7 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void viewDispatched(View view) {
     }
 
-    public void dataBindFailed(Object controller, BindErrorMessage errorMessage) {
+    public void dataBindFailed(Object controller, BindErrorMessage errorMessage, Throwable cause) {
     }
 
     public void attributeBindFailed(Object controller, Throwable cause) {

@@ -18,7 +18,11 @@ package org.codehaus.waffle.validation;
 public class BindErrorMessage extends FieldErrorMessage {
 
     public BindErrorMessage(String name, String value, String message) {
-        super(name, value, message);
+        this(name, value, message, null);
+    }
+    
+    public BindErrorMessage(String name, String value, String message, Throwable cause) {
+        super(name, value, message, cause);
     }
     
     public Type getType() {
@@ -33,6 +37,8 @@ public class BindErrorMessage extends FieldErrorMessage {
         sb.append(getValue());
         sb.append(", message=");
         sb.append(getMessage());
+        sb.append(", stackMessages=");
+        sb.append(getStackMessages());
         sb.append("]");
         return sb.toString();
     }

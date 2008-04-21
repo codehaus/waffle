@@ -10,8 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.validation;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -19,17 +17,16 @@ import java.util.List;
  *
  * @author Mauro Talevi
  */
-public class GlobalErrorMessage implements ErrorMessage {
+public class GlobalErrorMessage extends AbstractErrorMessage implements ErrorMessage {
     private String message;
-    private Throwable cause;
-
+    
     public GlobalErrorMessage(String message) {
         this(message, null);
     }
 
     public GlobalErrorMessage(String message, Throwable cause) {
+        super(cause);
         this.message = message;
-        this.cause = cause;
     }
 
     public Type getType() {
@@ -40,23 +37,6 @@ public class GlobalErrorMessage implements ErrorMessage {
         return message;
     }
     
-    public List<String> getStackMessages(){
-        List<String> messages = new ArrayList<String>();
-        addStackMessages(cause, messages);
-        return messages;        
-    }
-
-    public Throwable getCause(){
-        return cause;
-    }
-    
-    private void addStackMessages(Throwable cause, List<String> messages) {
-        if ( cause != null ){
-            messages.add(cause.getMessage());
-            addStackMessages(cause.getCause(), messages);
-        }
-    }
-
     @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
