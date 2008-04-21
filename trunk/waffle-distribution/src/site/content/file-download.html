@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>File Download</title>
+  </head>
+  <body>
+
+  <h2>File Download</h2>
+
+  <p>
+    Waffle provides a simple and effective mechanism for downloading files, using Waffle's 
+    <a href="javadoc/core/org/codehaus/waffle/view/ExportView.html">org.codehaus.waffle.view.ExportView</a>.  
+  </p>
+  <p>
+    As usual, an example is the best way to learn.  The key point is the controller ActionMethod must return an <code>ExportView</code>,
+    which specifies the content type, the content and the filename.  A common usecase, is to download some content as CSV.  In this case,
+    we'd have something like:
+
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class DownloadController {
+
+      @ActionMethod(asDefault=true)
+      public View download(){ 
+        byte[] content = "one,two,three".getBytes();// the byte[] content can come from any source
+        return new ExportView(this, "text/csv", content, "download.csv");
+      }
+
+    }
+  </textarea>
+    
+    It's as simple as that!
+  </p>
+  </body>
+</html>
