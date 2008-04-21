@@ -27,6 +27,12 @@ public abstract class AbstractValueConverter implements ValueConverter {
         this.messageResources = messageResources;
     }
 
+    /**
+     * Determines if the value is missing.  
+     * 
+     * @param value the String value
+     * @return A boolean, <code>true</code> if value is <code>null</code> or trimmed length is 0.
+     */
     protected boolean missingValue(String value) {
         return value == null || value.trim().length() == 0;
     }

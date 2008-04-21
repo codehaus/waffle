@@ -17,13 +17,17 @@ import java.util.Date;
 import org.codehaus.waffle.i18n.MessageResources;
 
 /**
- * <code>ValueConverter</code> that converts Date values.  The date format is configurable via the message resources bundle.
- * A <code>null</code>, empty or invalid value will cause a BindException to be thrown.
- * The message keys and default values used are:
+ * <code>ValueConverter</code> that converts Date values. The date format is configurable via the message resources
+ * bundle. A <code>null</code> or empty value (once trimmed) will be returned as <code>null</code> (behaviour which
+ * can be overridden via the {@link convertMissingValue()} method), while an invalid value will cause a BindException to
+ * be thrown. The message keys and default values used are:
  * <ul>
- *  <li>"bind.error.date" ({@link #BIND_ERROR_DATE_KEY}): bind error in date parsing (message defaults to {@link #DEFAULT_DATE_MESSAGE})</li>
- *  <li>"bind.error.date.missing" ({@link #BIND_ERROR_DATE_MISSING_KEY}): date is <code>null</code> or empty (message defaults to {@link #DEFAULT_DATE_MISSING_MESSAGE})</li>
- *  <li>"date.format" ({@link #DATE_FORMAT_KEY}): date format used in parsing (defaults to {@link #DEFAULT_DATE_FORMAT})</li>
+ * <li>"bind.error.date" ({@link #BIND_ERROR_DATE_KEY}): bind error in date parsing (message defaults to
+ * {@link #DEFAULT_DATE_MESSAGE})</li>
+ * <li>"bind.error.date.missing" ({@link #BIND_ERROR_DATE_MISSING_KEY}): date is <code>null</code> or empty
+ * (message defaults to {@link #DEFAULT_DATE_MISSING_MESSAGE})</li>
+ * <li>"date.format" ({@link #DATE_FORMAT_KEY}): date format used in parsing (defaults to
+ * {@link #DEFAULT_DATE_FORMAT})</li>
  * </ul>
  * 
  * @author Michael Ward
