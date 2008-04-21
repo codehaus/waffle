@@ -19,11 +19,11 @@ import org.codehaus.waffle.validation.BindErrorMessage;
  */
 public interface BindMonitor extends Monitor {
 
-    void attributeBindFailed(Object controller, Throwable cause);
+    void attributeBindFailed(Object controller, Exception cause);
 
     void attributeValueBoundFromController(String name, Object value, Object controller);
 
-    void dataBindFailed(Object controller, BindErrorMessage errorMessage, Throwable cause);
+    void dataBindFailed(Object controller, BindErrorMessage errorMessage, Exception cause);
 
     void dataValueBoundToController(String name, Object value, Object controller);
     
