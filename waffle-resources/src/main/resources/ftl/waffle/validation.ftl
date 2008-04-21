@@ -6,18 +6,36 @@
  -->
 
 <#--
- * Shows errors as Div with CSS class "errors".
- * Each error is contained in div with class "error".
+ * Shows error messages as <ul>
  *
  * @param errors the ErrorsContext
+ * @param showType the boolean flag to show or not the error type
+ * @param showStack the boolean flag to show or not the error stack
+ * @param attributes any additional attributes for the element (defaults to "")
  -->
-<#macro errorsAsDiv errors>
+<#macro errorsAsUl errors showType="false" showStack="true" attributes="">
 <#if errors.hasErrorMessages()>
-    <div class="errors">
-    <#list errors.allErrorMessages as error>
-        <div class="error">${error.message}</div>
+    <ul ${attributes}>
+    <#list errors.allErrorMessages as error>    
+        <li><#if showType=='true'>[${error.type}]&nbsp;</#if> ${error.message}
+            <#if showStack=='true'><@listAsUl error.getStackMessages()![] attributes/></#if>
+        </li>
     </#list>
-    </div>
+    </ul>
 </#if>
+</#macro>
+
+<#--
+ * Shows a list of values as <ul>
+ *
+ * @param values the values
+ * @param attributes any additional attributes for the element (defaults to "")
+ -->
+<#macro listAsUl values attributes="">
+<ul ${attributes}>
+<#list values as value>    
+    <li>${value}</li>
+</#list>
+</ul>
 </#macro>
 
