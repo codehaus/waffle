@@ -1,4 +1,4 @@
 <#import "/ftl/waffle/validation.ftl" as v>
 
-<@v.errorsAsDiv errors />
+<@v.errorsAsUl errors "true" "false" "class='errors'"/>
     

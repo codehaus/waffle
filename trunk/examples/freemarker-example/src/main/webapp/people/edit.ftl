@@ -4,7 +4,7 @@
 
     <h3>Edit Person</h3>
 
-    <@v.errorsAsDiv errors />
+    <@v.errorsAsUl errors "true" "false" "class='errors'"/>
     
     <div class="fieldRow">
         <label for="person.id">Id:</label>
