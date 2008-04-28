@@ -13,6 +13,8 @@ public class PersistablePerson implements Person {
     private String lastName;
     private String email;
     private Date dateOfBirth;
+    private Date birthDay;
+    private Date birthTime;
     private List<String> skills;
     private List<Integer> levels;
     private List<Double> grades;
@@ -23,6 +25,8 @@ public class PersistablePerson implements Person {
         lastName = "";
         email = "";
         dateOfBirth = new Date();
+        birthDay = new Date();
+        birthTime = new Date();
         skills = new ArrayList<String>();
         levels = new ArrayList<Integer>();
         grades = new ArrayList<Double>();
@@ -34,6 +38,8 @@ public class PersistablePerson implements Person {
         this.lastName = person.getLastName();
         this.email = person.getEmail();
         this.dateOfBirth = person.getDateOfBirth();
+        this.birthDay = person.getBirthDay();
+        this.birthTime = person.getBirthTime();
         this.skills = person.getSkills();
         this.levels = person.getLevels();
         this.grades = person.getGrades();
@@ -77,6 +83,22 @@ public class PersistablePerson implements Person {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Date getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
+    }
+
+    public Date getBirthTime() {
+        return birthTime;
+    }
+
+    public void setBirthTime(Date birthTime) {
+        this.birthTime = birthTime;
     }
 
     public List<String> getSkills() {
