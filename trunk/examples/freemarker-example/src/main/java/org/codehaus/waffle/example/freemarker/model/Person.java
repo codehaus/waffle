@@ -15,6 +15,10 @@ public interface Person {
 
     public Date getDateOfBirth();
 
+    public Date getBirthDay();
+    
+    public Date getBirthTime();
+    
     public List<String> getSkills();
     
     public List<Integer> getLevels();
