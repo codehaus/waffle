@@ -31,7 +31,7 @@ public class DelegatingTypeConverter implements TypeConverter {
     private final ValueConverterFinder valueConverterFinder;
 
     public DelegatingTypeConverter() {
-        this.valueConverterFinder = new OgnlValueConverterFinder();
+        this(new OgnlValueConverterFinder());
     }
 
     public DelegatingTypeConverter(ValueConverterFinder valueConverterFinder) {
