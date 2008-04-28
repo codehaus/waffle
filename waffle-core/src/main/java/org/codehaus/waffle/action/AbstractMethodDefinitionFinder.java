@@ -10,6 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.action;
 
+import static java.text.MessageFormat.format;
+
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.bind.StringTransmuter;
@@ -64,9 +66,6 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         this.actionMonitor = actionMonitor;
     }
     
-    /**
-     * {@inheritDoc}
-     */
     public MethodDefinition find(Object controller,
                                  HttpServletRequest request,
                                  HttpServletResponse response) throws WaffleException {
@@ -227,8 +226,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                     methodDefinition.addMethodArgument(servletContext);
                 } else if (MessagesContext.class.isAssignableFrom(type)) {
                     ContextContainer requestContainer = RequestLevelContainer.get();
-                    MessagesContext messageContext = requestContainer.getComponentInstanceOfType(MessagesContext.class);
-                    methodDefinition.addMethodArgument(messageContext);
+                    methodDefinition.addMethodArgument(requestContainer.getComponentInstanceOfType(MessagesContext.class));
                 } else if (iterator.hasNext()) {
                     methodDefinition.addMethodArgument(iterator.next());
                 } else {
@@ -288,7 +286,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
      * @return A formatted argument
      */
     protected String formatArgument(String value) {
-        return MessageFormat.format(ARGUMENT_FORMAT, value);
+        return format(ARGUMENT_FORMAT, value);
     }
 
     /**
