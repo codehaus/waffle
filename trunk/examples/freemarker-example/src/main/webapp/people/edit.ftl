@@ -25,7 +25,7 @@
         <p class="fieldRow">
             <label for="person.dateOfBirth">Date Of Birth:</label>
             <#if person.dateOfBirth??>
-                <@w.text "person.dateOfBirth" "${person.dateOfBirth?string('dd/MM/yyyy')}"/>
+                <@w.text "person.dateOfBirth" "${person.dateOfBirth?string('dd-MM-yyyy')}"/>
             <#else>
                 <@w.text "person.dateOfBirth" ""/>
             </#if> 
@@ -33,7 +33,7 @@
         <p class="fieldRow">
             <label for="person.birthDay">Birth Day:</label>
             <#if person.birthDay??>
-                <@w.text "person.birthDay" "${person.birthDay?string('dd/MM/yyyy')}"/>
+                <@w.text "person.birthDay" "${person.birthDay?string('dd')}"/>
             <#else>
                 <@w.text "person.birthDay" ""/>
             </#if> 
@@ -41,7 +41,7 @@
         <p class="fieldRow">
             <label for="person.birthTime">Birth Time:</label>
             <#if person.birthTime??>
-                <@w.text "person.birthTime" "${person.birthTime?string('dd/MM/yyyy HH:mm:ss')}"/>
+                <@w.text "person.birthTime" "${person.birthTime?string('HH:mm:ss')}"/>
             <#else>
                 <@w.text "person.birthTime" ""/>
             </#if> 
