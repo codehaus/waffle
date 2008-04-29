@@ -29,10 +29,14 @@ import org.codehaus.waffle.i18n.MessageResources;
  * (message defaults to {@link #DEFAULT_DATE_MISSING_MESSAGE})</li>
  * <li>"date.format" ({@link #DATE_FORMAT_KEY}): date format used in parsing (defaults to
  * {@link #DEFAULT_DATE_FORMAT})</li>
- * <li>"date.format.day" ({@link #DAY_FORMAT_KEY}): date format used in parsing properties that end in "Day"
- * (defaults to {@link #DEFAULT_DAY_FORMAT})</li>
- * <li>"date.format.time" ({@link #TIME_FORMAT_KEY}): date format used in parsing properties that end in "Time"
- * (defaults to {@link #DEFAULT_TIME_FORMAT})</li>
+ * <li>"date.format.day" ({@link #DAY_FORMAT_KEY}): date format used in parsing values whose property name matches
+ * the day name (defaults to {@link #DEFAULT_DAY_FORMAT})</li>
+ * <li>"date.format.day.name" ({@link #DAY_NAME_KEY}): regex to match the day name (defaults to
+ * {@link #DEFAULT_DAY_NAME})</li>
+ * <li>"date.format.time" ({@link #TIME_FORMAT_KEY}): date format used in parsing values whose property name matches
+ * the time name (defaults to {@link #DEFAULT_TIME_FORMAT})</li>
+ * <li>"date.format.time.name" ({@link #TIME_NAME_KEY}): regex to match the time name (defaults to
+ * {@link #DEFAULT_TIME_NAME})</li>
  * </ul>
  * The patterns are also optionally injectable via <code>Properties</code> in the constructor and take precedence over
  * the ones configured in the messages resources.
@@ -41,18 +45,20 @@ import org.codehaus.waffle.i18n.MessageResources;
  * @author Mauro Talevi
  */
 public class DateValueConverter extends AbstractValueConverter {
-    static final String BIND_ERROR_DATE_KEY = "bind.error.date";
-    static final String BIND_ERROR_DATE_MISSING_KEY = "bind.error.date.missing";
-    static final String DATE_FORMAT_KEY = "date.format";
-    static final String DAY_FORMAT_KEY = "date.format.day";
-    static final String TIME_FORMAT_KEY = "date.format.time";
-    static final String DAY_SUFFIX = "Day";
-    static final String TIME_SUFFIX = "Time";
-    static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
-    static final String DEFAULT_DAY_FORMAT = "dd/MM/yyyy";
-    static final String DEFAULT_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
-    static final String DEFAULT_DATE_MESSAGE = "Invalid date {1} (using format {2}) for field {0}";
-    static final String DEFAULT_DATE_MISSING_MESSAGE = "Missing date value for field {0}";
+    public static final String BIND_ERROR_DATE_KEY = "bind.error.date";
+    public static final String BIND_ERROR_DATE_MISSING_KEY = "bind.error.date.missing";
+    public static final String DATE_FORMAT_KEY = "date.format";
+    public static final String DAY_FORMAT_KEY = "date.format.day";
+    public static final String DAY_NAME_KEY = "date.format.day.name";
+    public static final String TIME_FORMAT_KEY = "date.format.time";
+    public static final String TIME_NAME_KEY = "date.format.time.name";
+    public static final String DEFAULT_DAY_FORMAT = "dd/MM/yyyy";
+    public static final String DEFAULT_DAY_NAME = ".*Day";
+    public static final String DEFAULT_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss";
+    public static final String DEFAULT_TIME_NAME = ".*Time";
+    public static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
+    public static final String DEFAULT_DATE_MESSAGE = "Invalid date {1} (using format {2}) for field {0}";
+    public static final String DEFAULT_DATE_MISSING_MESSAGE = "Missing date value for field {0}";
 
     private Properties patterns;
     
@@ -111,24 +117,24 @@ public class DateValueConverter extends AbstractValueConverter {
         return new SimpleDateFormat(pattern);
     }
 
-    private String patternFor(String key, String defaultPattern) {
-        if ( patterns.containsKey(key)) {
-            return patterns.getProperty(key);
-        }
-        return messageFor(key, defaultPattern);
-    }
-
     private DateType dateType(String propertyName) {
-        if (endsWith(propertyName, DAY_SUFFIX)) {
+        if (matches(propertyName, patternFor(DAY_NAME_KEY , DEFAULT_DAY_NAME))) {
             return DateType.DAY;
-        } else if (endsWith(propertyName, TIME_SUFFIX)) {
+        } else if (matches(propertyName, patternFor(TIME_NAME_KEY , DEFAULT_TIME_NAME))) {
             return DateType.TIME;
         }
         return DateType.DATE;
     }
 
-    private boolean endsWith(String propertyName, String suffix) {
-        return propertyName != null && propertyName.endsWith(suffix);
+    private boolean matches(String propertyName, String regex) {
+        return propertyName != null && propertyName.matches(regex);
+    }
+
+    private String patternFor(String key, String defaultPattern) {
+        if ( patterns.containsKey(key)) {
+            return patterns.getProperty(key);
+        }
+        return messageFor(key, defaultPattern);
     }
 
 }
