@@ -36,10 +36,8 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final RegistrarMonitor registrarMonitor;
     private Injection injection = Injection.CONSTRUCTOR;
 
-    public PicoRegistrar(MutablePicoContainer picoContainer,
-                         ParameterResolver parameterResolver,
-                         LifecycleStrategy lifecycleStrategy,
-                         RegistrarMonitor registrarMonitor) {
+    public PicoRegistrar(MutablePicoContainer picoContainer, ParameterResolver parameterResolver,
+            LifecycleStrategy lifecycleStrategy, RegistrarMonitor registrarMonitor) {
         this.picoContainer = picoContainer;
         this.parameterResolver = parameterResolver;
         this.lifecycleStrategy = lifecycleStrategy;
@@ -69,7 +67,6 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
         CachingComponentAdapter cachingComponentAdapter = new CachingComponentAdapter(componentAdapter);
         this.registerComponentAdapter(cachingComponentAdapter);
         registrarMonitor.componentRegistered(key, type, parameters);
-
         return this;
     }
 
