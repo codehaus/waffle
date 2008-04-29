@@ -42,6 +42,15 @@ public interface Registrar {
      * @return A boolean flag, <code>true</code> if component is registered
      */
     boolean isRegistered(Object typeOrInstance);
+    
+    /**
+     * Returns a registered component 
+     * 
+     * @param typeOrInstance the component Class type or Object instance/key
+     * @return The registered component instance
+     * @throws RegistrarException if component not registered or more than one instance found
+     */
+    Object getRegistered(Object typeOrInstance);
 
     /**
      * Registers a component in the current context.

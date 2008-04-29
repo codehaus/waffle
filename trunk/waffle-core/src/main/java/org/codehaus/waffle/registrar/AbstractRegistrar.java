@@ -15,6 +15,7 @@ package org.codehaus.waffle.registrar;
  * for use in their applications.
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public abstract class AbstractRegistrar implements Registrar {
     private final Registrar delegate;
@@ -30,6 +31,10 @@ public abstract class AbstractRegistrar implements Registrar {
 
     public boolean isRegistered(Object typeOrInstance){
         return delegate.isRegistered(typeOrInstance);
+    }
+    
+    public Object getRegistered(Object typeOrInstance){
+        return delegate.getRegistered(typeOrInstance);
     }
     
     public Registrar register(Class<?> type, Object... parameters) {
