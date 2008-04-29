@@ -10,6 +10,10 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar;
 
+import javax.servlet.ServletContext;
+
+import org.codehaus.waffle.ComponentRegistry;
+
 /**
  * Waffle requires that web apps extend this class for registrating actions, services and components
  * for use in their applications.
@@ -77,5 +81,15 @@ public abstract class AbstractRegistrar implements Registrar {
 
     public void request() {
         // does nothing by default
+    }
+
+    /**
+     * Returns the component registry registered by the WaffleContextListener in the servlet context.
+     * 
+     * @return The ComponentRegistry
+     */
+    protected ComponentRegistry getComponentRegistry() {
+        ServletContext servletContext = (ServletContext) getRegistered(ServletContext.class);
+        return (ComponentRegistry) servletContext.getAttribute(ComponentRegistry.class.getName());
     }
 }
