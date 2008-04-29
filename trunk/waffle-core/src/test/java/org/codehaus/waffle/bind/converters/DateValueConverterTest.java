@@ -5,11 +5,16 @@ import static org.codehaus.waffle.bind.converters.DateValueConverter.BIND_ERROR_
 import static org.codehaus.waffle.bind.converters.DateValueConverter.BIND_ERROR_DATE_MISSING_KEY;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.DATE_FORMAT_KEY;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.DAY_FORMAT_KEY;
+import static org.codehaus.waffle.bind.converters.DateValueConverter.DAY_NAME_KEY;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.DEFAULT_DATE_FORMAT;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.DEFAULT_DATE_MESSAGE;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.DEFAULT_DATE_MISSING_MESSAGE;
+import static org.codehaus.waffle.bind.converters.DateValueConverter.DEFAULT_DAY_FORMAT;
+import static org.codehaus.waffle.bind.converters.DateValueConverter.DEFAULT_TIME_FORMAT;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.TIME_FORMAT_KEY;
+import static org.codehaus.waffle.bind.converters.DateValueConverter.TIME_NAME_KEY;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -46,38 +51,45 @@ public class DateValueConverterTest {
         DateValueConverter converter = new DateValueConverter(new DefaultMessageResources());
         assertTrue(converter.accept(Date.class));
         assertTrue(converter.accept(java.sql.Date.class));
+        assertFalse(converter.accept(Object.class));
     }
 
     @Test
-    public void canConvertWithDateFormatConfiguredViaMessageResource() {
+    public void canConvertWithDefaultDateFormats() {
+        DateValueConverter converter = new DateValueConverter(new DefaultMessageResources());
+        assertDateFormattable("04/03/2008", DEFAULT_DATE_FORMAT, converter.convertValue("property-name", "04/03/2008",
+                Date.class));
+        assertDateFormattable("04/03/2008", DEFAULT_DAY_FORMAT, converter.convertValue("propertyDay", "04/03/2008",
+                Date.class));
+        assertDateFormattable("04/03/2008 11:11:11", DEFAULT_TIME_FORMAT, converter.convertValue("propertyTime",
+                "04/03/2008 11:11:11", Date.class));
+    }
+
+    @Test
+    public void canConvertWithDateFormatsConfiguredViaMessageResource() {
         DefaultMessageResources resources = new DefaultMessageResources(configuration);
         DateValueConverter converter = new DateValueConverter(resources);
         assertDateFormattable("04-03-2008", resources.getMessage(DATE_FORMAT_KEY), converter.convertValue(
                 "property-name", "04-03-2008", Date.class));
-        assertDateFormattable("04", resources.getMessage(DAY_FORMAT_KEY), converter.convertValue("someDay", "04",
+        assertDateFormattable("04", resources.getMessage(DAY_FORMAT_KEY), converter.convertValue("day-property", "04",
                 Date.class));
-        assertDateFormattable("11:11:11", resources.getMessage(TIME_FORMAT_KEY), converter.convertValue("someTime",
-                "11:11:11", Date.class));
+        assertDateFormattable("11:11:11", resources.getMessage(TIME_FORMAT_KEY), converter.convertValue(
+                "time-property", "11:11:11", Date.class));
     }
 
     @Test
-    public void canConvertWithDateFormatConfiguredViaProperties() {
+    public void canConvertWithDateFormatsConfiguredViaProperties() {
         Properties patterns = new Properties();
-        patterns.setProperty(DateValueConverter.DATE_FORMAT_KEY, "dd-MM-yyyy");
-        patterns.setProperty(DateValueConverter.DAY_FORMAT_KEY, "dd");
-        patterns.setProperty(DateValueConverter.TIME_FORMAT_KEY, "HH:mm:ss");
+        patterns.setProperty(DATE_FORMAT_KEY, "dd-MM-yyyy");
+        patterns.setProperty(DAY_FORMAT_KEY, "dd");
+        patterns.setProperty(TIME_FORMAT_KEY, "HH:mm:ss");
+        patterns.setProperty(DAY_NAME_KEY, "day.*");
+        patterns.setProperty(TIME_NAME_KEY, "time.*");
         DateValueConverter converter = new DateValueConverter(new DefaultMessageResources(), patterns);
         assertDateFormattable("04-03-2008", "dd-MM-yyyy", converter.convertValue("property-name", "04-03-2008",
                 Date.class));
-        assertDateFormattable("04", "dd", converter.convertValue("someDay", "04", Date.class));
-        assertDateFormattable("11:11:11", "HH:mm:ss", converter.convertValue("someTime", "11:11:11", Date.class));
-    }
-
-    @Test
-    public void canConvertWithDefaultDateFormat() {
-        DateValueConverter converter = new DateValueConverter(new DefaultMessageResources());
-        assertDateFormattable("04/03/2008", DEFAULT_DATE_FORMAT, converter.convertValue("property-name", "04/03/2008",
-                Date.class));
+        assertDateFormattable("04", "dd", converter.convertValue("day-property", "04", Date.class));
+        assertDateFormattable("11:11:11", "HH:mm:ss", converter.convertValue("time-property", "11:11:11", Date.class));
     }
 
     private void assertDateFormattable(String value, String pattern, Date date) {
