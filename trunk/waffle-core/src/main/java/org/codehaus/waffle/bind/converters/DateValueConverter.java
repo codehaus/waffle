@@ -91,6 +91,14 @@ public class DateValueConverter extends AbstractValueConverter {
         }
     }
 
+    public Properties getPatterns() {
+        return patterns;
+    }
+
+    public void changePatterns(Properties patterns) {
+        this.patterns = patterns;
+    }
+
     private enum DateType {
         DAY, TIME, DATE
     };
@@ -136,5 +144,5 @@ public class DateValueConverter extends AbstractValueConverter {
         }
         return messageFor(key, defaultPattern);
     }
-
+    
 }
