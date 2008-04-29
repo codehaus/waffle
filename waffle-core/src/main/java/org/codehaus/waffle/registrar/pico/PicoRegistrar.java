@@ -10,8 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
+import java.util.List;
+
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.registrar.RegistrarException;
 import org.codehaus.waffle.registrar.RubyAwareRegistrar;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
@@ -55,6 +58,25 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
             return picoContainer.getComponentInstancesOfType(type).size() > 0;
         }
         return picoContainer.getComponentInstance(typeOrInstance) != null;
+    }
+
+    public Object getRegistered(Object typeOrInstance) {
+        if (typeOrInstance instanceof Class) {
+            Class<?> type = (Class<?>) typeOrInstance;
+            List<?> instances = picoContainer.getComponentInstancesOfType(type);
+            if ( instances.size() == 0 ){
+                throw new RegistrarException("No component instance registered for type "+type);
+            } else if ( instances.size() > 1 ){
+                throw new RegistrarException("More than one component instance registered for type "+type);
+            } else {
+                return instances.get(0);
+            }            
+        }
+        Object instance = picoContainer.getComponentInstance(typeOrInstance);
+        if ( instance == null ){
+            throw new RegistrarException("No component instance registered for type or instance "+typeOrInstance);
+        }
+        return instance;
     }
 
     public Registrar register(Class<?> type, Object... parameters) {

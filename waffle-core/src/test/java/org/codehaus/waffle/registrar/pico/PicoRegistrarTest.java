@@ -15,6 +15,7 @@ import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.ComponentReference;
+import org.codehaus.waffle.registrar.RegistrarException;
 import org.codehaus.waffle.testmodel.ComponentWithParameterDependencies;
 import org.codehaus.waffle.testmodel.ConstructorInjectionComponent;
 import org.codehaus.waffle.testmodel.FakeBean;
@@ -23,6 +24,8 @@ import org.codehaus.waffle.testmodel.SetterInjectionComponent;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -61,8 +64,8 @@ public class PicoRegistrarTest {
                 .register(type);
         assertTrue(registrar.isRegistered(type));
 
-        FakeController controllerOne = (FakeController) pico.getComponentInstance(FakeController.class);
-        FakeController controllerTwo = (FakeController) pico.getComponentInstance(FakeController.class);
+        FakeController controllerOne = (FakeController) registrar.getRegistered(FakeController.class);
+        FakeController controllerTwo = (FakeController) registrar.getRegistered(FakeController.class);
 
         assertSame(controllerOne, controllerTwo);
     }
@@ -84,8 +87,8 @@ public class PicoRegistrarTest {
         registrar.register(key, type);
         assertTrue(registrar.isRegistered(type));
 
-        FakeController controllerOne = (FakeController) pico.getComponentInstance(key);
-        FakeController controllerTwo = (FakeController) pico.getComponentInstance(key);
+        FakeController controllerOne = (FakeController) registrar.getRegistered(key);
+        FakeController controllerTwo = (FakeController) registrar.getRegistered(key);
 
         assertSame(controllerOne, controllerTwo);
         assertSame(controllerOne, pico.getComponentInstanceOfType(type));
@@ -107,7 +110,7 @@ public class PicoRegistrarTest {
         registrar.registerInstance(fakeController);
         assertTrue(registrar.isRegistered(fakeController));
 
-        assertSame(fakeController, pico.getComponentInstanceOfType(FakeController.class));
+        assertSame(fakeController, registrar.getRegistered(FakeController.class));
     }
 
     @Test
@@ -127,7 +130,7 @@ public class PicoRegistrarTest {
         registrar.registerInstance(key, fakeController);
         assertTrue(registrar.isRegistered(key));
 
-        assertSame(fakeController, pico.getComponentInstance("foobar"));
+        assertSame(fakeController, registrar.getRegistered("foobar"));
         assertSame(fakeController, pico.getComponentInstanceOfType(FakeController.class));
     }
 
@@ -147,8 +150,8 @@ public class PicoRegistrarTest {
         registrar.registerNonCaching(type);
         assertTrue(registrar.isRegistered(type));
 
-        FakeController controllerOne = (FakeController) pico.getComponentInstance(FakeController.class);
-        FakeController controllerTwo = (FakeController) pico.getComponentInstance(FakeController.class);
+        FakeController controllerOne = (FakeController) registrar.getRegistered(FakeController.class);
+        FakeController controllerTwo = (FakeController) registrar.getRegistered(FakeController.class);
 
         assertNotSame(controllerOne, controllerTwo);
     }
@@ -170,8 +173,8 @@ public class PicoRegistrarTest {
         registrar.registerNonCaching(key, type);
         assertTrue(registrar.isRegistered(type));
 
-        FakeController controllerOne = (FakeController) pico.getComponentInstance("foobar");
-        FakeController controllerTwo = (FakeController) pico.getComponentInstance("foobar");
+        FakeController controllerOne = (FakeController) registrar.getRegistered("foobar");
+        FakeController controllerTwo = (FakeController) registrar.getRegistered("foobar");
 
         assertNotSame(controllerOne, controllerTwo);
     }
@@ -183,10 +186,10 @@ public class PicoRegistrarTest {
         ConstructorInjectionComponentAdapter componentAdapter
                 = new ConstructorInjectionComponentAdapter("a", FakeController.class);
 
-        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
-        picoRegistrar.registerComponentAdapter(componentAdapter);
+        PicoRegistrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
+        registrar.registerComponentAdapter(componentAdapter);
 
-        FakeController controllerOne = (FakeController) pico.getComponentInstance("a");
+        FakeController controllerOne = (FakeController) registrar.getRegistered("a");
         FakeController controllerTwo = (FakeController) pico.getComponentInstanceOfType(FakeController.class);
 
         assertNotSame(controllerOne, controllerTwo);
@@ -196,9 +199,9 @@ public class PicoRegistrarTest {
     public void canSwitchInjectionType() {
         FakeBean fakeBean = new FakeBean();
         MutablePicoContainer pico = new DefaultPicoContainer();
-        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
+        PicoRegistrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
 
-        picoRegistrar.registerInstance(fakeBean)
+        registrar.registerInstance(fakeBean)
                 .register(ConstructorInjectionComponent.class)
                 .useInjection(Registrar.Injection.SETTER)
                 .register(SetterInjectionComponent.class);
@@ -215,11 +218,11 @@ public class PicoRegistrarTest {
     public void canRegisterComponentWithConstantParameters() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         ParameterResolver parameterResolver = new DefaultParameterResolver(null);
-        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor());
+        PicoRegistrar registrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor());
 
-        picoRegistrar.register("component", ComponentWithParameterDependencies.class, "foo", "bar");
+        registrar.register("component", ComponentWithParameterDependencies.class, "foo", "bar");
 
-        ComponentWithParameterDependencies component = (ComponentWithParameterDependencies) pico.getComponentInstance("component");
+        ComponentWithParameterDependencies component = (ComponentWithParameterDependencies) registrar.getRegistered("component");
 
         // ensure both constructed correctly
         assertSame("foo", component.getValueOne());
@@ -230,16 +233,76 @@ public class PicoRegistrarTest {
     public void canRegisterComponentWithNamedDependency() {
         MutablePicoContainer pico = new DefaultPicoContainer();
         ParameterResolver parameterResolver = new DefaultParameterResolver(null);
-        PicoRegistrar picoRegistrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor());
+        PicoRegistrar registrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor());
 
-        picoRegistrar.registerInstance("one", "foo")
+        registrar.registerInstance("one", "foo")
                 .registerInstance("two", "bar")
                 .register("component", ComponentWithParameterDependencies.class, new ComponentReference("one"), new ComponentReference("two"));
 
-        ComponentWithParameterDependencies component = (ComponentWithParameterDependencies) pico.getComponentInstance("component");
+        ComponentWithParameterDependencies component = (ComponentWithParameterDependencies) registrar.getRegistered("component");
 
         // ensure both constructed correctly
         assertSame("foo", component.getValueOne());
         assertSame("bar", component.getValueTwo());
+    }
+
+    @Test(expected=RegistrarException.class)
+    public void cannotGetRegistedComponentWithUnknownKey() {
+
+        MutablePicoContainer pico = new DefaultPicoContainer();
+
+        // Mock RegistrarMonitor
+        final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
+        final Class<?> type = FakeController.class;
+        mockery.checking(new Expectations() {
+            {
+                one(registrarMonitor).componentRegistered(type, type, new Object[]{});
+            }
+        });
+
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor)
+                .register(type);
+        assertTrue(registrar.isRegistered(type));
+        assertFalse(registrar.isRegistered("unknownKey"));
+        registrar.getRegistered("unknownKey");
+    }
+
+    @Test(expected=RegistrarException.class)
+    public void cannotGetRegistedComponentThatHasNotBeenRegistered() {
+
+        MutablePicoContainer pico = new DefaultPicoContainer();
+
+        // Mock RegistrarMonitor
+        final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
+        final Class<?> type = FakeController.class;
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
+        assertFalse(registrar.isRegistered(type));
+        registrar.getRegistered(type);
+    }
+
+    @Test(expected=RegistrarException.class)
+    public void cannotGetRegistedComponentThatHasMultipleInstancesRegistered() {
+
+        MutablePicoContainer pico = new DefaultPicoContainer();
+
+        // Mock RegistrarMonitor
+        final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
+        final Class<?> type = FakeController.class;
+        final Class<?> subType = SubFakeController.class;
+        mockery.checking(new Expectations() {
+            {
+                one(registrarMonitor).componentRegistered(type, type, new Object[]{});
+                one(registrarMonitor).componentRegistered(subType, subType, new Object[]{});
+            }
+        });
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
+        registrar.register(type);
+        registrar.register(subType);
+        assertTrue(registrar.isRegistered(type));
+        registrar.getRegistered(type);
+    }
+
+    public static final class SubFakeController extends FakeController {
+        
     }
 }
