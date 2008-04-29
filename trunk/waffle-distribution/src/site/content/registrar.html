@@ -10,8 +10,9 @@ ActionMethods work in Waffle and it has been mentioned that no custom
 XML configuration files are needed. So how does everything get wired up?
 <b>With a simple java class called a Registrar.</b></p>
 <p>In order to register Controllers (and other components Controllers
-may have dependencies on) we are required to extend the <i>AbstractRegistrar</i>
-class. A Registrar class is used to register Waffle Actions and dependant components at various scopes.</p>
+may have dependencies on) we are required to extend the <i><a href="javadoc/core/org/codehaus/waffle/registrar/AbstractRegistrar.html">
+org.codehaus.waffle.registrar.AbstractRegistrar</a></i> class. 
+A Registrar class is used to register Waffle Actions and dependant components at various scopes.</p>
 
 <textarea class="java:nogutter:nocontrols" name="code">  public class CustomRegistrar extends AbstractRegistrar {
     public CustomRegistrar(Registrar delegate) {
@@ -96,6 +97,13 @@ similar to:</p>
     }
   }
 </textarea>
+
+<dl>
+  <dt>NOTE:</dt>
+  <dd>AbstractRegistrar also exposes to concrete registrar implementations a method to retrieve Waffle's ComponentRegistry.
+This can be useful in usecases in which a custom component (registered via the <code>web.xml</code>) needs to be accessed to configure
+the user business logic.</dd>
+</dl>
 
 <p>Components registered to the Application context level are shared
 across all users. Session level components are shared for a user across
@@ -188,6 +196,11 @@ but rather a new instance of that component each time.</p>
     <tr class="b">
       <td align="left"><b>boolean isRegistered(Object typeOrInstance)</b></td>
       <td align="left">Determines if a component is already registered for a given type or instance</td>
+    </tr>
+    <tr class="b">
+      <td align="left"><b>Object getRegistered(Object typeOrInstance)</b></td>
+      <td align="left">Returns a registered component for a given type or instance.  Note that is throws a RegistrarException
+      if the component is not registered or if more than one is registered for the same type.</td>
     </tr>
     <tr class="b">
       <td align="left"><b>void register(Class componentClass, Object... parameters)</b></td>
