@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.bind.converters.DateValueConverter;
+import org.codehaus.waffle.example.freemarker.controller.DateProvider;
 import org.codehaus.waffle.example.freemarker.controller.PersonController;
 import org.codehaus.waffle.example.freemarker.persister.SimplePersonPersister;
 import org.codehaus.waffle.registrar.AbstractRegistrar;
@@ -21,15 +22,15 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
     @Override
     public void application() {
         ComponentRegistry registry = getComponentRegistry();
+        DateProvider dateProvider = new DateProvider("dd/MM/yyyy", "hh:mm:ss", "dd/MM/yyyy");
         DateValueConverter converter = (DateValueConverter) registry.locateByType(DateValueConverter.class);
         if (converter != null) {
-            System.out.println("Default DateValueConverter patterns: " + converter.getPatterns());
             Properties patterns = new Properties();
-            patterns.setProperty(DAY_FORMAT_KEY, "dd/MM/yyyy");
-            patterns.setProperty(TIME_FORMAT_KEY, "hh:mm:ss");
+            patterns.setProperty(DAY_FORMAT_KEY, dateProvider.getDayPattern());
+            patterns.setProperty(TIME_FORMAT_KEY, dateProvider.getTimePattern());
             converter.changePatterns(patterns);
-            System.out.println("Updated DateValueConverter patterns: " + converter.getPatterns());
         }
+        registerInstance(dateProvider);
         register(SimplePersonPersister.class);
     }
 

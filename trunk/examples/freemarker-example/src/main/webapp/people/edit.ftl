@@ -25,7 +25,8 @@
         <p class="fieldRow">
             <label for="person.dateOfBirth">Date Of Birth:</label>
             <#if person.dateOfBirth??>
-                <@w.text "person.dateOfBirth" "${person.dateOfBirth?string('dd-MM-yyyy')}"/>
+                <#assign defaultPattern=controller.dateProvider.defaultPattern>
+                <@w.text "person.dateOfBirth" "${person.dateOfBirth?string(defaultPattern)}"/>
             <#else>
                 <@w.text "person.dateOfBirth" ""/>
             </#if> 
@@ -33,7 +34,8 @@
         <p class="fieldRow">
             <label for="person.birthDay">Birth Day:</label>
             <#if person.birthDay??>
-                <@w.text "person.birthDay" "${person.birthDay?string('dd')}"/>
+                <#assign dayPattern=controller.dateProvider.dayPattern>
+                <@w.text "person.birthDay" "${person.birthDay?string(dayPattern)}"/>
             <#else>
                 <@w.text "person.birthDay" ""/>
             </#if> 
@@ -41,7 +43,8 @@
         <p class="fieldRow">
             <label for="person.birthTime">Birth Time:</label>
             <#if person.birthTime??>
-                <@w.text "person.birthTime" "${person.birthTime?string('HH:mm:ss')}"/>
+                <#assign timePattern=controller.dateProvider.timePattern>
+                <@w.text "person.birthTime" "${person.birthTime?string(timePattern)}"/>
             <#else>
                 <@w.text "person.birthTime" ""/>
             </#if> 

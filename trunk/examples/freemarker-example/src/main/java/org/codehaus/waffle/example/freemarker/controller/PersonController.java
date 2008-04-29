@@ -15,23 +15,29 @@ import org.codehaus.waffle.view.View;
 @SuppressWarnings("serial")
 public class PersonController implements Serializable {
     private final PersonPersister persister;
+    private final DateProvider dateProvider;
     private Person person;
     private List<Long> selectedIds = new ArrayList<Long>();
     private List<String> skills = Arrays.asList("Magician", "Apprentice");
-    
-    public PersonController(PersonPersister persister) {
+
+    public PersonController(PersonPersister persister, DateProvider dateProvider) {
         this.persister = persister;
+        this.dateProvider = dateProvider;
+    }
+
+    public DateProvider getDateProvider() {
+        return dateProvider;
     }
 
     public Collection<Person> getPeople() {
         return persister.findAll();
     }
 
-    public List<Long> getSelectedIds(){
+    public List<Long> getSelectedIds() {
         return selectedIds;
     }
-    
-    public void setSelectedIds(List<Long> ids){
+
+    public void setSelectedIds(List<Long> ids) {
         selectedIds = ids;
     }
 
@@ -54,7 +60,7 @@ public class PersonController implements Serializable {
     public List<String> getSkills() {
         return skills;
     }
-    
+
     public void remove(Long personId) {
         persister.delete(personId);
     }
@@ -64,13 +70,13 @@ public class PersonController implements Serializable {
     }
 
     public void show() {
-        //do nothing:  the selected Ids and people are automatically populated
+        // do nothing: the selected Ids and people are automatically populated
     }
-    
+
     public void save() {
         persister.save(person);
     }
-    
+
     public void create() {
         person = new PersistablePerson();
     }
@@ -82,7 +88,7 @@ public class PersonController implements Serializable {
     public View export() {
         StringBuffer sb = new StringBuffer();
         sb.append("Id,First Name,Last Name,Date of Birth\n");
-        for ( Person person : getSelectedPeople() ){
+        for (Person person : getSelectedPeople()) {
             sb.append(person.getId());
             sb.append(",");
             sb.append(person.getFirstName());
