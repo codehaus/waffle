@@ -79,13 +79,15 @@ public class DateValueConverterTest {
 
     @Test
     public void canConvertWithDateFormatsConfiguredViaProperties() {
+        DateValueConverter converter = new DateValueConverter(new DefaultMessageResources());
+        assertTrue(converter.getPatterns().isEmpty());
         Properties patterns = new Properties();
         patterns.setProperty(DATE_FORMAT_KEY, "dd-MM-yyyy");
         patterns.setProperty(DAY_FORMAT_KEY, "dd");
         patterns.setProperty(TIME_FORMAT_KEY, "HH:mm:ss");
         patterns.setProperty(DAY_NAME_KEY, "day.*");
         patterns.setProperty(TIME_NAME_KEY, "time.*");
-        DateValueConverter converter = new DateValueConverter(new DefaultMessageResources(), patterns);
+        converter.changePatterns(patterns);
         assertDateFormattable("04-03-2008", "dd-MM-yyyy", converter.convertValue("property-name", "04-03-2008",
                 Date.class));
         assertDateFormattable("04", "dd", converter.convertValue("day-property", "04", Date.class));
