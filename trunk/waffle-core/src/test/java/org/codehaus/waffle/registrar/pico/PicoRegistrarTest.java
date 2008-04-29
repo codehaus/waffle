@@ -11,13 +11,18 @@
 package org.codehaus.waffle.registrar.pico;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import javax.servlet.ServletContext;
+
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
+import org.codehaus.waffle.registrar.AbstractRegistrar;
 import org.codehaus.waffle.registrar.ComponentReference;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarException;
@@ -245,7 +250,38 @@ public class PicoRegistrarTest {
 
         assertNotSame(controllerOne, controllerTwo);
     }
+    
 
+    @Test
+    public void canGetComponentRegistryFromDecorator() {
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
+        final ComponentRegistry componentRegistry = mockery.mock(ComponentRegistry.class);
+        mockery.checking(new Expectations(){{
+            one(servletContext).getAttribute(ComponentRegistry.class.getName());
+            will(returnValue(componentRegistry));
+        }});
+        
+        MutablePicoContainer pico = new DefaultPicoContainer();
+        pico.registerComponentInstance(servletContext);
+        PicoRegistrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
+        DecoratorRegistrar decorator = new DecoratorRegistrar(registrar);
+        decorator.application();
+        assertNotNull(decorator.registry);
+        
+    }
+
+    static class DecoratorRegistrar extends AbstractRegistrar {
+        private ComponentRegistry registry;
+
+        public DecoratorRegistrar(Registrar delegate) {
+            super(delegate);
+        }
+
+        public void application(){
+            registry = getComponentRegistry();
+        }
+        
+    }
     @Test(expected=RegistrarException.class)
     public void cannotGetRegistedComponentWithUnknownKey() {
 
