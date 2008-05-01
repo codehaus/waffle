@@ -48,7 +48,7 @@ public class DateValueConverterTest {
 
     @Test
     public void canAccept() {
-        DateValueConverter converter = new DateValueConverter(new DefaultMessageResources());
+        AbstractValueConverter converter = new DateValueConverter(new DefaultMessageResources());
         assertTrue(converter.accept(Date.class));
         assertTrue(converter.accept(java.sql.Date.class));
         assertFalse(converter.accept(Object.class));
@@ -56,7 +56,7 @@ public class DateValueConverterTest {
 
     @Test
     public void canConvertWithDefaultDateFormats() {
-        DateValueConverter converter = new DateValueConverter(new DefaultMessageResources());
+        AbstractValueConverter converter = new DateValueConverter(new DefaultMessageResources());
         assertDateFormattable("04/03/2008", DEFAULT_DATE_FORMAT, converter.convertValue("property-name", "04/03/2008",
                 Date.class));
         assertDateFormattable("04/03/2008", DEFAULT_DAY_FORMAT, converter.convertValue("propertyDay", "04/03/2008",
@@ -68,7 +68,7 @@ public class DateValueConverterTest {
     @Test
     public void canConvertWithDateFormatsConfiguredViaMessageResource() {
         DefaultMessageResources resources = new DefaultMessageResources(configuration);
-        DateValueConverter converter = new DateValueConverter(resources);
+        AbstractValueConverter converter = new DateValueConverter(resources);
         assertDateFormattable("04-03-2008", resources.getMessage(DATE_FORMAT_KEY), converter.convertValue(
                 "property-name", "04-03-2008", Date.class));
         assertDateFormattable("04", resources.getMessage(DAY_FORMAT_KEY), converter.convertValue("day-property", "04",
@@ -101,7 +101,7 @@ public class DateValueConverterTest {
     @Test
     public void canHandleMissingValues() {
         DefaultMessageResources resources = new DefaultMessageResources(configuration);
-        DateValueConverter converter = new DateValueConverter(resources);
+        AbstractValueConverter converter = new DateValueConverter(resources);
         assertNull(converter.convertValue("property-name", null, Date.class));
         assertNull(converter.convertValue("property-name", "", Date.class));
         assertNull(converter.convertValue("property-name", " ", Date.class));
@@ -110,7 +110,7 @@ public class DateValueConverterTest {
     @Test
     public void canFailConversionWithCustomErrorMessages() {
         DefaultMessageResources resources = new DefaultMessageResources(configuration);
-        DateValueConverter converter = new DateValueConverter(resources);
+        AbstractValueConverter converter = new DateValueConverter(resources);
         try {
             converter.convertValue("property-name", "bad-value", Date.class);
             fail("Expected BindException");
@@ -118,7 +118,7 @@ public class DateValueConverterTest {
             assertEquals(format(resources.getMessage(BIND_ERROR_DATE_KEY), "property-name", "bad-value", resources
                     .getMessage(DATE_FORMAT_KEY)), e.getMessage());
         }
-        DateValueConverter strictConverter = new DateValueConverter(resources) {
+        AbstractValueConverter strictConverter = new DateValueConverter(resources) {
             @Override
             protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
                 throw newBindException(key, defaultMessage, parameters);
@@ -134,7 +134,7 @@ public class DateValueConverterTest {
 
     @Test
     public void canFailConversionWithDefaultErrorMessages() {
-        DateValueConverter converter = new DateValueConverter(new DefaultMessageResources());
+        AbstractValueConverter converter = new DateValueConverter(new DefaultMessageResources());
         try {
             converter.convertValue("property-name", "bad-value", Date.class);
             fail("Expected BindException");
@@ -142,7 +142,7 @@ public class DateValueConverterTest {
             assertEquals(format(DEFAULT_DATE_MESSAGE, "property-name", "bad-value", DEFAULT_DATE_FORMAT), e
                     .getMessage());
         }
-        DateValueConverter strictConverter = new DateValueConverter(new DefaultMessageResources()) {
+        AbstractValueConverter strictConverter = new DateValueConverter(new DefaultMessageResources()) {
             @Override
             protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
                 throw newBindException(key, defaultMessage, parameters);

@@ -114,35 +114,24 @@ public class DateValueConverter extends AbstractValueConverter {
         String pattern = null;
         switch (dateType) {
             case DAY:
-                pattern = patternFor(DAY_FORMAT_KEY, DEFAULT_DAY_FORMAT);
+                pattern = patternFor(patterns, DAY_FORMAT_KEY, DEFAULT_DAY_FORMAT);
                 break;
             case TIME:
-                pattern = patternFor(TIME_FORMAT_KEY, DEFAULT_TIME_FORMAT);
+                pattern = patternFor(patterns, TIME_FORMAT_KEY, DEFAULT_TIME_FORMAT);
                 break;
             default:
-                pattern = patternFor(DATE_FORMAT_KEY, DEFAULT_DATE_FORMAT);
+                pattern = patternFor(patterns, DATE_FORMAT_KEY, DEFAULT_DATE_FORMAT);
         }
         return new SimpleDateFormat(pattern);
     }
 
     private DateType dateType(String propertyName) {
-        if (matches(propertyName, patternFor(DAY_NAME_KEY , DEFAULT_DAY_NAME))) {
+        if (matches(propertyName, patternFor(patterns , DAY_NAME_KEY, DEFAULT_DAY_NAME))) {
             return DateType.DAY;
-        } else if (matches(propertyName, patternFor(TIME_NAME_KEY , DEFAULT_TIME_NAME))) {
+        } else if (matches(propertyName, patternFor(patterns , TIME_NAME_KEY, DEFAULT_TIME_NAME))) {
             return DateType.TIME;
         }
         return DateType.DATE;
-    }
-
-    private boolean matches(String propertyName, String regex) {
-        return propertyName != null && propertyName.matches(regex);
-    }
-
-    private String patternFor(String key, String defaultPattern) {
-        if ( patterns.containsKey(key)) {
-            return patterns.getProperty(key);
-        }
-        return messageFor(key, defaultPattern);
     }
     
 }

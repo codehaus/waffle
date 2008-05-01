@@ -16,36 +16,53 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.codehaus.waffle.i18n.MessageResources;
 
 /**
+ * <p>
  * <code>ValueConverter</code> that converts a CSV value to a List. A <code>null</code> or empty value (once
  * trimmed) will be returned as <code>null</code> (behaviour which can be overridden via the
  * {@link convertMissingValue()} method). The message keys and default values used are:
  * <ul>
  * <li>"bind.error.list" ({@link #BIND_ERROR_LIST_KEY}): list is <code>null</code> or empty (message defaults to
  * {@link #DEFAULT_LIST_MESSAGE})</li>
+ * <li>"list.number.pattern" ({@link #NUMBER_PATTERN_KEY}): pattern to use to identify the list as parseable numbers
+ * (defaults to {@link #DEFAULT_NUMBER_PATTERN})</li>
  * </ul>
- * The converter first attempts to parse the values as numbers (using the <code>NumberFormat</code> instance provided,
- * which defaults to <code>NumberFormat.getInstance()</code>) and if not successful returns the string values.
+ * The patterns are also optionally injectable via <code>Properties</code> in the constructor and take precedence over
+ * the ones configured in the messages resources.
+ * </p>
+ * <p>
+ * NOTE: the converter will first check if the values match the configured number regex pattern and only if it does will
+ * it attempt to parse them (using the <code>NumberFormat</code> instance provided, which defaults to
+ * <code>NumberFormat.getInstance()</code>) and if not successful returns the string values. The reason for the
+ * presence of the preliminary number pattern matching is to disable the attempt of number parsing altogether for some
+ * string values that may start with number and may be erronously parsed as numbers.
+ * </p>
  * 
  * @author Mauro Talevi
  */
 public class ListValueConverter extends AbstractValueConverter {
 
-    static final String BIND_ERROR_LIST_KEY = "bind.error.list";
-    static final String DEFAULT_LIST_MESSAGE = "Invalid list value for field {0}";
+    public static final String BIND_ERROR_LIST_KEY = "bind.error.list";
+    public static final String DEFAULT_LIST_MESSAGE = "Invalid list value for field {0}";
+    public static final String NUMBER_PATTERN_KEY = "list.number.pattern";
+    public static final String DEFAULT_NUMBER_PATTERN = "[0-9.-]*";
+    
     private static final String COMMA = ",";
     private NumberFormat numberFormat;
+    private Properties patterns;
 
     public ListValueConverter(MessageResources messageResources) {
-        this(messageResources, NumberFormat.getInstance());
+        this(messageResources, NumberFormat.getInstance(), new Properties());
     }
 
-    public ListValueConverter(MessageResources messageResources, NumberFormat numberFormat) {
+    public ListValueConverter(MessageResources messageResources, NumberFormat numberFormat, Properties patterns) {
         super(messageResources);
         this.numberFormat = numberFormat;
+        this.patterns = patterns;
     }
 
     public boolean accept(Class<?> type) {
@@ -61,7 +78,7 @@ public class ListValueConverter extends AbstractValueConverter {
         }
 
         List<String> values = asList(value.split(COMMA));
-        if (values.size() != 0) {
+        if (areNumbers(values)) {
             try {
                 return (T) toNumbers(values);
             } catch (ParseException e) {
@@ -71,12 +88,32 @@ public class ListValueConverter extends AbstractValueConverter {
         return (T) values;
     }
 
-    private List<Number> toNumbers(List<String> values) throws ParseException {
-        List<Number> list = new ArrayList<Number>();
-        for (String value : values) {
-            list.add(numberFormat.parse(value));
+    public Properties getPatterns() {
+        return patterns;
+    }
+
+    public void changePatterns(Properties patterns) {
+        this.patterns = patterns;
+    }
+    
+    protected boolean areNumbers(List<String> values) {
+        if (values.size() == 0) {
+            return false; // return empty list
         }
-        return list;
+        for (String value : values) {
+            if (!matches(value, patternFor(patterns, NUMBER_PATTERN_KEY, DEFAULT_NUMBER_PATTERN))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    protected List<Number> toNumbers(List<String> values) throws ParseException {
+        List<Number> numbers = new ArrayList<Number>();
+        for (String value : values) {
+            numbers.add(numberFormat.parse(value));
+        }
+        return numbers;
     }
 
 }
