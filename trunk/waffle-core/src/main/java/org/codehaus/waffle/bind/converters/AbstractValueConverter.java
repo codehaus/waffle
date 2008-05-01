@@ -10,6 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
+import java.util.Properties;
+
 import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.i18n.MessageResources;
@@ -57,5 +59,16 @@ public abstract class AbstractValueConverter implements ValueConverter {
 
     protected String messageFor(String key, String defaultMessage, Object... parameters) {
         return messageResources.getMessageWithDefault(key, defaultMessage, parameters);
+    }
+
+    protected boolean matches(String value, String regex) {
+        return value != null && value.matches(regex);
+    }
+
+    protected String patternFor(Properties patterns, String key, String defaultPattern) {
+        if ( patterns.containsKey(key)) {
+            return patterns.getProperty(key);
+        }
+        return messageFor(key, defaultPattern);
     }
 }
