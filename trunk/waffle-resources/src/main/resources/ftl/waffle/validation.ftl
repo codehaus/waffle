@@ -34,7 +34,7 @@
 <#macro listAsUl values attributes="">
 <ul ${attributes}>
 <#list values as value>    
-    <li>${value}</li>
+    <#if value??><li>${value}</li></#if>
 </#list>
 </ul>
 </#macro>
