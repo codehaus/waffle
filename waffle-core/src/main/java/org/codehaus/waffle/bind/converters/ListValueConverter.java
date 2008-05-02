@@ -100,8 +100,9 @@ public class ListValueConverter extends AbstractValueConverter {
         if (values.size() == 0) {
             return false; // return empty list
         }
+        String numberPattern = patternFor(patterns, NUMBER_PATTERN_KEY, DEFAULT_NUMBER_PATTERN);
         for (String value : values) {
-            if (!matches(value, patternFor(patterns, NUMBER_PATTERN_KEY, DEFAULT_NUMBER_PATTERN))) {
+            if (!matches(value, numberPattern)) {
                 return false;
             }
         }
