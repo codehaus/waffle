@@ -133,14 +133,14 @@
     <attribute>
       <name>name</name>
       <required>true</required>
-      <rtexprvalue>false</rtexprvalue>
+      <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
       <description>The input field name</description>
     </attribute>
     <attribute>
       <name>pattern</name>
       <required>true</required>
-      <rtexprvalue>false</rtexprvalue>
+      <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
       <description>The date pattern</description>
     </attribute>
@@ -169,14 +169,14 @@
     <attribute>
       <name>name</name>
       <required>true</required>
-      <rtexprvalue>false</rtexprvalue>
+      <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
       <description>Name of the field.</description>
     </attribute>
     <attribute>
       <name>timeStyle</name>
       <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
+      <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
       <description>
         Options: default (Date.DEFAULT), medium (Date.MEDIUM), short (Date.SHORT), long (Date.LONG).
@@ -185,7 +185,7 @@
     <attribute>
       <name>pattern</name>
       <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
+      <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
       <description>The date format pattern.</description>
     </attribute>
@@ -215,14 +215,14 @@
     <attribute>
       <name>name</name>
       <required>true</required>
-      <rtexprvalue>false</rtexprvalue>
+      <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
       <description>Name of the field.</description>
     </attribute>
     <attribute>
       <name>dateStyle</name>
       <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
+      <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
       <description>
         Options: default (Date.DEFAULT),medium (Date.MEDIUM), short (Date.SHORT), long (Date.LONG).
@@ -231,7 +231,7 @@
     <attribute>
       <name>pattern</name>
       <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
+      <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
       <description>date format</description>
     </attribute>
@@ -268,7 +268,7 @@
     <attribute>
       <name>pattern</name>
       <required>false</required>
-      <rtexprvalue>false</rtexprvalue>
+      <rtexprvalue>true</rtexprvalue>
       <type>java.lang.String</type>
       <description>number format pattern</description>
     </attribute>
@@ -700,3 +700,4 @@
   </tag>
 
 </taglib>
+
