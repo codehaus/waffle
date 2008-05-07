@@ -41,7 +41,7 @@
 </#macro>
 
 <#--
- * Show a checkbox input element with a given value
+ * Writes a checkbox input element with a given value
  *
  * @param field the name of the field to bind the element to 
  * @param value the value 
@@ -52,7 +52,18 @@
 </#macro>
 
 <#--
- * Show a radio input element with a given value
+ * Writes a hidden input element with a given value
+ *
+ * @param field the name of the field to bind the element to 
+ * @param value the value
+ * @param attributes any additional attributes for the element (defaults to "")
+-->
+<#macro hidden field value attributes="">
+    <input type="hidden" id="${field}" name="${field}" value="${value}" ${attributes}/>
+</#macro>
+
+<#--
+ * Writes a radio input element with a given value
  *
  * @param field the name of the field to bind the element to 
  * @param value the value 
@@ -63,7 +74,7 @@
 </#macro>
 
 <#--
- * Show a text input element with a given value
+ * Writes a text input element with a given value
  *
  * @param field the name of the field to bind the element to 
  * @param value the value
@@ -74,7 +85,7 @@
 </#macro>
 
 <#--
- * Show a text input element with a given values as CSV
+ * Writes a text input element with a given values as CSV
  *
  * @param field the name of the field to bind the element to 
  * @param values the values
@@ -86,7 +97,7 @@
 </#macro>
 
 <#--
- * Show a select input element allowing a value to be chosen from a list of options.
+ * Writes a select input element allowing a value to be chosen from a list of options.
  *
  * @param field the name of the field to bind the element to 
  * @param options a sequence of available options
@@ -102,7 +113,7 @@
 </#macro>
 
 <#--
- * Show a select input element allowing a multiple values to be chosen from a list of options.
+ * Writes a select input element allowing a multiple values to be chosen from a list of options.
  *
  * @param field the name of the field to bind the element to 
  * @param options a sequence of available options
