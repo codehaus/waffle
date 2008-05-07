@@ -51,6 +51,7 @@
         </p>
         <p class="fieldRow">
             <label for="person.skills">Skills:</label>
+            <@w.hidden "person.skills" ""/>
             <@w.selectMultiple "person.skills" controller.getSkills() person.getSkills() "size='5'"/>
         </p>
         <p class="fieldRow">

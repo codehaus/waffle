@@ -2,7 +2,6 @@ package org.codehaus.waffle.bind.ognl;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 
 import java.util.List;
@@ -44,7 +43,7 @@ public class DelegatingTypeConverterTest {
         final ValueConverter valueConverter = new ListValueConverter(new DefaultMessageResources());
         DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
         assertEquals(asList("one","two"), converter.convertValue("propertyName", "one,two", List.class));
-        assertNull(converter.convertValue("propertyName", "", List.class));
+        assertEquals(asList(), converter.convertValue("propertyName", "", List.class));
     }
         
     @Test
