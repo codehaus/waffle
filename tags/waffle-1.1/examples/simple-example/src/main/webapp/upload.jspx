@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:jsp="http://java.sun.com/JSP/Page"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:fmt="http://java.sun.com/jsp/jstl/fmt">
+
+<jsp:output doctype-root-element="html"
+            doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+            doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+<jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+<head>
+    <title>Select a file to upload</title>
+    <style type="text/css" title="currentStyle" media="screen">
+        @import "stylesheets/style.css";
+    </style>
+    <script src="js/waffle/action.js" type="text/javascript">
+        // keep this space
+    </script>
+</head>
+
+<body>
+<form action="upload.waffle">
+
+    <h3>Waffle file upload</h3>
+
+    <input type="text" name="comment" value=""/> - enter a comment
+    <br/>
+
+    <input type="file" name="importFile"/>
+    <br/>
+    
+    <a href="javascript:fireMultipartActionMethod('upload');">Upload File</a>
+    <br/>
+
+     <table>
+        <th colspan="2">Files uploaded</th>
+        <c:forEach var="file" items="${files}" varStatus="status">
+            <tr class="${status.index % 2 eq 0 ? 'even' : 'odd'}">
+                <td>${file.fieldName}(${file.name})</td>
+                <td>${file.string}</td>
+            </tr>
+        </c:forEach>
+     </table>
+
+     <table>
+        <th colspan="2">Form fields</th>
+        <c:forEach var="field" items="${formFields}" varStatus="status">
+            <tr class="${status.index % 2 eq 0 ? 'even' : 'odd'}">
+                <td>${field.fieldName}</td>
+                <td>${field.string}</td>
+            </tr>
+        </c:forEach>
+     </table>
+     
+</form>
+</body>
+
+</html>

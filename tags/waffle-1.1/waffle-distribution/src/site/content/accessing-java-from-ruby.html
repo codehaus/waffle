@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type" /><title>Accessing Java from Ruby</title>
+
+</head>
+<body>
+<h2>Access your Java components from Ruby Actions.</h2>
+Here we examine Ruby based controllers, and the invoking of Java
+functionaility from them. Consider:<br />
+<textarea class="java:nogutter:nocontrols" name="code">
+public class MyRegistrar extends AbstractRubyAwareRegistrar {
+  public MyRegistrar(Registrar delegate) {
+    super(delegate);
+  }
+
+  @Override
+  public void application() {
+    register("person_dao", PersonDAOImpl.class);
+    registerRubyScript("person", "PersonController");
+  }
+}</textarea>
+A
+DAO, PersonDAOImpl, is registered under the name "person_dao" and we
+have
+one Ruby based controller available. Now its probably safe to assume
+that this Ruby PersonController will need access to that DAO object.
+Gaining
+access to this DAO from the controller is easy in Waffle, just call the
+locate method:<br />
+<textarea class="ruby:nogutter:nocontrols" name="code">
+class PersonController
+  def index
+    @person_dao = locate(example.PersonDAO)
+    @people = @person_dao.findAll
+    render 'person.rhtml'
+  end
+end</textarea>
+Notice
+that we were able to retrieve the DAO by its interface. Additionally,
+since this DAO was registered with a key you can use a convention to
+retrieve the component. The convention is "locate_&lt;component
+key&gt;", here is the same controller using the locate_ convention:<br />
+<textarea class="ruby:nogutter:nocontrols" name="code">class
+PersonController
+  def index
+    @person_dao = locate_person_dao
+    @people = @person_dao.findAll
+    render 'person.rhtml'
+  end
+end</textarea>
+As
+you can see this makes writing Ruby based Controllers/Actions with
+Waffle really easy. In my next post I'll detail how to access request
+parameter and context attributes with ease.
+</body></html>

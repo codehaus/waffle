@@ -1,0 +1,31 @@
+format version 1.0
+org.codehaus.waffle.example.freemarker.MyRegistrar MyRegistrar delegate org.codehaus.waffle.registrar.Registrar 
+org.codehaus.waffle.example.freemarker.MyRegistrar application 
+org.codehaus.waffle.example.freemarker.MyRegistrar session 
+org.codehaus.waffle.example.freemarker.action.PersonController PersonController personDAO org.codehaus.waffle.example.freemarker.dao.PersonDAO 
+org.codehaus.waffle.example.freemarker.action.PersonController getPeople 
+org.codehaus.waffle.example.freemarker.action.PersonController getPerson 
+org.codehaus.waffle.example.freemarker.action.PersonController cancel 
+org.codehaus.waffle.example.freemarker.action.PersonController create 
+org.codehaus.waffle.example.freemarker.action.PersonController remove personId java.lang.Long 
+org.codehaus.waffle.example.freemarker.action.PersonController save 
+org.codehaus.waffle.example.freemarker.action.PersonController select id java.lang.Long 
+org.codehaus.waffle.example.freemarker.action.PersonController setPerson person org.codehaus.waffle.example.freemarker.model.Person 
+org.codehaus.waffle.example.freemarker.dao.SimplePersonDAO SimplePersonDAO 
+org.codehaus.waffle.example.freemarker.dao.SimplePersonDAO findAll 
+org.codehaus.waffle.example.freemarker.dao.SimplePersonDAO findById personId java.lang.Long 
+org.codehaus.waffle.example.freemarker.dao.SimplePersonDAO delete personId java.lang.Long 
+org.codehaus.waffle.example.freemarker.dao.SimplePersonDAO save person org.codehaus.waffle.example.freemarker.model.Person 
+org.codehaus.waffle.example.freemarker.model.Person Person 
+org.codehaus.waffle.example.freemarker.model.Person Person person org.codehaus.waffle.example.freemarker.model.Person 
+org.codehaus.waffle.example.freemarker.model.Person getId 
+org.codehaus.waffle.example.freemarker.model.Person getEmail 
+org.codehaus.waffle.example.freemarker.model.Person getFirstName 
+org.codehaus.waffle.example.freemarker.model.Person getLastName 
+org.codehaus.waffle.example.freemarker.model.Person getDateOfBirth 
+org.codehaus.waffle.example.freemarker.model.Person setDateOfBirth dateOfBirth java.util.Date 
+org.codehaus.waffle.example.freemarker.model.Person setEmail email java.lang.String 
+org.codehaus.waffle.example.freemarker.model.Person setFirstName firstName java.lang.String 
+org.codehaus.waffle.example.freemarker.model.Person setId id java.lang.Long 
+org.codehaus.waffle.example.freemarker.model.Person setLastName lastName java.lang.String 
+

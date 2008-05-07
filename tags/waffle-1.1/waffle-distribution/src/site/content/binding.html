@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+  <head>
+    <title>Binding</title>
+  </head>
+  <body>
+
+    <h2>Binding</h2>
+
+    <h3>Default Ognl-base binding</h3>
+    
+    <p>
+      By default all binding of fields to <b>Controllers</b> is handled by Ognl. Waffle's <i>OgnlDataBinder</i>
+      allows for the injection of a <i>ValueConverterFinder</i>, which by default is only configured to use
+      <i>OgnlValueConverter</i>, but can be customized to use any number of Waffle <code>ValueConverter</code>s.
+      The <i>OgnlValueConverter</i> allows fields of standard types (e.g. String, Number, primitives) to be 
+      bound to your controllers automatically. 
+    </p>
+
+    <p>
+      A common binding problem that many web application need to deal with is how to bind a String value to a Date
+      object. Of course each application and locale has it's own unique format. As an example we will build a class that
+      supports binding to a Date. From this example you'll gain an understanding of how to bind to any Class type.
+    </p>
+
+    <p>
+      Suppose we have the following Controller class <b>ControllerWithDateField</b> which has one field <b>startDate</b>
+      which is of course a <i>java.util.Date</i>:
+    </p>
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+      public class ControllerWithDateField {
+        private Date startDate;
+
+        public Date getStartDate() {
+          return startDate;
+        }
+
+        public void setStartDate(Date startDate) {
+          this.startDate = startDate;
+        }
+      }
+    </textarea>
+
+    <p>
+      You could imagine that the request to set this date field would be something similar to
+      <b>startDate=04-07-2006</b>. So inorder to bind this to the underlying Controller we will need to create a custom
+      class that will handle conversion for a specific type(s).
+    </p>
+
+
+    <h3>Custom binding using ValueConverters</h3>
+
+    <p>
+      Implementation of the <b>ValueConverter</b> interface is needed to handle these custom value conversions. This
+      interface defines two methods:
+    </p>
+
+    <table class="bodyTable">
+      <tbody>
+        <tr class="a">
+          <td align="left"><b>Method</b></td>
+          <td align="left"><b>Description</b></td>
+        </tr>
+        <tr class="b">
+          <td align="left">boolean accept(Class type)</td>
+          <td align="left">determine whether this implementation can
+          handle conversions for the class type passed.</td>
+        </tr>
+        <tr class="a">
+          <td align="left">Object convertValue(String propertyName, String
+          value, Class type)</td>
+          <td align="left">responsible for handling the conversion
+          (only called if implementation returned true from the <i>accept()</i>
+          method.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Nothing clarifies a description better than an example so lets look at the implementation Waffle provides for
+      handling Date types:
+    </p>
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+public class DateValueConverter implements ValueConverter {
+    static final String BIND_ERROR_DATE_KEY = "bind.error.date";
+    static final String BIND_ERROR_DATE_MISSING_KEY = "bind.error.date.missing";
+    static final String DATE_FORMAT_KEY = "date.format";
+    static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
+    static final String DEFAULT_DATE_MESSAGE = "Invalid date {1} (using format {2}) for field {0}";
+    static final String DEFAULT_DATE_MISSING_MESSAGE = "Missing date value for field {0}";
+    private final MessageResources messageResources;
+
+    public DateValueConverter(MessageResources messageResources) {
+        this.messageResources = messageResources;
+    }
+
+    public boolean accept(Class type) {
+        return Date.class.isAssignableFrom(type);
+    }
+
+    @SuppressWarnings({"unchecked"})
+    public <T> T convertValue(String propertyName, String value, Class<T> toType) {
+        String fieldName = messageResources.getMessageWithDefault(propertyName, propertyName);
+        if (value == null || value.trim().length() == 0) {
+            String message = messageResources.getMessageWithDefault(BIND_ERROR_DATE_MISSING_KEY, DEFAULT_DATE_MISSING_MESSAGE, fieldName);
+            throw new BindException(message);
+        }
+
+        String dateFormat = messageResources.getMessageWithDefault(DATE_FORMAT_KEY, DEFAULT_DATE_FORMAT);
+
+        try {
+            return (T) new SimpleDateFormat(dateFormat).parse(value);
+        } catch (ParseException e) {
+            String message = messageResources.getMessageWithDefault(BIND_ERROR_DATE_KEY, DEFAULT_DATE_MESSAGE, fieldName, value, dateFormat);
+            throw new BindException(message);
+        }
+    }
+
+}
+    </textarea>
+
+    <p>Now all that is left is to register this converter within the web.xml</p>
+
+    <textarea class="xml:nogutter:nocontrols" name="code">
+      <context-param>
+        <param-name>register:DateConverter</param-name>
+        <param-value>org.codehaus.waffle.bind.converters.DateValueConverter</param-value>
+      </context-param>
+    </textarea>
+
+   <h3>Waffle Custom ValueConverters</h3>
+
+    <p>
+      Waffle provides for the users' convenience custom <b>ValueConverter</b> for common types, such as Date or List.  These need 
+      to be registered in the web.xml and of course can be replaced with other custom implementations.
+    </p> 
+
+    <table class="bodyTable">
+      <tbody>
+        <tr class="a">
+          <td align="left"><b>ValueConverter</b></td>
+          <td align="left"><b>Description</b></td>
+        </tr>
+        <tr class="b">
+          <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/DateValueConverter.html">org.codehaus.waffle.bind.converters.DateValueConverter</a>
+          </td>
+          <td align="left">Converts date values with configurable date format and error messages.</td>
+        </tr>
+        <tr class="b">
+          <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/ListValueConverter.html">org.codehaus.waffle.bind.converters.ListValueConverter</a>
+          </td>
+          <td align="left">Converts CSV values with configurable error messages.  It attempts to parse values as numbers (using the injectable <code>NumberFormat</code> instance,
+              which defaults to <code>NumberFormat.getInstance()</code>) and if not successful returns list of string values.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      Note that by default these converters handle missing values (ie <code>null</code> or empty) by return a <code>null</code> converted value,  
+      The behaviour can be nonetheless overridden by extending the converters to throw a new <code>BindException</code> in the 
+      <code>convertMissingValue</code> method:
+
+    <textarea class="java:nogutter:nocontrols" name="code">
+public class StringDateValueConverter extends DateValueConverter {
+   public StrictDateValueConverter(MessageResources messageResources) {
+        super(messageResources);
+    }
+
+    @Override
+    protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
+        throw newBindException(key, defaultMessage, parameters);
+    }
+}
+    </textarea>
+    </p> 
+
+  </body>
+
+</html>

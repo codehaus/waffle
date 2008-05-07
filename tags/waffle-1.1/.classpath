@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="target-eclipse/classes" path="waffle-core/src/main/java"/>
+	<classpathentry kind="src" output="target-eclipse/test-classes" path="waffle-core/src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="waffle-core/src/main/ruby" path="waffle-core/src/main/ruby"/>
+	<classpathentry excluding="**" kind="src" output="waffle-core/src/test/resources" path="waffle-core/src/test/resources"/>
+	<classpathentry kind="src" output="target-eclipse/classes" path="waffle-mock/src/main/java"/>
+	<classpathentry kind="src" output="target-eclipse/test-classes" path="waffle-mock/src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="waffle-resources/src/main/resources" path="waffle-resources/src/main/resources"/>
+	<classpathentry kind="src" output="target-eclipse/classes" path="waffle-taglib/src/main/java"/>
+	<classpathentry kind="src" output="target-eclipse/test-classes" path="waffle-taglib/src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="waffle-taglib/src/main/resources" path="waffle-taglib/src/main/resources"/>
+	<classpathentry kind="src" output="target-eclipse/classes" path="waffle-testing/src/main/java"/>
+	<classpathentry kind="src" output="target-eclipse/test-classes" path="waffle-testing/src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
+    <classpathentry kind="src" output="target-eclipse/classes" path="examples/freemarker-example/src/main/java"/>
+    <classpathentry kind="src" output="target-eclipse/classes" path="examples/freemarker-example/src/main/webapp"/>
+    <classpathentry kind="src" output="target-eclipse/test-classes" path="examples/freemarker-example/src/test/java">
+        <attributes>
+            <attribute name="maven.type" value="test"/>
+        </attributes>
+    </classpathentry>
+    <classpathentry kind="src" output="target-eclipse/classes" path="examples/simple-example/src/main/java"/>
+    <classpathentry kind="src" output="target-eclipse/classes" path="examples/simple-example/src/main/webapp"/>
+    <classpathentry kind="src" output="target-eclipse/test-classes" path="examples/simple-example/src/test/java">
+        <attributes>
+            <attribute name="maven.type" value="test"/>
+        </attributes>
+    </classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules/profiles[examples,integration]"/>
+	<classpathentry kind="output" path="target-eclipse/classes"/>
+</classpath>

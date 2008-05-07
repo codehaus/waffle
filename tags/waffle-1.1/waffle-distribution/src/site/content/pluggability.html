@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+  <title>Pluggability</title>
+</head>
+<body>
+
+<h2>Pluggability</h2>
+
+<p>
+  Waffle was designed to provide default functionality that should
+  be suitable for most any application. However in order to provide
+  complete flexibility Waffle allows its foundational components to be
+  over-written with custom implementations. As an example Waffle uses Ognl
+  for data binding properties from a users request to the actions. It is
+  easy to plug-in your own <b>org.codehaus.waffle.bind.DataBinder</b> by
+  adding the following to the applications <b>web.xml</b>:
+</p>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <context-param>
+    <param-name>org.codehaus.waffle.bind.DataBinder</param-name>
+    <param-value>com.mycompany.MyDataBinder</param-value>
+  </context-param>
+</textarea>
+
+<p>
+    The <b>param-name</b> defines the interface of the component to
+    be over-written and the <b>param-value</b> represents the implementing
+    class. The following table lists the components that can
+    currently be customized in Waffle (excluding <a href="monitors.html">Monitors</a>):
+  </p>
+  <table class="bodyTable">
+    <tbody>
+      <tr class="a">
+        <td align="left"><b>Interface</b></td><td align="left"><b>Default Implementation</b></td>
+      </tr>      
+      <tr class="b">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/ActionMethodExecutor.html">
+        org.codehaus.waffle.action.ActionMethodExecutor</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/InterceptingActionMethodExecutor.html">
+        org.codehaus.waffle.action.InterceptingActionMethodExecutor</a></td>
+      </tr>
+      <tr class="a">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/ActionMethodResponseHandler.html">
+        org.codehaus.waffle.action.ActionMethodResponseHandler</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/DefaultActionMethodResponseHandler.html">
+        org.codehaus.waffle.action.DefaultActionMethodResponseHandler</a></td>
+      </tr>
+      <tr class="b">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/ArgumentResolver.html">
+        org.codehaus.waffle.action.ArgumentResolver</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/HierarchicalArgumentResolver.html">
+        org.codehaus.waffle.action.HierarchicalArgumentResolver</a></td>
+      </tr>
+      <tr class="a">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/MethodDefinitionFinder.html">
+        org.codehaus.waffle.action.MethodDefinitionFinder</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/AnnotatedMethodDefinitionFinder.html">
+        org.codehaus.waffle.action.AnnotatedMethodDefinitionFinder</a></td>
+      </tr>
+      <tr class="b">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/MethodNameResolver.html">
+        org.codehaus.waffle.action.MethodNameResolver</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/action/RequestParameterMethodNameResolver.html">
+        org.codehaus.waffle.action.RequestParameterMethodNameResolver</a></td>
+      </tr>
+      <tr class="a">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/BindErrorMessageResolver.html">
+        org.codehaus.waffle.bind.BindErrorMessageResolver</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/ognl/OgnlBindErrorMessageResolver.html">
+        org.codehaus.waffle.bind.ognl.OgnlBindErrorMessageResolver</a></td>
+      </tr>
+      <tr class="b">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/DataBinder.html">
+        org.codehaus.waffle.bind.DataBinder</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/ognl/OgnlDataBinder.html">
+        org.codehaus.waffle.bind.ognl.OgnlDataBinder</a></td>
+      </tr>
+      <tr class="a">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/RequestAttributeBinder.html">
+        org.codehaus.waffle.bind.RequestAttributeBinder</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/IntrospectingRequestAttributeBinder.html">
+        org.codehaus.waffle.bind.IntrospectingRequestAttributeBinder</a></td>
+      </tr>
+      <tr class="b">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/ValueConverterFinder.html">
+        org.codehaus.waffle.bind.ValueConverterFinder</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/ognl/OgnlValueConverterFinder.html">
+        org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder</a></td>
+      </tr>
+      <tr class="a">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/context/ContextContainerFactory.html">
+        org.codehaus.waffle.context.ContextContainerFactory</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/context/PicoContextContainerFactory.html">
+        org.codehaus.waffle.context.PicoContextContainerFactory</a></td>
+      </tr>
+      <tr class="b">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/controller/ControllerDefinitionFactory.html">
+        org.codehaus.waffle.controller.ControllerDefinitionFactory</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/controller/ContextControllerDefinitionFactory.html">
+        org.codehaus.waffle.controller.ContextControllerDefinitionFactory</a></td>
+      </tr>
+      <tr class="a">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/controller/ControllerNameResolver.html">
+        org.codehaus.waffle.controller.ControllerNameResolver</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/controller/ContextPathControllerNameResolver.html">
+        org.codehaus.waffle.controller.ContextPathControllerNameResolver</a></td>
+      </tr>
+      <tr class="b">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/i18n/MessageResources.html">
+        org.codehaus.waffle.i18n.MessageResources</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/i18n/DefaultMessageResources.html">
+        org.codehaus.waffle.i18n.DefaultMessageResources</a></td>
+      </tr>
+      <tr class="a">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/validation/Validator.html">
+        org.codehaus.waffle.validation.Validator</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/validation/DefaultValidator.html">
+        org.codehaus.waffle.validation.DefaultValidator</a></td>
+      </tr>
+      <tr class="b">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/view/ViewDispatcher.html">
+        org.codehaus.waffle.view.ViewDispatcher</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/view/DefaultViewDispatcher.html">
+        org.codehaus.waffle.view.DefaultViewDispatcher</a></td>
+      </tr>
+      <tr class="a">
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/view/ViewResolver.html">
+        org.codehaus.waffle.view.ViewResolver</a></td>
+        <td align="left"><a href="javadoc/core/org/codehaus/waffle/view/DefaultViewResolver.html">
+        org.codehaus.waffle.view.DefaultViewResolver</a></td>
+      </tr>
+    </tbody>
+  </table>
+  
+<p>
+  Most application will never need to deal with any of these
+  components. But it is nice to know that you can change any of the
+  default behaviour if you so desire.
+</p>
+
+<h2>Other components</h2>
+
+<p>
+  Waffle also allows you to plug-in your own custom components
+  which don't need to extend or implement any Waffle components. This is
+  easy to do by adding <b>context-param</b>'s to your <b>web.xml</b> file.
+  Notice the <b>register:</b> prefix in the <i>param-name</i> node below.
+  When Waffle runs across such <i>context-param</i> it will register it
+  for use in your application. You can also use the prefix <b>registerNonCaching:</b>
+  for those components that should be instantiated new each time.
+</p>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <context-param>
+    <param-name>register:java.util.List</param-name>
+    <param-value>java.util.ArrayList</param-value>
+  </context-param>
+</textarea>
+
+<p>
+  For a more concrete example Waffle defines the interface <i>
+  <a href="javadoc/core/org/codehaus/waffle/bind/ValueConverter.html">
+        org.codehaus.waffle.bind.ValueConverter</a></i>.
+  Implementations of this interface allows you to write custom conversions
+  for a specific class type. The following is an example of how you can
+  register your converters with Waffle. Waffle's <i>DefaultValueConverterFinder</i>
+  is dependent on all <i>org.codehaus.waffle.bind.ValueConverter</i>
+  that are registered in the <b>web.xml</b>. So the following example will
+  provide 2 custom converters for use in your application.
+</p>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <context-param>
+    <param-name>register:MoneyConverter</param-name>
+    <param-value>com.mycompany.MoneyValueConverter</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>register:ColorConverter</param-name>
+    <param-value>com.mycompany.ColorValueConverter</param-value>
+  </context-param>
+</textarea>
+
+<dl>
+  <dt>Note:</dt>
+  <dd>
+    Everything registered with Waffle must be registered under a
+    unique name. The interface name should be used when over-writing
+    default or providing unique behaviour.
+  </dd>
+</dl>
+</body>
+
+</html>
