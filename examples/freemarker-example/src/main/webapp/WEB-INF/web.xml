@@ -12,10 +12,6 @@
     <param-value>org.codehaus.waffle.example.freemarker.FreemarkerRegistrar</param-value>
   </context-param>
   <context-param>
-    <param-name>org.codehaus.waffle.action.MethodDefinitionFinder</param-name>
-    <param-value>org.codehaus.waffle.action.ParanamerMethodDefinitionFinder</param-value>
-  </context-param>
-  <context-param>
     <param-name>register:DateValueConverter</param-name>
     <param-value>org.codehaus.waffle.bind.converters.DateValueConverter</param-value>
   </context-param>
