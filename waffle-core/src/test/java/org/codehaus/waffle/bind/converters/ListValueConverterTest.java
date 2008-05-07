@@ -3,7 +3,7 @@ package org.codehaus.waffle.bind.converters;
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -56,6 +56,8 @@ public class ListValueConverterTest {
         assertCanConvertValueToList(converter, DOUBLES, "0.1,0.2,0.3", Double.class);
         assertCanConvertValueToList(converter, FLOATS, "0.1,0.2,0.3", Float.class);
         assertCanConvertValueToList(converter, STRINGS, "one,two,three", String.class);
+        assertCanConvertValueToList(converter, STRINGS, ",one,two,three", String.class);
+        assertCanConvertValueToList(converter, STRINGS, "one,,two,three", String.class);
         assertCanConvertValueToList(converter, MIXED_STRINGS, "0#.A,1#.B", String.class);
     }
 
@@ -67,10 +69,16 @@ public class ListValueConverterTest {
     @Test
     public void canHandleMissingValues() {
         ListValueConverter converter = new ListValueConverter(new DefaultMessageResources());
-        assertNull(converter.convertValue("property-name", null, List.class));
-        assertNull(converter.convertValue("property-name", "", List.class));
-        assertNull(converter.convertValue("property-name", " ", List.class));
+        assertEmptyList(converter, null);
+        assertEmptyList(converter, "");
+        assertEmptyList(converter, " ");
      }
+
+    private void assertEmptyList(ListValueConverter converter, String value) {
+        List<?> list = converter.convertValue("property-name", value, List.class);
+        assertNotNull(list);
+        assertTrue(list.isEmpty());
+    }
 
     @Test
     public void canFailConversionWithCustomErrorMessages() {

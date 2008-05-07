@@ -10,8 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
-import static java.util.Arrays.asList;
-
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ import org.codehaus.waffle.i18n.MessageResources;
 /**
  * <p>
  * <code>ValueConverter</code> that converts a CSV value to a List. A <code>null</code> or empty value (once
- * trimmed) will be returned as <code>null</code> (behaviour which can be overridden via the
+ * trimmed) will be returned as an empty list (behaviour which can be overridden via the
  * {@link convertMissingValue()} method). The message keys and default values used are:
  * <ul>
  * <li>"bind.error.list" ({@link #BIND_ERROR_LIST_KEY}): list is <code>null</code> or empty (message defaults to
@@ -77,7 +75,7 @@ public class ListValueConverter extends AbstractValueConverter {
             return (T) convertMissingValue(BIND_ERROR_LIST_KEY, DEFAULT_LIST_MESSAGE, fieldName);
         }
 
-        List<String> values = asList(value.split(COMMA));
+        List<String> values = listValues(value);
         if (areNumbers(values)) {
             try {
                 return (T) toNumbers(values);
@@ -88,12 +86,28 @@ public class ListValueConverter extends AbstractValueConverter {
         return (T) values;
     }
 
+    private List<String> listValues(String value) {
+        String[] values = value.split(COMMA);        
+        List<String> list = new ArrayList<String>();
+        for ( String current : values ){
+            if ( current.trim().length() > 0 ){
+                list.add(current);
+            }
+        }
+        return list;
+    }
+
     public Properties getPatterns() {
         return patterns;
     }
 
     public void changePatterns(Properties patterns) {
         this.patterns = patterns;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
+        return new ArrayList();
     }
     
     protected boolean areNumbers(List<String> values) {
