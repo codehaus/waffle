@@ -10,6 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
+import static org.picocontainer.Characteristics.NO_CACHE;
+
 import java.util.List;
 import java.util.Properties;
 
@@ -17,11 +19,15 @@ import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarException;
 import org.codehaus.waffle.registrar.RubyAwareRegistrar;
-import org.picocontainer.*;
-import static org.picocontainer.Characteristics.NO_CACHE;
+import org.picocontainer.ComponentAdapter;
+import org.picocontainer.ComponentMonitor;
+import org.picocontainer.InjectionFactory;
+import org.picocontainer.LifecycleStrategy;
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.Parameter;
+import org.picocontainer.behaviors.Cached;
 import org.picocontainer.injectors.ConstructorInjection;
 import org.picocontainer.injectors.SetterInjection;
-import org.picocontainer.behaviors.Cached;
 
 /**
  * This Registrar is backed by PicoContainer for managing Dependency Injection.  This registrar
@@ -35,16 +41,16 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final ParameterResolver parameterResolver;
     private final LifecycleStrategy lifecycleStrategy;
     private final RegistrarMonitor registrarMonitor;
-    private final ComponentMonitor picoComponentMonitor;
+    private final ComponentMonitor componentMonitor;
     private Injection injection = Injection.CONSTRUCTOR;
 
     public PicoRegistrar(MutablePicoContainer picoContainer, ParameterResolver parameterResolver,
-            LifecycleStrategy lifecycleStrategy, RegistrarMonitor registrarMonitor, ComponentMonitor picoComponentMonitor) {
+            LifecycleStrategy lifecycleStrategy, RegistrarMonitor registrarMonitor, ComponentMonitor componentMonitor) {
         this.picoContainer = picoContainer;
         this.parameterResolver = parameterResolver;
         this.lifecycleStrategy = lifecycleStrategy;
         this.registrarMonitor = registrarMonitor;
-        this.picoComponentMonitor = picoComponentMonitor;
+        this.componentMonitor = componentMonitor;
     }
 
     public Registrar useInjection(Injection injection) {
@@ -150,7 +156,7 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
             throw new IllegalArgumentException("Invalid injection " + injection);
         }
 
-        return componentAdapterFactory.createComponentAdapter(picoComponentMonitor, lifecycleStrategy, new Properties(), key, type, picoParameters(parameters));
+        return componentAdapterFactory.createComponentAdapter(componentMonitor, lifecycleStrategy, new Properties(), key, type, picoParameters(parameters));
     }
 
     public void application() {
