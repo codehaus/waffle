@@ -10,10 +10,9 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
-import org.picocontainer.ComponentAdapter;
-import org.picocontainer.Parameter;
-import org.picocontainer.PicoContainer;
-import org.picocontainer.PicoVisitor;
+import org.picocontainer.*;
+
+import java.lang.annotation.Annotation;
 
 /**
  * A base for Waffle's implementation of PicoContainer Parameter.
@@ -31,11 +30,11 @@ abstract class AbstractWaffleParameter implements Parameter {
         return key;
     }
 
-    public boolean isResolvable(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class clazz) {
-        return resolveInstance(picoContainer, componentAdapter, clazz) != null;
+    public boolean isResolvable(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class clazz, NameBinding nameBinding, boolean b, Annotation annotation) {
+        return resolveInstance(picoContainer, componentAdapter, clazz, nameBinding, b, annotation) != null;
     }
 
-    public void verify(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class clazz) {
+    public void verify(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class aClass, NameBinding nameBinding, boolean b, Annotation annotation) {
         // do nothing
     }
 

@@ -20,7 +20,7 @@ public class RubyAwarePicoContextContainerFactoryTest  {
                 = new RubyAwarePicoContextContainerFactory(null, new SilentMonitor(), new SilentMonitor(), null);
         ContextContainer contextContainer = factory.buildApplicationContextContainer();
         PicoContainer picoContainer = (MutablePicoContainer)contextContainer.getDelegate();
-        Ruby runtime = (Ruby) picoContainer.getComponentInstance(Ruby.class);
+        Ruby runtime = (Ruby) picoContainer.getComponent(Ruby.class);
         assertNotNull(runtime);
 
         assertNotNull(picoContainer.getComponentAdapter(RubyScriptLoader.class));

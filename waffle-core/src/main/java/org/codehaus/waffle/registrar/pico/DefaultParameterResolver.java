@@ -19,8 +19,8 @@ import org.codehaus.waffle.registrar.RequestParameterReference;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.picocontainer.Parameter;
-import org.picocontainer.defaults.ComponentParameter;
-import org.picocontainer.defaults.ConstantParameter;
+import org.picocontainer.parameters.ComponentParameter;
+import org.picocontainer.parameters.ConstantParameter;
 
 /**
  * This base implementation will determine the correct {@code Parameter} based on the argument being resolved.

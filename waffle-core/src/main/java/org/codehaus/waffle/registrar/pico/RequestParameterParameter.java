@@ -12,9 +12,11 @@ package org.codehaus.waffle.registrar.pico;
 
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
+import org.picocontainer.NameBinding;
 import org.codehaus.waffle.bind.StringTransmuter;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
 
 /**
  * This class is dependent on <code>StringTransmuter</code> so that a parameter value can
@@ -33,17 +35,18 @@ class RequestParameterParameter extends AbstractWaffleParameter {
         this.defaultValue = defaultValue;
     }
 
+
     @SuppressWarnings({"unchecked"})
-    public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter adapter, Class expectedType) {
+    public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> expectedType, NameBinding nameBinding, boolean b, Annotation annotation) {
         HttpServletRequest request = (HttpServletRequest) picoContainer
-                .getComponentInstanceOfType(HttpServletRequest.class);
+                .getComponent(HttpServletRequest.class);
         String value = request.getParameter(getKey());
         Object result = stringTransmuter.transmute(value, expectedType);
 
         if(result == null) {
-            return defaultValue;
+            return (T) defaultValue;
         }
 
-        return result;
+        return (T) result;
     }
 }

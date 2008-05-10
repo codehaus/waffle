@@ -12,8 +12,10 @@ package org.codehaus.waffle.registrar.pico;
 
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
+import org.picocontainer.NameBinding;
 
 import javax.servlet.http.HttpSession;
+import java.lang.annotation.Annotation;
 
 /**
  * Will resolve value from the {@code HttpSession} attribute.
@@ -26,8 +28,8 @@ class SessionAttributeParameter extends AbstractWaffleParameter {
         super(key);
     }
 
-    public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class clazz) {
-        HttpSession session = (HttpSession) picoContainer.getComponentInstanceOfType(HttpSession.class);
-        return session.getAttribute(getKey());
+    public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> tClass, NameBinding nameBinding, boolean b, Annotation annotation) {
+        HttpSession session = (HttpSession) picoContainer.getComponent(HttpSession.class);
+        return (T) session.getAttribute(getKey());
     }
 }

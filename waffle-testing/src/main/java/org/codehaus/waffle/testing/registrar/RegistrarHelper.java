@@ -8,8 +8,8 @@ import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.DefaultParameterResolver;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
-import org.picocontainer.defaults.DefaultPicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
+import org.picocontainer.DefaultPicoContainer;
 
 /**
  * Registrar helper class. Retrieves controller instances registered in a Registrar and allows the registration of all
@@ -30,7 +30,7 @@ public class RegistrarHelper {
     public Object controllerFor(Class<?> registrarType, ContextLevel level, String path) {
         DefaultPicoContainer registrarContainer = new DefaultPicoContainer();
         registerComponentsFor(registrarType, level, registrarContainer);
-        return registrarContainer.getComponentInstance(path);
+        return registrarContainer.getComponent(path);
     }
 
     /**
@@ -63,16 +63,16 @@ public class RegistrarHelper {
         String name = type.getName();
         try {
             DefaultPicoContainer initContainer = new DefaultPicoContainer();
-            initContainer.registerComponentInstance(container);
-            initContainer.registerComponentImplementation(NullComponentMonitor.class);
-            initContainer.registerComponentImplementation(PicoLifecycleStrategy.class);
-            initContainer.registerComponentImplementation(SilentMonitor.class);
-            initContainer.registerComponentImplementation(PicoRegistrar.class);
-            initContainer.registerComponentImplementation(DefaultParameterResolver.class);
-            initContainer.registerComponentImplementation(DefaultStringTransmuter.class);
-            initContainer.registerComponentImplementation(OgnlValueConverterFinder.class);
-            initContainer.registerComponentImplementation(name, Class.forName(name));
-            return (Registrar) initContainer.getComponentInstance(name);
+            initContainer.addComponent(container);
+            initContainer.addComponent(NullComponentMonitor.class);
+            initContainer.addComponent(PicoLifecycleStrategy.class);
+            initContainer.addComponent(SilentMonitor.class);
+            initContainer.addComponent(PicoRegistrar.class);
+            initContainer.addComponent(DefaultParameterResolver.class);
+            initContainer.addComponent(DefaultStringTransmuter.class);
+            initContainer.addComponent(OgnlValueConverterFinder.class);
+            initContainer.addComponent(name, Class.forName(name));
+            return (Registrar) initContainer.getComponent(name);
         } catch (Exception e) {
             throw new RuntimeException("Failed to create Registrar for " + name, e);
         }

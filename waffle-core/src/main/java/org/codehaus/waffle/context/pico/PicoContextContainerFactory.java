@@ -20,11 +20,7 @@ import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
-import org.picocontainer.ComponentMonitor;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoContainer;
-import org.picocontainer.defaults.DefaultPicoContainer;
-import org.picocontainer.defaults.LifecycleStrategy;
+import org.picocontainer.*;
 import org.picocontainer.monitors.NullComponentMonitor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +52,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
     public ContextContainer buildSessionLevelContainer() {
         MutablePicoContainer parentContainer = (MutablePicoContainer) applicationContextContainer.getDelegate();
         MutablePicoContainer delegate = buildMutablePicoContainer(parentContainer);
-        delegate.registerComponent(new HttpSessionComponentAdapter());
+        delegate.addComponent(new HttpSessionComponentAdapter());
 
         PicoContextContainer sessionContextContainer = new PicoContextContainer(delegate);
         registrarAssistant.executeDelegatingRegistrar(createRegistrar(sessionContextContainer), ContextLevel.SESSION);
@@ -86,7 +82,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
 
     protected Registrar createRegistrar(ContextContainer contextContainer) {
         MutablePicoContainer delegateContainer = (MutablePicoContainer) contextContainer.getDelegate();
-        Registrar registrar = new PicoRegistrar(delegateContainer, parameterResolver, picoLifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(delegateContainer, parameterResolver, picoLifecycleStrategy, registrarMonitor, picoComponentMonitor);
         getContextMonitor().registrarCreated(registrar, registrarMonitor);
         
         return registrar;

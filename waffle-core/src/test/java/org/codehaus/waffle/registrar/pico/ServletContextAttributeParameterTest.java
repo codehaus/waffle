@@ -12,7 +12,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
-import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.behaviors.Caching;
 
 /**
  * 
@@ -37,11 +38,11 @@ public class ServletContextAttributeParameterTest {
         
         Parameter[] parameters = {new ServletContextAttributeParameter("foobar")};
 
-        MutablePicoContainer pico = new DefaultPicoContainer();
-        pico.registerComponentInstance(servletContext);
-        pico.registerComponentImplementation("blah", DependsOnValue.class, parameters);
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
+        pico.addComponent(servletContext);
+        pico.addComponent("blah", DependsOnValue.class, parameters);
 
-        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponentInstance("blah");
+        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponent("blah");
 
         assertEquals("helloWorld", dependsOnValue.getValue());
     }

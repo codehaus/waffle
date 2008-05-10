@@ -25,7 +25,7 @@ public class PicoContextContainerTest {
         final MutablePicoContainer mutablePicoContainer = mockery.mock(MutablePicoContainer.class);
         mockery.checking(new Expectations() {
             {
-                one(mutablePicoContainer).getComponentInstance("foo");
+                one(mutablePicoContainer).getComponent("foo");
                 will(throwException(new PicoException("fake from test") {}));
             }
         });

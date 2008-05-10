@@ -665,7 +665,7 @@ public class AnnotatedMethodDefinitionFinderTest {
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
             {
-                one(contextContainer).getComponentInstanceOfType(MessagesContext.class);
+                one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
             }
         });

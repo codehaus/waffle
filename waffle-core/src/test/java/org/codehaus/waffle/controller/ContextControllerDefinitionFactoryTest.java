@@ -20,7 +20,8 @@ import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.behaviors.Caching;
 
 /**
  * 
@@ -33,8 +34,8 @@ public class ContextControllerDefinitionFactoryTest {
 
     @Test
     public void canGetControllerDefinition() throws NoSuchMethodException {
-        final MutablePicoContainer pico = new DefaultPicoContainer();
-        pico.registerComponentImplementation("theController", FakeController.class);
+        final MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
+        pico.addComponent("theController", FakeController.class);
         RequestLevelContainer.set(new PicoContextContainer(pico));
 
         // Mock HttpServletRequest
@@ -44,7 +45,7 @@ public class ContextControllerDefinitionFactoryTest {
                 one(request).getPathInfo();
                 will(returnValue("/theController.htm"));
                 one(request).setAttribute(Constants.CONTROLLER_KEY,
-                        pico.getComponentInstanceOfType(FakeController.class));
+                        pico.getComponent(FakeController.class));
             }
         });
 
@@ -73,7 +74,7 @@ public class ContextControllerDefinitionFactoryTest {
 
     @Test(expected = WaffleException.class)
     public void cannotRequestControllerDefinitionThatiIsNotRegistered() {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
         RequestLevelContainer.set(new PicoContextContainer(pico));
 
         // Mock HttpServletRequest

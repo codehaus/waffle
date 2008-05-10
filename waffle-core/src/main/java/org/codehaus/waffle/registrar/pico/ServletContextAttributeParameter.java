@@ -12,8 +12,10 @@ package org.codehaus.waffle.registrar.pico;
 
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
+import org.picocontainer.NameBinding;
 
 import javax.servlet.ServletContext;
+import java.lang.annotation.Annotation;
 
 /**
  * Will resolve value from the {@code ServletContext} attribute.
@@ -26,9 +28,9 @@ class ServletContextAttributeParameter extends AbstractWaffleParameter {
         super(key);
     }
 
-    public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class type) {
+    public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> tClass, NameBinding nameBinding, boolean b, Annotation annotation) {
         ServletContext servletContext = (ServletContext) picoContainer
-                .getComponentInstanceOfType(ServletContext.class);
-        return servletContext.getAttribute(getKey());
+                .getComponent(ServletContext.class);
+        return (T) servletContext.getAttribute(getKey());
     }
 }

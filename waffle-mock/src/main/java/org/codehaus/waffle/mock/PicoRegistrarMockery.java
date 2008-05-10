@@ -10,7 +10,7 @@ import org.codehaus.waffle.registrar.pico.DefaultParameterResolver;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.defaults.LifecycleStrategy;
+import org.picocontainer.LifecycleStrategy;
 import org.picocontainer.monitors.NullComponentMonitor;
 
 /**
@@ -27,6 +27,6 @@ public class PicoRegistrarMockery extends AbstractRegistrarMockery {
     protected Registrar createRegistrar(ContextContainer container) {
         LifecycleStrategy lifecycleStrategy = new PicoLifecycleStrategy(new NullComponentMonitor());
         ParameterResolver parameterResolver = new DefaultParameterResolver(new DefaultStringTransmuter(new OgnlValueConverterFinder()));
-        return new PicoRegistrar((MutablePicoContainer) container.getDelegate(), parameterResolver, lifecycleStrategy, getRegistrarMonitor(container));
+        return new PicoRegistrar((MutablePicoContainer) container.getDelegate(), parameterResolver, lifecycleStrategy, getRegistrarMonitor(container), new NullComponentMonitor());
     }
 }

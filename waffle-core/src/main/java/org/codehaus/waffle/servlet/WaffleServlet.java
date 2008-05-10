@@ -152,7 +152,7 @@ public class WaffleServlet extends HttpServlet {
                            HttpServletResponse response) throws ServletException, IOException {
         servletMonitor.servletServiceRequested(parametersOf(request));
         ContextContainer requestContainer = RequestLevelContainer.get();
-        ErrorsContext errorsContext = requestContainer.getComponentInstanceOfType(ErrorsContext.class);
+        ErrorsContext errorsContext = requestContainer.getComponent(ErrorsContext.class);
 
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         View view = null;

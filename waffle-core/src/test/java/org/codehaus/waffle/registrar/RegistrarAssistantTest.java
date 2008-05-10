@@ -22,9 +22,13 @@ import org.jmock.integration.junit4.JMock;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.picocontainer.defaults.DefaultPicoContainer;
-import org.picocontainer.defaults.LifecycleStrategy;
 import org.picocontainer.monitors.NullComponentMonitor;
+import org.picocontainer.LifecycleStrategy;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.ComponentMonitor;
+import org.picocontainer.containers.EmptyPicoContainer;
+import org.picocontainer.lifecycle.NullLifecycleStrategy;
+import org.picocontainer.behaviors.Caching;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Hashtable;
@@ -33,11 +37,12 @@ import java.util.Hashtable;
 public class RegistrarAssistantTest {
     private LifecycleStrategy lifecycleStrategy = new PicoLifecycleStrategy(new NullComponentMonitor());
     private Mockery mockery = new Mockery();
-    
+    ComponentMonitor cm = new NullComponentMonitor();
+
     @Test
     public void canExecuteWithDefaultErrorsAndMessagesContexts() {
-        DefaultPicoContainer picoContainer = new DefaultPicoContainer();
-        Registrar registrar = new PicoRegistrar(picoContainer, null, lifecycleStrategy, new SilentMonitor());
+        DefaultPicoContainer picoContainer = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
+        Registrar registrar = new PicoRegistrar(picoContainer, null, lifecycleStrategy, new SilentMonitor(), cm);
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         registrar.registerInstance(request);
         RegistrarAssistant registrarAssistant = new RegistrarAssistant(CustomRegistrar.class);
@@ -46,17 +51,17 @@ public class RegistrarAssistantTest {
         registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.SESSION);
         registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.REQUEST);
 
-        assertNotNull(picoContainer.getComponentInstance("application"));
-        assertNotNull(picoContainer.getComponentInstance("session"));
-        assertNotNull(picoContainer.getComponentInstance("request"));
-        assertNotNull(picoContainer.getComponentInstanceOfType(DefaultErrorsContext.class));
-        assertNotNull(picoContainer.getComponentInstanceOfType(DefaultMessagesContext.class));        
+        assertNotNull(picoContainer.getComponent("application"));
+        assertNotNull(picoContainer.getComponent("session"));
+        assertNotNull(picoContainer.getComponent("request"));
+        assertNotNull(picoContainer.getComponent(DefaultErrorsContext.class));
+        assertNotNull(picoContainer.getComponent(DefaultMessagesContext.class));
     }
     
     @Test
     public void canExecuteWithCustomErrorsAndMessagesContexts() {
-        DefaultPicoContainer picoContainer = new DefaultPicoContainer();
-        Registrar registrar = new PicoRegistrar(picoContainer, null, lifecycleStrategy, new SilentMonitor());
+        DefaultPicoContainer picoContainer = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
+        Registrar registrar = new PicoRegistrar(picoContainer, null, lifecycleStrategy, new SilentMonitor(), cm);
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         registrar.registerInstance(request);
         RegistrarAssistant registrarAssistant = new RegistrarAssistant(CustomRegistrarWithContexts.class);
@@ -65,11 +70,11 @@ public class RegistrarAssistantTest {
         registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.SESSION);
         registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.REQUEST);
 
-        assertNotNull(picoContainer.getComponentInstance("application"));
-        assertNotNull(picoContainer.getComponentInstance("session"));
-        assertNotNull(picoContainer.getComponentInstance("request"));
-        assertNotNull(picoContainer.getComponentInstanceOfType(CustomErrorsContext.class));
-        assertNotNull(picoContainer.getComponentInstanceOfType(CustomMessagesContext.class));
+        assertNotNull(picoContainer.getComponent("application"));
+        assertNotNull(picoContainer.getComponent("session"));
+        assertNotNull(picoContainer.getComponent("request"));
+        assertNotNull(picoContainer.getComponent(CustomErrorsContext.class));
+        assertNotNull(picoContainer.getComponent(CustomMessagesContext.class));
     }
 
     @Test(expected = WaffleException.class)
