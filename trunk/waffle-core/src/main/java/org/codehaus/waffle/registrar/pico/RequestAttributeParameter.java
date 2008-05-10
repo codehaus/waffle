@@ -12,8 +12,10 @@ package org.codehaus.waffle.registrar.pico;
 
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
+import org.picocontainer.NameBinding;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.annotation.Annotation;
 
 /**
  * Will resolve value from the {@code HttpServletRequest} attribute.
@@ -26,9 +28,9 @@ class RequestAttributeParameter extends AbstractWaffleParameter {
         super(key);
     }
 
-    public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class type) {
+    public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> clazz, NameBinding nameBinding, boolean b, Annotation annotation) {
         HttpServletRequest request = (HttpServletRequest) picoContainer
-                .getComponentInstanceOfType(HttpServletRequest.class);
-        return request.getAttribute(getKey());
+                .getComponent(HttpServletRequest.class);
+        return (T) request.getAttribute(getKey());
     }
 }

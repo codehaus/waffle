@@ -42,7 +42,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
-import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.containers.EmptyPicoContainer;
+import org.picocontainer.behaviors.Caching;
 import org.picocontainer.monitors.NullComponentMonitor;
 
 import javax.servlet.ServletContext;
@@ -82,8 +84,8 @@ public class PicoContextContainerFactoryTest {
 
         // Application
         ContextContainer applicationContainer = contextContainerFactory.getApplicationContextContainer();
-        Assert.assertNotNull(applicationContainer.getComponentInstanceOfType(ServletContext.class));
-        assertSame(messageResources, applicationContainer.getComponentInstanceOfType(MessageResources.class));
+        Assert.assertNotNull(applicationContainer.getComponent(ServletContext.class));
+        assertSame(messageResources, applicationContainer.getComponent(MessageResources.class));
         ApplicationLevelComponent applicationLevelComponent =
                 (ApplicationLevelComponent) applicationContainer.getComponentInstance("application");
         assertNotNull(applicationLevelComponent);
@@ -152,7 +154,7 @@ public class PicoContextContainerFactoryTest {
 
         ContextContainer container = contextContainerFactory.getApplicationContextContainer();
         ApplicationLevelComponent applicationLevelComponent =
-                container.getComponentInstanceOfType(ApplicationLevelComponent.class);
+                container.getComponent(ApplicationLevelComponent.class);
         assertTrue(applicationLevelComponent.isStarted());
     }
 
@@ -165,21 +167,21 @@ public class PicoContextContainerFactoryTest {
     @Test
     public void canStopChildContainerWithoutStoppingParent() {
         NullComponentMonitor ncm = new NullComponentMonitor();
-        MutablePicoContainer applicationContainer = new DefaultPicoContainer(ncm, new PicoLifecycleStrategy(ncm), null);
-        applicationContainer.registerComponentImplementation(ApplicationLevelComponent.class);
+        MutablePicoContainer applicationContainer = new DefaultPicoContainer(new Caching(), new PicoLifecycleStrategy(ncm), new EmptyPicoContainer(), ncm);
+        applicationContainer.addComponent(ApplicationLevelComponent.class);
 
-        MutablePicoContainer sessionContainer = new DefaultPicoContainer(ncm, new PicoLifecycleStrategy(ncm), applicationContainer);
-        sessionContainer.registerComponentImplementation(SessionLevelComponent.class);
+        MutablePicoContainer sessionContainer = new DefaultPicoContainer(new Caching(), new PicoLifecycleStrategy(ncm), applicationContainer, ncm);
+        sessionContainer.addComponent(SessionLevelComponent.class);
 
-        MutablePicoContainer requestContainer = new DefaultPicoContainer(ncm, new PicoLifecycleStrategy(ncm), sessionContainer);
-        requestContainer.registerComponentImplementation(RequestLevelComponent.class);
+        MutablePicoContainer requestContainer = new DefaultPicoContainer(new Caching(), new PicoLifecycleStrategy(ncm), sessionContainer, ncm);
+        requestContainer.addComponent(RequestLevelComponent.class);
 
         ApplicationLevelComponent applicationLevelComponent = (ApplicationLevelComponent)
-                applicationContainer.getComponentInstanceOfType(ApplicationLevelComponent.class);
+                applicationContainer.getComponent(ApplicationLevelComponent.class);
         SessionLevelComponent sessionLevelComponent = (SessionLevelComponent)
-                sessionContainer.getComponentInstance(SessionLevelComponent.class);
+                sessionContainer.getComponent(SessionLevelComponent.class);
         RequestLevelComponent requestLevelComponent = (RequestLevelComponent)
-                requestContainer.getComponentInstance(RequestLevelComponent.class);
+                requestContainer.getComponent(RequestLevelComponent.class);
 
         // assert non are started
         assertFalse(applicationLevelComponent.isStarted());
@@ -220,11 +222,11 @@ public class PicoContextContainerFactoryTest {
 
     @Test
     public void canGetAllComponentInstancesOfType() {
-        MutablePicoContainer grandParent = new DefaultPicoContainer();
-        grandParent.registerComponentInstance("A", new FakeBean());
+        MutablePicoContainer grandParent = new DefaultPicoContainer(new Caching());
+        grandParent.addComponent("A", new FakeBean());
 
-        MutablePicoContainer parent = new DefaultPicoContainer(grandParent);
-        parent.registerComponentInstance("B", new FakeBean());
+        MutablePicoContainer parent = new DefaultPicoContainer(new Caching(), grandParent);
+        parent.addComponent("B", new FakeBean());
 
         PicoContextContainer container = new PicoContextContainer(parent);
         container.registerComponentInstance(new FakeBean());
@@ -243,7 +245,7 @@ public class PicoContextContainerFactoryTest {
         container.registerComponentInstance(startable);
 
         // Test lifecycle
-        PicoContainer picoContainer = (PicoContainer) container.getDelegate();
+        MutablePicoContainer picoContainer = (MutablePicoContainer) container.getDelegate();
         picoContainer.start();
 
         assertTrue(startable.started);
@@ -275,7 +277,7 @@ public class PicoContextContainerFactoryTest {
         container.registerComponentInstance(startable);
 
         // Test lifecycle
-        PicoContainer picoContainer = (PicoContainer) container.getDelegate();
+        MutablePicoContainer picoContainer = (MutablePicoContainer) container.getDelegate();
         picoContainer.start();
 
         assertTrue(startable.started);
@@ -333,8 +335,8 @@ public class PicoContextContainerFactoryTest {
         MutablePicoContainer picoContainer = (MutablePicoContainer) container.getDelegate();
 
         // Remove ErrorsContext and MessagesContext prior to starting... (assert they existed)
-        assertNotNull(picoContainer.unregisterComponent(ErrorsContext.class));
-        assertNotNull(picoContainer.unregisterComponent(MessagesContext.class));
+        assertNotNull(picoContainer.removeComponent(ErrorsContext.class));
+        assertNotNull(picoContainer.removeComponent(MessagesContext.class));
         picoContainer.start();
 
         assertTrue(startable.started);

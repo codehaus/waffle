@@ -127,7 +127,7 @@ public class WaffleServletTest {
         mockery.checking(new Expectations() {
             {
                 
-                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                one(contextContainer).getComponent(ErrorsContext.class);
                 will(returnValue(errorsContext));
                 exactly(2).of(errorsContext).hasErrorMessages();
                 will(returnValue(false));
@@ -211,7 +211,7 @@ public class WaffleServletTest {
         mockery.checking(new Expectations() {
             {
 
-                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                one(contextContainer).getComponent(ErrorsContext.class);
                 will(returnValue(errorsContext));
                 exactly(2).of(errorsContext).hasErrorMessages();
                 will(returnValue(false));
@@ -296,7 +296,7 @@ public class WaffleServletTest {
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
             {
-                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                one(contextContainer).getComponent(ErrorsContext.class);
                 will(returnValue(errorsContext));
                 one(errorsContext).addErrorMessage(with(any(ErrorMessage.class)));
             }
@@ -378,7 +378,7 @@ public class WaffleServletTest {
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
             {
-                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                one(contextContainer).getComponent(ErrorsContext.class);
                 will(returnValue(errorsContext));
                 one(errorsContext).hasErrorMessages();
                 will(returnValue(false));
@@ -456,7 +456,7 @@ public class WaffleServletTest {
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
             {
-                one(contextContainer).getComponentInstanceOfType(ErrorsContext.class);
+                one(contextContainer).getComponent(ErrorsContext.class);
                 will(returnValue(errorsContext));
                 one(errorsContext).hasErrorMessages();
                 will(returnValue(false));

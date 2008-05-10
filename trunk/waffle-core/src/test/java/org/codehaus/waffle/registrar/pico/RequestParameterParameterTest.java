@@ -18,7 +18,8 @@ import org.jmock.Mockery;
 import org.jmock.Expectations;
 import org.picocontainer.Parameter;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.behaviors.Caching;
 import org.codehaus.waffle.testmodel.DependsOnValue;
 import org.codehaus.waffle.bind.StringTransmuter;
 
@@ -46,11 +47,11 @@ public class RequestParameterParameterTest {
 
         Parameter[] parameters = {new RequestParameterParameter("foobar", stringTransmuter, null)};
 
-        MutablePicoContainer pico = new DefaultPicoContainer();
-        pico.registerComponentInstance(request);
-        pico.registerComponentImplementation("x", DependsOnValue.class, parameters);
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
+        pico.addComponent(request);
+        pico.addComponent("x", DependsOnValue.class, parameters);
 
-        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponentInstance("x");
+        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponent("x");
 
         assertEquals("helloWorld", dependsOnValue.getValue());
     }
@@ -73,11 +74,11 @@ public class RequestParameterParameterTest {
 
         Parameter[] parameters = {new RequestParameterParameter("foobar", stringTransmuter, "the default value")};
 
-        MutablePicoContainer pico = new DefaultPicoContainer();
-        pico.registerComponentInstance(request);
-        pico.registerComponentImplementation("x", DependsOnValue.class, parameters);
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
+        pico.addComponent(request);
+        pico.addComponent("x", DependsOnValue.class, parameters);
 
-        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponentInstance("x");
+        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponent("x");
 
         assertEquals("the default value", dependsOnValue.getValue());
     }

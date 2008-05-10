@@ -5,9 +5,10 @@ import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
-import org.picocontainer.PicoInitializationException;
-import org.picocontainer.PicoIntrospectionException;
 import org.picocontainer.PicoVisitor;
+import org.picocontainer.PicoCompositionException;
+
+import java.lang.reflect.Type;
 
 /**
  * This ComponentAdapter implementation is needed to correctly instantiate a Ruby script for use in Waffle.
@@ -23,6 +24,10 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
         this.rubyClassName = rubyClassName;
     }
 
+    public ComponentAdapter getDelegate() {
+        return null;
+    }
+
     public Object getComponentKey() {
         return componentKey;
     }
@@ -31,8 +36,8 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
         return IRubyObject.class;
     }
 
-    public Object getComponentInstance(PicoContainer picoContainer) throws PicoInitializationException, PicoIntrospectionException {
-        Ruby runtime = (Ruby) picoContainer.getComponentInstance(Ruby.class);
+    public Object getComponentInstance(PicoContainer picoContainer, Type type) throws PicoCompositionException {
+        Ruby runtime = (Ruby) picoContainer.getComponent(Ruby.class);
 
         String script =
                 "controller = " + rubyClassName + ".new\n" + // instantiate controller
@@ -46,11 +51,23 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
         return controller;
     }
 
-    public void verify(PicoContainer picoContainer) throws PicoIntrospectionException {
+    public Object getComponentInstance(PicoContainer picoContainer) throws PicoCompositionException {
+        return this.getComponentInstance(picoContainer, null);
+    }
+
+    public ComponentAdapter findAdapterOfType(Class aClass) {
+        return null;
+    }
+
+    public void verify(PicoContainer picoContainer) {
         // do nothing!
     }
 
     public void accept(PicoVisitor picoVisitor) {
         // do nothing!
+    }
+
+    public String getDescriptor() {
+        return "RubyScriptComponentAdapter";
     }
 }

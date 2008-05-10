@@ -11,19 +11,17 @@
 package org.codehaus.waffle.registrar.pico;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarException;
 import org.codehaus.waffle.registrar.RubyAwareRegistrar;
-import org.picocontainer.ComponentAdapter;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.Parameter;
-import org.picocontainer.defaults.CachingComponentAdapter;
-import org.picocontainer.defaults.ComponentAdapterFactory;
-import org.picocontainer.defaults.ConstructorInjectionComponentAdapterFactory;
-import org.picocontainer.defaults.LifecycleStrategy;
-import org.picocontainer.defaults.SetterInjectionComponentAdapterFactory;
+import org.picocontainer.*;
+import static org.picocontainer.Characteristics.NO_CACHE;
+import org.picocontainer.injectors.ConstructorInjection;
+import org.picocontainer.injectors.SetterInjection;
+import org.picocontainer.behaviors.Cached;
 
 /**
  * This Registrar is backed by PicoContainer for managing Dependency Injection.  This registrar
@@ -37,14 +35,16 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     private final ParameterResolver parameterResolver;
     private final LifecycleStrategy lifecycleStrategy;
     private final RegistrarMonitor registrarMonitor;
+    private final ComponentMonitor picoComponentMonitor;
     private Injection injection = Injection.CONSTRUCTOR;
 
     public PicoRegistrar(MutablePicoContainer picoContainer, ParameterResolver parameterResolver,
-            LifecycleStrategy lifecycleStrategy, RegistrarMonitor registrarMonitor) {
+            LifecycleStrategy lifecycleStrategy, RegistrarMonitor registrarMonitor, ComponentMonitor picoComponentMonitor) {
         this.picoContainer = picoContainer;
         this.parameterResolver = parameterResolver;
         this.lifecycleStrategy = lifecycleStrategy;
         this.registrarMonitor = registrarMonitor;
+        this.picoComponentMonitor = picoComponentMonitor;
     }
 
     public Registrar useInjection(Injection injection) {
@@ -55,15 +55,16 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     public boolean isRegistered(Object typeOrInstance) {
         if (typeOrInstance instanceof Class) {
             Class<?> type = (Class<?>) typeOrInstance;
-            return picoContainer.getComponentInstancesOfType(type).size() > 0;
+            List<?> objects = picoContainer.getComponents(type);
+            return objects.size() > 0;
         }
-        return picoContainer.getComponentInstance(typeOrInstance) != null;
+        return picoContainer.getComponent(typeOrInstance) != null;
     }
 
     public Object getRegistered(Object typeOrInstance) {
         if (typeOrInstance instanceof Class) {
             Class<?> type = (Class<?>) typeOrInstance;
-            List<?> instances = picoContainer.getComponentInstancesOfType(type);
+            List<?> instances = picoContainer.getComponents(type);
             if ( instances.size() == 0 ){
                 throw new RegistrarException("No component instance registered for type "+type);
             } else if ( instances.size() > 1 ){
@@ -72,7 +73,7 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
                 return instances.get(0);
             }            
         }
-        Object instance = picoContainer.getComponentInstance(typeOrInstance);
+        Object instance = picoContainer.getComponent(typeOrInstance);
         if ( instance == null ){
             throw new RegistrarException("No component instance registered for type or instance "+typeOrInstance);
         }
@@ -86,7 +87,7 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
 
     public Registrar register(Object key, Class<?> type, Object... parameters) {
         ComponentAdapter componentAdapter = buildComponentAdapter(key, type, parameters);
-        CachingComponentAdapter cachingComponentAdapter = new CachingComponentAdapter(componentAdapter);
+        Cached cachingComponentAdapter = new Cached(componentAdapter);
         this.registerComponentAdapter(cachingComponentAdapter);
         registrarMonitor.componentRegistered(key, type, parameters);
         return this;
@@ -98,7 +99,7 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     }
 
     public Registrar registerInstance(Object key, Object instance) {
-        picoContainer.registerComponentInstance(key, instance);
+        picoContainer.addComponent(key, instance);
         registrarMonitor.instanceRegistered(key, instance);
         return this;
     }
@@ -111,19 +112,19 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     public Registrar registerNonCaching(Object key, Class<?> type, Object... parameters) {
         ComponentAdapter componentAdapter = buildComponentAdapter(key, type, parameters);
 
-        picoContainer.registerComponent(componentAdapter);
+        picoContainer.as(NO_CACHE).addAdapter(componentAdapter);
         registrarMonitor.nonCachingComponentRegistered(key, type, parameters);
         return this;
     }
 
     public void registerRubyScript(String key, String className) {
         ComponentAdapter componentAdapter = new RubyScriptComponentAdapter(key, className);
-        CachingComponentAdapter cachingComponentAdapter = new CachingComponentAdapter(componentAdapter);
+        Cached cachingComponentAdapter = new Cached(componentAdapter);
         this.registerComponentAdapter(cachingComponentAdapter);
     }
 
     public void registerComponentAdapter(ComponentAdapter componentAdapter) {
-        picoContainer.registerComponent(componentAdapter);
+        picoContainer.as(NO_CACHE).addAdapter(componentAdapter);
     }
 
     private Parameter[] picoParameters(Object[] parameters) {
@@ -139,17 +140,17 @@ public class PicoRegistrar implements Registrar, RubyAwareRegistrar {
     }
 
     private ComponentAdapter buildComponentAdapter(Object key, Class<?> type, Object... parameters) {
-        ComponentAdapterFactory componentAdapterFactory;
+        InjectionFactory componentAdapterFactory;
 
         if (injection == Injection.CONSTRUCTOR) {
-            componentAdapterFactory = new ConstructorInjectionComponentAdapterFactory(false, lifecycleStrategy);
+            componentAdapterFactory = new ConstructorInjection();
         } else if (injection == Injection.SETTER) {
-            componentAdapterFactory = new SetterInjectionComponentAdapterFactory(false, lifecycleStrategy);
+            componentAdapterFactory = new SetterInjection();
         } else {
             throw new IllegalArgumentException("Invalid injection " + injection);
         }
 
-        return componentAdapterFactory.createComponentAdapter(key, type, picoParameters(parameters));
+        return componentAdapterFactory.createComponentAdapter(picoComponentMonitor, lifecycleStrategy, new Properties(), key, type, picoParameters(parameters));
     }
 
     public void application() {

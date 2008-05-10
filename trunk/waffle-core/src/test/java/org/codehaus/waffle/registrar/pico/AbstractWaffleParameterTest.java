@@ -8,6 +8,9 @@ import org.junit.runner.RunWith;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.PicoVisitor;
+import org.picocontainer.NameBinding;
+
+import java.lang.annotation.Annotation;
 
 /**
  * 
@@ -22,8 +25,9 @@ public class AbstractWaffleParameterTest {
     @Test
     public void canAcceptParameter() {
         final AbstractWaffleParameter parameter = new AbstractWaffleParameter("foobar") {
+
             @SuppressWarnings("unchecked")
-            public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class aClass) {
+            public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> tClass, NameBinding nameBinding, boolean b, Annotation annotation) {
                 throw new UnsupportedOperationException("don't call");
             }
         };

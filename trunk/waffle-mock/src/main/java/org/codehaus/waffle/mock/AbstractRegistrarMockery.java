@@ -114,7 +114,7 @@ public abstract class AbstractRegistrarMockery extends Mockery {
     protected abstract Registrar createRegistrar(ContextContainer container);
 
     protected RegistrarMonitor getRegistrarMonitor(ContextContainer container) {
-        RegistrarMonitor registrarMonitor = container.getComponentInstanceOfType(RegistrarMonitor.class);
+        RegistrarMonitor registrarMonitor = container.getComponent(RegistrarMonitor.class);
         if ( registrarMonitor == null ){
             registrarMonitor = new SilentMonitor();
             // TODO monitor it

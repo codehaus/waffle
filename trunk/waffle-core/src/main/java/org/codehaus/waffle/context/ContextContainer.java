@@ -23,7 +23,7 @@ public interface ContextContainer extends Startable, Serializable {
 
     Object getComponentInstance(Object key);
 
-    <T> T getComponentInstanceOfType(Class<T> type);
+    <T> T getComponent(Class<T> type);
 
     <T> Collection<T> getAllComponentInstancesOfType(Class<T> type);
 

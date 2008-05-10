@@ -299,8 +299,8 @@ public class PicoComponentRegistryTest {
         picoField.setAccessible(true);
         MutablePicoContainer pico = (MutablePicoContainer) picoField.get(componentRegistry);
 
-        assertNotSame(pico.getComponentInstanceOfType(List.class), pico.getComponentInstanceOfType(List.class));
-        assertNotSame(pico.getComponentInstanceOfType(List.class), pico.getComponentInstance("FooBar"));
+        assertNotSame(pico.getComponent(List.class), pico.getComponent(List.class));
+        assertNotSame(pico.getComponent(List.class), pico.getComponent("FooBar"));
     }
 
 }

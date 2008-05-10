@@ -18,8 +18,8 @@ import org.codehaus.waffle.registrar.RequestParameterReference;
 import org.codehaus.waffle.registrar.ServletContextAttributeReference;
 import org.junit.Assert;
 import org.junit.Test;
-import org.picocontainer.defaults.ComponentParameter;
-import org.picocontainer.defaults.ConstantParameter;
+import org.picocontainer.parameters.ConstantParameter;
+import org.picocontainer.parameters.ComponentParameter;
 
 public class DefaultPicoContainerParameterResolverTest {
 

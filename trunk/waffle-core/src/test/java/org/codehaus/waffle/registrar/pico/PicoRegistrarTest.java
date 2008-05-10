@@ -37,9 +37,13 @@ import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
-import org.picocontainer.defaults.DefaultPicoContainer;
-import org.picocontainer.defaults.LifecycleStrategy;
+import org.picocontainer.LifecycleStrategy;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.ComponentMonitor;
+import org.picocontainer.containers.EmptyPicoContainer;
+import org.picocontainer.lifecycle.NullLifecycleStrategy;
+import org.picocontainer.behaviors.Caching;
+import org.picocontainer.injectors.ConstructorInjector;
 import org.picocontainer.monitors.NullComponentMonitor;
 
 /**
@@ -50,11 +54,12 @@ public class PicoRegistrarTest {
     private LifecycleStrategy lifecycleStrategy = new PicoLifecycleStrategy(new NullComponentMonitor());
 
     private Mockery mockery = new Mockery();
+    ComponentMonitor cm = new NullComponentMonitor();
 
     @Test
     public void canRegisterComponent() {
 
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
 
         // Mock RegistrarMonitor
         final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
@@ -65,7 +70,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor)
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor, cm)
                 .register(type);
         assertTrue(registrar.isRegistered(type));
 
@@ -77,7 +82,7 @@ public class PicoRegistrarTest {
 
     @Test
     public void canRegisterComponentWithKey() {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
         // Mock RegistrarMonitor
         final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
         final String key = "foobar";
@@ -88,7 +93,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor, cm);
         registrar.register(key, type);
         assertTrue(registrar.isRegistered(type));
 
@@ -96,12 +101,12 @@ public class PicoRegistrarTest {
         FakeController controllerTwo = (FakeController) registrar.getRegistered(key);
 
         assertSame(controllerOne, controllerTwo);
-        assertSame(controllerOne, pico.getComponentInstanceOfType(type));
+        assertSame(controllerOne, pico.getComponent(type));
     }
 
     @Test
     public void canRegisterInstance() {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
         // Mock RegistrarMonitor
         final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
         final FakeController fakeController = new FakeController();
@@ -111,7 +116,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor, cm);
         registrar.registerInstance(fakeController);
         assertTrue(registrar.isRegistered(fakeController));
 
@@ -120,7 +125,7 @@ public class PicoRegistrarTest {
 
     @Test
     public void canRegisterInstanceWithKey() {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
         // Mock RegistrarMonitor
         final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
         final String key = "foobar";
@@ -131,17 +136,17 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor, cm);
         registrar.registerInstance(key, fakeController);
         assertTrue(registrar.isRegistered(key));
 
         assertSame(fakeController, registrar.getRegistered("foobar"));
-        assertSame(fakeController, pico.getComponentInstanceOfType(FakeController.class));
+        assertSame(fakeController, pico.getComponent(FakeController.class));
     }
 
     @Test
     public void canRegisterNonCachingComponent() {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
         // Mock RegistrarMonitor
         final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
         final Class<?> type = FakeController.class;
@@ -151,7 +156,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor, cm);
         registrar.registerNonCaching(type);
         assertTrue(registrar.isRegistered(type));
 
@@ -163,7 +168,7 @@ public class PicoRegistrarTest {
 
     @Test
     public void canRegisterNonCachingComponentWithKey() {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
         // Mock RegistrarMonitor
         final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
         final String key = "foobar";
@@ -174,7 +179,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor, cm);
         registrar.registerNonCaching(key, type);
         assertTrue(registrar.isRegistered(type));
 
@@ -187,16 +192,16 @@ public class PicoRegistrarTest {
     @Test
     public void canSwitchInjectionType() {
         FakeBean fakeBean = new FakeBean();
-        MutablePicoContainer pico = new DefaultPicoContainer();
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor(), cm);
 
         registrar.registerInstance(fakeBean)
                 .register(ConstructorInjectionComponent.class)
                 .useInjection(Registrar.Injection.SETTER)
                 .register(SetterInjectionComponent.class);
 
-        ConstructorInjectionComponent cia = (ConstructorInjectionComponent) pico.getComponentInstance(ConstructorInjectionComponent.class);
-        SetterInjectionComponent sia = (SetterInjectionComponent) pico.getComponentInstance(SetterInjectionComponent.class);
+        ConstructorInjectionComponent cia = (ConstructorInjectionComponent) pico.getComponent(ConstructorInjectionComponent.class);
+        SetterInjectionComponent sia = (SetterInjectionComponent) pico.getComponent(SetterInjectionComponent.class);
 
         // ensure both constructed correctly
         assertSame(fakeBean, cia.getFakeBean());
@@ -205,9 +210,9 @@ public class PicoRegistrarTest {
 
     @Test
     public void canRegisterComponentWithConstantParameters() {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
         ParameterResolver parameterResolver = new DefaultParameterResolver(null);
-        Registrar registrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor());
+        Registrar registrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor(), cm);
 
         registrar.register("component", ComponentWithParameterDependencies.class, "foo", "bar");
 
@@ -220,9 +225,9 @@ public class PicoRegistrarTest {
 
     @Test
     public void canRegisterComponentWithNamedDependency() {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
         ParameterResolver parameterResolver = new DefaultParameterResolver(null);
-        Registrar registrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor());
+        Registrar registrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, new SilentMonitor(), cm);
 
         registrar.registerInstance("one", "foo")
                 .registerInstance("two", "bar")
@@ -237,16 +242,16 @@ public class PicoRegistrarTest {
 
     @Test
     public void canRegisterComponentAdapter() {
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
 
-        ConstructorInjectionComponentAdapter componentAdapter
-                = new ConstructorInjectionComponentAdapter("a", FakeController.class);
+        ConstructorInjector componentAdapter
+                = new ConstructorInjector("a", FakeController.class);
 
-        PicoRegistrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
+        PicoRegistrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor(), cm);
         registrar.registerComponentAdapter(componentAdapter);
 
         FakeController controllerOne = (FakeController) registrar.getRegistered("a");
-        FakeController controllerTwo = (FakeController) pico.getComponentInstanceOfType(FakeController.class);
+        FakeController controllerTwo = (FakeController) pico.getComponent(FakeController.class);
 
         assertNotSame(controllerOne, controllerTwo);
     }
@@ -261,9 +266,9 @@ public class PicoRegistrarTest {
             will(returnValue(componentRegistry));
         }});
         
-        MutablePicoContainer pico = new DefaultPicoContainer();
-        pico.registerComponentInstance(servletContext);
-        PicoRegistrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor());
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
+        pico.addComponent(servletContext);
+        PicoRegistrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor(), cm);
         DecoratorRegistrar decorator = new DecoratorRegistrar(registrar);
         decorator.application();
         assertNotNull(decorator.registry);
@@ -285,7 +290,7 @@ public class PicoRegistrarTest {
     @Test(expected=RegistrarException.class)
     public void cannotGetRegistedComponentWithUnknownKey() {
 
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
 
         // Mock RegistrarMonitor
         final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
@@ -296,7 +301,7 @@ public class PicoRegistrarTest {
             }
         });
 
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor)
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor, cm)
                 .register(type);
         assertTrue(registrar.isRegistered(type));
         assertFalse(registrar.isRegistered("unknownKey"));
@@ -306,12 +311,12 @@ public class PicoRegistrarTest {
     @Test(expected=RegistrarException.class)
     public void cannotGetRegistedComponentThatHasNotBeenRegistered() {
 
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
 
         // Mock RegistrarMonitor
         final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
         final Class<?> type = FakeController.class;
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor, cm);
         assertFalse(registrar.isRegistered(type));
         registrar.getRegistered(type);
     }
@@ -319,7 +324,7 @@ public class PicoRegistrarTest {
     @Test(expected=RegistrarException.class)
     public void cannotGetRegistedComponentThatHasMultipleInstancesRegistered() {
 
-        MutablePicoContainer pico = new DefaultPicoContainer();
+        MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
 
         // Mock RegistrarMonitor
         final RegistrarMonitor registrarMonitor = mockery.mock(RegistrarMonitor.class);
@@ -331,7 +336,7 @@ public class PicoRegistrarTest {
                 one(registrarMonitor).componentRegistered(subType, subType, new Object[]{});
             }
         });
-        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor);
+        Registrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, registrarMonitor, cm);
         registrar.register(type);
         registrar.register(subType);
         assertTrue(registrar.isRegistered(type));

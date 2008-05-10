@@ -12,61 +12,24 @@ package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.Startable;
 import org.picocontainer.ComponentMonitor;
-import org.picocontainer.defaults.DefaultLifecycleStrategy;
+import org.picocontainer.lifecycle.StartableLifecycleStrategy;
 
 import java.lang.reflect.Method;
 
-public class PicoLifecycleStrategy extends DefaultLifecycleStrategy {
-    private static Method start, stop;
-
-    static {
-        try {
-            start = Startable.class.getMethod("start", (Class[]) null);
-            stop = Startable.class.getMethod("stop", (Class[]) null);
-        } catch (NoSuchMethodException e) {
-            // ignore
-        }
+public class PicoLifecycleStrategy extends StartableLifecycleStrategy {
+    public PicoLifecycleStrategy(ComponentMonitor componentMonitor) {
+        super(componentMonitor);
     }
 
-    public PicoLifecycleStrategy(ComponentMonitor monitor) {
-        super(monitor);
+    protected String getStopMethodName() {
+        return "stop";
     }
 
-    @Override
-    public void start(Object component) {
-        if (component != null && component instanceof Startable) {
-            long str = System.currentTimeMillis();
-            currentMonitor().invoking(start, component);
-            try {
-                ((Startable) component).start();
-                currentMonitor().invoked(start, component, System.currentTimeMillis() - str);
-            } catch (RuntimeException cause) {
-                currentMonitor().lifecycleInvocationFailed(start, component, cause); // may re-throw
-            }
-        } else {
-            super.start(component);
-        }
+    protected String getStartMethodName() {
+        return "start";
     }
 
-    @Override
-    public void stop(Object component) {
-        if (component != null && component instanceof Startable) {
-            long str = System.currentTimeMillis();
-            currentMonitor().invoking(stop, component);
-            try {
-                ((Startable) component).stop();
-                currentMonitor().invoked(stop, component, System.currentTimeMillis() - str);
-            } catch (RuntimeException cause) {
-                currentMonitor().lifecycleInvocationFailed(stop, component, cause); // may re-throw
-            }
-        } else {
-            super.stop(component);
-        }
+    protected Class getStartableInterface() {
+        return Startable.class;    
     }
-
-    @Override
-    public boolean hasLifecycle(Class type) {
-        return Startable.class.isAssignableFrom(type) || super.hasLifecycle(type);
-    }
-
 }

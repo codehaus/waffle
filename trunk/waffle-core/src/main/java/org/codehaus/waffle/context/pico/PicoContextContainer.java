@@ -15,7 +15,8 @@ import org.codehaus.waffle.context.ContextContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.PicoException;
-import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.behaviors.Caching;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,7 +26,7 @@ public class PicoContextContainer implements ContextContainer {
     private final MutablePicoContainer delegate;
 
     public PicoContextContainer() {
-        this(new DefaultPicoContainer());
+        this(new DefaultPicoContainer(new Caching()));
     }
 
     public PicoContextContainer(MutablePicoContainer delegate) {
@@ -33,7 +34,7 @@ public class PicoContextContainer implements ContextContainer {
     }
 
     public void registerComponentInstance(Object instance) {
-        delegate.registerComponentInstance(instance);
+        delegate.addComponent(instance);
     }
 
     public void start() {
@@ -50,15 +51,15 @@ public class PicoContextContainer implements ContextContainer {
 
     public Object getComponentInstance(Object key) {
         try {
-            return delegate.getComponentInstance(key);
+            return delegate.getComponent(key);
         } catch (PicoException e) {
             throw new WaffleException("Unable to construct component '" + key  +"'.", e);
         }
     }
 
     @SuppressWarnings({"unchecked"})
-    public <T> T getComponentInstanceOfType(Class<T> type) {
-        return (T) delegate.getComponentInstanceOfType(type);
+    public <T> T getComponent(Class<T> type) {
+        return (T) delegate.getComponent(type);
     }
 
     public <T> Collection<T> getAllComponentInstancesOfType(Class<T> type) {
@@ -69,12 +70,12 @@ public class PicoContextContainer implements ContextContainer {
     }
     
     public void validateComponentInstances() {
-        delegate.getComponentInstances();
+        delegate.getComponents();
     }
 
     @SuppressWarnings({"unchecked"})
     private <T> void traverseContainerHeirarchy(PicoContainer container, Class<T> type, List<T> collection) {
-        collection.addAll(container.getComponentInstancesOfType(type));
+        collection.addAll(container.getComponents(type));
 
         PicoContainer parent = container.getParent();
         if (parent != null) {

@@ -31,7 +31,7 @@ public class RhtmlServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String template = loadRhtml(request.getServletPath());
 
-        Ruby runtime = RequestLevelContainer.get().getComponentInstanceOfType(Ruby.class);
+        Ruby runtime = RequestLevelContainer.get().getComponent(Ruby.class);
         RubyModule module = runtime.getClassFromPath("ERB");
 
         IRubyObject erb = (IRubyObject) JavaEmbedUtils.invokeMethod(runtime, module, "new",

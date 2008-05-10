@@ -8,7 +8,8 @@ import org.jruby.runtime.builtin.IRubyObject;
 import org.junit.Test;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.behaviors.Caching;
 
 public class RubyScriptComponentAdapterTest {
 
@@ -39,8 +40,8 @@ public class RubyScriptComponentAdapterTest {
         runtime.evalScript(script);
 
         ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foo_bar", "FooBar");
-        MutablePicoContainer picoContainer = new DefaultPicoContainer();
-        picoContainer.registerComponentInstance(Ruby.class, runtime);
+        MutablePicoContainer picoContainer = new DefaultPicoContainer(new Caching());
+        picoContainer.addComponent(Ruby.class, runtime);
 
         IRubyObject instance = (IRubyObject) componentAdapter.getComponentInstance(picoContainer);
 

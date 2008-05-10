@@ -58,8 +58,11 @@ import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.defaults.ConstructorInjectionComponentAdapter;
-import org.picocontainer.defaults.DefaultPicoContainer;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.Characteristics;
+import org.picocontainer.behaviors.Caching;
+import org.picocontainer.injectors.ConstructorInjection;
+import org.picocontainer.injectors.ConstructorInjector;
 
 import javax.servlet.ServletContext;
 import java.util.Enumeration;
@@ -73,13 +76,13 @@ import java.util.Enumeration;
 public class PicoComponentRegistry implements ComponentRegistry {
     private static final String REGISTER_KEY = "register:";
     private static final String REGISTER_NON_CACHING_KEY = "registerNonCaching:";
-    private final MutablePicoContainer picoContainer = new DefaultPicoContainer();
+    private final MutablePicoContainer picoContainer = new DefaultPicoContainer(new Caching());
 
     /**
      * Register all waffle required components with the underlying container.
      */
     public PicoComponentRegistry(ServletContext servletContext) {
-        picoContainer.registerComponentInstance(servletContext);
+        picoContainer.addComponent(servletContext);
 
         // register all known components
         register(ActionMethodExecutor.class, InterceptingActionMethodExecutor.class, servletContext);
@@ -125,14 +128,11 @@ public class PicoComponentRegistry implements ComponentRegistry {
                 String key = name.split(REGISTER_KEY)[1];
                 Class concreteClass = loadClass(servletContext.getInitParameter(name));
 
-                picoContainer.registerComponentImplementation(key, concreteClass);
+                picoContainer.addComponent(key, concreteClass);
             } else if (name.startsWith(REGISTER_NON_CACHING_KEY)) {
                 String key = name.split(REGISTER_NON_CACHING_KEY)[1];
                 Class concreteClass = loadClass(servletContext.getInitParameter(name));
-
-                ComponentAdapter componentAdapter =
-                        new ConstructorInjectionComponentAdapter(key, concreteClass);
-                picoContainer.registerComponent(componentAdapter);
+                picoContainer.as(Characteristics.NO_CACHE).addComponent(key, concreteClass);
             }
         }
     }
@@ -193,7 +193,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
      */
     private void register(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
         Class<?> componentClass = locateComponentClass(key, defaultClass, servletContext);
-        picoContainer.registerComponentImplementation(key, componentClass);
+        picoContainer.addComponent(key, componentClass);
     }
 
     /**
@@ -201,12 +201,12 @@ public class PicoComponentRegistry implements ComponentRegistry {
      */
     @SuppressWarnings("unchecked")
     public <T> T locateByKey(Object key) {
-        return (T) picoContainer.getComponentInstance(key);
+        return (T) picoContainer.getComponent(key);
     }
 
     @SuppressWarnings("unchecked")
     public <T> T locateByType(Class<T> t) {
-        return (T) picoContainer.getComponentInstanceOfType(t);
+        return (T) picoContainer.getComponent(t);
     }
 
     public ActionMethodExecutor getActionMethodExecutor() {
