@@ -5,28 +5,34 @@ import java.util.List;
 
 public interface Person {
 
-    public Long getId();
+    enum Type {
+        WIZARD, APPRENTICE
+    }
+    
+    Long getId();
 
-    public String getFirstName();
+    String getFirstName();
 
-    public String getLastName();
+    String getLastName();
 
-    public String getEmail();
+    String getEmail();
 
-    public Date getDateOfBirth();
+    Date getDateOfBirth();
 
-    public Date getBirthDay();
+    Date getBirthDay();
     
-    public Date getBirthTime();
+    Date getBirthTime();
     
-    public List<String> getSkills();
+    List<String> getSkills();
     
-    public List<Integer> getLevels();
+    List<Integer> getLevels();
     
-    public List<Double> getGrades();
+    List<Double> getGrades();
+
+    Type getType(); 
     
-    public boolean isWizard();
+    boolean isWizard();
     
-    public String getNotes();
+    String getNotes();
     
 }

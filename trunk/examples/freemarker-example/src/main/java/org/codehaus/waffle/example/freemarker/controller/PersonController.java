@@ -1,5 +1,7 @@
 package org.codehaus.waffle.example.freemarker.controller;
 
+import static java.util.Arrays.asList;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.codehaus.waffle.example.freemarker.model.Person;
+import org.codehaus.waffle.example.freemarker.model.Person.Type;
 import org.codehaus.waffle.example.freemarker.persister.PersistablePerson;
 import org.codehaus.waffle.example.freemarker.persister.PersonPersister;
 import org.codehaus.waffle.view.ExportView;
@@ -33,6 +36,10 @@ public class PersonController implements Serializable {
         return persister.findAll();
     }
 
+    public List<Type> getTypes(){
+        return asList(Type.values());
+    }
+    
     public List<Long> getSelectedIds() {
         return selectedIds;
     }
