@@ -62,6 +62,14 @@
             <label for="person.grades">Grades:</label>
             <@w.textAsCSV "person.grades" person.getGrades()![] /> 
         </p>
+        <p class="fieldRow">
+            <label for="person.wizard">Is wizard:</label>
+            <@w.text "person.wizard" "${person.wizard?string}"/>
+        </p>
+        <p class="fieldRow">
+            <label for="person.notes">Notes:</label>
+            <@w.textarea "person.notes" "${person.notes}" />
+        </p>
     </fieldset>
     
     <div class="controls">

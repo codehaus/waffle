@@ -25,4 +25,8 @@ public interface Person {
     
     public List<Double> getGrades();
     
+    public boolean isWizard();
+    
+    public String getNotes();
+    
 }

@@ -16,6 +16,7 @@
             <th>Last Name</th>
             <th>Email</th>
             <th>Date of Birth</th>
+            <th>Is Wizard</th>
             <th>Skills</th>
             <th>Select</th>
         </tr>
@@ -28,6 +29,7 @@
                 <td>${person.lastName}</td>
                 <td>${person.email}</td>
                 <td><#if person.dateOfBirth??>${person.dateOfBirth?string("dd/MM/yyyy")}</#if></td>
+                <td>${person.wizard?string}</td>
                 <td><@w.asCSV person.getSkills()![] /> </p></td>
                 <td><@w.checkbox "selectedIds" "${person.id}" /></td>
             </tr>
