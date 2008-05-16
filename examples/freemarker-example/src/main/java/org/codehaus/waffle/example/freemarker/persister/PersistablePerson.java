@@ -20,6 +20,7 @@ public class PersistablePerson implements Person {
     private List<Double> grades;
     private String notes;
     private boolean wizard;
+    private Type type;
 
     public PersistablePerson() {
         id = new Long(0);
@@ -33,6 +34,7 @@ public class PersistablePerson implements Person {
         levels = new ArrayList<Integer>();
         grades = new ArrayList<Double>();
         notes = "";
+        type = Type.APPRENTICE;
         wizard = false;
     }
 
@@ -48,6 +50,7 @@ public class PersistablePerson implements Person {
         this.levels = person.getLevels();
         this.grades = person.getGrades();
         this.notes = person.getNotes();
+        this.type = person.getType();
         this.wizard = person.isWizard();
     }
 
@@ -139,12 +142,20 @@ public class PersistablePerson implements Person {
         this.notes = notes;
     }
 
-    public void setWizard(boolean wizard) {
-        this.wizard = wizard;
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public boolean isWizard() {
         return wizard;
+    }
+
+    public void setWizard(boolean wizard) {
+        this.wizard = wizard;
     }
 
     

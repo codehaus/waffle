@@ -63,6 +63,10 @@
             <@w.textAsCSV "person.grades" person.getGrades()![] /> 
         </p>
         <p class="fieldRow">
+            <label for="person.type">Type:</label>
+            <@w.selectSingle "person.type" controller.getTypes() person.getType()/>
+        </p>
+        <p class="fieldRow">
             <label for="person.wizard">Is wizard:</label>
             <@w.text "person.wizard" "${person.wizard?string}"/>
         </p>
