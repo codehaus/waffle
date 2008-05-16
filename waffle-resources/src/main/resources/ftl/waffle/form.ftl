@@ -52,6 +52,16 @@
 </#macro>
 
 <#--
+ * Writes a file input element
+ *
+ * @param field the name of the field to bind the element to 
+ * @param attributes any additional attributes for the element (defaults to "")
+-->
+<#macro file field attributes="">
+    <input type="file" id="${field}" name="${field}" ${attributes}/>
+</#macro>
+
+<#--
  * Writes a hidden input element with a given value
  *
  * @param field the name of the field to bind the element to 
