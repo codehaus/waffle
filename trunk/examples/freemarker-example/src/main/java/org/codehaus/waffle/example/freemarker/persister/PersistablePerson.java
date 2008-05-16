@@ -18,6 +18,8 @@ public class PersistablePerson implements Person {
     private List<String> skills;
     private List<Integer> levels;
     private List<Double> grades;
+    private String notes;
+    private boolean wizard;
 
     public PersistablePerson() {
         id = new Long(0);
@@ -30,6 +32,8 @@ public class PersistablePerson implements Person {
         skills = new ArrayList<String>();
         levels = new ArrayList<Integer>();
         grades = new ArrayList<Double>();
+        notes = "";
+        wizard = false;
     }
 
     public PersistablePerson(Person person) {
@@ -43,6 +47,8 @@ public class PersistablePerson implements Person {
         this.skills = person.getSkills();
         this.levels = person.getLevels();
         this.grades = person.getGrades();
+        this.notes = person.getNotes();
+        this.wizard = person.isWizard();
     }
 
     public Long getId() {
@@ -125,4 +131,21 @@ public class PersistablePerson implements Person {
         this.grades = grades;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setWizard(boolean wizard) {
+        this.wizard = wizard;
+    }
+
+    public boolean isWizard() {
+        return wizard;
+    }
+
+    
 }
