@@ -97,6 +97,17 @@
 </#macro>
 
 <#--
+ * Writes a textarea element with a given value
+ *
+ * @param field the name of the field to bind the element to 
+ * @param value the value
+ * @param attributes any additional attributes for the element (defaults to "")
+-->
+<#macro textarea field value attributes="">
+    <textarea id="${field}" name="${field}" ${attributes}>${value}</textarea>
+</#macro>
+
+<#--
  * Writes a select input element allowing a value to be chosen from a list of options.
  *
  * @param field the name of the field to bind the element to 
