@@ -1,9 +1,12 @@
 package org.codehaus.waffle.example.freemarker.persister;
 
+import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.codehaus.waffle.example.freemarker.model.Person;
 
 public class PersistablePerson implements Person {
@@ -117,7 +120,7 @@ public class PersistablePerson implements Person {
     public void setSkills(List<String> skills) {
         this.skills = skills;
     }
-    
+
     public List<Integer> getLevels() {
         return levels;
     }
@@ -129,7 +132,7 @@ public class PersistablePerson implements Person {
     public List<Double> getGrades() {
         return grades;
     }
-    
+
     public void setGrades(List<Double> grades) {
         this.grades = grades;
     }
@@ -154,9 +157,17 @@ public class PersistablePerson implements Person {
         return wizard;
     }
 
+    public boolean getWizard() {
+        return wizard;
+    }
+
     public void setWizard(boolean wizard) {
         this.wizard = wizard;
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, SHORT_PREFIX_STYLE);
+    }
     
 }
