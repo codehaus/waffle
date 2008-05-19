@@ -1,5 +1,10 @@
 package org.codehaus.waffle.testing.view;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import org.codehaus.waffle.testing.view.freemarker.FreemarkerProcessor;
 
 /**
@@ -42,11 +47,11 @@ public class ViewHarness {
     }
 
     /**
-     * Static entry point to ViewHarness
+     * Processes a view
      * 
      * @param resource the template resource path
      * @param controller the controller instance
-     * @param debug the debug boolean flag 
+     * @param debug the debug boolean flag
      * @return The processed resource
      */
     public static String processView(String resource, Object controller, boolean debug) {
@@ -55,5 +60,32 @@ public class ViewHarness {
             System.out.println(processed);
         }
         return processed;
+    }
+
+    /**
+     * Exports a view to a file
+     * 
+     * @param resource the template resource path
+     * @param controller the controller instance
+     * @param output the File to export view to
+     * @throws IOException
+     */
+    public static void exportView(String resource, Object controller, File output) throws IOException {
+        File parent = new File(output.getParent());
+        parent.mkdirs();
+        exportView(resource, controller, new FileOutputStream(output));
+    }
+
+    /**
+     * Exports a view to an output stream
+     * 
+     * @param resource the template resource path
+     * @param controller the controller instance
+     * @param output the OutputStream to export view to
+     * @throws IOException
+     */
+    public static void exportView(String resource, Object controller, OutputStream output) throws IOException {
+        String processed = new ViewHarness().process(resource, controller);
+        output.write(processed.getBytes());
     }
 }
