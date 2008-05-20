@@ -24,7 +24,7 @@ import freemarker.template.Template;
  */
 public class FreemarkerProcessor implements ViewProcessor {
 
-    private Configuration configuration;
+    public Configuration configuration;
 
     public FreemarkerProcessor() {
         this(defaultConfigurationProperties());
