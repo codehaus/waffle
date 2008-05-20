@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 import org.codehaus.waffle.testing.view.freemarker.FreemarkerProcessor;
 import org.codehaus.waffle.testing.view.sitemesh.SitemeshDecorator;
@@ -80,12 +81,13 @@ public class ViewHarness {
      * @param controller the controller instance
      * @param decoratorsResource the Sitemesh decorators resource
      * @param decoratorName the decorator name
+     * @param decoratorDataModel the decorator data model that can be used to override the processor data model
      * @return The decorated resource
      */
     public static String decorateView(String resource, Object controller, String decoratorsResource,
-            String decoratorName) {
+            String decoratorName, Map<String, Object> decoratorDataModel) {
         SitemeshDecorator decorator = new SitemeshDecorator(new ViewHarness().processorFor(resource));
-        return decorator.decorate(resource, controller, decoratorsResource, decoratorName);
+        return decorator.decorate(resource, controller, decoratorsResource, decoratorName, decoratorDataModel);
     }
 
     /**
