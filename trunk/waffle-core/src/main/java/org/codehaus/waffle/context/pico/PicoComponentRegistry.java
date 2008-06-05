@@ -10,10 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
+import java.util.Enumeration;
+
+import javax.servlet.ServletContext;
+
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.registrar.pico.ParameterResolver;
-import org.codehaus.waffle.registrar.pico.DefaultParameterResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.AnnotatedMethodDefinitionFinder;
@@ -26,11 +28,11 @@ import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.DataBinder;
+import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.IntrospectingRequestAttributeBinder;
 import org.codehaus.waffle.bind.RequestAttributeBinder;
-import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.bind.StringTransmuter;
-import org.codehaus.waffle.bind.DefaultStringTransmuter;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.bind.ognl.OgnlBindErrorMessageResolver;
 import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
@@ -50,22 +52,18 @@ import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.monitor.ValidationMonitor;
 import org.codehaus.waffle.monitor.ViewMonitor;
+import org.codehaus.waffle.registrar.pico.DefaultParameterResolver;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.validation.DefaultValidator;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
 import org.codehaus.waffle.view.DefaultViewResolver;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;
-import org.picocontainer.ComponentAdapter;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.Characteristics;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
-import org.picocontainer.injectors.ConstructorInjection;
-import org.picocontainer.injectors.ConstructorInjector;
-
-import javax.servlet.ServletContext;
-import java.util.Enumeration;
 
 /**
  * PicoContainer-based implementation of Waffle's ComponentRegistry

@@ -14,8 +14,6 @@ import org.codehaus.waffle.Startable;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.lifecycle.StartableLifecycleStrategy;
 
-import java.lang.reflect.Method;
-
 public class PicoLifecycleStrategy extends StartableLifecycleStrategy {
     public PicoLifecycleStrategy(ComponentMonitor componentMonitor) {
         super(componentMonitor);
