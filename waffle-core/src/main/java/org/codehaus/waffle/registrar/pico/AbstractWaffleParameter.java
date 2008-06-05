@@ -10,9 +10,13 @@
  *****************************************************************************/
 package org.codehaus.waffle.registrar.pico;
 
-import org.picocontainer.*;
-
 import java.lang.annotation.Annotation;
+
+import org.picocontainer.ComponentAdapter;
+import org.picocontainer.NameBinding;
+import org.picocontainer.Parameter;
+import org.picocontainer.PicoContainer;
+import org.picocontainer.PicoVisitor;
 
 /**
  * A base for Waffle's implementation of PicoContainer Parameter.
