@@ -1,16 +1,19 @@
 package org.codehaus.waffle.example.simple;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+import java.util.Locale;
+
 import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.DefaultMessageResourcesConfiguration;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
-
-import java.util.List;
 
 public class AutomobileControllerValidatorTest {
 
@@ -31,7 +34,7 @@ public class AutomobileControllerValidatorTest {
 
     @Test
     public void canValidateHasErrors() {
-        MessageResources messageResources = new DefaultMessageResources();
+        MessageResources messageResources = new DefaultMessageResources(new DefaultMessageResourcesConfiguration(Locale.getDefault(), "SimpleResources"));
 
         AutomobileController controller = new AutomobileController();
         controller.setSpeed(140);

@@ -28,8 +28,7 @@ public class DefaultMessageResources implements MessageResources {
     public final String bundleName;
 
     public DefaultMessageResources() {
-        bundleName = "ApplicationResources";
-        userLocale.set(Locale.getDefault());
+        this(new DefaultMessageResourcesConfiguration());
     }
 
     public DefaultMessageResources(MessageResourcesConfiguration configuration) {
