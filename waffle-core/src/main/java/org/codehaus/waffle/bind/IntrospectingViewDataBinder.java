@@ -17,16 +17,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This implementation can handle all standard Java objects and RubyControllers are handled specially (instance_variables)
+ * ViewDataBinder implementation which uses Java beans introspector.
+ * RubyControllers are handled separately via IRubyObject instance_variables.
  * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class IntrospectingRequestAttributeBinder implements RequestAttributeBinder {
+public class IntrospectingViewDataBinder implements ViewDataBinder {
 
     private final BindMonitor bindMonitor;
 
-    public IntrospectingRequestAttributeBinder(BindMonitor bindMonitor) {
+    public IntrospectingViewDataBinder(BindMonitor bindMonitor) {
         this.bindMonitor = bindMonitor;
     }
 
@@ -47,17 +48,17 @@ public class IntrospectingRequestAttributeBinder implements RequestAttributeBind
                     String name = propertyDescriptor.getName();
                     request.setAttribute(name, readMethod.invoke(controller));
                     Object value = request.getAttribute(name);
-                    bindMonitor.attributeValueBoundFromController(name, value, controller);
+                    bindMonitor.viewValueBound(name, value, controller);
                 }
             }
         } catch (IntrospectionException e) {
-            bindMonitor.attributeBindFailed(controller, e);
+            bindMonitor.viewBindFailed(controller, e);
             throw new WaffleException(e);
         } catch (IllegalAccessException e) {
-            bindMonitor.attributeBindFailed(controller, e);
+            bindMonitor.viewBindFailed(controller, e);
             throw new WaffleException(e);
         } catch (InvocationTargetException e) {
-            bindMonitor.attributeBindFailed(controller, e);
+            bindMonitor.viewBindFailed(controller, e);
             throw new WaffleException(e);
         }
     }

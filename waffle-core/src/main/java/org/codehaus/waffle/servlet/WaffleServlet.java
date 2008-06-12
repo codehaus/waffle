@@ -35,8 +35,8 @@ import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.annotation.PRG;
-import org.codehaus.waffle.bind.DataBinder;
-import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.bind.ControllerDataBinder;
+import org.codehaus.waffle.bind.ViewDataBinder;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
@@ -68,8 +68,8 @@ public class WaffleServlet extends HttpServlet {
     private ActionMethodExecutor actionMethodExecutor;
     private ActionMethodResponseHandler actionMethodResponseHandler;
     private ControllerDefinitionFactory controllerDefinitionFactory;
-    private DataBinder dataBinder;
-    private RequestAttributeBinder requestAttributeBinder;
+    private ControllerDataBinder dataBinder;
+    private ViewDataBinder requestAttributeBinder;
     private Validator validator;
     private ServletMonitor servletMonitor;
     private boolean componentsRetrieved = false;
@@ -95,8 +95,8 @@ public class WaffleServlet extends HttpServlet {
     public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
                          ActionMethodResponseHandler actionMethodResponseHandler,
                          ServletMonitor servletMonitor,
-                         DataBinder dataBinder,
-                         RequestAttributeBinder requestAttributeBinder,
+                         ControllerDataBinder dataBinder,
+                         ViewDataBinder requestAttributeBinder,
                          ControllerDefinitionFactory controllerDefinitionFactory,
                          Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
@@ -120,8 +120,8 @@ public class WaffleServlet extends HttpServlet {
             actionMethodExecutor = registry.getActionMethodExecutor();
             actionMethodResponseHandler = registry.getActionMethodResponseHandler();
             controllerDefinitionFactory = registry.getControllerDefinitionFactory();
-            dataBinder = registry.getDataBinder();
-            requestAttributeBinder = registry.getRequestAttributeBinder();
+            dataBinder = registry.getControllerDataBinder();
+            requestAttributeBinder = registry.getViewDataBinder();
             validator = registry.getValidator();
             servletMonitor = registry.getServletMonitor();
         }

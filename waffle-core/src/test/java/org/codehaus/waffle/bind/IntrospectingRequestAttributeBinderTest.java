@@ -29,7 +29,7 @@ public class IntrospectingRequestAttributeBinderTest {
             will(returnValue(null));
         }});
 
-        IntrospectingRequestAttributeBinder binder = new IntrospectingRequestAttributeBinder(new SilentMonitor());
+        IntrospectingViewDataBinder binder = new IntrospectingViewDataBinder(new SilentMonitor());
         binder.bind(request, new SimpleController());
     }
 
@@ -37,7 +37,7 @@ public class IntrospectingRequestAttributeBinderTest {
     public void shouldNotThrowNullPointerExceptionWhenControllerMissingReadMethodForProperty() {
         final ControllerWithMissingReadMethod controller = new ControllerWithMissingReadMethod();
 
-        IntrospectingRequestAttributeBinder binder = new IntrospectingRequestAttributeBinder(new SilentMonitor());
+        IntrospectingViewDataBinder binder = new IntrospectingViewDataBinder(new SilentMonitor());
         binder.bind(null, controller);
     }
 
@@ -82,7 +82,7 @@ public class IntrospectingRequestAttributeBinderTest {
             one (request).setAttribute("number", 1985L);
         }});
 
-        IntrospectingRequestAttributeBinder binder = new IntrospectingRequestAttributeBinder(new SilentMonitor());
+        IntrospectingViewDataBinder binder = new IntrospectingViewDataBinder(new SilentMonitor());
         binder.bind(request, controller);
     }
 
