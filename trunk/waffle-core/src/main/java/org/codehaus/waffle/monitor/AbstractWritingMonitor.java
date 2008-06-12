@@ -76,10 +76,10 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("argumentNameNotMatched", INFO);
         levels.put("responseIsCommitted", INFO);
         levels.put("viewDispatched", INFO);
-        levels.put("attributeBindFailed", WARN);
-        levels.put("attributeValueBoundFromController", DEBUG);
-        levels.put("dataBindFailed", WARN);
-        levels.put("dataValueBoundToController", DEBUG);
+        levels.put("viewBindFailed", WARN);
+        levels.put("viewValueBound", DEBUG);
+        levels.put("controllerBindFailed", WARN);
+        levels.put("controllerValueBound", DEBUG);
         levels.put("registrarCreated", INFO);
         levels.put("registrarNotFound", WARN);
         levels.put("contextInitialized", DEBUG);
@@ -131,10 +131,10 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         messages.put("argumentNameNotMatched", "Argument name ''{0}'' not matched by pattern ''{1}''");
         messages.put("responseIsCommitted", "Response is committed for response: {0}");
         messages.put("viewDispatched", "View dispatched: {0}");
-        messages.put("attributeBindFailed", "Attribute bind failed from controller ''{0}'': {1}");
-        messages.put("attributeValueBoundFromController", "Attribute value ''{1}'' bound for name ''{0}'' from controller ''{2}''");        
-        messages.put("dataBindFailed", "Data bind failed to controller ''{0}'' with message {1}: {2}");
-        messages.put("dataValueBoundToController", "Data value ''{1}'' bound for name ''{0}'' to controller ''{2}''");        
+        messages.put("viewBindFailed", "View bind failed from controller ''{0}'': {1}");
+        messages.put("viewValueBound", "View value ''{1}'' bound for name ''{0}'' from controller ''{2}''");        
+        messages.put("controllerBindFailed", "Controller bind failed to controller ''{0}'' with message {1}: {2}");
+        messages.put("controllerValueBound", "Controller value ''{1}'' bound for name ''{0}'' to controller ''{2}''");        
         messages.put("registrarCreated", "Registrar ''{0}'' created  with monitor ''{1}''");
         messages.put("registrarNotFound", "Registrar ''{0}'' not found");
         messages.put("contextInitialized", "Context initialized");
@@ -258,20 +258,20 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("viewDispatched", view);        
     }
 
-    public void attributeBindFailed(Object controller, Exception cause){
-        write("attributeBindFailed", controller, cause);
+    public void viewBindFailed(Object controller, Exception cause){
+        write("viewBindFailed", controller, cause);
     }
 
-    public void attributeValueBoundFromController(String name, Object value, Object controller) {
-        write("attributeValueBoundFromController", name, value, controller);
+    public void viewValueBound(String name, Object value, Object controller) {
+        write("viewValueBound", name, value, controller);
     }
 
-    public void dataBindFailed(Object controller, BindErrorMessage errorMessage, Exception cause){
-        write("dataBindFailed", controller, errorMessage, cause);
+    public void controllerBindFailed(Object controller, BindErrorMessage errorMessage, Exception cause){
+        write("controllerBindFailed", controller, errorMessage, cause);
     }
     
-    public void dataValueBoundToController(String name, Object value, Object controller) {
-        write("dataValueBoundToController", name, value, controller);
+    public void controllerValueBound(String name, Object value, Object controller) {
+        write("controllerValueBound", name, value, controller);
     }
 
     public void registrarCreated(Registrar registrar, RegistrarMonitor registrarMonitor) {

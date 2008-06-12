@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author Michael Ward
  */
-public interface DataBinder {
+public interface ControllerDataBinder {
 
     /**
      * Bind parameters values from the request to the controller

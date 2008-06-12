@@ -17,8 +17,8 @@ import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
-import org.codehaus.waffle.bind.DataBinder;
-import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.bind.ControllerDataBinder;
+import org.codehaus.waffle.bind.ViewDataBinder;
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
@@ -80,13 +80,13 @@ public interface ComponentRegistry {
 
     ContextMonitor getContextMonitor();
 
+    ControllerDataBinder getControllerDataBinder();
+
     ControllerDefinitionFactory getControllerDefinitionFactory();
 
     ControllerMonitor getControllerMonitor();
 
     ControllerNameResolver getControllerNameResolver();
-
-    DataBinder getDataBinder();
 
     MessageResources getMessageResources();
 
@@ -95,8 +95,6 @@ public interface ComponentRegistry {
     MethodNameResolver getMethodNameResolver();
 
     RegistrarMonitor getRegistrarMonitor();
-
-    RequestAttributeBinder getRequestAttributeBinder();
 
     ServletMonitor getServletMonitor();
 
@@ -107,6 +105,8 @@ public interface ComponentRegistry {
     Validator getValidator();
 
     ValidationMonitor getValidationMonitor();
+
+    ViewDataBinder getViewDataBinder();
 
     ViewDispatcher getViewDispatcher();
 

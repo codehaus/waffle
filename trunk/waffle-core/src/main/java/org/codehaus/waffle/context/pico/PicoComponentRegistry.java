@@ -27,14 +27,14 @@ import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
-import org.codehaus.waffle.bind.DataBinder;
+import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.bind.DefaultStringTransmuter;
-import org.codehaus.waffle.bind.IntrospectingRequestAttributeBinder;
-import org.codehaus.waffle.bind.RequestAttributeBinder;
+import org.codehaus.waffle.bind.IntrospectingViewDataBinder;
+import org.codehaus.waffle.bind.ViewDataBinder;
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.bind.ognl.OgnlBindErrorMessageResolver;
-import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
+import org.codehaus.waffle.bind.ognl.OgnlControllerDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.controller.ContextControllerDefinitionFactory;
@@ -89,8 +89,8 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(MethodDefinitionFinder.class, AnnotatedMethodDefinitionFinder.class, servletContext);
         register(MethodNameResolver.class, RequestParameterMethodNameResolver.class, servletContext);
         register(BindErrorMessageResolver.class, OgnlBindErrorMessageResolver.class, servletContext);
-        register(DataBinder.class, OgnlDataBinder.class, servletContext);
-        register(RequestAttributeBinder.class, IntrospectingRequestAttributeBinder.class, servletContext);
+        register(ControllerDataBinder.class, OgnlControllerDataBinder.class, servletContext);
+        register(ViewDataBinder.class, IntrospectingViewDataBinder.class, servletContext);
         register(StringTransmuter.class, DefaultStringTransmuter.class, servletContext);
         register(ValueConverterFinder.class, OgnlValueConverterFinder.class, servletContext);
         register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
@@ -231,12 +231,12 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return locateByType(BindErrorMessageResolver.class);
     }
 
-    public DataBinder getDataBinder() {
-        return locateByType(DataBinder.class);
+    public ControllerDataBinder getControllerDataBinder() {
+        return locateByType(ControllerDataBinder.class);
     }
 
-    public RequestAttributeBinder getRequestAttributeBinder() {
-        return locateByType(RequestAttributeBinder.class);
+    public ViewDataBinder getViewDataBinder() {
+        return locateByType(ViewDataBinder.class);
     }
 
     public StringTransmuter getStringTransmuter() {

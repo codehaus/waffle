@@ -24,24 +24,24 @@ import ognl.TypeConverter;
 
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.BindException;
-import org.codehaus.waffle.bind.DataBinder;
+import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
 
 /**
- * This DataBinder implementation is backed by <a href="http://www.ognl.org">Ognl: Object Graph Notation Language</a>.
+ * ControllerDataBinder implementation backed by <a href="http://www.ognl.org">Ognl: Object Graph Notation Language</a>.
  *
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class OgnlDataBinder implements DataBinder {
+public class OgnlControllerDataBinder implements ControllerDataBinder {
     private final TypeConverter typeConverter;
     private final BindErrorMessageResolver bindErrorMessageResolver;
     private final BindMonitor bindMonitor;
 
-    public OgnlDataBinder(ValueConverterFinder valueConverterFinder, BindErrorMessageResolver bindErrorMessageResolver, BindMonitor bindMonitor) {
+    public OgnlControllerDataBinder(ValueConverterFinder valueConverterFinder, BindErrorMessageResolver bindErrorMessageResolver, BindMonitor bindMonitor) {
         this.typeConverter = new DelegatingTypeConverter(valueConverterFinder);
         this.bindErrorMessageResolver = bindErrorMessageResolver;
         this.bindMonitor = bindMonitor;
@@ -57,17 +57,17 @@ public class OgnlDataBinder implements DataBinder {
 
             try {
                 Object dataValue = handleConvert(parameterName, parameterValue, controller);
-                bindMonitor.dataValueBoundToController(parameterName, dataValue, controller);
+                bindMonitor.controllerValueBound(parameterName, dataValue, controller);
             } catch (OgnlException e) {
                 String message = bindErrorMessageResolver.resolve(controller, parameterName, parameterValue);
                 BindErrorMessage errorMessage = new BindErrorMessage(parameterName, parameterValue, message, e);
                 errorsContext.addErrorMessage(errorMessage);
-                bindMonitor.dataBindFailed(controller, errorMessage, e);                
+                bindMonitor.controllerBindFailed(controller, errorMessage, e);                
             } catch (BindException e) {
                 // by convention BindExceptions should provide the correct bind error message to display to the end-user
                 BindErrorMessage errorMessage = new BindErrorMessage(parameterName, parameterValue, e.getMessage(), e);
                 errorsContext.addErrorMessage(errorMessage);
-                bindMonitor.dataBindFailed(controller, errorMessage, e);
+                bindMonitor.controllerBindFailed(controller, errorMessage, e);
             }
         }
     }

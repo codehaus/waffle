@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
-import org.codehaus.waffle.bind.DataBinder;
-import org.codehaus.waffle.bind.ognl.OgnlDataBinder;
+import org.codehaus.waffle.bind.ControllerDataBinder;
+import org.codehaus.waffle.bind.ognl.OgnlControllerDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.context.pico.PicoComponentRegistry;
@@ -32,8 +32,8 @@ public class StubComponentRegistry extends PicoComponentRegistry {
         };
     }
 
-    public DataBinder getDataBinder() {
-        return new OgnlDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor());
+    public ControllerDataBinder getControllerDataBinder() {
+        return new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor());
     }
 
     public ControllerDefinitionFactory getControllerDefinitionFactory() {
