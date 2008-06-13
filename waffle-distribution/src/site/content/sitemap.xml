@@ -71,6 +71,7 @@
   <section>
     <name>JavaDoc</name>
     <link title="Core">javadoc/core/index.html</link>
+    <link title="Ruby">javadoc/ruby/index.html</link>
     <link title="Mock">javadoc/mock/index.html</link>
     <link title="Taglib">javadoc/taglib/index.html</link>
   </section>
