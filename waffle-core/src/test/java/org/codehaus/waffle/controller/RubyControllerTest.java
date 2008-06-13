@@ -25,7 +25,7 @@ public class RubyControllerTest  {
         Ruby runtime = Ruby.getDefaultInstance();
         runtime.evalScript(script);
 
-        RubyController rubyController = new RubyController(runtime.evalScript("Foo.new"));
+        ScriptedController rubyController = new RubyController(runtime.evalScript("Foo.new"));
         rubyController.setMethodName("my_method");
         assertEquals("Hello World", rubyController.execute());
     }
@@ -47,7 +47,7 @@ public class RubyControllerTest  {
         Ruby runtime = Ruby.getDefaultInstance();
         runtime.evalScript(script);
 
-        RubyController rubyController = new RubyController(runtime.evalScript("Foo.new"));
+        ScriptedController rubyController = new RubyController(runtime.evalScript("Foo.new"));
 
         try {
             rubyController.setMethodName("one");

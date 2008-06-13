@@ -15,36 +15,30 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFactory {
+public class RubyPicoContextContainerFactory extends ScriptedPicoContextContainerFactory {
 
-    public RubyAwarePicoContextContainerFactory(MessageResources messageResources,
-                                                ContextMonitor contextMonitor,
-                                                RegistrarMonitor registrarMonitor,
-                                                ParameterResolver parameterResolver) {
+    public RubyPicoContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor,
+            RegistrarMonitor registrarMonitor, ParameterResolver parameterResolver) {
         super(messageResources, contextMonitor, registrarMonitor, parameterResolver);
     }
 
-    @Override
-    public ContextContainer buildApplicationContextContainer() {
-        ContextContainer contextContainer = super.buildApplicationContextContainer();
-
+    protected void registerScriptComponents(ContextContainer contextContainer) {
+        // Register Ruby Runtime at Application level
+        MutablePicoContainer picoContainer = (MutablePicoContainer) contextContainer.getDelegate();
         Ruby runtime = Ruby.getDefaultInstance();
         runtime.getLoadService().init(new ArrayList()); // this must be called, else we won't be able to load scripts!!
         loadRubyScriptFromClassLoader("org/codehaus/waffle/erb_extension.rb", runtime);
         loadRubyScriptFromClassLoader("org/codehaus/waffle/waffle.rb", runtime);
 
         // I'd prefer to do the following:
-        //      runtime.evalScript("require 'string'\nrequire 'waffle'"); // load Waffle custom scripts
+        // runtime.evalScript("require 'string'\nrequire 'waffle'"); // load Waffle custom scripts
         //
         // but JRuby fails when web app is reloaded...
-        // <script>:1:in `require': JAR entry string.rb not found in ~/jruby-example/exploded/WEB-INF/lib/core.jar (IOError)
+        // <script>:1:in `require': JAR entry string.rb not found in ~/jruby-example/exploded/WEB-INF/lib/core.jar
+        // (IOError)
 
-        // Register RubyRuntime at Application level
-        MutablePicoContainer picoContainer = (MutablePicoContainer) contextContainer.getDelegate();
         picoContainer.addComponent(Ruby.class, runtime);
         picoContainer.addComponent(RubyScriptLoader.class);
-
-        return contextContainer;
     }
 
     private void loadRubyScriptFromClassLoader(String fileName, Ruby runtime) {
@@ -67,8 +61,10 @@ public class RubyAwarePicoContextContainerFactory extends PicoContextContainerFa
             throw new WaffleException(e);
         } finally {
             try {
-                if(inputStream != null) inputStream.close();
-                if(bufferedReader != null) bufferedReader.close();
+                if (inputStream != null)
+                    inputStream.close();
+                if (bufferedReader != null)
+                    bufferedReader.close();
             } catch (IOException ignore) {
                 // ignore
             }

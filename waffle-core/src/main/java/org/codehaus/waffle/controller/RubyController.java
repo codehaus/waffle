@@ -13,11 +13,12 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This is a wrapper for the underlying ruby script
- *
+ * Ruby wrapper that uses the underlying Ruby runtime to invoke the scripted controller execute method.
+ * 
  * @author Michael Ward
+ * @author Mauro Talevi
  */
-public class RubyController {
+public class RubyController implements ScriptedController {
     private String methodName;
     private final IRubyObject rubyObject;
 
@@ -29,13 +30,13 @@ public class RubyController {
         this.methodName = methodName;
     }
 
-    public IRubyObject getRubyObject() {
+    public IRubyObject getScriptObject() {
         return rubyObject;
     }
 
     /**
      * This will invoke the method on the ruby object instance this controller is maintaining.
-     *
+     * 
      * @return the result from the method invocation.
      */
     public Object execute() {
@@ -64,9 +65,8 @@ public class RubyController {
                 arguments.add(JavaEmbedUtils.javaToRuby(runtime, iterator.next()));
             }
 
-            result = rubyObject.callMethod(runtime.getCurrentContext(),
-                    methodName,
-                    arguments.toArray(new IRubyObject[arguments.size()]));
+            result = rubyObject.callMethod(runtime.getCurrentContext(), methodName, arguments
+                    .toArray(new IRubyObject[arguments.size()]));
         }
         return result;
     }
