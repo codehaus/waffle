@@ -28,7 +28,7 @@ public interface Registrar {
 
     /**
      * Use the given injection type for component instantiation. 
-     * Defaults to {@link Injection.CONSTRUCTOR}.
+     * Defaults to {@link Injection#CONSTRUCTOR}.
      * 
      * @param injection the Injection to use
      * @return The Registrar

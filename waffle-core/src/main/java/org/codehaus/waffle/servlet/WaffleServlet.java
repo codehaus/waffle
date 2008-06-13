@@ -10,24 +10,10 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import static java.util.Arrays.asList;
+import org.codehaus.waffle.ComponentRegistry;
 import static org.codehaus.waffle.Constants.ERRORS_VIEW_KEY;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
-
-import java.io.IOException;
-import java.lang.reflect.Method;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
@@ -47,6 +33,18 @@ import org.codehaus.waffle.validation.GlobalErrorMessage;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import static java.util.Arrays.asList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -197,7 +195,7 @@ public class WaffleServlet extends HttpServlet {
         } catch (WaffleException e) {      
             servletMonitor.servletServiceFailed(e);
             errorsContext.addErrorMessage(new GlobalErrorMessage(e.getMessage(), e));
-            view = buildErrorsView(request);
+            view = buildErrorsView();
         }
         
         if (view != null) {
@@ -276,11 +274,10 @@ public class WaffleServlet extends HttpServlet {
      * Builds the errors view, for cases in which the context container or the controller are not found.
      * The user can extend and override behaviour, eg to throw a ServletException.
      * 
-     * @param request the HttpServletRequest
      * @return The referring View
      * @throws ServletException if required
      */
-    protected View buildErrorsView(HttpServletRequest request) throws ServletException {
+    protected View buildErrorsView() throws ServletException {
         return buildView(new ControllerDefinition(errorsView, null, null));
     }
 

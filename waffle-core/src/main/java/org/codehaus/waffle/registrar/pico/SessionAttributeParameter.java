@@ -28,8 +28,14 @@ class SessionAttributeParameter extends AbstractWaffleParameter {
         super(key);
     }
 
-    public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> tClass, NameBinding nameBinding, boolean b, Annotation annotation) {
-        HttpSession session = (HttpSession) picoContainer.getComponent(HttpSession.class);
+    @SuppressWarnings({"unchecked"})
+    public <T> T resolveInstance(PicoContainer picoContainer,
+                                 ComponentAdapter componentAdapter,
+                                 Class<T> clazz,
+                                 NameBinding nameBinding,
+                                 boolean b,
+                                 Annotation annotation) {
+        HttpSession session = picoContainer.getComponent(HttpSession.class);
         return (T) session.getAttribute(getKey());
     }
 }

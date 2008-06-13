@@ -10,7 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.XMLView;
 
@@ -22,7 +21,7 @@ import org.codehaus.waffle.view.XMLView;
 @SuppressWarnings("serial")
 public class WaffleXMLServlet extends WaffleServlet {
 
-    protected View buildViewToReferrer(ControllerDefinition controllerDefinition) {
+    protected View buildViewToReferrer() {
         return new XMLView();
     }
     

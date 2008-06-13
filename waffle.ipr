@@ -189,6 +189,52 @@
     <option name="OPEN_IN_BROWSER" value="false" />
     <option name="OUTPUT_DIRECTORY" />
   </component>
+  <component name="FacetAutodetectingManager">
+    <autodetection-disabled>
+      <facet-type id="web">
+        <modules>
+          <module name="waffle">
+            <files>
+              <file url="file://$PROJECT_DIR$/examples/freemarker-example/exploded/WEB-INF/web.xml" />
+              <file url="file://$PROJECT_DIR$/examples/freemarker-example/src/main/webapp/WEB-INF/web.xml" />
+              <file url="file://$PROJECT_DIR$/examples/jruby-example/src/main/webapp/WEB-INF/web.xml" />
+              <file url="file://$PROJECT_DIR$/examples/migration-example/src/main/webapp/WEB-INF/web.xml" />
+              <file url="file://$PROJECT_DIR$/examples/mydvds-example/src/main/webapp/WEB-INF/web.xml" />
+              <file url="file://$PROJECT_DIR$/examples/paranamer-example/src/main/webapp/WEB-INF/web.xml" />
+              <file url="file://$PROJECT_DIR$/examples/simple-example/src/main/webapp/WEB-INF/web.xml" />
+              <file url="file://$PROJECT_DIR$/integration/waffle-taglib/src/main/webapp/WEB-INF/web.xml" />
+              <file url="file://$PROJECT_DIR$/waffle-distribution/src/templates/eclipse/webapp/WEB-INF/web.xml" />
+            </files>
+          </module>
+          <module name="waffle-simple-example" />
+          <module name="waffle-jruby-example" />
+          <module name="waffle-freemarker-example" />
+          <module name="waffle-paranamer-example" />
+          <module name="waffle-migration-example" />
+          <module name="waffle-mydvds-example" />
+        </modules>
+      </facet-type>
+      <facet-type id="hibernate">
+        <modules>
+          <module name="waffle">
+            <files>
+              <file url="file://$PROJECT_DIR$/examples/mydvds-example/src/main/resources/hibernate.cfg.xml" />
+              <file url="file://$PROJECT_DIR$/examples/mydvds-example/target/classes/hibernate.cfg.xml" />
+            </files>
+          </module>
+        </modules>
+      </facet-type>
+      <facet-type id="struts">
+        <modules>
+          <module name="waffle">
+            <files>
+              <file url="file://$PROJECT_DIR$/examples/migration-example/src/main/webapp/WEB-INF/struts-config.xml" />
+            </files>
+          </module>
+        </modules>
+      </facet-type>
+    </autodetection-disabled>
+  </component>
   <component name="FindManager">
     <FindUsagesManager>
       <setting name="OPEN_NEW_TAB" value="false" />
@@ -292,6 +338,13 @@
     <option name="FILTER_WARNINGS" value="false" />
     <option name="FILTER_INFO" value="true" />
     <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MavenImporterState">
+    <option name="profiles">
+      <set>
+        <option value="examples" />
+      </set>
+    </option>
   </component>
   <component name="ModuleEditorState">
     <option name="LAST_EDITED_MODULE_NAME" />
@@ -448,9 +501,17 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/waffle.iml" filepath="$PROJECT_DIR$/waffle.iml" />
       <module fileurl="file://$PROJECT_DIR$/waffle-core/waffle-core.iml" filepath="$PROJECT_DIR$/waffle-core/waffle-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/waffle-examples.iml" filepath="$PROJECT_DIR$/examples/waffle-examples.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/freemarker-example/waffle-freemarker-example.iml" filepath="$PROJECT_DIR$/examples/freemarker-example/waffle-freemarker-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/jruby-example/waffle-jruby-example.iml" filepath="$PROJECT_DIR$/examples/jruby-example/waffle-jruby-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/migration-example/waffle-migration-example.iml" filepath="$PROJECT_DIR$/examples/migration-example/waffle-migration-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/waffle-mock/waffle-mock.iml" filepath="$PROJECT_DIR$/waffle-mock/waffle-mock.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/mydvds-example/waffle-mydvds-example.iml" filepath="$PROJECT_DIR$/examples/mydvds-example/waffle-mydvds-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/paranamer-example/waffle-paranamer-example.iml" filepath="$PROJECT_DIR$/examples/paranamer-example/waffle-paranamer-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/waffle-resources/waffle-resources.iml" filepath="$PROJECT_DIR$/waffle-resources/waffle-resources.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples/simple-example/waffle-simple-example.iml" filepath="$PROJECT_DIR$/examples/simple-example/waffle-simple-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/waffle-taglib/waffle-taglib.iml" filepath="$PROJECT_DIR$/waffle-taglib/waffle-taglib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/waffle-testing/waffle-testing.iml" filepath="$PROJECT_DIR$/waffle-testing/waffle-testing.iml" />
     </modules>
   </component>
   <component name="ProjectReloadState">

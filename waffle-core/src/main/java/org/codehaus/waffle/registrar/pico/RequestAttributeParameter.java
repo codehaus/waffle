@@ -28,8 +28,14 @@ class RequestAttributeParameter extends AbstractWaffleParameter {
         super(key);
     }
 
-    public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> clazz, NameBinding nameBinding, boolean b, Annotation annotation) {
-        HttpServletRequest request = (HttpServletRequest) picoContainer
+    @SuppressWarnings({"unchecked"})
+    public <T> T resolveInstance(PicoContainer picoContainer,
+                                 ComponentAdapter componentAdapter,
+                                 Class<T> clazz,
+                                 NameBinding nameBinding,
+                                 boolean b,
+                                 Annotation annotation) {
+        HttpServletRequest request = picoContainer
                 .getComponent(HttpServletRequest.class);
         return (T) request.getAttribute(getKey());
     }

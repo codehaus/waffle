@@ -15,7 +15,7 @@ public class WaffleXMLServletTest {
         response.setReturnValue("a value that will be overriden....");
 
         WaffleXMLServlet servlet = new WaffleXMLServlet();
-        View view = servlet.buildViewToReferrer(null);
+        View view = servlet.buildViewToReferrer();
         assertTrue(view instanceof XMLView);
     }
 
