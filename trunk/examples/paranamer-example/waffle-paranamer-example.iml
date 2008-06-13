@@ -152,61 +152,6 @@
         </packaging>
       </configuration>
     </facet>
-    <facet type="web" name="Web" implicit="true">
-      <configuration>
-        <descriptors>
-          <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/exploded/WEB-INF/web.xml" optional="false" version="2.5" />
-        </descriptors>
-        <webroots>
-          <root url="file://$MODULE_DIR$/exploded" relative="/" />
-        </webroots>
-        <building>
-          <setting name="EXPLODED_URL" value="file://" />
-          <setting name="EXPLODED_ENABLED" value="false" />
-          <setting name="JAR_URL" value="file://" />
-          <setting name="JAR_ENABLED" value="false" />
-          <setting name="BUILD_MODULE_ON_FRAME_DEACTIVATION" value="false" />
-          <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
-          <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
-          <setting name="RUN_JASPER_VALIDATION" value="true" />
-          <setting name="BUILD_ONLY_WEB_RESOURCES" value="false" />
-        </building>
-        <packaging>
-          <containerElement type="module" name="waffle-core">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/waffle-core-1.2-SNAPSHOT.jar" />
-          </containerElement>
-          <containerElement type="module" name="waffle-mock">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/waffle-mock-1.2-SNAPSHOT.jar" />
-          </containerElement>
-          <containerElement type="module" name="waffle-taglib">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/waffle-taglib-1.2-SNAPSHOT.jar" />
-          </containerElement>
-          <containerElement type="library" name="javax.servlet:jstl:1.1.2" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/jstl-1.1.2.jar" />
-          </containerElement>
-          <containerElement type="library" name="taglibs:standard:1.1.2" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/standard-1.1.2.jar" />
-          </containerElement>
-          <containerElement type="library" name="commons-logging:commons-logging:1.1.1" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/commons-logging-1.1.1.jar" />
-          </containerElement>
-          <containerElement type="library" name="com.thoughtworks.paranamer:paranamer:1.1" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/paranamer-1.1.jar" />
-          </containerElement>
-          <containerElement type="module" name="waffle-paranamer-example">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/classes" />
-          </containerElement>
-        </packaging>
-      </configuration>
-    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
