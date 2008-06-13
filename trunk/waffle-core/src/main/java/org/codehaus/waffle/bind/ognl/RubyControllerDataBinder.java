@@ -13,10 +13,10 @@ import org.jruby.runtime.builtin.IRubyObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class RubyDataBinder extends OgnlControllerDataBinder {
+public class RubyControllerDataBinder extends OgnlControllerDataBinder {
     private final ArgumentResolver argumentResolver;
 
-    public RubyDataBinder(ValueConverterFinder valueConverterFinder,
+    public RubyControllerDataBinder(ValueConverterFinder valueConverterFinder,
                           BindErrorMessageResolver bindErrorMessageResolver,
                           ArgumentResolver argumentResolver,
                           BindMonitor bindMonitor) {
