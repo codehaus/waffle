@@ -18,7 +18,6 @@ import java.util.Properties;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarException;
-import org.codehaus.waffle.registrar.ScriptedRegistrar;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.InjectionFactory;
@@ -36,7 +35,7 @@ import org.picocontainer.injectors.SetterInjection;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class PicoRegistrar implements Registrar, ScriptedRegistrar {
+public class PicoRegistrar implements Registrar {
     private final MutablePicoContainer picoContainer;
     private final ParameterResolver parameterResolver;
     private final LifecycleStrategy lifecycleStrategy;
@@ -121,12 +120,6 @@ public class PicoRegistrar implements Registrar, ScriptedRegistrar {
         picoContainer.as(NO_CACHE).addAdapter(componentAdapter);
         registrarMonitor.nonCachingComponentRegistered(key, type, parameters);
         return this;
-    }
-
-    public void registerScript(String key, String className) {
-        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter(key, className);
-        Cached cachingComponentAdapter = new Cached(componentAdapter);
-        this.registerComponentAdapter(cachingComponentAdapter);
     }
 
     public void registerComponentAdapter(ComponentAdapter componentAdapter) {
