@@ -1,13 +1,13 @@
 package org.codehaus.waffle.example.jruby;
 
 import org.codehaus.waffle.example.jruby.dao.SimplePersonDAO;
-import org.codehaus.waffle.registrar.AbstractRubyAwareRegistrar;
+import org.codehaus.waffle.registrar.AbstractScriptedRegistrar;
 import org.codehaus.waffle.registrar.Registrar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JRubyRegistrar extends AbstractRubyAwareRegistrar {
+public class JRubyRegistrar extends AbstractScriptedRegistrar {
 
     public JRubyRegistrar(Registrar delegate) {
         super(delegate);
@@ -23,9 +23,9 @@ public class JRubyRegistrar extends AbstractRubyAwareRegistrar {
         myList.add(15);
         registerInstance(List.class, myList);
 
-        registerRubyScript("foobar", "FooBar"); // register the controller!
-        registerRubyScript("hello", "HelloController"); // register the controller!
-        registerRubyScript("person", "PersonController"); // register the controller!
+        registerScript("foobar", "FooBar"); // register the controller!
+        registerScript("hello", "HelloController"); // register the controller!
+        registerScript("person", "PersonController"); // register the controller!
     }
 
     @Override

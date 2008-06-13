@@ -4,6 +4,7 @@ import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.RubyController;
+import org.codehaus.waffle.controller.ScriptedController;
 import org.jruby.Ruby;
 import org.jruby.RubyModule;
 import org.jruby.javasupport.JavaEmbedUtils;
@@ -53,7 +54,7 @@ public class RhtmlServlet extends HttpServlet {
     private Object extractController(HttpServletRequest request) {
         Object controller = request.getAttribute(Constants.CONTROLLER_KEY);
         if(controller instanceof RubyController) {
-            controller = ((RubyController) controller).getRubyObject();
+            controller = ((ScriptedController) controller).getScriptObject();
         }
         return controller;
     }

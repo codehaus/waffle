@@ -12,12 +12,12 @@ import org.junit.Test;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.PicoContainer;
 
-public class RubyAwarePicoContextContainerFactoryTest  {
+public class RubyPicoContextContainerFactoryTest  {
 
     @Test
     public void canBuildApplicationContextContainer() {
-        RubyAwarePicoContextContainerFactory factory
-                = new RubyAwarePicoContextContainerFactory(null, new SilentMonitor(), new SilentMonitor(), null);
+        RubyPicoContextContainerFactory factory
+                = new RubyPicoContextContainerFactory(null, new SilentMonitor(), new SilentMonitor(), null);
         ContextContainer contextContainer = factory.buildApplicationContextContainer();
         PicoContainer picoContainer = (MutablePicoContainer)contextContainer.getDelegate();
         Ruby runtime = (Ruby) picoContainer.getComponent(Ruby.class);

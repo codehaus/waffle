@@ -11,19 +11,20 @@
 package org.codehaus.waffle.registrar;
 
 /**
- * A Registrar that provides registration methods for Ruby scripts.
+ * A Registrar that provides registration methods for scripts.
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
-public abstract class AbstractRubyAwareRegistrar extends AbstractRegistrar implements RubyAwareRegistrar {
-    private final RubyAwareRegistrar rubyAwareRegistrar;
+public abstract class AbstractScriptedRegistrar extends AbstractRegistrar implements ScriptedRegistrar {
+    private final ScriptedRegistrar scriptedRegistrar;
 
-    public AbstractRubyAwareRegistrar(Registrar delegate) {
+    public AbstractScriptedRegistrar(Registrar delegate) {
         super(delegate);
-        rubyAwareRegistrar = (RubyAwareRegistrar)delegate;
+        scriptedRegistrar = (ScriptedRegistrar)delegate;
     }
 
-    public void registerRubyScript(String key, String className) {
-        rubyAwareRegistrar.registerRubyScript(key, className);
+    public void registerScript(String key, String className) {
+        scriptedRegistrar.registerScript(key, className);
     }
 }

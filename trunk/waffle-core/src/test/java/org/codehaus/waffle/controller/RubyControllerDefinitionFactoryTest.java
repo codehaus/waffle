@@ -36,7 +36,7 @@ public class RubyControllerDefinitionFactoryTest {
             {
                 IRubyObject rubyObject = JavaUtil.convertJavaToRuby(Ruby.getDefaultInstance(), "Hello From Ruby");
                 one(contextContainer).getComponentInstance("foobar");
-                will(returnValue(rubyObject));
+                will(returnValue(new RubyController(rubyObject)));
             }
         });
         RequestLevelContainer.set(contextContainer);

@@ -11,18 +11,18 @@
 package org.codehaus.waffle.registrar;
 
 /**
- * Implementations of this interface will allow for Ruby scripts to be registred with Waffle.
+ * Implementations of this interface will allow for scripts to be registered with Waffle.
  *
  * @author Michael Ward
  */
-public interface RubyAwareRegistrar {
+public interface ScriptedRegistrar {
 
     /**
-     * Register a ruby script with Waffle
+     * Register a script with Waffle
      *
      * @param key the name this script should be registred under
-     * @param className represent the name of the Ruby class being registred
+     * @param className represent the name of the script class being registred
      */
-    void registerRubyScript(String key, String className);
+    void registerScript(String key, String className);
     
 }
