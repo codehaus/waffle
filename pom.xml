@@ -15,6 +15,7 @@
 
   <modules>
     <module>waffle-core</module>
+    <module>waffle-ruby</module>
     <module>waffle-mock</module>
     <module>waffle-resources</module>
     <module>waffle-taglib</module>

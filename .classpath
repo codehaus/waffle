@@ -6,8 +6,13 @@
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**" kind="src" output="waffle-core/src/main/ruby" path="waffle-core/src/main/ruby"/>
 	<classpathentry excluding="**" kind="src" output="waffle-core/src/test/resources" path="waffle-core/src/test/resources"/>
+	<classpathentry kind="src" output="target-eclipse/classes" path="waffle-ruby/src/main/java"/>
+	<classpathentry kind="src" output="target-eclipse/test-classes" path="waffle-ruby/src/test/java">
+		<attributes>
+			<attribute name="maven.type" value="test"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" output="target-eclipse/classes" path="waffle-mock/src/main/java"/>
 	<classpathentry kind="src" output="target-eclipse/test-classes" path="waffle-mock/src/test/java">
 		<attributes>

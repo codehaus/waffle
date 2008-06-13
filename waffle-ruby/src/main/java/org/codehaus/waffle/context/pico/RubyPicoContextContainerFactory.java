@@ -3,6 +3,7 @@ package org.codehaus.waffle.context.pico;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.pico.ScriptedPicoContextContainerFactory;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
