@@ -10,17 +10,17 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
+import org.codehaus.waffle.i18n.MessageResources;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
-import org.codehaus.waffle.i18n.MessageResources;
-
 /**
  * <code>ValueConverter</code> that converts Date values. The date format is configurable via the message resources
  * bundle. A <code>null</code> or empty value (once trimmed) will be returned as <code>null</code> (behaviour which
- * can be overridden via the {@link convertMissingValue()} method), while an invalid value will cause a BindException to
+ * can be overridden via the {@link #convertMissingValue} method), while an invalid value will cause a BindException to
  * be thrown. The message keys and default values used are:
  * <ul>
  * <li>"bind.error.date" ({@link #BIND_ERROR_DATE_KEY}): bind error in date parsing (message defaults to
@@ -101,7 +101,7 @@ public class DateValueConverter extends AbstractValueConverter {
 
     private enum DateType {
         DAY, TIME, DATE
-    };
+    }
 
     /**
      * Retrieves the date format for the given property name
@@ -111,7 +111,7 @@ public class DateValueConverter extends AbstractValueConverter {
      */
     private SimpleDateFormat dateFormatFor(String propertyName) {
         DateType dateType = dateType(propertyName);
-        String pattern = null;
+        String pattern;
         switch (dateType) {
             case DAY:
                 pattern = patternFor(patterns, DAY_FORMAT_KEY, DEFAULT_DAY_FORMAT);

@@ -38,7 +38,7 @@ class RequestParameterParameter extends AbstractWaffleParameter {
 
     @SuppressWarnings({"unchecked"})
     public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> expectedType, NameBinding nameBinding, boolean b, Annotation annotation) {
-        HttpServletRequest request = (HttpServletRequest) picoContainer
+        HttpServletRequest request = picoContainer
                 .getComponent(HttpServletRequest.class);
         String value = request.getParameter(getKey());
         Object result = stringTransmuter.transmute(value, expectedType);

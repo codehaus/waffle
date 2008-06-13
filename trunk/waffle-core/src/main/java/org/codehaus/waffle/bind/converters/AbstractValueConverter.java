@@ -10,11 +10,11 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
-import java.util.Properties;
-
 import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.i18n.MessageResources;
+
+import java.util.Properties;
 
 /**
  * Abstract <code>ValueConverter</code> that holds utility functionality common to all value converters.
@@ -52,6 +52,7 @@ public abstract class AbstractValueConverter implements ValueConverter {
         return null;
     }
     
+    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
     protected BindException newBindException(String key, String defaultMessage, Object... parameters) {
         String message = messageResources.getMessageWithDefault(key, defaultMessage, parameters);
         return new BindException(message);

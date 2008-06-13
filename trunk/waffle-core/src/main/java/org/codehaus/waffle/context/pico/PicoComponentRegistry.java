@@ -10,10 +10,6 @@
  *****************************************************************************/
 package org.codehaus.waffle.context.pico;
 
-import java.util.Enumeration;
-
-import javax.servlet.ServletContext;
-
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
@@ -30,9 +26,9 @@ import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.IntrospectingViewDataBinder;
-import org.codehaus.waffle.bind.ViewDataBinder;
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.bind.ViewDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlBindErrorMessageResolver;
 import org.codehaus.waffle.bind.ognl.OgnlControllerDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
@@ -64,6 +60,9 @@ import org.picocontainer.Characteristics;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
+
+import javax.servlet.ServletContext;
+import java.util.Enumeration;
 
 /**
  * PicoContainer-based implementation of Waffle's ComponentRegistry
@@ -204,7 +203,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
 
     @SuppressWarnings("unchecked")
     public <T> T locateByType(Class<T> t) {
-        return (T) picoContainer.getComponent(t);
+        return picoContainer.getComponent(t);
     }
 
     public ActionMethodExecutor getActionMethodExecutor() {

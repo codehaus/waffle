@@ -10,19 +10,19 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
+import org.codehaus.waffle.i18n.MessageResources;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.codehaus.waffle.i18n.MessageResources;
-
 /**
  * <p>
  * <code>ValueConverter</code> that converts a CSV value to a List. A <code>null</code> or empty value (once
  * trimmed) will be returned as an empty list (behaviour which can be overridden via the
- * {@link convertMissingValue()} method). The message keys and default values used are:
+ * {@link #convertMissingValue} method). The message keys and default values used are:
  * <ul>
  * <li>"bind.error.list" ({@link #BIND_ERROR_LIST_KEY}): list is <code>null</code> or empty (message defaults to
  * {@link #DEFAULT_LIST_MESSAGE})</li>

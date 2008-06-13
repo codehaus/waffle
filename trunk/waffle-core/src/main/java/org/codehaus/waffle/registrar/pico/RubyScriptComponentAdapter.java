@@ -37,7 +37,7 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
     }
 
     public Object getComponentInstance(PicoContainer picoContainer, Type type) throws PicoCompositionException {
-        Ruby runtime = (Ruby) picoContainer.getComponent(Ruby.class);
+        Ruby runtime = picoContainer.getComponent(Ruby.class);
 
         String script =
                 "controller = " + rubyClassName + ".new\n" + // instantiate controller

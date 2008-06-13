@@ -59,7 +59,7 @@ public class PicoContextContainer implements ContextContainer {
 
     @SuppressWarnings({"unchecked"})
     public <T> T getComponent(Class<T> type) {
-        return (T) delegate.getComponent(type);
+        return delegate.getComponent(type);
     }
 
     public <T> Collection<T> getAllComponentInstancesOfType(Class<T> type) {

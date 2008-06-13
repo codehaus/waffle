@@ -28,8 +28,14 @@ class ServletContextAttributeParameter extends AbstractWaffleParameter {
         super(key);
     }
 
-    public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> tClass, NameBinding nameBinding, boolean b, Annotation annotation) {
-        ServletContext servletContext = (ServletContext) picoContainer
+    @SuppressWarnings({"unchecked"})
+    public <T> T resolveInstance(PicoContainer picoContainer,
+                                 ComponentAdapter componentAdapter,
+                                 Class<T> clazz,
+                                 NameBinding nameBinding,
+                                 boolean b,
+                                 Annotation annotation) {
+        ServletContext servletContext = picoContainer
                 .getComponent(ServletContext.class);
         return (T) servletContext.getAttribute(getKey());
     }
