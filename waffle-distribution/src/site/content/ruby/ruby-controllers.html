@@ -4,24 +4,29 @@
 <title>Ruby Controllers</title>
 </head>
 <body>
-<h2>Utilizing Ruby in a Waffle web application</h2>
-Waffle now provides built in support for Ruby. This will allow you to easily write your Controllers in Ruby. The
-integration is simple and straightforward, taking advantage of functionality Waffle provides (without being a Rails
-clone).
-<br />
+<h2>Writing Waffle controllers in Ruby</h2>
+Waffle provides built in support for Ruby, allowing you to easily write your controllers in Ruby. The integration is
+simple and straightforward, taking advantage of functionality Waffle provides (without the Rails!).
 <br />
 A key feature of Waffle has always been its pluggable architecture. From the beginning we believed that the default
 behavior defined by the Waffle team might not be suitable for every situation. Therefor Waffle was built following an
 Interface driven approach. Practically all of Waffle's built-in functionality can easily be extended or replaced. This
-design made integrating Ruby support quite easy. The next 3 steps give a brief overview of how to integrate Ruby
-support into your Waffle based applications.
+design made integrating Ruby support quite easy. The next 4 steps give a brief overview of how to integrate Ruby support
+into your Waffle based applications.
 <br />
-<br />
-<span style="font-weight: bold;">Step 0</span>
-- Ensure dependency on waffle-ruby module
 <br />
 <span style="font-weight: bold;">Step 1</span>
-- configure Waffle to be "Script Aware"
+- Ensure dependency on waffle-ruby module
+<textarea class="xml:nogutter:nocontrols" name="code">&lt;context-param&gt;
+ <dependency> 
+    <groupId>org.codehaus.waffle</groupId>
+    <artifactId>waffle-ruby</artifactId>
+    <version>[version]</version>
+  </dependency>
+</textarea>
+<br />
+<span style="font-weight: bold;">Step 2</span>
+- configure Waffle to be "Ruby Aware"
 <br />
 <br />
 Waffle avoids XML like the plague but we still need to have a web.xml for our applications. This web.xml is where we can
@@ -40,14 +45,12 @@ web.xml. This alerts Waffle that a few of its foundational components should be 
 &nbsp; &lt;param-name&gt;org.codehaus.waffle.controller.ControllerDefinitionFactory&lt;/param-name&gt;
 &nbsp; &lt;param-value&gt;org.codehaus.waffle.controller.RubyControllerDefinitionFactory&lt;/param-value&gt;
 &lt;/context-param&gt;</textarea>
-<span style="font-weight: bold;">Step 2</span>
-- Your application's Registrar should extended <a href="javadoc/core/org/codehaus/waffle/registrar/pico/RubyScriptedRegistrar.html">RubyScriptedRegistrar</a>
+<span style="font-weight: bold;">Step 3</span>
+- Your application's Registrar should extended
+<a href="javadoc/core/org/codehaus/waffle/registrar/pico/RubyScriptedRegistrar.html">RubyScriptedRegistrar</a>
+to register your script as a controller:
 <br />
-<br />
-This exposes a new registration method to use within your Registrar ... registerScript(String key, String
-className). See the example below:
-
-<textarea class="java:nogutter:nocontrols" name="code">public class MyRegistrar extends AbstractScriptedRegistrar {
+<textarea class="java:nogutter:nocontrols" name="code">public class MyRegistrar extends RubyScriptedRegistrar {
 &nbsp; public MyRegistrar(Registrar delegate) {
 &nbsp;&nbsp;&nbsp; super(delegate);
 &nbsp; }
@@ -57,12 +60,12 @@ className). See the example below:
 &nbsp; }
 &nbsp; ...
 }</textarea>
-In this example the Ruby class named 'FooBar' will be exposed as a Controller under the name 'foobar' (e.g.
-http://localhost:8080/ruby/foobar.waffle).
+In this example the Ruby class named 'FooBar' will be exposed as a controller under the name 'foobar' (e.g.
+http://localhost:8080/ruby-webapp/foobar.waffle).
 <br />
 <br />
-<span style="font-weight: bold;">Step 3</span>
-- Write your Ruby Controller class. Notice in the following example that your class does not need to extend or include
+<span style="font-weight: bold;">Step 4</span>
+- Write your Ruby controller class. Notice in the following example that your class does not need to extend or include
 anything.
 
 <textarea class="ruby:nogutter:nocontrols" name="code">class FooBar
@@ -72,7 +75,5 @@ anything.
 end</textarea>
 And that is all the steps required to integrate Ruby within your Waffle Applications.
 
-<h3>Why are Ruby controllers desirable?</h3>
-TODO
 </body>
 </html>

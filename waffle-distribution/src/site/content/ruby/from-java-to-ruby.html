@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type" />
+<title>From Java to Ruby</title>
+
+</head>
+<body>
+<h2>Accessing Java components in Ruby controllers.</h2>
+Here we examine Ruby-based controllers, and the invoking of Java functionaility from them. Consider:
+<br />
+<textarea class="java:nogutter:nocontrols" name="code">
+public class MyRegistrar extends RubyScriptedRegistrar {
+  public MyRegistrar(Registrar delegate) {
+    super(delegate);
+  }
+
+  @Override
+  public void application() {
+    register("person_dao", PersonDAOImpl.class);
+    registerScript("person", "PersonController");
+  }
+}</textarea>
+A DAO, PersonDAOImpl, is registered under the name "person_dao" and we have one Ruby based controller available. Now its
+probably safe to assume that this Ruby PersonController will need access to that DAO object. Gaining access to this DAO
+from the controller is easy in Waffle, by invoking the <b>locate</b> method:
+<br />
+<textarea class="ruby:nogutter:nocontrols" name="code">
+class PersonController
+  def index
+    @person_dao = locate(example.PersonDAO)
+    @people = @person_dao.findAll
+    render 'person.rhtml'
+  end
+end</textarea>
+Notice that we were able to retrieve the DAO by its interface. Additionally, since this DAO was registered with a key
+you can use a convention to retrieve the component. 
+<blockquote>
+<b>The convention is that "locate_&lt;component key&gt;" method is used by the controller to locate and retrieve a Java component by key.</b>
+</blockquote>
+<textarea class="ruby:nogutter:nocontrols" name="code">class
+PersonController
+  def index
+    @person_dao = locate_person_dao
+    @people = @person_dao.findAll
+    render 'person.rhtml'
+  end
+end</textarea>
+As you can see this makes writing Ruby-based controllers with Waffle really easy. 
+</body>
+</html>

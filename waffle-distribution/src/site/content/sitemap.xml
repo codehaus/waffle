@@ -8,7 +8,7 @@
     <page>release-notes.html</page>
   </section>
   <section>
-    <name>Developing Java web apps</name>
+    <name>Developing Java Webapps</name>
     <page>action-controllers.html</page>
     <page>action-methods.html</page>
     <page>interceptors.html</page>
@@ -27,10 +27,10 @@
     <page>webapp-structure.html</page>
   </section>
   <section>
-    <name>Developing Ruby web apps</name>
-    <page>ruby-controllers.html</page>
-    <page>accessing-java-from-ruby.html</page>
-    <page>erb-views.html</page>
+    <name>Developing Scripted Webapps</name>
+    <page>ruby/ruby-controllers.html</page>
+    <page>ruby/from-java-to-ruby.html</page>
+    <page>ruby/erb-views.html</page>
   </section>
   <section>
     <name>Web 2.0</name>
