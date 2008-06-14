@@ -6,6 +6,7 @@
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="waffle-core/src/main/resources" path="waffle-core/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="waffle-core/src/test/resources" path="waffle-core/src/test/resources"/>
 	<classpathentry kind="src" output="target-eclipse/classes" path="waffle-ruby/src/main/java"/>
 	<classpathentry kind="src" output="target-eclipse/test-classes" path="waffle-ruby/src/test/java">
@@ -13,6 +14,7 @@
 			<attribute name="maven.type" value="test"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="waffle-ruby/src/main/ruby" path="waffle-ruby/src/main/ruby"/>
 	<classpathentry kind="src" output="target-eclipse/classes" path="waffle-mock/src/main/java"/>
 	<classpathentry kind="src" output="target-eclipse/test-classes" path="waffle-mock/src/test/java">
 		<attributes>
@@ -41,6 +43,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="**" kind="src" output="examples/simple-example/src/main/resources" path="examples/simple-example/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="examples/simple-example/src/main/webapp" path="examples/simple-example/src/main/webapp"/>
 	<classpathentry kind="src" output="target-eclipse/classes" path="examples/jruby-example/src/main/java"/>
 	<classpathentry kind="src" output="target-eclipse/test-classes" path="examples/jruby-example/src/test/java">
 		<attributes>
@@ -55,6 +58,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="**" kind="src" output="examples/freemarker-example/src/main/resources" path="examples/freemarker-example/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="examples/freemarker-example/src/main/webapp" path="examples/freemarker-example/src/main/webapp"/>
 	<classpathentry kind="src" output="target-eclipse/classes" path="examples/paranamer-example/src/main/java"/>
 	<classpathentry kind="src" output="target-eclipse/test-classes" path="examples/paranamer-example/src/test/java">
 		<attributes>
@@ -62,7 +66,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="**" kind="src" output="examples/paranamer-example/src/main/resources" path="examples/paranamer-example/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="examples/paranamer-example/src/main/webapp" path="examples/paranamer-example/src/main/webapp"/>
 	<classpathentry kind="src" output="target-eclipse/classes" path="examples/migration-example/src/main/java"/>
+	<classpathentry excluding="**" kind="src" output="examples/migration-example/src/main/webapp" path="examples/migration-example/src/main/webapp"/>
 	<classpathentry kind="src" output="target-eclipse/classes" path="examples/mydvds-example/src/main/java"/>
 	<classpathentry kind="src" output="target-eclipse/test-classes" path="examples/mydvds-example/src/test/java">
 		<attributes>
@@ -70,6 +76,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry excluding="**" kind="src" output="examples/mydvds-example/src/main/resources" path="examples/mydvds-example/src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="examples/mydvds-example/src/main/webapp" path="examples/mydvds-example/src/main/webapp"/>
 	<classpathentry excluding="**" kind="src" output="examples/mydvds-example/src/test/resources" path="examples/mydvds-example/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules/profiles[examples,integration]"/>
