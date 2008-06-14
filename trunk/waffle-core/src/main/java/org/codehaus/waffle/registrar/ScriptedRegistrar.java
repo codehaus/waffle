@@ -20,9 +20,9 @@ public interface ScriptedRegistrar {
     /**
      * Register a script with Waffle
      *
-     * @param key the name this script should be registred under
-     * @param className represent the name of the script class being registred
+     * @param key the key this script should be registred under
+     * @param scriptedClassName represent the name of the scripted class being registered
      */
-    void registerScript(String key, String className);
+    void registerScript(String key, String scriptedClassName);
     
 }
