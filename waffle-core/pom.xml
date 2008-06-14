@@ -41,12 +41,8 @@
       <artifactId>commons-logging</artifactId>
     </dependency>
     <dependency>
-      <groupId>velocity</groupId>
-      <artifactId>velocity</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>velocity-tools</groupId>
-      <artifactId>velocity-tools-view</artifactId>
+      <groupId>org.apache.velocity</groupId>
+      <artifactId>velocity-tools</artifactId>
     </dependency>
   </dependencies>
 
