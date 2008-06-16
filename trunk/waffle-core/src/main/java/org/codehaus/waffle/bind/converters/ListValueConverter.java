@@ -10,13 +10,15 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
-import org.codehaus.waffle.i18n.MessageResources;
-
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+
+import org.codehaus.waffle.i18n.MessageResources;
 
 /**
  * <p>
@@ -63,27 +65,33 @@ public class ListValueConverter extends AbstractValueConverter {
         this.patterns = patterns;
     }
 
-    public boolean accept(Class<?> type) {
-        return List.class.isAssignableFrom(type);
+    public boolean accept(Type type) {
+        if ( type instanceof Class ){
+            return List.class.isAssignableFrom((Class<?>)type);            
+        } else if ( type instanceof ParameterizedType ){            
+            Type rawType = ((ParameterizedType)type).getRawType();
+            return List.class.isAssignableFrom((Class<?>)rawType);
+        }
+        return false;
     }
 
     @SuppressWarnings( { "unchecked" })
-    public <T> T convertValue(String propertyName, String value, Class<T> toType) {
+    public Object convertValue(String propertyName, String value, Type toType) {
 
         if (missingValue(value)) {
             String fieldName = messageFor(propertyName, propertyName);
-            return (T) convertMissingValue(BIND_ERROR_LIST_KEY, DEFAULT_LIST_MESSAGE, fieldName);
+            return convertMissingValue(BIND_ERROR_LIST_KEY, DEFAULT_LIST_MESSAGE, fieldName);
         }
 
         List<String> values = listValues(value);
         if (areNumbers(values)) {
             try {
-                return (T) toNumbers(values);
+                return toNumbers(values);
             } catch (ParseException e) {
                 // failed to parse as numbers, return string values
             }
         }
-        return (T) values;
+        return values;
     }
 
     private List<String> listValues(String value) {

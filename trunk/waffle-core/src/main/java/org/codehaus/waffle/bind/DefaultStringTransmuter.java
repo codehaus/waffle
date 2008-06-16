@@ -27,7 +27,7 @@ public class DefaultStringTransmuter implements StringTransmuter {
         if (isEmpty(value) && toType.isPrimitive()) {
             value = null; // this allows Ognl to use that primitives default value
         }
-        return valueConverterFinder.findConverter(toType).convertValue(null, value, toType);
+        return (T) valueConverterFinder.findConverter(toType).convertValue(null, value, toType);
     }
 
     private boolean isEmpty(String value) {
