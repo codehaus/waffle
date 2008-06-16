@@ -25,5 +25,6 @@ public interface StringTransmuter {
      * @param toType the Object type
      * @return The converted Object
      */
+    //TODO use Type in place of Class<T> as for ValueConverter?
     <T> T transmute(String value, Class<T> toType);
 }

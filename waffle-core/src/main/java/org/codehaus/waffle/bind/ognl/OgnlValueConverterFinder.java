@@ -12,6 +12,7 @@ package org.codehaus.waffle.bind.ognl;
 
 import static java.util.Arrays.asList;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +35,7 @@ public class OgnlValueConverterFinder implements ValueConverterFinder {
 
     private static final ValueConverter OGNL_VALUE_CONVERTER = new OgnlValueConverter();
     private final List<ValueConverter> DEFAULT_CONVERTERS = asList(OGNL_VALUE_CONVERTER);
-    private final Map<Class<?>, ValueConverter> cache = new HashMap<Class<?>, ValueConverter>();
+    private final Map<Type, ValueConverter> cache = new HashMap<Type, ValueConverter>();
     private final List<ValueConverter> converters;
 
     public OgnlValueConverterFinder() {
@@ -51,7 +52,7 @@ public class OgnlValueConverterFinder implements ValueConverterFinder {
         }
     }
 
-    public ValueConverter findConverter(Class<?> type) {
+    public ValueConverter findConverter(Type type) {
         if (cache.containsKey(type)) { // cache hit
             return cache.get(type);
         }

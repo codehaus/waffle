@@ -10,10 +10,12 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.ognl;
 
-import org.codehaus.waffle.bind.ValueConverter;
+import java.lang.reflect.Type;
 
 import ognl.DefaultTypeConverter;
 import ognl.TypeConverter;
+
+import org.codehaus.waffle.bind.ValueConverter;
 
 /**
  * Ognl-based implementation of <code>ValueConverter</code>.
@@ -32,13 +34,13 @@ public class OgnlValueConverter implements ValueConverter {
         this.converter = converter;
     }
 
-    public boolean accept(Class<?> type) {
-        return true;
+    public boolean accept(Type type) {
+        return type instanceof Class;
     }
 
     @SuppressWarnings({"unchecked"})
-    public <T> T convertValue(String propertyName, String value, Class<T> toType) {
-        return (T) converter.convertValue(null, null, null, propertyName, value, toType);
+    public Object convertValue(String propertyName, String value, Type toType) {
+        return converter.convertValue(null, null, null, propertyName, value, (Class)toType);
     }
 
 }

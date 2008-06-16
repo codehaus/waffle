@@ -75,7 +75,7 @@ public class ListValueConverterTest {
      }
 
     private void assertEmptyList(ListValueConverter converter, String value) {
-        List<?> list = converter.convertValue("property-name", value, List.class);
+        List<?> list = (List<?>) converter.convertValue("property-name", value, List.class);
         assertNotNull(list);
         assertTrue(list.isEmpty());
     }

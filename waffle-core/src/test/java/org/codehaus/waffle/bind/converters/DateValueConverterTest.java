@@ -94,8 +94,8 @@ public class DateValueConverterTest {
         assertDateFormattable("11:11:11", "HH:mm:ss", converter.convertValue("time-property", "11:11:11", Date.class));
     }
 
-    private void assertDateFormattable(String value, String pattern, Date date) {
-        assertEquals(value, new SimpleDateFormat(pattern).format(date));
+    private void assertDateFormattable(String value, String pattern, Object object) {
+        assertEquals(value, new SimpleDateFormat(pattern).format(object));
     }
 
     @Test

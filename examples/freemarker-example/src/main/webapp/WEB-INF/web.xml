@@ -19,10 +19,6 @@
     <param-name>register:ListValueConverter</param-name>
     <param-value>org.codehaus.waffle.bind.converters.ListValueConverter</param-value>
   </context-param>
-  <context-param>
-    <param-name>org.codehaus.waffle.monitor.BindMonitor</param-name>
-    <param-value>org.codehaus.waffle.monitor.ConsoleMonitor</param-value>
-  </context-param>
 
   <!-- Waffle context listener -->
   <listener>

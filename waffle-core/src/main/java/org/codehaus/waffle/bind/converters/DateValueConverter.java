@@ -10,12 +10,13 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind.converters;
 
-import org.codehaus.waffle.i18n.MessageResources;
-
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+
+import org.codehaus.waffle.i18n.MessageResources;
 
 /**
  * <code>ValueConverter</code> that converts Date values. The date format is configurable via the message resources
@@ -71,21 +72,24 @@ public class DateValueConverter extends AbstractValueConverter {
         this.patterns = patterns;
     }
 
-    public boolean accept(Class<?> type) {
-        return Date.class.isAssignableFrom(type);
+    public boolean accept(Type type) {
+        if ( type instanceof Class ){
+            return Date.class.isAssignableFrom((Class<?>)type);            
+        }
+        return false;
     }
 
     @SuppressWarnings( { "unchecked" })
-    public <T> T convertValue(String propertyName, String value, Class<T> toType) {
+    public Object convertValue(String propertyName, String value, Type toType) {
         String fieldName = messageFor(propertyName, propertyName);
         if (missingValue(value)) {
-            return (T) convertMissingValue(BIND_ERROR_DATE_MISSING_KEY, DEFAULT_DATE_MISSING_MESSAGE, fieldName);
+            return convertMissingValue(BIND_ERROR_DATE_MISSING_KEY, DEFAULT_DATE_MISSING_MESSAGE, fieldName);
         }
 
         SimpleDateFormat dateFormat = dateFormatFor(propertyName);
 
         try {
-            return (T) dateFormat.parse(value);
+            return dateFormat.parse(value);
         } catch (ParseException e) {
             throw newBindException(BIND_ERROR_DATE_KEY, DEFAULT_DATE_MESSAGE, fieldName, value, dateFormat.toPattern());
         }

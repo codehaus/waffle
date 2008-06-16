@@ -11,13 +11,15 @@
 package org.codehaus.waffle.bind.ognl;
 
 import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Map;
-
-import org.codehaus.waffle.bind.ValueConverter;
-import org.codehaus.waffle.bind.ValueConverterFinder;
 
 import ognl.OgnlOps;
 import ognl.TypeConverter;
+
+import org.codehaus.waffle.bind.ValueConverter;
+import org.codehaus.waffle.bind.ValueConverterFinder;
 
 /**
  * An implementation of Ognl's <code>TypeConverter</code> which handles Java 5 enums and will delegate
@@ -61,7 +63,15 @@ public class DelegatingTypeConverter implements TypeConverter {
                                String propertyName,
                                Object value,
                                Class toType) {
-        return convertValue(propertyName, (String) value, toType);
+        return convertValue(propertyName, (String) value, genericParameterTypeFor((Method)member));
+    }
+
+    private Type genericParameterTypeFor(Method method) {
+        Type[] parameterTypes = method.getGenericParameterTypes();
+        if ( parameterTypes.length > 0 ){
+            return parameterTypes[0];
+        }
+        return null;
     }
 
     /**
@@ -74,12 +84,12 @@ public class DelegatingTypeConverter implements TypeConverter {
      *         conversion was not possible.
      */
     @SuppressWarnings({"unchecked"})
-    public Object convertValue(String propertyName, String value, Class toType) {
-        if (toType.isEnum()) {
-            if (EMPTY.equals(value)) {
+    public Object convertValue(String propertyName, String value, Type toType) {
+        if (toType instanceof Class && ((Class)toType).isEnum()) {
+            if (EMPTY.equals(value)) {                
                 return null;
             }
-            return Enum.valueOf(toType, value);
+            return Enum.valueOf((Class)toType, value);
         }
 
         ValueConverter converter = valueConverterFinder.findConverter(toType);
@@ -88,7 +98,7 @@ public class DelegatingTypeConverter implements TypeConverter {
             return converter.convertValue(propertyName, value, toType);
         }
 
-        return OgnlOps.convertValue(value, toType);
+        return OgnlOps.convertValue(value, (Class)toType);
     }
 
 }
