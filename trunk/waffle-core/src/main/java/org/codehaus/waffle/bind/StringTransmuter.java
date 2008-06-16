@@ -10,6 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind;
 
+import java.lang.reflect.Type;
+
 /**
  * Not to be confused with the {@link ValueConverter} this interface is used to simplify converting (transmuting) a
  * String value into a given type.
@@ -22,9 +24,8 @@ public interface StringTransmuter {
      * Convert (transmute) the string value into the Type requested
      *
      * @param value the String value
-     * @param toType the Object type
+     * @param toType the Object Type
      * @return The converted Object
      */
-    //TODO use Type in place of Class<T> as for ValueConverter?
-    <T> T transmute(String value, Class<T> toType);
+    Object transmute(String value, Type toType);
 }

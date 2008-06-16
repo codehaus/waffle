@@ -39,7 +39,7 @@ public class AnnotatedMethodDefinitionFinderTest {
 
     private ActionMonitor monitor = new SilentMonitor();
 
-    public void testDefaultMethodReturned() throws NoSuchMethodException {
+    public void canReturnDefaultMethod() throws NoSuchMethodException {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
@@ -68,7 +68,7 @@ public class AnnotatedMethodDefinitionFinderTest {
     }
 
     @Test
-    public void canDefaultActionMethodWithArgumentReturned() throws NoSuchMethodException {
+    public void canReturnDefaultActionMethodWithArgument() throws NoSuchMethodException {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
