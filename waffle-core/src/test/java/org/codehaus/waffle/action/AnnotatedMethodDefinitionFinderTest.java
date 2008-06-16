@@ -1,5 +1,27 @@
 package org.codehaus.waffle.action;
 
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.MethodDescriptor;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.context.ContextContainer;
@@ -11,21 +33,8 @@ import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 
@@ -510,6 +519,111 @@ public class AnnotatedMethodDefinitionFinderTest {
         assertTrue((Boolean) methodDefinition.getMethodArguments().get(0));
     }
 
+    @Test
+    public void canConvertStringToListOfStrings() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodListOfStrings"));
+            }
+        });
+
+        final List<String> list = asList("one", "two");
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{foobaz}");
+                will(returnValue("one,two"));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("one,two", parameterTypeForMethod("listOfStrings"));
+                will(returnValue(list));
+            }
+        });
+
+        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
+
+        assertEquals(list, methodDefinition.getMethodArguments().get(0));
+    }
+    
+    @Test
+    public void canConvertStringToListOfIntegers() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodListOfIntegers"));
+            }
+        });
+
+        final List<Integer> list = asList(1, 2);
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{foobaz}");
+                will(returnValue("1,2"));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("1,2", parameterTypeForMethod("listOfIntegers"));
+                will(returnValue(list));
+            }
+        });
+
+        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+
+        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
+
+        assertEquals(list, methodDefinition.getMethodArguments().get(0));
+    }
+
+    protected Type parameterTypeForMethod(String methodName) throws IntrospectionException {
+        BeanInfo beanInfo = Introspector.getBeanInfo(WithListMethods.class);
+        for ( MethodDescriptor md : beanInfo.getMethodDescriptors() ){
+            if ( md.getMethod().getName().equals(methodName) ){
+                return md.getMethod().getGenericParameterTypes()[0];
+            }
+        }
+        return null;
+    }
+
+    private static interface WithListMethods {
+        void listOfIntegers(List<Integer> list);
+        void listOfStrings(List<String> list);
+    }
+    
     @Test
     public void canDependOnRequest() throws Exception {
         // Mock HttpServletRequest

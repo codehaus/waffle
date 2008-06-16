@@ -1,13 +1,9 @@
-/*****************************************************************************
- * Copyright (c) 2005-2008 Michael Ward                                      *
- * All rights reserved.                                                      *
- * ------------------------------------------------------------------------- *
- * The software in this package is published under the terms of the BSD      *
- * style license a copy of which has been included with this distribution in *
- * the LICENSE.txt file.                                                     *
- *                                                                           *
- * Original code by: Michael Ward                                            *
- *****************************************************************************/
+/***********************************************************************************************************************
+ * Copyright (c) 2005-2008 Michael Ward * All rights reserved. *
+ * ------------------------------------------------------------------------- * The software in this package is published
+ * under the terms of the BSD * style license a copy of which has been included with this distribution in * the
+ * LICENSE.txt file. * * Original code by: Michael Ward *
+ **********************************************************************************************************************/
 package org.codehaus.waffle.action;
 
 import static java.text.MessageFormat.format;
@@ -38,7 +34,7 @@ import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
  * Abstract base implementation for all method definition finders
- *
+ * 
  * @author Michael Ward
  * @author Paul Hammant
  * @author Mauro Talevi
@@ -56,21 +52,17 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private final MethodNameResolver methodNameResolver;
     private final ActionMonitor actionMonitor;
 
-    public AbstractMethodDefinitionFinder(ServletContext servletContext,
-                                          ArgumentResolver argumentResolver,
-                                          MethodNameResolver methodNameResolver,
-                                          StringTransmuter stringTransmuter,
-                                          ActionMonitor actionMonitor) {
+    public AbstractMethodDefinitionFinder(ServletContext servletContext, ArgumentResolver argumentResolver,
+            MethodNameResolver methodNameResolver, StringTransmuter stringTransmuter, ActionMonitor actionMonitor) {
         this.servletContext = servletContext;
         this.argumentResolver = argumentResolver;
         this.stringTransmuter = stringTransmuter;
         this.methodNameResolver = methodNameResolver;
         this.actionMonitor = actionMonitor;
     }
-    
-    public MethodDefinition find(Object controller,
-                                 HttpServletRequest request,
-                                 HttpServletResponse response) throws WaffleException {
+
+    public MethodDefinition find(Object controller, HttpServletRequest request, HttpServletResponse response)
+            throws WaffleException {
         String methodName = methodNameResolver.resolve(request);
 
         if (methodName == null) {
@@ -90,7 +82,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         Class<?> controllerType = controller.getClass();
 
         if (defaultMethodCache.containsKey(controllerType)) { // cache hit
-            MethodDefinition methodDefinition = buildDefaultMethodDefinition(defaultMethodCache.get(controllerType), request);
+            MethodDefinition methodDefinition = buildDefaultMethodDefinition(defaultMethodCache.get(controllerType),
+                    request);
             actionMonitor.defaultActionMethodCached(controllerType, methodDefinition);
             return methodDefinition;
         }
@@ -112,10 +105,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return actionMethod != null && actionMethod.asDefault();
     }
 
-    private MethodDefinition findPragmaticActionMethod(Object controller,
-                                                       String methodName,
-                                                       HttpServletRequest request,
-                                                       HttpServletResponse response) {
+    private MethodDefinition findPragmaticActionMethod(Object controller, String methodName,
+            HttpServletRequest request, HttpServletResponse response) {
         Iterator<String> iterator = Arrays.asList(methodName.split(PRAGMA_REGEX)).iterator();
         methodName = iterator.next();
 
@@ -127,13 +118,15 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinition;
     }
 
-    private MethodDefinition findActionMethod(Object controller, HttpServletRequest request, HttpServletResponse response, String methodName) {
+    private MethodDefinition findActionMethod(Object controller, HttpServletRequest request,
+            HttpServletResponse response, String methodName) {
         List<Method> methods = findMethods(controller.getClass(), methodName);
 
         List<MethodDefinition> methodDefinitions = findMethodDefinitions(request, response, methods);
 
         if (methodDefinitions.size() > 1) {
-            throw new AmbiguousActionSignatureMethodException("Method: '" + methodName + "' for controller: '" + controller.getClass() + "'");
+            throw new AmbiguousActionSignatureMethodException("Method: '" + methodName + "' for controller: '"
+                    + controller.getClass() + "'");
         } else if (methodDefinitions.isEmpty()) {
             throw new NoMatchingActionMethodException(methodName, controller.getClass());
         }
@@ -143,7 +136,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinition;
     }
 
-    private List<MethodDefinition> findMethodDefinitions(HttpServletRequest request, HttpServletResponse response, List<Method> methods) {
+    private List<MethodDefinition> findMethodDefinitions(HttpServletRequest request, HttpServletResponse response,
+            List<Method> methods) {
         List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
 
         for (Method method : methods) {
@@ -162,8 +156,9 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
     private MethodDefinition buildDefaultMethodDefinition(Method method, HttpServletRequest request) {
         MethodDefinition methodDefinition = new MethodDefinition(method);
-        if ( !isDefaultActionMethod(method) ){
-            throw new NoDefaultActionMethodException("Method "+method+" is not annotated with @ActionMethod(asDefault=true).");
+        if (!isDefaultActionMethod(method)) {
+            throw new NoDefaultActionMethodException("Method " + method
+                    + " is not annotated with @ActionMethod(asDefault=true).");
         }
         ActionMethod defaultActionMethod = method.getAnnotation(ActionMethod.class);
         List<String> arguments = new ArrayList<String>(defaultActionMethod.parameters().length);
@@ -180,10 +175,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinition;
     }
 
-    private MethodDefinition findPragmaticMethodDefinition(HttpServletRequest request,
-                                                           HttpServletResponse response,
-                                                           List<Method> methods,
-                                                           List<Object> arguments) {
+    private MethodDefinition findPragmaticMethodDefinition(HttpServletRequest request, HttpServletResponse response,
+            List<Method> methods, List<Object> arguments) {
         List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
 
         for (Method method : methods) {
@@ -207,10 +200,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinitions.get(0); // TODO ... should we cache the method?
     }
 
-    private MethodDefinition buildMethodDefinition(HttpServletRequest request,
-                                                   HttpServletResponse response,
-                                                   Method method,
-                                                   List<Object> arguments) {
+    private MethodDefinition buildMethodDefinition(HttpServletRequest request, HttpServletResponse response,
+            Method method, List<Object> arguments) {
         Class<?>[] actualParameterTypes = method.getParameterTypes();
         MethodDefinition methodDefinition = new MethodDefinition(method);
 
@@ -258,10 +249,10 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
             // the types must be assignable to be considered a valid method (assume true if actualParameterType is null)
             if (methodArguments.get(i) != null) {
-                Class<?> type = methodArguments.get(i).getClass();
+                Class<?> methodArgumentType = methodArguments.get(i).getClass();
 
-                if (!isAssignableFrom(methodParameterType, type)) {
-                    if (String.class.equals(type)) {
+                if (!isAssignableFrom(methodParameterType, methodArgumentType)) {
+                    if (String.class.equals(methodArgumentType)) {
                         try {
                             // Can the String be converted to the parameter type? If so convert it...
                             String value = (String) methodArguments.get(i);
@@ -279,21 +270,21 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return true;
     }
 
-    private boolean isAssignableFrom(Type methodParameterType, Class<?> type) {
-        if ( methodParameterType instanceof Class ){
-            return ((Class<?>)methodParameterType).isAssignableFrom(type);
-        } else if ( methodParameterType instanceof ParameterizedType ){            
-            Type rawType = ((ParameterizedType)methodParameterType).getRawType();
-            return ((Class<?>)rawType).isAssignableFrom(type);
+    private boolean isAssignableFrom(Type methodParameterType, Class<?> methodArgumentType) {
+        if (methodParameterType instanceof Class) {
+            return ((Class<?>) methodParameterType).isAssignableFrom(methodArgumentType);
+        } else if (methodParameterType instanceof ParameterizedType) {
+            Type rawType = ((ParameterizedType) methodParameterType).getRawType();
+            return ((Class<?>) rawType).isAssignableFrom(methodArgumentType);
         }
         return false;
     }
 
-    // Protected methods, accessible by  subclasses
+    // Protected methods, accessible by subclasses
 
     /**
      * Wraps value in curly brackets to fit with default handling
-     *
+     * 
      * @param value the argument value
      * @return A formatted argument
      */
@@ -303,8 +294,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
     /**
      * Resolves arguments by name
-     *
-     * @param request   the HttpServletRequest
+     * 
+     * @param request the HttpServletRequest
      * @param arguments the List of argument names
      * @return The List of resolved argument objects
      * @see ArgumentResolver
@@ -320,12 +311,12 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return resolvedArguments;
     }
 
-    // Abstract methods - implementable by subclasses 
+    // Abstract methods - implementable by subclasses
 
     /**
      * Returns the resolved list of method arguments.
-     *
-     * @param method  the action method to be invoked
+     * 
+     * @param method the action method to be invoked
      * @param request the HttpServetRequest
      * @return the resolved list of arguments needed to satisfy the action method invocation
      */
@@ -333,14 +324,12 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
     /**
      * Returns the methods matching the type and name
-     *
-     * @param type       the Class in which to look for the method
+     * 
+     * @param type the Class in which to look for the method
      * @param methodName the method name
      * @return A List of methods
-     * @throws NoMatchingActionMethodException
-     *          if no methods match
+     * @throws NoMatchingActionMethodException if no methods match
      */
     protected abstract List<Method> findMethods(Class<?> type, String methodName);
-
 
 }

@@ -27,6 +27,8 @@ public class SampleForMethodFinder {
     public Integer integer = null;
     public Float decimal = null;
     public boolean bool = false;
+    public List<String> listOfStrings;
+    public List<Integer> listOfIntegers;
     public HttpServletRequest request;
     public HttpServletResponse response;
     public HttpSession session;
@@ -70,6 +72,17 @@ public class SampleForMethodFinder {
     public void methodBoolean(boolean bool) {
         this.bool = bool;
     }
+    
+    @ActionMethod(parameters = {"foobaz"})
+    public void methodListOfStrings(List<String> list) {
+        this.listOfStrings = list;
+    }
+    
+    @ActionMethod(parameters = {"foobaz"})
+    public void methodListOfIntegers(List<Integer> list) {
+        this.listOfIntegers = list;
+    }
+
 
     @ActionMethod
     public void methodDependsOnRequest(HttpServletRequest request) {
