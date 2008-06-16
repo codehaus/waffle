@@ -14,6 +14,8 @@ import static java.text.MessageFormat.format;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -244,7 +246,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition) {
-        Class<?>[] methodParameterTypes = methodDefinition.getMethod().getParameterTypes();
+        Type[] methodParameterTypes = methodDefinition.getMethod().getGenericParameterTypes();
         List<Object> methodArguments = methodDefinition.getMethodArguments();
 
         if (methodParameterTypes.length != methodArguments.size()) {
@@ -252,13 +254,13 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
 
         for (int i = 0; i < methodParameterTypes.length; i++) {
-            Class<?> methodParameterType = methodParameterTypes[i];
+            Type methodParameterType = methodParameterTypes[i];
 
             // the types must be assignable to be considered a valid method (assume true if actualParameterType is null)
             if (methodArguments.get(i) != null) {
                 Class<?> type = methodArguments.get(i).getClass();
 
-                if (!methodParameterType.isAssignableFrom(type)) {
+                if (!isAssignableFrom(methodParameterType, type)) {
                     if (String.class.equals(type)) {
                         try {
                             // Can the String be converted to the parameter type? If so convert it...
@@ -275,6 +277,16 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         }
 
         return true;
+    }
+
+    private boolean isAssignableFrom(Type methodParameterType, Class<?> type) {
+        if ( methodParameterType instanceof Class ){
+            return ((Class<?>)methodParameterType).isAssignableFrom(type);
+        } else if ( methodParameterType instanceof ParameterizedType ){            
+            Type rawType = ((ParameterizedType)methodParameterType).getRawType();
+            return ((Class<?>)rawType).isAssignableFrom(type);
+        }
+        return false;
     }
 
     // Protected methods, accessible by  subclasses

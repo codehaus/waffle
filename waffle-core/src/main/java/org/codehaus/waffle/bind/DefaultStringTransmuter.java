@@ -10,6 +10,8 @@
  *****************************************************************************/
 package org.codehaus.waffle.bind;
 
+import java.lang.reflect.Type;
+
 /**
  * This implementation uses the {@link org.codehaus.waffle.bind.ValueConverterFinder} and its resulting
  * {@link ValueConverter} to transform a String value into the specified type.
@@ -23,11 +25,18 @@ public class DefaultStringTransmuter implements StringTransmuter {
         this.valueConverterFinder = valueConverterFinder;
     }
 
-    public <T> T transmute(String value, Class<T> toType) {
-        if (isEmpty(value) && toType.isPrimitive()) {
+    public Object transmute(String value, Type toType) {
+        if (isEmpty(value) && isPrimitive(toType)) {
             value = null; // this allows Ognl to use that primitives default value
         }
-        return (T) valueConverterFinder.findConverter(toType).convertValue(null, value, toType);
+        return valueConverterFinder.findConverter(toType).convertValue(null, value, toType);
+    }
+
+    private boolean isPrimitive(Type toType) {
+        if ( toType instanceof Class ){
+            return ((Class<?>)toType).isPrimitive();
+        }
+        return false;
     }
 
     private boolean isEmpty(String value) {
