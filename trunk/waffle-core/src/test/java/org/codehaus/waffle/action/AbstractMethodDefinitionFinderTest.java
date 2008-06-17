@@ -272,6 +272,82 @@ public abstract class AbstractMethodDefinitionFinderTest {
         assertEquals(methodExpected, definition.getMethod());
     }
 
+    @Test
+    public void canFindMethodWhenParameterAssignable() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodTwo"));
+            }
+        });
+
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{list}");
+                will(returnValue(new ArrayList<Object>()));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
+        FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+
+        Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodTwo", List.class);
+        assertEquals(expectedMethod, methodDefinition.getMethod());
+    }
+
+    @Test(expected = AmbiguousActionSignatureMethodException.class)
+    public void cannotAllowAmbiguity() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodAmbiguous"));
+            }
+        });
+
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{list}");
+                will(returnValue(new ArrayList<Object>()));
+                one(argumentResolver).resolve(request, "{object}");
+                will(returnValue(new ArrayList<Object>()));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+
+        FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
+
+        methodDefinitionFinder.find(controller, request, response);
+    }
+
     @Test(expected = NoMatchingActionMethodException.class)
     public void cannotFindMethodsWithNoName() throws Exception {
         // Mock HttpServletRequest
@@ -535,7 +611,6 @@ public abstract class AbstractMethodDefinitionFinderTest {
         assertSame(servletContext, methodDefinition.getMethodArguments().get(0));
     }
 
- 
     @Test
     public void canConvertStringToInteger() throws Exception {
         // Mock HttpServletRequest
