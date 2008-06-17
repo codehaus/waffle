@@ -109,7 +109,7 @@ public class SampleForMethodFinder {
         this.servletContext = servletContext;
     }
 
-    @ActionMethod(parameters = {"foobaz"})
+    @ActionMethod(parameters = {"integer"})
     public void methodDependsOnRequestAndInteger(HttpServletRequest request, int integer) {
         this.request = request;
         this.integer = integer;
