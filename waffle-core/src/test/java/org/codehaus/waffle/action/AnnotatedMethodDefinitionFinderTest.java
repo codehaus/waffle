@@ -6,12 +6,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.MethodDescriptor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
@@ -41,7 +35,7 @@ import org.junit.runner.RunWith;
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
-public class AnnotatedMethodDefinitionFinderTest {
+public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitionFinderTest {
 
     private Mockery mockery = new Mockery();
 
@@ -608,21 +602,6 @@ public class AnnotatedMethodDefinitionFinderTest {
         assertEquals(list, methodDefinition.getMethodArguments().get(0));
     }
 
-    protected Type parameterTypeForMethod(String methodName) throws IntrospectionException {
-        BeanInfo beanInfo = Introspector.getBeanInfo(WithListMethods.class);
-        for ( MethodDescriptor md : beanInfo.getMethodDescriptors() ){
-            if ( md.getMethod().getName().equals(methodName) ){
-                return md.getMethod().getGenericParameterTypes()[0];
-            }
-        }
-        return null;
-    }
-
-    private static interface WithListMethods {
-        void listOfIntegers(List<Integer> list);
-        void listOfStrings(List<String> list);
-    }
-    
     @Test
     public void canDependOnRequest() throws Exception {
         // Mock HttpServletRequest
@@ -861,7 +840,7 @@ public class AnnotatedMethodDefinitionFinderTest {
         mockery.checking(new Expectations() {
             {
                 one(methodNameResolver).resolve(with(same(request)));
-                will(returnValue("actionMethodNeedsCustomConverter|blah"));
+                will(returnValue("methodListOfStrings|blah"));
             }
         });
 
@@ -878,7 +857,7 @@ public class AnnotatedMethodDefinitionFinderTest {
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
         mockery.checking(new Expectations() {
             {
-                one(stringTransmuter).transmute("blah", List.class);
+                one(stringTransmuter).transmute("blah", parameterTypeForMethod("listOfStrings"));
                 will(returnValue(Collections.EMPTY_LIST));
             }
         });
@@ -889,23 +868,8 @@ public class AnnotatedMethodDefinitionFinderTest {
                 methodNameResolver, stringTransmuter, monitor);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
-        Method expectedMethod = SampleForMethodFinder.class.getMethod("actionMethodNeedsCustomConverter", List.class);
+        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodListOfStrings", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    public class ControllerWithDefaultActionMethod {
-
-        @ActionMethod(asDefault=true, parameters = { "helloworld" })
-        public void foobar(String value) {
-
-        }
-    }
-
-    public class ControllerWithDefaultActionMethodNoValue {
-
-        @ActionMethod(asDefault=true)
-        public void foobar() {
-
-        }
-    }
 }
