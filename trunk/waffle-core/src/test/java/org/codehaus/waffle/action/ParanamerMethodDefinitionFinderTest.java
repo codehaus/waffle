@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.monitor.SilentMonitor;
-import org.codehaus.waffle.testmodel.SampleForMethodFinder;
+import org.codehaus.waffle.testmodel.FakeControllerWithMethodDefinitions;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -65,12 +65,12 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
-        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
-        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
+        Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodTwo", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
@@ -105,7 +105,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
-        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
 
@@ -147,7 +147,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
             }
         });
 
-        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
 
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
@@ -190,7 +190,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
             }
         });
 
-        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
 
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
@@ -233,7 +233,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
             }
         });
 
-        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
 
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
@@ -277,7 +277,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
             }
         });
 
-        SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
 
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
