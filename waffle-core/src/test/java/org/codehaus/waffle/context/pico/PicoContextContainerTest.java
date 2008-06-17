@@ -19,7 +19,7 @@ import org.picocontainer.PicoException;
 public class PicoContextContainerTest {
     private Mockery mockery = new Mockery();
 
-    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
+    @SuppressWarnings({"ThrowableInstanceNeverThrown", "serial"})
     @Test
     public void getComponentInstanceShouldWrapAnyPicoException() {
         final MutablePicoContainer mutablePicoContainer = mockery.mock(MutablePicoContainer.class);

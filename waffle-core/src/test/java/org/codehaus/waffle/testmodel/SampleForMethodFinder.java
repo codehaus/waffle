@@ -33,7 +33,7 @@ public class SampleForMethodFinder {
     public HttpServletResponse response;
     public HttpSession session;
     public ServletContext servletContext;
-    private MessagesContext messagesContext;
+    public MessagesContext messagesContext;
 
     public void noArgumentMethod() {
         noArgumentMethodInvoked = true;
@@ -44,7 +44,7 @@ public class SampleForMethodFinder {
     }
 
     @ActionMethod(parameters = {"foobaz"})
-    public void methodTwo(List list) {
+    public void methodTwo(List<?> list) {
         methodTwoObject = list;
     }
 
@@ -54,7 +54,7 @@ public class SampleForMethodFinder {
     }
 
     @ActionMethod(parameters = {"foobaz"})
-    public void methodAmbiguous(List list) {
+    public void methodAmbiguous(List<?> list) {
         methodThreeObject = list;
     }
 
@@ -116,7 +116,7 @@ public class SampleForMethodFinder {
     }
 
     @ActionMethod(parameters = {"foobaz"})
-    public void actionMethodNeedsCustomConverter(List list) {
+    public void actionMethodNeedsCustomConverter(List<?> list) {
 
     }
 
