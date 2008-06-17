@@ -20,7 +20,6 @@ import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.i18n.MessagesContext;
-import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import org.jmock.Expectations;
@@ -30,7 +29,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
@@ -39,7 +37,12 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
     private Mockery mockery = new Mockery();
 
-    private ActionMonitor monitor = new SilentMonitor();
+    protected MethodDefinitionFinder newMethodDefinitionFinder(ServletContext servletContext,
+            final ArgumentResolver argumentResolver, final MethodNameResolver methodNameResolver,
+            final StringTransmuter stringTransmuter) {
+        return new AnnotatedMethodDefinitionFinder(servletContext, argumentResolver, methodNameResolver, stringTransmuter,
+                new SilentMonitor());
+    }
 
     public void canReturnDefaultMethod() throws NoSuchMethodException {
         // Mock HttpServletRequest
@@ -61,8 +64,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethodNoValue.class.getMethod("foobar");
@@ -99,8 +102,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         ControllerWithDefaultActionMethod controller = new ControllerWithDefaultActionMethod();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethod.class.getMethod("foobar", String.class);
@@ -129,8 +132,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         assertNotSame(methodDefinition, methodDefinitionFinder.find(controller, request, response));
@@ -157,8 +160,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("noArgumentMethod");
@@ -195,8 +198,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
@@ -227,8 +230,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
 
         MethodDefinition definition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
@@ -236,7 +239,7 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
                 HttpServletRequest.class);
         assertEquals(methodExpected, definition.getMethod());
     }
-    
+
     @Test
     public void canFindMethodWhenParameterAssignable() throws Exception {
         // Mock HttpServletRequest
@@ -267,8 +270,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
@@ -295,7 +298,7 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         // Mock ArgumentResolver
         final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
         mockery.checking(new Expectations() {
-            {     
+            {
                 exactly(2).of(argumentResolver).resolve(request, "{foobaz}");
                 will(returnValue(new ArrayList<Object>()));
             }
@@ -305,8 +308,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
 
         methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
@@ -332,8 +335,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
 
         methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
@@ -375,8 +378,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
@@ -418,8 +421,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
@@ -461,8 +464,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertEquals(99.99f, methodDefinition.getMethodArguments().get(0));
@@ -505,8 +508,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertTrue((Boolean) methodDefinition.getMethodArguments().get(0));
@@ -550,13 +553,13 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertEquals(list, methodDefinition.getMethodArguments().get(0));
     }
-    
+
     @Test
     public void canConvertStringToListOfIntegers() throws Exception {
         // Mock HttpServletRequest
@@ -595,8 +598,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertEquals(list, methodDefinition.getMethodArguments().get(0));
@@ -623,8 +626,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequest",
@@ -654,8 +657,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnResponse",
@@ -701,8 +704,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequestAndInteger",
@@ -741,8 +744,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnSession", HttpSession.class);
@@ -783,11 +786,12 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
-        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnMessagesContext", MessagesContext.class);
+        Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnMessagesContext",
+                MessagesContext.class);
 
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
@@ -816,8 +820,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(servletContext, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(servletContext, null,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnServletContext",
@@ -864,8 +868,8 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         // new OgnlValueConverterFinder(new OgnlValueConverter(typeConverter))
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new AnnotatedMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodListOfStrings", List.class);
