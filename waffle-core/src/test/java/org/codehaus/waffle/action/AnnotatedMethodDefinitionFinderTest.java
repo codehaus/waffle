@@ -31,11 +31,10 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
     protected MethodDefinitionFinder newMethodDefinitionFinder(ServletContext servletContext,
             final ArgumentResolver argumentResolver, final MethodNameResolver methodNameResolver,
             final StringTransmuter stringTransmuter) {
-        return new AnnotatedMethodDefinitionFinder(servletContext, argumentResolver, methodNameResolver, stringTransmuter,
-                new SilentMonitor());
+        return new AnnotatedMethodDefinitionFinder(servletContext, argumentResolver, methodNameResolver,
+                stringTransmuter, new SilentMonitor());
     }
 
-   
     @Test
     public void canFindMethodWhenParameterAssignable() throws Exception {
         // Mock HttpServletRequest
@@ -65,10 +64,10 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
-        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
+        FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodTwo", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
@@ -105,11 +104,11 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
-        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
+        FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
 
-        methodDefinitionFinder.find(sampleForMethodFinder, request, response);
+        methodDefinitionFinder.find(controller, request, response);
     }
 
 }
