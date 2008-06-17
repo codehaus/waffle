@@ -36,7 +36,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
                 stringTransmuter, new SilentMonitor());
     }
 
-    //FIXME@Test
+    @Test
     public void canFindMethodWhenParameterAssignable() throws Exception {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -74,7 +74,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    // FIXME@Test(expected = AmbiguousActionSignatureMethodException.class)
+    @Test(expected = AmbiguousActionSignatureMethodException.class)
     public void cannotAllowAmbiguity() throws Exception {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -146,7 +146,6 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
                 will(returnValue(Collections.EMPTY_LIST));
             }
         });
-        // new OgnlValueConverterFinder(new OgnlValueConverter(typeConverter))
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
