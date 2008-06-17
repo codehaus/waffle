@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
-public class SampleForMethodFinder {
+public class FakeControllerWithMethodDefinitions {
     public boolean methodOneInvoked = false;
     public boolean noArgumentMethodInvoked = false;
     public Object methodTwoObject = null;
