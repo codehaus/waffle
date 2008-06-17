@@ -228,7 +228,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                 }
             }
 
-            if (hasEquivalentParameterTypes(methodDefinition)) {
+            if (hasEquivalentParameterTypes(methodDefinition, stringTransmuter)) {
                 return methodDefinition;
             }
         }
@@ -236,7 +236,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         throw new NoValidActionMethodException(method.getName());
     }
 
-    private boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition) {
+    protected boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition, StringTransmuter stringTransmuter) {
         Type[] methodParameterTypes = methodDefinition.getMethod().getGenericParameterTypes();
         List<Object> methodArguments = methodDefinition.getMethodArguments();
 
