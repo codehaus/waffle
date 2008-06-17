@@ -3,6 +3,7 @@ package org.codehaus.waffle.action;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -579,6 +580,181 @@ public abstract class AbstractMethodDefinitionFinderTest {
     
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodListOfStrings", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
+    }
+
+
+    @Test
+    public void canConvertStringToInteger() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodInteger"));
+            }
+        });
+
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{integer}");
+                will(returnValue("45"));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("45", int.class);
+                will(returnValue(45));
+            }
+        });
+
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
+
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
+        assertEquals(45, methodDefinition.getMethodArguments().get(0));
+    }
+
+    @Test
+    public void canConvertStringToIntegerPragmatic() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodInteger|45"));
+            }
+        });
+
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "45");
+                will(returnValue("45"));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("45", int.class);
+                will(returnValue(45));
+            }
+        });
+
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
+
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
+        assertEquals(45, methodDefinition.getMethodArguments().get(0));
+    }
+
+    @Test
+    public void canConvertStringToFloat() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodFloat"));
+            }
+        });
+
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{decimal}");
+                will(returnValue("99.99"));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("99.99", Float.class);
+                will(returnValue(99.99f));
+            }
+        });
+
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
+
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
+
+        assertEquals(99.99f, methodDefinition.getMethodArguments().get(0));
+    }
+
+    @Test
+    public void canConvertStringToBoolean() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodBoolean"));
+            }
+        });
+
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "{bool}");
+                will(returnValue("true"));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("true", boolean.class);
+                will(returnValue(true));
+            }
+        });
+
+        FakeControllerWithMethodDefinitions sampleForMethodFinder = new FakeControllerWithMethodDefinitions();
+
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
+
+        assertTrue((Boolean) methodDefinition.getMethodArguments().get(0));
     }
 
 }

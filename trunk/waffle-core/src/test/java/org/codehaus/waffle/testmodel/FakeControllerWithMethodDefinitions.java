@@ -43,42 +43,42 @@ public class FakeControllerWithMethodDefinitions {
         methodOneInvoked = true;
     }
 
-    @ActionMethod(parameters = {"foobaz"})
+    @ActionMethod(parameters = {"list"})
     public void methodTwo(List<?> list) {
         methodTwoObject = list;
     }
 
-    @ActionMethod(parameters = {"foobaz"})
+    @ActionMethod(parameters = {"object"})
     public void methodAmbiguous(Object object) {
         methodThreeObject = object;
     }
 
-    @ActionMethod(parameters = {"foobaz"})
+    @ActionMethod(parameters = {"list"})
     public void methodAmbiguous(List<?> list) {
         methodThreeObject = list;
     }
 
-    @ActionMethod(parameters = {"foobaz"})
+    @ActionMethod(parameters = {"integer"})
     public void methodInteger(int integer) {
         this.integer = integer;
     }
 
-    @ActionMethod(parameters = {"foobaz"})
+    @ActionMethod(parameters = {"decimal"})
     public void methodFloat(Float decimal) {
         this.decimal = decimal;
     }
 
-    @ActionMethod(parameters = {"foobaz"})
+    @ActionMethod(parameters = {"bool"})
     public void methodBoolean(boolean bool) {
         this.bool = bool;
     }
     
-    @ActionMethod(parameters = {"foobaz"})
+    @ActionMethod(parameters = {"list"})
     public void methodListOfStrings(List<String> list) {
         this.listOfStrings = list;
     }
     
-    @ActionMethod(parameters = {"foobaz"})
+    @ActionMethod(parameters = {"list"})
     public void methodListOfIntegers(List<Integer> list) {
         this.listOfIntegers = list;
     }
