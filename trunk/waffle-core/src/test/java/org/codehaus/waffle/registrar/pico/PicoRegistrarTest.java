@@ -244,8 +244,8 @@ public class PicoRegistrarTest {
     public void canRegisterComponentAdapter() {
         MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), cm);
 
-        ConstructorInjector componentAdapter
-                = new ConstructorInjector("a", FakeController.class);
+        ConstructorInjector<FakeController> componentAdapter
+                = new ConstructorInjector<FakeController>("a", FakeController.class);
 
         PicoRegistrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor(), cm);
         registrar.registerComponentAdapter(componentAdapter);

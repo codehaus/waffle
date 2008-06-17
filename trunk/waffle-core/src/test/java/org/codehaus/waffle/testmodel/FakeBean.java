@@ -4,7 +4,7 @@ import java.util.List;
 
 public class FakeBean {
     private int count;
-    private List list;
+    private List<?> list;
 
     public int getCount() {
         return count;
@@ -14,11 +14,11 @@ public class FakeBean {
         this.count = count;
     }
 
-    public List getList() {
+    public List<?> getList() {
         return list;
     }
 
-    public void setList(List list) {
+    public void setList(List<?> list) {
         this.list = list;
     }
 }
