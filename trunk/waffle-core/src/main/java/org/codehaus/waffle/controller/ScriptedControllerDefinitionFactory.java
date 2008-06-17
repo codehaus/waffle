@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
+ */
 package org.codehaus.waffle.controller;
 
 import java.lang.reflect.Method;
