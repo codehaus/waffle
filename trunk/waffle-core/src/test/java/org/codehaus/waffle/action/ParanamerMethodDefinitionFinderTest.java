@@ -729,7 +729,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
         mockery.checking(new Expectations() {
             {
-                one(stringTransmuter).transmute("blah", parameterTypeForMethod("listOfStrings"));
+                one(stringTransmuter).transmute("blah", parameterTypeForMethod(ControllerWithListMethods.class, "listOfStrings"));
                 will(returnValue(Collections.EMPTY_LIST));
             }
         });
