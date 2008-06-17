@@ -546,7 +546,7 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
         mockery.checking(new Expectations() {
             {
-                one(stringTransmuter).transmute("one,two", parameterTypeForMethod("listOfStrings"));
+                one(stringTransmuter).transmute("one,two", parameterTypeForMethod(ControllerWithListMethods.class, "listOfStrings"));
                 will(returnValue(list));
             }
         });
@@ -591,7 +591,7 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
         mockery.checking(new Expectations() {
             {
-                one(stringTransmuter).transmute("1,2", parameterTypeForMethod("listOfIntegers"));
+                one(stringTransmuter).transmute("1,2", parameterTypeForMethod(ControllerWithListMethods.class, "listOfIntegers"));
                 will(returnValue(list));
             }
         });
@@ -861,7 +861,7 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
         mockery.checking(new Expectations() {
             {
-                one(stringTransmuter).transmute("blah", parameterTypeForMethod("listOfStrings"));
+                one(stringTransmuter).transmute("blah", parameterTypeForMethod(ControllerWithListMethods.class, "listOfStrings"));
                 will(returnValue(Collections.EMPTY_LIST));
             }
         });
