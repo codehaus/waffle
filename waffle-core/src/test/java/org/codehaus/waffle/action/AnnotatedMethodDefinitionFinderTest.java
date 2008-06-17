@@ -3,7 +3,6 @@ package org.codehaus.waffle.action;
 import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,82 +33,6 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
             final StringTransmuter stringTransmuter) {
         return new AnnotatedMethodDefinitionFinder(servletContext, argumentResolver, methodNameResolver,
                 stringTransmuter, new SilentMonitor());
-    }
-
-    @Test
-    public void canFindMethodWhenParameterAssignable() throws Exception {
-        // Mock HttpServletRequest
-        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
-
-        // Mock HttpServletResponse
-        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
-
-        // Mock MethodNameResolver
-        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
-        mockery.checking(new Expectations() {
-            {
-                one(methodNameResolver).resolve(with(same(request)));
-                will(returnValue("methodTwo"));
-            }
-        });
-
-        // Mock ArgumentResolver
-        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
-        mockery.checking(new Expectations() {
-            {
-                one(argumentResolver).resolve(request, "{list}");
-                will(returnValue(new ArrayList<Object>()));
-            }
-        });
-
-        // Mock StringTransmuter
-        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
-
-        FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
-        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
-
-        Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodTwo", List.class);
-        assertEquals(expectedMethod, methodDefinition.getMethod());
-    }
-
-    @Test(expected = AmbiguousActionSignatureMethodException.class)
-    public void cannotAllowAmbiguity() throws Exception {
-        // Mock HttpServletRequest
-        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
-
-        // Mock HttpServletResponse
-        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
-
-        // Mock MethodNameResolver
-        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
-        mockery.checking(new Expectations() {
-            {
-                one(methodNameResolver).resolve(with(same(request)));
-                will(returnValue("methodAmbiguous"));
-            }
-        });
-
-        // Mock ArgumentResolver
-        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
-        mockery.checking(new Expectations() {
-            {
-                one(argumentResolver).resolve(request, "{object}");
-                will(returnValue(new ArrayList<Object>()));
-                one(argumentResolver).resolve(request, "{list}");
-                will(returnValue(new ArrayList<Object>()));
-            }
-        });
-
-        // Mock StringTransmuter
-        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
-
-        FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
-        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter);
-
-        methodDefinitionFinder.find(controller, request, response);
     }
 
     @Test
