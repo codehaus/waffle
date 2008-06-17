@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.waffle.bind.StringTransmuter;
-import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.SampleForMethodFinder;
 import org.jmock.Expectations;
@@ -26,7 +25,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * 
  * @author Paul Hammant
  * @author Michael Ward
  * @author Mauro Talevi
@@ -36,10 +34,14 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
     private Mockery mockery = new Mockery();
 
-    private ActionMonitor monitor = new SilentMonitor();
+    protected MethodDefinitionFinder newMethodDefinitionFinder(ServletContext servletContext,
+            ArgumentResolver argumentResolver, MethodNameResolver methodNameResolver, StringTransmuter stringTransmuter) {
+        return new ParanamerMethodDefinitionFinder(servletContext, argumentResolver, methodNameResolver,
+                stringTransmuter, new SilentMonitor());
+    }
 
     @Test
-    public void testDefaultMethodReturned() throws NoSuchMethodException {
+    public void canReturnDefaultMethod() throws NoSuchMethodException {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
@@ -59,8 +61,10 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        ServletContext servletContext = null;
+        ArgumentResolver argumentResolver = null;
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(servletContext, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethodNoValue.class.getMethod("foobar");
@@ -68,7 +72,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
     }
 
     @Test
-    public void canDefaultActionMethodWithArgumentReturned() throws NoSuchMethodException {
+    public void canReturnDefaultActionMethodWithArgument() throws NoSuchMethodException {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
@@ -97,8 +101,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         ControllerWithDefaultActionMethod controller = new ControllerWithDefaultActionMethod();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         Method expectedMethod = ControllerWithDefaultActionMethod.class.getMethod("foobar", String.class);
@@ -116,17 +120,19 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         // Mock MethodNameResolver
         final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
-        mockery.checking(new Expectations() {{
-            exactly(2).of(methodNameResolver).resolve(with(same(request)));
-            will(returnValue(null));
-        }});
+        mockery.checking(new Expectations() {
+            {
+                exactly(2).of(methodNameResolver).resolve(with(same(request)));
+                will(returnValue(null));
+            }
+        });
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
 
         assertNotSame(methodDefinition, methodDefinitionFinder.find(controller, request, response));
@@ -153,8 +159,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("noArgumentMethod");
@@ -191,8 +197,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
@@ -223,8 +229,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
 
         MethodDefinition definition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
@@ -232,8 +238,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
                 HttpServletRequest.class);
         assertEquals(methodExpected, definition.getMethod());
     }
-    
-    //FIME@Test 
+
+    // FIXME@Test
     public void canFindMethodWhenParameterAssignable() throws Exception {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -263,15 +269,15 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodTwo", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    //FIXME@Test(expected = AmbiguousActionSignatureMethodException.class)
+    // FIXME@Test(expected = AmbiguousActionSignatureMethodException.class)
     public void cannotAllowAmbiguity() throws Exception {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -291,7 +297,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         // Mock ArgumentResolver
         final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
         mockery.checking(new Expectations() {
-            {     
+            {
                 one(argumentResolver).resolve(request, "{list}");
                 will(returnValue(new ArrayList<Object>()));
                 one(argumentResolver).resolve(request, "{object}");
@@ -303,8 +309,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
 
         methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
@@ -330,8 +336,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
 
         methodDefinitionFinder.find(sampleForMethodFinder, request, response);
     }
@@ -373,8 +379,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
@@ -416,8 +422,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
@@ -459,8 +465,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertEquals(99.99f, methodDefinition.getMethodArguments().get(0));
@@ -503,8 +509,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         assertTrue((Boolean) methodDefinition.getMethodArguments().get(0));
@@ -531,8 +537,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequest",
@@ -562,8 +568,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnResponse",
@@ -609,8 +615,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
 
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnRequestAndInteger",
@@ -649,8 +655,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
+                stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnSession", HttpSession.class);
@@ -682,8 +688,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(servletContext, null, methodNameResolver,
-                stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(servletContext, null,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodDependsOnServletContext",
@@ -694,7 +700,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
     }
 
     @Test
-    public void canLeverageCustomOgnlConverters() throws Exception {
+    public void canUseCustomStringTransmuter() throws Exception {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
@@ -729,8 +735,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         });
 
         SampleForMethodFinder sampleForMethodFinder = new SampleForMethodFinder();
-        MethodDefinitionFinder methodDefinitionFinder = new ParanamerMethodDefinitionFinder(null, argumentResolver,
-                methodNameResolver, stringTransmuter, monitor);
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
         MethodDefinition methodDefinition = methodDefinitionFinder.find(sampleForMethodFinder, request, response);
 
         Method expectedMethod = SampleForMethodFinder.class.getMethod("methodListOfStrings", List.class);
