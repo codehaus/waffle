@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2005-2008 Michael Ward 
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html 
  */
 package org.codehaus.waffle.action;
 
