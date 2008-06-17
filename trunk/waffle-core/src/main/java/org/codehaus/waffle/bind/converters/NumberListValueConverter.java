@@ -5,6 +5,8 @@ package org.codehaus.waffle.bind.converters;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -23,32 +25,46 @@ import org.codehaus.waffle.i18n.MessageResources;
  * The patterns are also optionally injectable via <code>Properties</code> in the constructor and take precedence over
  * the ones configured in the messages resources.
  * </p>
+ * <p>
+ * NOTE: the converter will first check if the values match the configured number regex pattern and only if it does will
+ * it attempt to parse them (using the <code>NumberFormat</code> instance provided, which defaults to
+ * <code>NumberFormat.getInstance()</code>) and if not successful returns the string values. The reason for the
+ * presence of the preliminary number pattern matching is to disable the attempt of number parsing altogether for some
+ * string values that may start with number and may be erronously parsed as numbers.
+ * </p>
  * 
  * @author Mauro Talevi
  */
-public class ListValueConverter extends AbstractValueConverter {
+public class NumberListValueConverter extends AbstractValueConverter {
 
     public static final String BIND_ERROR_LIST_KEY = "bind.error.list";
     public static final String DEFAULT_LIST_MESSAGE = "Invalid list value for field {0}";
 
     private static final String COMMA = ",";
+    private NumberFormat numberFormat;
     private Properties patterns;
 
-    public ListValueConverter(MessageResources messageResources) {
-        this(messageResources, new Properties());
+    public NumberListValueConverter(MessageResources messageResources) {
+        this(messageResources, NumberFormat.getInstance(), new Properties());
     }
 
-    public ListValueConverter(MessageResources messageResources, Properties patterns) {
+    public NumberListValueConverter(MessageResources messageResources, NumberFormat numberFormat, Properties patterns) {
         super(messageResources);
+        this.numberFormat = numberFormat;
         this.patterns = patterns;
     }
 
+    /**
+     * Accepts types of raw type List and argument type Number
+     */
     public boolean accept(Type type) {
         if (type instanceof Class) {
             return List.class.isAssignableFrom((Class<?>) type);
         } else if (type instanceof ParameterizedType) {
-            Type rawType = ((ParameterizedType) type).getRawType();
-            return List.class.isAssignableFrom((Class<?>) rawType);
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            Type rawType = parameterizedType.getRawType();
+            Type argumentType = parameterizedType.getActualTypeArguments()[0];
+            return List.class.isAssignableFrom((Class<?>) rawType) && Number.class.isAssignableFrom((Class<?>)argumentType);
         }
         return false;
     }
@@ -61,7 +77,13 @@ public class ListValueConverter extends AbstractValueConverter {
             return convertMissingValue(BIND_ERROR_LIST_KEY, DEFAULT_LIST_MESSAGE, fieldName);
         }
 
-        return listValues(value);
+        List<String> values = listValues(value);
+        try {
+            return toNumbers(values);
+        } catch (ParseException e) {
+            // failed to parse as numbers, return string values
+        }
+        return values;
     }
 
     private List<String> listValues(String value) {
@@ -86,6 +108,14 @@ public class ListValueConverter extends AbstractValueConverter {
     @SuppressWarnings("unchecked")
     protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
         return new ArrayList();
+    }
+
+    protected List<Number> toNumbers(List<String> values) throws ParseException {
+        List<Number> numbers = new ArrayList<Number>();
+        for (String value : values) {
+            numbers.add(numberFormat.parse(value));
+        }
+        return numbers;
     }
 
 }

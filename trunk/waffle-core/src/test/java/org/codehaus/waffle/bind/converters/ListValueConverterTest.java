@@ -48,22 +48,24 @@ public class ListValueConverterTest {
     }
 
     @Test
-    public void canConvert() throws OgnlException {
+    public void canConvertLists() throws OgnlException {
         DefaultMessageResources resources = new DefaultMessageResources(configuration);
         ListValueConverter converter = new ListValueConverter(resources);
-        assertCanConvertValueToList(converter, INTEGERS, "-1,-2,-3", Integer.class);
-        assertCanConvertValueToList(converter, LONGS, "1000,2000,3000", Long.class);
-        assertCanConvertValueToList(converter, DOUBLES, "0.1,0.2,0.3", Double.class);
-        assertCanConvertValueToList(converter, FLOATS, "0.1,0.2,0.3", Float.class);
-        assertCanConvertValueToList(converter, STRINGS, "one,two,three", String.class);
-        assertCanConvertValueToList(converter, STRINGS, ",one,two,three", String.class);
-        assertCanConvertValueToList(converter, STRINGS, "one,,two,three", String.class);
-        assertCanConvertValueToList(converter, MIXED_STRINGS, "0#.A,1#.B", String.class);
+        //Note:  no conversion is done from String to Numbers and the assertion is done on the string representation
+        assertCanConvertValueToList(converter, INTEGERS, "-1,-2,-3");
+        assertCanConvertValueToList(converter, LONGS, "1000,2000,3000");
+        assertCanConvertValueToList(converter, DOUBLES, "0.1,0.2,0.3");
+        assertCanConvertValueToList(converter, FLOATS, "0.1,0.2,0.3");
+        assertCanConvertValueToList(converter, STRINGS, "one,two,three");
+        assertCanConvertValueToList(converter, STRINGS, ",one,two,three");
+        assertCanConvertValueToList(converter, STRINGS, "one,,two,three");
+        assertCanConvertValueToList(converter, MIXED_STRINGS, "0#.A,1#.B");
     }
 
-    private void assertCanConvertValueToList(ListValueConverter converter, List<?> list, String value, Class<?> type) {
-        assertEquals(list.toString(), converter.convertValue("property-name", value, List.class).toString());
-        assertTrue(list.get(0).getClass().isAssignableFrom(type));
+    @SuppressWarnings("unchecked")
+    private void assertCanConvertValueToList(ListValueConverter converter, List<?> expected, String value) {
+        List<String> actual = (List<String>) converter.convertValue("property-name", value, List.class);
+        assertEquals(expected.toString(), actual.toString());
     }
 
     @Test
