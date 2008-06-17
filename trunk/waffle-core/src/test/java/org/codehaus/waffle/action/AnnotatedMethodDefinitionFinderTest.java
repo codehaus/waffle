@@ -832,7 +832,7 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
     }
 
     @Test
-    public void canLeverageCustomOgnlConverters() throws Exception {
+    public void canUseCustomStringTransmuter() throws Exception {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 

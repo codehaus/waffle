@@ -14,11 +14,10 @@ import org.codehaus.waffle.action.annotation.ActionMethod;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class AbstractMethodDefinitionFinderTest {
-
+public abstract class AbstractMethodDefinitionFinderTest {
 
     protected Type parameterTypeForMethod(String methodName) throws IntrospectionException {
-        BeanInfo beanInfo = Introspector.getBeanInfo(WithListMethods.class);
+        BeanInfo beanInfo = Introspector.getBeanInfo(ControllerWithListMethods.class);
         for ( MethodDescriptor md : beanInfo.getMethodDescriptors() ){
             if ( md.getMethod().getName().equals(methodName) ){
                 return md.getMethod().getGenericParameterTypes()[0];
@@ -27,13 +26,13 @@ public class AbstractMethodDefinitionFinderTest {
         return null;
     }
 
-    protected static interface WithListMethods {
+    protected static interface ControllerWithListMethods {
         void listOfIntegers(List<Integer> list);
         void listOfStrings(List<String> list);
     }
     
    
-    public class ControllerWithDefaultActionMethod {
+    protected static class ControllerWithDefaultActionMethod {
 
         @ActionMethod(asDefault=true, parameters = { "helloworld" })
         public void foobar(String value) {
@@ -41,7 +40,7 @@ public class AbstractMethodDefinitionFinderTest {
         }
     }
 
-    public class ControllerWithDefaultActionMethodNoValue {
+    protected static class ControllerWithDefaultActionMethodNoValue {
 
         @ActionMethod(asDefault=true)
         public void foobar() {
