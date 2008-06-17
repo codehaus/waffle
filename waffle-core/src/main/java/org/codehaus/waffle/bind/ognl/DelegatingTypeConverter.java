@@ -15,9 +15,9 @@ import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
 
 /**
- * An implementation of Ognl's <code>TypeConverter</code> which handles Java 5 enums and will delegate
- * custom <code>ValueConverter</code>'s registered per application.
- *
+ * An implementation of Ognl's <code>TypeConverter</code> which handles Java 5 enums and will delegate custom
+ * <code>ValueConverter</code>'s registered per application.
+ * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
@@ -34,34 +34,28 @@ public class DelegatingTypeConverter implements TypeConverter {
     }
 
     /**
-     * <b>Comments copied from Ognl</b>
-     * <p/>
-     * Converts the given value to a given type.  The OGNL context, target, member and
-     * name of property being set are given.  This method should be able to handle
-     * conversion in general without any context, target, member or property name specified.
-     *
-     * @param context      OGNL context under which the conversion is being done
-     * @param target       target object in which the property is being set
-     * @param member       member (Constructor, Method or Field) being set
+     * <b>Comments copied from Ognl</b> <p/> Converts the given value to a given type. The OGNL context, target, member
+     * and name of property being set are given. This method should be able to handle conversion in general without any
+     * context, target, member or property name specified.
+     * 
+     * @param context OGNL context under which the conversion is being done
+     * @param target target object in which the property is being set
+     * @param member member (Constructor, Method or Field) being set
      * @param propertyName property name being set
-     * @param value        value to be converted
-     * @param toType       type to which value is converted
+     * @param value value to be converted
+     * @param toType type to which value is converted
      * @return Converted value Object of type toType or TypeConverter.NoConversionPossible to indicate that the
      *         conversion was not possible.
      */
     @SuppressWarnings("unchecked")
-    public Object convertValue(Map context,
-                               Object target,
-                               Member member,
-                               String propertyName,
-                               Object value,
-                               Class toType) {
-        return convertValue(propertyName, (String) value, genericParameterTypeFor((Method)member));
+    public Object convertValue(Map context, Object target, Member member, String propertyName, Object value,
+            Class toType) {
+        return convertValue(propertyName, (String) value, genericParameterTypeFor((Method) member));
     }
 
     private Type genericParameterTypeFor(Method method) {
         Type[] parameterTypes = method.getGenericParameterTypes();
-        if ( parameterTypes.length > 0 ){
+        if (parameterTypes.length > 0) {
             return parameterTypes[0];
         }
         return null;
@@ -69,29 +63,31 @@ public class DelegatingTypeConverter implements TypeConverter {
 
     /**
      * Simplified entry point for Ognl use in Waffle
-     *
+     * 
      * @param propertyName property name being set
-     * @param value        value to be converted
-     * @param toType       type to which value is converted
+     * @param value value to be converted
+     * @param toType type to which value is converted
      * @return Converted value Object of type toType or TypeConverter.NoConversionPossible to indicate that the
      *         conversion was not possible.
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings( { "unchecked" })
     public Object convertValue(String propertyName, String value, Type toType) {
-        if (toType instanceof Class && ((Class)toType).isEnum()) {
-            if (EMPTY.equals(value)) {                
+        if (toType instanceof Class && ((Class) toType).isEnum()) {
+            if (EMPTY.equals(value)) {
                 return null;
             }
-            return Enum.valueOf((Class)toType, value);
+            return Enum.valueOf((Class) toType, value);
         }
 
         ValueConverter converter = valueConverterFinder.findConverter(toType);
 
         if (converter != null) {
             return converter.convertValue(propertyName, value, toType);
+        } else if (toType instanceof Class) {
+            return OgnlOps.convertValue(value, (Class) toType);
+        } else {
+            return value;
         }
-
-        return OgnlOps.convertValue(value, (Class)toType);
     }
 
 }

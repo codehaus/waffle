@@ -4,6 +4,11 @@ import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.MethodDescriptor;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.codehaus.waffle.bind.ValueConverter;
@@ -50,7 +55,9 @@ public class DelegatingTypeConverterTest {
     public void canDelegateToCustomValueConverter() {
         // Mock ValueConverter 
         final ValueConverter valueConverter = mockery.mock(ValueConverter.class);
-        final CustomType type = new CustomType(){};
+        final CustomType type = new CustomType(){
+            public void list(List<String> list) {
+            }};
         mockery.checking(new Expectations() {
             {
                 one(valueConverter).accept(CustomType.class);
@@ -62,6 +69,24 @@ public class DelegatingTypeConverterTest {
         DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
         assertSame(type, converter.convertValue("propertyName", "foobar", CustomType.class));
     }
+
+    @Test
+    public void canReturnValueIfNotConverterFoundForTypeThatIsNotAClass() throws IntrospectionException {
+        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder());
+        assertEquals("one,two", converter.convertValue("propertyName", "one,two", parameterType()));
+    }
     
-    private static interface CustomType {};
+    private Type parameterType() throws IntrospectionException {
+        BeanInfo beanInfo = Introspector.getBeanInfo(CustomType.class);
+        for (MethodDescriptor md : beanInfo.getMethodDescriptors()) {
+            if (md.getMethod().getName().equals("list")) {
+                return md.getMethod().getGenericParameterTypes()[0];
+            }
+        }
+        return null;
+    }
+
+    private static interface CustomType {       
+        void list(List<String> list);
+    };
 }
