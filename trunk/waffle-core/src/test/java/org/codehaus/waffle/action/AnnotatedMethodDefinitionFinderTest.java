@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -109,6 +110,52 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
                 methodNameResolver, stringTransmuter);
 
         methodDefinitionFinder.find(controller, request, response);
+    }
+
+    @Test
+    public void canUseCustomStringTransmuter() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodListOfStrings|blah"));
+            }
+        });
+
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "blah");
+                will(returnValue("blah"));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("blah",
+                        parameterTypeForMethod(ControllerWithListMethods.class, "listOfStrings"));
+                will(returnValue(Collections.EMPTY_LIST));
+            }
+        });
+        // new OgnlValueConverterFinder(new OgnlValueConverter(typeConverter))
+
+        FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+
+        Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodListOfStrings", List.class);
+        assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
 }

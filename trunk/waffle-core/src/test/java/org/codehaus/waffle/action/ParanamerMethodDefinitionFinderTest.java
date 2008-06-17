@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -16,6 +17,7 @@ import org.codehaus.waffle.testmodel.FakeControllerWithMethodDefinitions;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
@@ -34,7 +36,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
                 stringTransmuter, new SilentMonitor());
     }
 
-    // FIXME@Test
+    //FIXME@Test
     public void canFindMethodWhenParameterAssignable() throws Exception {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -108,6 +110,51 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
                 methodNameResolver, stringTransmuter);
 
         methodDefinitionFinder.find(controller, request, response);
+    }
+
+    @Test
+    public void canUseCustomStringTransmuter() throws Exception {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+
+        // Mock HttpServletResponse
+        final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
+
+        // Mock MethodNameResolver
+        final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(methodNameResolver).resolve(with(same(request)));
+                will(returnValue("methodListOfStrings|blah"));
+            }
+        });
+
+        // Mock ArgumentResolver
+        final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        mockery.checking(new Expectations() {
+            {
+                one(argumentResolver).resolve(request, "blah");
+                will(returnValue("blah"));
+            }
+        });
+
+        // Mock StringTransmuter
+        final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        mockery.checking(new Expectations() {
+            {
+                one(stringTransmuter).transmute("blah", List.class);
+                will(returnValue(Collections.EMPTY_LIST));
+            }
+        });
+        // new OgnlValueConverterFinder(new OgnlValueConverter(typeConverter))
+
+        FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
+        MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
+                methodNameResolver, stringTransmuter);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+
+        Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodListOfStrings", List.class);
+        assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
 }
