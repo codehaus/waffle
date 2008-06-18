@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.monitor.SilentMonitor;
+import org.codehaus.waffle.testmodel.FakeControllerWithListMethods;
 import org.codehaus.waffle.testmodel.FakeControllerWithMethodDefinitions;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -66,7 +67,7 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
         mockery.checking(new Expectations() {
             {
                 one(stringTransmuter).transmute("blah",
-                        parameterTypeForMethod(ControllerWithListMethods.class, "listOfStrings"));
+                        FakeControllerWithListMethods.methodParameterType("listOfStrings"));
                 will(returnValue(Collections.EMPTY_LIST));
             }
         });
