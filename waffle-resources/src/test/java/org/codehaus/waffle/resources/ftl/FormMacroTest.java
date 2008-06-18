@@ -29,6 +29,7 @@ public class FormMacroTest {
     public void canProcessSelectMacros() throws IOException{
         FormController controller = new FormController();
         controller.setSelectedValues(asList("one"));
+        controller.setSelectedType(FormController.Type.ONE);
         String expected = readResource("org/codehaus/waffle/resources/ftl/select.txt");
         assertEquals(expected, processTemplateView(controller, "org/codehaus/waffle/resources/ftl/select.ftl"));
     }
