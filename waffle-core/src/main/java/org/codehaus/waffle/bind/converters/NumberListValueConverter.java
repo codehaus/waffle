@@ -15,43 +15,25 @@ import org.codehaus.waffle.i18n.MessageResources;
 
 /**
  * <p>
- * <code>ValueConverter</code> that converts a CSV value to a List. A <code>null</code> or empty value (once
- * trimmed) will be returned as an empty list (behaviour which can be overridden via the {@link #convertMissingValue}
- * method). The message keys and default values used are:
- * <ul>
- * <li>"bind.error.list" ({@link #BIND_ERROR_LIST_KEY}): list is <code>null</code> or empty (message defaults to
- * {@link #DEFAULT_LIST_MESSAGE})</li>
- * </ul>
- * The patterns are also optionally injectable via <code>Properties</code> in the constructor and take precedence over
- * the ones configured in the messages resources.
- * </p>
- * <p>
- * NOTE: the converter will first check if the values match the configured number regex pattern and only if it does will
- * it attempt to parse them (using the <code>NumberFormat</code> instance provided, which defaults to
- * <code>NumberFormat.getInstance()</code>) and if not successful returns the string values. The reason for the
- * presence of the preliminary number pattern matching is to disable the attempt of number parsing altogether for some
- * string values that may start with number and may be erronously parsed as numbers.
+ * <code>ValueConverter</code> that converts a CSV value to a List of Numbers. It extends
+ * {@link org.codehaus.waffle.bind.converters.ListValueConverter ListValueConverter} to provide number parsing using the
+ * <code>NumberFormat</code> instance provided (which defaults to <code>NumberFormat.getInstance()</code>) and if
+ * not successful returns the string values.
  * </p>
  * 
  * @author Mauro Talevi
  */
-public class NumberListValueConverter extends AbstractValueConverter {
+public class NumberListValueConverter extends ListValueConverter {
 
-    public static final String BIND_ERROR_LIST_KEY = "bind.error.list";
-    public static final String DEFAULT_LIST_MESSAGE = "Invalid list value for field {0}";
-
-    private static final String COMMA = ",";
     private NumberFormat numberFormat;
-    private Properties patterns;
 
     public NumberListValueConverter(MessageResources messageResources) {
-        this(messageResources, NumberFormat.getInstance(), new Properties());
+        this(messageResources, new Properties(), NumberFormat.getInstance());
     }
 
-    public NumberListValueConverter(MessageResources messageResources, NumberFormat numberFormat, Properties patterns) {
-        super(messageResources);
+    public NumberListValueConverter(MessageResources messageResources, Properties patterns, NumberFormat numberFormat) {
+        super(messageResources, patterns);
         this.numberFormat = numberFormat;
-        this.patterns = patterns;
     }
 
     /**
@@ -64,7 +46,8 @@ public class NumberListValueConverter extends AbstractValueConverter {
             ParameterizedType parameterizedType = (ParameterizedType) type;
             Type rawType = parameterizedType.getRawType();
             Type argumentType = parameterizedType.getActualTypeArguments()[0];
-            return List.class.isAssignableFrom((Class<?>) rawType) && Number.class.isAssignableFrom((Class<?>)argumentType);
+            return List.class.isAssignableFrom((Class<?>) rawType)
+                    && Number.class.isAssignableFrom((Class<?>) argumentType);
         }
         return false;
     }
@@ -79,43 +62,16 @@ public class NumberListValueConverter extends AbstractValueConverter {
 
         List<String> values = listValues(value);
         try {
-            return toNumbers(values);
+            List<Number> numbers = new ArrayList<Number>();
+            for (String numberValue : values) {
+                numbers.add(numberFormat.parse(numberValue));
+            }
+            return numbers;
         } catch (ParseException e) {
             // failed to parse as numbers, return string values
+            // TODO should we throw a bind exception here?
         }
         return values;
-    }
-
-    private List<String> listValues(String value) {
-        String[] values = value.split(COMMA);
-        List<String> list = new ArrayList<String>();
-        for (String current : values) {
-            if (current.trim().length() > 0) {
-                list.add(current);
-            }
-        }
-        return list;
-    }
-
-    public Properties getPatterns() {
-        return patterns;
-    }
-
-    public void changePatterns(Properties patterns) {
-        this.patterns = patterns;
-    }
-
-    @SuppressWarnings("unchecked")
-    protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
-        return new ArrayList();
-    }
-
-    protected List<Number> toNumbers(List<String> values) throws ParseException {
-        List<Number> numbers = new ArrayList<Number>();
-        for (String value : values) {
-            numbers.add(numberFormat.parse(value));
-        }
-        return numbers;
     }
 
 }
