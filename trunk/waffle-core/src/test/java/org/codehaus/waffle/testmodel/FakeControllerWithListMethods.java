@@ -18,9 +18,12 @@ public class FakeControllerWithListMethods {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    public void list(List list){};
     public void listOfStrings(List<String> list){};
     public void listOfIntegers(List<Integer> list){};
     public void listOfLongs(List<Integer> list){};
     public void listOfDoubles(List<Integer> list){};
     public void listOfFloats(List<Integer> list){};
+    public void object(Object object){};
 }
