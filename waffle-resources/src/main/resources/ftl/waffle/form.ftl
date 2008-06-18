@@ -24,10 +24,30 @@
  *
  * @param values the values to join
  * @param separator the separator to join list with
+ * @return A string with joined values
  -->
 <#function join values separator>
     <#assign result = ''>
     <#list values as value><#assign result=result+value><#if value_has_next><#assign result=result+separator></#if></#list>
+    <#return result>
+</#function>
+
+<#--
+ * Converts a sequence to a sequence of nameables hashes with name and value fields
+ *
+ * @param elements the sequence of elements to convert
+ * @param valueField the name of the value field in the input element (defaults to "value")
+ * @param nameField the name of the name field in the input element (defaults to "name") 
+ * @return A sequence of nameables hashes
+ -->
+<#function asNameables elements valueField="value" nameField="name">
+    <#assign result = []>
+    <#list elements as element>
+        <#assign value='${element["${valueField}"]!element}'>    
+        <#assign name='${element["${nameField}"]!element}'>
+        <#assign nameable = {"value":"${value}", "name":"${name}"}>
+        <#assign result=result+[nameable]>
+    </#list>
     <#return result>
 </#function>
 
@@ -119,6 +139,7 @@
 
 <#--
  * Writes a select input element allowing a value to be chosen from a list of options.
+ * If option value and name fields are not set, they'll default to the option value itself.
  *
  * @param field the name of the field to bind the element to 
  * @param options a sequence of available options
@@ -127,14 +148,17 @@
 -->
 <#macro selectSingle field options selectedValue="" attributes="">
     <select id="${field}" name="${field}" ${attributes}>
-        <#list options as value>
-        <option value="${value?html}"<@isSelected value selectedValue/>>${value?html}</option>
+        <#list options as option>
+        <#assign value="${option.value!option}">
+        <#assign name="${option.name!option}">
+        <option value="${value?html}" <#if selectedValue==value>selected="true"</#if>>${name?html}</option>
         </#list>
     </select>
 </#macro>
 
 <#--
  * Writes a select input element allowing a multiple values to be chosen from a list of options.
+ * If option value and name fields are not set, they'll default to the option value itself.
  *
  * @param field the name of the field to bind the element to 
  * @param options a sequence of available options
@@ -143,9 +167,11 @@
 -->
 <#macro selectMultiple field options selectedValues attributes="">
     <select multiple="multiple" id="${field}" name="${field}" ${attributes}>
-        <#list options as value>
+        <#list options as option>
+        <#assign value="${option.value!option}">
+        <#assign name="${option.name!option}">
         <#assign selected = contains(selectedValues?default([""]), value)>
-        <option value="${value?html}" <#if selected>selected="true"</#if>>${value?html}</option>
+        <option value="${value?html}" <#if selected>selected="true"</#if>>${name?html}</option>
         </#list>
     </select>
 </#macro>
