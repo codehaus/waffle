@@ -5,12 +5,7 @@ import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.MethodDescriptor;
 import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,23 +35,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
     private Mockery mockery = new Mockery();
 
-    protected Type parameterTypeForMethod(Class<?> controllerClass, String methodName) throws IntrospectionException {
-        BeanInfo beanInfo = Introspector.getBeanInfo(controllerClass);
-        for (MethodDescriptor md : beanInfo.getMethodDescriptors()) {
-            if (md.getMethod().getName().equals(methodName)) {
-                return md.getMethod().getGenericParameterTypes()[0];
-            }
-        }
-        return null;
-    }
-
-    protected static interface ControllerWithListMethods {
-        void listOfIntegers(List<Integer> list);
-
-        void listOfStrings(List<String> list);
-    }
-
-    protected static class ControllerWithDefaultActionMethod {
+    private static class ControllerWithDefaultActionMethod {
 
         @ActionMethod(asDefault = true, parameters = { "helloworld" })
         public void foobar(String value) {
@@ -64,7 +43,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
         }
     }
 
-    protected static class ControllerWithDefaultActionMethodNoValue {
+    private static class ControllerWithDefaultActionMethodNoValue {
 
         @ActionMethod(asDefault = true)
         public void foobar() {

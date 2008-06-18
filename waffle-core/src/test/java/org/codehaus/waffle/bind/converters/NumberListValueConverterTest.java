@@ -2,17 +2,14 @@ package org.codehaus.waffle.bind.converters;
 
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.asList;
+import static org.codehaus.waffle.testmodel.FakeControllerWithListMethods.methodParameterType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.MethodDescriptor;
-import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,32 +44,14 @@ public class NumberListValueConverterTest {
         
     };
 
-    private Type listType(String methodName) throws IntrospectionException {
-        BeanInfo beanInfo = Introspector.getBeanInfo(CustomType.class);
-        for (MethodDescriptor md : beanInfo.getMethodDescriptors()) {
-            if (md.getMethod().getName().equals(methodName)) {
-                return md.getMethod().getGenericParameterTypes()[0];
-            }
-        }
-        return null;
-    }
-
-    private static interface CustomType {       
-        void listOfStrings(List<String> list);
-        void listOfIntegers(List<Integer> list);
-        void listOfLongs(List<Integer> list);
-        void listOfDoubles(List<Integer> list);
-        void listOfFloats(List<Integer> list);
-    };
-    
     @Test
     public void canAccept() throws IntrospectionException {
         NumberListValueConverter converter = new NumberListValueConverter(new DefaultMessageResources());
-        assertTrue(converter.accept(listType("listOfIntegers")));
-        assertTrue(converter.accept(listType("listOfLongs")));
-        assertTrue(converter.accept(listType("listOfDoubles")));
-        assertTrue(converter.accept(listType("listOfFloats")));
-        assertFalse(converter.accept(listType("listOfStrings")));
+        assertTrue(converter.accept(methodParameterType("listOfIntegers")));
+        assertTrue(converter.accept(methodParameterType("listOfLongs")));
+        assertTrue(converter.accept(methodParameterType("listOfDoubles")));
+        assertTrue(converter.accept(methodParameterType("listOfFloats")));
+        assertFalse(converter.accept(methodParameterType("listOfStrings")));
     }
 
     @Test
@@ -94,7 +73,7 @@ public class NumberListValueConverterTest {
 
     @SuppressWarnings("unchecked")
     private void assertCanConvertValueToList(NumberListValueConverter converter, List<?> expected, String value, Class<?> expectedType, String methodName) throws IntrospectionException {
-        List<?> actual = (List<?>) converter.convertValue("property-name", value, listType(methodName));
+        List<?> actual = (List<?>) converter.convertValue("property-name", value, methodParameterType(methodName));
         assertEquals(expected.toString(), actual.toString());
         assertTrue(expectedType.isAssignableFrom(actual.get(0).getClass()));
     }
