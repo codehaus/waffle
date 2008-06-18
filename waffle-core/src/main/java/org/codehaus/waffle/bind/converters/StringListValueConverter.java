@@ -26,27 +26,31 @@ import org.codehaus.waffle.i18n.MessageResources;
  * 
  * @author Mauro Talevi
  */
-public class ListValueConverter extends AbstractValueConverter {
+public class StringListValueConverter extends AbstractValueConverter {
 
     public static final String BIND_ERROR_LIST_KEY = "bind.error.list";
     public static final String DEFAULT_LIST_MESSAGE = "Invalid list value for field {0}";
 
     private static final String COMMA = ",";
 
-    public ListValueConverter(MessageResources messageResources) {
+    public StringListValueConverter(MessageResources messageResources) {
         this(messageResources, new Properties());
     }
 
-    public ListValueConverter(MessageResources messageResources, Properties patterns) {
+    public StringListValueConverter(MessageResources messageResources, Properties patterns) {
         super(messageResources, patterns);
     }
 
+    /**
+     * Accepts parameterized types of raw type List and argument type String
+     */
     public boolean accept(Type type) {
-        if (type instanceof Class) {
-            return List.class.isAssignableFrom((Class<?>) type);
-        } else if (type instanceof ParameterizedType) {
-            Type rawType = ((ParameterizedType) type).getRawType();
-            return List.class.isAssignableFrom((Class<?>) rawType);
+        if (type instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            Type rawType = parameterizedType.getRawType();
+            Type argumentType = parameterizedType.getActualTypeArguments()[0];
+            return List.class.isAssignableFrom((Class<?>) rawType)
+                    && String.class.isAssignableFrom((Class<?>) argumentType);
         }
         return false;
     }
@@ -75,7 +79,7 @@ public class ListValueConverter extends AbstractValueConverter {
 
     @SuppressWarnings("unchecked")
     protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
-        return new ArrayList();
+        return new ArrayList<String>();
     }
 
 }

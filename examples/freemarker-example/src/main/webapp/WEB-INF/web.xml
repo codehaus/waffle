@@ -16,8 +16,12 @@
     <param-value>org.codehaus.waffle.bind.converters.DateValueConverter</param-value>
   </context-param>
   <context-param>
-    <param-name>register:ListValueConverter</param-name>
-    <param-value>org.codehaus.waffle.bind.converters.ListValueConverter</param-value>
+    <param-name>register:StringListValueConverter</param-name>
+    <param-value>org.codehaus.waffle.bind.converters.StringListValueConverter</param-value>
+  </context-param>
+  <context-param>
+    <param-name>register:NumberListValueConverter</param-name>
+    <param-value>org.codehaus.waffle.bind.converters.NumberListValueConverter</param-value>
   </context-param>
 
   <!-- Waffle context listener -->

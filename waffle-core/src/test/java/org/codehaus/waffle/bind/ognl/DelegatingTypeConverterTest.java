@@ -1,14 +1,14 @@
 package org.codehaus.waffle.bind.ognl;
 
 import static java.util.Arrays.asList;
+import static org.codehaus.waffle.testmodel.FakeControllerWithListMethods.methodParameterType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
 
 import java.beans.IntrospectionException;
-import java.util.List;
 
 import org.codehaus.waffle.bind.ValueConverter;
-import org.codehaus.waffle.bind.converters.ListValueConverter;
+import org.codehaus.waffle.bind.converters.StringListValueConverter;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.testmodel.FakeControllerWithListMethods;
@@ -40,11 +40,11 @@ public class DelegatingTypeConverterTest {
     }
 
     @Test
-    public void canDelegateToListValueConverter() {
-        final ValueConverter valueConverter = new ListValueConverter(new DefaultMessageResources());
+    public void canDelegateToListValueConverter() throws IntrospectionException {
+        final ValueConverter valueConverter = new StringListValueConverter(new DefaultMessageResources());
         DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
-        assertEquals(asList("one", "two"), converter.convertValue("propertyName", "one,two", List.class));
-        assertEquals(asList(), converter.convertValue("propertyName", "", List.class));
+        assertEquals(asList("one", "two"), converter.convertValue("propertyName", "one,two", methodParameterType("listOfStrings")));
+        assertEquals(asList(), converter.convertValue("propertyName", "", methodParameterType("listOfStrings")));
     }
 
     @Test
