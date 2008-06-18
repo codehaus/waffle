@@ -9,10 +9,31 @@ import java.util.List;
  */
 public class FormController {
 
+    public enum Type {
+        ONE, TWO;
+        
+        public String toString(){
+            return name().toUpperCase();
+        }
+    }
+
     private List<String> values = asList("one", "two");
     private List<Nameable> nameables = asList(new Nameable("one", "One"), new Nameable("two", "Two"));
     private List<Displayable> displayables = asList(new Displayable("one", "One"), new Displayable("two", "Two"));
     private List<String> selectedValues;
+    private Type selectedType;
+
+    public List<Type> getTypes() {
+        return asList(Type.values());
+    }
+
+    public Type getSelectedType() {
+        return selectedType;
+    }
+
+    public void setSelectedType(Type selectedType) {
+        this.selectedType = selectedType;
+    }
 
     public List<String> getValues() {
         return values;

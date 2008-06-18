@@ -6,6 +6,10 @@
         <option value="one" >One</option>
         <option value="two" selected="true">Two</option>
     </select>
+    <select id="types" name="types" >
+        <option value="ONE" selected="true">ONE</option>
+        <option value="TWO" >TWO</option>
+    </select>
     <select multiple="multiple" id="values" name="values" >
         <option value="one" selected="true">one</option>
         <option value="two" >two</option>
