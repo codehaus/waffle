@@ -21,30 +21,16 @@ import static org.junit.Assert.fail;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 import java.util.Properties;
 
 import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
-import org.codehaus.waffle.i18n.MessageResourcesConfiguration;
 import org.junit.Test;
 
 /**
  * @author Mauro Talevi
  */
-public class DateValueConverterTest {
-
-    private MessageResourcesConfiguration configuration = new MessageResourcesConfiguration() {
-
-        public Locale getDefaultLocale() {
-            return Locale.UK;
-        }
-
-        public String getResourceBundleName() {
-            return "FakeResourceBundle";
-        }
-
-    };
+public class DateValueConverterTest extends AbstractValueConverterTest {
 
     @Test
     public void canAccept() {
