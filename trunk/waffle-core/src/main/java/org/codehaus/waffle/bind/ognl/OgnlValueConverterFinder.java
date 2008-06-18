@@ -16,10 +16,13 @@ import org.codehaus.waffle.bind.ValueConverterFinder;
 
 /**
  * <p>
- * Implementation of <code>ValueConverterFinder</code> which caches converters 
- * found per type and uses <code>OgnlValueConverter</code> as default converter.
+ * Implementation of <code>ValueConverterFinder</code> which caches converters found per type and uses
+ * <code>OgnlValueConverter</code> as default converter.
  * </p>
- *
+ * <p>
+ * Converters can be either injected at instantiation or registered after instantiation.
+ * </p>
+ * 
  * @author Michael Ward
  * @author Mauro Talevi
  * @see OgnlValueConverter
@@ -27,21 +30,20 @@ import org.codehaus.waffle.bind.ValueConverterFinder;
 public class OgnlValueConverterFinder implements ValueConverterFinder {
 
     private static final ValueConverter OGNL_VALUE_CONVERTER = new OgnlValueConverter();
-    private final List<ValueConverter> DEFAULT_CONVERTERS = asList(OGNL_VALUE_CONVERTER);
     private final Map<Type, ValueConverter> cache = new HashMap<Type, ValueConverter>();
     private final List<ValueConverter> converters;
 
     public OgnlValueConverterFinder() {
-        this.converters = DEFAULT_CONVERTERS;
+        this(new ValueConverter[] {});
     }
 
     public OgnlValueConverterFinder(ValueConverter... converters) {
+        this.converters = new ArrayList<ValueConverter>();
         if (converters != null) {
-            this.converters = new ArrayList<ValueConverter>();
             this.converters.addAll(asList(converters));
-            this.converters.addAll(DEFAULT_CONVERTERS);
+            this.converters.add(OGNL_VALUE_CONVERTER);
         } else {
-            this.converters = DEFAULT_CONVERTERS;            
+            this.converters.add(OGNL_VALUE_CONVERTER);
         }
     }
 
@@ -59,6 +61,10 @@ public class OgnlValueConverterFinder implements ValueConverterFinder {
 
         cache.put(type, null); // cache the null
         return null;
+    }
+
+    public void registerConverter(ValueConverter converter) {
+        converters.add(converter);
     }
 
 }
