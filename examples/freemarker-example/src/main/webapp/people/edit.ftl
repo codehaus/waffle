@@ -50,6 +50,11 @@
             </#if> 
         </p>
         <p class="fieldRow">
+            <label for="person.friends">Friends:</label>
+            <@w.hidden "person.friends" ""/>
+            <@w.selectMultiple "person.friends" w.asNameables(controller.getPeople(),"id","firstName") w.asValues(person.getFriends(),"id") "size='5'"/>
+        </p>
+        <p class="fieldRow">
             <label for="person.skills">Skills:</label>
             <@w.hidden "person.skills" ""/>
             <@w.selectMultiple "person.skills" controller.getSkills() person.getSkills() "size='5'"/>
@@ -64,7 +69,7 @@
         </p>
         <p class="fieldRow">
             <label for="person.type">Type:</label>
-            <@w.selectSingle "person.type" controller.getTypes() person.getType()/>
+            <@w.selectSingle "person.type" w.asNameables(controller.getTypes(),"name()","name()") person.getType()/>
         </p>
         <p class="fieldRow">
             <label for="person.wizard">Is wizard:</label>

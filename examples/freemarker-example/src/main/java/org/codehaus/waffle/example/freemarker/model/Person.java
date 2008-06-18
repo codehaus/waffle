@@ -23,6 +23,8 @@ public interface Person {
     
     Date getBirthTime();
     
+    List<Person> getFriends();
+    
     List<String> getSkills();
     
     List<Integer> getLevels();
