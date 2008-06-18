@@ -1,0 +1,20 @@
+    <select id="values" name="values" >
+        <option value="one" selected="true">one</option>
+        <option value="two" >two</option>
+    </select>
+    <select id="nameables" name="nameables" >
+        <option value="one" >One</option>
+        <option value="two" selected="true">Two</option>
+    </select>
+    <select multiple="multiple" id="values" name="values" >
+        <option value="one" selected="true">one</option>
+        <option value="two" >two</option>
+    </select>
+    <select multiple="multiple" id="nameables" name="nameables" >
+        <option value="one" selected="true">One</option>
+        <option value="two" >Two</option>
+    </select>
+    <select multiple="multiple" id="displayables" name="displayables" >
+        <option value="one" selected="true">One</option>
+        <option value="two" >Two</option>
+    </select>
