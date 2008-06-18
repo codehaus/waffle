@@ -7,6 +7,7 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.codehaus.waffle.resources.ftl.FormController.Displayable;
 import org.junit.Test;
 
 /**
@@ -30,6 +31,7 @@ public class FormMacroTest {
         FormController controller = new FormController();
         controller.setSelectedValues(asList("one"));
         controller.setSelectedType(FormController.Type.ONE);
+        controller.setSelectedDisplayables(asList(new Displayable("two","Two")));
         String expected = readResource("org/codehaus/waffle/resources/ftl/select.txt");
         assertEquals(expected, processTemplateView(controller, "org/codehaus/waffle/resources/ftl/select.ftl"));
     }

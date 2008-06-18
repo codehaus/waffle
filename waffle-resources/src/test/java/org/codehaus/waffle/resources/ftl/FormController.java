@@ -11,8 +11,8 @@ public class FormController {
 
     public enum Type {
         ONE, TWO;
-        
-        public String toString(){
+
+        public String toString() {
             return name().toUpperCase();
         }
     }
@@ -21,6 +21,7 @@ public class FormController {
     private List<Nameable> nameables = asList(new Nameable("one", "One"), new Nameable("two", "Two"));
     private List<Displayable> displayables = asList(new Displayable("one", "One"), new Displayable("two", "Two"));
     private List<String> selectedValues;
+    private List<Displayable> selectedDisplayables;
     private Type selectedType;
 
     public List<Type> getTypes() {
@@ -53,6 +54,14 @@ public class FormController {
 
     public List<Displayable> getDisplayables() {
         return displayables;
+    }
+
+    public List<Displayable> getSelectedDisplayables() {
+        return selectedDisplayables;
+    }
+
+    public void setSelectedDisplayables(List<Displayable> selectedDisplayables) {
+        this.selectedDisplayables = selectedDisplayables;
     }
 
     public static class Nameable {
