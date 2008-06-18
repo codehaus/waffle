@@ -5,3 +5,4 @@
 <@w.selectMultiple "values" controller.getValues() controller.getSelectedValues() />
 <@w.selectMultiple "nameables" controller.getNameables() controller.getSelectedValues() />
 <@w.selectMultiple "displayables" w.asNameables(controller.getDisplayables(),"id","display") controller.getSelectedValues() />
+<@w.selectMultiple "displayablesAsValues" w.asNameables(controller.getDisplayables(),"id","display") w.asValues(controller.getSelectedDisplayables(),"id") />

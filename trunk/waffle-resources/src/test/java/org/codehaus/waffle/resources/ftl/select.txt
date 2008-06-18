@@ -22,3 +22,7 @@
         <option value="one" selected="true">One</option>
         <option value="two" >Two</option>
     </select>
+    <select multiple="multiple" id="displayablesAsValues" name="displayablesAsValues" >
+        <option value="one" >One</option>
+        <option value="two" selected="true">Two</option>
+    </select>

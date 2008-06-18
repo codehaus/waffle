@@ -6,7 +6,7 @@
  -->
 
 <#--
- * Determines if list contains the item.
+ * Determines if list contains the item based on the string representation of the items
  *
  * @param list the list to search for the item
  * @param item the item to search for in the list
@@ -14,7 +14,7 @@
 -->
 <#function contains list item>
     <#list list as next>
-    <#if next == item><#return true></#if>
+    <#if next?string == item?string><#return true></#if>
     </#list>
     <#return false>
 </#function>
@@ -33,7 +33,7 @@
 </#function>
 
 <#--
- * Converts a sequence to a sequence of nameables hashes with name and value fields
+ * Converts a sequence of elements to a sequence of nameables hashes with name and value fields
  *
  * @param elements the sequence of elements to convert
  * @param valueField the name of the value field in the input element (defaults to "value")
@@ -47,6 +47,22 @@
         <#assign name='${element["${nameField}"]!element}'>
         <#assign nameable = {"value":"${value}", "name":"${name}"}>
         <#assign result=result+[nameable]>
+    </#list>
+    <#return result>
+</#function>
+
+<#--
+ * Converts a sequence of elements to a sequence of values obtained from the value fields
+ *
+ * @param elements the sequence of elements to convert
+ * @param valueField the name of the value field in the input element (defaults to "value")
+ * @return A sequence of values
+ -->
+<#function asValues elements valueField="value">
+    <#assign result = []>
+    <#list elements as element>
+        <#assign value='${element["${valueField}"]!element}'>    
+        <#assign result=result+[value]>
     </#list>
     <#return result>
 </#function>
@@ -147,11 +163,13 @@
  * @param attributes any additional attributes for the element (defaults to "")
 -->
 <#macro selectSingle field options selectedValue="" attributes="">
+    <#assign selectedValues = [selectedValue]>
     <select id="${field}" name="${field}" ${attributes}>
         <#list options as option>
         <#assign value="${option.value!option}">
         <#assign name="${option.name!option}">
-        <option value="${value?html}" <#if selectedValue==value>selected="true"</#if>>${name?html}</option>
+        <#assign selected = contains(selectedValues?default([]), value)>
+        <option value="${value?html}" <#if selected>selected="true"</#if>>${name?html}</option>
         </#list>
     </select>
 </#macro>
@@ -162,7 +180,7 @@
  *
  * @param field the name of the field to bind the element to 
  * @param options a sequence of available options
- * @param selectedValues the selected values (defaults to [""])
+ * @param selectedValues the selected values (defaults to [])
  * @param attributes any additional attributes for the element (defaults to "")
 -->
 <#macro selectMultiple field options selectedValues attributes="">
@@ -170,21 +188,10 @@
         <#list options as option>
         <#assign value="${option.value!option}">
         <#assign name="${option.name!option}">
-        <#assign selected = contains(selectedValues?default([""]), value)>
+        <#assign selected = contains(selectedValues?default([]), value)>
         <option value="${value?html}" <#if selected>selected="true"</#if>>${name?html}</option>
         </#list>
     </select>
-</#macro>
-
-<#--
- * Determines if a value in a sequence is selected, adding the 'selected' attribute if so.
- *
- * @param currentValue the current value in a sequence
- * @param value the value to check 
--->
-<#macro isSelected currentValue value>
-    <#if currentValue?is_number && currentValue == value?number>selected="true"</#if>
-    <#if currentValue?is_string && currentValue == value>selected="true"</#if>
 </#macro>
 
 <#--
@@ -194,6 +201,6 @@
  * @param values the values to check 
 -->
 <#macro areSelected currentValue values>
-    <#assign selected = contains(values?default([""]), currentValue)>
+    <#assign selected = contains(values?default([]), currentValue)>
     <#if selected>selected="true"</#if>>
 </#macro>
