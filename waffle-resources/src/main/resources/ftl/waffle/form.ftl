@@ -33,26 +33,7 @@
 </#function>
 
 <#--
- * Converts a sequence of elements to a sequence of nameables hashes with name and value fields
- *
- * @param elements the sequence of elements to convert
- * @param valueField the name of the value field in the input element (defaults to "value")
- * @param nameField the name of the name field in the input element (defaults to "name") 
- * @return A sequence of nameables hashes
- -->
-<#function asNameables elements valueField="value" nameField="name">
-    <#assign result = []>
-    <#list elements as element>
-        <#assign value='${element["${valueField}"]!element}'>    
-        <#assign name='${element["${nameField}"]!element}'>
-        <#assign nameable = {"value":"${value}", "name":"${name}"}>
-        <#assign result=result+[nameable]>
-    </#list>
-    <#return result>
-</#function>
-
-<#--
- * Converts a sequence of elements to a sequence of values obtained from the value fields
+ * Converts a sequence of elements to a sequence of values, ie obtained from the value fields
  *
  * @param elements the sequence of elements to convert
  * @param valueField the name of the value field in the input element (defaults to "value")
@@ -63,6 +44,25 @@
     <#list elements as element>
         <#assign value='${element["${valueField}"]!element}'>    
         <#assign result=result+[value]>
+    </#list>
+    <#return result>
+</#function>
+
+<#--
+ * Converts a sequence of elements to a sequence of nameable values, ie hashes with name and value fields
+ *
+ * @param elements the sequence of elements to convert
+ * @param valueField the name of the value field in the input element (defaults to "value")
+ * @param nameField the name of the name field in the input element (defaults to "name") 
+ * @return A sequence of nameables hashes
+ -->
+<#function asNameableValues elements valueField="value" nameField="name">
+    <#assign result = []>
+    <#list elements as element>
+        <#assign value='${element["${valueField}"]!element}'>    
+        <#assign name='${element["${nameField}"]!element}'>
+        <#assign nameable = {"value":"${value}", "name":"${name}"}>
+        <#assign result=result+[nameable]>
     </#list>
     <#return result>
 </#function>
