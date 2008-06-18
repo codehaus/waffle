@@ -16,14 +16,14 @@ import org.codehaus.waffle.i18n.MessageResources;
 /**
  * <p>
  * <code>ValueConverter</code> that converts a CSV value to a List of Numbers. It extends
- * {@link org.codehaus.waffle.bind.converters.ListValueConverter ListValueConverter} to provide number parsing using the
- * <code>NumberFormat</code> instance provided (which defaults to <code>NumberFormat.getInstance()</code>) and if
- * not successful returns the string values.
+ * {@link org.codehaus.waffle.bind.converters.StringListValueConverter StringListValueConverter} to provide number
+ * parsing of the string values using the <code>NumberFormat</code> instance provided (which defaults to
+ * <code>NumberFormat.getInstance()</code>) and if not successful returns the string values themselves.
  * </p>
  * 
  * @author Mauro Talevi
  */
-public class NumberListValueConverter extends ListValueConverter {
+public class NumberListValueConverter extends StringListValueConverter {
 
     private NumberFormat numberFormat;
 
@@ -37,12 +37,10 @@ public class NumberListValueConverter extends ListValueConverter {
     }
 
     /**
-     * Accepts types of raw type List and argument type Number
+     * Accepts parameterized types of raw type List and argument type Number
      */
     public boolean accept(Type type) {
-        if (type instanceof Class) {
-            return List.class.isAssignableFrom((Class<?>) type);
-        } else if (type instanceof ParameterizedType) {
+        if (type instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) type;
             Type rawType = parameterizedType.getRawType();
             Type argumentType = parameterizedType.getActualTypeArguments()[0];
@@ -72,6 +70,11 @@ public class NumberListValueConverter extends ListValueConverter {
             // TODO should we throw a bind exception here?
         }
         return values;
+    }
+    
+    @SuppressWarnings("unchecked")
+    protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
+        return new ArrayList<Number>();
     }
 
 }

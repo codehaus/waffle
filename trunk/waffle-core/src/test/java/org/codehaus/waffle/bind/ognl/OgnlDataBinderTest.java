@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.bind.ControllerDataBinder;
-import org.codehaus.waffle.bind.converters.ListValueConverter;
+import org.codehaus.waffle.bind.converters.StringListValueConverter;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -91,7 +91,7 @@ public class OgnlDataBinderTest {
         });
 
         FakeController fakeController = new FakeController();
-        ControllerDataBinder binder = new OgnlControllerDataBinder(new OgnlValueConverterFinder(new ListValueConverter(new DefaultMessageResources())), null, new SilentMonitor());
+        ControllerDataBinder binder = new OgnlControllerDataBinder(new OgnlValueConverterFinder(new StringListValueConverter(new DefaultMessageResources())), null, new SilentMonitor());
         ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, fakeController);
 

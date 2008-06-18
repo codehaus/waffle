@@ -20,20 +20,20 @@ import org.junit.Test;
 /**
  * @author Mauro Talevi
  */
-public class ListValueConverterTest extends AbstractValueConverterTest {
+public class StringListValueConverterTest extends AbstractValueConverterTest {
 
     @Test
     public void canAccept() throws IntrospectionException {
-        ListValueConverter converter = new ListValueConverter(new DefaultMessageResources());
-        assertTrue(converter.accept(List.class));
-        assertTrue(converter.accept(methodParameterType("list")));
+        StringListValueConverter converter = new StringListValueConverter(new DefaultMessageResources());
+        assertTrue(converter.accept(methodParameterType("listOfStrings")));
+        assertFalse(converter.accept(List.class));
         assertFalse(converter.accept(Object.class));
         assertFalse(converter.accept(methodParameterType("object")));
     }
 
     @Test
-    public void canConvertLists() throws OgnlException {
-        ListValueConverter converter = new ListValueConverter(new DefaultMessageResources());
+    public void canConvertListsOfStrings() throws OgnlException {
+        StringListValueConverter converter = new StringListValueConverter(new DefaultMessageResources());
         // Note: no conversion is done from String to Numbers and the assertion is done on the string representation
         assertCanConvertValueToList(converter, INTEGERS, "-1,-2,-3");
         assertCanConvertValueToList(converter, LONGS, "1000,2000,3000");
@@ -46,20 +46,20 @@ public class ListValueConverterTest extends AbstractValueConverterTest {
     }
 
     @SuppressWarnings("unchecked")
-    private void assertCanConvertValueToList(ListValueConverter converter, List<?> expected, String value) {
+    private void assertCanConvertValueToList(StringListValueConverter converter, List<?> expected, String value) {
         List<String> actual = (List<String>) converter.convertValue("property-name", value, List.class);
         assertEquals(expected.toString(), actual.toString());
     }
 
     @Test
     public void canHandleMissingValues() {
-        ListValueConverter converter = new ListValueConverter(new DefaultMessageResources());
+        StringListValueConverter converter = new StringListValueConverter(new DefaultMessageResources());
         assertEmptyList(converter, null);
         assertEmptyList(converter, "");
         assertEmptyList(converter, " ");
     }
 
-    private void assertEmptyList(ListValueConverter converter, String value) {
+    private void assertEmptyList(StringListValueConverter converter, String value) {
         List<?> list = (List<?>) converter.convertValue("property-name", value, List.class);
         assertNotNull(list);
         assertTrue(list.isEmpty());
@@ -68,7 +68,7 @@ public class ListValueConverterTest extends AbstractValueConverterTest {
     @Test
     public void canFailConversionWithCustomErrorMessages() {
         DefaultMessageResources resources = new DefaultMessageResources(configuration);
-        ListValueConverter converter = new ListValueConverter(resources) {
+        StringListValueConverter converter = new StringListValueConverter(resources) {
 
             @Override
             protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
@@ -79,14 +79,14 @@ public class ListValueConverterTest extends AbstractValueConverterTest {
             converter.convertValue("property-name", null, List.class);
             fail("Expected BindException");
         } catch (BindException e) {
-            assertEquals(format(resources.getMessage(ListValueConverter.BIND_ERROR_LIST_KEY), "property-name"), e
+            assertEquals(format(resources.getMessage(StringListValueConverter.BIND_ERROR_LIST_KEY), "property-name"), e
                     .getMessage());
         }
     }
 
     @Test
     public void canFailConversionWithDefaultErrorMessages() {
-        ListValueConverter converter = new ListValueConverter(new DefaultMessageResources()) {
+        StringListValueConverter converter = new StringListValueConverter(new DefaultMessageResources()) {
             @Override
             protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
                 throw newBindException(key, defaultMessage, parameters);
@@ -96,7 +96,7 @@ public class ListValueConverterTest extends AbstractValueConverterTest {
             converter.convertValue("property-name", null, List.class);
             fail("Expected BindException");
         } catch (BindException e) {
-            assertEquals(format(ListValueConverter.DEFAULT_LIST_MESSAGE, "property-name"), e.getMessage());
+            assertEquals(format(StringListValueConverter.DEFAULT_LIST_MESSAGE, "property-name"), e.getMessage());
         }
     }
 

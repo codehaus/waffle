@@ -25,13 +25,13 @@ public class NumberListValueConverterTest extends AbstractValueConverterTest {
     @Test
     public void canAccept() throws IntrospectionException {
         NumberListValueConverter converter = new NumberListValueConverter(new DefaultMessageResources());
-        assertTrue(converter.accept(List.class));
-        assertTrue(converter.accept(methodParameterType("list")));
         assertTrue(converter.accept(methodParameterType("listOfIntegers")));
         assertTrue(converter.accept(methodParameterType("listOfLongs")));
         assertTrue(converter.accept(methodParameterType("listOfDoubles")));
         assertTrue(converter.accept(methodParameterType("listOfFloats")));
+        assertFalse(converter.accept(List.class));
         assertFalse(converter.accept(Object.class));
+        assertFalse(converter.accept(methodParameterType("list")));
         assertFalse(converter.accept(methodParameterType("listOfStrings")));
         assertFalse(converter.accept(methodParameterType("object")));            }
 
