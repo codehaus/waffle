@@ -25,17 +25,19 @@ public class NumberListValueConverterTest extends AbstractValueConverterTest {
     @Test
     public void canAccept() throws IntrospectionException {
         NumberListValueConverter converter = new NumberListValueConverter(new DefaultMessageResources());
+        assertTrue(converter.accept(List.class));
+        assertTrue(converter.accept(methodParameterType("list")));
         assertTrue(converter.accept(methodParameterType("listOfIntegers")));
         assertTrue(converter.accept(methodParameterType("listOfLongs")));
         assertTrue(converter.accept(methodParameterType("listOfDoubles")));
         assertTrue(converter.accept(methodParameterType("listOfFloats")));
+        assertFalse(converter.accept(Object.class));
         assertFalse(converter.accept(methodParameterType("listOfStrings")));
-    }
+        assertFalse(converter.accept(methodParameterType("object")));            }
 
     @Test
     public void canConvertListsOfNumbers() throws OgnlException, IntrospectionException {
-        DefaultMessageResources resources = new DefaultMessageResources(configuration);
-        NumberListValueConverter converter = new NumberListValueConverter(resources);
+        NumberListValueConverter converter = new NumberListValueConverter(new DefaultMessageResources());
         assertCanConvertValueToList(converter, INTEGERS, "-1,-2,-3", Long.class, "listOfIntegers");
         assertCanConvertValueToList(converter, LONGS, "1000,2000,3000", Long.class, "listOfLongs");
         assertCanConvertValueToList(converter, DOUBLES, "0.10,0.200,0.300", Double.class, "listOfDoubles");
@@ -43,10 +45,15 @@ public class NumberListValueConverterTest extends AbstractValueConverterTest {
     }
 
     @Test
+    public void canConvertNonParameterizedList() throws OgnlException, IntrospectionException {
+        NumberListValueConverter converter = new NumberListValueConverter(new DefaultMessageResources());
+        assertCanConvertValueToList(converter, LONGS, "1000,2000,3000", Long.class, "list"); 
+    }
+
+    @Test
     // TODO decide if this behaviour is appropriate or if a bind exception should be thrown
     public void canReturnListOfStringsIfParsingFails() throws OgnlException, IntrospectionException {
-        DefaultMessageResources resources = new DefaultMessageResources(configuration);
-        NumberListValueConverter converter = new NumberListValueConverter(resources);
+        NumberListValueConverter converter = new NumberListValueConverter(new DefaultMessageResources());
         assertCanConvertValueToList(converter, STRINGS, "one,two,three", String.class, "listOfStrings");
     }
 

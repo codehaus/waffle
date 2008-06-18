@@ -1,11 +1,14 @@
 package org.codehaus.waffle.bind.converters;
 
 import static java.text.MessageFormat.format;
+import static org.codehaus.waffle.testmodel.FakeControllerWithListMethods.methodParameterType;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.beans.IntrospectionException;
 import java.util.List;
 
 import ognl.OgnlException;
@@ -20,15 +23,17 @@ import org.junit.Test;
 public class ListValueConverterTest extends AbstractValueConverterTest {
 
     @Test
-    public void canAccept() {
+    public void canAccept() throws IntrospectionException {
         ListValueConverter converter = new ListValueConverter(new DefaultMessageResources());
         assertTrue(converter.accept(List.class));
+        assertTrue(converter.accept(methodParameterType("list")));
+        assertFalse(converter.accept(Object.class));
+        assertFalse(converter.accept(methodParameterType("object")));
     }
 
     @Test
     public void canConvertLists() throws OgnlException {
-        DefaultMessageResources resources = new DefaultMessageResources(configuration);
-        ListValueConverter converter = new ListValueConverter(resources);
+        ListValueConverter converter = new ListValueConverter(new DefaultMessageResources());
         // Note: no conversion is done from String to Numbers and the assertion is done on the string representation
         assertCanConvertValueToList(converter, INTEGERS, "-1,-2,-3");
         assertCanConvertValueToList(converter, LONGS, "1000,2000,3000");
