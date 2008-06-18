@@ -54,20 +54,17 @@ public class DateValueConverter extends AbstractValueConverter {
     public static final String DEFAULT_DATE_MESSAGE = "Invalid date {1} (using format {2}) for field {0}";
     public static final String DEFAULT_DATE_MISSING_MESSAGE = "Missing date value for field {0}";
 
-    private Properties patterns;
-    
     public DateValueConverter(MessageResources messageResources) {
         this(messageResources, new Properties());
     }
 
     public DateValueConverter(MessageResources messageResources, Properties patterns) {
-        super(messageResources);
-        this.patterns = patterns;
+        super(messageResources, patterns);
     }
 
     public boolean accept(Type type) {
-        if ( type instanceof Class ){
-            return Date.class.isAssignableFrom((Class<?>)type);            
+        if (type instanceof Class) {
+            return Date.class.isAssignableFrom((Class<?>) type);
         }
         return false;
     }
@@ -88,14 +85,6 @@ public class DateValueConverter extends AbstractValueConverter {
         }
     }
 
-    public Properties getPatterns() {
-        return patterns;
-    }
-
-    public void changePatterns(Properties patterns) {
-        this.patterns = patterns;
-    }
-
     private enum DateType {
         DAY, TIME, DATE
     }
@@ -111,24 +100,24 @@ public class DateValueConverter extends AbstractValueConverter {
         String pattern;
         switch (dateType) {
             case DAY:
-                pattern = patternFor(patterns, DAY_FORMAT_KEY, DEFAULT_DAY_FORMAT);
+                pattern = patternFor(DAY_FORMAT_KEY, DEFAULT_DAY_FORMAT);
                 break;
             case TIME:
-                pattern = patternFor(patterns, TIME_FORMAT_KEY, DEFAULT_TIME_FORMAT);
+                pattern = patternFor(TIME_FORMAT_KEY, DEFAULT_TIME_FORMAT);
                 break;
             default:
-                pattern = patternFor(patterns, DATE_FORMAT_KEY, DEFAULT_DATE_FORMAT);
+                pattern = patternFor(DATE_FORMAT_KEY, DEFAULT_DATE_FORMAT);
         }
         return new SimpleDateFormat(pattern);
     }
 
     private DateType dateType(String propertyName) {
-        if (matches(propertyName, patternFor(patterns , DAY_NAME_KEY, DEFAULT_DAY_NAME))) {
+        if (matches(propertyName, patternFor(DAY_NAME_KEY, DEFAULT_DAY_NAME))) {
             return DateType.DAY;
-        } else if (matches(propertyName, patternFor(patterns , TIME_NAME_KEY, DEFAULT_TIME_NAME))) {
+        } else if (matches(propertyName, patternFor(TIME_NAME_KEY, DEFAULT_TIME_NAME))) {
             return DateType.TIME;
         }
         return DateType.DATE;
     }
-    
+
 }

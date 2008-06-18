@@ -16,14 +16,16 @@ import java.util.Properties;
  */
 public abstract class AbstractValueConverter implements ValueConverter {
 
-    protected final MessageResources messageResources;
+    private final MessageResources messageResources;
+    private Properties patterns;
 
-    protected AbstractValueConverter(MessageResources messageResources) {
+    protected AbstractValueConverter(MessageResources messageResources, Properties patterns) {
         this.messageResources = messageResources;
+        this.patterns = patterns;
     }
 
     /**
-     * Determines if the value is missing.  
+     * Determines if the value is missing.
      * 
      * @param value the String value
      * @return A boolean, <code>true</code> if value is <code>null</code> or trimmed length is 0.
@@ -33,8 +35,8 @@ public abstract class AbstractValueConverter implements ValueConverter {
     }
 
     /**
-     * Handles the case of a missing value.  By default it return a <code>null</code> converted value,
-     * but can be overridden to throw a BindException
+     * Handles the case of a missing value. By default it return a <code>null</code> converted value, but can be
+     * overridden to throw a BindException
      * 
      * @param key the error message key
      * @param defaultMessage the default message if key is not found
@@ -44,8 +46,8 @@ public abstract class AbstractValueConverter implements ValueConverter {
     protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
         return null;
     }
-    
-    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
+
+    @SuppressWarnings( { "ThrowableInstanceNeverThrown" })
     protected BindException newBindException(String key, String defaultMessage, Object... parameters) {
         String message = messageResources.getMessageWithDefault(key, defaultMessage, parameters);
         return new BindException(message);
@@ -59,10 +61,18 @@ public abstract class AbstractValueConverter implements ValueConverter {
         return value != null && value.matches(regex);
     }
 
-    protected String patternFor(Properties patterns, String key, String defaultPattern) {
-        if ( patterns.containsKey(key)) {
+    protected String patternFor(String key, String defaultPattern) {
+        if (patterns.containsKey(key)) {
             return patterns.getProperty(key);
         }
         return messageFor(key, defaultPattern);
+    }
+
+    public Properties getPatterns() {
+        return patterns;
+    }
+
+    public void changePatterns(Properties patterns) {
+        this.patterns = patterns;
     }
 }

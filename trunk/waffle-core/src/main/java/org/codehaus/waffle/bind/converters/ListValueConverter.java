@@ -13,7 +13,7 @@ import org.codehaus.waffle.i18n.MessageResources;
 
 /**
  * <p>
- * <code>ValueConverter</code> that converts a CSV value to a List. A <code>null</code> or empty value (once
+ * <code>ValueConverter</code> that converts CSV values to List of Strings. A <code>null</code> or empty value (once
  * trimmed) will be returned as an empty list (behaviour which can be overridden via the {@link #convertMissingValue}
  * method). The message keys and default values used are:
  * <ul>
@@ -32,15 +32,13 @@ public class ListValueConverter extends AbstractValueConverter {
     public static final String DEFAULT_LIST_MESSAGE = "Invalid list value for field {0}";
 
     private static final String COMMA = ",";
-    private Properties patterns;
 
     public ListValueConverter(MessageResources messageResources) {
         this(messageResources, new Properties());
     }
 
     public ListValueConverter(MessageResources messageResources, Properties patterns) {
-        super(messageResources);
-        this.patterns = patterns;
+        super(messageResources, patterns);
     }
 
     public boolean accept(Type type) {
@@ -64,7 +62,7 @@ public class ListValueConverter extends AbstractValueConverter {
         return listValues(value);
     }
 
-    private List<String> listValues(String value) {
+    protected List<String> listValues(String value) {
         String[] values = value.split(COMMA);
         List<String> list = new ArrayList<String>();
         for (String current : values) {
@@ -73,14 +71,6 @@ public class ListValueConverter extends AbstractValueConverter {
             }
         }
         return list;
-    }
-
-    public Properties getPatterns() {
-        return patterns;
-    }
-
-    public void changePatterns(Properties patterns) {
-        this.patterns = patterns;
     }
 
     @SuppressWarnings("unchecked")
