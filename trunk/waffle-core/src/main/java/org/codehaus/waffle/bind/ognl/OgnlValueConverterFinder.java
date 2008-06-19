@@ -7,9 +7,7 @@ import static java.util.Arrays.asList;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
@@ -17,7 +15,7 @@ import org.codehaus.waffle.bind.converters.EnumValueConverter;
 
 /**
  * <p>
- * Implementation of <code>ValueConverterFinder</code> which caches converters found per type and uses
+ * Implementation of <code>ValueConverterFinder</code> which uses
  * <code>OgnlValueConverter</code> as default converter.
  * </p>
  * <p>
@@ -30,9 +28,10 @@ import org.codehaus.waffle.bind.converters.EnumValueConverter;
  */
 public class OgnlValueConverterFinder implements ValueConverterFinder {
 
-    private static final List<ValueConverter> DEFAULT_CONVERTERS = asList(new EnumValueConverter(), new OgnlValueConverter());
+    private static final OgnlValueConverter OGNL_VALUE_CONVERTER = new OgnlValueConverter();
+
+    private static final List<? extends ValueConverter> INITIAL_CONVERTERS = asList(new EnumValueConverter());
     
-    private final Map<Type, ValueConverter> cache = new HashMap<Type, ValueConverter>();
     private final List<ValueConverter> converters;
 
     public OgnlValueConverterFinder() {
@@ -43,26 +42,19 @@ public class OgnlValueConverterFinder implements ValueConverterFinder {
         this.converters = new ArrayList<ValueConverter>();
         if (converters != null) {
             this.converters.addAll(asList(converters));
-            this.converters.addAll(DEFAULT_CONVERTERS);
+            this.converters.addAll(INITIAL_CONVERTERS);
         } else {
-            this.converters.addAll(DEFAULT_CONVERTERS);
+            this.converters.addAll(INITIAL_CONVERTERS);
         }
     }
 
     public ValueConverter findConverter(Type type) {
-        if (cache.containsKey(type)) { // cache hit
-            return cache.get(type);
-        }
-
         for (ValueConverter converter : converters) {
             if (converter.accept(type)) {
-                cache.put(type, converter);
                 return converter;
             }
         }
-
-        cache.put(type, null); // cache the null
-        return null;
+        return OGNL_VALUE_CONVERTER;
     }
 
     public void registerConverter(ValueConverter converter) {
