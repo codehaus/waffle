@@ -11,6 +11,8 @@ import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.converters.StringListValueConverter;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeControllerWithListMethods;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -26,6 +28,7 @@ import org.junit.runner.RunWith;
 public class DelegatingTypeConverterTest {
 
     private Mockery mockery = new Mockery();
+    private BindMonitor bindMonitor = new SilentMonitor();
 
     @Test
     public void canConvertValueForEnum() {
@@ -42,7 +45,7 @@ public class DelegatingTypeConverterTest {
     @Test
     public void canDelegateToListValueConverter() throws IntrospectionException {
         final ValueConverter valueConverter = new StringListValueConverter(new DefaultMessageResources());
-        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
+        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter), bindMonitor);
         assertEquals(asList("one", "two"), converter.convertValue("propertyName", "one,two", methodParameterType("listOfStrings")));
         assertEquals(asList(), converter.convertValue("propertyName", "", methodParameterType("listOfStrings")));
     }
@@ -61,13 +64,13 @@ public class DelegatingTypeConverterTest {
                 will(returnValue(controller));
             }
         });
-        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter));
+        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(valueConverter), bindMonitor);
         assertSame(controller, converter.convertValue("propertyName", "foobar", FakeControllerWithListMethods.class));
     }
 
     @Test
     public void canReturnValueIfNotConverterFoundForTypeThatIsNotAClass() throws IntrospectionException {
-        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder());
+        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(), bindMonitor);
         assertEquals("one,two", converter.convertValue("propertyName", "one,two", FakeControllerWithListMethods
                 .methodParameterType("listOfStrings")));
     }
