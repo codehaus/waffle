@@ -68,11 +68,4 @@ public class DelegatingTypeConverterTest {
         assertSame(controller, converter.convertValue("propertyName", "foobar", FakeControllerWithListMethods.class));
     }
 
-    @Test
-    public void canReturnValueIfNotConverterFoundForTypeThatIsNotAClass() throws IntrospectionException {
-        DelegatingTypeConverter converter = new DelegatingTypeConverter(new OgnlValueConverterFinder(), bindMonitor);
-        assertEquals("one,two", converter.convertValue("propertyName", "one,two", FakeControllerWithListMethods
-                .methodParameterType("listOfStrings")));
-    }
-
 }
