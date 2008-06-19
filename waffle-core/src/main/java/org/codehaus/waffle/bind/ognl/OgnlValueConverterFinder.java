@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.bind.converters.EnumValueConverter;
 
 /**
  * <p>
@@ -29,7 +30,8 @@ import org.codehaus.waffle.bind.ValueConverterFinder;
  */
 public class OgnlValueConverterFinder implements ValueConverterFinder {
 
-    private static final ValueConverter OGNL_VALUE_CONVERTER = new OgnlValueConverter();
+    private static final List<ValueConverter> DEFAULT_CONVERTERS = asList(new EnumValueConverter(), new OgnlValueConverter());
+    
     private final Map<Type, ValueConverter> cache = new HashMap<Type, ValueConverter>();
     private final List<ValueConverter> converters;
 
@@ -41,9 +43,9 @@ public class OgnlValueConverterFinder implements ValueConverterFinder {
         this.converters = new ArrayList<ValueConverter>();
         if (converters != null) {
             this.converters.addAll(asList(converters));
-            this.converters.add(OGNL_VALUE_CONVERTER);
+            this.converters.addAll(DEFAULT_CONVERTERS);
         } else {
-            this.converters.add(OGNL_VALUE_CONVERTER);
+            this.converters.addAll(DEFAULT_CONVERTERS);
         }
     }
 
