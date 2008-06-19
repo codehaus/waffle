@@ -1,4 +1,4 @@
-package org.codehaus.waffle.example.simple.action;
+package org.codehaus.waffle.example.simple.controllers;
 
 import org.codehaus.waffle.example.simple.dao.PersonDAO;
 import org.codehaus.waffle.example.simple.model.Person;

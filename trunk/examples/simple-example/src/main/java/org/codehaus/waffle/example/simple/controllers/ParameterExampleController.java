@@ -1,4 +1,4 @@
-package org.codehaus.waffle.example.simple.action;
+package org.codehaus.waffle.example.simple.controllers;
 
 public class ParameterExampleController {
     private String name;

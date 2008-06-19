@@ -1,4 +1,4 @@
-package org.codehaus.waffle.example.simple.action;
+package org.codehaus.waffle.example.simple.controllers;
 
 import org.codehaus.waffle.action.annotation.ActionMethod;
 
