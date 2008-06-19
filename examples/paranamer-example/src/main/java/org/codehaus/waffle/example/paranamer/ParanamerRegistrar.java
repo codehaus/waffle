@@ -18,11 +18,11 @@ public class ParanamerRegistrar extends AbstractRegistrar {
         register(SimplePersonDAO.class);
         register("helloworld", HelloWorldController.class);
         register("ajaxexample", AjaxExample.class);
+        register("people/person", PersonController.class);
     }
 
     @Override
     public void session() {
         register("calculator", CalculatorController.class);
-        register("people/person", PersonController.class);
     }
 }

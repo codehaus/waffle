@@ -39,10 +39,7 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
         register(PersonListValueConverter.class);
         ValueConverterFinder finder = registry.locateByType(ValueConverterFinder.class);
         finder.registerConverter((ValueConverter) getRegistered(PersonListValueConverter.class));
-    }
-
-    @Override
-    public void session() {
         register("people/manage", PersonController.class);
     }
+
 }
