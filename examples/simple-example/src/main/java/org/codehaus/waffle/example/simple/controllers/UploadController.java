@@ -1,4 +1,4 @@
-package org.codehaus.waffle.example.simple;
+package org.codehaus.waffle.example.simple.controllers;
 
 import org.apache.commons.fileupload.FileItem;
 import org.codehaus.waffle.action.annotation.ActionMethod;

@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 import java.util.Locale;
 
+import org.codehaus.waffle.example.simple.controllers.AutomobileController;
+import org.codehaus.waffle.example.simple.controllers.AutomobileControllerValidator;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.DefaultMessageResourcesConfiguration;
 import org.codehaus.waffle.i18n.MessageResources;

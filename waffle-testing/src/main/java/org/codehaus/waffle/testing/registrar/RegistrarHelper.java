@@ -1,17 +1,28 @@
 package org.codehaus.waffle.testing.registrar;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.Principal;
 import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.ContextLevel;
@@ -33,6 +44,20 @@ import org.picocontainer.monitors.NullComponentMonitor;
  */
 public class RegistrarHelper {
 
+    private MutablePicoContainer applicationContainer;
+    private MutablePicoContainer sessionContainer;
+    private MutablePicoContainer requestContainer;
+
+    /**
+     * Registers the components for the given registrar and level
+     * 
+     * @param registrarType the Class representing the registrar type
+     * @param level the ContextLevel
+     */
+    public void componentsFor(Class<?> registrarType, ContextLevel level) {
+        registerComponentsFor(registrarType, level, registrarContainerFor(level));
+    }
+
     /**
      * Returns the registered controller
      * 
@@ -42,19 +67,25 @@ public class RegistrarHelper {
      * @return The controller instance or <code>null</code> if not found
      */
     public Object controllerFor(Class<?> registrarType, ContextLevel level, String path) {
-        MutablePicoContainer registrarContainer = new DefaultPicoContainer();
+        MutablePicoContainer registrarContainer = registrarContainerFor(level);
         registerComponentsFor(registrarType, level, registrarContainer);
         return registrarContainer.getComponent(path);
     }
 
-    /**
-     * Registers the components for the given registrar and level
-     * 
-     * @param registrarType the Class representing the registrar type
-     * @param level the ContextLevel
-     */
-    public void componentsFor(Class<?> registrarType, ContextLevel level) {
-        registerComponentsFor(registrarType, level, new DefaultPicoContainer());
+    private MutablePicoContainer registrarContainerFor(ContextLevel level) {
+        switch (level) {
+            case APPLICATION:
+                applicationContainer = new DefaultPicoContainer();
+                return applicationContainer;
+            case SESSION:
+                sessionContainer = new DefaultPicoContainer(applicationContainer);
+                return sessionContainer;
+            case REQUEST:
+                requestContainer = new DefaultPicoContainer(sessionContainer);
+                return requestContainer;
+            default:
+                throw new WaffleException("Invalid context level " + level);
+        }
     }
 
     private void registerComponentsFor(Class<?> registrarType, ContextLevel level,
@@ -82,7 +113,8 @@ public class RegistrarHelper {
      */
     private Registrar createRegistrar(Class<?> type, MutablePicoContainer registrarContainer) {
         String registrarName = type.getName();
-        registrarContainer.addComponent(PicoComponentRegistryServletContext.class);
+        registrarContainer.addComponent(StubServletContext.class);
+        registrarContainer.addComponent(StubServletRequest.class);
         try {
             MutablePicoContainer initContainer = new DefaultPicoContainer();
             initContainer.addComponent(registrarContainer);
@@ -105,16 +137,16 @@ public class RegistrarHelper {
      * 
      * @author Mauro Talevi
      */
-    public static class PicoComponentRegistryServletContext implements ServletContext {
-        
+    public static class StubServletContext implements ServletContext {
+
         private ComponentRegistry registry;
-        
-        public PicoComponentRegistryServletContext(){
+
+        public StubServletContext() {
             this.registry = new PicoComponentRegistry(this);
         }
-        
+
         public Object getAttribute(String name) {
-            if ( name.equals(ComponentRegistry.class.getName())){
+            if (name.equals(ComponentRegistry.class.getName())) {
                 return registry;
             }
             return null;
@@ -210,6 +242,228 @@ public class RegistrarHelper {
 
         public void setAttribute(String name, Object object) {
         }
-        
+
     }
+
+    /**
+     * HttpServletRequest stub that allows request-scoped components to depend on it
+     * 
+     * @author Mauro Talevi
+     */
+    public static class StubServletRequest implements HttpServletRequest {
+
+        public String getAuthType() {
+            return null;
+        }
+
+        public String getContextPath() {
+            return null;
+        }
+
+        public Cookie[] getCookies() {
+            return null;
+        }
+
+        public long getDateHeader(String name) {
+            return 0;
+        }
+
+        public String getHeader(String name) {
+            return null;
+        }
+
+        public Enumeration<String> getHeaderNames() {
+            return null;
+        }
+
+        public Enumeration<String> getHeaders(String name) {
+            return null;
+        }
+
+        public int getIntHeader(String name) {
+            return 0;
+        }
+
+        public String getMethod() {
+            return null;
+        }
+
+        public String getPathInfo() {
+            return null;
+        }
+
+        public String getPathTranslated() {
+            return null;
+        }
+
+        public String getQueryString() {
+            return null;
+        }
+
+        public String getRemoteUser() {
+            return null;
+        }
+
+        public String getRequestURI() {
+            return null;
+        }
+
+        public StringBuffer getRequestURL() {
+            return null;
+        }
+
+        public String getRequestedSessionId() {
+            return null;
+        }
+
+        public String getServletPath() {
+            return null;
+        }
+
+        public HttpSession getSession() {
+            return null;
+        }
+
+        public HttpSession getSession(boolean create) {
+            return null;
+        }
+
+        public Principal getUserPrincipal() {
+            return null;
+        }
+
+        public boolean isRequestedSessionIdFromCookie() {
+            return false;
+        }
+
+        public boolean isRequestedSessionIdFromURL() {
+            return false;
+        }
+
+        public boolean isRequestedSessionIdFromUrl() {
+            return false;
+        }
+
+        public boolean isRequestedSessionIdValid() {
+            return false;
+        }
+
+        public boolean isUserInRole(String role) {
+            return false;
+        }
+
+        public Object getAttribute(String name) {
+            return null;
+        }
+
+        public Enumeration<String> getAttributeNames() {
+            return null;
+        }
+
+        public String getCharacterEncoding() {
+            return null;
+        }
+
+        public int getContentLength() {
+            return 0;
+        }
+
+        public String getContentType() {
+            return null;
+        }
+
+        public ServletInputStream getInputStream() throws IOException {
+            return null;
+        }
+
+        public String getLocalAddr() {
+            return null;
+        }
+
+        public String getLocalName() {
+            return null;
+        }
+
+        public int getLocalPort() {
+            return 0;
+        }
+
+        public Locale getLocale() {
+            return null;
+        }
+
+        public Enumeration<Locale> getLocales() {
+            return null;
+        }
+
+        public String getParameter(String name) {
+            return null;
+        }
+
+        public Map<String, String> getParameterMap() {
+            return null;
+        }
+
+        public Enumeration<String> getParameterNames() {
+            return null;
+        }
+
+        public String[] getParameterValues(String name) {
+            return null;
+        }
+
+        public String getProtocol() {
+            return null;
+        }
+
+        public BufferedReader getReader() throws IOException {
+            return null;
+        }
+
+        public String getRealPath(String path) {
+            return null;
+        }
+
+        public String getRemoteAddr() {
+            return null;
+        }
+
+        public String getRemoteHost() {
+            return null;
+        }
+
+        public int getRemotePort() {
+            return 0;
+        }
+
+        public RequestDispatcher getRequestDispatcher(String path) {
+            return null;
+        }
+
+        public String getScheme() {
+            return null;
+        }
+
+        public String getServerName() {
+            return null;
+        }
+
+        public int getServerPort() {
+            return 0;
+        }
+
+        public boolean isSecure() {
+            return false;
+        }
+
+        public void removeAttribute(String name) {
+        }
+
+        public void setAttribute(String name, Object o) {
+        }
+
+        public void setCharacterEncoding(String env) throws UnsupportedEncodingException {
+        }
+    }
+
 }

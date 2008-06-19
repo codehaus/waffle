@@ -3,10 +3,12 @@ package org.codehaus.waffle.example.simple;
 import static org.codehaus.waffle.registrar.RequestParameterReference.requestParameter;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.codehaus.waffle.example.simple.action.CalculatorController;
-import org.codehaus.waffle.example.simple.action.HelloWorldController;
-import org.codehaus.waffle.example.simple.action.ParameterExampleController;
-import org.codehaus.waffle.example.simple.action.PersonController;
+import org.codehaus.waffle.example.simple.controllers.AutomobileController;
+import org.codehaus.waffle.example.simple.controllers.CalculatorController;
+import org.codehaus.waffle.example.simple.controllers.HelloWorldController;
+import org.codehaus.waffle.example.simple.controllers.ParameterExampleController;
+import org.codehaus.waffle.example.simple.controllers.PersonController;
+import org.codehaus.waffle.example.simple.controllers.UploadController;
 import org.codehaus.waffle.example.simple.dao.SimplePersonDAO;
 import org.codehaus.waffle.io.RequestFileUploader;
 import org.codehaus.waffle.registrar.AbstractRegistrar;
@@ -23,7 +25,6 @@ public class SimpleRegistrar extends AbstractRegistrar {
         register(SimplePersonDAO.class);
         register("helloworld", HelloWorldController.class);
         register("ajaxexample", AjaxExample.class);
-        register("person", PersonController.class);
     }
 
     @Override
@@ -33,6 +34,7 @@ public class SimpleRegistrar extends AbstractRegistrar {
         //validation for automobile controller done in the controller itself
         //uncomment registration of validator if you prefer to override it
         //register("automobileValidator", AutomobileControllerValidator.class);
+        register("person", PersonController.class);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package org.codehaus.waffle.example.simple;
+package org.codehaus.waffle.example.simple.controllers;
 
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.validation.FieldErrorMessage;
