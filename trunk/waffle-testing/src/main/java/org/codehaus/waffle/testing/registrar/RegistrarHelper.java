@@ -81,7 +81,8 @@ public class RegistrarHelper {
                 sessionContainer = new DefaultPicoContainer(applicationContainer);
                 return sessionContainer;
             case REQUEST:
-                requestContainer = new DefaultPicoContainer(sessionContainer);
+                requestContainer = new DefaultPicoContainer((sessionContainer != null ? sessionContainer
+                        : applicationContainer));
                 return requestContainer;
             default:
                 throw new WaffleException("Invalid context level " + level);
