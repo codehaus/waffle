@@ -24,6 +24,7 @@ public class PersistablePerson implements Person {
     private String notes;
     private boolean wizard;
     private Type type;
+    private Person bestFriend;
     private List<Person> friends;
 
     public PersistablePerson() {
@@ -34,6 +35,7 @@ public class PersistablePerson implements Person {
         dateOfBirth = new Date();
         birthDay = new Date();
         birthTime = new Date();
+        bestFriend = this;
         friends = new ArrayList<Person>();
         skills = new ArrayList<String>();
         levels = new ArrayList<Integer>();
@@ -51,6 +53,7 @@ public class PersistablePerson implements Person {
         this.dateOfBirth = person.getDateOfBirth();
         this.birthDay = person.getBirthDay();
         this.birthTime = person.getBirthTime();
+        this.bestFriend = person.getBestFriend();
         this.friends = person.getFriends();
         this.skills = person.getSkills();
         this.levels = person.getLevels();
@@ -114,6 +117,14 @@ public class PersistablePerson implements Person {
 
     public void setBirthTime(Date birthTime) {
         this.birthTime = birthTime;
+    }
+
+    public Person getBestFriend() {
+        return bestFriend;
+    }
+
+    public void setBestFriend(Person bestFriend) {
+        this.bestFriend = bestFriend;
     }
 
     public List<Person> getFriends() {
