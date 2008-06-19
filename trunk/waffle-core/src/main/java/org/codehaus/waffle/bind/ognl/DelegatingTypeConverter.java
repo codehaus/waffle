@@ -16,15 +16,14 @@ import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 
 /**
- * An implementation of Ognl's <code>TypeConverter</code> which handles Java 5 enums and will delegate to custom
+ * An implementation of Ognl's <code>TypeConverter</code> which delegates to 
  * <code>ValueConverter</code>'s registered per application and retrieved via the the
- * <code>ValueConverterFinder</code>.
+ * <code>ValueConverterFinder</code>.  
  * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
 public class DelegatingTypeConverter implements TypeConverter {
-    private static final String EMPTY = "";
     private final ValueConverterFinder valueConverterFinder;
     private final BindMonitor bindMonitor;
 
@@ -74,17 +73,10 @@ public class DelegatingTypeConverter implements TypeConverter {
      * @param propertyName property name being set
      * @param value value to be converted
      * @param type Type to which value is converted
-     * @return Converted value Object for type or the unconvertered value if type is not an enum or no converter found
+     * @return Converted value Object for type or the unconvertered value if no converter found
      */
     @SuppressWarnings( { "unchecked" })
     public Object convertValue(String propertyName, String value, Type type) {
-        if (type instanceof Class && ((Class) type).isEnum()) {
-            if (EMPTY.equals(value)) {
-                return null;
-            }
-            return Enum.valueOf((Class) type, value);
-        }
-
         ValueConverter converter = valueConverterFinder.findConverter(type);
 
         if (converter != null) {
