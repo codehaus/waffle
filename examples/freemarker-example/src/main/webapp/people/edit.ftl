@@ -50,6 +50,11 @@
             </#if> 
         </p>
         <p class="fieldRow">
+            <label for="person.bestFriend">Best Friend:</label>
+            <@w.hidden "person.bestFriend" ""/>
+            <@w.selectSingle "person.bestFriend" w.asNameableValues(controller.getPeople(),"id","firstName") person.getBestFriend().getId() />
+        </p>
+        <p class="fieldRow">
             <label for="person.friends">Friends:</label>
             <@w.hidden "person.friends" ""/>
             <@w.selectMultiple "person.friends" w.asNameableValues(controller.getPeople(),"id","firstName") w.asValues(person.getFriends(),"id") "size='5'"/>

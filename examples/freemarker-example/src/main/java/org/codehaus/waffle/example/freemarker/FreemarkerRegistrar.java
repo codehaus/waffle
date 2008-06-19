@@ -13,6 +13,7 @@ import org.codehaus.waffle.bind.converters.DateValueConverter;
 import org.codehaus.waffle.example.freemarker.controller.DateProvider;
 import org.codehaus.waffle.example.freemarker.controller.PersonController;
 import org.codehaus.waffle.example.freemarker.converters.PersonListValueConverter;
+import org.codehaus.waffle.example.freemarker.converters.PersonValueConverter;
 import org.codehaus.waffle.example.freemarker.persister.SimplePersonPersister;
 import org.codehaus.waffle.registrar.AbstractRegistrar;
 import org.codehaus.waffle.registrar.Registrar;
@@ -36,8 +37,10 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
         }
         registerInstance(dateProvider);
         register(SimplePersonPersister.class);
+        register(PersonValueConverter.class);
         register(PersonListValueConverter.class);
         ValueConverterFinder finder = registry.locateByType(ValueConverterFinder.class);
+        finder.registerConverter((ValueConverter) getRegistered(PersonValueConverter.class));
         finder.registerConverter((ValueConverter) getRegistered(PersonListValueConverter.class));
         register("people/manage", PersonController.class);
     }

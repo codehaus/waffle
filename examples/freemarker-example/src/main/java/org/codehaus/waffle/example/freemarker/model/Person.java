@@ -22,7 +22,9 @@ public interface Person {
     Date getBirthDay();
     
     Date getBirthTime();
-    
+
+    Person getBestFriend();
+
     List<Person> getFriends();
     
     List<String> getSkills();
