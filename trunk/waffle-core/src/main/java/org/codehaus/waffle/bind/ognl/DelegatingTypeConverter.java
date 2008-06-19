@@ -8,15 +8,17 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Map;
 
-import ognl.OgnlOps;
 import ognl.TypeConverter;
 
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.monitor.SilentMonitor;
 
 /**
- * An implementation of Ognl's <code>TypeConverter</code> which handles Java 5 enums and will delegate custom
- * <code>ValueConverter</code>'s registered per application.
+ * An implementation of Ognl's <code>TypeConverter</code> which handles Java 5 enums and will delegate to custom
+ * <code>ValueConverter</code>'s registered per application and retrieved via the the
+ * <code>ValueConverterFinder</code>.
  * 
  * @author Michael Ward
  * @author Mauro Talevi
@@ -24,13 +26,15 @@ import org.codehaus.waffle.bind.ValueConverterFinder;
 public class DelegatingTypeConverter implements TypeConverter {
     private static final String EMPTY = "";
     private final ValueConverterFinder valueConverterFinder;
+    private final BindMonitor bindMonitor;
 
     public DelegatingTypeConverter() {
-        this(new OgnlValueConverterFinder());
+        this(new OgnlValueConverterFinder(), new SilentMonitor());
     }
 
-    public DelegatingTypeConverter(ValueConverterFinder valueConverterFinder) {
+    public DelegatingTypeConverter(ValueConverterFinder valueConverterFinder, BindMonitor bindMonitor) {
         this.valueConverterFinder = valueConverterFinder;
+        this.bindMonitor = bindMonitor;
     }
 
     /**
@@ -56,8 +60,11 @@ public class DelegatingTypeConverter implements TypeConverter {
     private Type genericParameterTypeFor(Method method) {
         Type[] parameterTypes = method.getGenericParameterTypes();
         if (parameterTypes.length > 0) {
-            return parameterTypes[0];
+            Type type = parameterTypes[0];
+            bindMonitor.genericParameterTypeFound(type, method);
+            return type;
         }
+        bindMonitor.genericParameterTypeNotFound(method);
         return null;
     }
 
@@ -66,26 +73,25 @@ public class DelegatingTypeConverter implements TypeConverter {
      * 
      * @param propertyName property name being set
      * @param value value to be converted
-     * @param toType type to which value is converted
-     * @return Converted value Object of type toType or TypeConverter.NoConversionPossible to indicate that the
-     *         conversion was not possible.
+     * @param type Type to which value is converted
+     * @return Converted value Object for type or the unconvertered value if type is not an enum or no converter found
      */
     @SuppressWarnings( { "unchecked" })
-    public Object convertValue(String propertyName, String value, Type toType) {
-        if (toType instanceof Class && ((Class) toType).isEnum()) {
+    public Object convertValue(String propertyName, String value, Type type) {
+        if (type instanceof Class && ((Class) type).isEnum()) {
             if (EMPTY.equals(value)) {
                 return null;
             }
-            return Enum.valueOf((Class) toType, value);
+            return Enum.valueOf((Class) type, value);
         }
 
-        ValueConverter converter = valueConverterFinder.findConverter(toType);
+        ValueConverter converter = valueConverterFinder.findConverter(type);
 
         if (converter != null) {
-            return converter.convertValue(propertyName, value, toType);
-        } else if (toType instanceof Class) {
-            return OgnlOps.convertValue(value, (Class) toType);
+            bindMonitor.valueConverterFound(type, converter);
+            return converter.convertValue(propertyName, value, type);
         } else {
+            bindMonitor.valueConverterNotFound(type);
             return value;
         }
     }

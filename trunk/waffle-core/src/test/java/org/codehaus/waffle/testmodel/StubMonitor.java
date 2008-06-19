@@ -1,6 +1,7 @@
 package org.codehaus.waffle.testmodel;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
+import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.ActionMonitor;
@@ -76,6 +78,18 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     }
 
     public void controllerValueBound(String name, Object value, Object controller) {
+    }
+
+    public void genericParameterTypeFound(Type type, Method method) {
+    }
+
+    public void genericParameterTypeNotFound(Method method) {
+    }
+
+    public void valueConverterFound(Type type, ValueConverter converter) {
+    }
+
+    public void valueConverterNotFound(Type type) {
     }
 
     public void contextInitialized() {
@@ -149,5 +163,6 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
 
     public void viewResponded(ResponderView responderView) {
     }
+
 
 }

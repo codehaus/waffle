@@ -35,7 +35,7 @@ public class OgnlControllerDataBinder implements ControllerDataBinder {
     private final BindMonitor bindMonitor;
 
     public OgnlControllerDataBinder(ValueConverterFinder valueConverterFinder, BindErrorMessageResolver bindErrorMessageResolver, BindMonitor bindMonitor) {
-        this.typeConverter = new DelegatingTypeConverter(valueConverterFinder);
+        this.typeConverter = new DelegatingTypeConverter(valueConverterFinder, bindMonitor);
         this.bindErrorMessageResolver = bindErrorMessageResolver;
         this.bindMonitor = bindMonitor;
     }

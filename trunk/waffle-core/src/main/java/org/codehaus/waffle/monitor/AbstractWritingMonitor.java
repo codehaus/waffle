@@ -10,6 +10,7 @@ import static org.codehaus.waffle.monitor.Monitor.Level.INFO;
 import static org.codehaus.waffle.monitor.Monitor.Level.WARN;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
+import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.registrar.Registrar;
@@ -73,6 +75,10 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("viewValueBound", DEBUG);
         levels.put("controllerBindFailed", WARN);
         levels.put("controllerValueBound", DEBUG);
+        levels.put("genericParameterTypeFound", DEBUG);
+        levels.put("genericParameterTypeNotFound", DEBUG);
+        levels.put("valueConverterFound", DEBUG);
+        levels.put("valueConverterNotFound", DEBUG);
         levels.put("registrarCreated", INFO);
         levels.put("registrarNotFound", WARN);
         levels.put("contextInitialized", DEBUG);
@@ -122,12 +128,16 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         messages.put("methodIntercepted", "Method ''{0}'' intercepted with arguments {1} and returned value ''{2}''");
         messages.put("argumentNameResolved", "Argument name ''{0}'' resolved to ''{1}'' in scope ''{2}''");
         messages.put("argumentNameNotMatched", "Argument name ''{0}'' not matched by pattern ''{1}''");
-        messages.put("responseIsCommitted", "Response is committed for response: {0}");
+        messages.put("responseIsCommitted", "Response is committed for response: {0}");      
         messages.put("viewDispatched", "View dispatched: {0}");
         messages.put("viewBindFailed", "View bind failed from controller ''{0}'': {1}");
         messages.put("viewValueBound", "View value ''{1}'' bound for name ''{0}'' from controller ''{2}''");        
         messages.put("controllerBindFailed", "Controller bind failed to controller ''{0}'' with message {1}: {2}");
-        messages.put("controllerValueBound", "Controller value ''{1}'' bound for name ''{0}'' to controller ''{2}''");        
+        messages.put("controllerValueBound", "Controller value ''{1}'' bound for name ''{0}'' to controller ''{2}''");
+        messages.put("genericParameterTypeFound", "Generic parameter type ''{0}'' found for method ''{1}''");
+        messages.put("genericParameterTypeNotFound", "Generic parameter type not found for method ''{0}''");
+        messages.put("valueConverterFound", "Value converter ''{0}'' found for type ''{1}''");
+        messages.put("valueConverterNotFound", "Value converter not found for type ''{0}''");          
         messages.put("registrarCreated", "Registrar ''{0}'' created  with monitor ''{1}''");
         messages.put("registrarNotFound", "Registrar ''{0}'' not found");
         messages.put("contextInitialized", "Context initialized");
@@ -251,6 +261,22 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("viewDispatched", view);        
     }
 
+    public void genericParameterTypeFound(Type type, Method method) {
+        write("genericParameterTypeFound", type, method);
+    }
+
+    public void genericParameterTypeNotFound(Method method) {
+        write("genericParameterTypeNotFound", method);
+    }
+
+    public void valueConverterFound(Type type, ValueConverter converter) {
+        write("valueConverterFound", type, converter);
+    }
+
+    public void valueConverterNotFound(Type type) {
+        write("valueConverterNotFound", type);
+    }
+
     public void viewBindFailed(Object controller, Exception cause){
         write("viewBindFailed", controller, cause);
     }
@@ -266,7 +292,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
     public void controllerValueBound(String name, Object value, Object controller) {
         write("controllerValueBound", name, value, controller);
     }
-
+    
     public void registrarCreated(Registrar registrar, RegistrarMonitor registrarMonitor) {
         write("registrarCreated", registrar, registrarMonitor);         
     }
@@ -362,4 +388,5 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
     public void viewResponded(ResponderView responderView) {
         write("viewResponded", responderView);        
     }
+
 }

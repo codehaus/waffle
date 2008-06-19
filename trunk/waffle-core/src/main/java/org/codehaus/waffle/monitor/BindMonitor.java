@@ -3,6 +3,10 @@
  */
 package org.codehaus.waffle.monitor;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
+
+import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.validation.BindErrorMessage;
 
 /**
@@ -19,5 +23,13 @@ public interface BindMonitor extends Monitor {
     void controllerBindFailed(Object controller, BindErrorMessage errorMessage, Exception cause);
 
     void controllerValueBound(String name, Object value, Object controller);
+
+    void genericParameterTypeFound(Type type, Method method);
+
+    void genericParameterTypeNotFound(Method method);
+
+    void valueConverterFound(Type type, ValueConverter converter);
+
+    void valueConverterNotFound(Type type);
     
 }
