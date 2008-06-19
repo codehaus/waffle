@@ -1,26 +1,33 @@
 package org.codehaus.waffle.example.simple;
 
-import org.codehaus.waffle.mock.PicoRegistrarMockery;
-import org.jmock.Expectations;
-import org.junit.Test;
+import static org.codehaus.waffle.context.ContextLevel.APPLICATION;
+import static org.codehaus.waffle.context.ContextLevel.REQUEST;
+import static org.codehaus.waffle.context.ContextLevel.SESSION;
+import static org.junit.Assert.assertNotNull;
 
-import javax.servlet.http.HttpServletRequest;
+import org.codehaus.waffle.testing.registrar.RegistrarHelper;
+import org.junit.Test;
 
 public class SimpleRegistrarTest {
 
+    private static final Class<SimpleRegistrar> CLASS = SimpleRegistrar.class;
+
     @Test
-    public void canAssertConfiguration() {
-        PicoRegistrarMockery picoRegistrarMockery = new PicoRegistrarMockery();
-        final HttpServletRequest request = picoRegistrarMockery.mockHttpServletRequest();
+    public void canRegisterComponentsAtDifferentLevels() {
+        RegistrarHelper helper = new RegistrarHelper();
+        helper.componentsFor(CLASS, APPLICATION);
+        helper.componentsFor(CLASS, SESSION);
+        helper.componentsFor(CLASS, REQUEST);
+    }
 
-        picoRegistrarMockery.checking(new Expectations() {
-            {
-                exactly(2).of(request).getParameter("age");
-                will(returnValue("99"));
-            }
-        });
-
-        picoRegistrarMockery.assertConfiguration(SimpleRegistrar.class);
+    @Test
+    public void canRetrieveControllers() {
+        RegistrarHelper helper = new RegistrarHelper();
+        assertNotNull(helper.controllerFor(CLASS, APPLICATION, "helloworld"));
+        assertNotNull(helper.controllerFor(CLASS, APPLICATION, "ajaxexample"));
+        assertNotNull(helper.controllerFor(CLASS, APPLICATION, "person"));
+        assertNotNull(helper.controllerFor(CLASS, SESSION, "calculator"));
+        assertNotNull(helper.controllerFor(CLASS, SESSION, "automobile"));
     }
 
 }
