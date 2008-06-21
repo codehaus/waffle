@@ -38,7 +38,7 @@ import org.junit.runner.RunWith;
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
-public class OgnlDataBinderTest {
+public class OgnlControllerDataBinderTest {
 
     private Mockery mockery = new Mockery();
 
