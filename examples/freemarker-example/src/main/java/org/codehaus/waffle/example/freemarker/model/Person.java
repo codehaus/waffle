@@ -37,6 +37,8 @@ public interface Person {
     
     boolean isWizard();
     
+    double getMagicNumber();
+
     String getNotes();
     
 }

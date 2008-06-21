@@ -23,6 +23,7 @@ public class PersistablePerson implements Person {
     private List<Double> grades;
     private String notes;
     private boolean wizard;
+    private double magicNumber;
     private Type type;
     private Person bestFriend;
     private List<Person> friends;
@@ -43,6 +44,7 @@ public class PersistablePerson implements Person {
         notes = "";
         type = Type.APPRENTICE;
         wizard = false;
+        magicNumber = 0.d;
     }
 
     public PersistablePerson(Person person) {
@@ -61,6 +63,7 @@ public class PersistablePerson implements Person {
         this.notes = person.getNotes();
         this.type = person.getType();
         this.wizard = person.isWizard();
+        this.magicNumber = person.getMagicNumber();
     }
 
     public Long getId() {
@@ -185,6 +188,14 @@ public class PersistablePerson implements Person {
 
     public void setWizard(boolean wizard) {
         this.wizard = wizard;
+    }
+
+    public double getMagicNumber() {
+        return magicNumber;
+    }
+
+    public void setMagicNumber(double magicNumber) {
+        this.magicNumber = magicNumber;
     }
 
     @Override

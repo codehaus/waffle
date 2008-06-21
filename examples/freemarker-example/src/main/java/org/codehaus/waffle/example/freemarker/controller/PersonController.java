@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.example.freemarker.model.Person;
 import org.codehaus.waffle.example.freemarker.model.Person.Type;
 import org.codehaus.waffle.example.freemarker.persister.PersistablePerson;
@@ -22,6 +23,7 @@ public class PersonController implements Serializable {
     private Person person;
     private List<Long> selectedIds = new ArrayList<Long>();
     private List<String> skills = Arrays.asList("Magician", "Apprentice");
+    private Long id;
 
     public PersonController(PersonPersister persister, DateProvider dateProvider) {
         this.persister = persister;
@@ -36,10 +38,10 @@ public class PersonController implements Serializable {
         return persister.findAll();
     }
 
-    public List<Type> getTypes(){
+    public List<Type> getTypes() {
         return asList(Type.values());
     }
-    
+
     public List<Long> getSelectedIds() {
         return selectedIds;
     }
@@ -54,6 +56,14 @@ public class PersonController implements Serializable {
             selected.add(persister.findById(id));
         }
         return selected;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Person getPerson() {
@@ -72,7 +82,12 @@ public class PersonController implements Serializable {
         persister.delete(personId);
     }
 
+    @ActionMethod(parameters = { "id" })
     public void select(Long id) {
+        this.person = persister.findById(id);
+    }
+
+    public void select() {
         this.person = persister.findById(id);
     }
 
