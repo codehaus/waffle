@@ -1,12 +1,20 @@
-/*****************************************************************************
- * Copyright (C) 2005,2006 Michael Ward                                      *
- * All rights reserved.                                                      *
- * ------------------------------------------------------------------------- *
- * The software in this package is published under the terms of the BSD      *
- * style license a copy of which has been included with this distribution in *
- * the LICENSE.txt file.                                                     *
- *****************************************************************************/
+/*
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
+ */
 
+/**
+ * Javascript functions for Waffle web applications
+ *
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
+
+/**
+ * Returns a document form by id or the first one in the document if id is null.
+ * 
+ * @param formId the id of the form
+ * @return The document form
+ */
 function findForm(formId) {
   if(formId == null) {
     return document.forms[0];
@@ -16,7 +24,9 @@ function findForm(formId) {
 }
 
 /**
- * @param methodName
+ * Fires action method for given method name and form id
+ *
+ * @param methodName the method name
  * @param formId reference to the form id (optional)
  */
 function fireActionMethod(methodName, formId) {
@@ -25,7 +35,9 @@ function fireActionMethod(methodName, formId) {
 }
 
 /**
- * @param methodName
+ * Fires action method with multipart encoding for given method name and form id
+ *
+ * @param methodName the method name
  * @param formId reference to the form id (optional)
  */
 function fireMultipartActionMethod(methodName, formId) {
@@ -35,6 +47,12 @@ function fireMultipartActionMethod(methodName, formId) {
   submitInputMethod(form, methodName);
 }
 
+/**
+ * Submits hidden input form with action method name as attribute
+ *
+ * @param form the document form to submit
+ * @param methodName the method name
+ */
 function submitInputMethod(form, methodName) {
   var method = document.createElement("input");
   method.setAttribute("type", "hidden");
