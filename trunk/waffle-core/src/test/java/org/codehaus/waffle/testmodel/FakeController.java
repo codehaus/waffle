@@ -18,7 +18,7 @@ public class FakeController {
     private String name;
     private String[] values;
     private List<String> list;
-    private Long numericValue;
+    private Number number;
     private ContextLevel contextLevel;
     private HttpServletRequest request;
     private HttpServletResponse response;
@@ -31,14 +31,14 @@ public class FakeController {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Long getNumericValue() {
-        return numericValue;
+    
+    public Number getNumber() {
+        return number;
     }
 
-    public void setNumericValue(Long numericValue) {
-        this.numericValue = numericValue;
-    }// used to prove we can set an enum with ognl
+    public void setNumber(Number number) {
+        this.number = number;
+    }
 
     public ContextLevel getContextLevel() {
         return contextLevel;

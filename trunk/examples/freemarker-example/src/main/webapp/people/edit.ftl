@@ -81,6 +81,10 @@
             <@w.text "person.wizard" "${person.wizard?string}"/>
         </p>
         <p class="fieldRow">
+            <label for="person.magicNumber">Magic Number:</label>
+            <@w.text "person.magicNumber" "${person.magicNumber}"/>
+        </p>
+        <p class="fieldRow">
             <label for="person.notes">Notes:</label>
             <@w.textarea "person.notes" "${person.notes}" />
         </p>

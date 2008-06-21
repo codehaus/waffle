@@ -23,7 +23,7 @@
         <#list people as person>
             <tr class="odd">
                 <td>
-                    <a href="${base}/people/manage.action?method=select|${person.id}">${person.id}</a>
+                    <a href="${base}/people/manage.action?method=select&id=${person.id}">${person.id}</a>
                 </td>
                 <td>${person.firstName}</td>
                 <td>${person.lastName}</td>
