@@ -23,14 +23,17 @@ Build and deploy examples to Jetty (skipping tests on releasable modules):
 mvn -Pnt,examples,jetty install
 
 IMPORTANT NOTE ON REPOSITORIES: 
-Some dependencies (eg OpenQa or JBoss ones) are not synched with central maven repo.  
+Some dependencies are not synched with central maven repo.  
 Rather than configuring lots of remote repositories to the root POM, which implies lots of redundant lookups to several remote servers, 
 it is the responsibility of the user building the code to ensure that these are configured in the user ~/.m2/settings.xml, as profiles, 
-and then build (just once with the corresponding profiles):
+and then build (just once) with the corresponding profiles to retrieve the dependency.  
+A good practice is to leave a note next to dependency declaration where these are found.
 
-mvn clean install -Popenqa,jboss
+Eg to build with openqa profile (for selenium):
 
-where the definition of openqa and jboss profiles would look something like:
+mvn clean install -Popenqa
+
+where the definition of openqa profile would look something like:
  <profiles>
      <profile>
       <id>openqa</id>
@@ -59,31 +62,4 @@ where the definition of openqa and jboss profiles would look something like:
         </pluginRepository>
       </pluginRepositories>
     </profile>   
-    <profile>
-      <id>jboss</id>
-      <repositories>
-        <repository>
-          <id>jboss-releases</id>
-          <url>http://repository.jboss.com/maven2</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-        </repository>
-      </repositories>
-      <pluginRepositories>
-        <pluginRepository>
-          <id>jboss-releases</id>
-          <url>http://repository.jboss.com/maven2</url>
-          <snapshots>
-            <enabled>false</enabled>
-          </snapshots>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-        </pluginRepository>
-      </pluginRepositories>
-    </profile>
   </profiles>
