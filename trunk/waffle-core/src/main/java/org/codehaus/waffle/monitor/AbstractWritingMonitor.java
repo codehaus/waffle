@@ -136,7 +136,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         messages.put("controllerValueBound", "Controller value ''{1}'' bound for name ''{0}'' to controller ''{2}''");
         messages.put("genericParameterTypeFound", "Generic parameter type ''{0}'' found for method ''{1}''");
         messages.put("genericParameterTypeNotFound", "Generic parameter type not found for method ''{0}''");
-        messages.put("valueConverterFound", "Value converter ''{0}'' found for type ''{1}''");
+        messages.put("valueConverterFound", "Value converter ''{1}'' found for type ''{0}''");
         messages.put("valueConverterNotFound", "Value converter not found for type ''{0}''");          
         messages.put("registrarCreated", "Registrar ''{0}'' created  with monitor ''{1}''");
         messages.put("registrarNotFound", "Registrar ''{0}'' not found");
