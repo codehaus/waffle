@@ -149,10 +149,26 @@ public class DateValueConverter implements ValueConverter {
           <td align="left">Converts date values with configurable date format and error messages.</td>
         </tr>
         <tr class="b">
-          <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/ListValueConverter.html">org.codehaus.waffle.bind.converters.ListValueConverter</a>
+          <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/EnumValueConverter.html">org.codehaus.waffle.bind.converters.EnumValueConverter</a>
           </td>
-          <td align="left">Converts CSV values with configurable error messages.  It attempts to parse values as numbers (using the injectable <code>NumberFormat</code> instance,
-              which defaults to <code>NumberFormat.getInstance()</code>) and if not successful returns list of string values.
+          <td align="left">Converts enum values.  Included by default in <a href="javadoc/core/org/codehaus/waffle/bind/ognl/OgnlValueConverterFinder.html">org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder</a></td>
+        </tr>
+        <tr class="b">
+          <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/NumberValueConverter.html">org.codehaus.waffle.bind.converters.NumberValueConverter</a>
+          </td>
+          <td align="left">Converts number values with configurable number format.</td>
+        </tr>
+        <tr class="b">
+          <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/NumberListValueConverter.html">org.codehaus.waffle.bind.converters.NumberListValueConverter</a>
+          </td>
+          <td align="left">Converts CSV Number values with configurable error message using the injectable <code>NumberFormat</code> instance,
+              which defaults to <code>NumberFormat.getInstance()</code>.
+          </td>
+        </tr>
+        <tr class="b">
+          <td align="left"><a href="javadoc/core/org/codehaus/waffle/bind/converters/StringListValueConverter.html">org.codehaus.waffle.bind.converters.StringListValueConverter</a>
+          </td>
+          <td align="left">Converts CSV String values with configurable error messages.
           </td>
         </tr>
       </tbody>
@@ -164,7 +180,7 @@ public class DateValueConverter implements ValueConverter {
       <code>convertMissingValue</code> method:
 
     <textarea class="java:nogutter:nocontrols" name="code">
-public class StringDateValueConverter extends DateValueConverter {
+public class StrictDateValueConverter extends DateValueConverter {
    public StrictDateValueConverter(MessageResources messageResources) {
         super(messageResources);
     }
