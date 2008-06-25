@@ -75,7 +75,6 @@ public class DelegatingTypeConverter implements TypeConverter {
      * @param type Type to which value is converted
      * @return Converted value Object for type or the unconvertered value if no converter found
      */
-    @SuppressWarnings( { "unchecked" })
     public Object convertValue(String propertyName, String value, Type type) {
         ValueConverter converter = valueConverterFinder.findConverter(type);
 

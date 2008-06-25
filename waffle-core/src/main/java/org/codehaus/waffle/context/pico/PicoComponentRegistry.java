@@ -194,7 +194,6 @@ public class PicoComponentRegistry implements ComponentRegistry {
         return (T) picoContainer.getComponent(key);
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T locateByType(Class<T> t) {
         return picoContainer.getComponent(t);
     }

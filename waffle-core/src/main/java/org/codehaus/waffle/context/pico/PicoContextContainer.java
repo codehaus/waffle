@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings("serial")
 public class PicoContextContainer implements ContextContainer {
     private final MutablePicoContainer delegate;
 
@@ -50,7 +51,6 @@ public class PicoContextContainer implements ContextContainer {
         }
     }
 
-    @SuppressWarnings({"unchecked"})
     public <T> T getComponent(Class<T> type) {
         return delegate.getComponent(type);
     }
@@ -66,7 +66,6 @@ public class PicoContextContainer implements ContextContainer {
         delegate.getComponents();
     }
 
-    @SuppressWarnings({"unchecked"})
     private <T> void traverseContainerHeirarchy(PicoContainer container, Class<T> type, List<T> collection) {
         collection.addAll(container.getComponents(type));
 

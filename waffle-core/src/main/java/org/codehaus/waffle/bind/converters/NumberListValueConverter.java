@@ -50,7 +50,7 @@ public class NumberListValueConverter extends StringListValueConverter {
         return false;
     }
 
-    @SuppressWarnings( { "unchecked" })
+    @SuppressWarnings( { })
     public Object convertValue(String propertyName, String value, Type toType) {
 
         if (missingValue(value)) {
@@ -72,7 +72,6 @@ public class NumberListValueConverter extends StringListValueConverter {
         return values;
     }
     
-    @SuppressWarnings("unchecked")
     protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
         return new ArrayList<Number>();
     }
