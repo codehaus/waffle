@@ -51,7 +51,6 @@ public class NumberValueConverter extends AbstractValueConverter {
         return false;
     }
 
-    @SuppressWarnings( { "unchecked" })
     public Object convertValue(String propertyName, String value, Type toType) {
         String fieldName = messageFor(propertyName, propertyName);
         if (missingValue(value)) {

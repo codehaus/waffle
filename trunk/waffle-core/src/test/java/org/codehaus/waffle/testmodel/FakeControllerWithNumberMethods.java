@@ -17,7 +17,6 @@ public class FakeControllerWithNumberMethods {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
     public void primitiveDouble(double number){};
     public void primitiveFloat(float number){};
     public void primitiveLong(long number){};

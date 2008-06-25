@@ -27,7 +27,7 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
         // Register Ruby Runtime at Application level
         MutablePicoContainer picoContainer = (MutablePicoContainer) contextContainer.getDelegate();
         Ruby runtime = Ruby.getDefaultInstance();
-        runtime.getLoadService().init(new ArrayList()); // this must be called, else we won't be able to load scripts!!
+        runtime.getLoadService().init(new ArrayList<Object>()); // this must be called, else we won't be able to load scripts!!
         loadRubyScriptFromClassLoader("org/codehaus/waffle/erb_extension.rb", runtime);
         loadRubyScriptFromClassLoader("org/codehaus/waffle/waffle.rb", runtime);
 

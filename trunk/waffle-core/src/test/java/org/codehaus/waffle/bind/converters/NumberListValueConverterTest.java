@@ -57,7 +57,6 @@ public class NumberListValueConverterTest extends AbstractValueConverterTest {
         assertCanConvertValueToList(converter, STRINGS, "one,two,three", String.class, "listOfStrings");
     }
 
-    @SuppressWarnings("unchecked")
     private void assertCanConvertValueToList(NumberListValueConverter converter, List<?> expected, String value,
             Class<?> expectedType, String methodName) throws IntrospectionException {
         List<?> actual = (List<?>) converter.convertValue("property-name", value, methodParameterType(methodName));

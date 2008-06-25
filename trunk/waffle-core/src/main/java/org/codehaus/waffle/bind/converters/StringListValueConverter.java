@@ -55,7 +55,7 @@ public class StringListValueConverter extends AbstractValueConverter {
         return false;
     }
 
-    @SuppressWarnings( { "unchecked" })
+    @SuppressWarnings( { })
     public Object convertValue(String propertyName, String value, Type toType) {
 
         if (missingValue(value)) {
@@ -77,7 +77,6 @@ public class StringListValueConverter extends AbstractValueConverter {
         return list;
     }
 
-    @SuppressWarnings("unchecked")
     protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
         return new ArrayList<String>();
     }

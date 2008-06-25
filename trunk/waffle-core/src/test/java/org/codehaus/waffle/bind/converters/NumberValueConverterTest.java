@@ -51,7 +51,6 @@ public class NumberValueConverterTest extends AbstractValueConverterTest {
         converter.convertValue("property-name", "invalid-number", Number.class); 
     }
 
-    @SuppressWarnings("unchecked")
     private void assertCanConvertValueToNumber(NumberValueConverter converter, Number expected, String value,
             Class<?> expectedType) throws IntrospectionException {
         Number actual = (Number)converter.convertValue("property-name", value, Number.class);
