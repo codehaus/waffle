@@ -208,6 +208,7 @@
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
             <preparationGoals>clean install</preparationGoals>
+            <goals>deploy</goals>
             <tagBase>https://svn.codehaus.org/waffle/tags</tagBase>
           </configuration>
         </plugin>
@@ -425,7 +426,7 @@
 
   <distributionManagement>
     <!--  
-      The id used must match a server id defined in ~/.m2/settings.xml
+      The id used must match a server id defined in ~/.m2/settings.xml. See BUILD.txt.
     -->
     <repository>
       <id>codehaus.org</id>
@@ -437,11 +438,6 @@
       <name>Codehaus Waffle Snapshot Repository</name>
       <url>dav:https://dav.codehaus.org/snapshots.repository/waffle/</url>
     </snapshotRepository>
-    <site>
-      <id>codehaus.org</id>
-      <name>Codehaus Waffle Site</name>
-      <url>dav:https://dav.codehaus.org/waffle/</url>
-    </site>
   </distributionManagement>
   
 </project>
