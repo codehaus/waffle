@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.waffle</groupId>
@@ -8,7 +9,6 @@
   <artifactId>waffle-distribution</artifactId>
   <packaging>pom</packaging>
   <name>Waffle Distribution</name>
-
   <dependencies>
     <dependency>
       <groupId>${pom.groupId}</groupId>
@@ -51,7 +51,7 @@
             </goals>
           </execution>
         </executions>
-      </plugin>    
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>dependency-maven-plugin</artifactId>
@@ -116,7 +116,7 @@
               </artifactItems>
             </configuration>
           </execution>
-         <execution>
+          <execution>
             <id>unpack-javadoc-taglib</id>
             <phase>install</phase>
             <goals>
@@ -135,8 +135,8 @@
                 </artifactItem>
               </artifactItems>
             </configuration>
-          </execution>         
-         <execution>
+          </execution>
+          <execution>
             <id>unpack-javadoc-testing</id>
             <phase>install</phase>
             <goals>
@@ -155,7 +155,7 @@
                 </artifactItem>
               </artifactItems>
             </configuration>
-          </execution>         
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -170,14 +170,10 @@
             </goals>
             <configuration>
               <descriptors>
-                <descriptor>
-                  ${basedir}/src/assembly/assembly-bin.xml
-                </descriptor>
+                <descriptor> ${basedir}/src/assembly/assembly-bin.xml </descriptor>
               </descriptors>
               <finalName>waffle-${pom.version}</finalName>
-              <workDirectory>
-                ${project.build.directory}/assembly/bin
-              </workDirectory>
+              <workDirectory> ${project.build.directory}/assembly/bin </workDirectory>
             </configuration>
           </execution>
           <execution>
@@ -188,14 +184,10 @@
             </goals>
             <configuration>
               <descriptors>
-                <descriptor>
-                  ${basedir}/src/assembly/assembly-blankproject.xml
-                </descriptor>
+                <descriptor> ${basedir}/src/assembly/assembly-blankproject.xml </descriptor>
               </descriptors>
               <finalName>waffle-blankproject-${pom.version}</finalName>
-              <workDirectory>
-                ${project.build.directory}/assembly/blankproject
-              </workDirectory>
+              <workDirectory> ${project.build.directory}/assembly/blankproject </workDirectory>
             </configuration>
           </execution>
           <execution>
@@ -206,19 +198,15 @@
             </goals>
             <configuration>
               <descriptors>
-                <descriptor>
-                  ${basedir}/src/assembly/assembly-src.xml
-                </descriptor>
+                <descriptor> ${basedir}/src/assembly/assembly-src.xml </descriptor>
               </descriptors>
               <finalName>waffle-${pom.version}</finalName>
-              <workDirectory>
-                ${project.build.directory}/assembly/src
-              </workDirectory>
+              <workDirectory> ${project.build.directory}/assembly/src </workDirectory>
             </configuration>
           </execution>
         </executions>
-        </plugin>
-        <plugin>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
@@ -233,5 +221,4 @@
       <url>dav:https://dav.codehaus.org/waffle/</url>
     </site>
   </distributionManagement>
-
 </project>
