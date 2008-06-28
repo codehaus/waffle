@@ -6,13 +6,11 @@
   <packaging>pom</packaging>
   <version>1.2-SNAPSHOT</version>
   <name>Waffle</name>
-  <description>
-    Waffle is a Java action-based web framework that was built to support enterprise-level business applications, with
-    no mandatory XML configuration (beyond the minimal web.xml required by any webapp) and no proprietary UI markup
-    language. Its guiding principles are agility, simplicity, pluggability and interoperability.
+  <description>Waffle is a Java action-based web framework designed to support enterprise-level business
+    applications, with no mandatory XML configuration (beyond the minimal web.xml required by any JEE webapp) and no
+    proprietary UI markup language. Its guiding principles are agility, simplicity, pluggability and interoperability. 
   </description>
   <url>http://waffle.codehaus.org</url>
-
   <modules>
     <module>waffle-core</module>
     <module>waffle-ruby</module>
@@ -21,7 +19,6 @@
     <module>waffle-taglib</module>
     <module>waffle-testing</module>
   </modules>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -98,14 +95,14 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>org.jmock</groupId>
       <artifactId>jmock-junit4</artifactId>
     </dependency>
   </dependencies>
-
+  <scm>
+  </scm>
   <build>
     <extensions>
       <extension>
@@ -267,7 +264,6 @@
       </plugin>
     </plugins>
   </build>
-
   <profiles>
     <profile>
       <!-- No-test profile:  equivalent to -Dmaven.test.skip=true -->
@@ -352,7 +348,6 @@
       </modules>
     </profile>
   </profiles>
-
   <licenses>
     <license>
       <name>BSD license</name>
@@ -360,7 +355,6 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-
   <developers>
     <developer>
       <id>m2ward</id>
@@ -417,13 +411,6 @@
       <name>Gleb Mazursky</name>
     </contributor>
   </contributors>
-
-  <scm>
-    <connection>http://svn.codehaus.org/waffle/trunk</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/waffle/trunk</developerConnection>
-    <url>http://waffle.codehaus.org</url>
-  </scm>
-
   <distributionManagement>
     <!--  
       The id used must match a server id defined in ~/.m2/settings.xml. See BUILD.txt.
@@ -439,5 +426,4 @@
       <url>dav:https://dav.codehaus.org/snapshots.repository/waffle/</url>
     </snapshotRepository>
   </distributionManagement>
-  
 </project>
