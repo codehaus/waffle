@@ -9,14 +9,14 @@
 	<classpathentry excluding="**" kind="src" output="waffle-ruby/target/classes" path="waffle-ruby/src/main/ruby"/>
 	<classpathentry kind="src" output="waffle-mock/target/classes" path="waffle-mock/src/main/java"/>
 	<classpathentry kind="src" output="waffle-mock/target/test-classes" path="waffle-mock/src/test/java"/>
+	<classpathentry kind="src" output="waffle-testing/target/classes" path="waffle-testing/src/main/java"/>
+	<classpathentry kind="src" output="waffle-testing/target/test-classes" path="waffle-testing/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="waffle-testing/target/test-classes" path="waffle-testing/src/test/webapp"/>
 	<classpathentry kind="src" output="waffle-resources/target/test-classes" path="waffle-resources/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="waffle-resources/target/classes" path="waffle-resources/src/main/resources"/>
 	<classpathentry kind="src" output="waffle-taglib/target/classes" path="waffle-taglib/src/main/java"/>
 	<classpathentry kind="src" output="waffle-taglib/target/test-classes" path="waffle-taglib/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="waffle-taglib/target/classes" path="waffle-taglib/src/main/resources"/>
-	<classpathentry kind="src" output="waffle-testing/target/classes" path="waffle-testing/src/main/java"/>
-	<classpathentry kind="src" output="waffle-testing/target/test-classes" path="waffle-testing/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="waffle-testing/target/test-classes" path="waffle-testing/src/test/webapp"/>
 	<classpathentry kind="src" output="examples/simple-example/target/classes" path="examples/simple-example/src/main/java"/>
 	<classpathentry kind="src" output="examples/simple-example/target/test-classes" path="examples/simple-example/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="examples/simple-example/target/classes" path="examples/simple-example/src/main/resources"/>
