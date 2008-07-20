@@ -1,12 +1,14 @@
+/*
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
+ */
 package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.pico.ScriptedPicoContextContainerFactory;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.jruby.Ruby;
 import org.picocontainer.MutablePicoContainer;
 
@@ -26,7 +28,7 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
     protected void registerScriptComponents(ContextContainer contextContainer) {
         // Register Ruby Runtime at Application level
         MutablePicoContainer picoContainer = (MutablePicoContainer) contextContainer.getDelegate();
-        Ruby runtime = Ruby.getDefaultInstance();
+        Ruby runtime = Ruby.newInstance();
         runtime.getLoadService().init(new ArrayList<Object>()); // this must be called, else we won't be able to load scripts!!
         loadRubyScriptFromClassLoader("org/codehaus/waffle/erb_extension.rb", runtime);
         loadRubyScriptFromClassLoader("org/codehaus/waffle/waffle.rb", runtime);
@@ -57,7 +59,7 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
                 line = bufferedReader.readLine();
             }
 
-            runtime.evalScript(script.toString());
+            runtime.executeScript(script.toString(), fileName);
         } catch (IOException e) {
             throw new WaffleException(e);
         } finally {

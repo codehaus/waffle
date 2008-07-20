@@ -28,8 +28,7 @@ class RequestAttributeParameter extends AbstractWaffleParameter {
                                  NameBinding nameBinding,
                                  boolean b,
                                  Annotation annotation) {
-        HttpServletRequest request = picoContainer
-                .getComponent(HttpServletRequest.class);
+        HttpServletRequest request = picoContainer.getComponent(HttpServletRequest.class);
         return (T) request.getAttribute(getKey());
     }
 }

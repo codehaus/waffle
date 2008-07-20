@@ -3,24 +3,6 @@
  */
 package org.codehaus.waffle.action;
 
-import static java.text.MessageFormat.format;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.bind.StringTransmuter;
@@ -28,6 +10,22 @@ import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ActionMonitor;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import static java.text.MessageFormat.format;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Abstract base implementation for all method definition finders
@@ -49,8 +47,11 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private final MethodNameResolver methodNameResolver;
     private final ActionMonitor actionMonitor;
 
-    public AbstractMethodDefinitionFinder(ServletContext servletContext, ArgumentResolver argumentResolver,
-            MethodNameResolver methodNameResolver, StringTransmuter stringTransmuter, ActionMonitor actionMonitor) {
+    public AbstractMethodDefinitionFinder(ServletContext servletContext,
+                                          ArgumentResolver argumentResolver,
+                                          MethodNameResolver methodNameResolver,
+                                          StringTransmuter stringTransmuter,
+                                          ActionMonitor actionMonitor) {
         this.servletContext = servletContext;
         this.argumentResolver = argumentResolver;
         this.stringTransmuter = stringTransmuter;
@@ -197,8 +198,10 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         return methodDefinitions.get(0); // TODO ... should we cache the method?
     }
 
-    private MethodDefinition buildMethodDefinition(HttpServletRequest request, HttpServletResponse response,
-            Method method, List<Object> arguments) {
+    private MethodDefinition buildMethodDefinition(HttpServletRequest request,
+                                                   HttpServletResponse response,
+                                                   Method method,
+                                                   List<Object> arguments) {
         Class<?>[] actualParameterTypes = method.getParameterTypes();
         MethodDefinition methodDefinition = new MethodDefinition(method);
 
@@ -233,6 +236,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         throw new NoValidActionMethodException(method.getName());
     }
 
+    // TODO mward ------ Why is StringTransmuter being passed?
     protected boolean hasEquivalentParameterTypes(MethodDefinition methodDefinition, StringTransmuter stringTransmuter) {
         Type[] methodParameterTypes = methodDefinition.getMethod().getGenericParameterTypes();
         List<Object> methodArguments = methodDefinition.getMethodArguments();

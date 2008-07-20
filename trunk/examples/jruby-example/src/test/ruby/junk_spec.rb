@@ -1,4 +1,5 @@
-include_class 'java.net.ServerSocket'
+require 'java'
+import java.net.ServerSocket
 
 describe "jruby example from aslak's wiki" do
 

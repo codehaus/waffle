@@ -60,6 +60,8 @@
       <entry name="?*.html" />
       <entry name="?*.dtd" />
       <entry name="?*.tld" />
+      <entry name="?*.txt" />
+      <entry name="?*.ftl" />
     </wildcardResourcePatterns>
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -509,6 +511,7 @@
       <module fileurl="file://$PROJECT_DIR$/examples/mydvds-example/waffle-mydvds-example.iml" filepath="$PROJECT_DIR$/examples/mydvds-example/waffle-mydvds-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/paranamer-example/waffle-paranamer-example.iml" filepath="$PROJECT_DIR$/examples/paranamer-example/waffle-paranamer-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/waffle-resources/waffle-resources.iml" filepath="$PROJECT_DIR$/waffle-resources/waffle-resources.iml" />
+      <module fileurl="file://$PROJECT_DIR$/waffle-ruby/waffle-ruby.iml" filepath="$PROJECT_DIR$/waffle-ruby/waffle-ruby.iml" />
       <module fileurl="file://$PROJECT_DIR$/examples/simple-example/waffle-simple-example.iml" filepath="$PROJECT_DIR$/examples/simple-example/waffle-simple-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/waffle-taglib/waffle-taglib.iml" filepath="$PROJECT_DIR$/waffle-taglib/waffle-taglib.iml" />
       <module fileurl="file://$PROJECT_DIR$/waffle-testing/waffle-testing.iml" filepath="$PROJECT_DIR$/waffle-testing/waffle-testing.iml" />

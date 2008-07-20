@@ -1,14 +1,13 @@
 package org.codehaus.waffle.resources.ftl;
 
-import static java.util.Arrays.asList;
-import static org.codehaus.waffle.testing.view.ViewHarness.processView;
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
 import org.apache.commons.io.IOUtils;
 import org.codehaus.waffle.resources.ftl.FormController.Displayable;
+import static org.codehaus.waffle.testing.view.ViewHarness.processView;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
+
+import java.io.IOException;
+import static java.util.Arrays.asList;
 
 /**
  * @author Mauro Talevi
@@ -22,6 +21,7 @@ public class FormMacroTest {
     }
 
     private String readResource(String path) throws IOException {
+        System.out.println("path = " + path);
         return IOUtils.toString(ClassLoader.getSystemResourceAsStream(path));
     }
 

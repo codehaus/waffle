@@ -21,8 +21,8 @@ public class RubyScriptComponentAdapterTest {
     }
 
     public void testGetComponentInstance() {
-        Ruby runtime = Ruby.getDefaultInstance();
-        runtime.evalScript("$my_global = 'Waffle'\n");
+        Ruby runtime = Ruby.getCurrentInstance();
+        runtime.evalScriptlet("$my_global = 'Waffle'\n");
 
         String script =
                 "require 'erb'\n" +
@@ -37,13 +37,13 @@ public class RubyScriptComponentAdapterTest {
                 "    h(\"JRuby & #{$my_global}\")\n" + // Ensuring ERB::Util has been mixed in
                 "  end\n" +
                 "end";
-        runtime.evalScript(script);
+        runtime.evalScriptlet(script);
 
         ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foo_bar", "FooBar");
         MutablePicoContainer picoContainer = new DefaultPicoContainer(new Caching());
         picoContainer.addComponent(Ruby.class, runtime);
 
-        IRubyObject instance = (IRubyObject) componentAdapter.getComponentInstance(picoContainer);
+        IRubyObject instance = (IRubyObject) componentAdapter.getComponentInstance(picoContainer, IRubyObject.class);
 
         // call a method on the ruby instance ... enuring it was instantiated and that the runtime was set
         IRubyObject response = instance.callMethod(runtime.getCurrentContext(), "execute");

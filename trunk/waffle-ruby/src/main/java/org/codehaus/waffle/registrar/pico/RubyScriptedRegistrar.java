@@ -12,13 +12,17 @@ import org.picocontainer.behaviors.Cached;
 
 /**
  * Pico-based ScriptedRegistrar that allows to register Ruby scripts
- * 
+ *
  * @author Michael Ward
  * @author Mauro Talevi
  */
 public class RubyScriptedRegistrar extends PicoRegistrar implements ScriptedRegistrar {
-    public RubyScriptedRegistrar(MutablePicoContainer picoContainer, ParameterResolver parameterResolver,
-            LifecycleStrategy lifecycleStrategy, RegistrarMonitor registrarMonitor, ComponentMonitor componentMonitor) {
+
+    public RubyScriptedRegistrar(MutablePicoContainer picoContainer,
+                                 ParameterResolver parameterResolver,
+                                 LifecycleStrategy lifecycleStrategy,
+                                 RegistrarMonitor registrarMonitor,
+                                 ComponentMonitor componentMonitor) {
         super(picoContainer, parameterResolver, lifecycleStrategy, registrarMonitor, componentMonitor);
     }
 

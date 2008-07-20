@@ -1,7 +1,7 @@
+/*
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
+ */
 package org.codehaus.waffle.bind.ognl;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
@@ -13,7 +13,11 @@ import org.jruby.Ruby;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public class RubyControllerDataBinder extends ScriptedControllerDataBinder {
+
     public RubyControllerDataBinder(ValueConverterFinder valueConverterFinder,
                           BindErrorMessageResolver bindErrorMessageResolver,
                           ArgumentResolver argumentResolver,

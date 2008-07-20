@@ -3,9 +3,6 @@
  */
 package org.codehaus.waffle.bind.ognl;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.ValueConverterFinder;
@@ -13,13 +10,16 @@ import org.codehaus.waffle.controller.ScriptedController;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public abstract class ScriptedControllerDataBinder extends OgnlControllerDataBinder {
     protected final ArgumentResolver argumentResolver;
 
     public ScriptedControllerDataBinder(ValueConverterFinder valueConverterFinder,
-                          BindErrorMessageResolver bindErrorMessageResolver,
-                          ArgumentResolver argumentResolver,
-                          BindMonitor bindMonitor) {
+                                        BindErrorMessageResolver bindErrorMessageResolver,
+                                        ArgumentResolver argumentResolver,
+                                        BindMonitor bindMonitor) {
         super(valueConverterFinder, bindErrorMessageResolver, bindMonitor);
         this.argumentResolver = argumentResolver;
     }
@@ -34,6 +34,6 @@ public abstract class ScriptedControllerDataBinder extends OgnlControllerDataBin
     }
 
     protected abstract void bindScriptedController(HttpServletRequest request, HttpServletResponse response,
-            ErrorsContext errorsContext, ScriptedController controller);
+                                                   ErrorsContext errorsContext, ScriptedController controller);
 
 }

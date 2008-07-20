@@ -227,7 +227,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>rspec-maven-plugin</artifactId>
-          <version>1.0-beta-2</version>
+          <version>1.0-beta-3-SNAPSHOT</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

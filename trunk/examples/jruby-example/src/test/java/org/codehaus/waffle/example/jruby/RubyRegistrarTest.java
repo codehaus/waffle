@@ -1,15 +1,13 @@
 package org.codehaus.waffle.example.jruby;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Map;
-
 import org.jruby.Ruby;
 import org.jruby.RubyArray;
 import org.jruby.RubyModule;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.javasupport.JavaUtil;
 import org.jruby.runtime.builtin.IRubyObject;
+import org.jruby.runtime.builtin.InstanceVariables;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class RubyRegistrarTest {
@@ -47,7 +45,7 @@ public class RubyRegistrarTest {
     // sandbox test for figuring out JRuby
     @Test
     public void canEvalRubyScript() {
-        Ruby runtime = Ruby.getDefaultInstance();
+        Ruby runtime = Ruby.newInstance();
 
         String script =
                 "class Foo\n" +
@@ -60,21 +58,21 @@ public class RubyRegistrarTest {
                 "  end\n" +
                 "end\n";
 
-        runtime.evalScript(script);
+        runtime.evalScriptlet(script);
 
-        IRubyObject foo = runtime.evalScript("foo = Foo.new()");
+        IRubyObject foo = runtime.evalScriptlet("foo = Foo.new()");
         foo.callMethod(runtime.getCurrentContext(), "bar");
-        IRubyObject salmon = runtime.evalScript("foo.salmon");
+        IRubyObject salmon = runtime.evalScriptlet("foo.salmon");
 
-        RubyArray rubyArray = (RubyArray) runtime.evalScript("foo.instance_variables");
+        RubyArray rubyArray = (RubyArray) runtime.evalScriptlet("foo.instance_variables");
         assertEquals("@salmon", rubyArray.get(0));
 
-        Map<?,?> iVars = foo.getInstanceVariables();
-        assertEquals(JavaUtil.convertJavaToRuby(runtime, "fish"), iVars.get("@salmon"));
+        InstanceVariables instanceVariables = foo.getInstanceVariables();
+        assertEquals(JavaUtil.convertJavaToRuby(runtime, "fish"), instanceVariables.getInstanceVariable("@salmon"));
 
-        assertEquals("HELLO fish!", runtime.evalScript("foo.bar").toString());
+        assertEquals("HELLO fish!", runtime.evalScriptlet("foo.bar").toString());
         foo.callMethod(runtime.getCurrentContext(), "salmon=", JavaUtil.convertJavaToRuby(runtime, "shark"));
-        assertEquals("HELLO shark!", runtime.evalScript("foo.bar").toString());
+        assertEquals("HELLO shark!", runtime.evalScriptlet("foo.bar").toString());
         
         script =
                 "class Foo\n" +
@@ -82,8 +80,8 @@ public class RubyRegistrarTest {
                 "    \"GOODBYE\"\n" +
                 "  end\n"+
                 "end";
-        runtime.evalScript(script);
-        assertEquals("GOODBYE", runtime.evalScript("foo.bar").toString());
+        runtime.evalScriptlet(script);
+        assertEquals("GOODBYE", runtime.evalScriptlet("foo.bar").toString());
 
         String module =
                 "module Calculator\n" +
@@ -94,9 +92,9 @@ public class RubyRegistrarTest {
                 "\n" +
                 "Calculator # return the created Module";
 
-        IRubyObject the_module = runtime.evalScript(module);
+        IRubyObject the_module = runtime.evalScriptlet(module);
         foo.callMethod(runtime.getCurrentContext(), "extend", the_module);
-        runtime.evalScript("p foo.one");
+        runtime.evalScriptlet("p foo.one");
 
         Object javaX = JavaUtil.convertRubyToJava(rubyArray);
         Object javaObj = JavaUtil.convertRubyToJava(salmon);
@@ -107,7 +105,7 @@ public class RubyRegistrarTest {
 
     @Test
     public void canExposeFieldsAsInstanceVariables() {
-        Ruby runtime = Ruby.getDefaultInstance();
+        Ruby runtime = Ruby.newInstance();
 
         String script =
                 "require 'erb'\n" +
@@ -116,7 +114,7 @@ public class RubyRegistrarTest {
                 "f = ArrayList.new\n" +
                 "f.instance_variable_get(:@java_object)";
 
-        IRubyObject rubyObject = runtime.evalScript(script);
+        IRubyObject rubyObject = runtime.evalScriptlet(script);
 
         System.out.println("rubyObject = " + rubyObject);
 
@@ -126,7 +124,7 @@ public class RubyRegistrarTest {
         IRubyObject iRubyObject = (IRubyObject) JavaEmbedUtils.invokeMethod(runtime, erb, "new",
                 new Object[] {JavaEmbedUtils.javaToRuby(runtime, "<html>foobar  <%= @java_object %></html>")}, IRubyObject.class);
 
-        String o = (String)JavaEmbedUtils.invokeMethod(runtime, iRubyObject, "result", new Object[] {runtime.evalScript("f.send :binding")}, String.class);
+        String o = (String)JavaEmbedUtils.invokeMethod(runtime, iRubyObject, "result", new Object[] {runtime.evalScriptlet("f.send :binding")}, String.class);
         System.out.println("o = " + o);
     }
 
@@ -193,7 +191,7 @@ public class RubyRegistrarTest {
                "  # Produce result.\n" +
                "rhtml.run(toy.send(:binding))";
 
-        Ruby runtime = Ruby.getDefaultInstance();
-        runtime.evalScript(script);
+        Ruby runtime = Ruby.newInstance();
+        runtime.evalScriptlet(script);
     }
 }

@@ -81,6 +81,45 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="waffle-core" exported="" />
+    <orderEntry type="module-library" exported="">
+      <library name="ognl:ognl:2.7.3">
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/ognl/ognl/2.7.3/ognl-2.7.3.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPOSITORY$/ognl/ognl/2.7.3/ognl-2.7.3-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPOSITORY$/ognl/ognl/2.7.3/ognl-2.7.3-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="jboss:javassist:3.7.ga">
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/jboss/javassist/3.7.ga/javassist-3.7.ga.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPOSITORY$/jboss/javassist/3.7.ga/javassist-3.7.ga-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPOSITORY$/jboss/javassist/3.7.ga/javassist-3.7.ga-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="org.picocontainer:picocontainer:2.4">
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/org/picocontainer/picocontainer/2.4/picocontainer-2.4.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPOSITORY$/org/picocontainer/picocontainer/2.4/picocontainer-2.4-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPOSITORY$/org/picocontainer/picocontainer/2.4/picocontainer-2.4-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="module-library">
       <library name="javax.servlet:servlet-api:2.5">
         <CLASSES>
