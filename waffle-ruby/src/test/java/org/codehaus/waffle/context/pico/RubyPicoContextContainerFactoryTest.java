@@ -20,17 +20,17 @@ public class RubyPicoContextContainerFactoryTest  {
                 = new RubyPicoContextContainerFactory(null, new SilentMonitor(), new SilentMonitor(), null);
         ContextContainer contextContainer = factory.buildApplicationContextContainer();
         PicoContainer picoContainer = (MutablePicoContainer)contextContainer.getDelegate();
-        Ruby runtime = (Ruby) picoContainer.getComponent(Ruby.class);
+        Ruby runtime = picoContainer.getComponent(Ruby.class);
         assertNotNull(runtime);
 
         assertNotNull(picoContainer.getComponentAdapter(RubyScriptLoader.class));
 
         // ensure mixin occurred
-        RubyBoolean rubyBoolean = (RubyBoolean) runtime.evalScript("Waffle::Controller.is_a? Module");
+        RubyBoolean rubyBoolean = (RubyBoolean) runtime.evalScriptlet("Waffle::Controller.is_a? Module");
         assertTrue((Boolean) JavaEmbedUtils.rubyToJava(runtime, rubyBoolean, Boolean.class));
 
         // ensure we can load ruby script
-        RubyInteger rubyInteger = (RubyInteger)runtime.evalScript("$LOAD_PATH.size");
+        RubyInteger rubyInteger = (RubyInteger)runtime.evalScriptlet("$LOAD_PATH.size");
         Integer count = (Integer) JavaEmbedUtils.rubyToJava(runtime, rubyInteger, Integer.class);
         assertTrue(count > 0);
     }

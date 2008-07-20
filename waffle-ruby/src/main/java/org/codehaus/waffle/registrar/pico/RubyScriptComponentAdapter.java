@@ -1,6 +1,7 @@
+/*
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
+ */
 package org.codehaus.waffle.registrar.pico;
-
-import java.lang.reflect.Type;
 
 import org.codehaus.waffle.controller.RubyController;
 import org.jruby.Ruby;
@@ -10,6 +11,8 @@ import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoCompositionException;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.PicoVisitor;
+
+import java.lang.reflect.Type;
 
 /**
  * This ComponentAdapter implementation is needed to correctly instantiate a Ruby script for use in Waffle.
@@ -44,7 +47,7 @@ public class RubyScriptComponentAdapter implements ComponentAdapter {
                 "controller = " + rubyClassName + ".new\n" + // instantiate controller
                 "controller.extend(Waffle::Controller)\n" + // mixin Waffle module
                 "controller.extend(ERB::Util)"; // mixin ERB::Util
-        IRubyObject controller = runtime.evalScript(script);
+        IRubyObject controller = runtime.evalScriptlet(script);
 
         // inject pico container
         controller.callMethod(runtime.getCurrentContext(), "__pico_container=", JavaEmbedUtils.javaToRuby(runtime, picoContainer));

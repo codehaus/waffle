@@ -3,15 +3,15 @@
  */
 package org.codehaus.waffle.context;
 
+import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.Constants;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
-
-import org.codehaus.waffle.Constants;
-import org.codehaus.waffle.ComponentRegistry;
 
 /**
  * Abstract context and session listener that uses a Waffle ComponentRegistry to 
@@ -70,6 +70,5 @@ public abstract class WaffleContextListener implements ServletContextListener, H
      * @return A ComponentRegistry
      */
     protected abstract ComponentRegistry buildComponentRegistry(ServletContext servletContext);
-
 
 }

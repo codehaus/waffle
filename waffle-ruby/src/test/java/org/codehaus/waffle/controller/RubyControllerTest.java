@@ -22,10 +22,10 @@ public class RubyControllerTest  {
                 "  end\n" +
                 "end\n";
 
-        Ruby runtime = Ruby.getDefaultInstance();
-        runtime.evalScript(script);
+        Ruby runtime = Ruby.newInstance();
+        runtime.evalScriptlet(script);
 
-        ScriptedController rubyController = new RubyController(runtime.evalScript("Foo.new"));
+        ScriptedController rubyController = new RubyController(runtime.evalScriptlet("Foo.new"));
         rubyController.setMethodName("my_method");
         assertEquals("Hello World", rubyController.execute());
     }
@@ -44,10 +44,10 @@ public class RubyControllerTest  {
                 "  end\n" +
                 "end\n";
 
-        Ruby runtime = Ruby.getDefaultInstance();
-        runtime.evalScript(script);
+        Ruby runtime = Ruby.newInstance();
+        runtime.evalScriptlet(script);
 
-        ScriptedController rubyController = new RubyController(runtime.evalScript("Foo.new"));
+        ScriptedController rubyController = new RubyController(runtime.evalScriptlet("Foo.new"));
 
         try {
             rubyController.setMethodName("one");

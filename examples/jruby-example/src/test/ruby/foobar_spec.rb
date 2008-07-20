@@ -1,3 +1,5 @@
+require 'java'
+
 import org.codehaus.waffle.servlet.WaffleServlet
 require 'person'
 

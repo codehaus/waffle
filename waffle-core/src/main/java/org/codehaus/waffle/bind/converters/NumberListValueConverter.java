@@ -3,15 +3,14 @@
  */
 package org.codehaus.waffle.bind.converters;
 
-import java.lang.reflect.ParameterizedType;
+import org.codehaus.waffle.i18n.MessageResources;
+
 import java.lang.reflect.Type;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-
-import org.codehaus.waffle.i18n.MessageResources;
 
 /**
  * <p>
@@ -40,14 +39,7 @@ public class NumberListValueConverter extends StringListValueConverter {
      * Accepts parameterized types of raw type List and argument type Number
      */
     public boolean accept(Type type) {
-        if (type instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = (ParameterizedType) type;
-            Type rawType = parameterizedType.getRawType();
-            Type argumentType = parameterizedType.getActualTypeArguments()[0];
-            return List.class.isAssignableFrom((Class<?>) rawType)
-                    && Number.class.isAssignableFrom((Class<?>) argumentType);
-        }
-        return false;
+        return accept(type, Number.class);
     }
 
     @SuppressWarnings( { })

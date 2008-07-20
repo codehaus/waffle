@@ -8,6 +8,9 @@ import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.i18n.MessageResources;
 
 import java.util.Properties;
+import java.util.List;
+import java.lang.reflect.Type;
+import java.lang.reflect.ParameterizedType;
 
 /**
  * Abstract <code>ValueConverter</code> that holds utility functionality common to all value converters.
@@ -45,6 +48,20 @@ public abstract class AbstractValueConverter implements ValueConverter {
      */
     protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
         return null;
+    }
+
+    /**
+     * Accepts parameterized types of raw type List and argument of the type passed in
+     */
+    protected boolean accept(Type type, Class argumentClass) {
+        if (type instanceof ParameterizedType) {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            Type rawType = parameterizedType.getRawType();
+            Type argumentType = parameterizedType.getActualTypeArguments()[0];
+            return List.class.isAssignableFrom((Class<?>) rawType)
+                    && argumentClass.isAssignableFrom((Class<?>) argumentType);
+        }
+        return false;
     }
 
     @SuppressWarnings( { "ThrowableInstanceNeverThrown" })

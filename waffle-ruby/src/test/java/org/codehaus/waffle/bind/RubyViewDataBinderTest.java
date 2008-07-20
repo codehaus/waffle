@@ -1,7 +1,5 @@
 package org.codehaus.waffle.bind;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.codehaus.waffle.controller.RubyController;
 import org.codehaus.waffle.controller.ScriptedController;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -12,6 +10,8 @@ import org.jruby.Ruby;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RunWith(JMock.class)
 public class RubyViewDataBinderTest {
@@ -28,8 +28,8 @@ public class RubyViewDataBinderTest {
                 "end\n" +
                 "Foo.new";
 
-        Ruby runtime = Ruby.getDefaultInstance();
-        final IRubyObject scriptObject = runtime.evalScript(rubyScript);
+        Ruby runtime = Ruby.newInstance();
+        final IRubyObject scriptObject = runtime.evalScriptlet(rubyScript);
         ScriptedController controller = new RubyController(scriptObject);
 
         final HttpServletRequest request = context.mock(HttpServletRequest.class);

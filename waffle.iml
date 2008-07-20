@@ -34,6 +34,13 @@
         </packaging>
       </configuration>
     </facet>
+    <facet type="JRUBY" name="JRuby" implicit="true">
+      <configuration>
+        <JRUBY_FACET_CONFIG_ID NAME="JRUBY_SDK_NAME" VALUE="" />
+        <JRUBY_FACET_CONFIG_ID NAME="SHOULD_USE_RSPEC" VALUE="false" />
+        <JRUBY_FACET_CONFIG_ID NAME="NUMBER" VALUE="0" />
+      </configuration>
+    </facet>
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
@@ -105,15 +112,6 @@
         <SOURCES>
           <root url="jar://$M2_REPOSITORY$/junit/junit-dep/4.4/junit-dep-4.4-sources.jar!/" />
         </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$APPLICATION_HOME_DIR$/lib/javaee.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
       </library>
     </orderEntry>
     <orderEntryProperties />

@@ -34,7 +34,7 @@ end
 describe ERB::Util, "partial method" do
 
   class FakeController
-    include ERB::Util  # Mix-in whats under test
+    include ERB::Util  # Mix-in what's under test
 
     attr :name
 

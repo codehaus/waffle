@@ -1,15 +1,16 @@
 package org.codehaus.waffle.context.pico;
 
-import javax.servlet.ServletContext;
-
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.jruby.Ruby;
 import org.jruby.javasupport.JavaUtil;
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import javax.servlet.ServletContext;
 
 @RunWith(JMock.class)
 public class RubyScriptLoaderTest {
@@ -34,14 +35,14 @@ public class RubyScriptLoaderTest {
                 "  end\n" +
                 "end\n";
 
-        Ruby runtime = Ruby.getDefaultInstance();
-        runtime.evalScript(script);
+        Ruby runtime = Ruby.newInstance();
+        runtime.evalScriptlet(script);
 
         RubyScriptLoader loader = new RubyScriptLoader(servletContext, runtime);
         loader.start();
 
         // Ensure Waffle::ScriptLoader.load_all was called
-        Assert.assertEquals("/WEB-INF/classes/ruby/", JavaUtil.convertRubyToJava(runtime.evalScript("$arg1")));
-        Assert.assertEquals(servletContext, JavaUtil.convertRubyToJava(runtime.evalScript("$arg2")));
+        assertEquals("/WEB-INF/classes/ruby/", JavaUtil.convertRubyToJava(runtime.evalScriptlet("$arg1")));
+        assertNotNull(runtime.evalScriptlet("$arg2"));
     }
 }

@@ -28,8 +28,7 @@ class ServletContextAttributeParameter extends AbstractWaffleParameter {
                                  NameBinding nameBinding,
                                  boolean b,
                                  Annotation annotation) {
-        ServletContext servletContext = picoContainer
-                .getComponent(ServletContext.class);
+        ServletContext servletContext = picoContainer.getComponent(ServletContext.class);
         return (T) servletContext.getAttribute(getKey());
     }
 }

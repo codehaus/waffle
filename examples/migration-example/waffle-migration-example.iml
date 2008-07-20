@@ -137,15 +137,6 @@
           </containerElement>
         </packaging>
       </configuration>
-      <facet type="struts" name="Struts" implicit="true">
-        <configuration>
-          <option name="myStrutsValidationEnabled" value="true" />
-          <option name="myTilesValidationEnabled" value="true" />
-          <option name="myValidatorValidationEnabled" value="true" />
-          <option name="myReportErrorsAsWarnings" value="true" />
-          <option name="mySuppressPropertiesValidation" value="false" />
-        </configuration>
-      </facet>
     </facet>
     <facet type="web" name="Web">
       <configuration>
@@ -171,6 +162,18 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/waffle-core-1.2-SNAPSHOT.jar" />
           </containerElement>
+          <containerElement type="library" name="ognl:ognl:2.7.3" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/ognl-2.7.3.jar" />
+          </containerElement>
+          <containerElement type="library" name="jboss:javassist:3.7.ga" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/javassist-3.7.ga.jar" />
+          </containerElement>
+          <containerElement type="library" name="org.picocontainer:picocontainer:2.4" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/picocontainer-2.4.jar" />
+          </containerElement>
           <containerElement type="module" name="waffle-mock">
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/waffle-mock-1.2-SNAPSHOT.jar" />
@@ -179,9 +182,9 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/waffle-taglib-1.2-SNAPSHOT.jar" />
           </containerElement>
-          <containerElement type="library" name="javax.servlet:jstl:1.1.2" level="module">
+          <containerElement type="library" name="javax.servlet:jstl:1.2" level="module">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/jstl-1.1.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/jstl-1.2.jar" />
           </containerElement>
           <containerElement type="library" name="taglibs:standard:1.1.2" level="module">
             <attribute name="method" value="1" />
@@ -250,11 +253,11 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/webapp" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/target/dependency-maven-plugin-markers" />
-      <excludeFolder url="file://$MODULE_DIR$/target/waffle-migration-example-1.0-SNAPSHOT" />
+      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -324,31 +327,57 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="waffle-core" exported="" />
-    <orderEntry type="module" module-name="waffle-mock" exported="" />
-    <orderEntry type="module" module-name="waffle-taglib" exported="" />
-    <orderEntry type="module-library">
-      <library name="javax.servlet:servlet-api:2.5">
+    <orderEntry type="module-library" exported="">
+      <library name="ognl:ognl:2.7.3">
         <CLASSES>
-          <root url="jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar!/" />
+          <root url="jar://$M2_REPOSITORY$/ognl/ognl/2.7.3/ognl-2.7.3.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5-javadoc.jar!/" />
+          <root url="jar://$M2_REPOSITORY$/ognl/ognl/2.7.3/ognl-2.7.3-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar!/" />
+          <root url="jar://$M2_REPOSITORY$/ognl/ognl/2.7.3/ognl-2.7.3-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="javax.servlet:jstl:1.1.2">
+      <library name="jboss:javassist:3.7.ga">
         <CLASSES>
-          <root url="jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2.jar!/" />
+          <root url="jar://$M2_REPOSITORY$/jboss/javassist/3.7.ga/javassist-3.7.ga.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2-javadoc.jar!/" />
+          <root url="jar://$M2_REPOSITORY$/jboss/javassist/3.7.ga/javassist-3.7.ga-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPOSITORY$/javax/servlet/jstl/1.1.2/jstl-1.1.2-sources.jar!/" />
+          <root url="jar://$M2_REPOSITORY$/jboss/javassist/3.7.ga/javassist-3.7.ga-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="org.picocontainer:picocontainer:2.4">
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/org/picocontainer/picocontainer/2.4/picocontainer-2.4.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPOSITORY$/org/picocontainer/picocontainer/2.4/picocontainer-2.4-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPOSITORY$/org/picocontainer/picocontainer/2.4/picocontainer-2.4-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="waffle-mock" exported="" />
+    <orderEntry type="module" module-name="waffle-taglib" exported="" />
+    <orderEntry type="module-library" exported="">
+      <library name="javax.servlet:jstl:1.2">
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/javax/servlet/jstl/1.2/jstl-1.2.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPOSITORY$/javax/servlet/jstl/1.2/jstl-1.2-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPOSITORY$/javax/servlet/jstl/1.2/jstl-1.2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -362,6 +391,59 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar://$M2_REPOSITORY$/taglibs/standard/1.1.2/standard-1.1.2-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="waffle-testing" exported="" />
+    <orderEntry type="module-library">
+      <library name="javax.servlet:servlet-api:2.5">
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPOSITORY$/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="org.freemarker:freemarker:2.3.12">
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/org/freemarker/freemarker/2.3.12/freemarker-2.3.12.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPOSITORY$/org/freemarker/freemarker/2.3.12/freemarker-2.3.12-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPOSITORY$/org/freemarker/freemarker/2.3.12/freemarker-2.3.12-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="opensymphony:sitemesh:2.3">
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/opensymphony/sitemesh/2.3/sitemesh-2.3.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPOSITORY$/opensymphony/sitemesh/2.3/sitemesh-2.3-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPOSITORY$/opensymphony/sitemesh/2.3/sitemesh-2.3-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="commons-io:commons-io:1.3">
+        <CLASSES>
+          <root url="jar://$M2_REPOSITORY$/commons-io/commons-io/1.3/commons-io-1.3.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPOSITORY$/commons-io/commons-io/1.3/commons-io-1.3-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPOSITORY$/commons-io/commons-io/1.3/commons-io-1.3-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>

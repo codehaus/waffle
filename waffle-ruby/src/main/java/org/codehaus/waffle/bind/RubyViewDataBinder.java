@@ -1,14 +1,17 @@
+/*
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
+ */
 package org.codehaus.waffle.bind;
-
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.waffle.controller.ScriptedController;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
+import org.jruby.runtime.builtin.InstanceVariables;
+import org.jruby.runtime.builtin.Variable;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * ScriptedViewDataBinder implementation which handles request via IRubyObject instance_variables.
@@ -25,12 +28,13 @@ public class RubyViewDataBinder extends ScriptedViewDataBinder {
     @SuppressWarnings( { "unchecked" })
     protected void handleScriptController(HttpServletRequest request, ScriptedController rubyController) {
         IRubyObject iRubyObject = (IRubyObject) rubyController.getScriptObject();
-        Map<String, IRubyObject> iVars = iRubyObject.getInstanceVariables();
-        Set<Map.Entry<String, IRubyObject>> entries = iVars.entrySet();
+        InstanceVariables instanceVariables = iRubyObject.getInstanceVariables();
+        List<Variable<IRubyObject>> instanceVariableList = instanceVariables.getInstanceVariableList();
 
-        for (Map.Entry<String, IRubyObject> entry : entries) {
-            Object value = JavaEmbedUtils.rubyToJava(iRubyObject.getRuntime(), entry.getValue(), Object.class);
-            request.setAttribute(entry.getKey().substring(1), value);
+        // request attributes are renamed from @foo => foo
+        for (Variable<IRubyObject> rubyObjectVariable : instanceVariableList) {
+            Object value = JavaEmbedUtils.rubyToJava(iRubyObject.getRuntime(), rubyObjectVariable.getValue(), Object.class);
+            request.setAttribute(rubyObjectVariable.getName().substring(1), value);
         }
     }
 }
