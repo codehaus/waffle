@@ -1,8 +1,8 @@
 Build system: 
 
 JDK required: 1.5+
-Maven (http://maven.apache.org) required: 2.0.8+
-JRuby (http://jruby.codehaus.org) required: 1.0.2+
+Maven (http://maven.apache.org) required: 2.0.9+
+JRuby (http://jruby.codehaus.org) required: 1.1.x+ (Only for waffle-ruby module)
 
 Build profiles:  
 

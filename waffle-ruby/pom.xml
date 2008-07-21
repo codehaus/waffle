@@ -44,7 +44,7 @@
         <configuration>
           <jrubyHome>${env.JRUBY_HOME}</jrubyHome>
           <sourceDirectory>${basedir}/src/test/specs</sourceDirectory>
-          <outputDirectory>${basedir}/target</outputDirectory>
+          <reportFile>${basedir}/target/rspec-report.html</reportFile>
         </configuration>
         <executions>
           <execution>
