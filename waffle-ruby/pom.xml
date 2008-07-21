@@ -45,7 +45,7 @@
           <jrubyHome>${env.JRUBY_HOME}</jrubyHome>
           <sourceDirectory>${basedir}/src/test/specs</sourceDirectory>
           <reportFile>${basedir}/target/rspec-report.html</reportFile>
-          <skip>true</skip> <!-- TODO remove skip flag once rspec tests pass -->
+          <ignoreFailure>true</ignoreFailure> <!-- TODO remove when all tests pass -->
         </configuration>
         <executions>
           <execution>
