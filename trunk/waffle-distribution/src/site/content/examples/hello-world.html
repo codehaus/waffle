@@ -84,6 +84,17 @@
     &lt;/html&gt;
   </textarea>
 
+  <p>You may also want to add a JSP redirect from the index welcome page to the hello world controller: </p>
+  
+<textarea class="xml:nogutter:nocontrols" name="code">
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+xmlns:jsp="http://java.sun.com/JSP/Page"
+xmlns:c="http://java.sun.com/jsp/jstl/core"
+version="2.0">
+<c:redirect url="helloworld.waffle"/>
+</jsp:root>
+</textarea>
+    
   <h4>Running...</h4>
   <img src="images/examples/hello-world.png" />
   </body>
