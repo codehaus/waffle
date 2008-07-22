@@ -2,7 +2,9 @@ Build system:
 
 JDK required: 1.5+
 Maven (http://maven.apache.org) required: 2.0.9+
-JRuby (http://jruby.codehaus.org) required: 1.1.x+ (Only for waffle-ruby module)
+JRuby (http://jruby.codehaus.org) required: 1.1.x+ 
+(Only for waffle-ruby module, either JRUBY_HOME env variable must be defined 
+or path to JRuby home must be configured in rspec-maven-plugin)
 
 Build profiles:  
 
