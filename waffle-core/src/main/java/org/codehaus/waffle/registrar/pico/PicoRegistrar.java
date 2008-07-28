@@ -11,6 +11,7 @@ import java.util.Properties;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarException;
+import org.codehaus.waffle.registrar.ScriptedRegistrar;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.InjectionFactory;
@@ -28,7 +29,7 @@ import org.picocontainer.injectors.SetterInjection;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class PicoRegistrar implements Registrar {
+public class PicoRegistrar implements ScriptedRegistrar {
     private final MutablePicoContainer picoContainer;
     private final ParameterResolver parameterResolver;
     private final LifecycleStrategy lifecycleStrategy;
@@ -154,6 +155,10 @@ public class PicoRegistrar implements Registrar {
     }
 
     public void request() {
+        // does nothing!
+    }
+
+    public void registerScript(String key, String scriptedClassName) {
         // does nothing!
     }
 
