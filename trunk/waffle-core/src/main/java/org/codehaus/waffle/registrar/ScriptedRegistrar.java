@@ -7,8 +7,9 @@ package org.codehaus.waffle.registrar;
  * Implementations of this interface will allow for scripts to be registered with Waffle.
  *
  * @author Michael Ward
+ * @author Mauro Talevi
  */
-public interface ScriptedRegistrar {
+public interface ScriptedRegistrar extends Registrar {
 
     /**
      * Register a script with Waffle

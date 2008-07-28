@@ -4,7 +4,6 @@
 package org.codehaus.waffle.registrar.pico;
 
 import org.codehaus.waffle.monitor.RegistrarMonitor;
-import org.codehaus.waffle.registrar.ScriptedRegistrar;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.LifecycleStrategy;
 import org.picocontainer.MutablePicoContainer;
@@ -16,7 +15,7 @@ import org.picocontainer.behaviors.Cached;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class RubyScriptedRegistrar extends PicoRegistrar implements ScriptedRegistrar {
+public class RubyScriptedRegistrar extends PicoRegistrar {
 
     public RubyScriptedRegistrar(MutablePicoContainer picoContainer,
                                  ParameterResolver parameterResolver,
