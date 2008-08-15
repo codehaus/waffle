@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
+import java.util.Properties;
 
 import org.codehaus.waffle.testing.view.freemarker.FreemarkerProcessor;
 import org.codehaus.waffle.testing.view.sitemesh.SitemeshDecorator;
@@ -21,6 +22,16 @@ public class ViewHarness {
         FREEMARKER
     };
 
+    private final Properties configuration;
+
+    public ViewHarness() {
+        this(new Properties());
+    }
+
+    public ViewHarness(Properties configuration) {
+        this.configuration = configuration;
+    }
+
     public String process(String resource, Object controller) {
         return process(typeFor(resource), resource, controller);
     }
@@ -29,17 +40,20 @@ public class ViewHarness {
         return processorFor(type).process(resource, controller);
     }
 
+    public ViewProcessor processorFor(String resource) {
+        return processorFor(typeFor(resource));
+    }
+
     public ViewProcessor processorFor(Type type) {
         switch (type) {
             case FREEMARKER:
-                return new FreemarkerProcessor();
+                if (configuration.isEmpty()) {
+                    return new FreemarkerProcessor();
+                }
+                return new FreemarkerProcessor(configuration);
             default:
                 throw new UnknownTemplateTypeException(type.name());
         }
-    }
-
-    public ViewProcessor processorFor(String resource) {
-        return processorFor(typeFor(resource));
     }
 
     public Type typeFor(String resource) {
@@ -59,7 +73,7 @@ public class ViewHarness {
     }
 
     /**
-     * Processes a view
+     * Processes a view with default configuration
      * 
      * @param resource the template resource path
      * @param controller the controller instance
@@ -67,7 +81,20 @@ public class ViewHarness {
      * @return The processed resource
      */
     public static String processView(String resource, Object controller, boolean debug) {
-        String processed = new ViewHarness().process(resource, controller);
+        return processView(resource, new Properties(), controller, debug);
+    }
+
+    /**
+     * Processes a view with custom configuration
+     * 
+     * @param resource the template resource path
+     * @param configuration the view processor configuration 
+     * @param controller the controller instance
+     * @param debug the debug boolean flag
+     * @return The processed resource
+     */
+    public static String processView(String resource, Properties configuration, Object controller, boolean debug) {
+        String processed = new ViewHarness(configuration).process(resource, controller);
         if (debug) {
             System.out.println(processed);
         }
@@ -75,7 +102,7 @@ public class ViewHarness {
     }
 
     /**
-     * Decorates a view with Sitemesh
+     * Decorates a view with Sitemesh and default processor configuration
      * 
      * @param resource the template resource path
      * @param controller the controller instance
@@ -86,7 +113,24 @@ public class ViewHarness {
      */
     public static String decorateView(String resource, Object controller, String decoratorsResource,
             String decoratorName, Map<String, Object> decoratorDataModel) {
-        SitemeshDecorator decorator = new SitemeshDecorator(new ViewHarness().processorFor(resource));
+        return decorateView(resource, new Properties(), controller, decoratorsResource, decoratorName,
+                decoratorDataModel);
+    }
+
+    /**
+     * Decorates a view with Sitemesh and custom processor configuration
+     * 
+     * @param resource the template resource path
+     * @param configuration the view processor configuration 
+     * @param controller the controller instance
+     * @param decoratorsResource the Sitemesh decorators resource
+     * @param decoratorName the decorator name
+     * @param decoratorDataModel the decorator data model that can be used to override the processor data model
+     * @return The decorated resource
+     */
+    public static String decorateView(String resource, Properties configuration, Object controller,
+            String decoratorsResource, String decoratorName, Map<String, Object> decoratorDataModel) {
+        SitemeshDecorator decorator = new SitemeshDecorator(new ViewHarness(configuration).processorFor(resource));
         return decorator.decorate(resource, controller, decoratorsResource, decoratorName, decoratorDataModel);
     }
 

@@ -7,14 +7,14 @@ import java.util.List;
 /**
  * @author Mauro Talevi
  */
-public class ListController {
+public class ListController implements Controller {
     private List<String> names;
 
     public List<String> getNames() {
         return names;
     }
-    
-    public void list(){
+
+    public void process() {
         names = asList("one", "two");
     }
 
