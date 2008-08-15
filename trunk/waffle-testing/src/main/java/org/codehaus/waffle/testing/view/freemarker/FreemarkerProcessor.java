@@ -1,5 +1,6 @@
 package org.codehaus.waffle.testing.view.freemarker;
 
+import static java.lang.Boolean.parseBoolean;
 import static org.codehaus.waffle.Constants.CONTROLLER_KEY;
 import static org.codehaus.waffle.Constants.ERRORS_KEY;
 import static org.codehaus.waffle.Constants.MESSAGES_KEY;
@@ -13,6 +14,7 @@ import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.testing.view.ViewProcessor;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
 
+import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.Configuration;
 import freemarker.template.ObjectWrapper;
 import freemarker.template.Template;
@@ -27,7 +29,7 @@ public class FreemarkerProcessor implements ViewProcessor {
     public Configuration configuration;
 
     public FreemarkerProcessor() {
-        this(defaultConfigurationProperties());
+        this(defaultConfiguration());
     }
 
     public FreemarkerProcessor(Properties properties) {
@@ -35,17 +37,19 @@ public class FreemarkerProcessor implements ViewProcessor {
     }
 
     /**
-     * Creates the default configuration properties, with
+     * Creates the default configuration with
      * 
      * <pre>
-     * properties.setProperty(&quot;templateLoadingPrefix&quot;, &quot;/&quot;);
+     * templateLoadingPrefix='/'
+     * simpleMapWrapper=false
      * </pre>
      * 
      * @return The configuration Properties
      */
-    private static Properties defaultConfigurationProperties() {
+    private static Properties defaultConfiguration() {
         Properties properties = new Properties();
         properties.setProperty("templateLoadingPrefix", "/");
+        properties.setProperty("simpleMapWrapper", "false");
         return properties;
     }
 
@@ -64,7 +68,9 @@ public class FreemarkerProcessor implements ViewProcessor {
         Configuration configuration = new Configuration();
         configuration.setClassForTemplateLoading(FreemarkerProcessor.class, properties
                 .getProperty("templateLoadingPrefix"));
-        configuration.setObjectWrapper(ObjectWrapper.BEANS_WRAPPER);
+        BeansWrapper beansWrapper = (BeansWrapper) ObjectWrapper.BEANS_WRAPPER;
+        beansWrapper.setSimpleMapWrapper(parseBoolean(properties.getProperty("simpleMapWrapper")));
+        configuration.setObjectWrapper(beansWrapper);
         return configuration;
     }
 
@@ -92,13 +98,12 @@ public class FreemarkerProcessor implements ViewProcessor {
     }
 
     /**
-     * Creates an data model for the given controller.
-     * The data model contains:
+     * Creates an data model for the given controller. The data model contains:
      * <ul>
-     *   <li>"base": ""</li>
-     *   <li>"controller": controller instance</li>
-     *   <li>"errors": the default errors context</li>
-     *   <li>"messages": the default messages context</li>
+     * <li>"base": ""</li>
+     * <li>"controller": controller instance</li>
+     * <li>"errors": the default errors context</li>
+     * <li>"messages": the default messages context</li>
      * </ul>
      * 
      * @param controller the controller instance
