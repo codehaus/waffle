@@ -20,7 +20,7 @@
 </#function>
 
 <#--
- * Joins list values 
+ * Joins list values.  The values are converted using the c built-in to ensure that they are not formatted according to locales.
  *
  * @param values the values to join
  * @param separator the separator to join list with
@@ -28,7 +28,7 @@
  -->
 <#function join values separator>
     <#assign result = ''>
-    <#list values as value><#assign result=result+value><#if value_has_next><#assign result=result+separator></#if></#list>
+    <#list values as value><#assign result=result+value?c><#if value_has_next><#assign result=result+separator></#if></#list>
     <#return result>
 </#function>
 
