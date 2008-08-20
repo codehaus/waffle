@@ -62,6 +62,7 @@
       <entry name="?*.tld" />
       <entry name="?*.txt" />
       <entry name="?*.ftl" />
+      <entry name="?*.rb" />
     </wildcardResourcePatterns>
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -348,6 +349,26 @@
       </set>
     </option>
   </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/waffle-core/pom.xml" />
+        <option value="$PROJECT_DIR$/examples/pom.xml" />
+        <option value="$PROJECT_DIR$/examples/freemarker-example/pom.xml" />
+        <option value="$PROJECT_DIR$/examples/jruby-example/pom.xml" />
+        <option value="$PROJECT_DIR$/examples/migration-example/pom.xml" />
+        <option value="$PROJECT_DIR$/waffle-mock/pom.xml" />
+        <option value="$PROJECT_DIR$/examples/mydvds-example/pom.xml" />
+        <option value="$PROJECT_DIR$/examples/paranamer-example/pom.xml" />
+        <option value="$PROJECT_DIR$/waffle-resources/pom.xml" />
+        <option value="$PROJECT_DIR$/waffle-ruby/pom.xml" />
+        <option value="$PROJECT_DIR$/examples/simple-example/pom.xml" />
+        <option value="$PROJECT_DIR$/waffle-taglib/pom.xml" />
+        <option value="$PROJECT_DIR$/waffle-testing/pom.xml" />
+      </list>
+    </option>
+  </component>
   <component name="ModuleEditorState">
     <option name="LAST_EDITED_MODULE_NAME" />
     <option name="LAST_EDITED_TAB_NAME" />
@@ -482,7 +503,10 @@
     <option name="USE_CLIENT_FILTER" value="true" />
     <option name="CLIENT" value="" />
   </component>
-  <component name="ProjectFileVersion" converted="true" />
+  <component name="ProjectFileVersion" converted="true">
+    <converter id="javaee-modules" />
+    <converter id="ror-modules" />
+  </component>
   <component name="ProjectLevelVcsManager">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
@@ -525,7 +549,7 @@
       <SplitterProportionsDataImpl />
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.5" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.6" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/classes" />
   </component>
   <component name="ProjectView">
@@ -665,6 +689,9 @@
     <option name="myTilesValidationEnabled" value="true" />
     <option name="myValidatorValidationEnabled" value="true" />
     <option name="myReportErrorsAsWarnings" value="true" />
+  </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="myVersion" value="123" />
   </component>
   <component name="SvnChangesBrowserSettings">
     <option name="USE_AUTHOR_FIELD" value="true" />
