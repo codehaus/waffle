@@ -6,6 +6,7 @@ import java.beans.Introspector;
 import java.beans.MethodDescriptor;
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.Map;
 
 public class FakeControllerWithListMethods {       
     public static Type methodParameterType(String methodName) throws IntrospectionException {
@@ -25,5 +26,6 @@ public class FakeControllerWithListMethods {
     public void listOfLongs(List<Integer> list){};
     public void listOfDoubles(List<Integer> list){};
     public void listOfFloats(List<Integer> list){};
+    public void mapOfStringIntegerLists(Map<String,List<Integer>> map){};
     public void object(Object object){};
 }
