@@ -44,7 +44,7 @@ public class StringListValueConverter extends AbstractValueConverter {
      * Accepts parameterized types of raw type List and argument type String
      */
     public boolean accept(Type type) {
-        return accept(type, String.class);
+        return acceptList(type, String.class);
     }
 
     @SuppressWarnings( { })
@@ -59,14 +59,7 @@ public class StringListValueConverter extends AbstractValueConverter {
     }
 
     protected List<String> listValues(String value) {
-        String[] values = value.split(COMMA);
-        List<String> list = new ArrayList<String>();
-        for (String current : values) {
-            if (current.trim().length() > 0) {
-                list.add(current);
-            }
-        }
-        return list;
+        return split(value, COMMA);
     }
 
     protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {

@@ -39,7 +39,7 @@ public class NumberListValueConverter extends StringListValueConverter {
      * Accepts parameterized types of raw type List and argument type Number
      */
     public boolean accept(Type type) {
-        return accept(type, Number.class);
+        return acceptList(type, Number.class);
     }
 
     @SuppressWarnings( { })
