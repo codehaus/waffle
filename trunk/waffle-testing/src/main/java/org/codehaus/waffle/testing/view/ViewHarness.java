@@ -88,7 +88,7 @@ public class ViewHarness {
      * Processes a view with custom configuration
      * 
      * @param resource the template resource path
-     * @param configuration the view processor configuration 
+     * @param configuration the view processor configuration
      * @param controller the controller instance
      * @param debug the debug boolean flag
      * @return The processed resource
@@ -113,24 +113,26 @@ public class ViewHarness {
      */
     public static String decorateView(String resource, Object controller, String decoratorsResource,
             String decoratorName, Map<String, Object> decoratorDataModel) {
-        return decorateView(resource, new Properties(), controller, decoratorsResource, decoratorName,
-                decoratorDataModel);
+        return decorateView(resource, new Properties(), Thread.currentThread().getContextClassLoader(), controller,
+                decoratorsResource, decoratorName, decoratorDataModel);
     }
 
     /**
      * Decorates a view with Sitemesh and custom processor configuration
      * 
      * @param resource the template resource path
-     * @param configuration the view processor configuration 
+     * @param configuration the view processor configuration
+     * @param classLaoder the ClassLoader used to load the decorator
      * @param controller the controller instance
      * @param decoratorsResource the Sitemesh decorators resource
      * @param decoratorName the decorator name
      * @param decoratorDataModel the decorator data model that can be used to override the processor data model
      * @return The decorated resource
      */
-    public static String decorateView(String resource, Properties configuration, Object controller,
-            String decoratorsResource, String decoratorName, Map<String, Object> decoratorDataModel) {
-        SitemeshDecorator decorator = new SitemeshDecorator(new ViewHarness(configuration).processorFor(resource));
+    public static String decorateView(String resource, Properties configuration, ClassLoader classLoader,
+            Object controller, String decoratorsResource, String decoratorName, Map<String, Object> decoratorDataModel) {
+        SitemeshDecorator decorator = new SitemeshDecorator(new ViewHarness(configuration).processorFor(resource),
+                classLoader);
         return decorator.decorate(resource, controller, decoratorsResource, decoratorName, decoratorDataModel);
     }
 

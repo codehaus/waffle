@@ -70,6 +70,23 @@
 </#function>
 
 <#--
+ * Converts a map of elements to key=values properties, where the values are joined if a sequence.
+ *
+ * @param map the map 
+ * @param propertySeparator (defaults to "=")
+ * @param valueSeparator (defaults to ",")
+ * @param newlineSeparator (defaults to "\n")
+ * @return The String with joined values
+-->
+<#function asProperties map propertySeparator="=" valueSeparator="," newlineSeparator="\n">
+    <#assign result = ''/>   
+    <#list map.keySet() as key><#assign values=map.get(key)>
+        <#assign result = result + "${key}" + propertySeparator + join(values,valueSeparator) + newlineSeparator />
+    </#list>
+    <#return result>
+</#function>
+
+<#--
  * Shows values as CSV
  *
  * @param values the sequence of values

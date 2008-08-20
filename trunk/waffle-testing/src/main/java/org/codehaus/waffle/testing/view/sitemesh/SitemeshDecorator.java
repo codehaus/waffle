@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -21,11 +22,13 @@ import com.opensymphony.module.sitemesh.parser.HTMLPageParser;
  * @author Mauro Talevi
  */
 public class SitemeshDecorator {
-
+    
     private final ViewProcessor processor;
+    private final ClassLoader classLoader;
 
-    public SitemeshDecorator(ViewProcessor processor) {
+    public SitemeshDecorator(ViewProcessor processor, ClassLoader classLoader) {
         this.processor = processor;
+        this.classLoader = classLoader;
     }
 
     /**
@@ -55,7 +58,7 @@ public class SitemeshDecorator {
             dataModel.put("body", page.getBody());
             return processor.process(decorator.getPage(), dataModel);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to decorate resource", e);
+            throw new RuntimeException("Failed to decorate resource "+resource+" with decorators "+decoratorsResource, e);
         }
     }
 
@@ -69,6 +72,10 @@ public class SitemeshDecorator {
     }
 
     private String loadContent(String resource) throws IOException {
-        return IOUtils.toString(Thread.currentThread().getContextClassLoader().getResourceAsStream(resource));
+        InputStream stream = classLoader.getResourceAsStream(resource);
+        if ( stream == null ){
+            throw new IOException("Resource "+resource+" not found in classloader "+classLoader);
+        }
+        return IOUtils.toString(stream);
     }
 }
