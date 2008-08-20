@@ -1,17 +1,15 @@
 package org.codehaus.waffle.bind.converters;
 
+import ognl.OgnlException;
+import org.codehaus.waffle.bind.BindException;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import static org.codehaus.waffle.testmodel.FakeControllerWithNumberMethods.methodParameterType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.junit.Test;
 
 import java.beans.IntrospectionException;
-
-import ognl.OgnlException;
-
-import org.codehaus.waffle.bind.BindException;
-import org.codehaus.waffle.i18n.DefaultMessageResources;
-import org.junit.Test;
 
 /**
  * @author Mauro Talevi
@@ -53,7 +51,7 @@ public class NumberValueConverterTest extends AbstractValueConverterTest {
 
     private void assertCanConvertValueToNumber(NumberValueConverter converter, Number expected, String value,
             Class<?> expectedType) throws IntrospectionException {
-        Number actual = (Number)converter.convertValue("property-name", value, Number.class);
+        Number actual = (Number)converter.convertValue("property-name", value, expectedType);
         assertEquals(expected.doubleValue(), actual.doubleValue(),1E-6);
     }
 
