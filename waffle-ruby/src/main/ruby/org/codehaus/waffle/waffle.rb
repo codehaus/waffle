@@ -1,8 +1,8 @@
 require 'java'
 
-include_class org.codehaus.waffle.view.View
-include_class org.codehaus.waffle.view.RedirectView
-include_class org.codehaus.waffle.action.ActionMethodInvocationException
+import org.codehaus.waffle.view.View
+import org.codehaus.waffle.view.RedirectView
+import org.codehaus.waffle.action.ActionMethodInvocationException
 
 # TODO all of this code needs ruby tests!
 module Waffle

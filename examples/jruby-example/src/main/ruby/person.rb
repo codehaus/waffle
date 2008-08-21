@@ -1,4 +1,4 @@
-include_class 'org.codehaus.waffle.example.jruby.model.Person'
+import org.codehaus.waffle.example.jruby.model.Person
 
 class PersonController
 
