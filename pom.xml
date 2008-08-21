@@ -101,8 +101,6 @@
       <artifactId>jmock-junit4</artifactId>
     </dependency>
   </dependencies>
-  <scm>
-  </scm>
   <build>
     <extensions>
       <extension>
@@ -116,7 +114,7 @@
         <plugin>
           <groupId>com.thoughtworks.paranamer</groupId>
           <artifactId>paranamer-maven-plugin</artifactId>
-          <version>1.1.4</version>
+          <version>1.1.5</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -150,12 +148,12 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-report-plugin</artifactId>
-          <version>2.4</version>
+          <version>2.4.3</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>2.2</version>
+          <version>2.4</version>
           <executions>
             <execution>
               <id>attach-javadoc</id>
@@ -174,7 +172,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.0.3</version>
+          <version>2.0.4</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -217,7 +215,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>2.0-alpha-4</version>
+          <version>2.0</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo.groovy</groupId>
@@ -232,7 +230,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
-          <version>2.0-beta-6</version>
+          <version>2.0-beta-7</version>
         </plugin>
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -426,4 +424,9 @@
       <url>dav:https://dav.codehaus.org/snapshots.repository/waffle/</url>
     </snapshotRepository>
   </distributionManagement>
+  <scm>
+    <connection>scm:svn:https://svn.codehaus.org/waffle/trunk</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/waffle/trunk</developerConnection>
+    <url>https://svn.codehaus.org/waffle/trunk</url>
+  </scm>
 </project>
