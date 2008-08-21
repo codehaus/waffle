@@ -63,12 +63,11 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>rspec-maven-plugin</artifactId>
-        <version>1.0-beta-3-SNAPSHOT</version>
         <configuration>
           <jrubyHome>${project.build.directory}/jruby/META-INF/jruby.home</jrubyHome>
           <sourceDirectory>${basedir}/src/test/specs</sourceDirectory>
           <outputDirectory>${basedir}/target</outputDirectory>
-          <reportFile>${basedir}/target/rspec-report.html</reportFile>
+          <reportName>rspec-report.html</reportName>
           <ignoreFailure>false</ignoreFailure> 
         </configuration>
         <executions>
