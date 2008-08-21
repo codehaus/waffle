@@ -21,10 +21,8 @@ public class FormMacroTest {
     }
 
     private String readResource(String path) throws IOException {
-        System.out.println("path = " + path);
         return IOUtils.toString(ClassLoader.getSystemResourceAsStream(path));
     }
-
 
     @Test
     public void canProcessSelectMacros() throws IOException{
