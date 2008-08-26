@@ -6,7 +6,7 @@ package org.codehaus.waffle.context.pico;
 import org.jruby.Ruby;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
-import org.picocontainer.Startable;
+import org.codehaus.waffle.Startable;
 
 import javax.servlet.ServletContext;
 

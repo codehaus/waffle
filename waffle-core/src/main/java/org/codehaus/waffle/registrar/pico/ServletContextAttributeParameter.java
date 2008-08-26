@@ -9,6 +9,7 @@ import org.picocontainer.NameBinding;
 
 import javax.servlet.ServletContext;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
 /**
  * Will resolve value from the {@code ServletContext} attribute.
@@ -22,13 +23,13 @@ class ServletContextAttributeParameter extends AbstractWaffleParameter {
     }
 
     @SuppressWarnings({"unchecked"})
-    public <T> T resolveInstance(PicoContainer picoContainer,
+    public Object resolveInstance(PicoContainer picoContainer,
                                  ComponentAdapter componentAdapter,
-                                 Class<T> clazz,
+                                 Type type,
                                  NameBinding nameBinding,
                                  boolean b,
                                  Annotation annotation) {
         ServletContext servletContext = picoContainer.getComponent(ServletContext.class);
-        return (T) servletContext.getAttribute(getKey());
+        return servletContext.getAttribute(getKey());
     }
 }
