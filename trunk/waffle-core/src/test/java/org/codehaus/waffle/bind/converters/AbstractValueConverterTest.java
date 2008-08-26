@@ -1,10 +1,14 @@
 package org.codehaus.waffle.bind.converters;
 
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.i18n.MessageResourcesConfiguration;
 
 /**
@@ -30,5 +34,11 @@ public abstract class AbstractValueConverterTest {
         }
 
     };
+
+    protected void assertEmptyMap(ValueConverter converter, String value) {
+        Map<?,?> map = (Map<?,?>) converter.convertValue("property-name", value, Map.class);
+        assertNotNull(map);
+        assertTrue(map.isEmpty());
+    }
 
 }

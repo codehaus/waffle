@@ -26,6 +26,7 @@ public class FakeControllerWithListMethods {
     public void listOfLongs(List<Integer> list){};
     public void listOfDoubles(List<Integer> list){};
     public void listOfFloats(List<Integer> list){};
+    public void mapOfStringLists(Map<String,List<String>> map){};
     public void mapOfStringIntegerLists(Map<String,List<Integer>> map){};
     public void object(Object object){};
 }
