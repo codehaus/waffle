@@ -10,6 +10,7 @@ import org.codehaus.waffle.bind.StringTransmuter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
 /**
  * This class is dependent on <code>StringTransmuter</code> so that a parameter value can
@@ -30,16 +31,16 @@ class RequestParameterParameter extends AbstractWaffleParameter {
 
 
     @SuppressWarnings({"unchecked"})
-    public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> expectedType, NameBinding nameBinding, boolean b, Annotation annotation) {
+    public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Type expectedType, NameBinding nameBinding, boolean b, Annotation annotation) {
         HttpServletRequest request = picoContainer
                 .getComponent(HttpServletRequest.class);
         String value = request.getParameter(getKey());
         Object result = stringTransmuter.transmute(value, expectedType);
 
         if(result == null) {
-            return (T) defaultValue;
+            return defaultValue;
         }
 
-        return (T) result;
+        return result;
     }
 }

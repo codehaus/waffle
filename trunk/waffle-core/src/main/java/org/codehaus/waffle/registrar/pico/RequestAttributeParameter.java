@@ -9,6 +9,7 @@ import org.picocontainer.NameBinding;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
 /**
  * Will resolve value from the {@code HttpServletRequest} attribute.
@@ -22,13 +23,14 @@ class RequestAttributeParameter extends AbstractWaffleParameter {
     }
 
     @SuppressWarnings({"unchecked"})
-    public <T> T resolveInstance(PicoContainer picoContainer,
-                                 ComponentAdapter componentAdapter,
-                                 Class<T> clazz,
+    public Object resolveInstance(PicoContainer picoContainer,
+                                 ComponentAdapter<?> componentAdapter,
+                                 Type type,
                                  NameBinding nameBinding,
                                  boolean b,
                                  Annotation annotation) {
         HttpServletRequest request = picoContainer.getComponent(HttpServletRequest.class);
-        return (T) request.getAttribute(getKey());
+        return request.getAttribute(getKey());
     }
+
 }

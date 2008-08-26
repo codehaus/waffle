@@ -11,6 +11,7 @@ import org.picocontainer.PicoVisitor;
 import org.picocontainer.NameBinding;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
 /**
  * 
@@ -27,7 +28,7 @@ public class AbstractWaffleParameterTest {
         final AbstractWaffleParameter parameter = new AbstractWaffleParameter("foobar") {
 
             @SuppressWarnings("unchecked")
-            public <T> T resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Class<T> tClass, NameBinding nameBinding, boolean b, Annotation annotation) {
+            public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Type type, NameBinding nameBinding, boolean b, Annotation annotation) {
                 throw new UnsupportedOperationException("don't call");
             }
         };
