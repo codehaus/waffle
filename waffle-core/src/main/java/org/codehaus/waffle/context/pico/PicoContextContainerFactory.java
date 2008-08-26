@@ -14,6 +14,7 @@ import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.picocontainer.*;
+import org.picocontainer.behaviors.Caching;
 import org.picocontainer.monitors.NullComponentMonitor;
 
 import javax.servlet.http.HttpServletRequest;

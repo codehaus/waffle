@@ -26,7 +26,7 @@ public class RubyScriptedRegistrar extends PicoRegistrar {
     }
 
     public void registerScript(String key, String className) {
-        this.registerComponentAdapter(new Cached(new RubyScriptComponentAdapter(key, className)));
+        this.registerCachedComponentAdapter(new RubyScriptComponentAdapter(key, className));
     }
 
 

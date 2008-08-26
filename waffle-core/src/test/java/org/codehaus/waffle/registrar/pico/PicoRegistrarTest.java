@@ -241,7 +241,7 @@ public class PicoRegistrarTest {
                 = new ConstructorInjector<FakeController>("a", FakeController.class);
 
         PicoRegistrar registrar = new PicoRegistrar(pico, null, lifecycleStrategy, new SilentMonitor(), cm);
-        registrar.registerComponentAdapter(componentAdapter);
+        registrar.registerUnCachedComponentAdapter(componentAdapter);
 
         FakeController controllerOne = (FakeController) registrar.getRegistered("a");
         FakeController controllerTwo = (FakeController) pico.getComponent(FakeController.class);
