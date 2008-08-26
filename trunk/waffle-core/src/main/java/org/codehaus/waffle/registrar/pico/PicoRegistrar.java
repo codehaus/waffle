@@ -4,6 +4,7 @@
 package org.codehaus.waffle.registrar.pico;
 
 import static org.picocontainer.Characteristics.NO_CACHE;
+import static org.picocontainer.Characteristics.CACHE;
 
 import java.util.List;
 import java.util.Properties;
@@ -86,8 +87,7 @@ public class PicoRegistrar implements ScriptedRegistrar {
 
     public Registrar register(Object key, Class<?> type, Object... parameters) {
         ComponentAdapter componentAdapter = buildComponentAdapter(key, type, parameters);
-        Cached cachingComponentAdapter = new Cached(componentAdapter);
-        this.registerComponentAdapter(cachingComponentAdapter);
+        registerCachedComponentAdapter(componentAdapter);
         registrarMonitor.componentRegistered(key, type, parameters);
         return this;
     }
@@ -111,13 +111,17 @@ public class PicoRegistrar implements ScriptedRegistrar {
     public Registrar registerNonCaching(Object key, Class<?> type, Object... parameters) {
         ComponentAdapter componentAdapter = buildComponentAdapter(key, type, parameters);
 
-        picoContainer.as(NO_CACHE).addAdapter(componentAdapter);
+        registerUnCachedComponentAdapter(componentAdapter);
         registrarMonitor.nonCachingComponentRegistered(key, type, parameters);
         return this;
     }
 
-    public void registerComponentAdapter(ComponentAdapter componentAdapter) {
+    public void registerUnCachedComponentAdapter(ComponentAdapter componentAdapter) {
         picoContainer.as(NO_CACHE).addAdapter(componentAdapter);
+    }
+
+    public void registerCachedComponentAdapter(ComponentAdapter componentAdapter) {
+        picoContainer.as(CACHE).addAdapter(componentAdapter);
     }
 
     private Parameter[] picoParameters(Object[] parameters) {
