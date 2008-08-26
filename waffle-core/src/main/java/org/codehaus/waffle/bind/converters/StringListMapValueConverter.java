@@ -57,7 +57,7 @@ public class StringListMapValueConverter extends AbstractValueConverter {
      * Accepts parameterized types of type Map<String,List<String>>
      */
     public boolean accept(Type type) {
-        return acceptMap(type, String.class, String.class);
+        return acceptMapOfLists(type, String.class, String.class);
     }
 
     public Object convertValue(String propertyName, String value, Type toType) {

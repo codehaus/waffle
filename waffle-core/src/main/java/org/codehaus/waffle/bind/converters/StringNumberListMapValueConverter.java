@@ -60,7 +60,7 @@ public class StringNumberListMapValueConverter extends StringListMapValueConvert
      * Accepts parameterized types of raw type Map and argument types String and Number
      */
     public boolean accept(Type type) {
-        return acceptMap(type, String.class, Number.class);
+        return acceptMapOfLists(type, String.class, Number.class);
     }
 
     public Object convertValue(String propertyName, String value, Type toType) {

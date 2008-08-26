@@ -53,31 +53,38 @@ public abstract class AbstractValueConverter implements ValueConverter {
     }
 
     /**
-     * Accepts parameterized types of raw type List and argument of the type passed in
+     * Accepts parameterized types of List<?> 
+     * 
+     * @param type the Type to accept or reject
+     * @param listArgumentClass
      */
-    protected boolean acceptList(Type type, Class<?> argumentClass) {
+    protected boolean acceptList(Type type, Class<?> listArgumentClass) {
         if (type instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) type;
             Type rawType = parameterizedType.getRawType();
             Type argumentType = parameterizedType.getActualTypeArguments()[0];
             return List.class.isAssignableFrom((Class<?>) rawType)
-                    && argumentClass.isAssignableFrom((Class<?>) argumentType);
+                    && listArgumentClass.isAssignableFrom((Class<?>) argumentType);
         }
         return false;
     }
 
     /**
-     * Accepts parameterized types of raw type Map and arguments of the type passed in
+     * Accepts parameterized types of type Map<?,List<?>> 
+     * 
+     * @param type the Type to accept or reject
+     * @param keyArgumentClass the Map key argument Class
+     * @param listArgumentClass the List argument Class
      */
-    protected boolean acceptMap(Type type, Class<?> argumentClass0, Class<?> argumentClass1) {
+    protected boolean acceptMapOfLists(Type type, Class<?> keyArgumentClass, Class<?> listArgumentClass) {
         if (type instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) type;
             Type rawType = parameterizedType.getRawType();
             Type argumentType0 = parameterizedType.getActualTypeArguments()[0];
             Type argumentType1 = parameterizedType.getActualTypeArguments()[1];
             return Map.class.isAssignableFrom((Class<?>) rawType)
-                    && argumentClass0.isAssignableFrom((Class<?>) argumentType0)
-                    && acceptList(argumentType1, argumentClass1);
+                    && keyArgumentClass.isAssignableFrom((Class<?>) argumentType0)
+                    && acceptList(argumentType1, listArgumentClass);
         }
         return false;
     }
