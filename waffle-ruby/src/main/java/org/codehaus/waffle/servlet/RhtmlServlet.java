@@ -3,6 +3,16 @@
  */
 package org.codehaus.waffle.servlet;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.RequestLevelContainer;
@@ -12,15 +22,6 @@ import org.jruby.Ruby;
 import org.jruby.RubyModule;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * ERB (rhtml) views support
@@ -62,13 +63,16 @@ public class RhtmlServlet extends HttpServlet {
         return controller;
     }
 
-    private String loadRhtml(String fileName) {
-        log("Loading...." + fileName);
+    private String loadRhtml(String resource) {
+        log("Loading...." + resource);
         BufferedReader bufferedReader = null;
         InputStream inputStream = null;
 
         try {
-            inputStream = getServletContext().getResourceAsStream(fileName);
+            inputStream = getServletContext().getResourceAsStream(resource);
+            if ( inputStream == null ){
+                throw new IOException("Failed to find resource "+resource+" in servlet context");
+            }
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder script = new StringBuilder();
             String line = bufferedReader.readLine();

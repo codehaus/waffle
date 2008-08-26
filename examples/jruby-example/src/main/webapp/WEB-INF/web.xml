@@ -47,8 +47,8 @@
   <!-- Define a relative path to the ruby script directory (for development) -->
   <context-param>
     <param-name>org.codehaus.waffle.ruby.path</param-name>
-    <param-value>dir:../../src/main/ruby/</param-value>
-    <!-- this needs to be more forgiving -->
+    <param-value>dir:../../../target/waffle-jruby-example-1.2-SNAPSHOT/WEB-INF/classes/org/codehaus/waffle</param-value>
+    <!-- TODO: this needs to be more forgiving -->
   </context-param>
 
   <listener>
