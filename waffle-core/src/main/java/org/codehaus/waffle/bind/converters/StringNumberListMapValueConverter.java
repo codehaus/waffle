@@ -42,13 +42,7 @@ import org.codehaus.waffle.i18n.MessageResources;
  * 
  * @author Mauro Talevi
  */
-public class StringNumberListMapValueConverter extends AbstractValueConverter {
-
-    public static final String BIND_ERROR_MAP_KEY = "bind.error.map";
-    public static final String DEFAULT_MAP_MESSAGE = "Invalid map value for field {0}";
-    private static final String NL = "\n";
-    private static final String EQUAL = "=";
-    private static final String COMMA = ",";
+public class StringNumberListMapValueConverter extends StringListMapValueConverter {
 
     private NumberFormat numberFormat;
 
@@ -99,7 +93,7 @@ public class StringNumberListMapValueConverter extends AbstractValueConverter {
     }
 
     protected Object convertMissingValue(String key, String defaultMessage, Object... parameters) {
-        return new ArrayList<Number>();
+        return new HashMap<String, List<Number>>();
     }
 
 }
