@@ -47,6 +47,25 @@
               </artifactItems>
             </configuration>
           </execution>
+          <execution>
+            <id>unpack-waffle-ruby</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/${pom.artifactId}-${pom.version}/WEB-INF/classes</outputDirectory>
+              <includes>org/codehaus/waffle/**.rb</includes>
+              <overWriteSnapshots>true</overWriteSnapshots>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>${pom.groupId}</groupId>
+                  <artifactId>waffle-ruby</artifactId>
+                  <version>${pom.version}</version>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
      <plugin>
