@@ -9,8 +9,6 @@
 <body>
   <#include "/header.ftl" parse="true">
   <hr/>
-  <#include "/navigation.ftl" parse="true">
-  <hr/>
     ${body}
   <hr/>
   <#include "/footer.ftl" parse="true">

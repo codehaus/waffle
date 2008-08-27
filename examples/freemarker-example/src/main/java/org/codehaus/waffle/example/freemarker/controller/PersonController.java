@@ -13,11 +13,13 @@ import org.codehaus.waffle.example.freemarker.model.Person;
 import org.codehaus.waffle.example.freemarker.model.Person.Type;
 import org.codehaus.waffle.example.freemarker.persister.PersistablePerson;
 import org.codehaus.waffle.example.freemarker.persister.PersonPersister;
+import org.codehaus.waffle.menu.Menu;
+import org.codehaus.waffle.menu.MenuAwareController;
 import org.codehaus.waffle.view.ExportView;
 import org.codehaus.waffle.view.View;
 
 @SuppressWarnings("serial")
-public class PersonController implements Serializable {
+public class PersonController extends MenuAwareController implements Serializable {
     private final PersonPersister persister;
     private final DateProvider dateProvider;
     private Person person;
@@ -25,7 +27,8 @@ public class PersonController implements Serializable {
     private List<String> skills = Arrays.asList("Magician", "Apprentice");
     private Long id;
 
-    public PersonController(PersonPersister persister, DateProvider dateProvider) {
+    public PersonController(Menu menu, PersonPersister persister, DateProvider dateProvider) {
+        super(menu);
         this.persister = persister;
         this.dateProvider = dateProvider;
     }
