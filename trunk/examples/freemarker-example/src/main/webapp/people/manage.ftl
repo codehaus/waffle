@@ -5,6 +5,8 @@
     <title>Select a person</title>  
 </head>
 <body>
+<#include "/navigation.ftl" parse="true">
+<div id="content">
 <form action="${base}/people/manage.action" method="post">
 
     <h3>Waffle example: Select Person</h3>
@@ -57,6 +59,7 @@
     </div>
 
 </form>
+</div>
 </body>
 
 </html>
