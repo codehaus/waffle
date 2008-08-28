@@ -17,7 +17,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
 
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "unchecked" })
 public class HttpSessionComponentAdapter implements ComponentAdapter, Serializable {
     
     private final Class<?> componentImplementation = HttpSession.class;

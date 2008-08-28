@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 
 /**
  * Will resolve value from the {@code HttpServletRequest} attribute.
- *
+ * 
  * @author Michael Ward
  */
 class RequestAttributeParameter extends AbstractWaffleParameter {
@@ -22,13 +22,8 @@ class RequestAttributeParameter extends AbstractWaffleParameter {
         super(key);
     }
 
-    @SuppressWarnings({"unchecked"})
-    public Object resolveInstance(PicoContainer picoContainer,
-                                 ComponentAdapter<?> componentAdapter,
-                                 Type type,
-                                 NameBinding nameBinding,
-                                 boolean b,
-                                 Annotation annotation) {
+    public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter<?> componentAdapter, Type type,
+            NameBinding nameBinding, boolean b, Annotation annotation) {
         HttpServletRequest request = picoContainer.getComponent(HttpServletRequest.class);
         return request.getAttribute(getKey());
     }
