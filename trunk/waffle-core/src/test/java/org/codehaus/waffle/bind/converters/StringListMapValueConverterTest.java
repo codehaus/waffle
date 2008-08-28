@@ -2,6 +2,9 @@ package org.codehaus.waffle.bind.converters;
 
 import static java.text.MessageFormat.format;
 import static java.util.Arrays.asList;
+import static org.codehaus.waffle.bind.converters.StringListMapValueConverter.KEY_SEPARATOR_KEY;
+import static org.codehaus.waffle.bind.converters.StringListMapValueConverter.LIST_SEPARATOR_KEY;
+import static org.codehaus.waffle.bind.converters.StringListMapValueConverter.NEWLINE_SEPARATOR_KEY;
 import static org.codehaus.waffle.testmodel.FakeControllerWithListMethods.methodParameterType;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -12,6 +15,7 @@ import java.beans.IntrospectionException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import ognl.OgnlException;
 
@@ -36,7 +40,7 @@ public class StringListMapValueConverterTest extends AbstractValueConverterTest 
     }
 
     @Test
-    public void canConvertMapsOfStringNumberLists() throws OgnlException {
+    public void canConvertMapsOfStringLists() throws OgnlException {
         StringListMapValueConverter converter = new StringListMapValueConverter(new DefaultMessageResources());
         Map<String, List<String>> map = new HashMap<String, List<String>>();
         map.put("a", asList("x"));
@@ -51,6 +55,27 @@ public class StringListMapValueConverterTest extends AbstractValueConverterTest 
         map.put("b", asList("x", "y"));
         map.put("c", asList("x", "y", "z"));
         assertCanConvertValueToMap(converter, map, "a=x\n b=x,y\n c=x,y,z");
+    }
+
+    @Test
+    public void canConvertMapsOfStringListsWithCustomSeparators() throws OgnlException {
+        Properties patterns = new Properties();
+        patterns.setProperty(NEWLINE_SEPARATOR_KEY, ";");
+        patterns.setProperty(KEY_SEPARATOR_KEY, ":");
+        patterns.setProperty(LIST_SEPARATOR_KEY, "-");
+        StringListMapValueConverter converter = new StringListMapValueConverter(new DefaultMessageResources(), patterns);
+        Map<String, List<String>> map = new HashMap<String, List<String>>();
+        map.put("a", asList("x"));
+        assertCanConvertValueToMap(converter, map, "a:x");
+        map.clear();
+        map.put("a", asList("x"));
+        map.put("b", asList("y"));
+        assertCanConvertValueToMap(converter, map, "a:x; b:y");
+        map.clear();
+        map.put("a", asList("x"));
+        map.put("b", asList("x", "y"));
+        map.put("c", asList("x", "y", "z"));
+        assertCanConvertValueToMap(converter, map, "a:x;b:x-y;c:x-y-z");
     }
 
     @SuppressWarnings("unchecked")
