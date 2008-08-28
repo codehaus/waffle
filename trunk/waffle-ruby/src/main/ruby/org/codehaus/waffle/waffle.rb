@@ -123,16 +123,16 @@ module Waffle
     end
 
     def locate(type)
-      return @__pico_container.getComponentInstanceOfType(type.java_class) if type.is_a? Module
+      return @__pico_container.getComponent(type.java_class) if type.is_a? Module
 
-      return @__pico_container.getComponentInstance(type)
+      return @__pico_container.getComponent(type)
     end
 
     def method_missing(symbol, *args)
       if symbol.to_s =~ /^locate_/
         key = symbol.to_s
         key = key[7..key.length]
-        component = @__pico_container.getComponentInstance(key)
+        component = @__pico_container.getComponent(key)
 
         return component unless component.nil?
       else
