@@ -11,10 +11,13 @@ import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
-import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
-import org.picocontainer.*;
-import org.picocontainer.behaviors.Caching;
+import org.codehaus.waffle.registrar.pico.PicoRegistrar;
+import org.picocontainer.ComponentMonitor;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.LifecycleStrategy;
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.PicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
 
 import javax.servlet.http.HttpServletRequest;

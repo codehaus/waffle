@@ -1,12 +1,11 @@
 package org.codehaus.waffle.example.jruby;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.codehaus.waffle.context.pico.RubyScriptLoader;
 import org.codehaus.waffle.example.jruby.dao.SimplePersonDAO;
 import org.codehaus.waffle.registrar.AbstractScriptedRegistrar;
 import org.codehaus.waffle.registrar.Registrar;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JRubyRegistrar extends AbstractScriptedRegistrar {
 
@@ -31,6 +30,6 @@ public class JRubyRegistrar extends AbstractScriptedRegistrar {
 
     @Override
     public void request() {
-        register(RubyScriptLoader.class);
+        register(RubyScriptReloader.class);
     }
 }
