@@ -29,6 +29,8 @@ public class StringNumberListMapValueConverterTest extends AbstractValueConverte
         StringNumberListMapValueConverter converter = new StringNumberListMapValueConverter(
                 new DefaultMessageResources());
         assertTrue(converter.accept(methodParameterType("mapOfStringIntegerLists")));
+        assertFalse(converter.accept(methodParameterType("map")));
+        assertFalse(converter.accept(methodParameterType("mapOfStringLists")));
         assertFalse(converter.accept(List.class));
         assertFalse(converter.accept(Object.class));
         assertFalse(converter.accept(methodParameterType("object")));
@@ -40,17 +42,27 @@ public class StringNumberListMapValueConverterTest extends AbstractValueConverte
                 new DefaultMessageResources());
         Map<String, List<? extends Number>> map = new HashMap<String, List<? extends Number>>();
         map.put("a", asList(1));
+        assertCanConvertValueToMap(converter, map, "a=1");
+        assertCanConvertValueToMap(converter, map, "a=1\n");
+        map.clear();
+        map.put("a", asList(1));
+        map.put("b", asList(2));
+        assertCanConvertValueToMap(converter, map, "a=1\n b=2\n");
+        assertCanConvertValueToMap(converter, map, "a=1\n   b=2  \n");
+        map.clear();
+        map.put("a", asList(1));
         map.put("b", asList(1, 2));
         map.put("c", asList(1, 2, 3));
-        // Note: no conversion is done from String to Numbers and the assertion is done on the string representation
-        assertCanConvertValueToList(converter, map, "a=1\n b=1,2\n c=1,2,3");
+        assertCanConvertValueToMap(converter, map, "a=1\n b=1,2\n c=1,2,3");
+  
     }
 
     @SuppressWarnings("unchecked")
-    private void assertCanConvertValueToList(StringNumberListMapValueConverter converter,
+    private void assertCanConvertValueToMap(StringNumberListMapValueConverter converter,
             Map<String, List<? extends Number>> expected, String value) {
         Map<String, List<? extends Number>> actual = (Map<String, List<? extends Number>>) converter.convertValue(
                 "property-name", value, Map.class);
+        // Note: no conversion is done from String to Numbers and the assertion is done on the string representation
         assertEquals(expected.toString(), actual.toString());
     }
 

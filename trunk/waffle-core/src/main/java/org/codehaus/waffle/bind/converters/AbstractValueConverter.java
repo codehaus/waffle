@@ -53,38 +53,41 @@ public abstract class AbstractValueConverter implements ValueConverter {
     }
 
     /**
-     * Accepts parameterized types of List<?> 
+     * Accepts parameterized types of List<?>
      * 
      * @param type the Type to accept or reject
-     * @param listArgumentClass
+     * @param listArgumentClass the List argument class
      */
     protected boolean acceptList(Type type, Class<?> listArgumentClass) {
         if (type instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) type;
             Type rawType = parameterizedType.getRawType();
-            Type argumentType = parameterizedType.getActualTypeArguments()[0];
-            return List.class.isAssignableFrom((Class<?>) rawType)
-                    && listArgumentClass.isAssignableFrom((Class<?>) argumentType);
+            Type[] typeArguments = parameterizedType.getActualTypeArguments();
+            if (typeArguments.length > 0) {
+                return List.class.isAssignableFrom((Class<?>) rawType)
+                        && listArgumentClass.isAssignableFrom((Class<?>) typeArguments[0]);
+            }
         }
         return false;
     }
 
     /**
-     * Accepts parameterized types of type Map<?,List<?>> 
+     * Accepts parameterized types of type Map<?,List<?>>
      * 
      * @param type the Type to accept or reject
-     * @param keyArgumentClass the Map key argument Class
-     * @param listArgumentClass the List argument Class
+     * @param keyArgumentClass the Map key argument class
+     * @param listArgumentClass the List argument class
      */
     protected boolean acceptMapOfLists(Type type, Class<?> keyArgumentClass, Class<?> listArgumentClass) {
         if (type instanceof ParameterizedType) {
             ParameterizedType parameterizedType = (ParameterizedType) type;
             Type rawType = parameterizedType.getRawType();
-            Type argumentType0 = parameterizedType.getActualTypeArguments()[0];
-            Type argumentType1 = parameterizedType.getActualTypeArguments()[1];
-            return Map.class.isAssignableFrom((Class<?>) rawType)
-                    && keyArgumentClass.isAssignableFrom((Class<?>) argumentType0)
-                    && acceptList(argumentType1, listArgumentClass);
+            Type[] typeArguments = parameterizedType.getActualTypeArguments();
+            if (typeArguments.length > 1) {
+                return Map.class.isAssignableFrom((Class<?>) rawType)
+                        && keyArgumentClass.isAssignableFrom((Class<?>) typeArguments[0])
+                        && acceptList(typeArguments[1], listArgumentClass);
+            }
         }
         return false;
     }
