@@ -7,6 +7,7 @@ import org.codehaus.waffle.Startable;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.lifecycle.StartableLifecycleStrategy;
 
+@SuppressWarnings("serial")
 public class PicoLifecycleStrategy extends StartableLifecycleStrategy {
     public PicoLifecycleStrategy(ComponentMonitor componentMonitor) {
         super(componentMonitor);
@@ -20,7 +21,7 @@ public class PicoLifecycleStrategy extends StartableLifecycleStrategy {
         return "start";
     }
 
-    protected Class getStartableInterface() {
-        return Startable.class;    
+    protected Class<?> getStartableInterface() {
+        return Startable.class;
     }
 }

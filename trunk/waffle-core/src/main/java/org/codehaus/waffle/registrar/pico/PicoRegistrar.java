@@ -87,7 +87,7 @@ public class PicoRegistrar implements ScriptedRegistrar {
     }
 
     public Registrar register(Object key, Class<?> type, Object... parameters) {
-        ComponentAdapter componentAdapter = buildComponentAdapter(key, type, parameters);
+        ComponentAdapter<?> componentAdapter = buildComponentAdapter(key, type, parameters);
         registerCachedComponentAdapter(componentAdapter);
         registrarMonitor.componentRegistered(key, type, parameters);
         return this;
@@ -110,18 +110,18 @@ public class PicoRegistrar implements ScriptedRegistrar {
     }
 
     public Registrar registerNonCaching(Object key, Class<?> type, Object... parameters) {
-        ComponentAdapter componentAdapter = buildComponentAdapter(key, type, parameters);
+        ComponentAdapter<?> componentAdapter = buildComponentAdapter(key, type, parameters);
 
         registerUnCachedComponentAdapter(componentAdapter);
         registrarMonitor.nonCachingComponentRegistered(key, type, parameters);
         return this;
     }
 
-    public void registerUnCachedComponentAdapter(ComponentAdapter componentAdapter) {
+    public void registerUnCachedComponentAdapter(ComponentAdapter<?> componentAdapter) {
         picoContainer.as(NO_CACHE).addAdapter(componentAdapter);
     }
 
-    public void registerCachedComponentAdapter(ComponentAdapter componentAdapter) {
+    public void registerCachedComponentAdapter(ComponentAdapter<?> componentAdapter) {
         picoContainer.as(CACHE).addAdapter(componentAdapter);
     }
 
@@ -137,7 +137,7 @@ public class PicoRegistrar implements ScriptedRegistrar {
         return picoParameters;
     }
 
-    private ComponentAdapter buildComponentAdapter(Object key, Class<?> type, Object... parameters) {
+    private ComponentAdapter<?> buildComponentAdapter(Object key, Class<?> type, Object... parameters) {
         InjectionFactory componentAdapterFactory;
 
         if (injection == Injection.CONSTRUCTOR) {
