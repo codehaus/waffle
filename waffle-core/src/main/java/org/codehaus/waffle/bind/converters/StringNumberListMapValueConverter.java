@@ -16,9 +16,10 @@ import org.codehaus.waffle.i18n.MessageResources;
 
 /**
  * <p>
- * <code>ValueConverter</code> that converts a text value to a Map of Number Lists indexed by Strings. It provides
- * number parsing of the string values using the <code>NumberFormat</code> instance provided (which defaults to
- * <code>NumberFormat.getInstance()</code>) and if not successful returns the string values themselves.
+ * <code>ValueConverter</code> that converts a text value to a Map of Number Lists indexed by Strings. It extends
+ * {@link StringListMapValueConverter} providing number parsing of the string values using the <code>NumberFormat</code>
+ * instance provided (which defaults to <code>NumberFormat.getInstance()</code>) and if not successful returns the
+ * string values themselves.
  * </p>
  * <p>
  * A value of the form
@@ -38,6 +39,9 @@ import org.codehaus.waffle.i18n.MessageResources;
  * map.put(&quot;c&quot;, asList(1, 2, 3));
  * </pre>
  * 
+ * As for {@link StringListMapValueConverter}, the separators are also optionally injectable via <code>Properties</code> in the constructor and take precedence over
+ * the ones configured in the messages resources.
+ * </p>
  * </p>
  * 
  * @author Mauro Talevi
@@ -48,6 +52,10 @@ public class StringNumberListMapValueConverter extends StringListMapValueConvert
 
     public StringNumberListMapValueConverter(MessageResources messageResources) {
         this(messageResources, new Properties(), NumberFormat.getInstance());
+    }
+
+    public StringNumberListMapValueConverter(MessageResources messageResources, Properties patterns) {
+        this(messageResources, patterns, NumberFormat.getInstance());
     }
 
     public StringNumberListMapValueConverter(MessageResources messageResources, Properties patterns,
@@ -70,14 +78,17 @@ public class StringNumberListMapValueConverter extends StringListMapValueConvert
             return convertMissingValue(BIND_ERROR_MAP_KEY, DEFAULT_MAP_MESSAGE, fieldName);
         }
 
-        List<String> lines = split(value, NL);
+        String newlineSeparator = patternFor(NEWLINE_SEPARATOR_KEY, DEFAULT_NEWLINE_SEPARATOR);
+        String keySeparator = patternFor(KEY_SEPARATOR_KEY, DEFAULT_KEY_SEPARATOR);
+        String listSeparator = patternFor(LIST_SEPARATOR_KEY, DEFAULT_LIST_SEPARATOR);
+        List<String> lines = split(value, newlineSeparator);
         Map<String, List<Number>> map = new HashMap<String, List<Number>>();
         for (String line : lines) {
-            List<String> parts = split(line, EQUAL);
+            List<String> parts = split(line, keySeparator);
             if (parts.size() > 1) {
                 try {
                     String csv = parts.get(1);
-                    List<String> values = split(csv, COMMA);
+                    List<String> values = split(csv, listSeparator);
                     List<Number> numbers = new ArrayList<Number>();
                     for (String numberValue : values) {
                         numbers.add(numberFormat.parse(numberValue));
