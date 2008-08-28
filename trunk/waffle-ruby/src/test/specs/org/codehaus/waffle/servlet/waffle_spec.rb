@@ -149,7 +149,7 @@ describe Waffle::Controller, "locate method" do
     controller.send(:extend, Waffle::Controller)
 
     pico = mock('pico')
-    pico.should_receive(:getComponentInstanceOfType).with('foobar')
+    pico.should_receive(:getComponent).with('foobar')
     controller.__pico_container = pico
 
 
@@ -161,7 +161,7 @@ describe Waffle::Controller, "locate method" do
     controller.send(:extend, Waffle::Controller)
 
     pico = mock('pico')
-    pico.should_receive(:getComponentInstance).with('foobar')
+    pico.should_receive(:getComponent).with('foobar')
     controller.__pico_container = pico
 
     controller.locate('foobar')
@@ -172,7 +172,7 @@ describe Waffle::Controller, "locate method" do
     controller.send(:extend, Waffle::Controller)
 
     pico = mock('pico')
-    pico.should_receive(:getComponentInstance).with('foobar').and_return("the component")
+    pico.should_receive(:getComponent).with('foobar').and_return("the component")
     controller.__pico_container = pico
 
     controller.locate_foobar.should == "the component"
