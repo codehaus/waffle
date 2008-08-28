@@ -7,7 +7,6 @@ import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.LifecycleStrategy;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.behaviors.Cached;
 
 /**
  * Pico-based ScriptedRegistrar that allows to register Ruby scripts
@@ -28,6 +27,5 @@ public class RubyScriptedRegistrar extends PicoRegistrar {
     public void registerScript(String key, String className) {
         this.registerCachedComponentAdapter(new RubyScriptComponentAdapter(key, className));
     }
-
 
 }

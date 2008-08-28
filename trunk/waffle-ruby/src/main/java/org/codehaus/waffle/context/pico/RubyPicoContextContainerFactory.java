@@ -8,7 +8,9 @@ import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
+import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
+import org.codehaus.waffle.registrar.pico.RubyScriptedRegistrar;
 import org.jruby.Ruby;
 import static org.picocontainer.Characteristics.CACHE;
 import org.picocontainer.MutablePicoContainer;
@@ -19,6 +21,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
 public class RubyPicoContextContainerFactory extends ScriptedPicoContextContainerFactory {
 
     public RubyPicoContextContainerFactory(MessageResources messageResources,
@@ -45,6 +51,21 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
 
         picoContainer.addComponent(Ruby.class, runtime);
         picoContainer.as(CACHE).addComponent(RubyScriptLoader.class);
+    }
+
+    @Override
+    protected Registrar createRegistrar(ContextContainer contextContainer) { // todo we need tests for this ... can this be refactored cleaner?
+        MutablePicoContainer delegateContainer = (MutablePicoContainer) contextContainer.getDelegate();
+        RegistrarMonitor registrarMonitor = getRegistrarMonitor();
+
+        Registrar registrar = new RubyScriptedRegistrar(delegateContainer,
+                                                        getParameterResolver(),
+                                                        getPicoLifecycleStrategy(),
+                                                        registrarMonitor,
+                                                        getPicoComponentMonitor());
+
+        getContextMonitor().registrarCreated(registrar, registrarMonitor);
+        return registrar;
     }
 
     private void loadRubyScriptFromClassLoader(String fileName, Ruby runtime) {
