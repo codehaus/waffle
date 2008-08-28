@@ -88,4 +88,20 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
     private MutablePicoContainer buildMutablePicoContainer(PicoContainer parent) {
         return new DefaultPicoContainer(picoComponentMonitor, picoLifecycleStrategy, parent);
     }
+
+    protected ComponentMonitor getPicoComponentMonitor() {
+        return picoComponentMonitor;
+    }
+
+    protected LifecycleStrategy getPicoLifecycleStrategy() {
+        return picoLifecycleStrategy;
+    }
+
+    protected RegistrarMonitor getRegistrarMonitor() {
+        return registrarMonitor;
+    }
+
+    protected ParameterResolver getParameterResolver() {
+        return parameterResolver;
+    }
 }
