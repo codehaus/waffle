@@ -3,25 +3,23 @@
  */
 package org.codehaus.waffle.registrar.pico;
 
-import static org.picocontainer.Characteristics.NO_CACHE;
-import static org.picocontainer.Characteristics.CACHE;
-
-import java.util.List;
-import java.util.Properties;
-
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarException;
 import org.codehaus.waffle.registrar.ScriptedRegistrar;
+import static org.picocontainer.Characteristics.CACHE;
+import static org.picocontainer.Characteristics.NO_CACHE;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.InjectionFactory;
 import org.picocontainer.LifecycleStrategy;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
-import org.picocontainer.behaviors.Cached;
 import org.picocontainer.injectors.ConstructorInjection;
 import org.picocontainer.injectors.SetterInjection;
+
+import java.util.List;
+import java.util.Properties;
 
 /**
  * This Registrar is backed by PicoContainer for managing Dependency Injection.  This registrar
@@ -38,8 +36,11 @@ public class PicoRegistrar implements ScriptedRegistrar {
     private final ComponentMonitor componentMonitor;
     private Injection injection = Injection.CONSTRUCTOR;
 
-    public PicoRegistrar(MutablePicoContainer picoContainer, ParameterResolver parameterResolver,
-            LifecycleStrategy lifecycleStrategy, RegistrarMonitor registrarMonitor, ComponentMonitor componentMonitor) {
+    public PicoRegistrar(MutablePicoContainer picoContainer,
+                         ParameterResolver parameterResolver,
+                         LifecycleStrategy lifecycleStrategy,
+                         RegistrarMonitor registrarMonitor,
+                         ComponentMonitor componentMonitor) {
         this.picoContainer = picoContainer;
         this.parameterResolver = parameterResolver;
         this.lifecycleStrategy = lifecycleStrategy;

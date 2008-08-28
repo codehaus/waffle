@@ -10,6 +10,7 @@ import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.jruby.Ruby;
+import static org.picocontainer.Characteristics.CACHE;
 import org.picocontainer.MutablePicoContainer;
 
 import java.io.BufferedReader;
@@ -20,8 +21,10 @@ import java.util.ArrayList;
 
 public class RubyPicoContextContainerFactory extends ScriptedPicoContextContainerFactory {
 
-    public RubyPicoContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor,
-            RegistrarMonitor registrarMonitor, ParameterResolver parameterResolver) {
+    public RubyPicoContextContainerFactory(MessageResources messageResources,
+                                           ContextMonitor contextMonitor,
+                                           RegistrarMonitor registrarMonitor,
+                                           ParameterResolver parameterResolver) {
         super(messageResources, contextMonitor, registrarMonitor, parameterResolver);
     }
 
@@ -41,7 +44,7 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
         // (IOError)
 
         picoContainer.addComponent(Ruby.class, runtime);
-        picoContainer.addComponent(RubyScriptLoader.class);
+        picoContainer.as(CACHE).addComponent(RubyScriptLoader.class);
     }
 
     private void loadRubyScriptFromClassLoader(String fileName, Ruby runtime) {
