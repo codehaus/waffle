@@ -2,6 +2,7 @@ package org.codehaus.waffle.example.freemarker.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface Person {
 
@@ -41,4 +42,8 @@ public interface Person {
 
     String getNotes();
     
+    Map<String,List<Integer>> getNumberLists();
+
+    Map<String,List<String>> getStringLists();
+
 }

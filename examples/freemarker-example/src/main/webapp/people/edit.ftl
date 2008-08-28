@@ -51,18 +51,18 @@
         </p>
         <p class="fieldRow">
             <label for="person.bestFriend">Best Friend:</label>
-            <@w.hidden "person.bestFriend" ""/>
             <@w.selectSingle "person.bestFriend" w.asNameableValues(controller.getPeople(),"id","firstName") person.getBestFriend().getId() />
+            <@w.hidden "person.bestFriend" ""/>
         </p>
         <p class="fieldRow">
             <label for="person.friends">Friends:</label>
-            <@w.hidden "person.friends" ""/>
             <@w.selectMultiple "person.friends" w.asNameableValues(controller.getPeople(),"id","firstName") w.asValues(person.getFriends(),"id") "size='5'"/>
+            <@w.hidden "person.friends" ""/>
         </p>
         <p class="fieldRow">
             <label for="person.skills">Skills:</label>
-            <@w.hidden "person.skills" ""/>
             <@w.selectMultiple "person.skills" controller.getSkills() person.getSkills() "size='5'"/>
+            <@w.hidden "person.skills" ""/>
         </p>
         <p class="fieldRow">
             <label for="person.levels">Levels:</label>
@@ -87,6 +87,16 @@
         <p class="fieldRow">
             <label for="person.notes">Notes:</label>
             <@w.textarea "person.notes" "${person.notes}" />
+        </p>
+        <p class="fieldRow">
+            <#assign numberLists = w.asProperties(person.getNumberLists()![]) />
+            <label for="person.numberLists">Number Lists:</label>
+            <@w.textarea "person.numberLists" "${numberLists}" />
+        </p>
+        <p class="fieldRow">
+            <#assign stringLists = w.asProperties(person.getStringLists()![]) />
+            <label for="person.stringLists">String Lists:</label>
+            <@w.textarea "person.stringLists" "${stringLists}" />
         </p>
     </fieldset>
     
