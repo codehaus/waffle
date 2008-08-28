@@ -4,7 +4,9 @@ import static org.apache.commons.lang.builder.ToStringStyle.SHORT_PREFIX_STYLE;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.codehaus.waffle.example.freemarker.model.Person;
@@ -27,6 +29,8 @@ public class PersistablePerson implements Person {
     private Type type;
     private Person bestFriend;
     private List<Person> friends;
+    private Map<String, List<Integer>> numberLists;
+    private Map<String, List<String>> stringLists;
 
     public PersistablePerson() {
         id = new Long(0);
@@ -45,6 +49,8 @@ public class PersistablePerson implements Person {
         type = Type.APPRENTICE;
         wizard = false;
         magicNumber = 0.d;
+        numberLists = new HashMap<String, List<Integer>>();
+        stringLists = new HashMap<String, List<String>>();
     }
 
     public PersistablePerson(Person person) {
@@ -64,6 +70,8 @@ public class PersistablePerson implements Person {
         this.type = person.getType();
         this.wizard = person.isWizard();
         this.magicNumber = person.getMagicNumber();
+        this.numberLists = person.getNumberLists();
+        this.stringLists = person.getStringLists();
     }
 
     public Long getId() {
@@ -196,6 +204,22 @@ public class PersistablePerson implements Person {
 
     public void setMagicNumber(double magicNumber) {
         this.magicNumber = magicNumber;
+    }
+
+    public Map<String, List<Integer>> getNumberLists() {
+        return numberLists;
+    }
+
+    public Map<String, List<String>> getStringLists() {
+        return stringLists;
+    }
+
+    public void setNumberLists(Map<String, List<Integer>> numberLists) {
+        this.numberLists = numberLists;
+    }
+
+    public void setStringLists(Map<String, List<String>> stringLists) {
+        this.stringLists = stringLists;
     }
 
     @Override
