@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
@@ -95,6 +96,9 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void contextInitialized() {
     }
 
+    public void contextInitializationFailed(WaffleException cause) {
+    }
+
     public void applicationContextContainerDestroyed() {
     }
 
@@ -136,10 +140,10 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
 
     public void actionMethodInvocationFailed(Exception cause) {
     }
-    
+
     public void servletInitialized(Servlet servlet) {
     }
-    
+
     public void servletServiceFailed(Exception cause) {
     }
 
@@ -163,6 +167,5 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
 
     public void viewResponded(ResponderView responderView) {
     }
-
 
 }

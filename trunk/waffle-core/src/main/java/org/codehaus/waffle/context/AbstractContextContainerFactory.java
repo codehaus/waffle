@@ -3,14 +3,15 @@
  */
 package org.codehaus.waffle.context;
 
+import static java.text.MessageFormat.format;
+
+import javax.servlet.ServletContext;
+
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarAssistant;
-
-import javax.servlet.ServletContext;
-import static java.text.MessageFormat.format;
 
 /**
  * @author Michael Ward
@@ -32,14 +33,19 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
     }
 
     public void initialize(ServletContext servletContext) throws WaffleException {
-        initializeRegistrar(servletContext);
-        servletContext.setAttribute(ContextContainerFactory.class.getName(), this); // register self to context
-        contextMonitor.contextInitialized();
+        try {
+            initializeRegistrar(servletContext);
+            servletContext.setAttribute(ContextContainerFactory.class.getName(), this); // register self to context
+            contextMonitor.contextInitialized();
+        } catch (WaffleException e) {
+            contextMonitor.contextInitializationFailed(e);
+            throw e; // re-throwing exception after failure event has been monitored
+        }
     }
 
     /**
      * Create the Registrar from the ServletContext's InitParameter.
-     *
+     * 
      * @param servletContext
      */
     private void initializeRegistrar(ServletContext servletContext) {
@@ -52,7 +58,7 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
         } catch (ClassNotFoundException e) {
             contextMonitor.registrarNotFound(registrarClassName);
             String message = format("Unable to load the Registrar [{0}] defined as context-param in web.xml",
-                            registrarClassName);
+                    registrarClassName);
             throw new WaffleException(message, e);
         }
 
@@ -84,10 +90,10 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
         return applicationContextContainer;
     }
 
-    protected ContextMonitor getContextMonitor(){
+    protected ContextMonitor getContextMonitor() {
         return contextMonitor;
     }
-    
+
     protected abstract ContextContainer buildApplicationContextContainer();
 
     protected abstract Registrar createRegistrar(ContextContainer contextContainer);
