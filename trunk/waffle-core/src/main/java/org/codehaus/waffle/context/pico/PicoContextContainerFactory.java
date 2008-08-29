@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
+ * PicoContainer-based implementation of context container factory.
+ * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
@@ -80,8 +82,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
     protected Registrar createRegistrar(ContextContainer contextContainer) {
         MutablePicoContainer delegateContainer = (MutablePicoContainer) contextContainer.getDelegate();
         Registrar registrar = new PicoRegistrar(delegateContainer, parameterResolver, picoLifecycleStrategy, registrarMonitor, picoComponentMonitor);
-        getContextMonitor().registrarCreated(registrar, registrarMonitor);
-        
+        getContextMonitor().registrarCreated(registrar, registrarMonitor);        
         return registrar;
     }
 
