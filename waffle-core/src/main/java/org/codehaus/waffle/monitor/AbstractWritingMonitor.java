@@ -21,6 +21,7 @@ import java.util.Set;
 import javax.servlet.Servlet;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
@@ -82,6 +83,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         levels.put("registrarCreated", INFO);
         levels.put("registrarNotFound", WARN);
         levels.put("contextInitialized", DEBUG);
+        levels.put("contextInitializationFailed", WARN);
         levels.put("applicationContextContainerStarted", DEBUG);
         levels.put("applicationContextContainerDestroyed", DEBUG);
         levels.put("sessionContextContainerCreated", DEBUG);
@@ -141,6 +143,7 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         messages.put("registrarCreated", "Registrar ''{0}'' created  with monitor ''{1}''");
         messages.put("registrarNotFound", "Registrar ''{0}'' not found");
         messages.put("contextInitialized", "Context initialized");
+        messages.put("contextInitializationFailed", "Context initialization failed: {0}");
         messages.put("applicationContextContainerStarted", "Application context container started");
         messages.put("applicationContextContainerDestroyed", "Application context container destroyed");
         messages.put("sessionContextContainerCreated", "Session context container created with parent application container ''{0}''");
@@ -303,6 +306,10 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
 
     public void contextInitialized() {
         write("contextInitialized");        
+    }
+    
+    public void contextInitializationFailed(WaffleException cause){
+        write("contextInitializationFailed", cause);
     }
     
     public void applicationContextContainerStarted() {

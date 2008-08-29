@@ -3,6 +3,7 @@
  */
 package org.codehaus.waffle.monitor;
 
+import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.registrar.Registrar;
 
@@ -18,6 +19,8 @@ public interface ContextMonitor extends Monitor {
     void registrarNotFound(String registrarClassName);
 
     void contextInitialized();
+
+    void contextInitializationFailed(WaffleException cause);
 
     void applicationContextContainerStarted();
 

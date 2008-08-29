@@ -30,11 +30,9 @@ public abstract class WaffleContextListener implements ServletContextListener, H
      */
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         ServletContext servletContext = servletContextEvent.getServletContext();
-
         // build component registry instance and add it to the ServletContext
         ComponentRegistry componentRegistry = buildComponentRegistry(servletContext);
         servletContext.setAttribute(ComponentRegistry.class.getName(), componentRegistry);
-
         contextContainerFactory = componentRegistry.getContextContainerFactory();
         contextContainerFactory.initialize(servletContext);
     }
