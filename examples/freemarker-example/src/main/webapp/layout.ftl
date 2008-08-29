@@ -3,14 +3,13 @@
 <html>
 <head>
   <title>${title}</title>
-  ${head}
   <#include "/resources.ftl" parse="true">
 </head>
 <body>
-  <#include "/header.ftl" parse="true">
-  <hr/>
-    ${body}
-  <hr/>
-  <#include "/footer.ftl" parse="true">
+<div id="view">
+<#include "/header.ftl" parse="true">
+${body}
+<#include "/footer.ftl" parse="true">
+</div>
 </body>
 </html>

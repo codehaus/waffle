@@ -1,4 +1,3 @@
 <div id="header">
-  ~ Header ~
 </div>
  
