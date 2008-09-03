@@ -164,10 +164,10 @@ public class WaffleServletTest {
             one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
         }});
 
-        // Mock RequestAttributeBinder
-        final ViewDataBinder requestAttributeBinder = mockery.mock(ViewDataBinder.class);
+        // Mock ViewDataBinder
+        final ViewDataBinder viewDataBinder = mockery.mock(ViewDataBinder.class);
         mockery.checking(new Expectations() {{
-            one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
+            one(viewDataBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
         }});
 
         // Mock ControllerDefinitionFactory
@@ -183,7 +183,7 @@ public class WaffleServletTest {
                                                         actionMethodResponseHandler,
                                                         monitor,
                                                         new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, monitor),
-                                                        requestAttributeBinder,
+                                                        viewDataBinder,
                                                         controllerDefinitionFactory, validator) {
             @Override
             public ServletConfig getServletConfig() {
@@ -250,10 +250,10 @@ public class WaffleServletTest {
             one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
         }});
 
-        // Mock RequestAttributeBinder
-        final ViewDataBinder requestAttributeBinder = mockery.mock(ViewDataBinder.class);
+        // Mock ViewDataBinder
+        final ViewDataBinder viewDataBinder = mockery.mock(ViewDataBinder.class);
         mockery.checking(new Expectations() {{
-            one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
+            one(viewDataBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
         }});
 
         // Mock ControllerDefinitionFactory
@@ -269,7 +269,7 @@ public class WaffleServletTest {
                                                         actionMethodResponseHandler,
                                                         monitor,
                                                         new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, monitor),
-                                                        requestAttributeBinder,
+                                                        viewDataBinder,
                                                         controllerDefinitionFactory, validator) {
             @Override
             public ServletConfig getServletConfig() {
@@ -408,10 +408,10 @@ public class WaffleServletTest {
             one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
         }});
 
-        // Mock RequestAttributeBinder
-        final ViewDataBinder requestAttributeBinder = mockery.mock(ViewDataBinder.class);
+        // Mock ViewDataBinder
+        final ViewDataBinder viewDataBinder = mockery.mock(ViewDataBinder.class);
         mockery.checking(new Expectations() {{
-            one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
+            one(viewDataBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
         }});
 
         // Mock ControllerDefinitionFactory
@@ -426,7 +426,7 @@ public class WaffleServletTest {
                 actionMethodResponseHandler,
                 new SilentMonitor(),
                 new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
-                requestAttributeBinder,
+                viewDataBinder,
                 controllerDefinitionFactory, validator) {
             @Override
             public ServletConfig getServletConfig() {
@@ -493,9 +493,9 @@ public class WaffleServletTest {
         }});
 
         // Mock RequestAttributeBinder
-        final ViewDataBinder requestAttributeBinder = mockery.mock(ViewDataBinder.class);
+        final ViewDataBinder viewDataBinder = mockery.mock(ViewDataBinder.class);
         mockery.checking(new Expectations() {{
-            one(requestAttributeBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
+            one(viewDataBinder).bind(with(same(request)), with(any(NonDispatchingController.class)));
         }});
         
         // Mock ControllerDefinitionFactory
@@ -510,7 +510,7 @@ public class WaffleServletTest {
                 actionMethodResponseHandler,
                 new SilentMonitor(),
                 new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
-                requestAttributeBinder,
+                viewDataBinder,
                 controllerDefinitionFactory, validator) {
             @Override
             public ServletConfig getServletConfig() {
@@ -538,9 +538,9 @@ public class WaffleServletTest {
         }});
 
         // Set up what normally would happen via "init()"
-        Field dataBinderField = WaffleServlet.class.getDeclaredField("dataBinder");
-        dataBinderField.setAccessible(true);
-        dataBinderField.set(servlet, new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()));
+        Field controllerDataBinderField = WaffleServlet.class.getDeclaredField("controllerDataBinder");
+        controllerDataBinderField.setAccessible(true);
+        controllerDataBinderField.set(servlet, new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()));
 
         Field actionMethodExecutorField = WaffleServlet.class.getDeclaredField("actionMethodExecutor");
         actionMethodExecutorField.setAccessible(true);
