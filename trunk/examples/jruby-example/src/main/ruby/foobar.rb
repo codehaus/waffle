@@ -2,7 +2,7 @@ class FooBar
 
   def index
     @var1 = "is cool and fast, right?"
-    render("foobar.jspx")
+    render("foobar.rhtml")
   end
 
   def hola
@@ -50,15 +50,15 @@ class FooBar
     "HELLO WORLD #{request.local_name} #{request.local_port}"
   end
 
-  def view_jspx
+  def view
     p "CALLED!"
     @var1 = "this is my variables value from jruby!!!!!!!!"
-    view = render("foobar.jspx")
+    view = render("foobar.rhtml")
     p "DONE"
     return view
   end
 
-  def redirect_to_jspx
+  def redirect
     @var1 = "this is my variables value from jruby xxx"
     return redirect_to("index.html")
   end
