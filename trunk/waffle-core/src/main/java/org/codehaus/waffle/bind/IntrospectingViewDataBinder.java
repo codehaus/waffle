@@ -16,7 +16,8 @@ import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.monitor.BindMonitor;
 
 /**
- * ViewDataBinder implementation which uses Java beans introspector.
+ * ViewDataBinder implementation which uses Java beans introspector to bind {@link PropertyDescriptor#getReadMethod()
+ * read methods}.
  * 
  * @author Michael Ward
  * @author Mauro Talevi
@@ -37,7 +38,7 @@ public class IntrospectingViewDataBinder implements ViewDataBinder {
             for (PropertyDescriptor propertyDescriptor : propertyDescriptors) {
                 Method readMethod = propertyDescriptor.getReadMethod();
 
-                if(readMethod != null && readMethod.getParameterTypes().length == 0 && !readMethod.getName().equals("getClass")) {
+                if (isBindable(readMethod)) {
                     String name = propertyDescriptor.getName();
                     request.setAttribute(name, readMethod.invoke(controller));
                     Object value = request.getAttribute(name);
@@ -56,5 +57,8 @@ public class IntrospectingViewDataBinder implements ViewDataBinder {
         }
     }
 
-   
+    private boolean isBindable(Method method) {
+        return method != null && method.getParameterTypes().length == 0 && !method.getName().equals("getClass");
+    }
+
 }

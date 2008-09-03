@@ -24,29 +24,33 @@ import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
 
 /**
- * ControllerDataBinder implementation backed by <a href="http://www.ognl.org">Ognl: Object Graph Notation Language</a>.
- *
+ * ControllerDataBinder implementation backed by <a href="http://www.ognl.org">Object Graph Notation Language</a>. The
+ * {@link TypeConverter} allows for any custom conversion to be defined.
+ * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
 public class OgnlControllerDataBinder implements ControllerDataBinder {
+    private static final String COMMA = ",";
     private final TypeConverter typeConverter;
     private final BindErrorMessageResolver bindErrorMessageResolver;
     private final BindMonitor bindMonitor;
 
-    public OgnlControllerDataBinder(ValueConverterFinder valueConverterFinder, BindErrorMessageResolver bindErrorMessageResolver, BindMonitor bindMonitor) {
+    public OgnlControllerDataBinder(ValueConverterFinder valueConverterFinder,
+            BindErrorMessageResolver bindErrorMessageResolver, BindMonitor bindMonitor) {
         this.typeConverter = new DelegatingTypeConverter(valueConverterFinder, bindMonitor);
         this.bindErrorMessageResolver = bindErrorMessageResolver;
         this.bindMonitor = bindMonitor;
     }
-    
-    @SuppressWarnings({"unchecked"})
-    public void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext, Object controller) {
+
+    @SuppressWarnings( { "unchecked" })
+    public void bind(HttpServletRequest request, HttpServletResponse response, ErrorsContext errorsContext,
+            Object controller) {
         Enumeration<String> parameterNames = request.getParameterNames();
 
         while (parameterNames.hasMoreElements()) {
-            String parameterName = parameterNames.nextElement();           
-            String parameterValue = getParameterValue(request, parameterName);
+            String parameterName = parameterNames.nextElement();
+            String parameterValue = csvParameterValue(request, parameterName);
 
             try {
                 Object dataValue = handleConvert(parameterName, parameterValue, controller);
@@ -55,7 +59,7 @@ public class OgnlControllerDataBinder implements ControllerDataBinder {
                 String message = bindErrorMessageResolver.resolve(controller, parameterName, parameterValue);
                 BindErrorMessage errorMessage = new BindErrorMessage(parameterName, parameterValue, message, e);
                 errorsContext.addErrorMessage(errorMessage);
-                bindMonitor.controllerBindFailed(controller, errorMessage, e);                
+                bindMonitor.controllerBindFailed(controller, errorMessage, e);
             } catch (BindException e) {
                 // by convention BindExceptions should provide the correct bind error message to display to the end-user
                 BindErrorMessage errorMessage = new BindErrorMessage(parameterName, parameterValue, e.getMessage(), e);
@@ -65,22 +69,24 @@ public class OgnlControllerDataBinder implements ControllerDataBinder {
         }
     }
 
-    private String getParameterValue(HttpServletRequest request, String name) {
-        // Look for multiple values and join them if found
+    /**
+     * Looks for multiple parameter values and join them if found
+     */
+    private String csvParameterValue(HttpServletRequest request, String name) {
         String[] values = request.getParameterValues(name);
-        if ( values == null ){
+        if (values == null) {
             return null;
         }
         // Joining a single value will return the equivalent of request.getParameter(name)
-        return join(values, ",");
+        return join(values, COMMA);
     }
 
     // Could use commons-lang StringUtils.join() but avoid introducing a dependency for such a trivial operation
     private String join(String[] values, String separator) {
         StringBuilder sb = new StringBuilder();
-        for ( int i = 0; i < values.length; i++ ){
+        for (int i = 0; i < values.length; i++) {
             sb.append(values[i]);
-            if ( i < values.length - 1 ){
+            if (i < values.length - 1) {
                 sb.append(separator);
             }
         }
@@ -88,9 +94,8 @@ public class OgnlControllerDataBinder implements ControllerDataBinder {
     }
 
     @SuppressWarnings("unchecked")
-    protected Object handleConvert(String propertyName,
-                                 String parameterValue,
-                                 Object controller) throws OgnlException, BindException {
+    protected Object handleConvert(String propertyName, String parameterValue, Object controller) throws OgnlException,
+            BindException {
         try {
             Object tree = Ognl.parseExpression(propertyName);
             Map ognlContext = Ognl.createDefaultContext(controller);
