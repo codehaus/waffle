@@ -45,10 +45,10 @@
   </context-param>
 
   <!-- Define a relative path to the ruby script directory (for development) -->
-  <!-- TODO: this needs to be more forgiving -->
+  <!-- NOTE:  this path work with jetty maven plugin; you may need to adapt it your dev environment -->
   <context-param>
     <param-name>org.codehaus.waffle.ruby.path</param-name>
-    <param-value>dir:../../../examples/jruby-example/src/main/ruby/</param-value>
+    <param-value>dir:../../../src/main/ruby/</param-value>
   </context-param>
 
   <listener>

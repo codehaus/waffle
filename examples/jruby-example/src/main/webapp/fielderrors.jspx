@@ -1,7 +1,0 @@
-<c:forEach items="${errors.allErrorMessages}" var="error"
-           xmlns:c="http://java.sun.com/jsp/jstl/core">
-  <script type="text/javascript">
-    $('${error.name}').value = '${error.value}';
-    $('${error.name}').style.border = 'solid red 2px';
-  </script>
-</c:forEach>
