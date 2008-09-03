@@ -15,7 +15,7 @@ public class RubyScriptComponentAdapterTest {
 
     @Test
     public void testComponentKeyAndImplementationMethods() {
-        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foobar", "'ruby script'");
+        ComponentAdapter<?> componentAdapter = new RubyScriptComponentAdapter("foobar", "'ruby script'");
         assertEquals("foobar", componentAdapter.getComponentKey());
         assertEquals(IRubyObject.class, componentAdapter.getComponentImplementation());
     }
@@ -39,7 +39,7 @@ public class RubyScriptComponentAdapterTest {
                 "end";
         runtime.evalScriptlet(script);
 
-        ComponentAdapter componentAdapter = new RubyScriptComponentAdapter("foo_bar", "FooBar");
+        ComponentAdapter<?> componentAdapter = new RubyScriptComponentAdapter("foo_bar", "FooBar");
         MutablePicoContainer picoContainer = new DefaultPicoContainer(new Caching());
         picoContainer.addComponent(Ruby.class, runtime);
 

@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
  *
  * @author Michael Ward
  */
+@SuppressWarnings("unchecked")
 public class RubyScriptComponentAdapter implements ComponentAdapter {
     private final Object componentKey;
     private final String rubyClassName;
