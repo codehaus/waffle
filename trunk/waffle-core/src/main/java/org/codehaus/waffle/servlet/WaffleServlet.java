@@ -59,8 +59,8 @@ public class WaffleServlet extends HttpServlet {
     private ActionMethodExecutor actionMethodExecutor;
     private ActionMethodResponseHandler actionMethodResponseHandler;
     private ControllerDefinitionFactory controllerDefinitionFactory;
-    private ControllerDataBinder dataBinder;
-    private ViewDataBinder requestAttributeBinder;
+    private ControllerDataBinder controllerDataBinder;
+    private ViewDataBinder viewDataBinder;
     private Validator validator;
     private ServletMonitor servletMonitor;
     private boolean componentsRetrieved = false;
@@ -78,23 +78,23 @@ public class WaffleServlet extends HttpServlet {
      * @param actionMethodExecutor
      * @param actionMethodResponseHandler
      * @param servletMonitor
-     * @param dataBinder
-     * @param requestAttributeBinder
+     * @param controllerDataBinder
+     * @param viewDataBinder
      * @param controllerDefinitionFactory
      * @param validator
      */
     public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
                          ActionMethodResponseHandler actionMethodResponseHandler,
                          ServletMonitor servletMonitor,
-                         ControllerDataBinder dataBinder,
-                         ViewDataBinder requestAttributeBinder,
+                         ControllerDataBinder controllerDataBinder,
+                         ViewDataBinder viewDataBinder,
                          ControllerDefinitionFactory controllerDefinitionFactory,
                          Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
         this.servletMonitor = servletMonitor;
-        this.dataBinder = dataBinder;
-        this.requestAttributeBinder = requestAttributeBinder;
+        this.controllerDataBinder = controllerDataBinder;
+        this.viewDataBinder = viewDataBinder;
         this.controllerDefinitionFactory = controllerDefinitionFactory;
         this.validator = validator;
         componentsRetrieved = true;
@@ -111,8 +111,8 @@ public class WaffleServlet extends HttpServlet {
             actionMethodExecutor = registry.getActionMethodExecutor();
             actionMethodResponseHandler = registry.getActionMethodResponseHandler();
             controllerDefinitionFactory = registry.getControllerDefinitionFactory();
-            dataBinder = registry.getControllerDataBinder();
-            requestAttributeBinder = registry.getViewDataBinder();
+            controllerDataBinder = registry.getControllerDataBinder();
+            viewDataBinder = registry.getViewDataBinder();
             validator = registry.getValidator();
             servletMonitor = registry.getServletMonitor();
         }
@@ -150,7 +150,7 @@ public class WaffleServlet extends HttpServlet {
         try {
             ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
             response);
-            dataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
+            controllerDataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
             validator.validate(controllerDefinition, errorsContext);
             try {
 
@@ -184,7 +184,7 @@ public class WaffleServlet extends HttpServlet {
                         + controllerDefinition, e));
                 view = buildActionMethodFailureView(controllerDefinition);
             }
-            requestAttributeBinder.bind(request, controllerDefinition.getController());
+            viewDataBinder.bind(request, controllerDefinition.getController());
         } catch (WaffleException e) {      
             servletMonitor.servletServiceFailed(e);
             errorsContext.addErrorMessage(new GlobalErrorMessage(e.getMessage(), e));
@@ -290,10 +290,10 @@ public class WaffleServlet extends HttpServlet {
         sb.append(actionMethodResponseHandler);
         sb.append(", controllerDefinitionFactory=");
         sb.append(controllerDefinitionFactory);
-        sb.append(", dataBinder=");
-        sb.append(dataBinder);
-        sb.append(", requestAttributeBinder=");
-        sb.append(requestAttributeBinder);
+        sb.append(", controllerDataBinder=");
+        sb.append(controllerDataBinder);
+        sb.append(", viewDataBinder=");
+        sb.append(viewDataBinder);
         sb.append(", validator=");
         sb.append(validator);
         sb.append("]");
