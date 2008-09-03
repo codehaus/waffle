@@ -3,15 +3,16 @@
  */
 package org.codehaus.waffle.bind;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.codehaus.waffle.controller.ScriptedController;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.jruby.runtime.builtin.InstanceVariables;
 import org.jruby.runtime.builtin.Variable;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * ScriptedViewDataBinder implementation which handles request via IRubyObject instance_variables.
@@ -25,7 +26,6 @@ public class RubyViewDataBinder extends ScriptedViewDataBinder {
         super(bindMonitor);
     }
 
-    @SuppressWarnings( { "unchecked" })
     protected void handleScriptController(HttpServletRequest request, ScriptedController rubyController) {
         IRubyObject iRubyObject = (IRubyObject) rubyController.getScriptObject();
         InstanceVariables instanceVariables = iRubyObject.getInstanceVariables();

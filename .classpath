@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" output="waffle-core/target/classes" path="waffle-core/src/main/java"/>
-	<classpathentry kind="src" output="waffle-core/target/test-classes" path="waffle-core/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="waffle-core/target/classes" path="waffle-core/src/main/resources"/>
+	<classpathentry kind="src" output="waffle-core/target/test-classes" path="waffle-core/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="waffle-core/target/test-classes" path="waffle-core/src/test/resources"/>
 	<classpathentry kind="src" output="waffle-ruby/target/classes" path="waffle-ruby/src/main/java"/>
-	<classpathentry kind="src" output="waffle-ruby/target/test-classes" path="waffle-ruby/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="waffle-ruby/target/classes" path="waffle-ruby/src/main/ruby"/>
+	<classpathentry kind="src" output="waffle-ruby/target/test-classes" path="waffle-ruby/src/test/java"/>
 	<classpathentry kind="src" output="waffle-mock/target/classes" path="waffle-mock/src/main/java"/>
 	<classpathentry kind="src" output="waffle-mock/target/test-classes" path="waffle-mock/src/test/java"/>
 	<classpathentry kind="src" output="waffle-testing/target/classes" path="waffle-testing/src/main/java"/>
 	<classpathentry kind="src" output="waffle-testing/target/test-classes" path="waffle-testing/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="waffle-testing/target/test-classes" path="waffle-testing/src/test/webapp"/>
-	<classpathentry kind="src" output="waffle-resources/target/test-classes" path="waffle-resources/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="waffle-resources/target/classes" path="waffle-resources/src/main/resources"/>
+	<classpathentry kind="src" output="waffle-resources/target/test-classes" path="waffle-resources/src/test/java"/>
 	<classpathentry kind="src" output="waffle-taglib/target/classes" path="waffle-taglib/src/main/java"/>
-	<classpathentry kind="src" output="waffle-taglib/target/test-classes" path="waffle-taglib/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="waffle-taglib/target/classes" path="waffle-taglib/src/main/resources"/>
+	<classpathentry kind="src" output="waffle-taglib/target/test-classes" path="waffle-taglib/src/test/java"/>
 	<classpathentry kind="src" output="examples/simple-example/target/classes" path="examples/simple-example/src/main/java"/>
-	<classpathentry kind="src" output="examples/simple-example/target/test-classes" path="examples/simple-example/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="examples/simple-example/target/classes" path="examples/simple-example/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="examples/simple-example/target/classes" path="examples/simple-example/src/main/webapp"/>
+	<classpathentry kind="src" output="examples/simple-example/target/test-classes" path="examples/simple-example/src/test/java"/>
 	<classpathentry kind="src" output="examples/jruby-example/target/classes" path="examples/jruby-example/src/main/java"/>
-	<classpathentry kind="src" output="examples/jruby-example/target/test-classes" path="examples/jruby-example/src/test/java"/>
+	<classpathentry excluding="**" kind="src" output="examples/jruby-example/target/classes" path="examples/jruby-example/src/main/webapp"/>
 	<classpathentry excluding="**" kind="src" output="examples/jruby-example/target/classes" path="examples/jruby-example/src/main/ruby"/>
+	<classpathentry kind="src" output="examples/jruby-example/target/test-classes" path="examples/jruby-example/src/test/java"/>
 	<classpathentry kind="src" output="examples/freemarker-example/target/classes" path="examples/freemarker-example/src/main/java"/>
-	<classpathentry kind="src" output="examples/freemarker-example/target/test-classes" path="examples/freemarker-example/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="examples/freemarker-example/target/classes" path="examples/freemarker-example/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="examples/freemarker-example/target/classes" path="examples/freemarker-example/src/main/webapp"/>
+	<classpathentry kind="src" output="examples/freemarker-example/target/test-classes" path="examples/freemarker-example/src/test/java"/>
 	<classpathentry kind="src" output="examples/paranamer-example/target/classes" path="examples/paranamer-example/src/main/java"/>
-	<classpathentry kind="src" output="examples/paranamer-example/target/test-classes" path="examples/paranamer-example/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="examples/paranamer-example/target/classes" path="examples/paranamer-example/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="examples/paranamer-example/target/classes" path="examples/paranamer-example/src/main/webapp"/>
+	<classpathentry kind="src" output="examples/paranamer-example/target/test-classes" path="examples/paranamer-example/src/test/java"/>
 	<classpathentry kind="src" output="examples/migration-example/target/classes" path="examples/migration-example/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="examples/migration-example/target/classes" path="examples/migration-example/src/main/webapp"/>
 	<classpathentry kind="src" output="examples/mydvds-example/target/classes" path="examples/mydvds-example/src/main/java"/>
-	<classpathentry kind="src" output="examples/mydvds-example/target/test-classes" path="examples/mydvds-example/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="examples/mydvds-example/target/classes" path="examples/mydvds-example/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="examples/mydvds-example/target/classes" path="examples/mydvds-example/src/main/webapp"/>
+	<classpathentry kind="src" output="examples/mydvds-example/target/test-classes" path="examples/mydvds-example/src/test/java"/>
 	<classpathentry excluding="**" kind="src" output="examples/mydvds-example/target/test-classes" path="examples/mydvds-example/src/test/resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER/modules/profiles[examples,integration]"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

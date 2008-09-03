@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.codehaus.waffle</groupId>
@@ -19,6 +20,21 @@
 
   <build>
     <resources>
+      <resource>
+        <directory>${basedir}/src/main/java</directory>
+        <filtering>false</filtering>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>${basedir}/src/main/webapp</directory>
+        <filtering>false</filtering>
+      </resource>
       <resource>
         <directory>src/main/ruby</directory>
       </resource>
@@ -68,7 +84,7 @@
           </execution>
         </executions>
       </plugin>
-     <plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>rspec-maven-plugin</artifactId>
         <version>1.0-beta-3-SNAPSHOT</version>

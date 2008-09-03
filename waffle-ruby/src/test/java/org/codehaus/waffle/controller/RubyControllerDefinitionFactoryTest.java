@@ -34,7 +34,7 @@ public class RubyControllerDefinitionFactoryTest {
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
             {
-                IRubyObject rubyObject = JavaUtil.convertJavaToRuby(Ruby.getDefaultInstance(), "Hello From Ruby");
+                IRubyObject rubyObject = JavaUtil.convertJavaToRuby(Ruby.newInstance(), "Hello From Ruby");
                 one(contextContainer).getComponentInstance("foobar");
                 will(returnValue(new RubyController(rubyObject)));
             }
