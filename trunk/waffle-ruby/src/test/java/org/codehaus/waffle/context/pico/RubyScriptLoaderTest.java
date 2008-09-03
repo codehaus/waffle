@@ -29,8 +29,7 @@ public class RubyScriptLoaderTest {
 
     @Test
     public void canLoadScriptsFromScriptEnvIntoRubyRuntime() {
-        String home = System.getenv("HOME");
-        assertScriptPath(null, "HOME", "dir:"+home);
+        assertScriptPath(null, "HOME", System.getenv("HOME"));
     }
 
     private void assertScriptPath(final String rubyScriptPath, final String rubyScriptEnv, String expectedPath) {

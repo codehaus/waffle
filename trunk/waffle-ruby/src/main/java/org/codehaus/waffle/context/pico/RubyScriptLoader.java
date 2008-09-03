@@ -3,8 +3,6 @@
  */
 package org.codehaus.waffle.context.pico;
 
-import static java.text.MessageFormat.format;
-
 import javax.servlet.ServletContext;
 
 import org.codehaus.waffle.Startable;
@@ -24,7 +22,6 @@ public class RubyScriptLoader implements Startable {
     public static final String DEFAULT_RUBY_SCRIPT_PATH = "/WEB-INF/classes/ruby/";
     public static final String RUBY_SCRIPT_PATH_KEY = "org.codehaus.waffle.ruby.path";
     public static final String RUBY_SCRIPT_ENV_KEY = "org.codehaus.waffle.ruby.env";
-    public static final String RUBY_SCRIPT_ENV_PATH_FORMAT = "dir:{0}";
 
     private final ServletContext servletContext;
     private final Ruby runtime;
@@ -45,7 +42,7 @@ public class RubyScriptLoader implements Startable {
                 // env not defined, return default
                 return DEFAULT_RUBY_SCRIPT_PATH;
             }
-            path = format(RUBY_SCRIPT_ENV_PATH_FORMAT, env);
+            path = env;
         }
         return path;
     }
