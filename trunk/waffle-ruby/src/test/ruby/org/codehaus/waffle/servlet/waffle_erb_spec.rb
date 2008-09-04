@@ -1,6 +1,6 @@
 require 'erb'
 require 'org/codehaus/waffle/waffle'
-require 'org/codehaus/waffle/erb_extension'
+require 'org/codehaus/waffle/waffle_erb'
 require 'ostruct'
 
 
