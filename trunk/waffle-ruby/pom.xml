@@ -65,7 +65,7 @@
         <artifactId>rspec-maven-plugin</artifactId>
         <configuration>
           <jrubyHome>${project.build.directory}/jruby/META-INF/jruby.home</jrubyHome>
-          <sourceDirectory>${basedir}/src/test/specs</sourceDirectory>
+          <sourceDirectory>${basedir}/src/test/ruby</sourceDirectory>
           <outputDirectory>${basedir}/target</outputDirectory>
           <reportName>rspec-report.html</reportName>
           <ignoreFailure>false</ignoreFailure> 

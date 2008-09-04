@@ -4,7 +4,8 @@ import org.codehaus.waffle.view.View
 import org.codehaus.waffle.view.RedirectView
 import org.codehaus.waffle.action.ActionMethodInvocationException
 
-# TODO all of this code needs ruby tests!
+# TODO plugin monitoring/logging  
+  
 module Waffle
 
   # load/require files
@@ -33,7 +34,7 @@ module Waffle
           begin
             load(file) if file =~ /.rb$/
           rescue Exception => e
-            p "[WAFFLE] Error loading ruby script: #{e}" # TODO plugin monitoring/logging  
+            p "[WAFFLE] Error loading ruby script: #{e}" 
           end
         end
       end
