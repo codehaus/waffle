@@ -16,7 +16,7 @@ describe Waffle::ScriptLoader do
     Waffle::ScriptLoader.instance_variable_get(:@__ruby_script_path).should == '/fake/dir/path'
   end
 
-  it "should use 'require' when path prefix does NOT beign with 'dir:' (as is the case in production)" do
+  it "should use 'require' when path prefix does NOT begin with 'dir:' (as is the case in production)" do
     paths = ['fake/dir/path/one', 'fake/dir/path/two']
 
     servlet_context = mock('servlet_context')
