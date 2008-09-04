@@ -74,6 +74,7 @@
     <link title="Ruby">javadoc/ruby/index.html</link>
     <link title="Mock">javadoc/mock/index.html</link>
     <link title="Taglib">javadoc/taglib/index.html</link>
+    <link title="Testing">javadoc/testing/index.html</link>
   </section>
   <section>
     <name>Miscellaneous</name>
