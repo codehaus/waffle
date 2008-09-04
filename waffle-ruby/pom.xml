@@ -34,6 +34,14 @@
         </includes>
       </resource>
     </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/ruby</directory>
+        <includes>
+          <include>**/*.rb</include>
+        </includes>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
