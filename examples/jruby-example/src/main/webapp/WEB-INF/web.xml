@@ -44,13 +44,19 @@
     <param-value>org.codehaus.waffle.controller.RubyControllerDefinitionFactory</param-value>
   </context-param>
 
-  <!-- Define a relative path to the ruby script directory (for development) -->
-  <!-- NOTE:  this path work with jetty maven plugin; you may need to adapt it your dev environment -->
+  <!-- OPTIONAL: define a path to the ruby script directory (for development)
+       NOTE:  this path work with maven plugin filtering; you may need to adapt it your dev environment 
+       Alternatively, you may define an env variable, eg  WAFFLE_RUBY_SCRIPT=dir:/absolute/path/to/ruby/script/dir
+  <context-param>
+    <param-name>org.codehaus.waffle.ruby.env</param-name>
+    <param-value>WAFFLE_RUBY_SCRIPT</param-value>
+  </context-param>       
+  -->
   <context-param>
     <param-name>org.codehaus.waffle.ruby.path</param-name>
-    <param-value>dir:../../../src/main/ruby/</param-value>
+    <param-value>dir:src/main/ruby/</param-value>
   </context-param>
-
+  
   <listener>
     <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
   </listener>

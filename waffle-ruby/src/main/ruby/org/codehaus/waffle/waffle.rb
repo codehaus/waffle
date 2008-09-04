@@ -5,7 +5,6 @@ import org.codehaus.waffle.view.RedirectView
 import org.codehaus.waffle.action.ActionMethodInvocationException
 
 # TODO plugin monitoring/logging  
-  
 module Waffle
 
   # load/require files
@@ -25,8 +24,7 @@ module Waffle
     end
 
     def ScriptLoader.load_from_file_system
-      path = @__servlet_context.getRealPath('/')
-      path = "#{path}#{@__ruby_script_path}"
+      path = @__ruby_script_path
 
       Dir.new(path).each do |entry|
         file = "#{path}#{entry}"
