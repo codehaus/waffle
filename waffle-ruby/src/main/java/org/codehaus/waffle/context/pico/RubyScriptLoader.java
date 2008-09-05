@@ -19,7 +19,7 @@ import org.jruby.runtime.builtin.IRubyObject;
  * @author Mauro Talevi
  */
 public class RubyScriptLoader implements Startable {
-    public static final String DEFAULT_RUBY_SCRIPT_PATH = "/WEB-INF/classes/ruby/";
+    public static final String DEFAULT_RUBY_SCRIPT_PATH = "/WEB-INF/classes/";
     public static final String RUBY_SCRIPT_PATH_KEY = "org.codehaus.waffle.ruby.path";
     public static final String RUBY_SCRIPT_ENV_KEY = "org.codehaus.waffle.ruby.env";
 
