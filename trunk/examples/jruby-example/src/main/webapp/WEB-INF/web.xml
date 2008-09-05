@@ -50,12 +50,11 @@
   <context-param>
     <param-name>org.codehaus.waffle.ruby.env</param-name>
     <param-value>WAFFLE_RUBY_SCRIPT</param-value>
-  </context-param>       
-  -->
+  </context-param> 
   <context-param>
     <param-name>org.codehaus.waffle.ruby.path</param-name>
     <param-value>dir:src/main/ruby/</param-value>
-  </context-param>
+  </context-param>-->
   
   <listener>
     <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
