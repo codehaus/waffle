@@ -12,18 +12,25 @@ module Waffle
 
     def ScriptLoader.load_all(prefix, servlet_context)
       @__servlet_context = servlet_context
+      @__reloadable = true
 
       if (prefix.gsub!(/^dir:/, ''))
         @__ruby_script_path = prefix
         ScriptLoader.load_from_file_system
       else
         servlet_context.getResourcePaths(prefix).each do |path| # this would be for production!!
-          require(path.gsub(%r{#{prefix}\/}, ''))
+          @__reloadable = false
+          if path =~ /.rb$/
+            file_name = @__servlet_context.getRealPath('/') + path.gsub(%r{#{prefix}\/}, '')
+            require(file_name) 
+          end
         end
       end
     end
 
     def ScriptLoader.load_from_file_system
+      return unless @__reloadable # do nothing if not reloadable
+
       path = @__ruby_script_path
 
       Dir.new(path).each do |entry|
