@@ -76,7 +76,8 @@
           <sourceDirectory>${basedir}/src/test/ruby/specs</sourceDirectory>
           <outputDirectory>${basedir}/target</outputDirectory>
           <reportName>rspec-report.html</reportName>
-          <ignoreFailure>false</ignoreFailure> 
+          <ignoreFailure>false</ignoreFailure>
+          <skipTests>false</skipTests>
         </configuration>
         <executions>
           <execution>

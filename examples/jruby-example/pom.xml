@@ -91,8 +91,9 @@
           <jrubyHome>${project.build.directory}/jruby/META-INF/jruby.home</jrubyHome>
           <sourceDirectory>${basedir}/src/test/ruby/specs</sourceDirectory>
           <outputDirectory>${basedir}/target</outputDirectory>
-          <reportFile>${basedir}/target/rspec-report.html</reportFile>
+          <reportName>rspec-report.html</reportName>
           <ignoreFailure>false</ignoreFailure>
+          <skipTests>false</skipTests>
         </configuration>
         <executions>
           <execution>
