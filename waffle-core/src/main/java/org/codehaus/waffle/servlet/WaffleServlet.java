@@ -235,8 +235,8 @@ public class WaffleServlet extends HttpServlet {
      * @return The View
      */
     protected View buildView(ControllerDefinition controllerDefinition) {
-        String controllerValue = viewPrefix + controllerDefinition.getName() + viewSuffix;
-        return new View(controllerValue, controllerDefinition.getController());
+        String path = viewPrefix + controllerDefinition.getName() + viewSuffix;
+        return new View(path, controllerDefinition.getController());
     }
     
     /**

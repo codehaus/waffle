@@ -7,7 +7,7 @@ import org.codehaus.waffle.action.MethodDefinition;
 
 /**
  * <p>In Waffle a Controller can be any Pojo.  Controllers are registered per application
- * with a custom <code>Registrar</code>.  This class is, a wrapper to merge both
+ * with a custom <code>Registrar</code>.  The ControllerDefinition is a wrapper to merge both
  * the name the controller was registered under and the actual controller instance.
  * <br/>
  * <b>NOTE:</b>  This is required so that Waffle can properly direct to a
