@@ -4,13 +4,13 @@
 package org.codehaus.waffle.view;
 
 /**
- * Represents the view that the resolver will dispatch.  View holds:
+ * Represents the view that the resolver will dispatch. View holds:
  * <ol>
- *   <li>the path of the view</li>
- *   <li>the controller object </li>
+ * <li>the path of the view</li>
+ * <li>the controller object</li>
  * </ol>
  * which allows for more granular decisions on how to handle a View.
- *
+ * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
@@ -37,17 +37,10 @@ public class View {
     public String getPath() {
         return path;
     }
-    
-    /**
-     * @deprecated Use #getPath()
-     */
-    public String getValue() {
-        return getPath();
-    }
 
     /**
-     * Returns the Controller this View originated from
-     *
+     * Returns the controller associated to this view
+     * 
      * @return The Controller instance
      */
     public Object getController() {
