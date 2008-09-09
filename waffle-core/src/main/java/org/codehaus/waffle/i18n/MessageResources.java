@@ -13,6 +13,10 @@ import java.util.Locale;
  */
 public interface MessageResources {
 
+    String getBundleName();
+
+    void useBundleName(String bundleName);
+
     Locale getLocale();
 
     void useLocale(Locale locale);
