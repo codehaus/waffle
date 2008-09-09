@@ -3,20 +3,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Select a person</title>  
+    <title><@i.messageFor "manageTitle" "Select Person"/></title>  
 </head>
 <body>
 <#include "/navigation.ftl" parse="true">
 <div id="content">
 <form action="${base}/people/manage.action" method="post">
 
-    <h3>Waffle example: Select Person</h3>
+    <h3><@i.messageFor "manageTitle" "Select Person"/></h3>
 
     <table>
         <tr>
             <th>Id</th>
-            <th><@i.messageFor "firstName" "First"/></th>
-            <th><@i.messageFor "lastName" "Last"/></th>
+            <th><@i.messageFor "firstName" "First Name"/></th>
+            <th><@i.messageFor "lastName" "Last Name"/></th>
             <th><@i.messageFor "email" "Email"/></th>
             <th><@i.messageFor "dateOfBirth" "Date of Birth"/></th>
             <th><@i.messageFor "type" "Type"/></th>
@@ -39,10 +39,9 @@
         </#list>
     </table>
 
-    <a href="javascript:fireActionMethod('create');">New</a>; <a href="javascript:fireActionMethod('export');">Export Selected</a>
+    <a href="javascript:fireActionMethod('create');"><@i.messageFor "create" "New"/></a>; <a href="javascript:fireActionMethod('export');"><@i.messageFor "export" "Export"/></a>
 
-    <div id="showArea">
-    	Selected people are:
+    <div id="showArea">    	
         <table>
         <#list selectedPeople as person>
 	        <tr class="odd">

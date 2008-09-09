@@ -25,6 +25,7 @@ import java.util.Properties;
 
 import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.junit.Test;
 
 /**
@@ -53,7 +54,7 @@ public class DateValueConverterTest extends AbstractValueConverterTest {
 
     @Test
     public void canConvertWithDateFormatsConfiguredViaMessageResource() {
-        DefaultMessageResources resources = new DefaultMessageResources(configuration);
+        MessageResources resources = new DefaultMessageResources(configuration);
         AbstractValueConverter converter = new DateValueConverter(resources);
         assertDateFormattable("04-03-2008", resources.getMessage(DATE_FORMAT_KEY), converter.convertValue(
                 "property-name", "04-03-2008", Date.class));
@@ -86,7 +87,7 @@ public class DateValueConverterTest extends AbstractValueConverterTest {
 
     @Test
     public void canHandleMissingValues() {
-        DefaultMessageResources resources = new DefaultMessageResources(configuration);
+        MessageResources resources = new DefaultMessageResources(configuration);
         AbstractValueConverter converter = new DateValueConverter(resources);
         assertNull(converter.convertValue("property-name", null, Date.class));
         assertNull(converter.convertValue("property-name", "", Date.class));
@@ -95,7 +96,7 @@ public class DateValueConverterTest extends AbstractValueConverterTest {
 
     @Test
     public void canFailConversionWithCustomErrorMessages() {
-        DefaultMessageResources resources = new DefaultMessageResources(configuration);
+        MessageResources resources = new DefaultMessageResources(configuration);
         AbstractValueConverter converter = new DateValueConverter(resources);
         try {
             converter.convertValue("property-name", "bad-value", Date.class);

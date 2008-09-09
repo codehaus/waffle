@@ -20,4 +20,11 @@ public class StubMessageResources implements MessageResources {
     public String getMessageWithDefault(String key, String defaultValue, Object ... arguments) {
         return null;
     }
+
+    public String getBundleName() {
+        return null;
+    }
+
+    public void useBundleName(String bundleName) {
+    }
 }

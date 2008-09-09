@@ -75,7 +75,11 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
             getContextMonitor().requestContextContainerCreated(sessionContextContainer);
             return requestContextContainer;
         } finally {
-            messageResources.useLocale(request.getLocale());
+//TODO: setting the locale from the request (which will by default return the server default locale) 
+//      does not seem necessary given a default locale is already configured out-of-the-box 
+//      but more seriously it overrides any configuration set via the MessageResourcesConfiguration
+//      hence impeding any real configurability.  Need a clearer usecase for enabling this (MT)
+//            messageResources.useLocale(request.getLocale());
         }
     }
 

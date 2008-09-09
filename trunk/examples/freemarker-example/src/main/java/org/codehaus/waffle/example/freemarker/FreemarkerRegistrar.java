@@ -6,6 +6,7 @@ import static org.codehaus.waffle.bind.converters.DateValueConverter.TIME_FORMAT
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -19,6 +20,7 @@ import org.codehaus.waffle.example.freemarker.controller.PersonController;
 import org.codehaus.waffle.example.freemarker.converters.PersonListValueConverter;
 import org.codehaus.waffle.example.freemarker.converters.PersonValueConverter;
 import org.codehaus.waffle.example.freemarker.persister.SimplePersonPersister;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.menu.Menu;
 import org.codehaus.waffle.menu.MenuAwareController;
 import org.codehaus.waffle.registrar.AbstractRegistrar;
@@ -48,6 +50,9 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
         ValueConverterFinder finder = registry.locateByType(ValueConverterFinder.class);
         finder.registerConverter((ValueConverter) getRegistered(PersonValueConverter.class));
         finder.registerConverter((ValueConverter) getRegistered(PersonListValueConverter.class));
+        MessageResources resources = registry.locateByType(MessageResources.class);
+        resources.useBundleName("FreemarkerResources");
+        resources.useLocale(Locale.ITALIAN);
         register("people/manage", PersonController.class);
         register("home", MenuAwareController.class);
         registerInstance(createMenu());

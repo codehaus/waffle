@@ -109,7 +109,7 @@ public class PicoContextContainerFactoryTest {
             {
                 one(request).getSession();
                 will(returnValue(httpSession));
-                one(request).getLocale();
+                allowing(request).getLocale(); // allow, rather than mandate
                 will(returnValue(Locale.US));
             }
         });
@@ -315,7 +315,7 @@ public class PicoContextContainerFactoryTest {
             {
                 one(request).getSession();
                 will(returnValue(httpSession));
-                one(request).getLocale();
+                allowing(request).getLocale(); // allow, rather than mandate
                 will(returnValue(Locale.US));
             }
         });

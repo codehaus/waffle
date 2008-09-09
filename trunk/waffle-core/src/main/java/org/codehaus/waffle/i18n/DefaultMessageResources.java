@@ -17,8 +17,8 @@ import java.util.ResourceBundle;
  * @author Mauro Talevi
  */
 public class DefaultMessageResources implements MessageResources {
-    private final static ThreadLocal<Locale> userLocale = new ThreadLocal<Locale>();
-    public final String bundleName;
+    private Locale userLocale;
+    private String bundleName;
 
     public DefaultMessageResources() {
         this(new DefaultMessageResourcesConfiguration());
@@ -26,23 +26,31 @@ public class DefaultMessageResources implements MessageResources {
 
     public DefaultMessageResources(MessageResourcesConfiguration configuration) {
         bundleName = configuration.getResourceBundleName();
-        userLocale.set(configuration.getDefaultLocale());
+        userLocale = configuration.getDefaultLocale();
+    }
+
+    public String getBundleName() {
+        return bundleName;
+    }
+
+    public void useBundleName(String bundleName) {
+        this.bundleName = bundleName;
     }
 
     public Locale getLocale() {
-        return userLocale.get();
+        return userLocale;
     }
 
     public void useLocale(Locale locale) {
-        userLocale.set(locale);
+        userLocale = locale;
     }
 
-    public String getMessage(String key, Object ... arguments) {
-        ResourceBundle resourceBundle = getBundle(bundleName, userLocale.get());
+    public String getMessage(String key, Object... arguments) {
+        ResourceBundle resourceBundle = getBundle(bundleName, userLocale);
         return format(resourceBundle.getString(key), arguments);
     }
 
-    public String getMessageWithDefault(String key, String defaultValue, Object ... arguments) {
+    public String getMessageWithDefault(String key, String defaultValue, Object... arguments) {
         try {
             return getMessage(key, arguments);
         } catch (MissingResourceException e) {

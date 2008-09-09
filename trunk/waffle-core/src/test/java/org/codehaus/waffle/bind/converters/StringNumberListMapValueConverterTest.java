@@ -21,6 +21,7 @@ import ognl.OgnlException;
 
 import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.junit.Test;
 
 /**
@@ -102,7 +103,7 @@ public class StringNumberListMapValueConverterTest extends AbstractValueConverte
 
     @Test
     public void canFailConversionWithCustomErrorMessages() {
-        DefaultMessageResources resources = new DefaultMessageResources(configuration);
+        MessageResources resources = new DefaultMessageResources(configuration);
         StringNumberListMapValueConverter converter = new StringNumberListMapValueConverter(resources) {
 
             @Override
