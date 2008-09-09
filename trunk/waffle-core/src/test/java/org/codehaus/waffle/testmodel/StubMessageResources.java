@@ -21,10 +21,10 @@ public class StubMessageResources implements MessageResources {
         return null;
     }
 
-    public String getBundleName() {
+    public String getResource() {
         return null;
     }
 
-    public void useBundleName(String bundleName) {
+    public void useResource(String resource) {
     }
 }

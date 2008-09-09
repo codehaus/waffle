@@ -6,16 +6,16 @@ package org.codehaus.waffle.i18n;
 import java.util.Locale;
 
 /**
- * MessageResources represents messages for a given locale.
+ * Represents message resources for a given locale.
  * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
 public interface MessageResources {
 
-    String getBundleName();
+    String getResource();
 
-    void useBundleName(String bundleName);
+    void useResource(String resource);
 
     Locale getLocale();
 

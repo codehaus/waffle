@@ -14,7 +14,7 @@ import org.junit.Test;
 public class DefaultMessageResourcesTest  {
 
     private MessageResourcesConfiguration configuration = new MessageResourcesConfiguration() {
-        public String getResourceBundleName() {
+        public String getDefaultResource() {
             return "FakeResourceBundle";
         }
 

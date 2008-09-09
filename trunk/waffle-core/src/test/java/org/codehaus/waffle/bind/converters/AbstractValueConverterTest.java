@@ -29,7 +29,7 @@ public abstract class AbstractValueConverterTest {
             return Locale.UK;
         }
 
-        public String getResourceBundleName() {
+        public String getDefaultResource() {
             return "FakeResourceBundle";
         }
 
