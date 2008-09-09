@@ -6,30 +6,30 @@ package org.codehaus.waffle.i18n;
 import java.util.Locale;
 
 /**
- * Default MessageResourcesConfiguration
+ * Default MessageResourcesConfiguration which simply allows the injection of default locale and resource.
  * 
  * @author Mauro Talevi
  */
 public class DefaultMessageResourcesConfiguration implements MessageResourcesConfiguration {
 
     private final Locale defaultLocale;
-    private final String bundleName;
+    private final String defaultResource;
 
     public DefaultMessageResourcesConfiguration() {
         this(Locale.getDefault(), "ApplicationResources");
     }
 
-    public DefaultMessageResourcesConfiguration(Locale defaultLocale, String bundleName) {
+    public DefaultMessageResourcesConfiguration(Locale defaultLocale, String defaultResource) {
         this.defaultLocale = defaultLocale;
-        this.bundleName = bundleName;
+        this.defaultResource = defaultResource;
     }
 
     public Locale getDefaultLocale() {
         return defaultLocale;
     }
 
-    public String getResourceBundleName() {
-        return bundleName;
+    public String getDefaultResource() {
+        return defaultResource;
     }
 
 }

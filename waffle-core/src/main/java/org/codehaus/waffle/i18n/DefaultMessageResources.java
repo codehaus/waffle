@@ -11,7 +11,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Default ResourceBundle-based implementation of MessageResorces.
+ * Default {@link ResourceBundle}-based implementation of MessageResorces.
  * 
  * @author Michael Ward
  * @author Mauro Talevi
@@ -25,16 +25,16 @@ public class DefaultMessageResources implements MessageResources {
     }
 
     public DefaultMessageResources(MessageResourcesConfiguration configuration) {
-        bundleName = configuration.getResourceBundleName();
+        bundleName = configuration.getDefaultResource();
         userLocale = configuration.getDefaultLocale();
     }
 
-    public String getBundleName() {
+    public String getResource() {
         return bundleName;
     }
 
-    public void useBundleName(String bundleName) {
-        this.bundleName = bundleName;
+    public void useResource(String resource) {
+        this.bundleName = resource;
     }
 
     public Locale getLocale() {
