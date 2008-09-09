@@ -1,4 +1,5 @@
 <#import "/ftl/waffle/form.ftl" as w>
+<#import "/ftl/waffle/i18n.ftl" as i>
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -14,13 +15,13 @@
     <table>
         <tr>
             <th>Id</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Date of Birth</th>
-            <th>Type</th>
-            <th>Skills</th>
-            <th>Select</th>
+            <th><@i.messageFor "firstName" "First"/></th>
+            <th><@i.messageFor "lastName" "Last"/></th>
+            <th><@i.messageFor "email" "Email"/></th>
+            <th><@i.messageFor "dateOfBirth" "Date of Birth"/></th>
+            <th><@i.messageFor "type" "Type"/></th>
+            <th><@i.messageFor "skills" "Skills"/></th>
+            <th><@i.messageFor "select" "Select"/></th>
         </tr>
         <#list people as person>
             <tr class="odd">

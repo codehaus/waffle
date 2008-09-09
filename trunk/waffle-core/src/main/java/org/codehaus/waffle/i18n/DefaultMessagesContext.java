@@ -19,10 +19,16 @@ import java.util.Map;
  */
 public class DefaultMessagesContext implements MessagesContext, Startable {
     private final HttpServletRequest request;
+    private final MessageResources resources;
     private final Map<String, String> messages = new HashMap<String, String>();
 
     public DefaultMessagesContext(HttpServletRequest request) {
+        this(request, new DefaultMessageResources());
+    }
+
+    public DefaultMessagesContext(HttpServletRequest request, MessageResources resources) {
         this.request = request;
+        this.resources = resources;
     }
 
     public void addMessage(String key, String message) {
@@ -45,6 +51,10 @@ public class DefaultMessagesContext implements MessagesContext, Startable {
         messages.clear();
     }
 
+    public MessageResources getResources() {
+        return resources;
+    }
+
     public void start() {
         request.setAttribute(Constants.MESSAGES_KEY, this);
     }
@@ -52,4 +62,5 @@ public class DefaultMessagesContext implements MessagesContext, Startable {
     public void stop() {
         // do nothing
     }
+
 }
