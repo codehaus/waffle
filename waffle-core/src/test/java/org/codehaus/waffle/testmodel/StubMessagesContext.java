@@ -2,6 +2,7 @@ package org.codehaus.waffle.testmodel;
 
 import java.util.List;
 
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 
 public class StubMessagesContext implements MessagesContext {
@@ -22,6 +23,10 @@ public class StubMessagesContext implements MessagesContext {
 
     public int getMessageCount() {
         return 0;
+    }
+
+    public MessageResources getResources() {
+        return null;
     }
 
 }
