@@ -126,7 +126,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             throw new AmbiguousActionSignatureMethodException("Method: '" + methodName + "' for controller: '"
                     + controller.getClass() + "'");
         } else if (methodDefinitions.isEmpty()) {
-            throw new NoMatchingActionMethodException(methodName, controller.getClass());
+            throw new NoMatchingActionMethodException("No matching methods for "+methodName, controller.getClass());
         }
 
         MethodDefinition methodDefinition = methodDefinitions.get(0);
@@ -192,7 +192,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
             throw new AmbiguousActionSignatureMethodException("Method: " + methodName);
         } else if (methodDefinitions.isEmpty()) {
             // TODO - avoid null
-            throw new NoMatchingActionMethodException(methods.get(0).getName(), null);
+            throw new NoMatchingActionMethodException("No matching methods for "+methods.get(0).getName(), null);
         }
 
         return methodDefinitions.get(0); // TODO ... should we cache the method?

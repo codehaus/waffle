@@ -14,7 +14,7 @@ public class NoMatchingActionMethodException extends MatchingActionMethodExcepti
     private final Class<?> actionClass;
 
     public NoMatchingActionMethodException(String methodName, Class<?> actionClass) {
-        super("no matching methods for: " + methodName);
+        super(methodName);
         this.methodName = methodName;
         this.actionClass = actionClass;
     }

@@ -38,7 +38,7 @@ public abstract class AbstractOgnlMethodDefinitionFinder extends AbstractMethodD
     protected List<Method> findMethods(Class<?> type, String methodName) {
         List<Method> methods = getMethods(type, methodName, false);
         if (methods == null) {
-            throw new NoMatchingActionMethodException(methodName, type);
+            throw new NoMatchingActionMethodException("No matching methods for "+methodName, type);
         }
         return methods;
     }
