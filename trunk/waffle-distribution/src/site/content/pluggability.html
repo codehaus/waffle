@@ -21,6 +21,22 @@ applications <b>web.xml</b>:</p>
   </context-param>
 </textarea>
 
+Similarly, to configure the servlet monitor to output to console:
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <context-param>
+    <param-name>org.codehaus.waffle.monitor.ServletMonitor</param-name>
+    <param-value>org.codehaus.waffle.monitor.ConsoleMonitor</param-value>
+  </context-param>
+</textarea>
+
+<dl>
+  <dt>Note:</dt>
+  <dd>The context <b>param-name</b> must match the fully qualified interface class name to override the default implementation 
+  that is automatically registered.  On other hand, if want to register your own custom components you can use any key, 
+  prefixed by "register:".  See below for more details.</dd>
+</dl>
+</p>
+
 <p>The <b>param-name</b> defines the interface of the component to be over-written and the <b>param-value</b>
 represents the implementing class. The following table lists the components that can currently be customized in Waffle
 (excluding <a href="monitors.html">Monitors</a>):</p>
@@ -133,7 +149,7 @@ represents the implementing class. The following table lists the components that
 <p>Most application will never need to deal with any of these components. But it is nice to know that you can change
 any of the default behaviour if you so desire.</p>
 
-<h2>Other components</h2>
+<h2>Custom components</h2>
 
 <p>Waffle also allows you to plug-in your own custom components which don't need to extend or implement any Waffle
 components. This is easy to do by adding <b>context-param</b>'s to your <b>web.xml</b> file. Notice the <b>register:</b>
