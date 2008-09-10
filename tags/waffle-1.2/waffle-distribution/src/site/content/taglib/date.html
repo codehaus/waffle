@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Date or Time Tag</title>
+</head>
+<body>
+
+
+<h2>Date Tag</h2>
+<p>The <i>w:date</i> tag creates an input field with the
+given <i>value</i> represented as a date. It receives its value as a <i>java.util.Date</i>. The
+number will be formated using the current <i>user locale</i> or the given <i>pattern</i> .</p>
+<p>Example using the user locale:</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  &lt;w:date name=&quot;client.birthday&quot; dateStyle=&quot;medium&quot; /&gt;
+</textarea>
+
+<p>The <i>dateStyle</i> is an optional attribute which can receive either &lt;short&gt;, &lt;medium&gt;, &lt;long&gt; or &lt;full&gt;.</p>
+
+<p>Example using a specific pattern:</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  &lt;w:date name=&quot;client.birthday&quot; pattern=&quot;dd.MM.yyyy&quot; /&gt;
+</textarea>
+
+<h2>Time Tag</h2>
+<p>The <i>w:time</i> tag works exactly in the same way as the <i>w:date</i>, but it supports the <i>timeStyle</i> attribute.</p>
+
+</body>
+
+</html>

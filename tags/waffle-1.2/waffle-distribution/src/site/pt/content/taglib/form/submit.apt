@@ -1,0 +1,29 @@
+Botões de submit
+
+  Para efetuar o envio do seu formulário, utilize a tag <<w:submit>>, sendo o seu uso comum com o atributo <<value>>:
+	
++--------------------
+<w:submit value="enviar"/>
++--------------------
+
+Como criar um formulário com dois botões de envio
+
+  Diversas vezes desejamos ter dois botões de envio diferentes no mesmo formulário, cada um para lógicas separadas.
+	
+  Por exemplo, imagine um formulário que mostra um fornecedor e permite alterá-lo (<<fornecedor.altera.logic>) ou removê-lo (<<fornecedor.remove.logic>>).
+	
+  Através do atributo <<action>> você pode determinar qual lógica seu botão deve executar:
+
++--------------------
+<w:form action="alvo.padrao.logic" type="table" id="meuForm">
+	<w:hidden name="fornecedor.id"/>
+	<w:text name="fornecedor.nome"/>
+	<w:submit value="alterar" action="/fornecedor.altera.logic"/>
+	<w:submit value="remover" action="/fornecedor.remove.logic"/>
+</w:form>
++--------------------
+
+  Note que para esse atributo funcionar é necessário código JavaScript e que seu formulário possua um atributo chamado <<id>>, único em toda
+  sua página.
+
+  Caso sua url inicie com uma barra, o nome da sua aplicação será adicionada a url para que seu link funcione relativo a aplicação.

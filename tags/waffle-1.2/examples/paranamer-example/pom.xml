@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.codehaus.waffle</groupId>
+    <artifactId>waffle-examples</artifactId>
+    <version>1.2-SNAPSHOT</version>
+  </parent>
+  <artifactId>waffle-paranamer-example</artifactId>
+  <packaging>war</packaging>
+  <name>Waffle Paranamer Example</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.thoughtworks.paranamer</groupId>
+      <artifactId>paranamer</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.thoughtworks.paranamer</groupId>
+        <artifactId>paranamer-maven-plugin</artifactId>
+        <configuration>
+          <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+          <outputDirectory>${basedir}/src/main/resources</outputDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>generate</id>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
