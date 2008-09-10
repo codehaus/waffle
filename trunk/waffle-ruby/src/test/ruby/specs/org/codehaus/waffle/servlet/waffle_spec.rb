@@ -17,13 +17,14 @@ describe Waffle::ScriptLoader do
   end
 
   it "should use 'require' when path prefix does NOT begin with 'dir:' (as is the case in production)" do
-    paths = ['fake/dir/path/one', 'fake/dir/path/two']
+    paths = ['fake/dir/path/one.rb', 'fake/dir/path/two.rb']
 
     servlet_context = mock('servlet_context')
     servlet_context.should_receive(:getResourcePaths).with('fake/dir/path').and_return(paths)
+    servlet_context.should_receive(:getRealPath).twice.with('/').and_return('/')
 
-    Waffle::ScriptLoader.should_receive(:require).with('one')
-    Waffle::ScriptLoader.should_receive(:require).with('two')
+    Waffle::ScriptLoader.should_receive(:require).with('/one.rb')
+    Waffle::ScriptLoader.should_receive(:require).with('/two.rb')
     Waffle::ScriptLoader.load_all('fake/dir/path', servlet_context)
 
     Waffle::ScriptLoader.instance_variable_get(:@__servlet_context).should == servlet_context
