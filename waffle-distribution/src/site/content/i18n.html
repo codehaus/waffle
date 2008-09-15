@@ -2,27 +2,70 @@
 
 <html>
 <head>
-<title>Internationalization</title>
+<title>Internationalization (i18n)</title>
 </head>
 <body>
 
-
 <h2>Internationalization (i18n)</h2>
-<p>Waffle supports internationalization in two ways:
+<p>Waffle fully supports i18n via the <b><a href="javadoc/core/org/codehaus/waffle/i18n/MessageResources.html">
+org.codehaus.waffle.i18n.MessageResources</a></b> interface and its ResourceBundle-based <b><a
+  href="javadoc/core/org/codehaus/waffle/i18n/DefaultMessageResources.html">
+org.codehaus.waffle.i18n.DefaultMessageResources</a></b> implementation. As customary in Waffle, the user may also provide their
+own implementation, eg interfacing to a more sophisticated CMS layer (refer to <a href="pluggability.html">Pluggability</a>).
+</p>
+
+<h3>Configuring MessageResources</h3>
+
+<p>Waffle is fully configurable via the <b><a
+  href="javadoc/core/org/codehaus/waffle/i18n/MessageResourcesConfiguration.html">
+org.codehaus.waffle.i18n.MessageResourcesConfiguration</a></b> interface and, again, comes with a <b><a
+  href="javadoc/core/org/codehaus/waffle/i18n/DefaultMessageResourcesConfiguration.html">
+org.codehaus.waffle.i18n.DefaultMessageResourcesConfiguration</a></b> which allows the user to be up and running in no time. The
+two elements of the configuration are:
 <ol>
-  <li>ApplicationResources.properties in the WAR file. This is the
-  same file name that other web action frameworks use. The OS will load
-  the most appropriate for the locale that happens to be in the WAR
-  file.</li>
-  <li>A component <b><a href="javadoc/core/org/codehaus/waffle/i18n/DefaultMessageResourcesConfiguration.html">
-        org.codehaus.waffle.i18n.DefaultMessageResourcesConfiguration</a></b>
-  that provides default messages, can be swapped for your own
-  implementation of <b><a href="javadoc/core/org/codehaus/waffle/i18n/MessageResources.html">
-        org.codehaus.waffle.i18n.MessageResources</a></b>.
-  This is a more programatic way of handling message localisation. It
-  needs to be registered in <b>web.xml</b> (refer to <a
-    href="pluggability.html">Pluggability</a>).</li>
+  <li>A resource URI (the default value is "ApplicationResources", as is also found in other web action
+  frameworks).</li>
+  <li>A locale (which defaults to the server default locale).</li>
 </ol>
+These two elements can either be configure by extending MessageResources:
+
+<textarea class="java:nogutter:nocontrols" name="code">
+    public class MyMessageResources extends DefaultMessageResources {
+        public MyMessageResources(){
+            super(new DefaultMessageResourcesConfiguration("MyResources", Locale.UK));
+        }
+    }
+  </textarea>
+
+or directly in the Registrar:
+
+<textarea class="java:nogutter:nocontrols" name="code">
+    public class MyRegistrar extends AbstractRegistrar {
+        public application(){
+            MessageResources resources = registry.locateByType(MessageResources.class);
+            resources.useURI("MyResources,MyOtherResources");
+        }
+    }
+  </textarea>
+</p>
+
+<h3>Multiple ResourceBundles supported</h3>
+
+<p>As exemplified in the second configuration method above, the URI need not be a single bundle name: it can be a
+CVS-list of bundle names. This allows i18n to be implemented in a much more modular way, without having to duplicate
+resource messages. By default, the separator of the list is a comma (as expected), but can be overridden by extending
+the DefaultMessageResources: <textarea class="java:nogutter:nocontrols" name="code">
+    public class MyMessageResources extends DefaultMessageResources {
+        public MyMessageResources(){
+            super(new DefaultMessageResourcesConfiguration("MyResources", Locale.UK));
+        }
+        protected List<String> bundleNames(String uri) {
+            return asList(uri.split(";"));
+        }            
+    }
+  </textarea> When multiple resource bundles are configured, they are merged into a single resource bundle using the
+<b>last-entry-wins strategy</b>. This means that the user can always resolve any potential conflicts arising from duplicate key
+entries in the merged bundles.</p>
 
 </body>
 
