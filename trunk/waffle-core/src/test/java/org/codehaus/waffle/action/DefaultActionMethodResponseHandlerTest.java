@@ -10,42 +10,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.monitor.ActionMonitor;
-import org.codehaus.waffle.testmodel.StubMonitor;
-import org.codehaus.waffle.testmodel.StubViewDispatcher;
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(JMock.class)
 public class DefaultActionMethodResponseHandlerTest {
     private final Mockery mockery = new Mockery();
-
-    @Test
-    public void cannotAcceptNullsInConstructor() {
-        try {
-            new DefaultActionMethodResponseHandler(null, null);
-            Assert.fail("IllegalArgumentException expected, null is not a valid argument");
-        } catch (IllegalArgumentException expected) {
-            // expected
-        }
-        try {
-            new DefaultActionMethodResponseHandler(null, new StubMonitor());
-            Assert.fail("IllegalArgumentException expected, null is not a valid argument");
-        } catch (IllegalArgumentException expected) {
-            // expected
-        }
-        try {
-            new DefaultActionMethodResponseHandler(new StubViewDispatcher(), null);
-            Assert.fail("IllegalArgumentException expected, null is not a valid argument");
-        } catch (IllegalArgumentException expected) {
-            // expected
-        }
-    }
 
     @Test
     public void canAvoidProcessingResponseValueWhenResponseHasBeenCommitted() throws Exception {

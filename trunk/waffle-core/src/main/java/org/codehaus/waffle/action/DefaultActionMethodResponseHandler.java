@@ -29,13 +29,6 @@ public class DefaultActionMethodResponseHandler implements ActionMethodResponseH
     private final ActionMonitor actionMonitor;
 
     public DefaultActionMethodResponseHandler(ViewDispatcher viewDispatcher, ActionMonitor actionMonitor) {
-        if (viewDispatcher == null) {
-            throw new IllegalArgumentException("ViewDispatcher cannot be null");
-        }
-        if (actionMonitor == null) {
-            throw new IllegalArgumentException("ActionMonitor cannot be null");
-        }
-
         this.viewDispatcher = viewDispatcher;
         this.actionMonitor = actionMonitor;
     }
