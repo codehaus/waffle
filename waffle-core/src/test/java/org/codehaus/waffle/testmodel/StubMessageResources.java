@@ -21,10 +21,10 @@ public class StubMessageResources implements MessageResources {
         return null;
     }
 
-    public String getResource() {
+    public String getURI() {
         return null;
     }
 
-    public void useResource(String resource) {
+    public void useURI(String resource) {
     }
 }

@@ -12,24 +12,24 @@ import java.util.Locale;
  */
 public class DefaultMessageResourcesConfiguration implements MessageResourcesConfiguration {
 
+    private final String defaultURI;
     private final Locale defaultLocale;
-    private final String defaultResource;
 
     public DefaultMessageResourcesConfiguration() {
-        this(Locale.getDefault(), "ApplicationResources");
+        this("ApplicationResources", Locale.getDefault());
     }
 
-    public DefaultMessageResourcesConfiguration(Locale defaultLocale, String defaultResource) {
+    public DefaultMessageResourcesConfiguration(String defaultResource, Locale defaultLocale) {
         this.defaultLocale = defaultLocale;
-        this.defaultResource = defaultResource;
+        this.defaultURI = defaultResource;
     }
 
     public Locale getDefaultLocale() {
         return defaultLocale;
     }
 
-    public String getDefaultResource() {
-        return defaultResource;
+    public String getDefaultURI() {
+        return defaultURI;
     }
 
 }

@@ -51,7 +51,7 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
         finder.registerConverter((ValueConverter) getRegistered(PersonValueConverter.class));
         finder.registerConverter((ValueConverter) getRegistered(PersonListValueConverter.class));
         MessageResources resources = registry.locateByType(MessageResources.class);
-        resources.useResource("FreemarkerResources");
+        resources.useURI("FreemarkerResources");
         resources.useLocale(Locale.ITALIAN);
         register("people/manage", PersonController.class);
         register("home", MenuAwareController.class);
