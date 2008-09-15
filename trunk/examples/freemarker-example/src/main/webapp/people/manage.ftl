@@ -1,5 +1,6 @@
-<#import "/ftl/waffle/form.ftl" as w>
 <#import "/ftl/waffle/i18n.ftl" as i>
+<#import "/ftl/waffle/form.ftl" as w>
+<#import "/ftl/waffle/validation.ftl" as v>
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,6 +13,8 @@
 
     <h3><@i.messageFor "manageTitle" "Select Person"/></h3>
 
+   <@v.errorsAsUl errors "true" "false" "class='errors'"/>
+   
     <table>
         <tr>
             <th>Id</th>
@@ -40,7 +43,9 @@
     </table>
 
     <a href="javascript:fireActionMethod('create');"><@i.messageFor "create" "New"/></a>; <a href="javascript:fireActionMethod('export');"><@i.messageFor "export" "Export"/></a>;
-    <a href="javascript:fireActionMethod('inexistant');"><@i.messageFor "inexistant" "Inexistant method"/></a>
+    <br/>
+    <a href="javascript:fireActionMethod('inexistant');"><@i.messageFor "inexistant" "Inexistant method"/></a>;
+    <a href="javascript:fireActionMethod('failing');"><@i.messageFor "failing" "Failing method"/></a>
 
     <div id="showArea">    	
         <table>

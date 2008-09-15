@@ -110,6 +110,10 @@ public class PersonController extends MenuAwareController implements Serializabl
         person = null;
     }
 
+    public void failing(){
+        throw new RuntimeException("Oops!!!");
+    }
+    
     public View export() {
         StringBuffer sb = new StringBuffer();
         sb.append("Id,First Name,Last Name,Date of Birth\n");
