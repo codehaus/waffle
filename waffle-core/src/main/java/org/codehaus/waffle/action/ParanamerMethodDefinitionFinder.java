@@ -1,5 +1,5 @@
 /*
- * Copyright (c) terms as published in http://waffle.codehaus.org/license.html 
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
 package org.codehaus.waffle.action;
 
@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.codehaus.waffle.bind.StringTransmuter;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ActionMonitor;
 
 import com.thoughtworks.paranamer.CachingParanamer;
@@ -24,7 +25,9 @@ import com.thoughtworks.paranamer.Paranamer;
  * Pananamer-based method definition finder, which can be used in alternative to other definition finders, eg
  * {@link AnnotatedMethodDefinitionFinder}.
  * </p>
- * <br/><br/> <b>Note</b>: Pragmatic method calls will always take precedence.
+ * <p>
+ * <b>Note</b>: Pragmatic method calls will always take precedence.
+ * </p>
  * 
  * @author Paul Hammant
  * @see AnnotatedMethodDefinitionFinder
@@ -33,8 +36,9 @@ public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
     private final CachingParanamer paranamer = new CachingParanamer();
 
     public ParanamerMethodDefinitionFinder(ServletContext servletContext, ArgumentResolver argumentResolver,
-            MethodNameResolver methodNameResolver, StringTransmuter stringTransmuter, ActionMonitor actionMonitor) {
-        super(servletContext, argumentResolver, methodNameResolver, stringTransmuter, actionMonitor);
+            MethodNameResolver methodNameResolver, StringTransmuter stringTransmuter, ActionMonitor actionMonitor,
+            MessageResources messageResources) {
+        super(servletContext, argumentResolver, methodNameResolver, stringTransmuter, actionMonitor, messageResources);
     }
 
     /**
@@ -96,14 +100,14 @@ public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
                 parameterNames = paranamer.lookupParameterNames(method);
             }
             if (rc == Paranamer.NO_PARAMETER_NAMES_LIST) {
-                throw new MatchingActionMethodException("No parameter names list found by paranamer " + paranamer);
+                String message = messageResources.getMessageWithDefault("noParameterNamesListFound", "No parameter names list found by paranamer ''{0}''", paranamer);
+                throw new MatchingActionMethodException(message);
             } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS) {
-                throw new MatchingActionMethodException("No parameter names found for class '"
-                        + declaringClass.getName() + "' by paranamer " + paranamer);
+                String message = messageResources.getMessageWithDefault("noParameterNamesFoundForClass", "No parameter names found for class ''{0}'' by paranamer ''{1}''", declaringClass.getName(), paranamer);
+                throw new MatchingActionMethodException(message);
             } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS_AND_MEMBER) {
-                throw new MatchingActionMethodException("No parameter names found for class '"
-                        + declaringClass.getName() + "' and method '" + method.getName() + "' by paranamer "
-                        + paranamer);
+                String message = messageResources.getMessageWithDefault("noParameterNamesFoundForClassAndMethod", "No parameter names found for class ''{0}'' and method ''{1}'' by paranamer ''{2}''", declaringClass.getName(), method.getName(), paranamer);
+                throw new MatchingActionMethodException(message);
                 // } else if (rc == Paranamer.PARAMETER_NAMES_FOUND ){
                 // throw new MatchingActionMethodException("Invalid parameter names list for paranamer "+paranamer);
             }

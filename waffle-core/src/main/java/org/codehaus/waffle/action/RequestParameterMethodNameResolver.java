@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * <p>Implementation of method name resolver which returns the value of a configurable action parameter key,
  * which defaults to 'method'.
- * </p><br/>
+ * </p>
+ * <p>
  * The resolved name is monitored along with the available parameter key set.
+ * </p>
  * 
  * @author Michael Ward
  * @author Mauro Talevi

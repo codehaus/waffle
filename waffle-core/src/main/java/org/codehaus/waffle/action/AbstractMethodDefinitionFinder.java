@@ -3,29 +3,32 @@
  */
 package org.codehaus.waffle.action;
 
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.action.annotation.ActionMethod;
-import org.codehaus.waffle.bind.StringTransmuter;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
-import org.codehaus.waffle.i18n.MessagesContext;
-import org.codehaus.waffle.monitor.ActionMonitor;
+import static java.text.MessageFormat.format;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import static java.text.MessageFormat.format;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.action.annotation.ActionMethod;
+import org.codehaus.waffle.bind.StringTransmuter;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
+import org.codehaus.waffle.monitor.ActionMonitor;
 
 /**
  * Abstract base implementation for all method definition finders
@@ -46,17 +49,17 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private final StringTransmuter stringTransmuter;
     private final MethodNameResolver methodNameResolver;
     private final ActionMonitor actionMonitor;
+    protected final MessageResources messageResources;
 
-    public AbstractMethodDefinitionFinder(ServletContext servletContext,
-                                          ArgumentResolver argumentResolver,
-                                          MethodNameResolver methodNameResolver,
-                                          StringTransmuter stringTransmuter,
-                                          ActionMonitor actionMonitor) {
+    public AbstractMethodDefinitionFinder(ServletContext servletContext, ArgumentResolver argumentResolver,
+            MethodNameResolver methodNameResolver, StringTransmuter stringTransmuter, ActionMonitor actionMonitor,
+            MessageResources messageResources) {
         this.servletContext = servletContext;
         this.argumentResolver = argumentResolver;
         this.stringTransmuter = stringTransmuter;
         this.methodNameResolver = methodNameResolver;
         this.actionMonitor = actionMonitor;
+        this.messageResources = messageResources;
     }
 
     public MethodDefinition find(Object controller, HttpServletRequest request, HttpServletResponse response)
@@ -123,10 +126,13 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         List<MethodDefinition> methodDefinitions = findMethodDefinitions(request, response, methods);
 
         if (methodDefinitions.size() > 1) {
-            throw new AmbiguousActionSignatureMethodException("Method: '" + methodName + "' for controller: '"
-                    + controller.getClass() + "'");
+            String message = messageResources.getMessageWithDefault("ambiguousActionMethodSignature",
+                    "ActionMethod ''{0}'' has ambiguous signature among methods ''{1}''", methodName, methods);
+            throw new AmbiguousActionMethodSignatureException(message);
         } else if (methodDefinitions.isEmpty()) {
-            throw new NoMatchingActionMethodException("No matching methods for "+methodName, controller.getClass());
+            String message = messageResources.getMessageWithDefault("noMatchingMethodFound",
+                    "No matching methods for name ''{0}''", methodName);
+            throw new NoMatchingActionMethodException(message, controller.getClass());
         }
 
         MethodDefinition methodDefinition = methodDefinitions.get(0);
@@ -155,8 +161,9 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private MethodDefinition buildDefaultMethodDefinition(Method method, HttpServletRequest request) {
         MethodDefinition methodDefinition = new MethodDefinition(method);
         if (!isDefaultActionMethod(method)) {
-            throw new NoDefaultActionMethodException("Method " + method
-                    + " is not annotated with @ActionMethod(asDefault=true).");
+            String message = messageResources.getMessageWithDefault("noDefaultActionMethod", 
+                    "Method ''{0}'' is not annotated with @ActionMethod(asDefault=true)", method);
+            throw new NoDefaultActionMethodException(message);
         }
         ActionMethod defaultActionMethod = method.getAnnotation(ActionMethod.class);
         List<String> arguments = new ArrayList<String>(defaultActionMethod.parameters().length);
@@ -189,19 +196,20 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
         if (methodDefinitions.size() > 1) {
             String methodName = methodDefinitions.get(0).getMethod().getName();
-            throw new AmbiguousActionSignatureMethodException("Method: " + methodName);
+            String message = messageResources.getMessageWithDefault("ambiguousActionMethodSignature",
+                    "ActionMethod ''{0}'' has ambiguous signature among methods ''{1}''", methodName, methods);
+            throw new AmbiguousActionMethodSignatureException(message);
         } else if (methodDefinitions.isEmpty()) {
-            // TODO - avoid null
-            throw new NoMatchingActionMethodException("No matching methods for "+methods.get(0).getName(), null);
+            String message = messageResources.getMessageWithDefault("noMatchingMethodFound",
+                    "No matching methods for name ''{0}''", methods.get(0).getName());
+            throw new NoMatchingActionMethodException(message, null);
         }
 
         return methodDefinitions.get(0); // TODO ... should we cache the method?
     }
 
-    private MethodDefinition buildMethodDefinition(HttpServletRequest request,
-                                                   HttpServletResponse response,
-                                                   Method method,
-                                                   List<Object> arguments) {
+    private MethodDefinition buildMethodDefinition(HttpServletRequest request, HttpServletResponse response,
+            Method method, List<Object> arguments) {
         Class<?>[] actualParameterTypes = method.getParameterTypes();
         MethodDefinition methodDefinition = new MethodDefinition(method);
 

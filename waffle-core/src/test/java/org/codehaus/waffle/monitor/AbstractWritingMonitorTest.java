@@ -48,7 +48,6 @@ public class AbstractWritingMonitorTest {
         assertEquals(5, sb.toString().split("\n").length);
     }
 
-    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
     @Test
     public void canTraceExceptions() {
         final StringWriter monitorWriter = new StringWriter();

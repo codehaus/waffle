@@ -39,6 +39,7 @@ import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNotFoundException;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
@@ -83,8 +84,9 @@ public class WaffleServletTest {
             one(componentRegistry).getActionMethodResponseHandler();
             one(componentRegistry).getServletMonitor();
             one(componentRegistry).getControllerDataBinder();
-            one(componentRegistry).getViewDataBinder();
             one(componentRegistry).getControllerDefinitionFactory();
+            one(componentRegistry).getMessageResources();
+            one(componentRegistry).getViewDataBinder();
             one(componentRegistry).getValidator();
         }});
 
@@ -183,8 +185,8 @@ public class WaffleServletTest {
                                                         actionMethodResponseHandler,
                                                         monitor,
                                                         new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, monitor),
-                                                        viewDataBinder,
-                                                        controllerDefinitionFactory, validator) {
+                                                        controllerDefinitionFactory,
+                                                        new DefaultMessageResources(), viewDataBinder, validator) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
@@ -269,8 +271,8 @@ public class WaffleServletTest {
                                                         actionMethodResponseHandler,
                                                         monitor,
                                                         new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, monitor),
-                                                        viewDataBinder,
-                                                        controllerDefinitionFactory, validator) {
+                                                        controllerDefinitionFactory,
+                                                        new DefaultMessageResources(), viewDataBinder, validator) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
@@ -332,8 +334,8 @@ public class WaffleServletTest {
                 actionMethodResponseHandler,
                 new SilentMonitor(),
                 new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
-                null,
-                controllerDefinitionFactory, null) {
+                controllerDefinitionFactory,
+                new DefaultMessageResources(), null, null) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
@@ -426,8 +428,8 @@ public class WaffleServletTest {
                 actionMethodResponseHandler,
                 new SilentMonitor(),
                 new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
-                viewDataBinder,
-                controllerDefinitionFactory, validator) {
+                controllerDefinitionFactory,
+                new DefaultMessageResources(), viewDataBinder, validator) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
@@ -510,8 +512,8 @@ public class WaffleServletTest {
                 actionMethodResponseHandler,
                 new SilentMonitor(),
                 new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
-                viewDataBinder,
-                controllerDefinitionFactory, validator) {
+                controllerDefinitionFactory,
+                new DefaultMessageResources(), viewDataBinder, validator) {
             @Override
             public ServletConfig getServletConfig() {
                 return servletConfig;
