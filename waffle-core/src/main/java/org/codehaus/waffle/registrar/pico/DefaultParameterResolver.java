@@ -3,14 +3,16 @@
  */
 package org.codehaus.waffle.registrar.pico;
 
-import org.codehaus.waffle.registrar.Reference;
-import org.codehaus.waffle.registrar.ComponentReference;
-import org.codehaus.waffle.registrar.SessionAttributeReference;
-import org.codehaus.waffle.registrar.RequestAttributeReference;
-import org.codehaus.waffle.registrar.ServletContextAttributeReference;
-import org.codehaus.waffle.registrar.RequestParameterReference;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.bind.StringTransmuter;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.registrar.ComponentReference;
+import org.codehaus.waffle.registrar.Reference;
+import org.codehaus.waffle.registrar.RequestAttributeReference;
+import org.codehaus.waffle.registrar.RequestParameterReference;
+import org.codehaus.waffle.registrar.ServletContextAttributeReference;
+import org.codehaus.waffle.registrar.SessionAttributeReference;
 import org.picocontainer.Parameter;
 import org.picocontainer.parameters.ComponentParameter;
 import org.picocontainer.parameters.ConstantParameter;
@@ -22,9 +24,15 @@ import org.picocontainer.parameters.ConstantParameter;
  */
 public class DefaultParameterResolver implements ParameterResolver {
     private final StringTransmuter stringTransmuter;
+    private final MessageResources messageResources;
 
     public DefaultParameterResolver(StringTransmuter stringTransmuter) {
+        this(stringTransmuter, new DefaultMessageResources());
+    }
+
+    public DefaultParameterResolver(StringTransmuter stringTransmuter, MessageResources messageResources) {
         this.stringTransmuter = stringTransmuter;
+        this.messageResources = messageResources;
     }
 
     /**
@@ -54,6 +62,7 @@ public class DefaultParameterResolver implements ParameterResolver {
             return new ConstantParameter(argument);
         }
 
-        throw new WaffleException("Unable to resolve a pico parameter for " + argument);
+        String message = messageResources.getMessageWithDefault("parameterNotResolved", "Unable to resolve parameter for argument ''{0}''", argument);
+        throw new WaffleException(message);
     }
 }

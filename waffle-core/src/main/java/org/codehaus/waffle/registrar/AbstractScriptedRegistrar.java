@@ -3,7 +3,6 @@
  */
 package org.codehaus.waffle.registrar;
 
-import org.codehaus.waffle.WaffleException;
 
 /**
  * A Registrar that provides registration methods for scripts.
@@ -19,7 +18,7 @@ public abstract class AbstractScriptedRegistrar extends AbstractRegistrar implem
         if ( delegate instanceof ScriptedRegistrar ){
             scriptedRegistrar = (ScriptedRegistrar) delegate;            
         } else {
-            throw new WaffleException("Delegate is not a ScriptedRegistrar: "+delegate);
+            throw new InvalidRegistrarException(new ClassNotFoundException(ScriptedRegistrar.class.getName()));
         }
     }
 

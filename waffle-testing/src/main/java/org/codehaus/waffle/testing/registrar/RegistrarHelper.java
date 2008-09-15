@@ -28,6 +28,7 @@ import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.context.pico.PicoComponentRegistry;
 import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.DefaultParameterResolver;
@@ -122,6 +123,7 @@ public class RegistrarHelper {
             initContainer.addComponent(NullComponentMonitor.class);
             initContainer.addComponent(PicoLifecycleStrategy.class);
             initContainer.addComponent(SilentMonitor.class);
+            initContainer.addComponent(DefaultMessageResources.class);
             initContainer.addComponent(DefaultParameterResolver.class);
             initContainer.addComponent(DefaultStringTransmuter.class);
             initContainer.addComponent(OgnlValueConverterFinder.class);
@@ -129,7 +131,7 @@ public class RegistrarHelper {
             initContainer.addComponent(registrarName, Class.forName(registrarName));
             return (Registrar) initContainer.getComponent(registrarName);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to create Registrar for " + registrarName, e);
+            throw new WaffleException("Failed to create Registrar for " + registrarName, e);
         }
     }
 

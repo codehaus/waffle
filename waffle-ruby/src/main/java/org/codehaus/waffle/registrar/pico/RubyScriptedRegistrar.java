@@ -3,6 +3,7 @@
  */
 package org.codehaus.waffle.registrar.pico;
 
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.LifecycleStrategy;
@@ -20,8 +21,8 @@ public class RubyScriptedRegistrar extends PicoRegistrar {
                                  ParameterResolver parameterResolver,
                                  LifecycleStrategy lifecycleStrategy,
                                  RegistrarMonitor registrarMonitor,
-                                 ComponentMonitor componentMonitor) {
-        super(picoContainer, parameterResolver, lifecycleStrategy, registrarMonitor, componentMonitor);
+                                 ComponentMonitor componentMonitor, MessageResources messageResources) {
+        super(picoContainer, parameterResolver, lifecycleStrategy, registrarMonitor, componentMonitor, messageResources);
     }
 
     public void registerScript(String key, String className) {

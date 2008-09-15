@@ -3,6 +3,14 @@
  */
 package org.codehaus.waffle.context.pico;
 
+import static org.picocontainer.Characteristics.CACHE;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.i18n.MessageResources;
@@ -12,14 +20,7 @@ import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.registrar.pico.RubyScriptedRegistrar;
 import org.jruby.Ruby;
-import static org.picocontainer.Characteristics.CACHE;
 import org.picocontainer.MutablePicoContainer;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 /**
  * @author Michael Ward
@@ -27,10 +28,8 @@ import java.util.ArrayList;
  */
 public class RubyPicoContextContainerFactory extends ScriptedPicoContextContainerFactory {
 
-    public RubyPicoContextContainerFactory(MessageResources messageResources,
-                                           ContextMonitor contextMonitor,
-                                           RegistrarMonitor registrarMonitor,
-                                           ParameterResolver parameterResolver) {
+    public RubyPicoContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor,
+            RegistrarMonitor registrarMonitor, ParameterResolver parameterResolver) {
         super(messageResources, contextMonitor, registrarMonitor, parameterResolver);
     }
 
@@ -38,7 +37,8 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
         // Register Ruby Runtime at Application level
         MutablePicoContainer picoContainer = (MutablePicoContainer) contextContainer.getDelegate();
         Ruby runtime = Ruby.newInstance();
-        runtime.getLoadService().init(new ArrayList<Object>()); // this must be called, else we won't be able to load scripts!!
+        runtime.getLoadService().init(new ArrayList<Object>()); // this must be called, else we won't be able to load
+                                                                // scripts!!
         loadRubyScriptFromClassLoader("org/codehaus/waffle/waffle_erb.rb", runtime);
         loadRubyScriptFromClassLoader("org/codehaus/waffle/waffle.rb", runtime);
 
@@ -54,16 +54,12 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
     }
 
     @Override
-    protected Registrar createRegistrar(ContextContainer contextContainer) { // todo we need tests for this ... can this be refactored cleaner?
+    protected Registrar createRegistrar(ContextContainer contextContainer) { // todo we need tests for this ... can this
+                                                                             // be refactored cleaner?
         MutablePicoContainer delegateContainer = (MutablePicoContainer) contextContainer.getDelegate();
         RegistrarMonitor registrarMonitor = getRegistrarMonitor();
-
-        Registrar registrar = new RubyScriptedRegistrar(delegateContainer,
-                                                        getParameterResolver(),
-                                                        getPicoLifecycleStrategy(),
-                                                        registrarMonitor,
-                                                        getPicoComponentMonitor());
-
+        Registrar registrar = new RubyScriptedRegistrar(delegateContainer, getParameterResolver(),
+                getPicoLifecycleStrategy(), registrarMonitor, getPicoComponentMonitor(), messageResources);
         getContextMonitor().registrarCreated(registrar, registrarMonitor);
         return registrar;
     }

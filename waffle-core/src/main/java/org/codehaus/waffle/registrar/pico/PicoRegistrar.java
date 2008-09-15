@@ -3,12 +3,17 @@
  */
 package org.codehaus.waffle.registrar.pico;
 
+import static org.picocontainer.Characteristics.CACHE;
+import static org.picocontainer.Characteristics.NO_CACHE;
+
+import java.util.List;
+import java.util.Properties;
+
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarException;
 import org.codehaus.waffle.registrar.ScriptedRegistrar;
-import static org.picocontainer.Characteristics.CACHE;
-import static org.picocontainer.Characteristics.NO_CACHE;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.InjectionFactory;
@@ -18,13 +23,10 @@ import org.picocontainer.Parameter;
 import org.picocontainer.injectors.ConstructorInjection;
 import org.picocontainer.injectors.SetterInjection;
 
-import java.util.List;
-import java.util.Properties;
-
 /**
- * This Registrar is backed by PicoContainer for managing Dependency Injection.  This registrar
- * is passed to the custom registrar defined in the web.xml as a delegate.
- *
+ * This Registrar is backed by PicoContainer for managing Dependency Injection. This registrar is passed to the custom
+ * registrar defined in the web.xml as a delegate.
+ * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
@@ -34,18 +36,18 @@ public class PicoRegistrar implements ScriptedRegistrar {
     private final LifecycleStrategy lifecycleStrategy;
     private final RegistrarMonitor registrarMonitor;
     private final ComponentMonitor componentMonitor;
+    private final MessageResources messageResources;
     private Injection injection = Injection.CONSTRUCTOR;
 
-    public PicoRegistrar(MutablePicoContainer picoContainer,
-                         ParameterResolver parameterResolver,
-                         LifecycleStrategy lifecycleStrategy,
-                         RegistrarMonitor registrarMonitor,
-                         ComponentMonitor componentMonitor) {
+    public PicoRegistrar(MutablePicoContainer picoContainer, ParameterResolver parameterResolver,
+            LifecycleStrategy lifecycleStrategy, RegistrarMonitor registrarMonitor, ComponentMonitor componentMonitor,
+            MessageResources messageResources) {
         this.picoContainer = picoContainer;
         this.parameterResolver = parameterResolver;
         this.lifecycleStrategy = lifecycleStrategy;
         this.registrarMonitor = registrarMonitor;
         this.componentMonitor = componentMonitor;
+        this.messageResources = messageResources;
     }
 
     public Registrar useInjection(Injection injection) {
@@ -66,17 +68,23 @@ public class PicoRegistrar implements ScriptedRegistrar {
         if (typeOrInstance instanceof Class) {
             Class<?> type = (Class<?>) typeOrInstance;
             List<?> instances = picoContainer.getComponents(type);
-            if ( instances.size() == 0 ){
-                throw new RegistrarException("No component instance registered for type "+type);
-            } else if ( instances.size() > 1 ){
-                throw new RegistrarException("More than one component instance registered for type "+type);
+            if (instances.size() == 0) {
+                String message = messageResources.getMessageWithDefault("noComponentInstanceRegistered",
+                        "No component instance registered for key ''{0}''", type);
+                throw new RegistrarException(message);
+            } else if (instances.size() > 1) {
+                String message = messageResources.getMessageWithDefault("moreThanOneComponentInstanceRegistered",
+                        "More than one component instance registered for key ''{0}''", type);
+                throw new RegistrarException(message);
             } else {
                 return instances.get(0);
-            }            
+            }
         }
         Object instance = picoContainer.getComponent(typeOrInstance);
-        if ( instance == null ){
-            throw new RegistrarException("No component instance registered for type or instance "+typeOrInstance);
+        if (instance == null) {
+            String message = messageResources.getMessageWithDefault("noComponentInstanceRegistered",
+                    "No component instance registered for key ''{0}''", typeOrInstance);
+            throw new RegistrarException(message);
         }
         return instance;
     }
@@ -140,15 +148,14 @@ public class PicoRegistrar implements ScriptedRegistrar {
     private ComponentAdapter<?> buildComponentAdapter(Object key, Class<?> type, Object... parameters) {
         InjectionFactory componentAdapterFactory;
 
-        if (injection == Injection.CONSTRUCTOR) {
-            componentAdapterFactory = new ConstructorInjection();
-        } else if (injection == Injection.SETTER) {
+        if (injection == Injection.SETTER) {
             componentAdapterFactory = new SetterInjection();
         } else {
-            throw new IllegalArgumentException("Invalid injection " + injection);
+            componentAdapterFactory = new ConstructorInjection();
         }
 
-        return componentAdapterFactory.createComponentAdapter(componentMonitor, lifecycleStrategy, new Properties(), key, type, picoParameters(parameters));
+        return componentAdapterFactory.createComponentAdapter(componentMonitor, lifecycleStrategy, new Properties(),
+                key, type, picoParameters(parameters));
     }
 
     public void application() {

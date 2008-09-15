@@ -3,8 +3,16 @@
  */
 package org.codehaus.waffle.mock;
 
+import static org.codehaus.waffle.context.ContextLevel.APPLICATION;
+import static org.codehaus.waffle.context.ContextLevel.REQUEST;
+import static org.codehaus.waffle.context.ContextLevel.SESSION;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -12,13 +20,8 @@ import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarAssistant;
 import org.jmock.Mockery;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 /**
- * Abstract jMock 2.x Mockery for asserting Registrars are defined correctly.
+ * Abstract Mockery for asserting Registrars are defined correctly.
  * Concrete subclasses need to define method to create the ContextContainer
  * and the Registrar.
  *
@@ -65,8 +68,8 @@ public abstract class AbstractRegistrarMockery extends Mockery {
         container.registerComponentInstance(mockMessageResources());
         Registrar registrar = createRegistrar(container);
 
-        RegistrarAssistant registrarAssistant = new RegistrarAssistant(registrarClass);
-        registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.APPLICATION);
+        RegistrarAssistant registrarAssistant = new RegistrarAssistant(registrarClass, messageResources);
+        registrarAssistant.executeDelegatingRegistrar(registrar, APPLICATION);
 
         container.validateComponentInstances(); // ensure dependencies are satisfied
     }
@@ -78,9 +81,9 @@ public abstract class AbstractRegistrarMockery extends Mockery {
         container.registerComponentInstance(mockMessageResources());
         Registrar registrar = createRegistrar(container);
 
-        RegistrarAssistant registrarAssistant = new RegistrarAssistant(registrarClass);
-        registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.APPLICATION);
-        registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.SESSION);
+        RegistrarAssistant registrarAssistant = new RegistrarAssistant(registrarClass, messageResources);
+        registrarAssistant.executeDelegatingRegistrar(registrar, APPLICATION);
+        registrarAssistant.executeDelegatingRegistrar(registrar, SESSION);
 
         container.validateComponentInstances(); // ensure dependencies are satisfied
     }
@@ -94,10 +97,10 @@ public abstract class AbstractRegistrarMockery extends Mockery {
         container.registerComponentInstance(mockMessageResources());
         Registrar registrar = createRegistrar(container);
 
-        RegistrarAssistant registrarAssistant = new RegistrarAssistant(customRegistrarClass);
-        registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.APPLICATION);
-        registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.SESSION);
-        registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.REQUEST);
+        RegistrarAssistant registrarAssistant = new RegistrarAssistant(customRegistrarClass, messageResources);
+        registrarAssistant.executeDelegatingRegistrar(registrar, APPLICATION);
+        registrarAssistant.executeDelegatingRegistrar(registrar, SESSION);
+        registrarAssistant.executeDelegatingRegistrar(registrar, REQUEST);
 
         container.validateComponentInstances(); // ensure dependencies are satisfied
     }
