@@ -59,6 +59,14 @@ public class DefaultMessageResources implements MessageResources {
         return asList(uri.split(","));
     }
 
+    public String getResource() {
+        return getURI();
+    }
+
+    public void useResource(String resource) {
+        useURI(resource);
+    }
+
     public String getURI() {
         return uri;
     }
