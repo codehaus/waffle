@@ -108,8 +108,6 @@ public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
             } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS_AND_MEMBER) {
                 String message = messageResources.getMessageWithDefault("noParameterNamesFoundForClassAndMethod", "No parameter names found for class ''{0}'' and method ''{1}'' by paranamer ''{2}''", declaringClass.getName(), method.getName(), paranamer);
                 throw new MatchingActionMethodException(message);
-                // } else if (rc == Paranamer.PARAMETER_NAMES_FOUND ){
-                // throw new MatchingActionMethodException("Invalid parameter names list for paranamer "+paranamer);
             }
         }
         List<String> arguments = new ArrayList<String>(parameterNames.length);
