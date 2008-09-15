@@ -3,10 +3,24 @@
  */
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.ComponentRegistry;
+import static java.util.Arrays.asList;
 import static org.codehaus.waffle.Constants.ERRORS_VIEW_KEY;
 import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
 import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
+
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
@@ -20,6 +34,7 @@ import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.GlobalErrorMessage;
@@ -27,21 +42,9 @@ import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.lang.reflect.Method;
-import static java.util.Arrays.asList;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * Waffle's FrontController for handling user requests.
- *
+ * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
@@ -60,6 +63,7 @@ public class WaffleServlet extends HttpServlet {
     private ActionMethodResponseHandler actionMethodResponseHandler;
     private ControllerDefinitionFactory controllerDefinitionFactory;
     private ControllerDataBinder controllerDataBinder;
+    private MessageResources messageResources;
     private ViewDataBinder viewDataBinder;
     private Validator validator;
     private ServletMonitor servletMonitor;
@@ -74,28 +78,27 @@ public class WaffleServlet extends HttpServlet {
 
     /**
      * Constructor required by builder and useful for testing
-     *
+     * 
      * @param actionMethodExecutor
      * @param actionMethodResponseHandler
      * @param servletMonitor
      * @param controllerDataBinder
-     * @param viewDataBinder
      * @param controllerDefinitionFactory
+     * @param messageResources
+     * @param viewDataBinder
      * @param validator
      */
     public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
-                         ActionMethodResponseHandler actionMethodResponseHandler,
-                         ServletMonitor servletMonitor,
-                         ControllerDataBinder controllerDataBinder,
-                         ViewDataBinder viewDataBinder,
-                         ControllerDefinitionFactory controllerDefinitionFactory,
-                         Validator validator) {
+            ActionMethodResponseHandler actionMethodResponseHandler, ServletMonitor servletMonitor,
+            ControllerDataBinder controllerDataBinder, ControllerDefinitionFactory controllerDefinitionFactory,
+            MessageResources messageResources, ViewDataBinder viewDataBinder, Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
         this.servletMonitor = servletMonitor;
         this.controllerDataBinder = controllerDataBinder;
-        this.viewDataBinder = viewDataBinder;
         this.controllerDefinitionFactory = controllerDefinitionFactory;
+        this.messageResources = messageResources;
+        this.viewDataBinder = viewDataBinder;
         this.validator = validator;
         componentsRetrieved = true;
     }
@@ -112,6 +115,7 @@ public class WaffleServlet extends HttpServlet {
             actionMethodResponseHandler = registry.getActionMethodResponseHandler();
             controllerDefinitionFactory = registry.getControllerDefinitionFactory();
             controllerDataBinder = registry.getControllerDataBinder();
+            messageResources = registry.getMessageResources();
             viewDataBinder = registry.getViewDataBinder();
             validator = registry.getValidator();
             servletMonitor = registry.getServletMonitor();
@@ -133,14 +137,14 @@ public class WaffleServlet extends HttpServlet {
 
     /**
      * Responsible for servicing the requests from the users.
-     *
-     * @param request  the HttpServletResponse
+     * 
+     * @param request the HttpServletResponse
      * @param response the HttpServletResponse
      * @throws ServletException
      * @throws IOException
      */
-    protected void service(HttpServletRequest request,
-                           HttpServletResponse response) throws ServletException, IOException {
+    protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+            IOException {
         servletMonitor.servletServiceRequested(parametersOf(request));
         ContextContainer requestContainer = RequestLevelContainer.get();
         ErrorsContext errorsContext = requestContainer.getComponent(ErrorsContext.class);
@@ -149,7 +153,7 @@ public class WaffleServlet extends HttpServlet {
         View view = null;
         try {
             ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
-            response);
+                    response);
             controllerDataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
             validator.validate(controllerDefinition, errorsContext);
             try {
@@ -163,7 +167,7 @@ public class WaffleServlet extends HttpServlet {
                         view = buildView(controllerDefinition);
                     } else if (actionMethodResponse.getReturnValue() == null) {
                         // Null or VOID indicate a Waffle convention (return to referring page)
-                        // unless PRG is disabled 
+                        // unless PRG is disabled
                         if (request.getMethod().equalsIgnoreCase(POST)) {
                             if (usePRG(controllerDefinition.getMethodDefinition())) {
                                 // PRG (Post/Redirect/Get): see http://en.wikipedia.org/wiki/Post/Redirect/Get
@@ -180,17 +184,18 @@ public class WaffleServlet extends HttpServlet {
 
             } catch (ActionMethodInvocationException e) {
                 servletMonitor.actionMethodInvocationFailed(e);
-                errorsContext.addErrorMessage(new GlobalErrorMessage("Action method invocation failed for controller "
-                        + controllerDefinition, e));
+                String message = messageResources.getMessageWithDefault("actionMethodInvocationFailed",
+                        "Action method invocation failed for controller ''{0}''", controllerDefinition);
+                errorsContext.addErrorMessage(new GlobalErrorMessage(message, e));
                 view = buildActionMethodFailureView(controllerDefinition);
             }
             viewDataBinder.bind(request, controllerDefinition.getController());
-        } catch (WaffleException e) {      
+        } catch (WaffleException e) {
             servletMonitor.servletServiceFailed(e);
             errorsContext.addErrorMessage(new GlobalErrorMessage(e.getMessage(), e));
             view = buildErrorsView();
         }
-        
+
         if (view != null) {
             actionMethodResponse.setReturnValue(view);
         }
@@ -204,7 +209,7 @@ public class WaffleServlet extends HttpServlet {
     @SuppressWarnings("unchecked")
     private Map<String, List<String>> parametersOf(HttpServletRequest request) {
         Map<String, List<String>> parameters = new HashMap<String, List<String>>();
-        for ( Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ){
+        for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
             String name = e.nextElement();
             parameters.put(name, asList(request.getParameterValues(name)));
         }
@@ -221,7 +226,7 @@ public class WaffleServlet extends HttpServlet {
         Method method = methodDefinition.getMethod();
         // look for PRG annotation
         PRG prg = method.getAnnotation(PRG.class);
-        if ( prg != null ){
+        if (prg != null) {
             return prg.value();
         }
         // else default to true
@@ -238,7 +243,7 @@ public class WaffleServlet extends HttpServlet {
         String path = viewPrefix + controllerDefinition.getName() + viewSuffix;
         return new View(path, controllerDefinition.getController());
     }
-    
+
     /**
      * Build redirecting view, used by PRG paradigm.
      * 
@@ -252,8 +257,8 @@ public class WaffleServlet extends HttpServlet {
     }
 
     /**
-     * Builds the view for action method failures, by default the referring view. 
-     * The user can extend and override behaviour, eg to throw a ServletException.
+     * Builds the view for action method failures, by default the referring view. The user can extend and override
+     * behaviour, eg to throw a ServletException.
      * 
      * @param controllerDefinition the ControllerDefinition
      * @return The referring View
@@ -264,8 +269,8 @@ public class WaffleServlet extends HttpServlet {
     }
 
     /**
-     * Builds the errors view, for cases in which the context container or the controller are not found.
-     * The user can extend and override behaviour, eg to throw a ServletException.
+     * Builds the errors view, for cases in which the context container or the controller are not found. The user can
+     * extend and override behaviour, eg to throw a ServletException.
      * 
      * @return The referring View
      * @throws ServletException if required
@@ -292,6 +297,8 @@ public class WaffleServlet extends HttpServlet {
         sb.append(controllerDefinitionFactory);
         sb.append(", controllerDataBinder=");
         sb.append(controllerDataBinder);
+        sb.append(", messageResources=");
+        sb.append(messageResources);
         sb.append(", viewDataBinder=");
         sb.append(viewDataBinder);
         sb.append(", validator=");

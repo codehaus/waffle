@@ -289,7 +289,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
         assertEquals(expectedMethod, methodDefinition.getMethod());
     }
 
-    @Test(expected = AmbiguousActionSignatureMethodException.class)
+    @Test(expected = AmbiguousActionMethodSignatureException.class)
     public void cannotAllowAmbiguity() throws Exception {
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);

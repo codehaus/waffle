@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.bind.StringTransmuter;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeControllerWithListMethods;
 import org.codehaus.waffle.testmodel.FakeControllerWithMethodDefinitions;
@@ -33,7 +34,7 @@ public class AnnotatedMethodDefinitionFinderTest extends AbstractMethodDefinitio
             final ArgumentResolver argumentResolver, final MethodNameResolver methodNameResolver,
             final StringTransmuter stringTransmuter) {
         return new AnnotatedMethodDefinitionFinder(servletContext, argumentResolver, methodNameResolver,
-                stringTransmuter, new SilentMonitor());
+                stringTransmuter, new SilentMonitor(), new DefaultMessageResources());
     }
 
     @Test

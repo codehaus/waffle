@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.bind.StringTransmuter;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeControllerWithMethodDefinitions;
 import org.jmock.Expectations;
@@ -32,7 +33,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
     protected MethodDefinitionFinder newMethodDefinitionFinder(ServletContext servletContext,
             ArgumentResolver argumentResolver, MethodNameResolver methodNameResolver, StringTransmuter stringTransmuter) {
         return new ParanamerMethodDefinitionFinder(servletContext, argumentResolver, methodNameResolver,
-                stringTransmuter, new SilentMonitor());
+                stringTransmuter, new SilentMonitor(), new DefaultMessageResources());
     }
 
     @Test
