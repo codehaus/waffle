@@ -36,7 +36,7 @@ public class AutomobileControllerValidatorTest {
 
     @Test
     public void canValidateHasErrors() {
-        MessageResources messageResources = new DefaultMessageResources(new DefaultMessageResourcesConfiguration(Locale.getDefault(), "SimpleResources"));
+        MessageResources messageResources = new DefaultMessageResources(new DefaultMessageResourcesConfiguration("SimpleResources", Locale.getDefault()));
 
         AutomobileController controller = new AutomobileController();
         controller.setSpeed(140);

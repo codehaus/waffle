@@ -17,37 +17,52 @@ import java.util.ResourceBundle;
  * @author Mauro Talevi
  */
 public class DefaultMessageResources implements MessageResources {
-    private Locale userLocale;
-    private String bundleName;
+    private static final ResourceBundle EMPTY_BUNDLE = new EmptyResourceBundle();
+    private String uri;
+    private Locale locale;
+    private ResourceBundle bundle;
 
     public DefaultMessageResources() {
         this(new DefaultMessageResourcesConfiguration());
     }
 
     public DefaultMessageResources(MessageResourcesConfiguration configuration) {
-        bundleName = configuration.getDefaultResource();
-        userLocale = configuration.getDefaultLocale();
+        this.uri = configuration.getDefaultURI();
+        this.locale = configuration.getDefaultLocale();
+        lookupBundle();
     }
 
-    public String getResource() {
-        return bundleName;
+    private void lookupBundle() {        
+        bundle = lookupBunde(uri);
     }
 
-    public void useResource(String resource) {
-        this.bundleName = resource;
+    private ResourceBundle lookupBunde(String bundleName) {
+        try {
+            return getBundle(bundleName.trim(), locale);
+        } catch (MissingResourceException e) {
+            return EMPTY_BUNDLE;
+        }
+    }
+    public String getURI() {
+        return uri;
+    }
+
+    public void useURI(String uri) {
+        this.uri = uri;
+        lookupBundle();
     }
 
     public Locale getLocale() {
-        return userLocale;
+        return locale;
     }
 
     public void useLocale(Locale locale) {
-        userLocale = locale;
+        this.locale = locale;
+        lookupBundle();
     }
 
-    public String getMessage(String key, Object... arguments) {
-        ResourceBundle resourceBundle = getBundle(bundleName, userLocale);
-        return format(resourceBundle.getString(key), arguments);
+    public String getMessage(String key, Object... arguments) {        
+        return format(bundle.getString(key), arguments);
     }
 
     public String getMessageWithDefault(String key, String defaultValue, Object... arguments) {
