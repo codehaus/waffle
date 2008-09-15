@@ -3,43 +3,55 @@
  */
 package org.codehaus.waffle.registrar;
 
+import static org.codehaus.waffle.context.ContextLevel.APPLICATION;
+import static org.codehaus.waffle.context.ContextLevel.REQUEST;
+import static org.codehaus.waffle.context.ContextLevel.SESSION;
+
+import java.lang.reflect.Constructor;
+
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.DefaultMessagesContext;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.validation.DefaultErrorsContext;
 import org.codehaus.waffle.validation.ErrorsContext;
 
-import java.lang.reflect.Constructor;
-
 /**
- * Manages the Registrar defined in the applications web.xml and executes the method(s) annotated
- * according to the ContextLevel being handled.
- *
+ * Instantiates the Registrar defined in the application web.xml and executes the method(s) annotated according to the
+ * ContextLevel being handled.
+ * 
  * @author Michael Ward
+ * @author Mauro Talevi
  */
 public class RegistrarAssistant {
     private final Class<?> registrarClass;
     private final Constructor<?> constructor;
+    private final MessageResources messageResources;
 
-    public RegistrarAssistant(Class<?> registrarClass) {
+    public RegistrarAssistant(Class<?> registrarClass, MessageResources messageResources) {
+        this.registrarClass = registrarClass;
+        this.messageResources = messageResources;
         try {
-            this.registrarClass = registrarClass;
             this.constructor = registrarClass.getConstructor(Registrar.class);
         } catch (NoSuchMethodException e) {
-            throw new WaffleException(e);
+            String message = messageResources.getMessageWithDefault("registrarConstructorNotFound",
+                    "Constructor with single Registrar parameter not found for registrar ''{0}''", registrarClass
+                            .getName());
+            throw new InvalidRegistrarException(message, e);
         }
     }
 
-    public void executeDelegatingRegistrar(Registrar delegateRegistrar, ContextLevel contextLevel) throws WaffleException {
+    public void executeDelegatingRegistrar(Registrar delegateRegistrar, ContextLevel contextLevel)
+            throws WaffleException {
         try {
             Registrar registrar = (Registrar) constructor.newInstance(delegateRegistrar);
 
-            if (ContextLevel.APPLICATION.equals(contextLevel)) {
+            if (APPLICATION.equals(contextLevel)) {
                 registrar.application();
-            } else if (ContextLevel.SESSION.equals(contextLevel)) {
+            } else if (SESSION.equals(contextLevel)) {
                 registrar.session();
-            } else if (ContextLevel.REQUEST.equals(contextLevel)) {
+            } else if (REQUEST.equals(contextLevel)) {
                 registrar.request();
                 if (!registrar.isRegistered(ErrorsContext.class)) {
                     registrar.register((Object) ErrorsContext.class, DefaultErrorsContext.class);
@@ -49,8 +61,9 @@ public class RegistrarAssistant {
                 }
             }
         } catch (Exception e) {
-            throw new WaffleException("Unable to use registrar [" + registrarClass + "]", e);
+            String message = messageResources.getMessageWithDefault("registrarDelegationFailed",
+                    "Failed to delegate to registrar ''{0}''", registrarClass.getName());
+            throw new InvalidRegistrarException(message, e);
         }
     }
-
 }

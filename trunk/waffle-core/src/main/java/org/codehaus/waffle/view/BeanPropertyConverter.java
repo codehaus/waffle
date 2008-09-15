@@ -57,7 +57,7 @@ public class BeanPropertyConverter implements Converter {
 
     public Object unmarshal(HierarchicalStreamReader hierarchicalStreamReader,
                             UnmarshallingContext unmarshallingContext) {
-        throw new UnsupportedOperationException("Converter only available for marshaling");
+        throw new UnsupportedOperationException("unmarshal()");
     }
 
     @SuppressWarnings("unchecked")

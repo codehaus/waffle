@@ -52,7 +52,7 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
         try {
             ClassLoader loader = this.getClass().getClassLoader();
             Class<?> registrarClass = loader.loadClass(registrarClassName);
-            registrarAssistant = new RegistrarAssistant(registrarClass);
+            registrarAssistant = new RegistrarAssistant(registrarClass, messageResources);
         } catch (ClassNotFoundException e) {
             contextMonitor.registrarNotFound(registrarClassName);
             String message = messageResources.getMessageWithDefault("registrarNotFound",
