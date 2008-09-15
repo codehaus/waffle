@@ -12,6 +12,7 @@ import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.jmock.Expectations;
@@ -19,8 +20,8 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
 
 /**
@@ -64,7 +65,7 @@ public class ContextControllerDefinitionFactoryTest {
         });
 
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
-                new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor());
+                new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
                 response);
 
@@ -95,7 +96,7 @@ public class ContextControllerDefinitionFactoryTest {
         final MethodDefinitionFinder finder = mockery.mock(MethodDefinitionFinder.class);
 
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
-                new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor());
+                new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
 
         controllerDefinitionFactory.getControllerDefinition(request, response);
     }
@@ -109,7 +110,7 @@ public class ContextControllerDefinitionFactoryTest {
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
 
         ContextControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(null,
-                null, new SilentMonitor());
+                null, new SilentMonitor(), new DefaultMessageResources());
 
         controllerDefinitionFactory.findController("foobar", request);
     }

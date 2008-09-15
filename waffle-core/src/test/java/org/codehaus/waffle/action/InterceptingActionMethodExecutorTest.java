@@ -18,8 +18,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.picocontainer.DefaultPicoContainer;
-import org.picocontainer.behaviors.Caching;
 
 public class InterceptingActionMethodExecutorTest {
 
@@ -27,7 +25,7 @@ public class InterceptingActionMethodExecutorTest {
 
     @Before
     public void setUp() throws Exception {
-        RequestLevelContainer.set(new PicoContextContainer(new DefaultPicoContainer(new Caching())));
+        RequestLevelContainer.set(new PicoContextContainer());
     }
 
     @After
