@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -16,9 +17,7 @@ import org.jruby.runtime.builtin.IRubyObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-
 /**
- * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
@@ -29,7 +28,8 @@ public class RubyControllerDefinitionFactoryTest {
 
     @Test
     public void canHandleIRubyObject() {
-        RubyControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null, new SilentMonitor());
+        ScriptedControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null,
+                new SilentMonitor(), new DefaultMessageResources());
 
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {
@@ -47,7 +47,8 @@ public class RubyControllerDefinitionFactoryTest {
 
     @Test
     public void canHandleNonRubyObjects() {
-        RubyControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null, new SilentMonitor());
+        ScriptedControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null,
+                new SilentMonitor(), new DefaultMessageResources());
 
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         mockery.checking(new Expectations() {

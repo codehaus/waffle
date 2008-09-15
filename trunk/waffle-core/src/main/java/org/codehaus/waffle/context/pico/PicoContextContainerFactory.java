@@ -45,7 +45,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
     }
 
     protected ContextContainer buildApplicationContextContainer() {
-        return new PicoContextContainer(buildMutablePicoContainer(null));
+        return new PicoContextContainer(buildMutablePicoContainer(null), messageResources);
     }
 
     public ContextContainer buildSessionLevelContainer() {
@@ -53,7 +53,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
         MutablePicoContainer delegate = buildMutablePicoContainer(parentContainer);
         delegate.addComponent(new HttpSessionComponentAdapter());
 
-        PicoContextContainer sessionContextContainer = new PicoContextContainer(delegate);
+        PicoContextContainer sessionContextContainer = new PicoContextContainer(delegate, messageResources);
         registrarAssistant.executeDelegatingRegistrar(createRegistrar(sessionContextContainer), ContextLevel.SESSION);
         getContextMonitor().sessionContextContainerCreated(applicationContextContainer);
         return sessionContextContainer;
@@ -70,7 +70,7 @@ public class PicoContextContainerFactory extends AbstractContextContainerFactory
             }
             MutablePicoContainer delegate = sessionContextContainer.getDelegate();
 
-            ContextContainer requestContextContainer = new PicoContextContainer(buildMutablePicoContainer(delegate));
+            ContextContainer requestContextContainer = new PicoContextContainer(buildMutablePicoContainer(delegate), messageResources);
             registrarAssistant.executeDelegatingRegistrar(createRegistrar(requestContextContainer), ContextLevel.REQUEST);
             getContextMonitor().requestContextContainerCreated(sessionContextContainer);
             return requestContextContainer;

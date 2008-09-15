@@ -3,28 +3,36 @@
  */
 package org.codehaus.waffle.context.pico;
 
-import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.context.ContextContainer;
-import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoContainer;
-import org.picocontainer.PicoException;
-import org.picocontainer.DefaultPicoContainer;
-import org.picocontainer.behaviors.Caching;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.MessageResources;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.PicoContainer;
+import org.picocontainer.PicoException;
+import org.picocontainer.behaviors.Caching;
+
 @SuppressWarnings("serial")
 public class PicoContextContainer implements ContextContainer {
     private final MutablePicoContainer delegate;
+    private final MessageResources messageResources;
 
     public PicoContextContainer() {
         this(new DefaultPicoContainer(new Caching()));
     }
 
     public PicoContextContainer(MutablePicoContainer delegate) {
+        this(delegate, new DefaultMessageResources());
+    }
+
+    public PicoContextContainer(MutablePicoContainer delegate, MessageResources messageResources) {
         this.delegate = delegate;
+        this.messageResources = messageResources;
     }
 
     public void registerComponentInstance(Object instance) {
@@ -47,7 +55,9 @@ public class PicoContextContainer implements ContextContainer {
         try {
             return delegate.getComponent(key);
         } catch (PicoException e) {
-            throw new WaffleException("Unable to construct component '" + key  +"'.", e);
+            String message = messageResources.getMessageWithDefault("componentInstantiationFailed",
+                    "Failed to instantiate component for key ''{0}''", key);
+            throw new WaffleException(message, e);
         }
     }
 
@@ -61,7 +71,7 @@ public class PicoContextContainer implements ContextContainer {
 
         return all;
     }
-    
+
     public void validateComponentInstances() {
         delegate.getComponents();
     }

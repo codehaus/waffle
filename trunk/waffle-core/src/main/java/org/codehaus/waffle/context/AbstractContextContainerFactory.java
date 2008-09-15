@@ -3,8 +3,6 @@
  */
 package org.codehaus.waffle.context;
 
-import static java.text.MessageFormat.format;
-
 import javax.servlet.ServletContext;
 
 import org.codehaus.waffle.WaffleException;
@@ -23,8 +21,8 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
     protected ContextContainer applicationContextContainer;
     private final ContextMonitor contextMonitor;
 
-    public AbstractContextContainerFactory(MessageResources messagesResources, ContextMonitor contextMonitor) {
-        this.messageResources = messagesResources;
+    public AbstractContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor) {
+        this.messageResources = messageResources;
         this.contextMonitor = contextMonitor;
     }
 
@@ -57,8 +55,8 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
             registrarAssistant = new RegistrarAssistant(registrarClass);
         } catch (ClassNotFoundException e) {
             contextMonitor.registrarNotFound(registrarClassName);
-            String message = format("Unable to load the Registrar [{0}] defined as context-param in web.xml",
-                    registrarClassName);
+            String message = messageResources.getMessageWithDefault("registrarNotFound",
+                    "Registrar ''{0}'' defined as context-param in web.xml could not be found.", registrarClassName);
             throw new WaffleException(message, e);
         }
 

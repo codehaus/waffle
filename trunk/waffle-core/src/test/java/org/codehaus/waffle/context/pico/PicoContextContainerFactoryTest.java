@@ -222,7 +222,7 @@ public class PicoContextContainerFactoryTest {
         MutablePicoContainer parent = new DefaultPicoContainer(new Caching(), grandParent);
         parent.addComponent("B", new FakeBean());
 
-        PicoContextContainer container = new PicoContextContainer(parent);
+        PicoContextContainer container = new PicoContextContainer(parent, messageResources);
         container.registerComponentInstance(new FakeBean());
 
         Collection<FakeBean> fakeBeans = container.getAllComponentInstancesOfType(FakeBean.class);
