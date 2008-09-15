@@ -4,20 +4,26 @@
 package org.codehaus.waffle.i18n;
 
 import static java.text.MessageFormat.format;
+import static java.util.Arrays.asList;
 import static java.util.ResourceBundle.getBundle;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Default {@link ResourceBundle}-based implementation of MessageResorces.
+ * Default {@link ResourceBundle}-based implementation of MessageResorces. Supports a URI defining multiple resource
+ * bundle names as CSV-list. The decoding of the bundle names from the URI (including the separator string) is
+ * overrideable by subclassing the method {@see DefaultMessageResources#bundleNames(String)}.
  * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
 public class DefaultMessageResources implements MessageResources {
     private static final ResourceBundle EMPTY_BUNDLE = new EmptyResourceBundle();
+    private final ResourceBundleMerger merger = new ResourceBundleMerger();
     private String uri;
     private Locale locale;
     private ResourceBundle bundle;
@@ -27,13 +33,18 @@ public class DefaultMessageResources implements MessageResources {
     }
 
     public DefaultMessageResources(MessageResourcesConfiguration configuration) {
-        this.uri = configuration.getDefaultURI();
-        this.locale = configuration.getDefaultLocale();
+        this.uri = configuration.getURI();
+        this.locale = configuration.getLocale();
         lookupBundle();
     }
 
-    private void lookupBundle() {        
-        bundle = lookupBunde(uri);
+    private void lookupBundle() {
+        List<String> bundleNames = bundleNames(uri);
+        List<ResourceBundle> bundles = new ArrayList<ResourceBundle>();
+        for (String bundleName : bundleNames) {
+            bundles.add(lookupBunde(bundleName));
+        }
+        bundle = merger.merge(bundles);
     }
 
     private ResourceBundle lookupBunde(String bundleName) {
@@ -43,6 +54,11 @@ public class DefaultMessageResources implements MessageResources {
             return EMPTY_BUNDLE;
         }
     }
+
+    protected List<String> bundleNames(String uri) {
+        return asList(uri.split(","));
+    }
+
     public String getURI() {
         return uri;
     }
@@ -61,7 +77,7 @@ public class DefaultMessageResources implements MessageResources {
         lookupBundle();
     }
 
-    public String getMessage(String key, Object... arguments) {        
+    public String getMessage(String key, Object... arguments) {
         return format(bundle.getString(key), arguments);
     }
 
