@@ -19,9 +19,16 @@ public class DefaultMessageResourcesConfiguration implements MessageResourcesCon
         this("ApplicationResources", Locale.getDefault());
     }
 
-    public DefaultMessageResourcesConfiguration(String defaultResource, Locale defaultLocale) {
+    public DefaultMessageResourcesConfiguration(String defaultURI, Locale defaultLocale) {
         this.defaultLocale = defaultLocale;
-        this.defaultURI = defaultResource;
+        this.defaultURI = defaultURI;
+    }
+
+    /**
+     * @deprecated Use DefaultMessageResourcesConfiguration(String defaultURI, Locale defaultLocale)
+     */
+    public DefaultMessageResourcesConfiguration(Locale defaultLocale, String defaultURI) {
+        this(defaultURI, defaultLocale);
     }
 
     public Locale getDefaultLocale() {
