@@ -45,4 +45,12 @@ public class DefaultMessageResourcesConfiguration implements MessageResourcesCon
         return uri;
     }
 
+    public Locale geDefaultLocale() {
+        return getLocale();
+    }
+
+    public String getDefaultResource() {
+        return getURI();
+    }
+
 }

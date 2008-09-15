@@ -5,10 +5,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.codehaus.waffle.bind.ValueConverter;
+import org.codehaus.waffle.i18n.DefaultMessageResourcesConfiguration;
 import org.codehaus.waffle.i18n.MessageResourcesConfiguration;
 
 /**
@@ -23,17 +23,7 @@ public abstract class AbstractValueConverterTest {
     protected static final List<String> STRINGS = asList("one", "two", "three");
     protected static final List<String> MIXED_STRINGS = asList("0#.A", "1#.B");
 
-    protected MessageResourcesConfiguration configuration = new MessageResourcesConfiguration() {
-
-        public Locale getLocale() {
-            return Locale.UK;
-        }
-
-        public String getURI() {
-            return "Bundle";
-        }
-
-    };
+    protected MessageResourcesConfiguration configuration = new DefaultMessageResourcesConfiguration("Bundle");
 
     protected void assertEmptyMap(ValueConverter converter, String value) {
         Map<?,?> map = (Map<?,?>) converter.convertValue("property-name", value, Map.class);
