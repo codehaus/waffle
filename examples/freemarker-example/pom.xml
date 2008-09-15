@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.codehaus.waffle</groupId>
     <artifactId>waffle-examples</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <version>1.3-SNAPSHOT</version>
   </parent>
   <artifactId>waffle-freemarker-example</artifactId>
   <packaging>war</packaging>
