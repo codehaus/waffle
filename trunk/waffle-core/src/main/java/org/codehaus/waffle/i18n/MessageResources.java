@@ -15,6 +15,16 @@ import java.util.Locale;
  */
 public interface MessageResources {
 
+    /**
+     * @deprecated Use getURI()
+     */
+    String getResource();
+
+    /**
+     * @deprecated Use useURI(String)
+     */
+    void useResource(String resource);
+    
     String getURI();
 
     void useURI(String uri);

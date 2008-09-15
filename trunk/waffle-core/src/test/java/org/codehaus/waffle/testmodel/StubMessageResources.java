@@ -27,4 +27,12 @@ public class StubMessageResources implements MessageResources {
 
     public void useURI(String resource) {
     }
+
+    public String getResource() {
+        return null;
+    }
+
+    public void useResource(String resource) {
+        
+    }
 }
