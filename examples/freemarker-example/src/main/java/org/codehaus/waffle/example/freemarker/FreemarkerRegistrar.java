@@ -51,7 +51,7 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
         finder.registerConverter((ValueConverter) getRegistered(PersonValueConverter.class));
         finder.registerConverter((ValueConverter) getRegistered(PersonListValueConverter.class));
         MessageResources resources = registry.locateByType(MessageResources.class);
-        resources.useURI("FreemarkerResources");
+        resources.useURI("waffle-core-bundle,FreemarkerResources");
         resources.useLocale(Locale.ITALIAN);
         register("people/manage", PersonController.class);
         register("home", MenuAwareController.class);
