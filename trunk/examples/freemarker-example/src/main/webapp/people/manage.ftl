@@ -39,7 +39,8 @@
         </#list>
     </table>
 
-    <a href="javascript:fireActionMethod('create');"><@i.messageFor "create" "New"/></a>; <a href="javascript:fireActionMethod('export');"><@i.messageFor "export" "Export"/></a>
+    <a href="javascript:fireActionMethod('create');"><@i.messageFor "create" "New"/></a>; <a href="javascript:fireActionMethod('export');"><@i.messageFor "export" "Export"/></a>;
+    <a href="javascript:fireActionMethod('inexistant');"><@i.messageFor "inexistant" "Inexistant method"/></a>
 
     <div id="showArea">    	
         <table>
