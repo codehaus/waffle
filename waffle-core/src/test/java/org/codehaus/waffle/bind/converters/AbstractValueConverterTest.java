@@ -25,12 +25,12 @@ public abstract class AbstractValueConverterTest {
 
     protected MessageResourcesConfiguration configuration = new MessageResourcesConfiguration() {
 
-        public Locale getDefaultLocale() {
+        public Locale getLocale() {
             return Locale.UK;
         }
 
-        public String getDefaultURI() {
-            return "FakeResourceBundle";
+        public String getURI() {
+            return "Bundle";
         }
 
     };

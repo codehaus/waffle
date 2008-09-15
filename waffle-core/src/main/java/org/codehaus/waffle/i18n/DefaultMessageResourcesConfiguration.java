@@ -6,37 +6,43 @@ package org.codehaus.waffle.i18n;
 import java.util.Locale;
 
 /**
- * Default MessageResourcesConfiguration which simply allows the injection of default locale and resource.
+ * Default MessageResourcesConfiguration which allows the injection of locale and resource.
  * 
  * @author Mauro Talevi
  */
 public class DefaultMessageResourcesConfiguration implements MessageResourcesConfiguration {
 
-    private final String defaultURI;
-    private final Locale defaultLocale;
+    private static final String DEFAULT_URI = "ApplicationResources";
+    private static final Locale DEFAULT_LOCALE = Locale.getDefault();
+    private final String uri;
+    private final Locale locale;
 
     public DefaultMessageResourcesConfiguration() {
-        this("ApplicationResources", Locale.getDefault());
+        this(DEFAULT_URI, DEFAULT_LOCALE);
+    }
+    
+    public DefaultMessageResourcesConfiguration(String defaultURI) {
+        this(defaultURI, DEFAULT_LOCALE);
     }
 
-    public DefaultMessageResourcesConfiguration(String defaultURI, Locale defaultLocale) {
-        this.defaultLocale = defaultLocale;
-        this.defaultURI = defaultURI;
+    public DefaultMessageResourcesConfiguration(String uri, Locale locale) {
+        this.uri = uri;
+        this.locale = locale;
     }
 
     /**
-     * @deprecated Use DefaultMessageResourcesConfiguration(String defaultURI, Locale defaultLocale)
+     * @deprecated Use DefaultMessageResourcesConfiguration(String uri, Locale locale)
      */
-    public DefaultMessageResourcesConfiguration(Locale defaultLocale, String defaultURI) {
-        this(defaultURI, defaultLocale);
+    public DefaultMessageResourcesConfiguration(Locale locale, String uri) {
+        this(uri, locale);
     }
 
-    public Locale getDefaultLocale() {
-        return defaultLocale;
+    public Locale getLocale() {
+        return locale;
     }
 
-    public String getDefaultURI() {
-        return defaultURI;
+    public String getURI() {
+        return uri;
     }
 
 }
