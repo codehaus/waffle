@@ -36,7 +36,6 @@ public class DefaultViewDispatcher implements ViewDispatcher {
     // todo may need to handle ... http://java.sun.com/products/servlet/Filters.html for Character Encoding from request
     public void dispatch(HttpServletRequest request, HttpServletResponse response, View view) throws IOException,
             ServletException {
-        String path = viewResolver.resolve(view);
 
         if (view instanceof ExportView) {
             ExportView exportView = (ExportView) view;
@@ -46,6 +45,7 @@ public class DefaultViewDispatcher implements ViewDispatcher {
         } else if (view instanceof RedirectView) {
             RedirectView redirectView = (RedirectView) view;
             response.setStatus(redirectView.getStatusCode());
+            String path = viewResolver.resolve(view);            
             response.setHeader(LOCATION_HEADER, path);
             viewMonitor.viewRedirected(redirectView);
         } else if (view instanceof ResponderView) {
@@ -53,6 +53,7 @@ public class DefaultViewDispatcher implements ViewDispatcher {
             responderView.respond(request, response);
             viewMonitor.viewResponded(responderView);
         } else {
+            String path = viewResolver.resolve(view);
             RequestDispatcher requestDispatcher = request.getRequestDispatcher(path);
             requestDispatcher.forward(request, response);
             viewMonitor.viewForwarded(path);

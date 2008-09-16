@@ -25,6 +25,7 @@ import org.codehaus.waffle.menu.Menu;
 import org.codehaus.waffle.menu.MenuAwareController;
 import org.codehaus.waffle.registrar.AbstractRegistrar;
 import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.view.ViewResolver;
 
 public class FreemarkerRegistrar extends AbstractRegistrar {
 
@@ -55,6 +56,8 @@ public class FreemarkerRegistrar extends AbstractRegistrar {
         resources.useLocale(Locale.ITALIAN);
         register("people/manage", PersonController.class);
         register("home", MenuAwareController.class);
+        ViewResolver viewResolver = registry.locateByKey(ViewResolver.class);
+        viewResolver.configureView("home", "ftl/home");
         registerInstance(createMenu());
     }
 

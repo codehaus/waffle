@@ -16,12 +16,10 @@ public class ExportViewTest {
         String content = "1,2,3";
         String contentType = "text/csv";
         String filename = "export.csv";
-        Object controller = new Object();
-        ExportView view = new ExportView(controller, contentType, content.getBytes(), filename);
+        ExportView view = new ExportView(contentType, content.getBytes(), filename);
         assertEquals(content, new String(view.getContent()));
         assertEquals(contentType, view.getContentType());
         assertEquals(filename, view.getFilename());
-        assertEquals(controller, view.getController());
         assertNull(view.getPath());
     }
 

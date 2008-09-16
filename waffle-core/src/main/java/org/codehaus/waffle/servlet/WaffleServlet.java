@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -41,6 +42,7 @@ import org.codehaus.waffle.validation.GlobalErrorMessage;
 import org.codehaus.waffle.validation.Validator;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
+import org.codehaus.waffle.view.ViewResolver;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -51,20 +53,15 @@ import org.codehaus.waffle.view.View;
 @SuppressWarnings("serial")
 public class WaffleServlet extends HttpServlet {
 
-    private static final String DEFAULT_VIEW_PREFIX = "/";
-    private static final String DEFAULT_VIEW_SUFFIX = ".jspx";
-    private static final String DEFAULT_ERRORS_VIEW = "errors";
     private static final String EMPTY = "";
     private static final String POST = "POST";
-    private String viewPrefix;
-    private String viewSuffix;
-    private String errorsView;
     private ActionMethodExecutor actionMethodExecutor;
     private ActionMethodResponseHandler actionMethodResponseHandler;
     private ControllerDefinitionFactory controllerDefinitionFactory;
     private ControllerDataBinder controllerDataBinder;
     private MessageResources messageResources;
     private ViewDataBinder viewDataBinder;
+    private ViewResolver viewResolver;
     private Validator validator;
     private ServletMonitor servletMonitor;
     private boolean componentsRetrieved = false;
@@ -86,12 +83,14 @@ public class WaffleServlet extends HttpServlet {
      * @param controllerDefinitionFactory
      * @param messageResources
      * @param viewDataBinder
+     * @param viewResolver
      * @param validator
      */
     public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
             ActionMethodResponseHandler actionMethodResponseHandler, ServletMonitor servletMonitor,
             ControllerDataBinder controllerDataBinder, ControllerDefinitionFactory controllerDefinitionFactory,
-            MessageResources messageResources, ViewDataBinder viewDataBinder, Validator validator) {
+            MessageResources messageResources, ViewDataBinder viewDataBinder, ViewResolver viewResolver,
+            Validator validator) {
         this.actionMethodExecutor = actionMethodExecutor;
         this.actionMethodResponseHandler = actionMethodResponseHandler;
         this.servletMonitor = servletMonitor;
@@ -99,15 +98,12 @@ public class WaffleServlet extends HttpServlet {
         this.controllerDefinitionFactory = controllerDefinitionFactory;
         this.messageResources = messageResources;
         this.viewDataBinder = viewDataBinder;
+        this.viewResolver = viewResolver;
         this.validator = validator;
         componentsRetrieved = true;
     }
 
     public void init() throws ServletException {
-        viewPrefix = initParam(VIEW_PREFIX_KEY, DEFAULT_VIEW_PREFIX);
-        viewSuffix = initParam(VIEW_SUFFIX_KEY, DEFAULT_VIEW_SUFFIX);
-        errorsView = initParam(ERRORS_VIEW_KEY, DEFAULT_ERRORS_VIEW);
-
         if (!componentsRetrieved) {
             // Retrieve instance components from the ComponentRegistry
             ComponentRegistry registry = getComponentRegistry();
@@ -117,10 +113,28 @@ public class WaffleServlet extends HttpServlet {
             controllerDataBinder = registry.getControllerDataBinder();
             messageResources = registry.getMessageResources();
             viewDataBinder = registry.getViewDataBinder();
+            viewResolver = registry.getViewResolver();
             validator = registry.getValidator();
             servletMonitor = registry.getServletMonitor();
         }
+
+        configureViewProperties();
         servletMonitor.servletInitialized(this);
+    }
+
+    protected void configureViewProperties() {
+        Properties viewProperties = new Properties();
+        setViewPropertyIfFound(viewProperties, VIEW_PREFIX_KEY);
+        setViewPropertyIfFound(viewProperties, VIEW_SUFFIX_KEY);
+        setViewPropertyIfFound(viewProperties, ERRORS_VIEW_KEY);
+        viewResolver.configureViews(viewProperties);
+    }
+
+    private void setViewPropertyIfFound(Properties viewProperties, String key) {
+        String initParam = initParam(key, null);
+        if (initParam != null) {
+            viewProperties.setProperty(key, initParam);
+        }
     }
 
     private String initParam(String key, String defaultValue) {
@@ -240,8 +254,7 @@ public class WaffleServlet extends HttpServlet {
      * @return The View
      */
     protected View buildView(ControllerDefinition controllerDefinition) {
-        String path = viewPrefix + controllerDefinition.getName() + viewSuffix;
-        return new View(path, controllerDefinition.getController());
+        return new View(controllerDefinition);
     }
 
     /**
@@ -252,8 +265,7 @@ public class WaffleServlet extends HttpServlet {
      * @return The RedirectView
      */
     protected View buildRedirectingView(HttpServletRequest request, ControllerDefinition controllerDefinition) {
-        String url = request.getRequestURL().toString();
-        return new RedirectView(url, controllerDefinition.getController());
+        return new RedirectView(request.getRequestURL().toString());
     }
 
     /**
@@ -276,20 +288,14 @@ public class WaffleServlet extends HttpServlet {
      * @throws ServletException if required
      */
     protected View buildErrorsView() throws ServletException {
-        return buildView(new ControllerDefinition(errorsView, null, null));
+        return buildView(new ControllerDefinition(ERRORS_VIEW_KEY, null, null));
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("[WaffleServlet ");
-        sb.append(" viewPrefix=");
-        sb.append(viewPrefix);
-        sb.append(", viewSuffix=");
-        sb.append(viewSuffix);
-        sb.append(", errorsView=");
-        sb.append(errorsView);
-        sb.append(", actionMethodExecutor=");
+        sb.append("actionMethodExecutor=");
         sb.append(actionMethodExecutor);
         sb.append(", actionMethodResponseHandler=");
         sb.append(actionMethodResponseHandler);
@@ -301,6 +307,8 @@ public class WaffleServlet extends HttpServlet {
         sb.append(messageResources);
         sb.append(", viewDataBinder=");
         sb.append(viewDataBinder);
+        sb.append(", viewResolver=");
+        sb.append(viewResolver);
         sb.append(", validator=");
         sb.append(validator);
         sb.append("]");
