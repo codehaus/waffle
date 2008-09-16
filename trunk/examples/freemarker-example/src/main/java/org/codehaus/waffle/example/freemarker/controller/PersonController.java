@@ -127,7 +127,7 @@ public class PersonController extends MenuAwareController implements Serializabl
             sb.append(person.getDateOfBirth());
             sb.append("\n");
         }
-        return new ExportView(this, "text/csv", sb.toString().getBytes(), "export.csv");
+        return new ExportView("text/csv", sb.toString().getBytes(), "export.csv");
     }
 
 }

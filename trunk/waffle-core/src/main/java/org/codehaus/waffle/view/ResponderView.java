@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 public abstract class ResponderView extends View {
 
     public ResponderView() {
-        super(null, null);
+        super((String)null);
     }
 
     /**

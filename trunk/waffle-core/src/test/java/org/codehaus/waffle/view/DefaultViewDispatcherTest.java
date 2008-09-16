@@ -39,7 +39,7 @@ public class DefaultViewDispatcherTest {
         final String contentType = "text/csv";
         final String content = "1,2,3";
         final String filename = "export.csv";
-        ExportView view = new ExportView(null, contentType, content.getBytes(), filename);
+        ExportView view = new ExportView(contentType, content.getBytes(), filename);
         ViewResolver viewResolver = mockViewResolver(view, PATH);
 
         mockery.checking(new Expectations() {{
