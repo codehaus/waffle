@@ -13,11 +13,11 @@ import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.controller.ControllerDefinition;
 
 /**
- * The default ViewResolver simply returns the path of the View being resolved.
+ * The default ViewResolver returns the path of the View being resolved.
  * It holds the default values of the view properties configurable in the web.xml:
  * <ul>
- * <il>"view.prefix": "/"</li>
- * <il>"view.suffix": ".jspx"</li>
+ * <li>"view.prefix": "/"</li>
+ * <li>"view.suffix": ".jspx"</li>
  * <li>"errors.view": "errors"</li>
  * </ul>
  * and resolves a view path as [view.prefix][view.name][view.suffix], where the 
