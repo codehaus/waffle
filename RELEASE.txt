@@ -1,9 +1,9 @@
 RELEASE STEPS
 
-1. mvn release:prepare -> verifies dependendies and tags release in SCM
-2. mvn release:perform -> deploys artifacts from tag 
+1. mvn release:prepare -Preporting,distribution -> verifies dependendies and tags release in SCM
+2. mvn release:perform -Preporting,distribution -> deploys artifacts from tag 
 NOTE: it only deploys site for the distribution modules
-3. The site can be manually deployed by invoking from distribution module: 
+3. The site can be manually copied to webdav server or deployed by invoking from distribution module: 
 mvn site-deploy
 
 NOTE: Ben Walding will be posting update of SOAP4R to avoid dav-access http://jira.codehaus.org/browse/HAUS-1704
