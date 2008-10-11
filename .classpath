@@ -24,9 +24,8 @@
 	<classpathentry kind="src" output="examples/simple-example/target/test-classes" path="examples/simple-example/src/test/java"/>
 	<classpathentry kind="src" output="examples/jruby-example/target/classes" path="examples/jruby-example/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="examples/jruby-example/target/classes" path="examples/jruby-example/src/main/webapp"/>
-	<classpathentry kind="src" output="examples/jruby-example/target/classes" path="examples/jruby-example/src/main/ruby"/>
+	<classpathentry excluding="**" kind="src" output="examples/jruby-example/target/classes" path="examples/jruby-example/src/main/ruby"/>
 	<classpathentry kind="src" output="examples/jruby-example/target/test-classes" path="examples/jruby-example/src/test/java"/>
-	<classpathentry kind="src" output="examples/jruby-example/target/test-classes" path="examples/jruby-example/src/test/ruby"/>
 	<classpathentry kind="src" output="examples/freemarker-example/target/classes" path="examples/freemarker-example/src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="examples/freemarker-example/target/classes" path="examples/freemarker-example/src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="examples/freemarker-example/target/classes" path="examples/freemarker-example/src/main/webapp"/>
