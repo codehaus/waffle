@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:w="http://waffle.codehaus.org"
+          version="2.0">
+  <jsp:directive.page contentType="text/html" pageEncoding="UTF-8"/>
+  <jsp:output doctype-public="-//W3C//DTD XHTML 1.1//EN"
+              doctype-root-element="html"
+              doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"
+              omit-xml-declaration="false"/>
+  <html>
+  <head>
+    <link type="text/css" href="css/mydvds.css" rel="stylesheet"/>
+    <script type="text/javascript" src="js/utils.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/autocomplete.js"></script>
+    <script type="text/javascript" src="js/searchDvd.js"></script>
+  </head>
+  <body>
+  <div id="site">
+    <h1 id="h1-marca">
+      <a href="http://www.vraptor.org"><img src="images/logo.png" alt="waffle logo"/></a>
+    </h1>
+
+    <div class="box">
+      <h2>User added successfully.</h2>
+      <c:url value="/users.waffle" var="loginPage"/>
+
+      <p><a href="${loginPage}"><fmt:message key="login_page"/></a></p>
+    </div>
+  </div>
+  </body>
+  </html>
+</jsp:root>

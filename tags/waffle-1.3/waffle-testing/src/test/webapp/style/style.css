@@ -1,0 +1,66 @@
+body {
+	font-family: sans-serif;
+	font-size: 12px;
+}
+
+fieldset {
+	margin: 4px 0;
+	padding: 1px;
+	border: 1px solid #ccc;
+	background: white;
+}
+
+fieldset legend {
+	font-weight: bold;
+}
+
+fieldset p {
+    vertical-align: bottom;	
+}
+
+fieldset label {
+	width: 120px;
+	float: left;
+	text-align: right;
+	padding: 2px 5px 2px 5px;
+}
+
+fieldset input {
+	width: 120px;
+	float: left;
+	text-align: left;
+	padding: 2px 5px 2px 5px;
+}
+
+table {
+	border: solid 1px;
+	width: 60%;
+}
+
+table th {
+	font-weight: bold;
+	background-color: #ccc;
+}
+
+table th,td {
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.content {
+	background-color: white;
+}
+
+.errors {
+	color: red;
+	border: solid red 2px;
+	padding: 4px;
+	margin: 20px 20px 20px 20px;
+}
+
+a,a:active,a:link,a:hover,a:visited {
+	color: #666;
+	font-weight: bold;
+	font-size: 12px;
+	text-decoration: none
+}

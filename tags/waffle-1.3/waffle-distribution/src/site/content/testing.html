@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Testability</title>
+</head>
+<body>
+
+
+<h2>Testing Waffle Applications</h2>
+<h3>Custom Registrars</h3>
+<p>Waffle provides a built-in test case for verifying that your
+Custom Registrar (the class extending AbstractRegistrar) can satisfy all
+dependencies. To utilize this test case extend the abstract class
+"RegistrarTest". Here is an example of testing the
+HelloWorldRegistrar:</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  public class HelloWorldRegistrarTest extends RegistrarTest {
+    public void testDependenciesAreSatisfied() {
+      assertConfiguration(HelloWorldRegistrar.class);
+    }
+  }
+</textarea>
+
+<p>Yep, that is all the code necessary to test your Custom
+Registrar.</p>
+
+<h3>Controllers</h3>
+
+<p>Controllers are extremely easy to test with JMock. Let's write a
+test to verify the following:</p>
+<p>The "save" ActionMethod on a the AutomobileController
+will save the Car being configured to a Database (via the AutomobileDAO
+interface).</p>
+<p>Preconditions:</p>
+<p>- A "Car" exists in the users session</p>
+<p>So here is an example of how this could be done. We'll first
+write a test to ensure that the "save" ActionMethod on
+AutomobileController does what we expect it to.</p>
+
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  public void AutomobileControllerTest extends MockObjectTestCase {
+    public void testSaveEvent() {
+      Car car = new Car();
+
+      Mock mockDAO = mock(AutomobileDAO.class); // AutomobileDAO is an interface
+      mockDAO.expects(once()).method("save").with(eq(car));
+      AutomobileDAO automobileDAO = (AutomobileDAO)mockDAO.proxy();
+
+      Mock mockHttpSession = mock(HttpSession.class);
+      mockHttpSession.expects(once())
+          .method("getAttribute").with(eq("Car"))
+          .will(retunValue(car));
+      HttpSession httpSession = (HttpSession)mockHttpSession.proxy();
+
+      AutomobileController controller = new AutomobileController(httpSession, automobileDAO);
+      controller.save();
+    }
+  }
+</textarea>
+
+<p>So the test is first creating an instance of the Car object for
+use within the test. A mock is created to stand in for the AutombileDAO.
+We are expecting that the AutomobileDAO will have it's
+"save(Car):void" method called one time. A mock is also
+created for HttpSession. We are expecting the
+"getAttribute(String):Object" method to be called on the
+HttpSession mock one time, and when it is called it will return the
+instance of Car we have previously created. Then we build the
+AutomobileController satisfying its dependencies with the mocks we have
+created and execute it's "save():void" method.</p>
+<p>Look how great this is, we can test this controller in complete
+isolation. No dependency on a database in order to test this and no need
+to actually have a running servlet container. Now it is time to
+implement the "save():void" method in the AutomobileController
+to satisfy our test.</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  public class AutomobileController {
+    private final AutomobileDAO automobileDAO;
+    private final HttpSession httpSession;
+
+    public AutomobileController(HttpSession httpSession, AutomobileDAO automobileDAO) {
+      this.automobileAction = automobileAction;
+      this.httpSession = httpSession;
+    }
+
+    public Car getCar() {
+      return (Car)httpSession.getAttribute("Car");
+    }
+
+    public void save() {
+      Car car = getCar();
+      automobileAction.save(car);
+    }
+  }
+</textarea>
+
+<p>Wow, the controller is pretty small and simple. But I feel we can
+still improve the design. So let's keep going with the Agile approach
+and refactor this to an even simpler solution. Utilizing the
+ActionMethod firing support built into Waffle we can change the
+"save" method to expect a Car instance passed to it, therefor
+eliminating the dependency on an HttpSession. So we will refactor the
+test.</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  public void AutomobileControllerTest extends MockObjectTestCase {
+    public void testSaveEvent() {
+      Car car = new Car();
+
+      Mock mockDAO = mock(AutomobileDAO.class);
+      mockDAO.expects(once()).method("save").with(eq(car));
+      AutomobileDAO automobileDAO = (AutomobileDAO)mockDAO.proxy();
+
+      AutomobileController controller = new AutomobileController(automobileDAO);
+      controller.save(car);
+    }
+  }
+</textarea>
+
+<p>The test now only mock the AutomobileDAO exactly as it did
+before. An HttpSession is no longer needed in the Action. So what
+changed? We'll have a look at the "save" method on the
+Controller. It now expects an instance of a "Car" to be passed
+to it. Running the test will cause the controller to fail, so let's
+refactor the Controller to satisfy the test.</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  public class AutomobileController {
+    private final AutomobileDAO automobileDAO;
+
+    public AutomobileController(AutomobileDAO automobileDAO) {
+      this.automobileAction = automobileAction;
+    }
+
+    public void save(Car car) {
+      automobileAction.save(car);
+    }
+  }
+</textarea>
+
+<p>Now that is a pretty simple controller, and no internal
+dependency on an HttpSession makes the test simpler too. Another thing
+to note, prior to the refactoring the AutomobileController needed to be
+registered to the Session Level context (in the Registrar). However
+after the refactoring the Action can be registered higher, to the
+Application Context Level, which will allow it to be shared across the
+application.</p>
+
+<h3>How to test the view?</h3>
+<p>For in browser testing, take a look at <a href="http://www.openqa.org/selenium">Selenium</a>.</p>
+<p>For unit-level testing, you can use the <a href="javadoc/testing/org/codehaus/waffle/testing/view/ViewHarness.html">ViewHarness</a> found in the 
+waffle-testing module.</p>
+</body>
+
+</html>

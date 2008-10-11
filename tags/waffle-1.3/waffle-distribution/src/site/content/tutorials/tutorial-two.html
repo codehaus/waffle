@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Tutorial Two</title>
+</head>
+<body>
+
+
+<h2>Tutorial: Part Two</h2>
+<p>This tutorial expands on the example we covered in <a
+  href="tutorial-one.html">Tutorial: Part one</a>. If Waffle only
+provided what was covered in that tutorial it would not be very
+interesting. So let's add onto the Automobile controller class and give
+it the ability to both <b>accelerate</b> and <b>stop</b>. We need to add
+a <i>speed</i> field so we can maintain the current speed of the
+automobile. We add a <i>getter</i> for speed so we can make sure that
+the speed is in fact increasing. And we add two <b>action</b> methods: <b>void
+accelerate(String)</b> and <b>void stop()</b>. Remember we added the
+&quot;automobile&quot; to the Registrar as a <i>Session-Level</i>
+component. So each user will have their own instance of the autombile
+controller and, more importantly, the controller will live for the life
+of the users session.</p>
+<textarea class="java:nogutter:nocontrols" name="code">
+//
+// Automobile.java
+//
+public class Automobile implements Serializable {
+    private String make = &quot;ford&quot;;
+    private String model = &quot;gt-40&quot;;
+    private int speed = 0;
+
+    public String getMake() {
+        return make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void accelerate(int value) {
+        speed += value;
+    }
+
+    public void stop() {
+        speed = 0;
+    }
+}
+</textarea>
+<p>Next we will have to update the view to display the value of <i>speed</i>
+and also expose the two <i>ActionMethod</i> so they can be triggered by
+the users.</p>
+<textarea class="xml:nogutter:nocontrols" name="code">
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;%@ taglib uri=&quot;http://java.sun.com/jsp/jstl/core&quot; prefix=&quot;c&quot; %&gt;
+
+&lt;html&gt;
+&lt;form action=&quot;automobile.waffle&quot;&gt;
+    &lt;table&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Make: &lt;/td&gt;
+            &lt;td&gt;
+                &lt;input type=&quot;text&quot; value=&quot;&lt;c:out value='${make}'/&gt;&quot; name=&quot;make&quot;/&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Model: &lt;/td&gt;
+            &lt;td&gt;
+                &lt;input type=&quot;text&quot; value=&quot;&lt;c:out value='${model}'/&gt;&quot; name=&quot;model&quot;/&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Speed: &lt;/td&gt;
+            &lt;td&gt;
+                &lt;c:out value='${speed}'/&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;br/&gt;
+    &lt;a href=&quot;automobile.waffle?method=accelerate|15&quot;&gt;Accelerate!&lt;/a&gt;
+    &lt;br/&gt;
+    &lt;a href=&quot;automobile.waffle?method=stop&quot;&gt;Stop!&lt;/a&gt;
+    &lt;br/&gt;&lt;br/&gt;
+    &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+&lt;/html&gt;
+</textarea>
+<p>For this example we will concentrate on the more interesting of
+the two actions, <i>accelerate</i>. The accelerate action is defined as <b>automobile.waffle?method=accelerate|15</b>.
+Let's dissect this to get a better understanding of what is going on.
+Starting from left to right we will break this request out and explain
+each piece separately:</p>
+<table class="bodyTable">
+  <tbody>
+    <tr class="a">
+      <td align="left"><b>automobile</b></td>
+      <td align="left">the Autombile.class controller was
+      registered under the name &quot;automobile&quot; in the Registrar,
+      so this name maps to that <b>Controller</b></td>
+    </tr>
+    <tr class="b">
+      <td align="left"><b>.waffle</b></td>
+      <td align="left">Waffle's front controller (WaffleServlet) is
+      mapped to the url-pattern &quot;*.waffle&quot;, see <b>web.xml</b></td>
+    </tr>
+    <tr class="a">
+      <td align="left"><b>method</b></td>
+      <td align="left">when Waffle handles requests it looks for
+      the request parameter named <b>method</b> in order to determine if
+      an <b>ActionMethod</b> should be fired on the <b>Controller</b>.</td>
+    </tr>
+    <tr class="b">
+      <td align="left"><b>accelerate</b></td>
+      <td align="left">this is the name of the <b>ActionMethod</b>
+      that Waffle will attempt to execute on the Controller.</td>
+    </tr>
+    <tr class="a">
+      <td align="left"><b>|</b></td>
+      <td align="left">each <b>|</b> is used to delimit the
+      argument list that should be used when invoking the ActionMethod.
+      There is no limit to the number of arguments we can use.</td>
+    </tr>
+    <tr class="b">
+      <td align="left"><b>15</b></td>
+      <td align="left">this value will be passed as the argument to
+      the ActionMethod being invoked (Waffle will automatically convert
+      the String value to the appropriate type).</td>
+    </tr>
+  </tbody>
+</table>
+<p>In short, when Waffle handles this request it is equivalent to
+manually calling <b>automobile.accelerate(&quot;15&quot;);</b>. When
+running this you'll see:</p>
+<img src="images/tutorials/automobile-3.png" />
+<h3>Advanced ActionMethod</h3>
+<p>Waffle's ability to fire ActionMethod on controller's as was
+shown earlier is a powerful feature. From a development perspective it
+is nice because it reduces much of the classic searching through the
+request parameters to determine what to do next. But Waffle provides
+even more capabilities for triggering actions.</p>
+<h4>ActionMethod arguments</h4>
+<p>Notice the <b>void accelerate(int)</b> ActionMethod that we used
+earlier. Waffle can automatically convert the String values received
+into their correct type (i.e. String =&gt; Integer). However, this does
+<b>not</b> mean that ActionMethod can only be passed simple types like
+Strings, Numbers and Booleans. Many times a developer wants, or needs,
+to have access to either the <i>javax.servlet.http.HttpServletRequest</i>,
+<i>javax.servlet.http.HttpServletResponse</i> or <i>javax.servlet.http.HttpSession</i>.
+Waffle provides a simple way to handle this, if your ActionMethods have
+any of these type as a dependency they will automatically be injected.</p>
+<p>And it does not stop there! Waffle allows you to directly
+reference parameters and attributes by name, in either the <b>HttpServletRequest</b>
+(parameter or attribute), <b>HttpSession</b> or <b>ServletContext</b>.
+So imagine we have a <b>Map</b> instance registered as an attribute in
+the user's session under the name &quot;dictionary&quot;. We can have
+that Map instance passed directly as an argument to the ActionMethod we
+want fired. Let's write a simple controller class as an example:</p>
+<textarea class="java:nogutter:nocontrols" name="code">
+//
+// SampleAction.java
+//
+public class SampleController implements Serializable {
+
+    public void myActionMethod(Map dictionary) {
+        // do something with the dictionary ...
+    }
+}
+</textarea>
+<p>This controller has one ActionMethod: <b>void
+myActionMethod(Map)</b>. Assume we have registered this controller under the
+name &quot;sample&quot;. We can have Waffle fire this ActionMethod by
+submitting the url request <b>sample.waffle?method=myActionMethod|{dictionary}</b>.
+So just to make sure it's clear, we will dissect the value of the <b>action</b>
+parameter:</p>
+<table class="bodyTable">
+  <tbody>
+    <tr class="a">
+      <td align="left"><b>myActionMethod</b></td>
+      <td align="left">this is the name of the <b>ActionMethod</b>
+      that Waffle will invoke on the controller.</td>
+    </tr>
+    <tr class="b">
+      <td align="left"><b>|</b></td>
+      <td align="left">the delimiter between ActionMethod name and
+      arguments</td>
+    </tr>
+    <tr class="a">
+      <td align="left"><b>{dictionary}</b></td>
+      <td align="left">this is referencing the
+      &quot;dictionary&quot; attribute registered to the HttpSession. It
+      is equivalent to calling <b>(Map)httpSession.getAttribute(&quot;dictionary&quot;);</b>.
+      But remember Waffle will search for <i>dictionary</i> as a key in
+      1) request parameters 2) request attribute 3) session attribute 4)
+      servletContext attribute</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>ActionMethod return types</h4>
+<p>Waffle will react differently depending on what is returned, or
+thrown, from an <b>ActionMethod</b> after it has been invoked.  See <a href="action-methods.html">Action Methods</a> for more details.
+</p>
+
+<h4>Caveat: Ambiguous methods</h4>
+<p>Waffle determines which ActionMethod to invoke by examining the
+Controller with reflection. If your Controller contains an overloaded
+method (same name and same number of arguments) Waffle may not be able
+to determine which ActionMethod should be fired. For example assume you
+have the following two methods defined in an Controller:</p>
+<div class="source"><pre>
+public void save(String name, Object object);
+public void save(String color, Map dictionary);
+</pre></div>
+<p>Attempting to invoke the ActionMethod <b>method=save|hello|{dictionary}</b>
+will cause an <i>AmbiguousMethodSignatureException</i> to be thrown
+because Waffle will not be able to determine which of the <i>save</i>
+methods should be invoked. However, the ActionMethod <b>method=save|foo|bar</b>
+will invoke the first <i>save</i> method, <b>void save(String,
+Object)</b>, without incident. Why? Because the String value &quot;bar&quot;
+is not assignable (and cannot be automatically converted) to the <i>Map</i>
+class, so no ambiguity will exist.</p>
+
+</body>
+
+</html>
