@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -323,6 +324,8 @@ public class WaffleServletTest {
                 one(contextContainer).getComponent(ErrorsContext.class);
                 will(returnValue(errorsContext));
                 one(errorsContext).addErrorMessage(with(any(ErrorMessage.class)));
+                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                will(returnValue(new ArrayList<MethodInterceptor>()));
             }
         });
 
@@ -412,6 +415,8 @@ public class WaffleServletTest {
                 will(returnValue(errorsContext));
                 one(errorsContext).hasErrorMessages();
                 will(returnValue(false));
+                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                will(returnValue(new ArrayList<MethodInterceptor>()));                
             }
         });
 
@@ -500,6 +505,8 @@ public class WaffleServletTest {
                 one(errorsContext).hasErrorMessages();
                 will(returnValue(false));
                 one(errorsContext).addErrorMessage(with(any(ErrorMessage.class)));
+                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                will(returnValue(new ArrayList<MethodInterceptor>()));                
             }
         });
 
@@ -584,7 +591,7 @@ public class WaffleServletTest {
         mockery.checking(new Expectations() {
             {
                 one(actionMethodExecutor).execute(with(any(ActionMethodResponse.class)),
-                        with(any(ControllerDefinition.class)));
+                        with(any(ControllerDefinition.class)), with(any(Collection.class)));
                 will(throwException(actionMethodInvocationException));
             }
         });

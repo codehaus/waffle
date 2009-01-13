@@ -8,12 +8,15 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.ArrayList;
 
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;
+import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -40,7 +43,7 @@ public class InterceptingActionMethodExecutorTest {
         MethodDefinition methodDefinition = new MethodDefinition(FakeController.class.getMethod("sayHello"));
         ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
-        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition, new ArrayList<MethodInterceptor>());
 
         Assert.assertNull(actionMethodResponse.getReturnValue());
         Assert.assertEquals("hello", fakeController.getName());
@@ -55,7 +58,7 @@ public class InterceptingActionMethodExecutorTest {
 
         ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
-        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition, new ArrayList<MethodInterceptor>());
 
         assertNull(actionMethodResponse.getReturnValue());
         assertEquals("foobar", fakeController.getName());
@@ -70,7 +73,7 @@ public class InterceptingActionMethodExecutorTest {
 
         ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
-        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition, new ArrayList<MethodInterceptor>());
 
         assertNull(actionMethodResponse.getReturnValue());
         assertNull(fakeController.getName());
@@ -85,7 +88,7 @@ public class InterceptingActionMethodExecutorTest {
 
         ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
-        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition, new ArrayList<MethodInterceptor>());
         assertEquals("mmmWaffles", actionMethodResponse.getReturnValue());
     }
 
@@ -100,7 +103,7 @@ public class InterceptingActionMethodExecutorTest {
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
 
         try {
-            actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+            actionMethodExecutor.execute(actionMethodResponse, controllerDefinition, new ArrayList<MethodInterceptor>());
         } catch (ActionMethodInvocationException e) {
             Throwable rootCause = e.getCause();
             assertEquals("mmmWaffles", rootCause.getMessage());
@@ -118,7 +121,7 @@ public class InterceptingActionMethodExecutorTest {
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
 
         try {
-            actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+            actionMethodExecutor.execute(actionMethodResponse, controllerDefinition, new ArrayList<MethodInterceptor>());
         } catch (ActionMethodInvocationException e) {
             assertEquals("BEARS!", e.getMessage());
         }
@@ -133,7 +136,7 @@ public class InterceptingActionMethodExecutorTest {
         ControllerDefinition controllerDefinition = new ControllerDefinition("FakeController", fakeController, methodDefinition);
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
 
-        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+        actionMethodExecutor.execute(actionMethodResponse, controllerDefinition, new ArrayList<MethodInterceptor>());
 
         assertTrue(actionMethodResponse.getReturnValue() instanceof ActionMethodException);
     }

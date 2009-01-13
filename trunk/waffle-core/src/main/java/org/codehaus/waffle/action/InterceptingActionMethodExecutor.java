@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Collection;
 
 import org.codehaus.waffle.action.intercept.DefaultInterceptorChain;
 import org.codehaus.waffle.action.intercept.InterceptorChain;
@@ -38,9 +39,10 @@ public class InterceptingActionMethodExecutor implements ActionMethodExecutor {
      * If no 'action method' exists in the request parameter a View will be created with the Action's name.
      */
     public void execute(ActionMethodResponse actionMethodResponse,
-                        ControllerDefinition controllerDefinition) throws ActionMethodInvocationException {
+                        ControllerDefinition controllerDefinition,
+                        Collection<MethodInterceptor> methodInterceptors) throws ActionMethodInvocationException {
         try {
-            Object returnValue = handleInvocation(controllerDefinition);
+            Object returnValue = handleInvocation(controllerDefinition, methodInterceptors);
             actionMethodResponse.setReturnValue(returnValue);
             actionMonitor.actionMethodExecuted(actionMethodResponse);
         } catch (IllegalAccessException e) {
@@ -60,11 +62,10 @@ public class InterceptingActionMethodExecutor implements ActionMethodExecutor {
         }
     }
 
-    private Object handleInvocation(ControllerDefinition controllerDefinition) throws IllegalAccessException, InvocationTargetException {
-        ContextContainer container = RequestLevelContainer.get();
+    private Object handleInvocation(ControllerDefinition controllerDefinition, Collection<MethodInterceptor> methodInterceptors) throws IllegalAccessException, InvocationTargetException {
 
         List<MethodInterceptor> interceptors = new ArrayList<MethodInterceptor>();
-        interceptors.addAll(container.getAllComponentInstancesOfType(MethodInterceptor.class));
+        interceptors.addAll(methodInterceptors);
         Collections.sort(interceptors, comparator);
 
         interceptors.add(new MethodInvokingMethodInterceptor());

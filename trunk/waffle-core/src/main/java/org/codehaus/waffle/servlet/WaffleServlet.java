@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Collection;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +29,7 @@ import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.ActionMethodResponseHandler;
 import org.codehaus.waffle.action.MethodDefinition;
+import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.codehaus.waffle.action.annotation.PRG;
 import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.bind.ViewDataBinder;
@@ -162,6 +164,9 @@ public class WaffleServlet extends HttpServlet {
         servletMonitor.servletServiceRequested(parametersOf(request));
         ContextContainer requestContainer = RequestLevelContainer.get();
         ErrorsContext errorsContext = requestContainer.getComponent(ErrorsContext.class);
+        ContextContainer container = RequestLevelContainer.get();
+        Collection<MethodInterceptor> methodInterceptors = container.getAllComponentInstancesOfType(MethodInterceptor.class);
+
 
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         View view = null;
@@ -175,7 +180,7 @@ public class WaffleServlet extends HttpServlet {
                 if (errorsContext.hasErrorMessages() || noMethodDefinition(controllerDefinition)) {
                     view = buildView(controllerDefinition);
                 } else {
-                    actionMethodExecutor.execute(actionMethodResponse, controllerDefinition);
+                    actionMethodExecutor.execute(actionMethodResponse, controllerDefinition, methodInterceptors);
 
                     if (errorsContext.hasErrorMessages()) {
                         view = buildView(controllerDefinition);

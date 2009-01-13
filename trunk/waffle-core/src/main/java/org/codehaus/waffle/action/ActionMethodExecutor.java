@@ -4,6 +4,9 @@
 package org.codehaus.waffle.action;
 
 import org.codehaus.waffle.controller.ControllerDefinition;
+import org.codehaus.waffle.action.intercept.MethodInterceptor;
+
+import java.util.Collection;
 
 /**
  * Responsible for executing (aka firing) the Action method on a controller object.
@@ -17,8 +20,9 @@ public interface ActionMethodExecutor {
      *
      * @param actionMethodResponse the response from the action methods invocation
      * @param controllerDefinition the current controller definition
+     * @param methodInterceptors
      * @throws ActionMethodInvocationException
      */
     void execute(ActionMethodResponse actionMethodResponse,
-                 ControllerDefinition controllerDefinition) throws ActionMethodInvocationException;
+                 ControllerDefinition controllerDefinition, Collection<MethodInterceptor> methodInterceptors) throws ActionMethodInvocationException;
 }
