@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeControllerWithMethodDefinitions;
 import org.jmock.Expectations;
@@ -64,6 +65,8 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+        
         mockery.checking(new Expectations() {
             {
                 one(stringTransmuter).transmute("blah", List.class);
@@ -74,7 +77,7 @@ public class ParanamerMethodDefinitionFinderTest extends AbstractMethodDefinitio
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodListOfStrings", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());

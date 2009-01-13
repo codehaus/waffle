@@ -13,6 +13,7 @@ import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ControllerMonitor;
 
 /**
@@ -33,7 +34,7 @@ public abstract class ScriptedControllerDefinitionFactory extends ContextControl
 
     @Override
     protected MethodDefinition findMethodDefinition(Object controller, HttpServletRequest request,
-            HttpServletResponse response) {
+                                                    HttpServletResponse response, MessagesContext messageContext) {
         if (controller instanceof ScriptedController) {
             ScriptedController scriptedController = (ScriptedController) controller;
             String methodName = methodNameResolver.resolve(request);
@@ -46,7 +47,7 @@ public abstract class ScriptedControllerDefinitionFactory extends ContextControl
             executeMethod = findExecuteMethod();
             return new MethodDefinition(executeMethod);
         }
-        return super.findMethodDefinition(controller, request, response);
+        return super.findMethodDefinition(controller, request, response, messageContext);
     }
 
     protected Method findMethod(String methodName, Class<?> controllerClass) {

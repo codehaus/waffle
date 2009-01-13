@@ -130,6 +130,7 @@ public class WaffleServletTest {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         mockery.checking(new Expectations() {
             {
 
@@ -139,6 +140,8 @@ public class WaffleServletTest {
                 will(returnValue(false));
                 one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
                 will(returnValue(new ArrayList<Object>()));
+                one(contextContainer).getComponent(MessagesContext.class);
+                will(returnValue(messageContext));
             }
         });
 
@@ -194,9 +197,10 @@ public class WaffleServletTest {
 
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
             }
         });
@@ -224,6 +228,7 @@ public class WaffleServletTest {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         mockery.checking(new Expectations() {
             {
 
@@ -233,6 +238,9 @@ public class WaffleServletTest {
                 will(returnValue(false));
                 one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
                 will(returnValue(new ArrayList<Object>()));
+                one(contextContainer).getComponent(MessagesContext.class);
+                will(returnValue(messageContext));
+
             }
         });
 
@@ -290,9 +298,10 @@ public class WaffleServletTest {
 
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
             }
         });
@@ -319,6 +328,7 @@ public class WaffleServletTest {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         mockery.checking(new Expectations() {
             {
                 one(contextContainer).getComponent(ErrorsContext.class);
@@ -326,6 +336,8 @@ public class WaffleServletTest {
                 one(errorsContext).addErrorMessage(with(any(ErrorMessage.class)));
                 one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
                 will(returnValue(new ArrayList<MethodInterceptor>()));
+                one(contextContainer).getComponent(MessagesContext.class);
+                will(returnValue(messageContext));
             }
         });
 
@@ -360,9 +372,10 @@ public class WaffleServletTest {
 
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(request, response);
+                one(controllerDefinitionFactory).getControllerDefinition(request, response, messageContext);
                 will(throwException(new ControllerNotFoundException("No controller found ")));
             }
         });
@@ -409,6 +422,7 @@ public class WaffleServletTest {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         mockery.checking(new Expectations() {
             {
                 one(contextContainer).getComponent(ErrorsContext.class);
@@ -416,7 +430,9 @@ public class WaffleServletTest {
                 one(errorsContext).hasErrorMessages();
                 will(returnValue(false));
                 one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
-                will(returnValue(new ArrayList<MethodInterceptor>()));                
+                will(returnValue(new ArrayList<MethodInterceptor>()));
+                one(contextContainer).getComponent(MessagesContext.class);
+                will(returnValue(messageContext));
             }
         });
 
@@ -467,9 +483,10 @@ public class WaffleServletTest {
 
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, null)));
             }
         });
@@ -498,6 +515,7 @@ public class WaffleServletTest {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         mockery.checking(new Expectations() {
             {
                 one(contextContainer).getComponent(ErrorsContext.class);
@@ -506,7 +524,9 @@ public class WaffleServletTest {
                 will(returnValue(false));
                 one(errorsContext).addErrorMessage(with(any(ErrorMessage.class)));
                 one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
-                will(returnValue(new ArrayList<MethodInterceptor>()));                
+                will(returnValue(new ArrayList<MethodInterceptor>()));
+                one(contextContainer).getComponent(MessagesContext.class);
+                will(returnValue(messageContext));
             }
         });
 
@@ -562,9 +582,10 @@ public class WaffleServletTest {
 
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
             }
         });

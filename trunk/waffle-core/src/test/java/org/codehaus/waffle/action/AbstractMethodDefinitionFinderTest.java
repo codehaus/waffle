@@ -64,6 +64,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock MethodNameResolver
         final MethodNameResolver methodNameResolver = mockery.mock(MethodNameResolver.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         mockery.checking(new Expectations() {
             {
                 one(methodNameResolver).resolve(with(same(request)));
@@ -77,7 +78,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
                 stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = ControllerWithDefaultActionMethodNoValue.class.getMethod("foobar");
         assertEquals(expectedMethod, methodDefinition.getMethod());
@@ -111,11 +112,12 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         ControllerWithDefaultActionMethod controller = new ControllerWithDefaultActionMethod();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = ControllerWithDefaultActionMethod.class.getMethod("foobar", String.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
@@ -141,13 +143,14 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         ControllerWithDefaultActionMethodNoValue controller = new ControllerWithDefaultActionMethodNoValue();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
                 stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
-        assertNotSame(methodDefinition, methodDefinitionFinder.find(controller, request, response));
+        assertNotSame(methodDefinition, methodDefinitionFinder.find(controller, request, response, messageContext));
     }
 
     @Test
@@ -169,11 +172,12 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
                 stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("noArgumentMethod");
         assertEquals(expectedMethod, methodDefinition.getMethod());
@@ -207,11 +211,12 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodTwo", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
@@ -239,12 +244,13 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock ArgumentResolver
         final ArgumentResolver argumentResolver = mockery.mock(ArgumentResolver.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
 
-        MethodDefinition definition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition definition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method methodExpected = FakeControllerWithMethodDefinitions.class.getMethod("noAmbiguityWhenMethodNotPublic",
                 HttpServletRequest.class);
@@ -279,11 +285,12 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodTwo", List.class);
         assertEquals(expectedMethod, methodDefinition.getMethod());
@@ -319,12 +326,13 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
 
-        methodDefinitionFinder.find(controller, request, response);
+        methodDefinitionFinder.find(controller, request, response, messageContext);
     }
 
     @Test(expected = NoMatchingActionMethodException.class)
@@ -346,12 +354,13 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
                 stringTransmuter);
 
-        methodDefinitionFinder.find(controller, request, response);
+        methodDefinitionFinder.find(controller, request, response, messageContext);
     }
 
     @Test
@@ -373,11 +382,12 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
                 stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodDependsOnRequest",
                 HttpServletRequest.class);
@@ -404,11 +414,12 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
                 stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodDependsOnResponse",
                 HttpServletResponse.class);
@@ -444,6 +455,8 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+
         mockery.checking(new Expectations() {
             {
                 one(stringTransmuter).transmute("99", int.class);
@@ -455,7 +468,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodDependsOnRequestAndInteger",
                 HttpServletRequest.class, int.class);
@@ -491,11 +504,12 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, null, methodNameResolver,
                 stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodDependsOnSession",
                 HttpSession.class);
@@ -547,7 +561,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodDependsOnMessagesContext",
                 MessagesContext.class);
@@ -577,11 +591,12 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
 
         FakeControllerWithMethodDefinitions controller = new FakeControllerWithMethodDefinitions();
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(servletContext, null,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         Method expectedMethod = FakeControllerWithMethodDefinitions.class.getMethod("methodDependsOnServletContext",
                 ServletContext.class);
@@ -618,6 +633,8 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+
         mockery.checking(new Expectations() {
             {
                 one(stringTransmuter).transmute("45", int.class);
@@ -629,7 +646,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
 
@@ -661,6 +678,8 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+
         mockery.checking(new Expectations() {
             {
                 one(stringTransmuter).transmute("45", int.class);
@@ -672,7 +691,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
         assertEquals(45, methodDefinition.getMethodArguments().get(0));
     }
 
@@ -704,6 +723,8 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+
         mockery.checking(new Expectations() {
             {
                 one(stringTransmuter).transmute("99.99", Float.class);
@@ -715,7 +736,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         assertEquals(99.99f, methodDefinition.getMethodArguments().get(0));
     }
@@ -748,6 +769,8 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         // Mock StringTransmuter
         final StringTransmuter stringTransmuter = mockery.mock(StringTransmuter.class);
+        final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+        
         mockery.checking(new Expectations() {
             {
                 one(stringTransmuter).transmute("true", boolean.class);
@@ -759,7 +782,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
 
         MethodDefinitionFinder methodDefinitionFinder = newMethodDefinitionFinder(null, argumentResolver,
                 methodNameResolver, stringTransmuter);
-        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response);
+        MethodDefinition methodDefinition = methodDefinitionFinder.find(controller, request, response, messageContext);
 
         assertTrue((Boolean) methodDefinition.getMethodArguments().get(0));
     }

@@ -5,6 +5,8 @@ package org.codehaus.waffle.servlet;
 
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
+import org.codehaus.waffle.i18n.MessagesContext;
+import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.apache.velocity.Template;
@@ -13,6 +15,7 @@ import org.apache.velocity.tools.view.servlet.VelocityViewServlet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.handler.MessageContext;
 
 /**
  * Allow waffle controllers to be used with velocity servlet.
@@ -36,7 +39,8 @@ public class WaffleVelocityServlet extends VelocityViewServlet {
     protected Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context context)
             throws Exception {
         // Always add the controller to the context
-        ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response);
+        MessagesContext messageContext = RequestLevelContainer.get().getComponent(MessagesContext.class);
+        ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response, messageContext);
         context.put(Constants.CONTROLLER_KEY, controllerDefinition.getController());
         return super.handleRequest(request, response, context);
     }

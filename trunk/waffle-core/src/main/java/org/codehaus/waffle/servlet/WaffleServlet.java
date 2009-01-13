@@ -38,6 +38,7 @@ import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.GlobalErrorMessage;
@@ -164,15 +165,15 @@ public class WaffleServlet extends HttpServlet {
         servletMonitor.servletServiceRequested(parametersOf(request));
         ContextContainer requestContainer = RequestLevelContainer.get();
         ErrorsContext errorsContext = requestContainer.getComponent(ErrorsContext.class);
-        ContextContainer container = RequestLevelContainer.get();
-        Collection<MethodInterceptor> methodInterceptors = container.getAllComponentInstancesOfType(MethodInterceptor.class);
-
+        Collection<MethodInterceptor> methodInterceptors = requestContainer.getAllComponentInstancesOfType(MethodInterceptor.class);
+        MessagesContext messageContext = requestContainer.getComponent(MessagesContext.class);
 
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         View view = null;
         try {
+
             ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
-                    response);
+                    response, messageContext);
             controllerDataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
             validator.validate(controllerDefinition, errorsContext);
             try {

@@ -13,6 +13,8 @@ import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.jmock.Expectations;
@@ -23,6 +25,8 @@ import org.junit.runner.RunWith;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
+
+import java.util.List;
 
 /**
  * 
@@ -41,6 +45,7 @@ public class ContextControllerDefinitionFactoryTest {
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        final MessagesContext messagesContext = mockery.mock(MessagesContext.class);
         mockery.checking(new Expectations() {
             {
                 one(request).getPathInfo();
@@ -59,7 +64,7 @@ public class ContextControllerDefinitionFactoryTest {
         final MethodDefinitionFinder finder = mockery.mock(MethodDefinitionFinder.class);
         mockery.checking(new Expectations() {
             {
-                one(finder).find(with(an(FakeController.class)), with(same(request)), with(same(response)));
+                one(finder).find(with(an(FakeController.class)), with(same(request)), with(same(response)), with(same(messagesContext)));
                 will(returnValue(methodDefinition));
             }
         });
@@ -67,7 +72,7 @@ public class ContextControllerDefinitionFactoryTest {
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
                 new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
-                response);
+                response, messagesContext);
 
         assertNotNull(controllerDefinition.getController());
         assertSame(methodDefinition, controllerDefinition.getMethodDefinition());
@@ -80,6 +85,8 @@ public class ContextControllerDefinitionFactoryTest {
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
+        MessagesContext context = mockery.mock(MessagesContext.class);
+
         mockery.checking(new Expectations() {
             {
                 one(request).getPathInfo();
@@ -98,7 +105,7 @@ public class ContextControllerDefinitionFactoryTest {
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
                 new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
 
-        controllerDefinitionFactory.getControllerDefinition(request, response);
+        ControllerDefinition definition = controllerDefinitionFactory.getControllerDefinition(request, response, context);
     }
 
     @Test(expected = WaffleException.class)

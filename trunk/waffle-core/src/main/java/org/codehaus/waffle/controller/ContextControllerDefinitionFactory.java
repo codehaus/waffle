@@ -15,6 +15,7 @@ import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextContainerNotFoundException;
 import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ControllerMonitor;
 
 /**
@@ -44,13 +45,13 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
      * 
      * @see org.codehaus.waffle.context.WaffleRequestFilter
      */
-    public ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response) {
+    public ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response, MessagesContext messageContext) {
         String name = controllerNameResolver.findControllerName(request);
 
         Object controller = findController(name, request);
         MethodDefinition methodDefinition = null;
-        try {
-            methodDefinition = findMethodDefinition(controller, request, response);
+        try {            
+            methodDefinition = findMethodDefinition(controller, request, response, messageContext);
         } catch (MissingActionMethodException e) {
             controllerMonitor.methodDefinitionNotFound(name);
             // default to null
@@ -85,8 +86,8 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
     }
 
     protected MethodDefinition findMethodDefinition(Object controller, HttpServletRequest request,
-            HttpServletResponse response) {
-        return methodDefinitionFinder.find(controller, request, response);
+                                                    HttpServletResponse response, MessagesContext messageContext) {
+        return methodDefinitionFinder.find(controller, request, response, messageContext);
     }
 
 }

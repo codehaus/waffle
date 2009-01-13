@@ -62,16 +62,16 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
         this.messageResources = messageResources;
     }
 
-    public MethodDefinition find(Object controller, HttpServletRequest request, HttpServletResponse response)
+    public MethodDefinition find(Object controller, HttpServletRequest request, HttpServletResponse response, MessagesContext messageContext)
             throws WaffleException {
         String methodName = methodNameResolver.resolve(request);
 
         if (methodName == null) {
             return findDefaultActionMethod(controller, request);
         } else if (isPragmaticActionMethod(methodName)) { // pragmatic definition takes precedence
-            return findPragmaticActionMethod(controller, methodName, request, response);
+            return findPragmaticActionMethod(controller, methodName, request, response, messageContext);
         } else {
-            return findActionMethod(controller, request, response, methodName);
+            return findActionMethod(controller, request, response, methodName, messageContext);
         }
     }
 
@@ -107,23 +107,24 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private MethodDefinition findPragmaticActionMethod(Object controller, String methodName,
-            HttpServletRequest request, HttpServletResponse response) {
+                                                       HttpServletRequest request, HttpServletResponse response, MessagesContext messageContext) {
         Iterator<String> iterator = Arrays.asList(methodName.split(PRAGMA_REGEX)).iterator();
         methodName = iterator.next();
 
         List<Method> methods = findMethods(controller.getClass(), methodName);
 
         List<Object> arguments = resolveArguments(request, iterator);
-        MethodDefinition methodDefinition = findPragmaticMethodDefinition(request, response, methods, arguments);
+        MethodDefinition methodDefinition = findPragmaticMethodDefinition(request, response, methods, arguments, messageContext);
         actionMonitor.pragmaticActionMethodFound(methodDefinition);
         return methodDefinition;
     }
 
     private MethodDefinition findActionMethod(Object controller, HttpServletRequest request,
-            HttpServletResponse response, String methodName) {
+                                              HttpServletResponse response, String methodName, MessagesContext messageContext) {
         List<Method> methods = findMethods(controller.getClass(), methodName);
 
-        List<MethodDefinition> methodDefinitions = findMethodDefinitions(request, response, methods);
+
+        List<MethodDefinition> methodDefinitions = findMethodDefinitions(request, response, methods, messageContext);
 
         if (methodDefinitions.size() > 1) {
             String message = messageResources.getMessageWithDefault("ambiguousActionMethodSignature",
@@ -141,14 +142,14 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private List<MethodDefinition> findMethodDefinitions(HttpServletRequest request, HttpServletResponse response,
-            List<Method> methods) {
+                                                         List<Method> methods, MessagesContext messageContext) {
         List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
 
         for (Method method : methods) {
             if (Modifier.isPublic(method.getModifiers())) {
                 List<Object> arguments = getArguments(method, request);
                 try {
-                    methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
+                    methodDefinitions.add(buildMethodDefinition(request, response, method, arguments, messageContext));
                 } catch (NoValidActionMethodException e) {
                     // continue
                 }
@@ -181,13 +182,13 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private MethodDefinition findPragmaticMethodDefinition(HttpServletRequest request, HttpServletResponse response,
-            List<Method> methods, List<Object> arguments) {
+                                                           List<Method> methods, List<Object> arguments, MessagesContext messageContext) {
         List<MethodDefinition> methodDefinitions = new ArrayList<MethodDefinition>();
 
         for (Method method : methods) {
             if (Modifier.isPublic(method.getModifiers())) {
                 try {
-                    methodDefinitions.add(buildMethodDefinition(request, response, method, arguments));
+                    methodDefinitions.add(buildMethodDefinition(request, response, method, arguments, messageContext));
                 } catch (NoValidActionMethodException e) {
                     // continue
                 }
@@ -209,7 +210,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     }
 
     private MethodDefinition buildMethodDefinition(HttpServletRequest request, HttpServletResponse response,
-            Method method, List<Object> arguments) {
+                                                   Method method, List<Object> arguments,
+                                                   MessagesContext messageContext) {
         Class<?>[] actualParameterTypes = method.getParameterTypes();
         MethodDefinition methodDefinition = new MethodDefinition(method);
 
@@ -227,7 +229,8 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                     methodDefinition.addMethodArgument(servletContext);
                 } else if (MessagesContext.class.isAssignableFrom(type)) {
                     ContextContainer requestContainer = RequestLevelContainer.get();
-                    methodDefinition.addMethodArgument(requestContainer.getComponent(MessagesContext.class));
+                     //= requestContainer.getComponent(MessagesContext.class);
+                    methodDefinition.addMethodArgument(messageContext);
                 } else if (iterator.hasNext()) {
                     methodDefinition.addMethodArgument(iterator.next());
                 } else {
