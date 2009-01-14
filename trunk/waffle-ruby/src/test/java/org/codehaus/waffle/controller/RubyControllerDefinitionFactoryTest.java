@@ -39,9 +39,8 @@ public class RubyControllerDefinitionFactoryTest {
                 will(returnValue(new RubyController(rubyObject)));
             }
         });
-        RequestLevelContainer.set(contextContainer);
 
-        Object controller = factory.findController("foobar", null);
+        Object controller = factory.findController("foobar", null, contextContainer);
         assertTrue(controller instanceof RubyController);
     }
 
@@ -57,9 +56,8 @@ public class RubyControllerDefinitionFactoryTest {
                 will(returnValue("Pojo"));
             }
         });
-        RequestLevelContainer.set(contextContainer);
 
-        Object controller = factory.findController("foobar", null);
+        Object controller = factory.findController("foobar", null, contextContainer);
         assertFalse(controller instanceof RubyController);
         assertEquals("Pojo", controller);
     }

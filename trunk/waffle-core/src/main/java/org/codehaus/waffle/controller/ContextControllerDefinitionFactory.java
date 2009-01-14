@@ -13,7 +13,6 @@ import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MissingActionMethodException;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextContainerNotFoundException;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ControllerMonitor;
@@ -45,10 +44,11 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
      * 
      * @see org.codehaus.waffle.context.WaffleRequestFilter
      */
-    public ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response, MessagesContext messageContext) {
+    public ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response, MessagesContext messageContext, 
+                                                        ContextContainer requestLevelContainer) {
         String name = controllerNameResolver.findControllerName(request);
 
-        Object controller = findController(name, request);
+        Object controller = findController(name, request, requestLevelContainer);
         MethodDefinition methodDefinition = null;
         try {            
             methodDefinition = findMethodDefinition(controller, request, response, messageContext);
@@ -62,8 +62,7 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
         return new ControllerDefinition(name, controller, methodDefinition);
     }
 
-    protected Object findController(String name, HttpServletRequest request) {
-        ContextContainer requestLevelContainer = RequestLevelContainer.get();
+    protected Object findController(String name, HttpServletRequest request, ContextContainer requestLevelContainer) {
 
         if (requestLevelContainer == null) {
             controllerMonitor.requestContextContainerNotFound();

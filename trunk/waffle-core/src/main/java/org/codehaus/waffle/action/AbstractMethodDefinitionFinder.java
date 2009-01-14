@@ -228,8 +228,6 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
                 } else if (ServletContext.class.isAssignableFrom(type)) {
                     methodDefinition.addMethodArgument(servletContext);
                 } else if (MessagesContext.class.isAssignableFrom(type)) {
-                    ContextContainer requestContainer = RequestLevelContainer.get();
-                     //= requestContainer.getComponent(MessagesContext.class);
                     methodDefinition.addMethodArgument(messageContext);
                 } else if (iterator.hasNext()) {
                     methodDefinition.addMethodArgument(iterator.next());

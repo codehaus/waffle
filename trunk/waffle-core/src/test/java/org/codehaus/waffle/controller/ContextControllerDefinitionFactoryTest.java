@@ -14,7 +14,6 @@ import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
-import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;
 import org.jmock.Expectations;
@@ -25,8 +24,6 @@ import org.junit.runner.RunWith;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.behaviors.Caching;
-
-import java.util.List;
 
 /**
  * 
@@ -41,7 +38,8 @@ public class ContextControllerDefinitionFactoryTest {
     public void canGetControllerDefinition() throws NoSuchMethodException {
         final MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
         pico.addComponent("theController", FakeController.class);
-        RequestLevelContainer.set(new PicoContextContainer(pico));
+        PicoContextContainer container = new PicoContextContainer(pico);
+        RequestLevelContainer.set(container);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -72,7 +70,7 @@ public class ContextControllerDefinitionFactoryTest {
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
                 new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
-                response, messagesContext);
+                response, messagesContext, container);
 
         assertNotNull(controllerDefinition.getController());
         assertSame(methodDefinition, controllerDefinition.getMethodDefinition());
@@ -81,7 +79,8 @@ public class ContextControllerDefinitionFactoryTest {
     @Test(expected = WaffleException.class)
     public void cannotRequestControllerDefinitionThatiIsNotRegistered() {
         MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
-        RequestLevelContainer.set(new PicoContextContainer(pico));
+        PicoContextContainer container = new PicoContextContainer(pico);
+        RequestLevelContainer.set(container);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -105,13 +104,11 @@ public class ContextControllerDefinitionFactoryTest {
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
                 new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
 
-        ControllerDefinition definition = controllerDefinitionFactory.getControllerDefinition(request, response, context);
+        ControllerDefinition definition = controllerDefinitionFactory.getControllerDefinition(request, response, context, container);
     }
 
     @Test(expected = WaffleException.class)
     public void cannotGetControllerDefinitionWithMissingRequestLevelContainer() {
-
-        RequestLevelContainer.set(null);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -119,7 +116,7 @@ public class ContextControllerDefinitionFactoryTest {
         ContextControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(null,
                 null, new SilentMonitor(), new DefaultMessageResources());
 
-        controllerDefinitionFactory.findController("foobar", request);
+        controllerDefinitionFactory.findController("foobar", request, null);
     }
 
 }

@@ -182,7 +182,7 @@ public class WaffleServlet extends HttpServlet {
         try {
 
             ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
-                    response, messageContext);
+                    response, messageContext, requestContainer);
             controllerDataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
             String controllerName = controllerDefinition.getName();
             Object controllerValidator;

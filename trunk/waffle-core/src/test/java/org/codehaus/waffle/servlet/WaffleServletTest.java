@@ -212,7 +212,7 @@ public class WaffleServletTest {
 
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(same(contextContainer)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
             }
         });
@@ -323,7 +323,7 @@ public class WaffleServletTest {
 
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(same(contextContainer)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
             }
         });
@@ -403,7 +403,7 @@ public class WaffleServletTest {
 
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(request, response, messageContext);
+                one(controllerDefinitionFactory).getControllerDefinition(request, response, messageContext, contextContainer);
                 will(throwException(new ControllerNotFoundException("No controller found ")));
             }
         });
@@ -524,7 +524,7 @@ public class WaffleServletTest {
 
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(same(contextContainer)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, null)));
             }
         });
@@ -633,7 +633,7 @@ public class WaffleServletTest {
 
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(same(contextContainer)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
             }
         });
