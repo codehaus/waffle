@@ -22,29 +22,14 @@ import org.codehaus.waffle.monitor.ValidationMonitor;
  * @author Mauro Talevi
  */
 public class DefaultValidator implements Validator {
+
     private final ValidationMonitor validationMonitor;
-    private final ValidatorConfiguration validatorConfiguration;
-    
+
     public DefaultValidator(ValidationMonitor validationMonitor){
-        this(new DefaultValidatorConfiguration(), validationMonitor);        
-    }
-    
-    public DefaultValidator(ValidatorConfiguration validatorConfiguration, ValidationMonitor validationMonitor){
-        this.validatorConfiguration = validatorConfiguration;
-        this.validationMonitor = validationMonitor;        
+        this.validationMonitor = validationMonitor;
     }
 
-    public void validate(ControllerDefinition controllerDefinition, ErrorsContext errorsContext) {
-        ContextContainer container = RequestLevelContainer.get();
-        String controllerName = controllerDefinition.getName();
-        String controllerValidatorName = controllerName + validatorConfiguration.getSuffix();
-        Object controllerValidator = container.getComponentInstance(controllerValidatorName);
-
-        if (controllerValidator == null) {
-            // default to use controller as validator
-            controllerValidator = container.getComponentInstance(controllerName);
-            validationMonitor.controllerValidatorNotFound(controllerValidatorName, controllerName);
-        }
+    public void validate(ControllerDefinition controllerDefinition, ErrorsContext errorsContext, Object controllerValidator) {
 
         MethodDefinition methodDefinition = controllerDefinition.getMethodDefinition();
         if (methodDefinition == null) {
@@ -80,4 +65,5 @@ public class DefaultValidator implements Validator {
             throw new WaffleException(e);
         }
     }
+
 }

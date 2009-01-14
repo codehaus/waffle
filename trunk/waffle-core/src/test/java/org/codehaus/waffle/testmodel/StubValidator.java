@@ -6,7 +6,7 @@ import org.codehaus.waffle.validation.Validator;
 
 public class StubValidator implements Validator {
 
-    public void validate(ControllerDefinition controllerDefinition, ErrorsContext errorsContext) {
+    public void validate(ControllerDefinition controllerDefinition, ErrorsContext errorsContext, Object controllerValidator) {
         throw new UnsupportedOperationException();
     }
 }

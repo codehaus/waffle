@@ -48,9 +48,11 @@ import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
+import org.codehaus.waffle.monitor.ValidationMonitor;
 import org.codehaus.waffle.validation.ErrorMessage;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.Validator;
+import org.codehaus.waffle.validation.ValidatorConfiguration;
 import org.codehaus.waffle.view.DefaultViewResolver;
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.ViewResolver;
@@ -131,6 +133,8 @@ public class WaffleServletTest {
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+        final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
+        final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
         mockery.checking(new Expectations() {
             {
 
@@ -142,6 +146,14 @@ public class WaffleServletTest {
                 will(returnValue(new ArrayList<Object>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
+                one(contextContainer).getComponent(ValidationMonitor.class);
+                will(returnValue(validationMonitor));
+                one(contextContainer).getComponent(ValidatorConfiguration.class);
+                will(returnValue(validatorConfiguration));
+                one(validatorConfiguration).getSuffix();
+                will(returnValue(".xx"));
+                one(contextContainer).getComponentInstance("no name.xx");
+                will(returnValue("yy"));
             }
         });
 
@@ -183,7 +195,7 @@ public class WaffleServletTest {
         final Validator validator = mockery.mock(Validator.class);
         mockery.checking(new Expectations() {
             {
-                one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+                one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)), with(same("yy")));
             }
         });
 
@@ -229,6 +241,8 @@ public class WaffleServletTest {
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+        final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
+        final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
         mockery.checking(new Expectations() {
             {
 
@@ -240,6 +254,14 @@ public class WaffleServletTest {
                 will(returnValue(new ArrayList<Object>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
+                one(contextContainer).getComponent(ValidationMonitor.class);
+                will(returnValue(validationMonitor));
+                one(contextContainer).getComponent(ValidatorConfiguration.class);
+                will(returnValue(validatorConfiguration));
+                one(validatorConfiguration).getSuffix();
+                will(returnValue(".xx"));
+                one(contextContainer).getComponentInstance("no name.xx");
+                will(returnValue("yy"));
 
             }
         });
@@ -284,7 +306,7 @@ public class WaffleServletTest {
         final Validator validator = mockery.mock(Validator.class);
         mockery.checking(new Expectations() {
             {
-                one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+                one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)), with(same("yy")));
             }
         });
 
@@ -329,6 +351,8 @@ public class WaffleServletTest {
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+        final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
+        final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
         mockery.checking(new Expectations() {
             {
                 one(contextContainer).getComponent(ErrorsContext.class);
@@ -338,6 +362,10 @@ public class WaffleServletTest {
                 will(returnValue(new ArrayList<MethodInterceptor>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
+                one(contextContainer).getComponent(ValidationMonitor.class);
+                will(returnValue(validationMonitor));
+                one(contextContainer).getComponent(ValidatorConfiguration.class);
+                will(returnValue(validatorConfiguration));
             }
         });
 
@@ -423,6 +451,8 @@ public class WaffleServletTest {
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+        final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
+        final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
         mockery.checking(new Expectations() {
             {
                 one(contextContainer).getComponent(ErrorsContext.class);
@@ -433,6 +463,14 @@ public class WaffleServletTest {
                 will(returnValue(new ArrayList<MethodInterceptor>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
+                one(contextContainer).getComponent(ValidationMonitor.class);
+                will(returnValue(validationMonitor));
+                one(contextContainer).getComponent(ValidatorConfiguration.class);
+                will(returnValue(validatorConfiguration));
+                one(validatorConfiguration).getSuffix();
+                will(returnValue(".xx"));
+                one(contextContainer).getComponentInstance("no name.xx");
+                will(returnValue("yy"));
             }
         });
 
@@ -469,7 +507,7 @@ public class WaffleServletTest {
         final Validator validator = mockery.mock(Validator.class);
         mockery.checking(new Expectations() {
             {
-                one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+                one(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)), with(same("yy")));
             }
         });
 
@@ -516,6 +554,8 @@ public class WaffleServletTest {
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
         final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
+        final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
+        final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
         mockery.checking(new Expectations() {
             {
                 one(contextContainer).getComponent(ErrorsContext.class);
@@ -527,6 +567,14 @@ public class WaffleServletTest {
                 will(returnValue(new ArrayList<MethodInterceptor>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
+                one(contextContainer).getComponent(ValidationMonitor.class);
+                will(returnValue(validationMonitor));
+                one(contextContainer).getComponent(ValidatorConfiguration.class);
+                will(returnValue(validatorConfiguration));
+                one(validatorConfiguration).getSuffix();
+                will(returnValue(".xx"));
+                one(contextContainer).getComponentInstance("no name.xx");
+                will(returnValue("yy"));
             }
         });
 
@@ -568,7 +616,7 @@ public class WaffleServletTest {
         final Validator validator = mockery.mock(Validator.class);
         mockery.checking(new Expectations() {
             {
-                allowing(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)));
+                allowing(validator).validate(with(any(ControllerDefinition.class)), with(any(ErrorsContext.class)), with(same("yy")));
             }
         });
 

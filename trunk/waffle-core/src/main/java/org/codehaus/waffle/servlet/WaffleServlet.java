@@ -40,9 +40,12 @@ import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ServletMonitor;
+import org.codehaus.waffle.monitor.ValidationMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;
 import org.codehaus.waffle.validation.GlobalErrorMessage;
 import org.codehaus.waffle.validation.Validator;
+import org.codehaus.waffle.validation.ValidatorConfiguration;
+import org.codehaus.waffle.validation.DefaultValidatorConfiguration;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.ViewResolver;
@@ -168,6 +171,12 @@ public class WaffleServlet extends HttpServlet {
         Collection<MethodInterceptor> methodInterceptors = requestContainer.getAllComponentInstancesOfType(MethodInterceptor.class);
         MessagesContext messageContext = requestContainer.getComponent(MessagesContext.class);
 
+        ValidationMonitor validationMonitor = requestContainer.getComponent(ValidationMonitor.class);
+        ValidatorConfiguration validatorConfiguration = requestContainer.getComponent(ValidatorConfiguration.class);
+        if (validatorConfiguration == null) {
+            validatorConfiguration = new DefaultValidatorConfiguration();
+        }
+
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         View view = null;
         try {
@@ -175,7 +184,18 @@ public class WaffleServlet extends HttpServlet {
             ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
                     response, messageContext);
             controllerDataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
-            validator.validate(controllerDefinition, errorsContext);
+            String controllerName = controllerDefinition.getName();
+            Object controllerValidator;
+            String controllerValidatorName = controllerName + validatorConfiguration.getSuffix();
+            controllerValidator = requestContainer.getComponentInstance(controllerValidatorName);
+
+            if (controllerValidator == null) {
+                // default to use controller as validator
+                controllerValidator = requestContainer.getComponentInstance(controllerName);
+                validationMonitor.controllerValidatorNotFound(controllerValidatorName, controllerName);
+            }
+
+            validator.validate(controllerDefinition, errorsContext, controllerValidator);
             try {
 
                 if (errorsContext.hasErrorMessages() || noMethodDefinition(controllerDefinition)) {
@@ -320,5 +340,6 @@ public class WaffleServlet extends HttpServlet {
         sb.append("]");
         return sb.toString();
     }
+
 
 }
