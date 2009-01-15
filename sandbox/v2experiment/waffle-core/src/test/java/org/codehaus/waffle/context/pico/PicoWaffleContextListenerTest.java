@@ -50,23 +50,30 @@ public class PicoWaffleContextListenerTest {
             }
         };
 
-        // Mock ComponentRegistry
-        final ComponentRegistry registry = mockery.mock(ComponentRegistry.class);
-        mockery.checking(new Expectations() {
-            {
-                one(registry).getContextContainerFactory();
-                will(returnValue(contextContainerFactory));
-            }
-        });
+        // Mock ServletContext
+        final ServletContext servletContext = mockery.mock(ServletContext.class);
 
+        // Mock ComponentRegistry
+        final ComponentRegistry registry = new ComponentRegistry(servletContext) {
+            protected void register(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
+            }
+
+            @SuppressWarnings("unchecked")
+            protected void registerOtherComponents(ServletContext servletContext) {
+            }
+            
+            public ContextContainerFactory getContextContainerFactory() {
+                return contextContainerFactory;
+            }
+
+        };
+        
         WaffleContextListener waffleContextListener = new WaffleContextListener() {
             protected ComponentRegistry buildComponentRegistry(ServletContext servletContext) {
                 return registry;
             }
         };
 
-        // Mock ServletContext
-        final ServletContext servletContext = mockery.mock(ServletContext.class);
         mockery.checking(new Expectations() {
             {
                 String name = ComponentRegistry.class.getName();

@@ -16,7 +16,7 @@ import org.codehaus.waffle.context.WaffleContextListener;
 public class PicoWaffleContextListener extends WaffleContextListener {
 
     protected ComponentRegistry buildComponentRegistry(ServletContext servletContext) {
-        return new PicoComponentRegistry(servletContext);
+        return new ComponentRegistry(servletContext);
     }
 
 }

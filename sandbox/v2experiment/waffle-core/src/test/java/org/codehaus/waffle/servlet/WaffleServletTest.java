@@ -9,6 +9,7 @@ import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
+import java.util.Properties;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -36,6 +38,7 @@ import org.codehaus.waffle.action.InterceptingActionMethodExecutor;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.codehaus.waffle.bind.ViewDataBinder;
+import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlControllerDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.ContextContainer;
@@ -46,6 +49,7 @@ import org.codehaus.waffle.controller.ControllerNotFoundException;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessagesContext;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.monitor.ValidationMonitor;
@@ -87,24 +91,77 @@ public class WaffleServletTest {
             }
         });
 
-        // Mock ComponentRegistry
-        final ComponentRegistry componentRegistry = mockery.mock(ComponentRegistry.class);
+        final StringBuilder sb = new StringBuilder();
+
+        final ViewResolver viewResolver = mockery.mock(ViewResolver.class);
+
         mockery.checking(new Expectations() {
             {
-                one(componentRegistry).getActionMethodExecutor();
-                one(componentRegistry).getActionMethodResponseHandler();
-                one(componentRegistry).getServletMonitor();
-                one(componentRegistry).getControllerDataBinder();
-                one(componentRegistry).getControllerDefinitionFactory();
-                one(componentRegistry).getMessageResources();
-                one(componentRegistry).getViewDataBinder();
-                one(componentRegistry).getViewResolver();
-                one(componentRegistry).getValidator();
+                one(viewResolver).configureViews(with(any(Properties.class)));
             }
         });
 
-        // Mock ServletContext
+
         final ServletContext servletContext = mockery.mock(ServletContext.class);
+
+        // Mock ComponentRegistry
+        final ComponentRegistry componentRegistry = new ComponentRegistry(servletContext) {
+            protected void register(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
+            }
+
+            @SuppressWarnings("unchecked")
+            protected void registerOtherComponents(ServletContext servletContext) {
+            }
+
+            public ActionMethodExecutor getActionMethodExecutor() {
+                sb.append("getAME;");
+                return null;
+            }
+
+            public ActionMethodResponseHandler getActionMethodResponseHandler() {
+                sb.append("getAMRH;");
+                return null;
+            }
+
+            public ServletMonitor getServletMonitor() {
+                sb.append("getSM;");
+                return new SilentMonitor();
+            }
+
+            public ControllerDataBinder getControllerDataBinder() {
+                sb.append("getCDB;");
+                return null;
+            }
+
+            public ControllerDefinitionFactory getControllerDefinitionFactory() {
+                sb.append("getCDF;");
+                return null;
+            }
+
+            public MessageResources getMessageResources() {
+                sb.append("getMessageResources;");
+                return null;
+            }
+
+            public ViewDataBinder getViewDataBinder() {
+                sb.append("getViewDataBinder;");
+                return null;
+            }
+
+            public ViewResolver getViewResolver() {
+                sb.append("getViewResolver;");
+                return viewResolver;
+            }
+
+            public Validator getValidator() {
+                sb.append("getValidator;");
+                return null;
+            }
+
+
+        };
+
+        // Mock ServletContext
         mockery.checking(new Expectations() {
             {
                 one(servletContext).getAttribute(ComponentRegistry.class.getName());

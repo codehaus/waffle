@@ -103,7 +103,7 @@ public class PicoComponentRegistryTest {
             }
         });
         
-        Class<?> clazz = PicoComponentRegistry.locateComponentClass(String.class, Integer.class, servletContext);
+        Class<?> clazz = ComponentRegistry.locateComponentClass(String.class, Integer.class, servletContext);
 
         assertEquals(clazz, Integer.class);
     }
@@ -119,7 +119,7 @@ public class PicoComponentRegistryTest {
             }
         });
 
-        Class<?> clazz = PicoComponentRegistry.locateComponentClass(String.class, Integer.class, servletContext);
+        Class<?> clazz = ComponentRegistry.locateComponentClass(String.class, Integer.class, servletContext);
 
         assertEquals(clazz, BigDecimal.class);
     }
@@ -136,7 +136,7 @@ public class PicoComponentRegistryTest {
             }
         });
 
-        ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
+        ComponentRegistry componentRegistry = new ComponentRegistry(servletContext);
 
         assertTrue(componentRegistry.getActionMethodExecutor() instanceof InterceptingActionMethodExecutor);
         assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof DefaultActionMethodResponseHandler);
@@ -224,7 +224,7 @@ public class PicoComponentRegistryTest {
                 will(returnValue(StubParameterResolver.class.getName()));
             }
         });
-        ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
+        ComponentRegistry componentRegistry = new ComponentRegistry(servletContext);
 
         assertTrue(componentRegistry.getActionMethodExecutor() instanceof StubActionMethodExecutor);
         assertTrue(componentRegistry.getActionMethodResponseHandler() instanceof StubActionMethodResponseHandler);
@@ -267,7 +267,7 @@ public class PicoComponentRegistryTest {
             }
         });
 
-        ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
+        ComponentRegistry componentRegistry = new ComponentRegistry(servletContext);
 
         List<?> list = componentRegistry.locateByType(List.class);
         assertNotNull(list);
@@ -290,10 +290,10 @@ public class PicoComponentRegistryTest {
                 will(returnValue("java.util.ArrayList"));
             }
         });
-        ComponentRegistry componentRegistry = new PicoComponentRegistry(servletContext);
+        ComponentRegistry componentRegistry = new ComponentRegistry(servletContext);
 
         // get private pico field
-        Field picoField = PicoComponentRegistry.class.getDeclaredField("picoContainer");
+        Field picoField = ComponentRegistry.class.getDeclaredField("picoContainer");
         picoField.setAccessible(true);
         MutablePicoContainer pico = (MutablePicoContainer) picoField.get(componentRegistry);
 

@@ -1,6 +1,9 @@
 package org.codehaus.waffle.context;
 
 import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
+import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
@@ -26,28 +29,30 @@ import java.lang.reflect.Field;
 
 
 /**
- * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
 public class WaffleRequestFilterTest {
-    
+
     private Mockery mockery = new Mockery();
-    
+
     @Test
     public void canInit() throws ServletException {
-        // Mock ComponentRegistry
-        final ComponentRegistry registry = mockery.mock(ComponentRegistry.class);
-        mockery.checking(new Expectations() {
-            {
-                one(registry).getContextContainerFactory();
-                will(returnValue(new ContextContainerFactory(null, null, null, null)));
-            }
-        });
 
         // Mock ServletContext
         final ServletContext servletContext = mockery.mock(ServletContext.class);
+
+        // Mock ComponentRegistry
+        final ComponentRegistry registry = new ComponentRegistry(servletContext) {
+            protected void register(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
+            }
+
+            @SuppressWarnings("unchecked")
+            protected void registerOtherComponents(ServletContext servletContext) {
+            }
+        };
+
         mockery.checking(new Expectations() {
             {
                 one(servletContext).getAttribute(ComponentRegistry.class.getName());
@@ -74,7 +79,7 @@ public class WaffleRequestFilterTest {
 
         Field field = WaffleRequestFilter.class.getDeclaredField("contextContainerFactory");
         field.setAccessible(true);
-        field.set(filter, new ContextContainerFactory(null,null,null,null));
+        field.set(filter, new ContextContainerFactory(null, null, null, null));
 
         assertNotNull(field.get(filter));
         filter.destroy();
@@ -108,10 +113,10 @@ public class WaffleRequestFilterTest {
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
-        
+
         // Mock HttpServletResponse
         final HttpServletResponse response = mockery.mock(HttpServletResponse.class);
-        
+
         // Mock FilterChain
         final FilterChain filterChain = mockery.mock(FilterChain.class);
         mockery.checking(new Expectations() {

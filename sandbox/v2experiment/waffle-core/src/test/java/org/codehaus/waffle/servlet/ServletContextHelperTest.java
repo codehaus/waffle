@@ -4,7 +4,6 @@ import javax.servlet.ServletContext;
 
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.testmodel.StubComponentRegistry;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -37,7 +36,7 @@ public class ServletContextHelperTest {
         mockery.checking(new Expectations() {
             {
                 one(servletContext).getAttribute(ComponentRegistry.class.getName());
-                will(returnValue(new StubComponentRegistry(servletContext)));
+                will(returnValue(new ComponentRegistry(servletContext)));
             }
         });
         ServletContextHelper.getComponentRegistry(servletContext);

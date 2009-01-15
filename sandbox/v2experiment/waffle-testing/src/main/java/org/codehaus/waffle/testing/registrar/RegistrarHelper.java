@@ -26,7 +26,6 @@ import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.ContextLevel;
-import org.codehaus.waffle.context.pico.PicoComponentRegistry;
 import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -145,7 +144,7 @@ public class RegistrarHelper {
         private ComponentRegistry registry;
 
         public StubServletContext() {
-            this.registry = new PicoComponentRegistry(this);
+            this.registry = new ComponentRegistry(this);
         }
 
         public Object getAttribute(String name) {

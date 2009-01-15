@@ -12,6 +12,7 @@ import static org.junit.Assert.assertTrue;
 import javax.servlet.ServletContext;
 
 import org.codehaus.waffle.ComponentRegistry;
+import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
@@ -257,7 +258,15 @@ public class PicoRegistrarTest {
     @Test
     public void canGetComponentRegistryFromDecorator() {
         final ServletContext servletContext = mockery.mock(ServletContext.class);
-        final ComponentRegistry componentRegistry = mockery.mock(ComponentRegistry.class);
+        final ComponentRegistry componentRegistry = new ComponentRegistry(servletContext) {
+            protected void register(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
+            }
+
+            @SuppressWarnings("unchecked")
+            protected void registerOtherComponents(ServletContext servletContext) {
+            }
+
+        };
         mockery.checking(new Expectations(){{
             one(servletContext).getAttribute(ComponentRegistry.class.getName());
             will(returnValue(componentRegistry));
