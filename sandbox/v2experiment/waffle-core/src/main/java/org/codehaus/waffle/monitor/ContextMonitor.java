@@ -4,8 +4,6 @@
 package org.codehaus.waffle.monitor;
 
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.registrar.Registrar;
 import org.picocontainer.MutablePicoContainer;
 
 /**
@@ -14,10 +12,6 @@ import org.picocontainer.MutablePicoContainer;
  * @author Mauro Talevi
  */
 public interface ContextMonitor extends Monitor {
-
-    void registrarCreated(Registrar registrar, RegistrarMonitor registrarMonitor);
-
-    void registrarNotFound(String registrarClassName);
 
     void contextInitialized();
 

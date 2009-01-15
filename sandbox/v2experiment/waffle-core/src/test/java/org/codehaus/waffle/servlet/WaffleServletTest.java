@@ -3,9 +3,6 @@
  */
 package org.codehaus.waffle.servlet;
 
-import static org.codehaus.waffle.Constants.ERRORS_VIEW_KEY;
-import static org.codehaus.waffle.Constants.VIEW_PREFIX_KEY;
-import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
@@ -17,7 +14,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
-import java.util.Properties;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
@@ -26,10 +22,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
 import org.codehaus.waffle.testmodel.StubViewResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
@@ -65,7 +59,6 @@ import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoContainer;
 
 /**
  * @author Michael Ward

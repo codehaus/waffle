@@ -19,19 +19,18 @@ import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.ControllerMonitor;
-import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ServletMonitor;
 import org.codehaus.waffle.monitor.ValidationMonitor;
 import org.codehaus.waffle.monitor.ViewMonitor;
-import org.codehaus.waffle.registrar.Registrar;
+import org.codehaus.waffle.monitor.Monitor;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.ResponderView;
 import org.codehaus.waffle.view.View;
 import org.picocontainer.MutablePicoContainer;
 
-public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor, RegistrarMonitor,
-        ServletMonitor, ValidationMonitor, ViewMonitor {
+public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor,
+        ServletMonitor, ValidationMonitor, ViewMonitor, Monitor {
 
     public void defaultActionMethodFound(MethodDefinition methodDefinition) {
     }
@@ -105,12 +104,6 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     public void applicationContextContainerStarted() {
     }
 
-    public void registrarCreated(Registrar registrar, RegistrarMonitor registrarMonitor) {
-    }
-
-    public void registrarNotFound(String registrarClassName) {
-    }
-
     public void requestContextContainerCreated(MutablePicoContainer sessionContextContainer) {
     }
 
@@ -127,15 +120,6 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     }
 
     public void requestContextContainerNotFound() {
-    }
-
-    public void componentRegistered(Object key, Class<?> clazz, Object[] parameters) {
-    }
-
-    public void instanceRegistered(Object key, Object instance) {
-    }
-
-    public void nonCachingComponentRegistered(Object key, Class<?> clazz, Object[] parameters) {
     }
 
     public void actionMethodInvocationFailed(Exception cause) {

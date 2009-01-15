@@ -27,7 +27,6 @@ import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.controller.ControllerDefinition;
-import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.ResponderView;
@@ -40,7 +39,7 @@ import org.picocontainer.MutablePicoContainer;
  * @author Mauro Talevi
  */
 public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor,
-        RegistrarMonitor, ServletMonitor, ValidationMonitor, ViewMonitor {
+        ServletMonitor, ValidationMonitor, ViewMonitor, Monitor {
 
     private Map<String, Level> levels;
     private Map<String, String> messages;
@@ -296,14 +295,6 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("controllerValueBound", name, value, controller);
     }
     
-    public void registrarCreated(Registrar registrar, RegistrarMonitor registrarMonitor) {
-        write("registrarCreated", registrar, registrarMonitor);         
-    }
-
-    public void registrarNotFound(String registrarClassName) {
-        write("registrarNotFound", registrarClassName); 
-    }
-
     public void contextInitialized() {
         write("contextInitialized");        
     }
@@ -342,18 +333,6 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
 
     public void requestContextContainerNotFound(){
         write("requestContextContainerNotFound");                        
-    }
-
-    public void componentRegistered(Object key, Class<?> type, Object[] parameters) {
-        write("componentRegistered", key, type, asList(parameters));
-    }
-
-    public void instanceRegistered(Object key, Object instance) {
-        write("instanceRegistered", key, instance);
-    }
-
-    public void nonCachingComponentRegistered(Object key, Class<?> type, Object[] parameters) {
-        write("nonCachingComponentRegistered", key, type, asList(parameters));
     }
 
     public void actionMethodInvocationFailed(Exception cause){

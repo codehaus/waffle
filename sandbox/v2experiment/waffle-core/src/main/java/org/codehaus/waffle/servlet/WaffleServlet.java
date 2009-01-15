@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;

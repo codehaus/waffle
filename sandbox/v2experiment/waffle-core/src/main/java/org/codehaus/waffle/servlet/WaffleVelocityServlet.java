@@ -3,7 +3,6 @@
  */
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.context.ContextContainer;
