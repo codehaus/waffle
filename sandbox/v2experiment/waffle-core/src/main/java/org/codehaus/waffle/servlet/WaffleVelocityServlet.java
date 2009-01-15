@@ -5,7 +5,6 @@ package org.codehaus.waffle.servlet;
 
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.i18n.MessagesContext;
-import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.apache.velocity.Template;
@@ -58,7 +57,7 @@ public class WaffleVelocityServlet extends VelocityViewServlet {
     protected Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context context)
             throws Exception {
         // Always add the controller to the context
-        ContextContainer container = (ContextContainer) currentRequestContainer.get();
+        MutablePicoContainer container = currentRequestContainer.get();
         MessagesContext messageContext = container.getComponent(MessagesContext.class);
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response, messageContext, container);
         context.put(Constants.CONTROLLER_KEY, controllerDefinition.getController());

@@ -10,7 +10,6 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;

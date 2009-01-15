@@ -10,7 +10,6 @@ import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
-import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -37,7 +36,6 @@ public class ContextControllerDefinitionFactoryTest {
     public void canGetControllerDefinition() throws NoSuchMethodException {
         final MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
         pico.addComponent("theController", FakeController.class);
-        ContextContainer container = new ContextContainer(pico);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -68,7 +66,7 @@ public class ContextControllerDefinitionFactoryTest {
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
                 new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
-                response, messagesContext, container);
+                response, messagesContext, pico);
 
         assertNotNull(controllerDefinition.getController());
         assertSame(methodDefinition, controllerDefinition.getMethodDefinition());
@@ -77,7 +75,6 @@ public class ContextControllerDefinitionFactoryTest {
     @Test(expected = WaffleException.class)
     public void cannotRequestControllerDefinitionThatiIsNotRegistered() {
         MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
-        ContextContainer container = new ContextContainer(pico);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -101,7 +98,7 @@ public class ContextControllerDefinitionFactoryTest {
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
                 new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
 
-        ControllerDefinition definition = controllerDefinitionFactory.getControllerDefinition(request, response, context, container);
+        ControllerDefinition definition = controllerDefinitionFactory.getControllerDefinition(request, response, context, pico);
     }
 
     @Test(expected = WaffleException.class)

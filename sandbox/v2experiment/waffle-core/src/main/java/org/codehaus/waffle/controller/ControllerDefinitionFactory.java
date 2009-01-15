@@ -4,7 +4,6 @@
 package org.codehaus.waffle.controller;
 
 import org.codehaus.waffle.i18n.MessagesContext;
-import org.codehaus.waffle.context.ContextContainer;
 import org.picocontainer.MutablePicoContainer;
 
 import javax.servlet.http.HttpServletRequest;
