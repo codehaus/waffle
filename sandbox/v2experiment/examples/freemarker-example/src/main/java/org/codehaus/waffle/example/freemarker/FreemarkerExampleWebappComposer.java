@@ -4,6 +4,11 @@ import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
 import org.codehaus.waffle.bind.converters.AbstractValueConverter;
 import org.codehaus.waffle.bind.converters.DateValueConverter;
+import org.codehaus.waffle.bind.converters.NumberValueConverter;
+import org.codehaus.waffle.bind.converters.StringListValueConverter;
+import org.codehaus.waffle.bind.converters.NumberListValueConverter;
+import org.codehaus.waffle.bind.converters.StringListMapValueConverter;
+import org.codehaus.waffle.bind.converters.StringNumberListMapValueConverter;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.DAY_FORMAT_KEY;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.TIME_FORMAT_KEY;
 import org.codehaus.waffle.context.WaffleWebappComposer;
@@ -31,6 +36,7 @@ public class FreemarkerExampleWebappComposer extends WaffleWebappComposer {
     @Override
     public void composeApplication(MutablePicoContainer picoContainer, ServletContext servletContext) {
         super.composeApplication(picoContainer, servletContext);
+        picoContainer.addComponent("DateValueConverter", DateValueConverter.class);
         DateProvider dateProvider = new DateProvider("dd/MM/yyyy", "hh:mm:ss", "dd/MM/yyyy");
         AbstractValueConverter converter = (AbstractValueConverter) picoContainer.getComponent(DateValueConverter.class);
         if (converter != null) {
@@ -39,6 +45,11 @@ public class FreemarkerExampleWebappComposer extends WaffleWebappComposer {
             patterns.setProperty(TIME_FORMAT_KEY, dateProvider.getTimePattern());
             converter.changePatterns(patterns);
         }
+        picoContainer.addComponent("NumberValueConverter", NumberValueConverter.class);
+        picoContainer.addComponent("StringListValueConverter", StringListValueConverter.class);
+        picoContainer.addComponent("NumberListValueConverter", NumberListValueConverter.class);
+        picoContainer.addComponent("StringListMapValueConverter", StringListMapValueConverter.class);
+        picoContainer.addComponent("StringNumberListMapValueConverter", StringNumberListMapValueConverter.class);
         picoContainer.addComponent(dateProvider);
         picoContainer.addComponent(SimplePersonPersister.class);
         picoContainer.addComponent(PersonValueConverter.class);
