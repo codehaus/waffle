@@ -81,14 +81,14 @@ public class PicoContextContainerFactoryTest {
         Assert.assertNotNull(applicationContainer.getComponent(ServletContext.class));
         assertSame(messageResources, applicationContainer.getComponent(MessageResources.class));
         ApplicationLevelComponent applicationLevelComponent =
-                (ApplicationLevelComponent) applicationContainer.getComponentInstance("application");
+                (ApplicationLevelComponent) applicationContainer.getComponent("application");
         assertNotNull(applicationLevelComponent);
         assertTrue(applicationLevelComponent.isStarted());
         assertFalse(applicationLevelComponent.isStopped());
 
         // Session
-        final ContextContainer sessionContainer = contextContainerFactory.buildSessionLevelContainer();
-        SessionLevelComponent sessionLevelComponent = (SessionLevelComponent) sessionContainer.getComponentInstance("session");
+        final MutablePicoContainer sessionContainer = contextContainerFactory.buildSessionLevelContainer();
+        SessionLevelComponent sessionLevelComponent = (SessionLevelComponent) sessionContainer.getComponent("session");
         assertNotNull(sessionLevelComponent);
         assertFalse("Start is the responsibility of HttpSessionListener", sessionLevelComponent.isStarted());
         assertFalse(sessionLevelComponent.isStopped());
@@ -115,8 +115,8 @@ public class PicoContextContainerFactoryTest {
         });
 
         // Request
-        ContextContainer requestContainer = contextContainerFactory.buildRequestLevelContainer(request);
-        RequestLevelComponent requestLevelComponent = (RequestLevelComponent) requestContainer.getComponentInstance("request");
+        MutablePicoContainer requestContainer = contextContainerFactory.buildRequestLevelContainer(request);
+        RequestLevelComponent requestLevelComponent = (RequestLevelComponent) requestContainer.getComponent("request");
         assertNotNull(requestLevelComponent);
         assertFalse("Start is the responsibility of ServletRequestListener", requestLevelComponent.isStarted());
         assertFalse(requestLevelComponent.isStopped());
@@ -222,10 +222,10 @@ public class PicoContextContainerFactoryTest {
         MutablePicoContainer parent = new DefaultPicoContainer(new Caching(), grandParent);
         parent.addComponent("B", new FakeBean());
 
-        PicoContextContainer container = new PicoContextContainer(parent, messageResources);
-        container.registerComponentInstance(new FakeBean());
+        ContextContainer container = new ContextContainer(parent, messageResources);
+        container.addComponent(new FakeBean());
 
-        Collection<FakeBean> fakeBeans = container.getAllComponentInstancesOfType(FakeBean.class);
+        Collection<FakeBean> fakeBeans = container.getComponents(FakeBean.class);
         assertEquals(3, fakeBeans.size());
     }
 
@@ -236,7 +236,7 @@ public class PicoContextContainerFactoryTest {
         ContextContainer container = contextContainerFactory.buildApplicationContextContainer();
 
         StubStartable startable = new StubStartable();
-        container.registerComponentInstance(startable);
+        container.addComponent(startable);
 
         // Test lifecycle
         MutablePicoContainer picoContainer = (MutablePicoContainer) container.getDelegate();
@@ -265,19 +265,17 @@ public class PicoContextContainerFactoryTest {
         });
         contextContainerFactory.initialize(servletContext);
 
-        ContextContainer container = contextContainerFactory.buildSessionLevelContainer();
+        MutablePicoContainer container = contextContainerFactory.buildSessionLevelContainer();
 
         StubStartable startable = new StubStartable();
-        container.registerComponentInstance(startable);
+        container.addComponent(startable);
 
-        // Test lifecycle
-        MutablePicoContainer picoContainer = (MutablePicoContainer) container.getDelegate();
-        picoContainer.start();
+        container.start();
 
         assertTrue(startable.started);
         assertFalse(startable.stopped);
 
-        picoContainer.stop();
+        container.stop();
         assertTrue(startable.stopped);
     }
 
@@ -297,7 +295,7 @@ public class PicoContextContainerFactoryTest {
         });
         contextContainerFactory.initialize(servletContext);
 
-        final ContextContainer sessionContextContainer = contextContainerFactory.buildSessionLevelContainer();
+        final MutablePicoContainer sessionContextContainer = contextContainerFactory.buildSessionLevelContainer();
 
 
         // Mock HttpSession
@@ -320,23 +318,20 @@ public class PicoContextContainerFactoryTest {
             }
         });
         
-        ContextContainer container = contextContainerFactory.buildRequestLevelContainer(request);
+        MutablePicoContainer container = contextContainerFactory.buildRequestLevelContainer(request);
 
         StubStartable startable = new StubStartable();
-        container.registerComponentInstance(startable);
-        
-        // Test lifecycle
-        MutablePicoContainer picoContainer = (MutablePicoContainer) container.getDelegate();
+        container.addComponent(startable);
 
         // Remove ErrorsContext and MessagesContext prior to starting... (assert they existed)
-        assertNotNull(picoContainer.removeComponent(ErrorsContext.class));
-        assertNotNull(picoContainer.removeComponent(MessagesContext.class));
-        picoContainer.start();
+        assertNotNull(container.removeComponent(ErrorsContext.class));
+        assertNotNull(container.removeComponent(MessagesContext.class));
+        container.start();
 
         assertTrue(startable.started);
         assertFalse(startable.stopped);
 
-        picoContainer.stop();
+        container.stop();
         assertTrue(startable.stopped);
     }
 
@@ -350,24 +345,15 @@ public class PicoContextContainerFactoryTest {
         final PicoContextContainerFactory contextContainerFactory
                 = new PicoContextContainerFactory(messageResources, new SilentMonitor(), registrarMonitor, parameterResolver);
 
-        // Mock MutablePicoContainer
-        final MutablePicoContainer picoContainer = mockery.mock(MutablePicoContainer.class);
-
         // Mock ContextContainer
-        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
-        mockery.checking(new Expectations() {
-            {
-                one(contextContainer).getDelegate();
-                will(returnValue(picoContainer));
-            }
-        });
+        final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
 
         Registrar registrar = contextContainerFactory.createRegistrar(contextContainer);
 
         // Ensure 'picoContainer' was set
         Field picoContainerField = PicoRegistrar.class.getDeclaredField("picoContainer");
         picoContainerField.setAccessible(true);
-        assertSame(picoContainer, picoContainerField.get(registrar));
+        assertSame(contextContainer, picoContainerField.get(registrar));
 
         // ensure 'parameterResolver' was set
         Field parameterResolverField = PicoRegistrar.class.getDeclaredField("parameterResolver");

@@ -10,6 +10,7 @@ import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.RegistrarAssistant;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * @author Michael Ward
@@ -62,8 +63,8 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
 
         // build application context container
         applicationContextContainer = buildApplicationContextContainer();
-        applicationContextContainer.registerComponentInstance(servletContext);
-        applicationContextContainer.registerComponentInstance(messageResources);
+        applicationContextContainer.addComponent(servletContext);
+        applicationContextContainer.addComponent(messageResources);
 
         buildApplicationLevelRegistry();
         applicationContextContainer.start();
@@ -94,6 +95,6 @@ public abstract class AbstractContextContainerFactory implements ContextContaine
 
     protected abstract ContextContainer buildApplicationContextContainer();
 
-    protected abstract Registrar createRegistrar(ContextContainer contextContainer);
+    protected abstract Registrar createRegistrar(MutablePicoContainer contextContainer);
 
 }

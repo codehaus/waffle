@@ -5,6 +5,7 @@ package org.codehaus.waffle.context;
 
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.servlet.ServletContextHelper;
+import org.picocontainer.MutablePicoContainer;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -30,13 +31,13 @@ public class WaffleRequestFilter implements Filter {
                          FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         CurrentHttpServletRequest.set(httpServletRequest);
-        ContextContainer requestContextContainer = contextContainerFactory
+        MutablePicoContainer requestContextContainer = contextContainerFactory
                 .buildRequestLevelContainer(httpServletRequest);
 
         try {
             RequestLevelContainer.set(requestContextContainer);
-            requestContextContainer.registerComponentInstance(request);
-            requestContextContainer.registerComponentInstance(response);
+            requestContextContainer.addComponent(request);
+            requestContextContainer.addComponent(response);
             requestContextContainer.start();
 
             filterChain.doFilter(request, response);

@@ -11,7 +11,7 @@ import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.context.RequestLevelContainer;
-import org.codehaus.waffle.context.pico.PicoContextContainer;
+import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -38,7 +38,7 @@ public class ContextControllerDefinitionFactoryTest {
     public void canGetControllerDefinition() throws NoSuchMethodException {
         final MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
         pico.addComponent("theController", FakeController.class);
-        PicoContextContainer container = new PicoContextContainer(pico);
+        ContextContainer container = new ContextContainer(pico);
         RequestLevelContainer.set(container);
 
         // Mock HttpServletRequest
@@ -79,7 +79,7 @@ public class ContextControllerDefinitionFactoryTest {
     @Test(expected = WaffleException.class)
     public void cannotRequestControllerDefinitionThatiIsNotRegistered() {
         MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
-        PicoContextContainer container = new PicoContextContainer(pico);
+        ContextContainer container = new ContextContainer(pico);
         RequestLevelContainer.set(container);
 
         // Mock HttpServletRequest

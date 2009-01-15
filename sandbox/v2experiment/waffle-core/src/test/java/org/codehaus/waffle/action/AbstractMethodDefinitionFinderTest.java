@@ -25,6 +25,8 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.picocontainer.containers.AbstractDelegatingMutablePicoContainer;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * @author Michael Ward
@@ -521,7 +523,7 @@ public abstract class AbstractMethodDefinitionFinderTest {
     public void canDependOnMessagesContext() throws Exception {
         // Mock MessagesContext
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
-        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
         mockery.checking(new Expectations() {
             {
                 one(contextContainer).getComponent(MessagesContext.class);

@@ -3,7 +3,6 @@ package org.codehaus.waffle.mock;
 import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.pico.PicoContextContainer;
 import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.registrar.Registrar;
@@ -22,7 +21,7 @@ import org.picocontainer.monitors.NullComponentMonitor;
 public class PicoRegistrarMockery extends AbstractRegistrarMockery {
 
     protected ContextContainer createContextContainer() {
-        return new PicoContextContainer();
+        return new ContextContainer();
     }
 
     protected Registrar createRegistrar(ContextContainer container) {

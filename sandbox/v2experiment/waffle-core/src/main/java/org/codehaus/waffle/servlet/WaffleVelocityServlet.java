@@ -39,7 +39,7 @@ public class WaffleVelocityServlet extends VelocityViewServlet {
     protected Template handleRequest(HttpServletRequest request, HttpServletResponse response, Context context)
             throws Exception {
         // Always add the controller to the context
-        ContextContainer container = RequestLevelContainer.get();
+        ContextContainer container = (ContextContainer) RequestLevelContainer.get();
         MessagesContext messageContext = container.getComponent(MessagesContext.class);
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response, messageContext, container);
         context.put(Constants.CONTROLLER_KEY, controllerDefinition.getController());

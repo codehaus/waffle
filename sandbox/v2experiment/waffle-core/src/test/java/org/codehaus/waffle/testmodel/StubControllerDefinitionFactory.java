@@ -3,7 +3,7 @@ package org.codehaus.waffle.testmodel;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.i18n.MessagesContext;
-import org.codehaus.waffle.context.ContextContainer;
+import org.picocontainer.MutablePicoContainer;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class StubControllerDefinitionFactory implements ControllerDefinitionFactory {
     
-    public ControllerDefinition getControllerDefinition(HttpServletRequest servletRequest, HttpServletResponse response, MessagesContext messageContext, ContextContainer requestLevelContainer) {
+    public ControllerDefinition getControllerDefinition(HttpServletRequest servletRequest, HttpServletResponse response, MessagesContext messageContext, MutablePicoContainer requestLevelContainer) {
         return null;
     }
 }

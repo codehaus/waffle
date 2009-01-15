@@ -1,6 +1,7 @@
 package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.context.ContextContainer;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -28,7 +29,7 @@ public class PicoContextContainerTest {
             }
         });
 
-        PicoContextContainer container = new PicoContextContainer(delegate);
-        container.getComponentInstance("foo");
+        ContextContainer container = new ContextContainer(delegate);
+        container.getComponent("foo");
     }
 }

@@ -64,8 +64,8 @@ public abstract class AbstractRegistrarMockery extends Mockery {
   
     public void assertApplicationContext(Class<?> registrarClass) {
         ContextContainer container = createContextContainer();
-        container.registerComponentInstance(mockServletContext());
-        container.registerComponentInstance(mockMessageResources());
+        container.addComponent(mockServletContext());
+        container.addComponent(mockMessageResources());
         Registrar registrar = createRegistrar(container);
 
         RegistrarAssistant registrarAssistant = new RegistrarAssistant(registrarClass, messageResources);
@@ -76,9 +76,9 @@ public abstract class AbstractRegistrarMockery extends Mockery {
 
     public void assertSessionContext(Class<?> registrarClass) {
         ContextContainer container = createContextContainer();
-        container.registerComponentInstance(mockServletContext());
-        container.registerComponentInstance(mockHttpSession());
-        container.registerComponentInstance(mockMessageResources());
+        container.addComponent(mockServletContext());
+        container.addComponent(mockHttpSession());
+        container.addComponent(mockMessageResources());
         Registrar registrar = createRegistrar(container);
 
         RegistrarAssistant registrarAssistant = new RegistrarAssistant(registrarClass, messageResources);
@@ -90,11 +90,11 @@ public abstract class AbstractRegistrarMockery extends Mockery {
 
     public void assertRequestContext(Class<?> customRegistrarClass) {
         ContextContainer container = createContextContainer();
-        container.registerComponentInstance(mockServletContext());
-        container.registerComponentInstance(mockHttpSession());
-        container.registerComponentInstance(mockHttpServletRequest());
-        container.registerComponentInstance(mockHttpServletResponse());
-        container.registerComponentInstance(mockMessageResources());
+        container.addComponent(mockServletContext());
+        container.addComponent(mockHttpSession());
+        container.addComponent(mockHttpServletRequest());
+        container.addComponent(mockHttpServletResponse());
+        container.addComponent(mockMessageResources());
         Registrar registrar = createRegistrar(container);
 
         RegistrarAssistant registrarAssistant = new RegistrarAssistant(customRegistrarClass, messageResources);

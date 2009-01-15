@@ -3,17 +3,19 @@
  */
 package org.codehaus.waffle.context;
 
+import org.picocontainer.MutablePicoContainer;
+
 public class RequestLevelContainer {
-    private final static ThreadLocal<ContextContainer> REQUEST_CONTAINER = new ThreadLocal<ContextContainer>();
+    private final static ThreadLocal<MutablePicoContainer> REQUEST_CONTAINER = new ThreadLocal<MutablePicoContainer>();
 
     private RequestLevelContainer() {
     }
 
-    public static ContextContainer get() {
+    public static MutablePicoContainer get() {
         return REQUEST_CONTAINER.get();
     }
 
-    public static void set(ContextContainer container) {
+    public static void set(MutablePicoContainer container) {
         REQUEST_CONTAINER.set(container);
     }
 }

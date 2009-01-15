@@ -5,7 +5,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;
@@ -16,6 +15,7 @@ import org.jruby.javasupport.JavaUtil;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * @author Michael Ward
@@ -31,11 +31,11 @@ public class RubyControllerDefinitionFactoryTest {
         ScriptedControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null,
                 new SilentMonitor(), new DefaultMessageResources());
 
-        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
         mockery.checking(new Expectations() {
             {
                 IRubyObject rubyObject = JavaUtil.convertJavaToRuby(Ruby.newInstance(), "Hello From Ruby");
-                one(contextContainer).getComponentInstance("foobar");
+                one(contextContainer).getComponent("foobar");
                 will(returnValue(new RubyController(rubyObject)));
             }
         });
@@ -49,10 +49,10 @@ public class RubyControllerDefinitionFactoryTest {
         ScriptedControllerDefinitionFactory factory = new RubyControllerDefinitionFactory(null, null, null,
                 new SilentMonitor(), new DefaultMessageResources());
 
-        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
         mockery.checking(new Expectations() {
             {
-                one(contextContainer).getComponentInstance("foobar");
+                one(contextContainer).getComponent("foobar");
                 will(returnValue("Pojo"));
             }
         });

@@ -54,11 +54,10 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
     }
 
     @Override
-    protected Registrar createRegistrar(ContextContainer contextContainer) { // todo we need tests for this ... can this
+    protected Registrar createRegistrar(MutablePicoContainer contextContainer) { // todo we need tests for this ... can this
                                                                              // be refactored cleaner?
-        MutablePicoContainer delegateContainer = (MutablePicoContainer) contextContainer.getDelegate();
         RegistrarMonitor registrarMonitor = getRegistrarMonitor();
-        Registrar registrar = new RubyScriptedRegistrar(delegateContainer, getParameterResolver(),
+        Registrar registrar = new RubyScriptedRegistrar(contextContainer, getParameterResolver(),
                 getPicoLifecycleStrategy(), registrarMonitor, getPicoComponentMonitor(), messageResources);
         getContextMonitor().registrarCreated(registrar, registrarMonitor);
         return registrar;

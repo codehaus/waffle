@@ -17,6 +17,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * 
@@ -78,11 +79,11 @@ public class PicoWaffleContextListenerTest {
         WaffleContextListener waffleContextListener = new PicoWaffleContextListener();
 
         // Mock ContextContainer
-        final ContextContainer container = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer container = mockery.mock(MutablePicoContainer.class);
         mockery.checking(new Expectations() {
             {
                 one(container).start();
-                one(container).registerComponentInstance(with(an(HttpSession.class)));
+                one(container).addComponent(with(an(HttpSession.class)));
                 one(container).stop();
                 one(container).dispose();
             }

@@ -1,7 +1,7 @@
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextContainerFactory;
+import org.picocontainer.MutablePicoContainer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -15,11 +15,11 @@ public class StubContextContainerFactory implements ContextContainerFactory {
 
     }
 
-    public ContextContainer buildSessionLevelContainer() {
+    public MutablePicoContainer buildSessionLevelContainer() {
         return null;
     }
 
-    public ContextContainer buildRequestLevelContainer(HttpServletRequest request) {
+    public MutablePicoContainer buildRequestLevelContainer(HttpServletRequest request) {
         return null;
     }
 }

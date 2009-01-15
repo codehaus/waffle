@@ -61,6 +61,7 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * @author Michael Ward
@@ -131,7 +132,7 @@ public class WaffleServletTest {
     public void canServiceNonDispatchingController() throws Exception {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
-        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
         final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
@@ -142,7 +143,7 @@ public class WaffleServletTest {
                 will(returnValue(errorsContext));
                 exactly(2).of(errorsContext).hasErrorMessages();
                 will(returnValue(false));
-                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                one(contextContainer).getComponents(MethodInterceptor.class);
                 will(returnValue(new ArrayList<Object>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
@@ -152,7 +153,7 @@ public class WaffleServletTest {
                 will(returnValue(validatorConfiguration));
                 one(validatorConfiguration).getSuffix();
                 will(returnValue(".xx"));
-                one(contextContainer).getComponentInstance("no name.xx");
+                one(contextContainer).getComponent("no name.xx");
                 will(returnValue("yy"));
             }
         });
@@ -239,7 +240,7 @@ public class WaffleServletTest {
     public void canCreateRedirectViewWhenReturnValueIsNullAndRequestWasAPost() throws Exception {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
-        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
         final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
@@ -250,7 +251,7 @@ public class WaffleServletTest {
                 will(returnValue(errorsContext));
                 exactly(2).of(errorsContext).hasErrorMessages();
                 will(returnValue(false));
-                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                one(contextContainer).getComponents(MethodInterceptor.class);
                 will(returnValue(new ArrayList<Object>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
@@ -260,7 +261,7 @@ public class WaffleServletTest {
                 will(returnValue(validatorConfiguration));
                 one(validatorConfiguration).getSuffix();
                 will(returnValue(".xx"));
-                one(contextContainer).getComponentInstance("no name.xx");
+                one(contextContainer).getComponent("no name.xx");
                 will(returnValue("yy"));
 
             }
@@ -349,7 +350,7 @@ public class WaffleServletTest {
     public void canHandleSystemExceptions() throws Exception {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
-        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
         final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
@@ -358,7 +359,7 @@ public class WaffleServletTest {
                 one(contextContainer).getComponent(ErrorsContext.class);
                 will(returnValue(errorsContext));
                 one(errorsContext).addErrorMessage(with(any(ErrorMessage.class)));
-                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                one(contextContainer).getComponents(MethodInterceptor.class);
                 will(returnValue(new ArrayList<MethodInterceptor>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
@@ -449,7 +450,7 @@ public class WaffleServletTest {
     public void cannotServiceIfMethodDefinitionIsNull() throws Exception {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
-        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
         final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
@@ -459,7 +460,7 @@ public class WaffleServletTest {
                 will(returnValue(errorsContext));
                 one(errorsContext).hasErrorMessages();
                 will(returnValue(false));
-                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                one(contextContainer).getComponents(MethodInterceptor.class);
                 will(returnValue(new ArrayList<MethodInterceptor>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
@@ -469,7 +470,7 @@ public class WaffleServletTest {
                 will(returnValue(validatorConfiguration));
                 one(validatorConfiguration).getSuffix();
                 will(returnValue(".xx"));
-                one(contextContainer).getComponentInstance("no name.xx");
+                one(contextContainer).getComponent("no name.xx");
                 will(returnValue("yy"));
             }
         });
@@ -552,7 +553,7 @@ public class WaffleServletTest {
     public void canHandleExceptionsInMethodInvocation() throws Exception {
         // Mock ErrorsContext
         final ErrorsContext errorsContext = mockery.mock(ErrorsContext.class);
-        final ContextContainer contextContainer = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
         final MessagesContext messageContext = mockery.mock(MessagesContext.class);
         final ValidationMonitor validationMonitor = mockery.mock(ValidationMonitor.class);
         final ValidatorConfiguration validatorConfiguration = mockery.mock(ValidatorConfiguration.class);
@@ -563,7 +564,7 @@ public class WaffleServletTest {
                 one(errorsContext).hasErrorMessages();
                 will(returnValue(false));
                 one(errorsContext).addErrorMessage(with(any(ErrorMessage.class)));
-                one(contextContainer).getAllComponentInstancesOfType(MethodInterceptor.class);
+                one(contextContainer).getComponents(MethodInterceptor.class);
                 will(returnValue(new ArrayList<MethodInterceptor>()));
                 one(contextContainer).getComponent(MessagesContext.class);
                 will(returnValue(messageContext));
@@ -573,7 +574,7 @@ public class WaffleServletTest {
                 will(returnValue(validatorConfiguration));
                 one(validatorConfiguration).getSuffix();
                 will(returnValue(".xx"));
-                one(contextContainer).getComponentInstance("no name.xx");
+                one(contextContainer).getComponent("no name.xx");
                 will(returnValue("yy"));
             }
         });

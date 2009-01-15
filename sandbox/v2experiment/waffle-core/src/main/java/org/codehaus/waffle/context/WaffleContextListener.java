@@ -5,6 +5,7 @@ package org.codehaus.waffle.context;
 
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
+import org.picocontainer.MutablePicoContainer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -49,8 +50,8 @@ public abstract class WaffleContextListener implements ServletContextListener, H
      */
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
-        ContextContainer sessionContextContainer = contextContainerFactory.buildSessionLevelContainer();
-        sessionContextContainer.registerComponentInstance(session);
+        MutablePicoContainer sessionContextContainer = contextContainerFactory.buildSessionLevelContainer();
+        sessionContextContainer.addComponent(session);
         session.setAttribute(Constants.SESSION_CONTAINER_KEY, sessionContextContainer);
         sessionContextContainer.start();
     }
@@ -60,7 +61,7 @@ public abstract class WaffleContextListener implements ServletContextListener, H
      */
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
-        ContextContainer sessionContextContainer = (ContextContainer) session
+        MutablePicoContainer sessionContextContainer = (MutablePicoContainer) session
                 .getAttribute(Constants.SESSION_CONTAINER_KEY);
         sessionContextContainer.stop();
         sessionContextContainer.dispose();

@@ -3,6 +3,8 @@
  */
 package org.codehaus.waffle.context;
 
+import org.picocontainer.MutablePicoContainer;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,8 +21,8 @@ public interface ContextContainerFactory {
 
     void destroy();
 
-    ContextContainer buildSessionLevelContainer();
+    MutablePicoContainer buildSessionLevelContainer();
 
-    ContextContainer buildRequestLevelContainer(HttpServletRequest request);
+    MutablePicoContainer buildRequestLevelContainer(HttpServletRequest request);
 
 }

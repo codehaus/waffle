@@ -49,6 +49,7 @@ import org.codehaus.waffle.validation.DefaultValidatorConfiguration;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.ViewResolver;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -166,9 +167,9 @@ public class WaffleServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
         servletMonitor.servletServiceRequested(parametersOf(request));
-        ContextContainer requestContainer = RequestLevelContainer.get();
+        MutablePicoContainer requestContainer = RequestLevelContainer.get();
         ErrorsContext errorsContext = requestContainer.getComponent(ErrorsContext.class);
-        Collection<MethodInterceptor> methodInterceptors = requestContainer.getAllComponentInstancesOfType(MethodInterceptor.class);
+        Collection<MethodInterceptor> methodInterceptors = requestContainer.getComponents(MethodInterceptor.class);
         MessagesContext messageContext = requestContainer.getComponent(MessagesContext.class);
 
         ValidationMonitor validationMonitor = requestContainer.getComponent(ValidationMonitor.class);
@@ -187,11 +188,11 @@ public class WaffleServlet extends HttpServlet {
             String controllerName = controllerDefinition.getName();
             Object controllerValidator;
             String controllerValidatorName = controllerName + validatorConfiguration.getSuffix();
-            controllerValidator = requestContainer.getComponentInstance(controllerValidatorName);
+            controllerValidator = requestContainer.getComponent(controllerValidatorName);
 
             if (controllerValidator == null) {
                 // default to use controller as validator
-                controllerValidator = requestContainer.getComponentInstance(controllerName);
+                controllerValidator = requestContainer.getComponent(controllerName);
                 validationMonitor.controllerValidatorNotFound(controllerValidatorName, controllerName);
             }
 

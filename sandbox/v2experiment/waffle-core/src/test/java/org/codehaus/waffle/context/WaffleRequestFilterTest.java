@@ -10,6 +10,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.picocontainer.MutablePicoContainer;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -82,12 +83,14 @@ public class WaffleRequestFilterTest {
         CurrentHttpServletRequest.set(null); // ensure clear
 
         // Mock ContextContainer
-        final ContextContainer container = mockery.mock(ContextContainer.class);
+        final MutablePicoContainer container = mockery.mock(MutablePicoContainer.class);
         mockery.checking(new Expectations() {
             {
                 one(container).start();
-                one(container).registerComponentInstance(with(an(HttpServletRequest.class)));
-                one(container).registerComponentInstance(with(an(HttpServletResponse.class)));                
+                one(container).addComponent(with(an(HttpServletRequest.class)));
+                will(returnValue(null));
+                one(container).addComponent(with(an(HttpServletResponse.class)));
+                will(returnValue(null));
                 one(container).stop();
                 one(container).dispose();
             }
