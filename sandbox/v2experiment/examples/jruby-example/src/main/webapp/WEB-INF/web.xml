@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+  <display-name>Waffle JRuby Example</display-name>
+
+  <!-- 1. This is how an application registers its custom Registrar -->
+  <context-param>
+    <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
+    <param-value>org.codehaus.waffle.example.jruby.JRubyRegistrar</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.monitor.RegistrarMonitor</param-name>
+    <param-value>org.codehaus.waffle.monitor.CommonsLoggingMonitor</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.monitor.ActionMonitor</param-name>
+    <param-value>org.codehaus.waffle.monitor.CommonsLoggingMonitor</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.monitor.ContextMonitor</param-name>
+    <param-value>org.codehaus.waffle.monitor.CommonsLoggingMonitor</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.monitor.BindMonitor</param-name>
+    <param-value>org.codehaus.waffle.monitor.CommonsLoggingMonitor</param-value>
+  </context-param>
+
+
+  <!-- Ruby Specific components -->
+  <context-param>
+    <param-name>org.codehaus.waffle.context.ContextContainerFactory</param-name>
+    <param-value>org.codehaus.waffle.context.pico.RubyPicoContextContainerFactory</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.bind.ControllerDataBinder</param-name>
+    <param-value>org.codehaus.waffle.bind.ognl.RubyControllerDataBinder</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.codehaus.waffle.controller.ControllerDefinitionFactory</param-name>
+    <param-value>org.codehaus.waffle.controller.RubyControllerDefinitionFactory</param-value>
+  </context-param>
+
+  <!-- OPTIONAL: define a path to the ruby script directory (for development)
+       NOTE:  this path work with maven plugin filtering; you may need to adapt it your dev environment 
+       Alternatively, you may define an env variable, eg  WAFFLE_RUBY_SCRIPT=dir:/absolute/path/to/ruby/script/dir
+  <context-param>
+    <param-name>org.codehaus.waffle.ruby.env</param-name>
+    <param-value>WAFFLE_RUBY_SCRIPT</param-value>
+  </context-param> 
+  <context-param>
+    <param-name>org.codehaus.waffle.ruby.path</param-name>
+    <param-value>dir:src/main/ruby/</param-value>
+  </context-param>-->
+  
+  <listener>
+    <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
+  </listener>
+
+  <!-- 4. Waffle request filter (responsible for request level context) -->
+  <filter>
+    <filter-name>WaffleRequestFilter</filter-name>
+    <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>WaffleRequestFilter</filter-name>
+    <url-pattern>*.waffle</url-pattern>
+  </filter-mapping>
+
+  <!-- 5. Register Waffle's FrontController servlet -->
+  <servlet>
+    <servlet-name>waffle</servlet-name>
+    <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+    <init-param>
+      <param-name>view.suffix</param-name>
+      <param-value>.rhtml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet>
+    <servlet-name>rhtml</servlet-name>
+    <servlet-class>org.codehaus.waffle.servlet.RhtmlServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>waffle</servlet-name>
+    <url-pattern>*.waffle</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>rhtml</servlet-name>
+    <url-pattern>*.rhtml</url-pattern>
+  </servlet-mapping>
+
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>

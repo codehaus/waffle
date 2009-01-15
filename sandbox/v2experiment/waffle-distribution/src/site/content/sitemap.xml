@@ -1,0 +1,83 @@
+<sitemap>
+  <section>
+    <name>About Waffle</name>
+    <page>index.html</page>
+    <page>why.html</page>
+    <page>license.html</page>
+    <page>download.html</page>
+    <page>release-notes.html</page>
+  </section>
+  <section>
+    <name>Developing Java Webapps</name>
+    <page>action-controllers.html</page>
+    <page>action-methods.html</page>
+    <page>interceptors.html</page>
+    <page>i18n.html</page>
+    <page>registrar.html</page>
+    <page>views.html</page>
+    <page>prg.html</page>
+    <page>pluggability.html</page>
+    <page>binding.html</page>
+    <page>validation.html</page>
+    <page>lifecycle.html</page>
+    <page>monitors.html</page>
+    <page>file-download.html</page>
+    <page>file-upload.html</page>
+    <page>webxml.html</page>
+    <page>webapp-structure.html</page>
+  </section>
+  <section>
+    <name>Developing Scripted Webapps</name>
+    <page>ruby/ruby-controllers.html</page>
+    <page>ruby/from-java-to-ruby.html</page>
+  </section>
+  <section>
+    <name>Web 2.0</name>
+    <page>ajax.html</page>
+    <page>dynamic.html</page>
+  </section>
+  <section>
+    <name>Examples</name>
+    <page>examples/examples.html</page>
+    <page>examples/hello-world.html</page>
+    <page>examples/simple-calculator.html</page>
+  </section>
+  <section>
+    <name>Tutorials</name>
+    <page>tutorials/tutorial-one.html</page>
+    <page>tutorials/tutorial-two.html</page>
+  </section>
+  <section>
+    <name>Taglib</name>
+    <page>taglib/taglib.html</page>
+    <page>taglib/button.html</page>
+    <page>taglib/calendar.html</page>
+    <page>taglib/date.html</page>
+    <page>taglib/hidden.html</page>
+    <page>taglib/number.html</page>
+    <page>taglib/submit.html</page>
+    <page>taglib/select.html</page>
+    <page>taglib/text.html</page>
+    <page>taglib/textarea.html</page>
+  </section>
+  <section>
+    <name>Project Info</name>
+    <page>mailing-lists.html</page>
+    <page>team-list.html</page>
+    <page>source-repository.html</page>
+    <link title="Issue Tracking">http://jira.codehaus.org/browse/WAFFLE</link>
+  </section>
+  <section>
+    <name>JavaDoc</name>
+    <link title="Core">javadoc/core/index.html</link>
+    <link title="Ruby">javadoc/ruby/index.html</link>
+    <link title="Mock">javadoc/mock/index.html</link>
+    <link title="Taglib">javadoc/taglib/index.html</link>
+    <link title="Testing">javadoc/testing/index.html</link>
+  </section>
+  <section>
+    <name>Miscellaneous</name>
+    <page>testing.html</page>
+    <page>best-practices.html</page>
+  </section>
+</sitemap>

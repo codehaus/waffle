@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Views</title>
+</head>
+<body>
+
+<h2>Views</h2>
+<p>With Waffle you can write views with either <a
+    href="http://java.sun.com/products/jsp/">Java Server Pages (JSP)</a>,
+<a href="http://freemarker.org">FreeMarker</a> or <a
+    href="http://velocity.apache.org/">Velocity</a>. Other view
+technologies, like Tiles or Sitemesh are compatible with Waffle (eg cf
+our Freemarker example).</p>
+
+<h3>Java Server Pages</h3>
+<p>Using Java Server Pages in Waffle is as easy as it is with other
+frameworks. You'll be able to reference the Controller that is
+asscoaiated with the view by the <b>controller</b> keyword. In the jspx
+example below the <b>getName()</b> method will be invoked from the
+Controller:</p>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;html xmlns="http://www.w3.org/1999/xhtml" xmlns:jsp="http://java.sun.com/JSP/Page"&gt;
+  <jsp:output doctype-root-element="html"
+    doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+    doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
+  <jsp:directive.page contentType="text/html;charset=UTF-8" />
+
+  &lt;head&gt;
+      <title>Waffle</title>
+  &lt;/head&gt;
+
+  &lt;body&gt;
+      Waffle says: ${controller.greeting}
+  &lt;/body&gt;
+
+  &lt;/html&gt;
+</textarea>
+
+<p>You will also need to set the default view suffix parameter on
+the WaffleServlet so that actions can be routed to the correct view. The
+following is an exerpt from the <i>web.xml</i> file:</p>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <servlet>
+    <servlet-name>waffle</servlet-name>
+    <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+    <init-param>
+      <description>Optional, by default '/' (root) is used.</description>
+      <param-name>view.prefix</param-name>
+      <param-value>/WEB-INF/jsp</param-value>
+    </init-param>
+    <init-param>
+      <description>Optional, by default '.jspx' is used.</description>
+      <param-name>view.suffix</param-name>
+      <param-value>.jspx</param-value>
+    </init-param>
+    <init-param>
+      <description>Optional, by default 'errors' is used.</description>
+      <param-name>errors.view</param-name>
+      <param-value>errors</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+</textarea>
+
+<p>Note that all view configuration <code>init-param</code>s are
+optional, (and this is why they are left out in some of our examples).</p>
+
+<h3>FreeMarker</h3>
+<p>FreeMarker views can be written like any FreeMarker pages for
+other web frameworks. For the most part it is best to follow the
+documentation FreeMarker provides. Similarly to the JavaServer Pages
+definition above you will need to register the default view suffix
+accordingly for FreeMarker (typically <b>.ftl</b>).</p>
+<p>You will need to register the <i>freemarker.ext.servlet.FreemarkerServlet</i>
+(or <i>com.opensymphony.module.sitemesh.freemarker.FreemarkerDecoratorServlet</i>
+if using in conjunction with <a
+    href="http://www.opensymphony.com/sitemesh/">SiteMesh</a>) in the <i>web.xml</i>:</p>
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <servlet>
+    <servlet-name>freemarker</servlet-name>
+    <servlet-class>freemarker.ext.servlet.FreemarkerServlet</servlet-class>
+    <!-- FreemarkerServlet settings: -->
+    <init-param>
+      <param-name>TemplatePath</param-name>
+      <param-value>/</param-value>
+    </init-param>
+    <init-param>
+      <param-name>object_wrapper</param-name>
+      <param-value>beans</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+</textarea>
+
+<p>Again, see our working Freemarker example.</p>
+
+<h3>Velocity</h3>
+<p>As with the JavaServer Pages and FreeMarker descriptions above
+you can access the actions from your Velocity script via the <b>action</b>
+keyword. The example below shows how you should register the Servlet to
+handle Velocity based pages:</p>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <servlet>
+    <servlet-name>velocity</servlet-name>
+    <servlet-class>org.codehaus.waffle.WaffleVelocityServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+</textarea>
+
+
+<h3>View-Controller Mapping</h3>
+
+<p>By default, Waffle uses the controller name as the view name, ie
+a controller action invoked by "mycontroller.waffle" will be mapped to a
+view "[view.prefix]mycontroller[view.suffix]", where the view prefix and
+suffix can be configured via the servlet configuration in the web.xml,
+as explained above.</p>
+
+<p>Waffle though aims by design to be highly configurable. The <b><a
+    href="javadoc/core/org/codehaus/waffle/view/DefaultViewResolver.html">
+org.codehaus.waffle.view.DefaultViewResolver</a></b> allows the user to fully
+configure the view resolution. This is achieve via simply key/value
+properties, which can be either view prefix or suffix keys or the name
+of the controller. For example, to map "mycontroller.waffle" to, say,
+"/ftl/mycontroller-view.ftl", we'd simply set in our registrar: <textarea
+    class="java:nogutter:nocontrols" name="code">
+    ViewResolver viewResolver = registry.locateByKey(ViewResolver.class);
+    viewResolver.configureView("view.prefix", "/"); // this is the default
+    viewResolver.configureView("view.suffix", ".ftl"); 
+    viewResolver.configureView("mycontroller", "ftl/mycontroller-view");
+</textarea></p>
+
+</body>
+
+</html>

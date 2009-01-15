@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+<title>Simple Ajax</title>
+</head>
+<body>
+
+<h2>Ajax</h2>
+
+<p>Waffle was built to be easy to develop with and this ease extends to Ajax support as well. Utilizing Ajax in
+Waffle application is straightforward and simple. The examples here use the well known <a href="http://prototypejs.org/">Prototype
+JavaScript Framework</a>.</p>
+
+<h3>Ajax Controller</h3>
+
+<p>We will create a simple Controller with an event (<b>int random();</b>) that will return a random number between
+0 and 10. To make it more interesting whenever the value equals 5 the event will throw an Exception.</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+    public class FoobarController implements Serializable {
+      private Random random = new Random();
+
+      /**
+       * the event
+       */
+      public int random() throws Exception {
+        int value = Math.abs(random.nextInt() % 10);
+
+        if (value == 5) {
+          throw new Exception("Random Exception!");
+        }
+
+        return value;
+      }
+    }
+  </textarea>
+
+<h3>Ajax-ified View</h3>
+
+<p>So we create a simple View that will periodically (every 2 seconds is the default) request a new value from the
+Server.</p>
+
+<ul>
+  <li>We import the prototype javascript file to provide the ajax foundation</li>
+  <li>The custom ajax call is <b>new Ajax.PeriodicalUpdater("random", "foobar.waffle?method=random");</b></li>
+  <li>The first argument <b>"random"</b> refers to the element id tag in the html (the <i>div</i>)</li>
+  <li>The second argument <b>foobar.waffle?method=random</b> represents what will be periodically called to the
+  server.
+  <ul>
+    <li><b>foobar.waffle</b> the Action is registered under the key value "<i>foobar</i>".</li>
+    <li><b>method=random</b> signifies that the "random" ActionMethod method will be called on the Controller.</li>
+  </ul>
+  </li>
+</ul>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+     <script type="text/javascript" src="scripts/prototype-1.5.js"></script>
+     <script type="text/javascript">new Ajax.PeriodicalUpdater("random", "foobar.waffle?method=random"); </script>
+     Random value from Server: <div id="random"></div>
+  </textarea>
+
+<h3>Wire it up with the Registrar</h3>
+
+<p>The <i>FoobarController</i> is registered under the name "<i>foobar</i>". Notice that the Controller is being
+registered to the Application level context.</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+    public class CustomRegistrar extends AbstractRegistrar {
+      public CustomRegistrar(Registrar delegate) {
+        super(delegate);
+      }
+
+      public void application() {
+        register("foobar", FoobarController.class);
+      }
+    }
+  </textarea>
+
+<p>The document that comes back over the wire per Ajax request, is a one-line toString() transformation on the int
+result of the random() method. This is performed by <b><a
+  href="javadoc/core/org/codehaus/waffle/action/ActionMethodResponseHandler.html">
+org.codehaus.waffle.action.ActionMethodResponseHandler</a></b>.</p>
+
+</body>
+
+</html>
