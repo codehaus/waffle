@@ -47,7 +47,6 @@ import org.codehaus.waffle.view.ViewResolver;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
 import org.codehaus.waffle.view.DefaultViewResolver;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
-import org.codehaus.waffle.registrar.pico.DefaultParameterResolver;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.Characteristics;
@@ -103,7 +102,7 @@ public class ComponentRegistry {
         register(Validator.class, DefaultValidator.class, servletContext);
         register(ViewDispatcher.class, DefaultViewDispatcher.class, servletContext);
         register(ViewResolver.class, DefaultViewResolver.class, servletContext);
-        register(ParameterResolver.class, DefaultParameterResolver.class, servletContext);
+        register(ParameterResolver.class, ParameterResolver.class, servletContext);
 
         // register other components
         registerOtherComponents(servletContext);

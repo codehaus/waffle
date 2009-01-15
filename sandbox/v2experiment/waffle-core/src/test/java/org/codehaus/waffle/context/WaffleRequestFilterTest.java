@@ -3,6 +3,7 @@ package org.codehaus.waffle.context;
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
+import org.codehaus.waffle.testmodel.StubParameterResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.monitor.ContextMonitor;
@@ -105,7 +106,7 @@ public class WaffleRequestFilterTest {
         });
 
         // Mock ContextContainerFactory
-        final ContextContainerFactory contextContainerFactory = new ContextContainerFactory(mockery.mock(MessageResources.class), mockery.mock(ContextMonitor.class), mockery.mock(RegistrarMonitor.class), mockery.mock(ParameterResolver.class)) {
+        final ContextContainerFactory contextContainerFactory = new ContextContainerFactory(mockery.mock(MessageResources.class), mockery.mock(ContextMonitor.class), mockery.mock(RegistrarMonitor.class), new StubParameterResolver()) {
             public MutablePicoContainer buildRequestLevelContainer(HttpServletRequest request) {
                 return container;
             }

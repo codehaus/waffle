@@ -209,7 +209,7 @@ public class PicoRegistrarTest {
     @Test
     public void canRegisterComponentWithConstantParameters() {
         MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), componentMonitor);
-        ParameterResolver parameterResolver = new DefaultParameterResolver(null);
+        ParameterResolver parameterResolver = new ParameterResolver(null);
         Registrar registrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, monitor, componentMonitor, messageResources);
 
         registrar.register("component", ComponentWithParameterDependencies.class, "foo", "bar");
@@ -224,7 +224,7 @@ public class PicoRegistrarTest {
     @Test
     public void canRegisterComponentWithNamedDependency() {
         MutablePicoContainer pico = new DefaultPicoContainer(new Caching(), new NullLifecycleStrategy(), new EmptyPicoContainer(), componentMonitor);
-        ParameterResolver parameterResolver = new DefaultParameterResolver(null);
+        ParameterResolver parameterResolver = new ParameterResolver(null);
         Registrar registrar = new PicoRegistrar(pico, parameterResolver, lifecycleStrategy, monitor, componentMonitor, messageResources);
 
         registrar.registerInstance("one", "foo")

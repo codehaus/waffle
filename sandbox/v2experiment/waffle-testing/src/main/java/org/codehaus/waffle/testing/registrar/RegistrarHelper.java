@@ -30,8 +30,8 @@ import org.codehaus.waffle.context.pico.WaffleLifecycleStrategy;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
-import org.codehaus.waffle.registrar.pico.DefaultParameterResolver;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
@@ -123,7 +123,7 @@ public class RegistrarHelper {
             initContainer.addComponent(WaffleLifecycleStrategy.class);
             initContainer.addComponent(SilentMonitor.class);
             initContainer.addComponent(DefaultMessageResources.class);
-            initContainer.addComponent(DefaultParameterResolver.class);
+            initContainer.addComponent(ParameterResolver.class);
             initContainer.addComponent(DefaultStringTransmuter.class);
             initContainer.addComponent(OgnlValueConverterFinder.class);
             initContainer.addComponent(PicoRegistrar.class);

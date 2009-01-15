@@ -6,7 +6,6 @@ import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.pico.WaffleLifecycleStrategy;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.registrar.Registrar;
-import org.codehaus.waffle.registrar.pico.DefaultParameterResolver;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.registrar.pico.PicoRegistrar;
 import org.picocontainer.LifecycleStrategy;
@@ -27,7 +26,7 @@ public class PicoRegistrarMockery extends AbstractRegistrarMockery {
     protected Registrar createRegistrar(ContextContainer container) {
         LifecycleStrategy lifecycleStrategy = new WaffleLifecycleStrategy(new NullComponentMonitor());
         DefaultMessageResources messageResources = new DefaultMessageResources();
-        ParameterResolver parameterResolver = new DefaultParameterResolver(new DefaultStringTransmuter(
+        ParameterResolver parameterResolver = new ParameterResolver(new DefaultStringTransmuter(
                 new OgnlValueConverterFinder()), messageResources);
         return new PicoRegistrar((MutablePicoContainer) container.getDelegate(), parameterResolver, lifecycleStrategy,
                 getRegistrarMonitor(container), new NullComponentMonitor(), messageResources);

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSessionEvent;
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.testmodel.StubParameterResolver;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
@@ -40,7 +41,7 @@ public class PicoWaffleContextListenerTest {
 
         final StringBuilder sb = new StringBuilder();
         
-        final ContextContainerFactory contextContainerFactory = new ContextContainerFactory(mockery.mock(MessageResources.class), mockery.mock(ContextMonitor.class), mockery.mock(RegistrarMonitor.class), mockery.mock(ParameterResolver.class)) {
+        final ContextContainerFactory contextContainerFactory = new ContextContainerFactory(mockery.mock(MessageResources.class), mockery.mock(ContextMonitor.class), mockery.mock(RegistrarMonitor.class), new StubParameterResolver()) {
             public void initialize(ServletContext servletContext) throws WaffleException {
                 sb.append("init;");
             }
@@ -109,7 +110,7 @@ public class PicoWaffleContextListenerTest {
 
         final StringBuilder sb = new StringBuilder();
 
-        final ContextContainerFactory contextContainerFactory = new ContextContainerFactory(mockery.mock(MessageResources.class), mockery.mock(ContextMonitor.class), mockery.mock(RegistrarMonitor.class), mockery.mock(ParameterResolver.class)) {
+        final ContextContainerFactory contextContainerFactory = new ContextContainerFactory(mockery.mock(MessageResources.class), mockery.mock(ContextMonitor.class), mockery.mock(RegistrarMonitor.class), new StubParameterResolver()) {
             public MutablePicoContainer buildSessionLevelContainer() {
                 sb.append("bs;");
                 return container;
