@@ -58,7 +58,7 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
                                                                              // be refactored cleaner?
         RegistrarMonitor registrarMonitor = getRegistrarMonitor();
         Registrar registrar = new RubyScriptedRegistrar(contextContainer, getParameterResolver(),
-                getPicoLifecycleStrategy(), registrarMonitor, getPicoComponentMonitor(), messageResources);
+                getPicoLifecycleStrategy(), registrarMonitor, getPicoComponentMonitor(), getMessageResources());
         getContextMonitor().registrarCreated(registrar, registrarMonitor);
         return registrar;
     }

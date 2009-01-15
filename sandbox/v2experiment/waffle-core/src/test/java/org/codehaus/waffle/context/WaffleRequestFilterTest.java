@@ -1,7 +1,7 @@
 package org.codehaus.waffle.context;
 
 import org.codehaus.waffle.ComponentRegistry;
-import org.codehaus.waffle.testmodel.StubContextContainerFactory;
+import org.codehaus.waffle.context.pico.PicoContextContainerFactory;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -39,7 +39,7 @@ public class WaffleRequestFilterTest {
         mockery.checking(new Expectations() {
             {
                 one(registry).getContextContainerFactory();
-                will(returnValue(new StubContextContainerFactory()));
+                will(returnValue(new PicoContextContainerFactory(null, null, null, null)));
             }
         });
 
@@ -71,7 +71,7 @@ public class WaffleRequestFilterTest {
 
         Field field = WaffleRequestFilter.class.getDeclaredField("contextContainerFactory");
         field.setAccessible(true);
-        field.set(filter, new StubContextContainerFactory());
+        field.set(filter, new PicoContextContainerFactory(null,null,null,null));
 
         assertNotNull(field.get(filter));
         filter.destroy();

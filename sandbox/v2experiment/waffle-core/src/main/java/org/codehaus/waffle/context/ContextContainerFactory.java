@@ -25,4 +25,5 @@ public interface ContextContainerFactory {
 
     MutablePicoContainer buildRequestLevelContainer(HttpServletRequest request);
 
+    MutablePicoContainer getApplicationContextContainer();
 }

@@ -19,7 +19,6 @@ import javax.servlet.http.HttpSession;
 
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.Startable;
-import org.codehaus.waffle.context.AbstractContextContainerFactory;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
@@ -132,7 +131,7 @@ public class PicoContextContainerFactoryTest {
 
     @Test
     public void canInitializeContext() {
-        final AbstractContextContainerFactory contextContainerFactory
+        final ContextContainerFactory contextContainerFactory
                 = new PicoContextContainerFactory(messageResources, new SilentMonitor(), new SilentMonitor(), null);
 
         // Mock ServletContext
@@ -146,7 +145,7 @@ public class PicoContextContainerFactoryTest {
         });
         contextContainerFactory.initialize(servletContext);
 
-        ContextContainer container = contextContainerFactory.getApplicationContextContainer();
+        MutablePicoContainer container = contextContainerFactory.getApplicationContextContainer();
         ApplicationLevelComponent applicationLevelComponent =
                 container.getComponent(ApplicationLevelComponent.class);
         assertTrue(applicationLevelComponent.isStarted());
