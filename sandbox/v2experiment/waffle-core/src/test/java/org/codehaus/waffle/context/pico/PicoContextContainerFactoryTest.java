@@ -43,6 +43,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.lifecycle.NullLifecycleStrategy;
 import org.picocontainer.behaviors.Caching;
 import org.picocontainer.containers.EmptyPicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
@@ -346,7 +347,7 @@ public class PicoContextContainerFactoryTest {
         // Mock ContextContainer
         final MutablePicoContainer contextContainer = mockery.mock(MutablePicoContainer.class);
 
-        Registrar registrar = contextContainerFactory.createRegistrar(contextContainer);
+        Registrar registrar = contextContainerFactory.createRegistrar(contextContainer, new NullLifecycleStrategy());
 
         // Ensure 'picoContainer' was set
         Field picoContainerField = PicoRegistrar.class.getDeclaredField("picoContainer");

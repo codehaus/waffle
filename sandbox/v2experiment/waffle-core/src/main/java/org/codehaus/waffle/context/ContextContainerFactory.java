@@ -66,7 +66,7 @@ public class ContextContainerFactory {
         delegate.addComponent(new HttpSessionComponentAdapter());
 
         ContextContainer sessionContextContainer = new ContextContainer(delegate, messageResources);
-        registrarAssistant.executeDelegatingRegistrar(createRegistrar(sessionContextContainer), ContextLevel.SESSION);
+        registrarAssistant.executeDelegatingRegistrar(createRegistrar(sessionContextContainer, picoLifecycleStrategy), ContextLevel.SESSION);
         getContextMonitor().sessionContextContainerCreated(applicationContextContainer);
         return sessionContextContainer;
     }
@@ -83,7 +83,7 @@ public class ContextContainerFactory {
             MutablePicoContainer delegate = sessionContextContainer.getDelegate();
 
             ContextContainer requestContextContainer = new ContextContainer(buildMutablePicoContainer(delegate), messageResources);
-            registrarAssistant.executeDelegatingRegistrar(createRegistrar(requestContextContainer), ContextLevel.REQUEST);
+            registrarAssistant.executeDelegatingRegistrar(createRegistrar(requestContextContainer, picoLifecycleStrategy), ContextLevel.REQUEST);
             getContextMonitor().requestContextContainerCreated(sessionContextContainer);
             return requestContextContainer;
         } finally {
@@ -95,7 +95,7 @@ public class ContextContainerFactory {
         }
     }
 
-    public Registrar createRegistrar(MutablePicoContainer contextContainer) {
+    public Registrar createRegistrar(MutablePicoContainer contextContainer, LifecycleStrategy lifecycleStrategy) {
         Registrar registrar = new PicoRegistrar(contextContainer, parameterResolver, picoLifecycleStrategy,
                 registrarMonitor, picoComponentMonitor, messageResources);
         getContextMonitor().registrarCreated(registrar, registrarMonitor);
@@ -108,10 +108,6 @@ public class ContextContainerFactory {
 
     protected ComponentMonitor getPicoComponentMonitor() {
         return picoComponentMonitor;
-    }
-
-    protected LifecycleStrategy getPicoLifecycleStrategy() {
-        return picoLifecycleStrategy;
     }
 
     protected RegistrarMonitor getRegistrarMonitor() {
@@ -176,7 +172,7 @@ public class ContextContainerFactory {
     }
 
     private void buildApplicationLevelRegistry() {
-        Registrar registrar = createRegistrar(applicationContextContainer);
+        Registrar registrar = createRegistrar(applicationContextContainer, picoLifecycleStrategy);
         registrarAssistant.executeDelegatingRegistrar(registrar, ContextLevel.APPLICATION);
     }
 

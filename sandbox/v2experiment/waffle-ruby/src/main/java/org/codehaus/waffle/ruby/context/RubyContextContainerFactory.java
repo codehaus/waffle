@@ -22,6 +22,7 @@ import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.codehaus.waffle.ruby.registrar.pico.RubyScriptedRegistrar;
 import org.jruby.Ruby;
 import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.LifecycleStrategy;
 
 /**
  * @author Michael Ward
@@ -61,11 +62,11 @@ public class RubyContextContainerFactory extends ContextContainerFactory {
     }
 
     @Override
-    public Registrar createRegistrar(MutablePicoContainer contextContainer) { // todo we need tests for this ... can this
+    public Registrar createRegistrar(MutablePicoContainer contextContainer, LifecycleStrategy lifecycleStrategy) { // todo we need tests for this ... can this
                                                                              // be refactored cleaner?
         RegistrarMonitor registrarMonitor = getRegistrarMonitor();
         Registrar registrar = new RubyScriptedRegistrar(contextContainer, getParameterResolver(),
-                getPicoLifecycleStrategy(), registrarMonitor, getPicoComponentMonitor(), getMessageResources());
+                lifecycleStrategy, registrarMonitor, getPicoComponentMonitor(), getMessageResources());
         getContextMonitor().registrarCreated(registrar, registrarMonitor);
         return registrar;
     }
