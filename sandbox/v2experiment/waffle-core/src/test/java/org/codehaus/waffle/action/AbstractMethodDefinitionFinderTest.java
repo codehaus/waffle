@@ -16,8 +16,6 @@ import javax.servlet.http.HttpSession;
 
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.bind.StringTransmuter;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.testmodel.FakeControllerWithMethodDefinitions;
 import org.jmock.Expectations;
@@ -25,7 +23,6 @@ import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.picocontainer.containers.AbstractDelegatingMutablePicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
 /**
@@ -530,8 +527,6 @@ public abstract class AbstractMethodDefinitionFinderTest {
                 will(returnValue(messageContext));
             }
         });
-
-        RequestLevelContainer.set(contextContainer);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);

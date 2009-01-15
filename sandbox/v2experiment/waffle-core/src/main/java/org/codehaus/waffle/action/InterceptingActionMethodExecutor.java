@@ -15,8 +15,6 @@ import org.codehaus.waffle.action.intercept.DefaultInterceptorChain;
 import org.codehaus.waffle.action.intercept.InterceptorChain;
 import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.codehaus.waffle.action.intercept.MethodInterceptorComparator;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.ActionMonitor;
 

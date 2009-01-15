@@ -10,8 +10,6 @@ import java.util.List;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.MethodDefinition;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.ValidationMonitor;
 

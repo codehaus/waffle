@@ -10,7 +10,6 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -24,16 +23,6 @@ import org.junit.Test;
 public class InterceptingActionMethodExecutorTest {
 
     private ActionMethodExecutor actionMethodExecutor = new InterceptingActionMethodExecutor(new SilentMonitor());
-
-    @Before
-    public void setUp() throws Exception {
-        RequestLevelContainer.set(new ContextContainer());
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        RequestLevelContainer.set(null);
-    }
 
     @Test
     public void canInvokeNoArgumentActionMethod() throws Exception {

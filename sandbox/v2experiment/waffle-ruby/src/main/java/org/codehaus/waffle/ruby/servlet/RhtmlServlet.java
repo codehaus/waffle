@@ -15,13 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.context.RequestLevelContainer;
+import org.codehaus.waffle.servlet.WaffleServlet;
 import org.codehaus.waffle.ruby.controller.RubyController;
 import org.codehaus.waffle.controller.ScriptedController;
 import org.jruby.Ruby;
 import org.jruby.RubyModule;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * ERB (rhtml) views support
@@ -31,12 +32,32 @@ import org.jruby.runtime.builtin.IRubyObject;
  */
 @SuppressWarnings("serial")
 public class RhtmlServlet extends HttpServlet {
-    
+
+    private static ThreadLocal<MutablePicoContainer> currentRequestContainer = new ThreadLocal<MutablePicoContainer>();
+    private static ThreadLocal<MutablePicoContainer> currentSessionContainer = new ThreadLocal<MutablePicoContainer>();
+    private static ThreadLocal<MutablePicoContainer> currentAppContainer = new ThreadLocal<MutablePicoContainer>();
+
+    public static class ServletFilter extends WaffleServlet.ServletFilter {
+
+        protected void setAppContainer(MutablePicoContainer container) {
+            currentAppContainer.set(container);
+        }
+
+        protected void setRequestContainer(MutablePicoContainer container) {
+            currentRequestContainer.set(container);
+        }
+
+        protected void setSessionContainer(MutablePicoContainer container) {
+            currentSessionContainer.set(container);
+        }
+    }
+
+
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String template = loadRhtml(request.getServletPath());
 
-        Ruby runtime = RequestLevelContainer.get().getComponent(Ruby.class);
+        Ruby runtime = currentRequestContainer.get().getComponent(Ruby.class);
         RubyModule module = runtime.getClassFromPath("ERB");
 
         IRubyObject erb = (IRubyObject) JavaEmbedUtils.invokeMethod(runtime, module, "new",

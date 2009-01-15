@@ -24,8 +24,6 @@ import javax.servlet.http.HttpSession;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.annotation.ActionMethod;
 import org.codehaus.waffle.bind.StringTransmuter;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ActionMonitor;

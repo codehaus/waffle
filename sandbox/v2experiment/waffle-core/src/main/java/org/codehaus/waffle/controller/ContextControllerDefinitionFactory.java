@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MissingActionMethodException;
-import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextContainerNotFoundException;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;

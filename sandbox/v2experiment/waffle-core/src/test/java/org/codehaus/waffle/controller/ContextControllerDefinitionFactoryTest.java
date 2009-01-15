@@ -10,7 +10,6 @@ import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
@@ -39,7 +38,6 @@ public class ContextControllerDefinitionFactoryTest {
         final MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
         pico.addComponent("theController", FakeController.class);
         ContextContainer container = new ContextContainer(pico);
-        RequestLevelContainer.set(container);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
@@ -80,7 +78,6 @@ public class ContextControllerDefinitionFactoryTest {
     public void cannotRequestControllerDefinitionThatiIsNotRegistered() {
         MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
         ContextContainer container = new ContextContainer(pico);
-        RequestLevelContainer.set(container);
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);

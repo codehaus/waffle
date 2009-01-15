@@ -33,8 +33,6 @@ import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.codehaus.waffle.action.annotation.PRG;
 import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.bind.ViewDataBinder;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.i18n.MessageResources;
@@ -50,6 +48,7 @@ import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.ViewResolver;
 import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.web.PicoServletContainerFilter;
 
 /**
  * Waffle's FrontController for handling user requests.
@@ -72,6 +71,26 @@ public class WaffleServlet extends HttpServlet {
     private Validator validator;
     private ServletMonitor servletMonitor;
     private boolean componentsRetrieved = false;
+
+    private static ThreadLocal<MutablePicoContainer> currentRequestContainer = new ThreadLocal<MutablePicoContainer>();
+    private static ThreadLocal<MutablePicoContainer> currentSessionContainer = new ThreadLocal<MutablePicoContainer>();
+    private static ThreadLocal<MutablePicoContainer> currentAppContainer = new ThreadLocal<MutablePicoContainer>();
+
+    public static class ServletFilter extends PicoServletContainerFilter {
+
+        protected void setAppContainer(MutablePicoContainer container) {
+            currentAppContainer.set(container);
+        }
+
+        protected void setRequestContainer(MutablePicoContainer container) {
+            currentRequestContainer.set(container);
+        }
+
+        protected void setSessionContainer(MutablePicoContainer container) {
+            currentSessionContainer.set(container);
+        }
+    }
+
 
     /**
      * Default constructor used by servlet container
@@ -167,7 +186,7 @@ public class WaffleServlet extends HttpServlet {
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
         servletMonitor.servletServiceRequested(parametersOf(request));
-        MutablePicoContainer requestContainer = RequestLevelContainer.get();
+        MutablePicoContainer requestContainer = currentRequestContainer.get();
         ErrorsContext errorsContext = requestContainer.getComponent(ErrorsContext.class);
         Collection<MethodInterceptor> methodInterceptors = requestContainer.getComponents(MethodInterceptor.class);
         MessagesContext messageContext = requestContainer.getComponent(MessagesContext.class);

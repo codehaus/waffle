@@ -9,7 +9,6 @@ import static org.codehaus.waffle.Constants.VIEW_SUFFIX_KEY;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.io.Writer;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -41,8 +40,6 @@ import org.codehaus.waffle.bind.ViewDataBinder;
 import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlControllerDataBinder;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
-import org.codehaus.waffle.context.ContextContainer;
-import org.codehaus.waffle.context.RequestLevelContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
 import org.codehaus.waffle.controller.ControllerNotFoundException;
@@ -214,8 +211,9 @@ public class WaffleServletTest {
                 will(returnValue("yy"));
             }
         });
+        
+        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);
 
-        RequestLevelContainer.set(contextContainer);
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
         final Enumeration<?> enumeration = Collections.enumeration(list);
@@ -324,7 +322,8 @@ public class WaffleServletTest {
             }
         });
 
-        RequestLevelContainer.set(contextContainer);
+        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);
+
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
         final Enumeration<?> enumeration = Collections.enumeration(list);
@@ -427,7 +426,7 @@ public class WaffleServletTest {
             }
         });
 
-        RequestLevelContainer.set(contextContainer);
+        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);
 
         // Mock ServletConfig
         final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
@@ -532,7 +531,8 @@ public class WaffleServletTest {
             }
         });
 
-        RequestLevelContainer.set(contextContainer);
+        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);
+
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
         final Enumeration<?> enumeration = Collections.enumeration(list);
@@ -636,7 +636,7 @@ public class WaffleServletTest {
             }
         });
 
-        RequestLevelContainer.set(contextContainer);
+        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);        
 
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
