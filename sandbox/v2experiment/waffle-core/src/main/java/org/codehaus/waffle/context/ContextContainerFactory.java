@@ -118,10 +118,6 @@ public class ContextContainerFactory {
         return parameterResolver;
     }
 
-    public RegistrarAssistant getRegistrarAssistant() {
-        return registrarAssistant;
-    }
-
     public void initialize(ServletContext servletContext) throws WaffleException {
         try {
             initializeRegistrar(servletContext);
