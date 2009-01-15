@@ -27,7 +27,6 @@ import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.ResponderView;
 import org.codehaus.waffle.view.View;
-import org.picocontainer.MutablePicoContainer;
 
 public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, ControllerMonitor,
         ServletMonitor, ValidationMonitor, ViewMonitor, Monitor {
@@ -96,18 +95,6 @@ public class StubMonitor implements ActionMonitor, BindMonitor, ContextMonitor, 
     }
 
     public void contextInitializationFailed(WaffleException cause) {
-    }
-
-    public void applicationContextContainerDestroyed() {
-    }
-
-    public void applicationContextContainerStarted() {
-    }
-
-    public void requestContextContainerCreated(MutablePicoContainer sessionContextContainer) {
-    }
-
-    public void sessionContextContainerCreated(MutablePicoContainer applicationContextContainer) {
     }
 
     public void controllerNameResolved(String name, String path) {

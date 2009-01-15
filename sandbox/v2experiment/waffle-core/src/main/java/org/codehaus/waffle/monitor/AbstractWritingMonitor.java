@@ -31,7 +31,6 @@ import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.ResponderView;
 import org.codehaus.waffle.view.View;
-import org.picocontainer.MutablePicoContainer;
 
 /**
  * Abstract implementation of Monitor that delegates writing to concrete subclasses.
@@ -301,22 +300,6 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
     
     public void contextInitializationFailed(WaffleException cause){
         write("contextInitializationFailed", cause);
-    }
-    
-    public void applicationContextContainerStarted() {
-        write("applicationContextContainerStarted");        
-    }
-
-    public void applicationContextContainerDestroyed() {
-        write("applicationContextContainerDestroyed");                
-    }
-
-    public void sessionContextContainerCreated(MutablePicoContainer applicationContextContainer) {
-        write("sessionContextContainerCreated", applicationContextContainer);                        
-    }
-
-    public void requestContextContainerCreated(MutablePicoContainer sessionContextContainer){
-        write("requestContextContainerCreated", sessionContextContainer);                                
     }
 
     public void controllerNameResolved(String name, String path) {

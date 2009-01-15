@@ -17,12 +17,4 @@ public interface ContextMonitor extends Monitor {
 
     void contextInitializationFailed(WaffleException cause);
 
-    void applicationContextContainerStarted();
-
-    void applicationContextContainerDestroyed();
-
-    void sessionContextContainerCreated(MutablePicoContainer applicationContextContainer);
-
-    void requestContextContainerCreated(MutablePicoContainer sessionContextContainer);
-
 }
