@@ -1,6 +1,7 @@
 package org.codehaus.waffle.bind;
 
-import org.codehaus.waffle.controller.RubyController;
+import org.codehaus.waffle.ruby.controller.RubyController;
+import org.codehaus.waffle.ruby.bind.RubyViewDataBinder;
 import org.codehaus.waffle.controller.ScriptedController;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.jmock.Expectations;

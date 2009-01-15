@@ -1,11 +1,12 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.bind.ognl;
+package org.codehaus.waffle.ruby.bind.ognl;
 
 import org.codehaus.waffle.action.ArgumentResolver;
 import org.codehaus.waffle.bind.BindErrorMessageResolver;
 import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.bind.ognl.ScriptedControllerDataBinder;
 import org.codehaus.waffle.controller.ScriptedController;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.validation.ErrorsContext;

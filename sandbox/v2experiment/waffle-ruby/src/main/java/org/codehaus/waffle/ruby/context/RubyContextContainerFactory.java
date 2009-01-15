@@ -13,13 +13,13 @@ import java.util.ArrayList;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextContainerFactory;
-import org.codehaus.waffle.context.pico.RubyScriptLoader;
+import org.codehaus.waffle.ruby.context.pico.RubyScriptLoader;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
-import org.codehaus.waffle.registrar.pico.RubyScriptedRegistrar;
+import org.codehaus.waffle.ruby.registrar.pico.RubyScriptedRegistrar;
 import org.jruby.Ruby;
 import org.picocontainer.MutablePicoContainer;
 

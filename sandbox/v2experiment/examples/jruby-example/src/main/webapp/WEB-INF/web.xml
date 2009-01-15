@@ -37,11 +37,11 @@
   </context-param>
   <context-param>
     <param-name>org.codehaus.waffle.bind.ControllerDataBinder</param-name>
-    <param-value>org.codehaus.waffle.bind.ognl.RubyControllerDataBinder</param-value>
+    <param-value>org.codehaus.waffle.ruby.bind.ognl.RubyControllerDataBinder</param-value>
   </context-param>
   <context-param>
     <param-name>org.codehaus.waffle.controller.ControllerDefinitionFactory</param-name>
-    <param-value>org.codehaus.waffle.controller.RubyControllerDefinitionFactory</param-value>
+    <param-value>org.codehaus.waffle.ruby.controller.RubyControllerDefinitionFactory</param-value>
   </context-param>
 
   <!-- OPTIONAL: define a path to the ruby script directory (for development)
@@ -82,7 +82,7 @@
   </servlet>
   <servlet>
     <servlet-name>rhtml</servlet-name>
-    <servlet-class>org.codehaus.waffle.servlet.RhtmlServlet</servlet-class>
+    <servlet-class>org.codehaus.waffle.ruby.servlet.RhtmlServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 

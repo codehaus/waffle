@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.codehaus.waffle.action.ActionMethodInvocationException;
+import org.codehaus.waffle.ruby.controller.RubyController;
 import org.jruby.Ruby;
 import org.junit.Test;
 

@@ -12,6 +12,7 @@ import org.jruby.Ruby;
 import org.jruby.javasupport.JavaUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.codehaus.waffle.ruby.context.pico.RubyScriptLoader;
 
 @RunWith(JMock.class)
 public class RubyScriptLoaderTest {

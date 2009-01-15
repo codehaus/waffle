@@ -1,9 +1,10 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.controller;
+package org.codehaus.waffle.ruby.controller;
 
 import org.codehaus.waffle.action.ActionMethodInvocationException;
+import org.codehaus.waffle.controller.ScriptedController;
 import org.jruby.Ruby;
 import org.jruby.exceptions.RaiseException;
 import org.jruby.javasupport.JavaEmbedUtils;

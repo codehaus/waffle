@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.context.pico;
+package org.codehaus.waffle.ruby.context.pico;
 
 import javax.servlet.ServletContext;
 

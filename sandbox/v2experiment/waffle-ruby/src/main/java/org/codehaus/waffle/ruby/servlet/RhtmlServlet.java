@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.servlet;
+package org.codehaus.waffle.ruby.servlet;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.RequestLevelContainer;
-import org.codehaus.waffle.controller.RubyController;
+import org.codehaus.waffle.ruby.controller.RubyController;
 import org.codehaus.waffle.controller.ScriptedController;
 import org.jruby.Ruby;
 import org.jruby.RubyModule;

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.bind;
+package org.codehaus.waffle.ruby.bind;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.waffle.controller.ScriptedController;
 import org.codehaus.waffle.monitor.BindMonitor;
+import org.codehaus.waffle.bind.ScriptedViewDataBinder;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.jruby.runtime.builtin.InstanceVariables;

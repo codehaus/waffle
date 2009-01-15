@@ -1,10 +1,12 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.registrar.pico;
+package org.codehaus.waffle.ruby.registrar.pico;
 
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
+import org.codehaus.waffle.registrar.pico.PicoRegistrar;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
 import org.picocontainer.ComponentMonitor;
 import org.picocontainer.LifecycleStrategy;
 import org.picocontainer.MutablePicoContainer;

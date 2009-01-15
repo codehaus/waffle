@@ -1,9 +1,9 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.registrar.pico;
+package org.codehaus.waffle.ruby.registrar.pico;
 
-import org.codehaus.waffle.controller.RubyController;
+import org.codehaus.waffle.ruby.controller.RubyController;
 import org.jruby.Ruby;
 import org.jruby.javasupport.JavaEmbedUtils;
 import org.jruby.runtime.builtin.IRubyObject;

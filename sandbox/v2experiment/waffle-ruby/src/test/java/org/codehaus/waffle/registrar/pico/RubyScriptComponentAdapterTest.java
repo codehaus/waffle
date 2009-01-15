@@ -10,6 +10,7 @@ import org.picocontainer.ComponentAdapter;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.behaviors.Caching;
+import org.codehaus.waffle.ruby.registrar.pico.RubyScriptComponentAdapter;
 
 public class RubyScriptComponentAdapterTest {
 

@@ -2,6 +2,7 @@ package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.ruby.context.RubyContextContainerFactory;
+import org.codehaus.waffle.ruby.context.pico.RubyScriptLoader;
 import org.jruby.Ruby;
 import org.jruby.RubyBoolean;
 import org.jruby.RubyInteger;

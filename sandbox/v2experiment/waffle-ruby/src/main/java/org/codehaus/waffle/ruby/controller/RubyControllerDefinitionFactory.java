@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.controller;
+package org.codehaus.waffle.ruby.controller;
 
 import java.lang.reflect.Method;
 
@@ -9,9 +9,11 @@ import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MethodNameResolver;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ControllerMonitor;
+import org.codehaus.waffle.controller.ScriptedControllerDefinitionFactory;
+import org.codehaus.waffle.controller.ControllerNameResolver;
 
 /**
- * A JRuby specific extension to the {@link ScriptedControllerDefinitionFactory}.
+ * A JRuby specific extension to the {@link org.codehaus.waffle.controller.ScriptedControllerDefinitionFactory}.
  * 
  * @author Michael Ward
  */
