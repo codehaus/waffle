@@ -85,91 +85,91 @@ public abstract class WaffleWebappComposer implements WebappComposer {
 
     }
 
-    protected Class<InterceptingActionMethodExecutor> actionMethodExecutor() {
+    protected Class<? extends ActionMethodExecutor> actionMethodExecutor() {
         return InterceptingActionMethodExecutor.class;
     }
 
-    protected Class<DefaultActionMethodResponseHandler> actionMethodResponseHandler() {
+    protected Class<? extends ActionMethodResponseHandler> actionMethodResponseHandler() {
         return DefaultActionMethodResponseHandler.class;
     }
 
-    protected Class<HierarchicalArgumentResolver> argumentResolver() {
+    protected Class<? extends ArgumentResolver> argumentResolver() {
         return HierarchicalArgumentResolver.class;
     }
 
-    protected Class<AnnotatedMethodDefinitionFinder> methodDefinitionFinder() {
+    protected Class<? extends MethodDefinitionFinder> methodDefinitionFinder() {
         return AnnotatedMethodDefinitionFinder.class;
     }
 
-    protected Class<RequestParameterMethodNameResolver> methodNameResolver() {
+    protected Class<? extends MethodNameResolver> methodNameResolver() {
         return RequestParameterMethodNameResolver.class;
     }
 
-    protected Class<OgnlBindErrorMessageResolver> bindErrorMessageResolver() {
+    protected Class<? extends BindErrorMessageResolver> bindErrorMessageResolver() {
         return OgnlBindErrorMessageResolver.class;
     }
 
-    protected Class<OgnlControllerDataBinder> controllerDataBinder() {
+    protected Class<? extends ControllerDataBinder> controllerDataBinder() {
         return OgnlControllerDataBinder.class;
     }
 
-    protected Class<IntrospectingViewDataBinder> viewDataBinder() {
+    protected Class<? extends ViewDataBinder> viewDataBinder() {
         return IntrospectingViewDataBinder.class;
     }
 
-    protected Class<DefaultStringTransmuter> stringTransmuter() {
+    protected Class<? extends StringTransmuter> stringTransmuter() {
         return DefaultStringTransmuter.class;
     }
 
-    protected Class<OgnlValueConverterFinder> valueConverterFinder() {
+    protected Class<? extends ValueConverterFinder> valueConverterFinder() {
         return OgnlValueConverterFinder.class;
     }
 
-    protected Class<ContextControllerDefinitionFactory> controllerDefinitionFactory() {
+    protected Class<? extends ControllerDefinitionFactory> controllerDefinitionFactory() {
         return ContextControllerDefinitionFactory.class;
     }
 
-    protected Class<ContextPathControllerNameResolver> controllerNameResolver() {
+    protected Class<? extends ControllerNameResolver> controllerNameResolver() {
         return ContextPathControllerNameResolver.class;
     }
 
-    protected Class<DefaultMessageResources> messageResources() {
+    protected Class<? extends MessageResources> messageResources() {
         return DefaultMessageResources.class;
     }
 
-    protected Class<ParameterResolver> parameterResolver() {
+    protected Class<? extends ParameterResolver> parameterResolver() {
         return ParameterResolver.class;
     }
 
-    protected Class<DefaultViewResolver> viewResolver() {
+    protected Class<? extends ViewResolver> viewResolver() {
         return DefaultViewResolver.class;
     }
 
-    protected Class<DefaultViewDispatcher> viewDispatcher() {
+    protected Class<? extends ViewDispatcher> viewDispatcher() {
         return DefaultViewDispatcher.class;
     }
 
-    protected Class<DefaultValidator> validator() {
+    protected Class<? extends Validator> validator() {
         return DefaultValidator.class;
     }
 
-    protected Class<SilentMonitor> viewMonitor() {
+    protected Class<? extends ViewMonitor> viewMonitor() {
         return SilentMonitor.class;
     }
 
-    protected Class<SilentMonitor> validationMonitor() {
+    protected Class<? extends ValidationMonitor> validationMonitor() {
         return SilentMonitor.class;
     }
 
-    protected Class<SilentMonitor> servletMonitor() {
+    protected Class<? extends ServletMonitor> servletMonitor() {
         return SilentMonitor.class;
     }
 
-    protected Class<SilentMonitor> bindMonitor() {
+    protected Class<? extends BindMonitor> bindMonitor() {
         return SilentMonitor.class;
     }
 
-    protected Class<SilentMonitor> actionMonitor() {
+    protected Class<? extends ActionMonitor> actionMonitor() {
         return SilentMonitor.class;
     }
 
@@ -182,7 +182,7 @@ public abstract class WaffleWebappComposer implements WebappComposer {
         picoContainer.addComponent(ErrorsContext.class, errorsContext());
     }
 
-    protected Class<DefaultErrorsContext> errorsContext() {
+    protected Class<? extends ErrorsContext> errorsContext() {
         return DefaultErrorsContext.class;
     }
 
