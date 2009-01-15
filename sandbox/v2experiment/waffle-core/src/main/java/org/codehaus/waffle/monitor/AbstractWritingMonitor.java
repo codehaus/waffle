@@ -26,13 +26,13 @@ import org.codehaus.waffle.action.ActionMethodResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.HierarchicalArgumentResolver.Scope;
 import org.codehaus.waffle.bind.ValueConverter;
-import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.registrar.Registrar;
 import org.codehaus.waffle.validation.BindErrorMessage;
 import org.codehaus.waffle.view.RedirectView;
 import org.codehaus.waffle.view.ResponderView;
 import org.codehaus.waffle.view.View;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * Abstract implementation of Monitor that delegates writing to concrete subclasses.
@@ -320,11 +320,11 @@ public abstract class AbstractWritingMonitor implements ActionMonitor, BindMonit
         write("applicationContextContainerDestroyed");                
     }
 
-    public void sessionContextContainerCreated(ContextContainer applicationContextContainer) {
+    public void sessionContextContainerCreated(MutablePicoContainer applicationContextContainer) {
         write("sessionContextContainerCreated", applicationContextContainer);                        
     }
 
-    public void requestContextContainerCreated(ContextContainer sessionContextContainer){
+    public void requestContextContainerCreated(MutablePicoContainer sessionContextContainer){
         write("requestContextContainerCreated", sessionContextContainer);                                
     }
 

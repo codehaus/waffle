@@ -9,6 +9,11 @@ import javax.servlet.http.HttpSessionEvent;
 
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
+import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
+import org.codehaus.waffle.monitor.RegistrarMonitor;
+import org.codehaus.waffle.monitor.ContextMonitor;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.context.WaffleContextListener;
@@ -16,6 +21,7 @@ import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
 
@@ -32,14 +38,17 @@ public class PicoWaffleContextListenerTest {
     @Test
     public void canInvokeServletContextListenerMethods() {
 
-        // Mock ContextContainerFactory
-        final ContextContainerFactory contextContainerFactory = mockery.mock(ContextContainerFactory.class);
-        mockery.checking(new Expectations() {
-            {
-                one(contextContainerFactory).initialize((ServletContext) with(an(ServletContext.class)));
-                one(contextContainerFactory).destroy();
+        final StringBuilder sb = new StringBuilder();
+        
+        final ContextContainerFactory contextContainerFactory = new ContextContainerFactory(mockery.mock(MessageResources.class), mockery.mock(ContextMonitor.class), mockery.mock(RegistrarMonitor.class), mockery.mock(ParameterResolver.class)) {
+            public void initialize(ServletContext servletContext) throws WaffleException {
+                sb.append("init;");
             }
-        });
+
+            public void destroy() {
+                sb.append("destroy;");
+            }
+        };
 
         // Mock ComponentRegistry
         final ComponentRegistry registry = mockery.mock(ComponentRegistry.class);
@@ -72,6 +81,8 @@ public class PicoWaffleContextListenerTest {
 
         // test the destroy
         waffleContextListener.contextDestroyed(event);
+
+        assertEquals("init;destroy;", sb.toString());
     }
 
     @Test
@@ -89,15 +100,14 @@ public class PicoWaffleContextListenerTest {
             }
         });
 
-        // Mock ContextContainerFactory
-        final ContextContainerFactory contextContainerFactory = mockery.mock(ContextContainerFactory.class);
-        mockery.checking(new Expectations() {
-            {
-                one(contextContainerFactory).buildSessionLevelContainer();
-                will(returnValue(container));
+        final StringBuilder sb = new StringBuilder();
+
+        final ContextContainerFactory contextContainerFactory = new ContextContainerFactory(mockery.mock(MessageResources.class), mockery.mock(ContextMonitor.class), mockery.mock(RegistrarMonitor.class), mockery.mock(ParameterResolver.class)) {
+            public MutablePicoContainer buildSessionLevelContainer() {
+                sb.append("bs;");
+                return container;
             }
-        });
-        
+        };
         setContextManager(waffleContextListener, contextContainerFactory);
 
         // Mock HttpSession
@@ -115,6 +125,7 @@ public class PicoWaffleContextListenerTest {
 
         // destroy
         waffleContextListener.sessionDestroyed(new HttpSessionEvent(httpSession));
+        assertEquals("bs;", sb.toString());
     }
 
     /**

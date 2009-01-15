@@ -4,12 +4,14 @@
 package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.context.ContextContainer;
+import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
+import org.picocontainer.MutablePicoContainer;
 
-public abstract class ScriptedPicoContextContainerFactory extends PicoContextContainerFactory {
+public abstract class ScriptedPicoContextContainerFactory extends ContextContainerFactory {
 
     public ScriptedPicoContextContainerFactory(MessageResources messageResources,
                                                 ContextMonitor contextMonitor,
@@ -19,14 +21,14 @@ public abstract class ScriptedPicoContextContainerFactory extends PicoContextCon
     }
 
     @Override
-    public ContextContainer buildApplicationContextContainer() {
-        ContextContainer contextContainer = super.buildApplicationContextContainer();
+    public MutablePicoContainer buildApplicationContextContainer() {
+        MutablePicoContainer contextContainer = super.buildApplicationContextContainer();
 
         registerScriptComponents(contextContainer);
 
         return contextContainer;
     }
 
-    protected abstract void registerScriptComponents(ContextContainer contextContainer);
+    protected abstract void registerScriptComponents(MutablePicoContainer contextContainer);
 
 }

@@ -191,7 +191,7 @@ public class PicoComponentRegistryTest {
                 one(servletContext).getInitParameter(BindMonitor.class.getName());
                 will(returnValue(StubMonitor.class.getName()));
                 one(servletContext).getInitParameter(ContextContainerFactory.class.getName());
-                will(returnValue(PicoContextContainerFactory.class.getName()));
+                will(returnValue(ContextContainerFactory.class.getName()));
                 one(servletContext).getInitParameter(ContextMonitor.class.getName());
                 will(returnValue(StubMonitor.class.getName()));
                 one(servletContext).getInitParameter(ControllerDefinitionFactory.class.getName());
@@ -234,7 +234,7 @@ public class PicoComponentRegistryTest {
         assertTrue(componentRegistry.getBindMonitor() instanceof StubMonitor);
         assertTrue(componentRegistry.getControllerNameResolver() instanceof StubControllerNameResolver);
         assertTrue(componentRegistry.getControllerDefinitionFactory() instanceof StubControllerDefinitionFactory);
-        assertTrue(componentRegistry.getContextContainerFactory() instanceof PicoContextContainerFactory);
+        assertTrue(componentRegistry.getContextContainerFactory() instanceof ContextContainerFactory);
         assertFalse(componentRegistry.getControllerDataBinder() instanceof OgnlControllerDataBinder);
         assertTrue(componentRegistry.getMethodDefinitionFinder() instanceof StubMethodDefinitionFinder);
         assertTrue(componentRegistry.getMethodNameResolver() instanceof StubMethodNameResolver);

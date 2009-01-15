@@ -6,6 +6,7 @@ package org.codehaus.waffle.monitor;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.registrar.Registrar;
+import org.picocontainer.MutablePicoContainer;
 
 /**
  * A monitor for context-related events
@@ -26,8 +27,8 @@ public interface ContextMonitor extends Monitor {
 
     void applicationContextContainerDestroyed();
 
-    void sessionContextContainerCreated(ContextContainer applicationContextContainer);
+    void sessionContextContainerCreated(MutablePicoContainer applicationContextContainer);
 
-    void requestContextContainerCreated(ContextContainer sessionContextContainer);
+    void requestContextContainerCreated(MutablePicoContainer sessionContextContainer);
 
 }

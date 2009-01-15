@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
@@ -33,9 +32,8 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
         super(messageResources, contextMonitor, registrarMonitor, parameterResolver);
     }
 
-    protected void registerScriptComponents(ContextContainer contextContainer) {
+    protected void registerScriptComponents(MutablePicoContainer contextContainer) {
         // Register Ruby Runtime at Application level
-        MutablePicoContainer picoContainer = (MutablePicoContainer) contextContainer.getDelegate();
         Ruby runtime = Ruby.newInstance();
         runtime.getLoadService().init(new ArrayList<Object>()); // this must be called, else we won't be able to load
                                                                 // scripts!!
@@ -49,12 +47,12 @@ public class RubyPicoContextContainerFactory extends ScriptedPicoContextContaine
         // <script>:1:in `require': JAR entry string.rb not found in ~/jruby-example/exploded/WEB-INF/lib/core.jar
         // (IOError)
 
-        picoContainer.addComponent(Ruby.class, runtime);
-        picoContainer.as(CACHE).addComponent(RubyScriptLoader.class);
+        contextContainer.addComponent(Ruby.class, runtime);
+        contextContainer.as(CACHE).addComponent(RubyScriptLoader.class);
     }
 
     @Override
-    protected Registrar createRegistrar(MutablePicoContainer contextContainer) { // todo we need tests for this ... can this
+    public Registrar createRegistrar(MutablePicoContainer contextContainer) { // todo we need tests for this ... can this
                                                                              // be refactored cleaner?
         RegistrarMonitor registrarMonitor = getRegistrarMonitor();
         Registrar registrar = new RubyScriptedRegistrar(contextContainer, getParameterResolver(),

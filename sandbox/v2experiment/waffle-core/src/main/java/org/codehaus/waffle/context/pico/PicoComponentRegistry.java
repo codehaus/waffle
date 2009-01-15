@@ -85,7 +85,7 @@ public class PicoComponentRegistry implements ComponentRegistry {
         register(ViewDataBinder.class, IntrospectingViewDataBinder.class, servletContext);
         register(StringTransmuter.class, DefaultStringTransmuter.class, servletContext);
         register(ValueConverterFinder.class, OgnlValueConverterFinder.class, servletContext);
-        register(ContextContainerFactory.class, PicoContextContainerFactory.class, servletContext);
+        register(ContextContainerFactory.class, ContextContainerFactory.class, servletContext);
         register(ControllerDefinitionFactory.class, ContextControllerDefinitionFactory.class, servletContext);
         register(ControllerNameResolver.class, ContextPathControllerNameResolver.class, servletContext);
         register(MessageResources.class, DefaultMessageResources.class, servletContext);

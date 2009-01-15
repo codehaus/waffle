@@ -1,7 +1,10 @@
 package org.codehaus.waffle.context;
 
 import org.codehaus.waffle.ComponentRegistry;
-import org.codehaus.waffle.context.pico.PicoContextContainerFactory;
+import org.codehaus.waffle.registrar.pico.ParameterResolver;
+import org.codehaus.waffle.monitor.ContextMonitor;
+import org.codehaus.waffle.monitor.RegistrarMonitor;
+import org.codehaus.waffle.i18n.MessageResources;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -39,7 +42,7 @@ public class WaffleRequestFilterTest {
         mockery.checking(new Expectations() {
             {
                 one(registry).getContextContainerFactory();
-                will(returnValue(new PicoContextContainerFactory(null, null, null, null)));
+                will(returnValue(new ContextContainerFactory(null, null, null, null)));
             }
         });
 
@@ -71,7 +74,7 @@ public class WaffleRequestFilterTest {
 
         Field field = WaffleRequestFilter.class.getDeclaredField("contextContainerFactory");
         field.setAccessible(true);
-        field.set(filter, new PicoContextContainerFactory(null,null,null,null));
+        field.set(filter, new ContextContainerFactory(null,null,null,null));
 
         assertNotNull(field.get(filter));
         filter.destroy();
@@ -97,13 +100,11 @@ public class WaffleRequestFilterTest {
         });
 
         // Mock ContextContainerFactory
-        final ContextContainerFactory contextContainerFactory = mockery.mock(ContextContainerFactory.class);
-        mockery.checking(new Expectations() {
-            {
-                one(contextContainerFactory).buildRequestLevelContainer((HttpServletRequest) with(an(HttpServletRequest.class)));
-                will(returnValue(container));
+        final ContextContainerFactory contextContainerFactory = new ContextContainerFactory(mockery.mock(MessageResources.class), mockery.mock(ContextMonitor.class), mockery.mock(RegistrarMonitor.class), mockery.mock(ParameterResolver.class)) {
+            public MutablePicoContainer buildRequestLevelContainer(HttpServletRequest request) {
+                return container;
             }
-        });
+        };
 
         // Mock HttpServletRequest
         final HttpServletRequest request = mockery.mock(HttpServletRequest.class);

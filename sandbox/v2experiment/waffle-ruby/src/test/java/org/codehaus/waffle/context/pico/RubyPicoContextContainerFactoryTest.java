@@ -18,12 +18,11 @@ public class RubyPicoContextContainerFactoryTest  {
     public void canBuildApplicationContextContainer() {
         RubyPicoContextContainerFactory factory
                 = new RubyPicoContextContainerFactory(null, new SilentMonitor(), new SilentMonitor(), null);
-        ContextContainer contextContainer = factory.buildApplicationContextContainer();
-        PicoContainer picoContainer = (MutablePicoContainer)contextContainer.getDelegate();
-        Ruby runtime = picoContainer.getComponent(Ruby.class);
+        MutablePicoContainer contextContainer = factory.buildApplicationContextContainer();
+        Ruby runtime = contextContainer.getComponent(Ruby.class);
         assertNotNull(runtime);
 
-        assertNotNull(picoContainer.getComponentAdapter(RubyScriptLoader.class));
+        assertNotNull(contextContainer.getComponentAdapter(RubyScriptLoader.class));
 
         // ensure mixin occurred
         RubyBoolean rubyBoolean = (RubyBoolean) runtime.evalScriptlet("Waffle::Controller.is_a? Module");
