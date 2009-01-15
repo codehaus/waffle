@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.context.ContextContainerFactory;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
@@ -25,11 +26,18 @@ import org.picocontainer.MutablePicoContainer;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class RubyPicoContextContainerFactory extends ScriptedPicoContextContainerFactory {
+public class RubyPicoContextContainerFactory extends ContextContainerFactory {
 
     public RubyPicoContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor,
             RegistrarMonitor registrarMonitor, ParameterResolver parameterResolver) {
         super(messageResources, contextMonitor, registrarMonitor, parameterResolver);
+    }
+
+    @Override
+    public MutablePicoContainer buildApplicationContextContainer() {
+        MutablePicoContainer contextContainer = super.buildApplicationContextContainer();
+        registerScriptComponents(contextContainer);
+        return contextContainer;
     }
 
     protected void registerScriptComponents(MutablePicoContainer contextContainer) {
