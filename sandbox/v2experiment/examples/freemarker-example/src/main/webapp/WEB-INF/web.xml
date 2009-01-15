@@ -37,7 +37,7 @@
   
   <!-- Waffle context listener -->
   <listener>
-    <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
+    <listener-class>org.codehaus.waffle.context.WaffleContextListener</listener-class>
   </listener>
 
   <!-- Filters -->

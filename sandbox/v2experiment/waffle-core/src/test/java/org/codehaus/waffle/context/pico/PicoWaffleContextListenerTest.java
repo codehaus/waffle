@@ -95,7 +95,7 @@ public class PicoWaffleContextListenerTest {
 
     @Test
     public void canInvokeHttpSessionListenerMethods() throws Exception {
-        WaffleContextListener waffleContextListener = new PicoWaffleContextListener();
+        WaffleContextListener waffleContextListener = new WaffleContextListener();
 
         // Mock ContextContainer
         final MutablePicoContainer container = mockery.mock(MutablePicoContainer.class);

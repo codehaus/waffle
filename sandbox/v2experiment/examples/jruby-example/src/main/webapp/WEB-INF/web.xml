@@ -57,7 +57,7 @@
   </context-param>-->
   
   <listener>
-    <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
+    <listener-class>org.codehaus.waffle.context.WaffleContextListener</listener-class>
   </listener>
 
   <!-- 4. Waffle request filter (responsible for request level context) -->

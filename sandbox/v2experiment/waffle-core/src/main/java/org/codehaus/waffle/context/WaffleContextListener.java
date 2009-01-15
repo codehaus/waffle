@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSessionListener;
  * @author Mike Ward
  * @author Mauro Talevi
  */
-public abstract class WaffleContextListener implements ServletContextListener, HttpSessionListener {
+public class WaffleContextListener implements ServletContextListener, HttpSessionListener {
     private ContextContainerFactory contextContainerFactory;
 
     /**
@@ -73,6 +73,8 @@ public abstract class WaffleContextListener implements ServletContextListener, H
      * @param servletContext
      * @return A ComponentRegistry
      */
-    protected abstract ComponentRegistry buildComponentRegistry(ServletContext servletContext);
+    protected ComponentRegistry buildComponentRegistry(ServletContext servletContext) {
+        return new ComponentRegistry(servletContext);
+    }
 
 }
