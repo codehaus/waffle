@@ -1,7 +1,7 @@
 package org.codehaus.waffle.context.pico;
 
-import org.codehaus.waffle.context.ContextContainer;
 import org.codehaus.waffle.monitor.SilentMonitor;
+import org.codehaus.waffle.ruby.context.RubyContextContainerFactory;
 import org.jruby.Ruby;
 import org.jruby.RubyBoolean;
 import org.jruby.RubyInteger;
@@ -10,14 +10,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.PicoContainer;
 
 public class RubyPicoContextContainerFactoryTest  {
 
     @Test
     public void canBuildApplicationContextContainer() {
-        RubyPicoContextContainerFactory factory
-                = new RubyPicoContextContainerFactory(null, new SilentMonitor(), new SilentMonitor(), null);
+        RubyContextContainerFactory factory
+                = new RubyContextContainerFactory(null, new SilentMonitor(), new SilentMonitor(), null);
         MutablePicoContainer contextContainer = factory.buildApplicationContextContainer();
         Ruby runtime = contextContainer.getComponent(Ruby.class);
         assertNotNull(runtime);

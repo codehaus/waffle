@@ -33,7 +33,7 @@
   <!-- Ruby Specific components -->
   <context-param>
     <param-name>org.codehaus.waffle.context.ContextContainerFactory</param-name>
-    <param-value>org.codehaus.waffle.context.pico.RubyContextContainerFactory</param-value>
+    <param-value>org.codehaus.waffle.ruby.context.RubyContextContainerFactory</param-value>
   </context-param>
   <context-param>
     <param-name>org.codehaus.waffle.bind.ControllerDataBinder</param-name>

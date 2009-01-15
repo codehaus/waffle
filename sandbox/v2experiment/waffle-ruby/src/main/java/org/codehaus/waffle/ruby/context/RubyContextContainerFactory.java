@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.context.pico;
+package org.codehaus.waffle.ruby.context;
 
 import static org.picocontainer.Characteristics.CACHE;
 
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.context.ContextContainerFactory;
+import org.codehaus.waffle.context.pico.RubyScriptLoader;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
@@ -26,9 +27,9 @@ import org.picocontainer.MutablePicoContainer;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class RubyPicoContextContainerFactory extends ContextContainerFactory {
+public class RubyContextContainerFactory extends ContextContainerFactory {
 
-    public RubyPicoContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor,
+    public RubyContextContainerFactory(MessageResources messageResources, ContextMonitor contextMonitor,
             RegistrarMonitor registrarMonitor, ParameterResolver parameterResolver) {
         super(messageResources, contextMonitor, registrarMonitor, parameterResolver);
     }
