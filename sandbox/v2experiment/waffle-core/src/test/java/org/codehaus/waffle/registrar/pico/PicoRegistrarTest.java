@@ -13,7 +13,7 @@ import javax.servlet.ServletContext;
 
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
+import org.codehaus.waffle.context.pico.WaffleLifecycleStrategy;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
@@ -49,7 +49,7 @@ import org.picocontainer.monitors.NullComponentMonitor;
 public class PicoRegistrarTest {
     private Mockery mockery = new Mockery();
 
-    private final LifecycleStrategy lifecycleStrategy = new PicoLifecycleStrategy(new NullComponentMonitor());
+    private final LifecycleStrategy lifecycleStrategy = new WaffleLifecycleStrategy(new NullComponentMonitor());
     private final ComponentMonitor componentMonitor = new NullComponentMonitor();
     private final SilentMonitor monitor = new SilentMonitor();
     private final MessageResources messageResources = new DefaultMessageResources();

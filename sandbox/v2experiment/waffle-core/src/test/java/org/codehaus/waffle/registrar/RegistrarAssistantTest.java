@@ -10,7 +10,7 @@ import java.util.Hashtable;
 import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.waffle.context.ContextLevel;
-import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
+import org.codehaus.waffle.context.pico.WaffleLifecycleStrategy;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.DefaultMessagesContext;
 import org.codehaus.waffle.i18n.MessageResources;
@@ -35,7 +35,7 @@ import org.picocontainer.monitors.NullComponentMonitor;
 
 @RunWith(JMock.class)
 public class RegistrarAssistantTest {
-    private LifecycleStrategy lifecycleStrategy = new PicoLifecycleStrategy(new NullComponentMonitor());
+    private LifecycleStrategy lifecycleStrategy = new WaffleLifecycleStrategy(new NullComponentMonitor());
     private Mockery mockery = new Mockery();
     private ComponentMonitor cm = new NullComponentMonitor();
     private MessageResources messageResources = new DefaultMessageResources();

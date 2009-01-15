@@ -160,13 +160,13 @@ public class PicoContextContainerFactoryTest {
     @Test
     public void canStopChildContainerWithoutStoppingParent() {
         NullComponentMonitor ncm = new NullComponentMonitor();
-        MutablePicoContainer applicationContainer = new DefaultPicoContainer(new Caching(), new PicoLifecycleStrategy(ncm), new EmptyPicoContainer(), ncm);
+        MutablePicoContainer applicationContainer = new DefaultPicoContainer(new Caching(), new WaffleLifecycleStrategy(ncm), new EmptyPicoContainer(), ncm);
         applicationContainer.addComponent(ApplicationLevelComponent.class);
 
-        MutablePicoContainer sessionContainer = new DefaultPicoContainer(new Caching(), new PicoLifecycleStrategy(ncm), applicationContainer, ncm);
+        MutablePicoContainer sessionContainer = new DefaultPicoContainer(new Caching(), new WaffleLifecycleStrategy(ncm), applicationContainer, ncm);
         sessionContainer.addComponent(SessionLevelComponent.class);
 
-        MutablePicoContainer requestContainer = new DefaultPicoContainer(new Caching(), new PicoLifecycleStrategy(ncm), sessionContainer, ncm);
+        MutablePicoContainer requestContainer = new DefaultPicoContainer(new Caching(), new WaffleLifecycleStrategy(ncm), sessionContainer, ncm);
         requestContainer.addComponent(RequestLevelComponent.class);
 
         ApplicationLevelComponent applicationLevelComponent = (ApplicationLevelComponent)
@@ -361,7 +361,7 @@ public class PicoContextContainerFactoryTest {
         // ensure 'picoLifecycleStrategy' is not Null
         Field lifecycleStrategyField = PicoRegistrar.class.getDeclaredField("lifecycleStrategy");
         lifecycleStrategyField.setAccessible(true);
-        assertTrue(lifecycleStrategyField.get(registrar) instanceof PicoLifecycleStrategy);
+        assertTrue(lifecycleStrategyField.get(registrar) instanceof WaffleLifecycleStrategy);
 
         // ensure 'registrarMonitor' was set
         Field registrarMonitorField = PicoRegistrar.class.getDeclaredField("registrarMonitor");

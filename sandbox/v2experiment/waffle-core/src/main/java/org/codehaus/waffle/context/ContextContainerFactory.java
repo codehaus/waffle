@@ -9,7 +9,7 @@ import org.picocontainer.LifecycleStrategy;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
-import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
+import org.codehaus.waffle.context.pico.WaffleLifecycleStrategy;
 import org.codehaus.waffle.context.pico.HttpSessionComponentAdapter;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
@@ -34,7 +34,7 @@ import javax.servlet.http.HttpSession;
  */
 public class ContextContainerFactory {
     private final ComponentMonitor picoComponentMonitor = new NullComponentMonitor();
-    private final LifecycleStrategy picoLifecycleStrategy = new PicoLifecycleStrategy(picoComponentMonitor);
+    private final LifecycleStrategy picoLifecycleStrategy = new WaffleLifecycleStrategy(picoComponentMonitor);
     private final RegistrarMonitor registrarMonitor;
     private final ParameterResolver parameterResolver;
 

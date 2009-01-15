@@ -8,8 +8,8 @@ import org.picocontainer.ComponentMonitor;
 import org.picocontainer.lifecycle.StartableLifecycleStrategy;
 
 @SuppressWarnings("serial")
-public class PicoLifecycleStrategy extends StartableLifecycleStrategy {
-    public PicoLifecycleStrategy(ComponentMonitor componentMonitor) {
+public class WaffleLifecycleStrategy extends StartableLifecycleStrategy {
+    public WaffleLifecycleStrategy(ComponentMonitor componentMonitor) {
         super(componentMonitor);
     }
 

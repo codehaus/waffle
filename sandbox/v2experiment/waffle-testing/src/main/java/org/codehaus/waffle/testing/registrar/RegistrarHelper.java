@@ -26,7 +26,7 @@ import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.bind.DefaultStringTransmuter;
 import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.context.ContextLevel;
-import org.codehaus.waffle.context.pico.PicoLifecycleStrategy;
+import org.codehaus.waffle.context.pico.WaffleLifecycleStrategy;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.registrar.Registrar;
@@ -120,7 +120,7 @@ public class RegistrarHelper {
             MutablePicoContainer initContainer = new DefaultPicoContainer();
             initContainer.addComponent(registrarContainer);
             initContainer.addComponent(NullComponentMonitor.class);
-            initContainer.addComponent(PicoLifecycleStrategy.class);
+            initContainer.addComponent(WaffleLifecycleStrategy.class);
             initContainer.addComponent(SilentMonitor.class);
             initContainer.addComponent(DefaultMessageResources.class);
             initContainer.addComponent(DefaultParameterResolver.class);
