@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.waffle.ComponentRegistry;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.testmodel.StubActionMethodExecutor;
+import org.codehaus.waffle.testmodel.StubViewResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -63,6 +65,7 @@ import org.jmock.integration.junit4.JMock;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
+import org.picocontainer.PicoContainer;
 
 /**
  * @author Michael Ward
@@ -75,101 +78,52 @@ public class WaffleServletTest {
     @SuppressWarnings("serial")
     @Test
     public void canConfigureComponentsViaInitAttributes() throws ServletException {
-        // Mock ServletConfig
-        final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
-        mockery.checking(new Expectations() {
-            {
-                one(servletConfig).getInitParameter(VIEW_PREFIX_KEY);
-                will(returnValue(null));
-                one(servletConfig).getInitParameter(VIEW_SUFFIX_KEY);
-                will(returnValue(".jsp"));
-                one(servletConfig).getInitParameter(ERRORS_VIEW_KEY);
-                will(returnValue("errors"));
-            }
-        });
 
         final StringBuilder sb = new StringBuilder();
 
         final ViewResolver viewResolver = mockery.mock(ViewResolver.class);
 
-        mockery.checking(new Expectations() {
-            {
-                one(viewResolver).configureViews(with(any(Properties.class)));
-            }
-        });
-
-
         final ServletContext servletContext = mockery.mock(ServletContext.class);
 
-        // Mock ComponentRegistry
-        final ComponentRegistry componentRegistry = new ComponentRegistry(servletContext) {
-            protected void register(Object key, Class<?> defaultClass, ServletContext servletContext) throws WaffleException {
-            }
+        final MutablePicoContainer mpc = mockery.mock(MutablePicoContainer.class);
 
-            @SuppressWarnings("unchecked")
-            protected void registerOtherComponents(ServletContext servletContext) {
-            }
+        final ServletMonitor servletMonitor = mockery.mock(ServletMonitor.class);
 
-            public ActionMethodExecutor getActionMethodExecutor() {
-                sb.append("getAME;");
-                return null;
-            }
-
-            public ActionMethodResponseHandler getActionMethodResponseHandler() {
-                sb.append("getAMRH;");
-                return null;
-            }
-
-            public ServletMonitor getServletMonitor() {
-                sb.append("getSM;");
-                return new SilentMonitor();
-            }
-
-            public ControllerDataBinder getControllerDataBinder() {
-                sb.append("getCDB;");
-                return null;
-            }
-
-            public ControllerDefinitionFactory getControllerDefinitionFactory() {
-                sb.append("getCDF;");
-                return null;
-            }
-
-            public MessageResources getMessageResources() {
-                sb.append("getMessageResources;");
-                return null;
-            }
-
-            public ViewDataBinder getViewDataBinder() {
-                sb.append("getViewDataBinder;");
-                return null;
-            }
-
-            public ViewResolver getViewResolver() {
-                sb.append("getViewResolver;");
-                return viewResolver;
-            }
-
-            public Validator getValidator() {
-                sb.append("getValidator;");
-                return null;
-            }
-
-
-        };
-
-        // Mock ServletContext
         mockery.checking(new Expectations() {
             {
-                one(servletContext).getAttribute(ComponentRegistry.class.getName());
-                will(returnValue(componentRegistry));
+                one(mpc).getComponent(ActionMethodExecutor.class);
+                will(returnValue(null));
+                one(mpc).getComponent(ActionMethodResponseHandler.class);
+                will(returnValue(null));
+                one(mpc).getComponent(ServletMonitor.class);
+                will(returnValue(servletMonitor));
+                one(mpc).getComponent(ControllerDataBinder.class);
+                will(returnValue(null));
+                one(mpc).getComponent(ControllerDefinitionFactory.class);
+                will(returnValue(null));
+                one(mpc).getComponent(MessageResources.class);
+                will(returnValue(null));
+                one(mpc).getComponent(ViewDataBinder.class);
+                will(returnValue(null));
+                one(mpc).getComponent(ViewResolver.class);
+                will(returnValue(new StubViewResolver()));
+                one(mpc).getComponent(Validator.class);
+                will(returnValue(null));
             }
         });
 
-        WaffleServlet servlet = new WaffleServlet() {
-            @Override
-            public ServletConfig getServletConfig() {
-                return servletConfig;
+//        // Mock ServletContext
+//        mockery.checking(new Expectations() {
+//            {
+//                one(servletContext).getAttribute(ComponentRegistry.class.getName());
+//                will(returnValue(componentRegistry));
+//            }
+//        });
+
+        final WaffleServlet servlet = new WaffleServlet() {
+
+            public String getInitParameter(String s) {
+                return "x";    
             }
 
             @Override
@@ -177,6 +131,14 @@ public class WaffleServletTest {
                 return servletContext;
             }
         };
+
+        mockery.checking(new Expectations() {
+            {
+                one(servletMonitor).servletInitialized(servlet);
+            }
+        });
+
+        new WaffleServlet.ServletFilter().setAppContainer(mpc);
 
         servlet.init();
     }
@@ -774,44 +736,6 @@ public class WaffleServletTest {
         ControllerDefinition controllerDefinition = new ControllerDefinition("foobar", null, null);
         View view = servlet.buildView(controllerDefinition);
         assertEquals("prefix-foobar-suffix", viewResolver.resolve(view));
-    }
-
-    @SuppressWarnings("serial")
-    @Test(expected = WaffleException.class)
-    public void cannotInitWithoutParameter() throws ServletException {
-        final ServletContext servletContext = mockery.mock(ServletContext.class);
-        mockery.checking(new Expectations() {
-            {
-                one(servletContext).getAttribute(ComponentRegistry.class.getName());
-                will(returnValue(null));
-            }
-        });
-
-        // Mock ServletConfig
-        final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
-        mockery.checking(new Expectations() {
-            {
-                one(servletConfig).getInitParameter(Constants.VIEW_PREFIX_KEY);
-                will(returnValue("/WEB-INF/jsp"));
-                one(servletConfig).getInitParameter(Constants.VIEW_SUFFIX_KEY);
-                one(servletConfig).getInitParameter(Constants.ERRORS_VIEW_KEY);
-                will(returnValue("errors"));
-            }
-        });
-
-        WaffleServlet servlet = new WaffleServlet() {
-            @Override
-            public ServletConfig getServletConfig() {
-                return servletConfig;
-            }
-
-            @Override
-            public ServletContext getServletContext() {
-                return servletContext;
-            }
-        };
-
-        servlet.init();
     }
 
     public class NonDispatchingController {

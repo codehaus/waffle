@@ -13,7 +13,6 @@ import org.apache.velocity.Template;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.view.servlet.VelocityViewServlet;
 import org.picocontainer.MutablePicoContainer;
-import org.picocontainer.web.PicoServletContainerFilter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,8 +52,7 @@ public class WaffleVelocityServlet extends VelocityViewServlet {
     }
 
     public WaffleVelocityServlet() {
-        ComponentRegistry componentRegistry = ServletContextHelper.getComponentRegistry(getServletContext());
-        controllerDefinitionFactory = componentRegistry.getControllerDefinitionFactory();
+        controllerDefinitionFactory = currentAppContainer.get().getComponent(ControllerDefinitionFactory.class);
     }
 
     @Override

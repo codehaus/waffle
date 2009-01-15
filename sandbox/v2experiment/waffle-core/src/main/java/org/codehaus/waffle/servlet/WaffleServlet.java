@@ -131,17 +131,16 @@ public class WaffleServlet extends HttpServlet {
 
     public void init() throws ServletException {
         if (!componentsRetrieved) {
-            // Retrieve instance components from the ComponentRegistry
-            ComponentRegistry registry = getComponentRegistry();
-            actionMethodExecutor = registry.getActionMethodExecutor();
-            actionMethodResponseHandler = registry.getActionMethodResponseHandler();
-            controllerDefinitionFactory = registry.getControllerDefinitionFactory();
-            controllerDataBinder = registry.getControllerDataBinder();
-            messageResources = registry.getMessageResources();
-            viewDataBinder = registry.getViewDataBinder();
-            viewResolver = registry.getViewResolver();
-            validator = registry.getValidator();
-            servletMonitor = registry.getServletMonitor();
+            MutablePicoContainer container = currentAppContainer.get();
+            actionMethodExecutor = container.getComponent(ActionMethodExecutor.class);
+            actionMethodResponseHandler = container.getComponent(ActionMethodResponseHandler.class);
+            controllerDefinitionFactory = container.getComponent(ControllerDefinitionFactory.class);
+            controllerDataBinder = container.getComponent(ControllerDataBinder.class);
+            messageResources = container.getComponent(MessageResources.class);
+            viewDataBinder = container.getComponent(ViewDataBinder.class);
+            viewResolver = container.getComponent(ViewResolver.class);
+            validator = container.getComponent(Validator.class);
+            servletMonitor = container.getComponent(ServletMonitor.class);
         }
 
         configureViewProperties();
@@ -169,10 +168,6 @@ public class WaffleServlet extends HttpServlet {
             value = defaultValue; // default
         }
         return value;
-    }
-
-    private ComponentRegistry getComponentRegistry() {
-        return ServletContextHelper.getComponentRegistry(getServletContext());
     }
 
     /**

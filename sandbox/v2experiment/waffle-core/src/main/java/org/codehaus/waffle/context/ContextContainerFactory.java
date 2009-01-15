@@ -10,7 +10,6 @@ import org.picocontainer.PicoContainer;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.monitors.NullComponentMonitor;
 import org.codehaus.waffle.context.pico.WaffleLifecycleStrategy;
-import org.codehaus.waffle.context.pico.HttpSessionComponentAdapter;
 import org.codehaus.waffle.monitor.RegistrarMonitor;
 import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.registrar.pico.ParameterResolver;
@@ -59,40 +58,6 @@ public class ContextContainerFactory {
 
     public MutablePicoContainer buildApplicationContextContainer() {
         return new ContextContainer(buildMutablePicoContainer(null), messageResources);
-    }
-
-    public MutablePicoContainer buildSessionLevelContainer() {
-        MutablePicoContainer delegate = buildMutablePicoContainer(applicationContextContainer);
-        delegate.addComponent(new HttpSessionComponentAdapter());
-
-        ContextContainer sessionContextContainer = new ContextContainer(delegate, messageResources);
-        registrarAssistant.executeDelegatingRegistrar(createRegistrar(sessionContextContainer, picoLifecycleStrategy), ContextLevel.SESSION);
-        getContextMonitor().sessionContextContainerCreated(applicationContextContainer);
-        return sessionContextContainer;
-    }
-
-    public MutablePicoContainer buildRequestLevelContainer(HttpServletRequest request) {
-        try {
-            HttpSession session = request.getSession();
-            ContextContainer sessionContextContainer = (ContextContainer) session.getAttribute(Constants.SESSION_CONTAINER_KEY);
-            if (sessionContextContainer == null) {
-                sessionContextContainer = (ContextContainer) buildSessionLevelContainer();
-                session.setAttribute(Constants.SESSION_CONTAINER_KEY, sessionContextContainer);
-                sessionContextContainer.start();
-            }
-            MutablePicoContainer delegate = sessionContextContainer.getDelegate();
-
-            ContextContainer requestContextContainer = new ContextContainer(buildMutablePicoContainer(delegate), messageResources);
-            registrarAssistant.executeDelegatingRegistrar(createRegistrar(requestContextContainer, picoLifecycleStrategy), ContextLevel.REQUEST);
-            getContextMonitor().requestContextContainerCreated(sessionContextContainer);
-            return requestContextContainer;
-        } finally {
-//TODO: setting the locale from the request (which will by default return the server default locale)
-//      does not seem necessary given a default locale is already configured out-of-the-box
-//      but more seriously it overrides any configuration set via the MessageResourcesConfiguration
-//      hence impeding any real configurability.  Need a clearer usecase for enabling this (MT)
-//            messageResources.useLocale(request.getLocale());
-        }
     }
 
     public Registrar createRegistrar(MutablePicoContainer contextContainer, LifecycleStrategy lifecycleStrategy) {
