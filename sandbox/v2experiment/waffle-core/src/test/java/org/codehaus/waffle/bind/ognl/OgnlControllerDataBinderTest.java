@@ -18,7 +18,6 @@ import org.codehaus.waffle.bind.BindException;
 import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.bind.converters.NumberValueConverter;
 import org.codehaus.waffle.bind.converters.StringListValueConverter;
-import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -72,7 +71,6 @@ public class OgnlControllerDataBinderTest {
         binder.bind(request, null, errorsContext, fakeController);
 
         assertEquals("foobar", fakeController.getName());
-        assertEquals(ContextLevel.APPLICATION, fakeController.getContextLevel());
         assertFalse(errorsContext.hasErrorMessages());
     }
     
@@ -155,7 +153,6 @@ public class OgnlControllerDataBinderTest {
         ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, fakeController);
 
-        assertNull(fakeController.getContextLevel());
         assertFalse(errorsContext.hasErrorMessages());
     }
 

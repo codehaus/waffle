@@ -9,7 +9,6 @@ import java.beans.IntrospectionException;
 
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.converters.StringListValueConverter;
-import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.codehaus.waffle.monitor.SilentMonitor;
@@ -29,12 +28,6 @@ public class DelegatingTypeConverterTest {
 
     private Mockery mockery = new Mockery();
     private BindMonitor bindMonitor = new SilentMonitor();
-
-    @Test
-    public void canConvertValueForEnum() {
-        DelegatingTypeConverter converter = new DelegatingTypeConverter();
-        assertEquals(ContextLevel.APPLICATION, converter.convertValue("foobar", "APPLICATION", ContextLevel.class));
-    }
 
     @Test
     public void canConvertValueForIntegers() {

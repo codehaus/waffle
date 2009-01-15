@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import org.codehaus.waffle.action.ActionMethodException;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
-import org.codehaus.waffle.context.ContextLevel;
 import org.codehaus.waffle.view.View;
 
 public class FakeController {
@@ -19,7 +18,6 @@ public class FakeController {
     private String[] values;
     private List<String> list;
     private Number number;
-    private ContextLevel contextLevel;
     private HttpServletRequest request;
     private HttpServletResponse response;
     private HttpSession session;
@@ -38,14 +36,6 @@ public class FakeController {
 
     public void setNumber(Number number) {
         this.number = number;
-    }
-
-    public ContextLevel getContextLevel() {
-        return contextLevel;
-    }
-
-    public void setContextLevel(ContextLevel contextLevel) {
-        this.contextLevel = contextLevel;
     }
 
     public String passThruMethod(String value) {
