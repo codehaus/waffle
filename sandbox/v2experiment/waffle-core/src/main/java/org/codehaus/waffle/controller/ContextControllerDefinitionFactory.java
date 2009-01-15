@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.MissingActionMethodException;
-import org.codehaus.waffle.context.ContextContainerNotFoundException;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ControllerMonitor;
@@ -63,14 +62,6 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
     }
 
     protected Object findController(String name, HttpServletRequest request, MutablePicoContainer requestLevelContainer) {
-
-        if (requestLevelContainer == null) {
-            controllerMonitor.requestContextContainerNotFound();
-            String message = messageResources
-                    .getMessageWithDefault("requestContextContainerNotFound",
-                            "Waffle context container not found at request level.  WaffleRequestFilter must be registered in the web.xml");
-            throw new ContextContainerNotFoundException(message);
-        }
 
         Object controller = requestLevelContainer.getComponent(name);
         if (controller == null) {

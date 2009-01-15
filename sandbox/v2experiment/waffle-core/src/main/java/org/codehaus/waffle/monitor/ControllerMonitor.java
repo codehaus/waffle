@@ -17,6 +17,4 @@ public interface ControllerMonitor extends Monitor {
 
     void methodDefinitionNotFound(String controllerName);
 
-    void requestContextContainerNotFound();
-
 }

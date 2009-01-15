@@ -101,16 +101,4 @@ public class ContextControllerDefinitionFactoryTest {
         ControllerDefinition definition = controllerDefinitionFactory.getControllerDefinition(request, response, context, pico);
     }
 
-    @Test(expected = WaffleException.class)
-    public void cannotGetControllerDefinitionWithMissingRequestLevelContainer() {
-
-        // Mock HttpServletRequest
-        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
-
-        ContextControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(null,
-                null, new SilentMonitor(), new DefaultMessageResources());
-
-        controllerDefinitionFactory.findController("foobar", request, null);
-    }
-
 }
