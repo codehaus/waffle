@@ -10,7 +10,7 @@
   <!-- 1. This is how an application registers its custom Registrar -->
   <context-param>
     <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
-    <param-value>org.codehaus.waffle.example.jruby.JRubyRegistrar</param-value>
+    <param-value>org.codehaus.waffle.example.jruby.JrubyExampleWebappComposer</param-value>
   </context-param>
   <context-param>
     <param-name>org.codehaus.waffle.monitor.RegistrarMonitor</param-name>
@@ -33,15 +33,15 @@
   <!-- Ruby Specific components -->
   <context-param>
     <param-name>org.codehaus.waffle.context.ContextContainerFactory</param-name>
-    <param-value>org.codehaus.waffle.ruby.context.RubyContextContainerFactory</param-value>
+    <param-value>org.codehaus.waffle.context.pico.RubyPicoContextContainerFactory</param-value>
   </context-param>
   <context-param>
     <param-name>org.codehaus.waffle.bind.ControllerDataBinder</param-name>
-    <param-value>org.codehaus.waffle.ruby.bind.ognl.RubyControllerDataBinder</param-value>
+    <param-value>org.codehaus.waffle.bind.ognl.RubyControllerDataBinder</param-value>
   </context-param>
   <context-param>
     <param-name>org.codehaus.waffle.controller.ControllerDefinitionFactory</param-name>
-    <param-value>org.codehaus.waffle.ruby.controller.RubyControllerDefinitionFactory</param-value>
+    <param-value>org.codehaus.waffle.controller.RubyControllerDefinitionFactory</param-value>
   </context-param>
 
   <!-- OPTIONAL: define a path to the ruby script directory (for development)
@@ -57,7 +57,7 @@
   </context-param>-->
   
   <listener>
-    <listener-class>org.codehaus.waffle.context.WaffleContextListener</listener-class>
+    <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
   </listener>
 
   <!-- 4. Waffle request filter (responsible for request level context) -->
@@ -82,7 +82,7 @@
   </servlet>
   <servlet>
     <servlet-name>rhtml</servlet-name>
-    <servlet-class>org.codehaus.waffle.ruby.servlet.RhtmlServlet</servlet-class>
+    <servlet-class>org.codehaus.waffle.servlet.RhtmlServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
 

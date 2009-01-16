@@ -14,6 +14,7 @@ import javax.servlet.ServletContext;
 
 public class MyDvdsWebappComposer extends WaffleWebappComposer {
 
+
     @Override
     public void composeApplication(MutablePicoContainer picoContainer, ServletContext servletContext) {
         super.composeApplication(picoContainer, servletContext);
