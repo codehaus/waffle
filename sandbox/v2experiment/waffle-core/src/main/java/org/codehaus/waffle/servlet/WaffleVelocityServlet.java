@@ -33,14 +33,18 @@ public class WaffleVelocityServlet extends VelocityViewServlet {
 
         protected void setAppContainer(MutablePicoContainer container) {
             currentAppContainer.set(container);
+            super.setAppContainer(container);
         }
 
         protected void setRequestContainer(MutablePicoContainer container) {
             currentRequestContainer.set(container);
+            super.setRequestContainer(container);
         }
 
         protected void setSessionContainer(MutablePicoContainer container) {
             currentSessionContainer.set(container);
+            super.setSessionContainer(container);
+
         }
     }
 
