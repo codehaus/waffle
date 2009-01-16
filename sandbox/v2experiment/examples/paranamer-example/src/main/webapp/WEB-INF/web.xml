@@ -13,9 +13,9 @@
         <param-value>org.codehaus.waffle.example.paranamer.ParanamerExampleWebappComposer</param-value>
     </context-param>
 
-    <!-- 3. PicoContainer-Web context listener (ServletContext and HttpSession) -->
+    <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-       <listener-class>org.picocontainer.web.PicoServletContainerListener</listener-class>
+        <listener-class>org.codehaus.waffle.servlet.WaffleListener</listener-class>
     </listener>
 
     <!-- 4. Waffle request filter (responsible for request level context) -->

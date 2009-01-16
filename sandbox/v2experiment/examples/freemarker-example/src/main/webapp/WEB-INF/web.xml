@@ -12,9 +12,9 @@
         <param-value>org.codehaus.waffle.example.freemarker.FreemarkerExampleWebappComposer</param-value>
     </context-param>
 
-    <!-- 3. PicoContainer-Web context listener (ServletContext and HttpSession) -->
+    <!-- 3. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-        <listener-class>org.picocontainer.web.PicoServletContainerListener</listener-class>
+        <listener-class>org.codehaus.waffle.servlet.WaffleListener</listener-class>
     </listener>
 
     <!-- Filters -->
