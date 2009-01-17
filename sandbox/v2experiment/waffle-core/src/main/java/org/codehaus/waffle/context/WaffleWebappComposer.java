@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
+ */
 package org.codehaus.waffle.context;
 
 import org.picocontainer.web.WebappComposer;
@@ -48,6 +51,10 @@ import org.codehaus.waffle.action.RequestParameterMethodNameResolver;
 
 import javax.servlet.ServletContext;
 
+/**
+ * @author Michael Ward
+ * @author Mauro Talevi
+ */
 public abstract class WaffleWebappComposer implements WebappComposer {
 
     private ParameterResolver parameterResolver;
@@ -79,7 +86,6 @@ public abstract class WaffleWebappComposer implements WebappComposer {
         picoContainer.addComponent(ViewDispatcher.class, viewDispatcher());
         picoContainer.addComponent(ViewResolver.class, viewResolver());
         picoContainer.addComponent(ParameterResolver.class, parameterResolver());
-
 
         parameterResolver = picoContainer.getComponent(ParameterResolver.class);
 
@@ -186,7 +192,6 @@ public abstract class WaffleWebappComposer implements WebappComposer {
         return DefaultErrorsContext.class;
     }
 
-
     protected Parameter[] picoParameters(Object... parameters) {
         if (parameters.length == 0) {
             return null; // pico expects a null when no parameters
@@ -198,7 +203,5 @@ public abstract class WaffleWebappComposer implements WebappComposer {
         }
         return picoParameters;
     }
-
-
 
 }

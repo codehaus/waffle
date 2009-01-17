@@ -1,21 +1,29 @@
+/*
+ * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
+ */
 package org.codehaus.waffle.example.jruby;
 
 import org.codehaus.waffle.example.jruby.dao.SimplePersonDAO;
 import org.codehaus.waffle.context.WaffleWebappComposer;
 import org.codehaus.waffle.ruby.registrar.pico.RubyScriptComponentAdapter;
+import org.codehaus.waffle.ruby.RubyWaffleWebappComposer;
+import org.codehaus.waffle.monitor.ActionMonitor;
+import org.codehaus.waffle.monitor.CommonsLoggingMonitor;
+import org.codehaus.waffle.monitor.ContextMonitor;
+import org.codehaus.waffle.monitor.BindMonitor;
 import org.picocontainer.MutablePicoContainer;
 
 import javax.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JrubyExampleWebappComposer extends WaffleWebappComposer {
-
+public class JrubyExampleWebappComposer extends RubyWaffleWebappComposer {
 
     @SuppressWarnings({"unchecked"})
     @Override
     public void composeApplication(MutablePicoContainer picoContainer, ServletContext servletContext) {
         super.composeApplication(picoContainer, servletContext);
+
         picoContainer.addComponent("the_dao", SimplePersonDAO.class);
         picoContainer.addComponent("chicago", "bears");
 
@@ -27,6 +35,17 @@ public class JrubyExampleWebappComposer extends WaffleWebappComposer {
         picoContainer.addAdapter(new RubyScriptComponentAdapter("hello", "HelloController")); // register the controller!
         picoContainer.addAdapter(new RubyScriptComponentAdapter("person", "PersonController")); // register the controller!
     }
+
+    protected Class<? extends ActionMonitor> actionMonitor() {
+        return CommonsLoggingMonitor.class;
+    }
+
+    protected Class<? extends BindMonitor> bindMonitor() {
+        return CommonsLoggingMonitor.class;
+    }
+
+
+
 
     @Override
     public void composeRequest(MutablePicoContainer picoContainer) {

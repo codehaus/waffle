@@ -10,7 +10,7 @@ import org.jruby.runtime.builtin.InstanceVariables;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-public class RubyRegistrarTest {
+public class RubyCompatibilityTest {
 
 //    Need to create an interface that sets the PicoContainer instance onto the Ruby Controller
 //
