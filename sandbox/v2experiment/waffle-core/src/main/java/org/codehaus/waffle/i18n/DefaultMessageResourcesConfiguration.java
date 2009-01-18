@@ -30,13 +30,6 @@ public class DefaultMessageResourcesConfiguration implements MessageResourcesCon
         this.locale = locale;
     }
 
-    /**
-     * @deprecated Use DefaultMessageResourcesConfiguration(String uri, Locale locale)
-     */
-    public DefaultMessageResourcesConfiguration(Locale locale, String uri) {
-        this(uri, locale);
-    }
-
     public Locale getLocale() {
         return locale;
     }

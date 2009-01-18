@@ -13,17 +13,7 @@ import java.util.Locale;
  */
 public interface MessageResourcesConfiguration {
 
-    /**
-     * @deprecated Use getURI()
-     */
-    String getDefaultResource();
-
     String getURI();
-
-    /**
-     * @deprecated Use getLocale()
-     */
-    Locale geDefaultLocale();
 
     Locale getLocale();
 }

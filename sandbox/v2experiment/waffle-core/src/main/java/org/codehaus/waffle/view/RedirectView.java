@@ -16,14 +16,7 @@ public class RedirectView extends View {
     public RedirectView(String path) {
         this(path, null, HttpServletResponse.SC_SEE_OTHER);
     }
-    
-    /**
-     * @deprecated - Use RedirectView(path)
-     */
-    public RedirectView(String path, Object controller) {
-        this(path, controller, HttpServletResponse.SC_SEE_OTHER);
-    }
-
+  
     public RedirectView(String path, Object controller, int statusCode) {
         super((String)path);
         this.statusCode = statusCode;

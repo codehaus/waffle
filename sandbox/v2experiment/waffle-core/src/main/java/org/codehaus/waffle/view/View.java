@@ -39,19 +39,7 @@ public class View {
        this.path = null;
        this.controllerDefinition = controllerDefinition;
     }
-    
-    /**
-     * Creates a View
-     * 
-     * @param path represents the path of the View to be resolved
-     * @param controller the controller where the view originated from
-     * @deprecated Use View(String) or View(ControllerDefinition) instead
-     */
-    public View(String path, Object controller) {
-        this.path = path;
-        this.controllerDefinition = new ControllerDefinition(null, controller, null);
-    }
-
+   
     /**
      * Returns the view path
      * 

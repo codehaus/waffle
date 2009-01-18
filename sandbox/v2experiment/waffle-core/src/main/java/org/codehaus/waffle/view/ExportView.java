@@ -13,13 +13,6 @@ public class ExportView extends View {
     private final byte[] content;
     private final String filename;
 
-    /*
-     * @deprecated Use {@link #ExportView(String,byte[],String)} instead
-     */
-    public ExportView(Object controller, String contentType, byte[] content, String filename) {
-        this(contentType, content, filename);
-    }
-
     public ExportView(String contentType, byte[] content, String filename) {
         super((String)null);
         this.contentType = contentType;
