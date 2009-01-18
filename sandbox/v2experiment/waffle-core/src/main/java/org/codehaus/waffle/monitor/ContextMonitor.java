@@ -4,7 +4,6 @@
 package org.codehaus.waffle.monitor;
 
 import org.codehaus.waffle.WaffleException;
-import org.picocontainer.MutablePicoContainer;
 
 /**
  * A monitor for context-related events

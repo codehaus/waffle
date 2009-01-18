@@ -1,24 +1,23 @@
 package org.codehaus.waffle.servlet;
 
-import org.picocontainer.web.PicoServletContainerListener;
-import org.picocontainer.DefaultPicoContainer;
-import org.picocontainer.ComponentMonitor;
-import org.picocontainer.LifecycleStrategy;
-import org.picocontainer.monitors.NullComponentMonitor;
-import org.picocontainer.behaviors.Guarding;
-import org.picocontainer.behaviors.Caching;
-import org.picocontainer.behaviors.Storing;
 import org.codehaus.waffle.context.pico.WaffleLifecycleStrategy;
+import org.picocontainer.DefaultPicoContainer;
+import org.picocontainer.LifecycleStrategy;
+import org.picocontainer.behaviors.Caching;
+import org.picocontainer.behaviors.Guarding;
+import org.picocontainer.behaviors.Storing;
+import org.picocontainer.web.PicoServletContainerListener;
 
+@SuppressWarnings("serial")
 public class WaffleListener extends PicoServletContainerListener {
 
     protected ScopedContainers makeScopedContainers() {
-        DefaultPicoContainer appCtnr = new DefaultPicoContainer(new Guarding().wrap(new Caching()), makeLifecycleStrategy(), makeParentContainer());
-        Storing sessStoring = new Storing();
-        DefaultPicoContainer sessCtnr = new DefaultPicoContainer(new Guarding().wrap(sessStoring), makeLifecycleStrategy(), appCtnr);
-        Storing reqStoring = new Storing();
-        DefaultPicoContainer reqCtnr = new DefaultPicoContainer(new Guarding().wrap(addRequestBehaviors(reqStoring)), makeLifecycleStrategy(), sessCtnr);
-        return new ScopedContainers(appCtnr, sessCtnr, reqCtnr, sessStoring, reqStoring);
+        DefaultPicoContainer application = new DefaultPicoContainer(new Guarding().wrap(new Caching()), makeLifecycleStrategy(), makeParentContainer());
+        Storing sessionStoring = new Storing();
+        DefaultPicoContainer session = new DefaultPicoContainer(new Guarding().wrap(sessionStoring), makeLifecycleStrategy(), application);
+        Storing requestStoring = new Storing();
+        DefaultPicoContainer request = new DefaultPicoContainer(new Guarding().wrap(addRequestBehaviors(requestStoring)), makeLifecycleStrategy(), session);
+        return new ScopedContainers(application, session, request, sessionStoring, requestStoring);
     }
 
     protected LifecycleStrategy makeLifecycleStrategy() {
