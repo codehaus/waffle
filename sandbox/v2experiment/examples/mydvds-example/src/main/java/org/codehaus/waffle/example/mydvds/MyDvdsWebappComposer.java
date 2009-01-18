@@ -7,7 +7,7 @@ import org.codehaus.waffle.example.mydvds.interceptor.AuthorizationInterceptor;
 import org.codehaus.waffle.example.mydvds.model.Passport;
 import org.codehaus.waffle.example.mydvds.persistence.HibernateSessionFactory;
 import org.codehaus.waffle.example.mydvds.persistence.PersistenceManager;
-import org.codehaus.waffle.context.WaffleWebappComposer;
+import org.codehaus.waffle.context.pico.WaffleWebappComposer;
 import org.picocontainer.MutablePicoContainer;
 
 import javax.servlet.ServletContext;

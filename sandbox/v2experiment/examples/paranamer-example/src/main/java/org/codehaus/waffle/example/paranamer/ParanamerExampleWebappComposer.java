@@ -4,7 +4,7 @@ import org.codehaus.waffle.example.paranamer.action.CalculatorController;
 import org.codehaus.waffle.example.paranamer.action.HelloWorldController;
 import org.codehaus.waffle.example.paranamer.action.PersonController;
 import org.codehaus.waffle.example.paranamer.dao.SimplePersonDAO;
-import org.codehaus.waffle.context.WaffleWebappComposer;
+import org.codehaus.waffle.context.pico.WaffleWebappComposer;
 import org.codehaus.waffle.action.AnnotatedMethodDefinitionFinder;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.ParanamerMethodDefinitionFinder;

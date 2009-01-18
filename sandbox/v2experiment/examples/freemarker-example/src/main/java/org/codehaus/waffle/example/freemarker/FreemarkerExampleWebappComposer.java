@@ -11,7 +11,8 @@ import org.codehaus.waffle.bind.converters.StringListMapValueConverter;
 import org.codehaus.waffle.bind.converters.StringNumberListMapValueConverter;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.DAY_FORMAT_KEY;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.TIME_FORMAT_KEY;
-import org.codehaus.waffle.context.WaffleWebappComposer;
+
+import org.codehaus.waffle.context.pico.WaffleWebappComposer;
 import org.codehaus.waffle.example.freemarker.controller.DateProvider;
 import org.codehaus.waffle.example.freemarker.controller.PersonController;
 import org.codehaus.waffle.example.freemarker.converters.PersonListValueConverter;

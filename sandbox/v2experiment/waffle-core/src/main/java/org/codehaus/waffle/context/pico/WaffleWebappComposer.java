@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.context;
+package org.codehaus.waffle.context.pico;
 
 import org.picocontainer.web.WebappComposer;
 import org.picocontainer.MutablePicoContainer;
