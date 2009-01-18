@@ -72,10 +72,6 @@ public class WaffleServletTest {
     @Test
     public void canConfigureComponentsViaInitAttributes() throws ServletException {
 
-        final StringBuilder sb = new StringBuilder();
-
-        final ViewResolver viewResolver = mockery.mock(ViewResolver.class);
-
         final ServletContext servletContext = mockery.mock(ServletContext.class);
 
         final MutablePicoContainer mpc = mockery.mock(MutablePicoContainer.class);

@@ -27,11 +27,10 @@ import org.junit.runner.RunWith;
 public class OgnlBindErrorMessageResolverTest {
 
     private Mockery mockery = new Mockery();
+    private MessageResources messageResources  = mockery.mock(MessageResources.class);
 
     @Test
     public void canResolveFirstCheckForCustomFieldMessage() {
-        // Mock MessageResources
-        final MessageResources messageResources = mockery.mock(MessageResources.class);
         final String message = "My Error Message";
         mockery.checking(new Expectations() {
             {
@@ -46,11 +45,8 @@ public class OgnlBindErrorMessageResolverTest {
         assertEquals(message, messageResolver.resolve(new FakeBean(), "decimal", "bad-value"));
     }
 
-    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
     @Test
     public void canResolveToTypeBasedBindErrorMessage() {
-        // Mock MessageResources
-        final MessageResources messageResources = mockery.mock(MessageResources.class);
         final String message = "The error message";
         mockery.checking(new Expectations() {
             {
@@ -68,11 +64,8 @@ public class OgnlBindErrorMessageResolverTest {
         assertEquals(message, messageResolver.resolve(new FakeBean(), "count", "bad-value"));
     }
     
-    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
     @Test
     public void canResolveToDefaultBindErrorMessage() {
-     // Mock MessageResources
-        final MessageResources messageResources = mockery.mock(MessageResources.class);
         final String message = "The default error message";
         mockery.checking(new Expectations() {
             {
@@ -92,11 +85,8 @@ public class OgnlBindErrorMessageResolverTest {
         assertEquals(message, messageResolver.resolve(new FakeBean(), "count", "bad-value"));
     }
     
-    @SuppressWarnings({"ThrowableInstanceNeverThrown"})
     @Test
     public void canResolveToDefaultBindErrorMessageWhenKeyIsMissing() {
-     // Mock MessageResources
-        final MessageResources messageResources = mockery.mock(MessageResources.class);
         final String defaultMessage = MessageFormat.format(DEFAULT_MESSAGE, "my.field.name", "bad-value");
         mockery.checking(new Expectations() {
             {

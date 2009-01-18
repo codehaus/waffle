@@ -10,13 +10,11 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import org.codehaus.waffle.action.intercept.MethodInterceptor;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.testmodel.FakeController;
-import org.codehaus.waffle.action.intercept.MethodInterceptor;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class InterceptingActionMethodExecutorTest {

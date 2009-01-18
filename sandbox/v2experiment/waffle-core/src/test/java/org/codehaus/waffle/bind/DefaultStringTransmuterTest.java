@@ -11,10 +11,11 @@ import org.junit.runner.RunWith;
 public class DefaultStringTransmuterTest {
     private final Mockery mockery = new Mockery();
 
+    private ValueConverterFinder valueConverterFinder = mockery.mock(ValueConverterFinder.class);
+    private ValueConverter valueConverter = mockery.mock(ValueConverter.class);
+
     @Test
     public void canFindCorrectValueConverter() {
-        final ValueConverterFinder valueConverterFinder = mockery.mock(ValueConverterFinder.class);
-        final ValueConverter valueConverter = mockery.mock(ValueConverter.class);
         mockery.checking(new Expectations() {
             {
                 one(valueConverterFinder).findConverter(Float.class);
@@ -30,8 +31,6 @@ public class DefaultStringTransmuterTest {
 
     @Test
     public void canHandleEmptyStringValue() {
-        final ValueConverterFinder valueConverterFinder = mockery.mock(ValueConverterFinder.class);
-        final ValueConverter valueConverter = mockery.mock(ValueConverter.class);
         mockery.checking(new Expectations() {
             {
                 one(valueConverterFinder).findConverter(Integer.class);
@@ -47,8 +46,6 @@ public class DefaultStringTransmuterTest {
     
     @Test
     public void canHandleEmptyStringValueForPrimitiveType() {
-        final ValueConverterFinder valueConverterFinder = mockery.mock(ValueConverterFinder.class);
-        final ValueConverter valueConverter = mockery.mock(ValueConverter.class);
         mockery.checking(new Expectations() {
             {
                 one(valueConverterFinder).findConverter(float.class);

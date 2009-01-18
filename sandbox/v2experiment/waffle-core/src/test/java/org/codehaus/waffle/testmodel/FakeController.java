@@ -96,7 +96,7 @@ public class FakeController {
     }
 
     public View returnsView(String message) {
-        return new View(message, this);
+        return new View(message);
     }
 
     public HttpServletRequest getRequest() {

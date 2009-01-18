@@ -9,7 +9,7 @@ public class DefaultViewResolverTest {
     @Test
     public void canResolve() {
         String path = "/helloWorld.jsp";
-        View view = new View(path, null);
+        View view = new View(path);
         ViewResolver viewResolver = new DefaultViewResolver();
         assertEquals(path, viewResolver.resolve(view));
     }

@@ -98,7 +98,7 @@ public class ContextControllerDefinitionFactoryTest {
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
                 new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
 
-        ControllerDefinition definition = controllerDefinitionFactory.getControllerDefinition(request, response, context, pico);
+        controllerDefinitionFactory.getControllerDefinition(request, response, context, pico);
     }
 
 }

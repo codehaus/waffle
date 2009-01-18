@@ -42,7 +42,7 @@ public class DefaultActionMethodResponseHandlerTest {
 
     @Test
     public void canDelegateResponseValueOfTypeViewToDispatcher() throws IOException, ServletException {
-        final View view = new View("foobar", null);
+        final View view = new View("foobar");
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         actionMethodResponse.setReturnValue(view);
 

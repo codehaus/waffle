@@ -24,7 +24,8 @@ public class OgnlValueConverterFinderTest {
 
     @Test
     public void canFindDifferentListConvertersRegisteredAtInstantiation() throws IntrospectionException {
-        ValueConverterFinder finder = new OgnlValueConverterFinder(new StringListValueConverter(RESOURCES), new NumberListValueConverter(RESOURCES));
+        ValueConverterFinder finder = new OgnlValueConverterFinder(new StringListValueConverter(RESOURCES),
+                new NumberListValueConverter(RESOURCES));
         assertListCovertersCanBeFound(finder);
     }
 
@@ -37,12 +38,14 @@ public class OgnlValueConverterFinderTest {
     }
 
     private void assertListCovertersCanBeFound(ValueConverterFinder finder) throws IntrospectionException {
-        assertConverterType(finder, List.class, OgnlValueConverter.class); // List.class is not parameterized and matches default converter
+        assertConverterType(finder, List.class, OgnlValueConverter.class); // List.class is not parameterized and
+                                                                           // matches default converter
         assertConverterType(finder, methodParameterType("listOfStrings"), StringListValueConverter.class);
         assertConverterType(finder, methodParameterType("listOfIntegers"), NumberListValueConverter.class);
     }
-    
-    private void assertConverterType(ValueConverterFinder finder, Type type, Class<? extends ValueConverter> expectedConverterType) {
+
+    private void assertConverterType(ValueConverterFinder finder, Type type,
+            Class<? extends ValueConverter> expectedConverterType) {
         assertEquals(expectedConverterType, finder.findConverter(type).getClass());
     }
 

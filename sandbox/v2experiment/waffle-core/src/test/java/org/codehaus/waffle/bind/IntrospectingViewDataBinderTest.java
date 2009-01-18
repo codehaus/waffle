@@ -51,7 +51,6 @@ public class IntrospectingViewDataBinderTest {
     }
 
     class ControllerWithMissingReadMethod {
-        @SuppressWarnings({"UnusedDeclaration"})
         public void setName(String name) {
             // do nothing
         }

@@ -66,7 +66,7 @@ public class DefaultViewDispatcherTest {
     
     @Test
     public void canDispatchRedirectView() throws IOException, ServletException {
-        RedirectView redirectView = new RedirectView(PATH, null);
+        RedirectView redirectView = new RedirectView(PATH);
         ViewResolver viewResolver = mockViewResolver(redirectView, PATH);
 
         mockery.checking(new Expectations() {{
@@ -80,7 +80,7 @@ public class DefaultViewDispatcherTest {
 
     @Test
     public void canDispatchStandardView() throws IOException, ServletException {
-        View view = new View(PATH, null);
+        View view = new View(PATH);
         ViewResolver viewResolver = mockViewResolver(view, PATH);
 
         final RequestDispatcher requestDispatcher = mockery.mock(RequestDispatcher.class);
