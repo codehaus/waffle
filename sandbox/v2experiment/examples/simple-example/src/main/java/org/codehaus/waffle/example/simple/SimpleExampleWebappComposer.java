@@ -11,7 +11,7 @@ import org.codehaus.waffle.example.simple.controllers.PersonController;
 import org.codehaus.waffle.example.simple.controllers.UploadController;
 import org.codehaus.waffle.example.simple.dao.SimplePersonDAO;
 import org.codehaus.waffle.io.RequestFileUploader;
-import org.codehaus.waffle.context.WaffleWebappComposer;
+import org.codehaus.waffle.context.pico.WaffleWebappComposer;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.picocontainer.MutablePicoContainer;
