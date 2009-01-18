@@ -1,9 +1,9 @@
 package org.codehaus.waffle.example.simple;
 
-import org.codehaus.waffle.view.View;
-
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.codehaus.waffle.view.View;
 
 public class AjaxExample {
     private final List<Item> selected;
@@ -32,14 +32,14 @@ public class AjaxExample {
         AjaxExample.Item item = available.remove(index);
         selected.add(item);
 
-        return new View("selection.jspx", this);
+        return new View("selection.jspx");
     }
 
     public View remove(int index) {
         AjaxExample.Item item = selected.remove(index);
         available.add(item);
 
-        return new View("selection.jspx", this);
+        return new View("selection.jspx");
     }
 
     public class Item {

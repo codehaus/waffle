@@ -1,17 +1,24 @@
 package org.codehaus.waffle.example.freemarker;
 
-import org.codehaus.waffle.bind.ValueConverter;
-import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.bind.converters.AbstractValueConverter;
-import org.codehaus.waffle.bind.converters.DateValueConverter;
-import org.codehaus.waffle.bind.converters.NumberValueConverter;
-import org.codehaus.waffle.bind.converters.StringListValueConverter;
-import org.codehaus.waffle.bind.converters.NumberListValueConverter;
-import org.codehaus.waffle.bind.converters.StringListMapValueConverter;
-import org.codehaus.waffle.bind.converters.StringNumberListMapValueConverter;
+import static java.util.Arrays.asList;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.DAY_FORMAT_KEY;
 import static org.codehaus.waffle.bind.converters.DateValueConverter.TIME_FORMAT_KEY;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.ServletContext;
+
+import org.codehaus.waffle.bind.ValueConverter;
+import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.bind.converters.DateValueConverter;
+import org.codehaus.waffle.bind.converters.NumberListValueConverter;
+import org.codehaus.waffle.bind.converters.NumberValueConverter;
+import org.codehaus.waffle.bind.converters.StringListMapValueConverter;
+import org.codehaus.waffle.bind.converters.StringListValueConverter;
+import org.codehaus.waffle.bind.converters.StringNumberListMapValueConverter;
 import org.codehaus.waffle.context.pico.WaffleWebappComposer;
 import org.codehaus.waffle.example.freemarker.controller.DateProvider;
 import org.codehaus.waffle.example.freemarker.controller.PersonController;
@@ -24,14 +31,6 @@ import org.codehaus.waffle.menu.MenuAwareController;
 import org.codehaus.waffle.view.ViewResolver;
 import org.picocontainer.MutablePicoContainer;
 
-import javax.servlet.ServletContext;
-import static java.util.Arrays.asList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
 public class FreemarkerExampleWebappComposer extends WaffleWebappComposer {
 
     @Override
@@ -39,7 +38,7 @@ public class FreemarkerExampleWebappComposer extends WaffleWebappComposer {
         super.composeApplication(picoContainer, servletContext);
         picoContainer.addComponent("DateValueConverter", DateValueConverter.class);
         DateProvider dateProvider = new DateProvider("dd/MM/yyyy", "hh:mm:ss", "dd/MM/yyyy");
-        AbstractValueConverter converter = (AbstractValueConverter) picoContainer.getComponent(DateValueConverter.class);
+        DateValueConverter converter = picoContainer.getComponent(DateValueConverter.class);
         if (converter != null) {
             Properties patterns = new Properties();
             patterns.setProperty(DAY_FORMAT_KEY, dateProvider.getDayPattern());
@@ -60,7 +59,6 @@ public class FreemarkerExampleWebappComposer extends WaffleWebappComposer {
         finder.registerConverter((ValueConverter) picoContainer.getComponent(PersonListValueConverter.class));
         MessageResources resources = picoContainer.getComponent(MessageResources.class);
         resources.useURI("waffle-core-bundle,FreemarkerResources");
-        resources.useLocale(Locale.ITALIAN);
         picoContainer.addComponent("people/manage", PersonController.class);
         picoContainer.addComponent("home", MenuAwareController.class);
         ViewResolver viewResolver = picoContainer.getComponent(ViewResolver.class);

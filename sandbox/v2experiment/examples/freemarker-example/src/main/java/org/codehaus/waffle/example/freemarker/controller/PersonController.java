@@ -90,10 +90,6 @@ public class PersonController extends MenuAwareController implements Serializabl
         this.person = persister.findById(id);
     }
 
-    public void select() {
-        this.person = persister.findById(id);
-    }
-
     public void show() {
         // do nothing: the selected Ids and people are automatically populated
     }

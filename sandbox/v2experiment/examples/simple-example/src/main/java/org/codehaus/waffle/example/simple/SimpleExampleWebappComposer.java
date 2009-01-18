@@ -2,7 +2,10 @@ package org.codehaus.waffle.example.simple;
 
 import static org.codehaus.waffle.registrar.RequestParameterReference.requestParameter;
 
+import javax.servlet.ServletContext;
+
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.codehaus.waffle.context.pico.WaffleWebappComposer;
 import org.codehaus.waffle.example.simple.controllers.AutomobileController;
 import org.codehaus.waffle.example.simple.controllers.CalculatorController;
 import org.codehaus.waffle.example.simple.controllers.HelloWorldController;
@@ -11,12 +14,7 @@ import org.codehaus.waffle.example.simple.controllers.PersonController;
 import org.codehaus.waffle.example.simple.controllers.UploadController;
 import org.codehaus.waffle.example.simple.dao.SimplePersonDAO;
 import org.codehaus.waffle.io.RequestFileUploader;
-import org.codehaus.waffle.context.pico.WaffleWebappComposer;
-import org.codehaus.waffle.monitor.ActionMonitor;
-import org.codehaus.waffle.monitor.BindMonitor;
 import org.picocontainer.MutablePicoContainer;
-
-import javax.servlet.ServletContext;
 
 public class SimpleExampleWebappComposer extends WaffleWebappComposer {
 
@@ -49,7 +47,7 @@ public class SimpleExampleWebappComposer extends WaffleWebappComposer {
         picoContainer.addComponent("uploader", RequestFileUploader.class);
         picoContainer.addComponent("upload", UploadController.class);
         picoContainer.addComponent("parameter_example", ParameterExampleController.class,
-                picoParameters("Mike", requestParameter("age", 30)));
+        picoParameters("Mike", requestParameter("age", 30)));
     }
 
 }
