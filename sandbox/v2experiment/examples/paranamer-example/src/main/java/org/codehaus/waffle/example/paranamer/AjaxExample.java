@@ -31,14 +31,14 @@ public class AjaxExample {
         AjaxExample.Item item = available.remove(index);
         selected.add(item);
 
-        return new View("selection.jspx", this);
+        return new View("selection.jspx");
     }
 
     public View remove(int index) {
         AjaxExample.Item item = selected.remove(index);
         available.add(item);
 
-        return new View("selection.jspx", this);
+        return new View("selection.jspx");
     }
 
     public class Item {
