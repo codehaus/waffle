@@ -54,12 +54,15 @@ import javax.servlet.ServletContext;
 /**
  * @author Michael Ward
  * @author Mauro Talevi
+ * @author Paul Hammant
  */
 public abstract class WaffleWebappComposer implements WebappComposer {
 
-    private ParameterResolver parameterResolver;
+    private MutablePicoContainer appContainer;
 
     public void composeApplication(MutablePicoContainer picoContainer, ServletContext servletContext) {
+        appContainer = picoContainer;
+
         picoContainer.addComponent(servletContext);
 
         // add all known components
@@ -86,8 +89,6 @@ public abstract class WaffleWebappComposer implements WebappComposer {
         picoContainer.addComponent(ViewDispatcher.class, viewDispatcher());
         picoContainer.addComponent(ViewResolver.class, viewResolver());
         picoContainer.addComponent(ParameterResolver.class, parameterResolver());
-
-        parameterResolver = picoContainer.getComponent(ParameterResolver.class);
 
     }
 
@@ -199,7 +200,7 @@ public abstract class WaffleWebappComposer implements WebappComposer {
 
         Parameter[] picoParameters = new Parameter[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
-            picoParameters[i] = parameterResolver.resolve(parameters[i]);
+            picoParameters[i] = appContainer.getComponent(ParameterResolver.class).resolve(parameters[i]);
         }
         return picoParameters;
     }

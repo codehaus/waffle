@@ -36,7 +36,7 @@ public class SimpleExampleWebappComposer extends WaffleWebappComposer {
         picoContainer.addComponent("automobile", AutomobileController.class);
         //validation for automobile controller done in the controller itself
         //uncomment registration of validator if you prefer to override it
-        //register("automobileValidator", AutomobileControllerValidator.class);
+        //picoContainer.addComponent("automobileValidator", AutomobileControllerValidator.class);
         picoContainer.addComponent("person", PersonController.class);
     }
 
@@ -47,7 +47,7 @@ public class SimpleExampleWebappComposer extends WaffleWebappComposer {
         picoContainer.addComponent("uploader", RequestFileUploader.class);
         picoContainer.addComponent("upload", UploadController.class);
         picoContainer.addComponent("parameter_example", ParameterExampleController.class,
-        picoParameters("Mike", requestParameter("age", 30)));
+            picoParameters("Mike", requestParameter("age", 30)));
     }
 
 }
