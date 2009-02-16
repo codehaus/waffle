@@ -39,6 +39,7 @@
         <label for="person.dateOfBirth">Date of Birth:</label>
         <fmt:formatDate value="${person.dateOfBirth}" var="birthDate" pattern="dd-MM-yyyy"/>
         <input type="text" name="person.dateOfBirth" id="person.dateOfBirth" value="${birthDate}"/>
+        <div>(dd/mm/yyyy)</div>
         <br style="clear:both"/>
     </div>
 

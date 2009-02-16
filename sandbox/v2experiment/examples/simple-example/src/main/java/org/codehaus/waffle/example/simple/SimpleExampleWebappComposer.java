@@ -20,11 +20,11 @@ public class SimpleExampleWebappComposer extends WaffleWebappComposer {
 
     @Override
     public void composeApplication(MutablePicoContainer picoContainer, ServletContext servletContext) {
+        picoContainer.addComponent(StrictDateValueConverter.class);
+        picoContainer.addComponent(SimplePersonDAO.class);
+
         super.composeApplication(picoContainer, servletContext);
 
-        picoContainer.addComponent("DateConverter", StrictDateValueConverter.class);
-
-        picoContainer.addComponent(SimplePersonDAO.class);
         picoContainer.addComponent("helloworld", HelloWorldController.class);
         picoContainer.addComponent("ajaxexample", AjaxExample.class);
     }
