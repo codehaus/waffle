@@ -16,9 +16,9 @@ public class ParanamerExampleWebappComposer extends WaffleWebappComposer {
 
     @Override
     public void composeApplication(MutablePicoContainer picoContainer, ServletContext servletContext) {
-        super.composeApplication(picoContainer, servletContext);
         picoContainer.addComponent(DateValueConverter.class);
         picoContainer.addComponent(SimplePersonDAO.class);
+        super.composeApplication(picoContainer, servletContext);
         picoContainer.addComponent("helloworld", HelloWorldController.class);
         picoContainer.addComponent("ajaxexample", AjaxExample.class);
         picoContainer.addComponent("people/person", PersonController.class);
