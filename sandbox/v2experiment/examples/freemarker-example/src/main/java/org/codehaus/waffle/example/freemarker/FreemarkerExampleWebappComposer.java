@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 
 import org.codehaus.waffle.bind.ValueConverter;
 import org.codehaus.waffle.bind.ValueConverterFinder;
+import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.bind.converters.DateValueConverter;
 import org.codehaus.waffle.bind.converters.NumberListValueConverter;
 import org.codehaus.waffle.bind.converters.NumberValueConverter;
@@ -26,45 +27,63 @@ import org.codehaus.waffle.example.freemarker.converters.PersonListValueConverte
 import org.codehaus.waffle.example.freemarker.converters.PersonValueConverter;
 import org.codehaus.waffle.example.freemarker.persister.SimplePersonPersister;
 import org.codehaus.waffle.i18n.MessageResources;
+import org.codehaus.waffle.i18n.DefaultMessageResourcesConfiguration;
+import org.codehaus.waffle.i18n.MessageResourcesConfiguration;
 import org.codehaus.waffle.menu.Menu;
 import org.codehaus.waffle.menu.MenuAwareController;
 import org.codehaus.waffle.view.ViewResolver;
+import org.codehaus.waffle.view.DefaultViewResolver;
 import org.picocontainer.MutablePicoContainer;
 
 public class FreemarkerExampleWebappComposer extends WaffleWebappComposer {
+    private static final String DAY_PATTERN = "dd/MM/yyyy";
+    private static final String TIME_PATTERN = "hh:mm:ss";
 
     @Override
     public void composeApplication(MutablePicoContainer picoContainer, ServletContext servletContext) {
-        super.composeApplication(picoContainer, servletContext);
-        picoContainer.addComponent("DateValueConverter", DateValueConverter.class);
-        DateProvider dateProvider = new DateProvider("dd/MM/yyyy", "hh:mm:ss", "dd/MM/yyyy");
-        DateValueConverter converter = picoContainer.getComponent(DateValueConverter.class);
-        if (converter != null) {
-            Properties patterns = new Properties();
-            patterns.setProperty(DAY_FORMAT_KEY, dateProvider.getDayPattern());
-            patterns.setProperty(TIME_FORMAT_KEY, dateProvider.getTimePattern());
-            converter.changePatterns(patterns);
-        }
-        picoContainer.addComponent("NumberValueConverter", NumberValueConverter.class);
-        picoContainer.addComponent("StringListValueConverter", StringListValueConverter.class);
-        picoContainer.addComponent("NumberListValueConverter", NumberListValueConverter.class);
-        picoContainer.addComponent("StringListMapValueConverter", StringListMapValueConverter.class);
-        picoContainer.addComponent("StringNumberListMapValueConverter", StringNumberListMapValueConverter.class);
-        picoContainer.addComponent(dateProvider);
-        picoContainer.addComponent(SimplePersonPersister.class);
+
+        picoContainer.addComponent(MessageResourcesConfiguration.class, new DefaultMessageResourcesConfiguration("waffle-core-bundle,FreemarkerResources"));
+
+        picoContainer.addComponent(NumberValueConverter.class);
+        picoContainer.addComponent(StringListValueConverter.class);
+        picoContainer.addComponent(NumberListValueConverter.class);
+        picoContainer.addComponent(StringListMapValueConverter.class);
+        picoContainer.addComponent(StringNumberListMapValueConverter.class);
         picoContainer.addComponent(PersonValueConverter.class);
         picoContainer.addComponent(PersonListValueConverter.class);
-        ValueConverterFinder finder = picoContainer.getComponent(ValueConverterFinder.class);
-        finder.registerConverter((ValueConverter) picoContainer.getComponent(PersonValueConverter.class));
-        finder.registerConverter((ValueConverter) picoContainer.getComponent(PersonListValueConverter.class));
-        MessageResources resources = picoContainer.getComponent(MessageResources.class);
-        resources.useURI("waffle-core-bundle,FreemarkerResources");
+        picoContainer.addComponent(DateValueConverter.class, MyDateValueConverter.class);
+
+        picoContainer.addComponent(SimplePersonPersister.class);
+
+        super.composeApplication(picoContainer, servletContext);
+
+        picoContainer.addComponent(new DateProvider(DAY_PATTERN, TIME_PATTERN, DAY_PATTERN));
         picoContainer.addComponent("people/manage", PersonController.class);
         picoContainer.addComponent("home", MenuAwareController.class);
-        ViewResolver viewResolver = picoContainer.getComponent(ViewResolver.class);
-        viewResolver.configureView("home", "ftl/home");
         picoContainer.addComponent(createMenu());
 
+    }
+
+    public static class MyDateValueConverter extends DateValueConverter {
+        public MyDateValueConverter(MessageResources messageResources) {
+            super(messageResources, makeProperties());
+        }
+        private static Properties makeProperties() {
+            Properties patterns = new Properties();
+            patterns.setProperty(DAY_FORMAT_KEY, DAY_PATTERN);
+            patterns.setProperty(TIME_FORMAT_KEY, TIME_PATTERN);
+            return patterns;
+        }
+    }
+
+    @Override
+    protected Class<? extends ViewResolver> viewResolver() {
+        return MyViewResolver.class;
+    }
+    public static class MyViewResolver extends DefaultViewResolver {
+        public MyViewResolver() {
+            configureView("home", "ftl/home");
+        }
     }
 
     private Menu createMenu() {
