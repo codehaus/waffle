@@ -1,0 +1,188 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<title>Composition</title></head>
+<body>
+
+
+<h2>Application Composition</h2>
+<p>Now you should have an understanding of how Controllers and
+ActionMethods work in Waffle and it has been mentioned that no custom
+XML configuration files are needed. So how does everything get wired up?
+<b>With a small java class that extends WaffleWebappComposer.</b></p>
+<p>In order to add Controllers (and other components that Controllers
+may have dependencies on) we are required to extend the <i><a href="javadoc/core/org/codehaus/waffle/context/WaffleWebappComposer.html">
+org.codehaus.waffle.context.WaffleWebappComposer</a></i> class. 
+A Composition class is used to register Waffle Actions and dependent components at various scopes.</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+public class MyWebappComposer extends WaffleWebappComposer {
+    @Override
+    public void composeApplication(MutablePicoContainer pico, ServletContext servletContext) {
+        super.composeApplication(pico, servletContext);
+        pico.addComponent(ACustomConverter.class);
+        pico.addComponent("foo/bar", FooBarController.class);
+        pico.addComponent("home", HomeController.class);
+    }
+    @Override
+    public void composeSession(MutablePicoContainer pico) {
+        super.composeSession(pico);
+        pico.addComponent(ShoppingCart.class);
+    }
+    @Override
+    public void composeRequest(MutablePicoContainer pico) {
+        super.composeRequest(pico);
+        pico.addComponent("foo/baz", FooBazController.class);
+    }
+}
+</textarea>
+
+<p>Notice the method "composeSession" method name? This marks the component as
+'session level' within the application.</p>
+<p>The composer class name (MyWebappComposer in this case) needs to
+be referenced in the <i>web.xml</i> (yes we can't completely get away
+from XML if we want to play in the J2EE world).</p>
+<textarea class="xml:nogutter:nocontrols" name="code2">  &lt;context-param&gt;
+    &lt;param-name&gt;webapp-composer-class&lt;/param-name&gt;
+    &lt;param-value&gt;com.thoughtworks.MyWebappComposer&lt;/param-value&gt;
+  &lt;/context-param&gt;
+</textarea>
+<p>Let's dig deeper into how the WebappComposer works and what
+  functionality it provides. Assume we have the following three Classes in
+our application.</p>
+<h3>Store.java</h3>
+
+<textarea class="java:nogutter:nocontrols" name="code">  public class Store {
+    // other methods that characterize Store
+  }
+</textarea>
+
+<h3>ShoppingCart.java</h3>
+
+<textarea class="java:nogutter:nocontrols" name="code">  public class ShoppingCart {
+    private Store store;
+
+    public ShoppingCart(Store store) {
+      this.store = store;
+    }
+    // other methods that leverage Store
+  }
+</textarea>
+
+<h3>CheckoutController.java</h3>
+
+<textarea class="java:nogutter:nocontrols" name="code">  public class CheckoutController {
+    private ShoppingCart shoppingCart;
+
+    public CheckoutController(ShoppingCart shoppingCart) {
+      this.shoppingCart = shoppingCart;
+    }
+    // other methods that leverage ShoppingCart
+  }
+</textarea>
+
+<p>With these classes one could imagine the WebappComposer looking
+similar to:</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">  public class MyWebappComposer extends WaffleWebappComposer {
+
+    @Override
+    public void composeApplication(MutablePicoContainer pico, ServletContext servletContext) {
+      super.composeApplication(pico, servletcontext);
+      pico.addComponent(Store.class);
+    }
+
+    @Override
+    public void composeSession(MutablePicoContainer pico) {
+      super.composeSession(pico);
+      pico.addComponent(ShoppingCart.class);
+    }
+
+    @Override
+    public void composeRequest(MutablePicoContainer pico) {
+      super.composeRequest(pico);
+      pico.addComponent("checkout", CheckoutController.class);
+    }
+  }
+</textarea>
+
+
+<p>Components registered to the Application context level are shared
+across all users. Session level components are shared for a user across
+requests. And request level components only live as long as the request - they are garbage collected after the request.</p>
+<dl>
+  <dt>NOTE:</dt>
+  <dd>As with any web application care must be taken to ensure data
+  is stored to the correct context level.</dd>
+</dl>
+<p>When an application starts up and the ServletContext is
+intialized all three <i>composeXXX(..)</i> methods will be
+invoked. This is for registration only.  Caching at each socope is handed in a Jav concept called a ThreadLocal.  This allows us to maintain one instance per session at that scope, and one instance per request at that level.  At the Application level, all sessions and reequests will share one instance.</p>
+<p>Application level components only have access to other components
+registered in the <b>composeApplication(..)</b> method. Session level components
+can access their sibling components and those components registered
+under <i>composeApplication(..)</i>. Request level components can access their
+siblings component and their parent components (<i>composeSession(..)</i>) and
+grandparent components (<i>composeApplication(..)</i>). In other words dependency
+resolution can traverse up the tree hierarchy but NOT down. The table
+below describes each of the available registration method provided by
+WaffleWebappComposer subclasses.</p>
+<table class="bodyTable">
+  <tbody>
+    <tr class="a">
+      <td align="left"><b>Method</b></td>
+      <td align="left"><b>Description</b></td>
+    </tr>
+    <tr class="b">
+      <td align="left">composeApplication</td>
+      <td align="left">will be invoked upon <b>ServletContext
+      initialization</b>. This should be used for those components that need
+      to live for the entire length of the application.</td>
+    </tr>
+    <tr class="a">
+      <td align="left">composeSession</td>
+      <td align="left">will be invoked upon <b>HttpSession
+      creation</b>. This should be used for those components that need to
+      live for the entire length of a users session.</td>
+    </tr>
+    <tr class="b">
+      <td align="left">composeRequest</td>
+      <td align="left">will be invoked upon <b>ServletRequest
+      initialization</b>. This should be used for those components that need
+      to live for the entire length of a request</td>
+    </tr>
+  </tbody>
+</table>
+<p>The diagram below shows a high level view of how the levels are
+seperated. As you might expect an application will have several
+concurrent sessions, and a session will more than likely handle several
+request (maybe not simultaneously). Of course a session from one user
+cannot be accessed by a session from another user, same hold true for
+requests.</p>
+<img src="images/context-hierarchy.png" alt="Context level hierarchy seperation">
+
+<p>
+<b>NOTE:</b> To prevent exceptions registration of components should follow these rules:
+  <ul>
+    <li>key names must be unique</li>
+    <li>do not register the same component multiple times</li>
+    <li>ambiguous dependencies (two different implementation of an
+    interface and a class dependent on a implementation)</li>
+  </ul>
+</p>
+
+<p>By default the <i>"composeXXX"</i> methods cache
+instances created within the framework. That is, only a single managed
+instance is created. Again that is a "single managed instance"
+rather than a singleton. If your application requires a new instance of
+a particular component for each use you can do one of two things: first
+simply register the component to the REQUEST context; or utilize the
+pico.as(NOCACHE).addComponent(...) method with WebappComposer. The NOCACHE
+technique, as their name describes, will not cache and share a component
+but rather a new instance of that component each time.</p>
+
+<p>One last thing to note - we talk of WaffleWebappComposer here and in
+some our examples, we illustrate one called MyWebappComposer. It can be
+called whatever you like. UserWaffleSetup, AdminComposer,
+AdminActions, AdminSetup are all good names if the they make sense
+to you.</p>
+</body></html>

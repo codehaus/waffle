@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Tutorial One</title>
+</head>
+<body>
+
+<h2>Tutorial: Part One</h2>
+<p>This tutorial is available to give a quick glimpse of how to use
+Waffle. It touches on each of the main components that make up Waffle.</p>
+
+<h3>Controller</h3>
+
+<p>The term <b>Controller</b> is probably familiar to those who have
+worked with other web frameworks. An Controller in Waffle can be any
+java object (i.e. POJO). However, in order for a POJO to be considered
+an Controller in Waffle it needs to be registered with the <b>WaffleWebappComposer subclass</b>.
+The WaffleWebappComposer subclass is a simple class that your application must have.
+It provides a few methods that allows you to register your
+POJOs as Controllers. For complete details on the WaffleWebappComposer have a look
+at the <a href="composition.html">Composition</a> section.</p>
+<p>Now we will write a very simple class to use as an Controller.
+The class below is really nothing more than a simple bean type of
+object.</p>
+<textarea class="java:nogutter:nocontrols" name="code">
+  public class Automobile implements Serializable {
+    private String make = "ford";
+    private String model = "gt-40";
+
+    public String getMake() {
+        return make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+}</textarea>
+
+<h3>WebappComposer</h3>
+<p>As stated earlier, a Controller is not active in Waffle until it
+has been registered with via a subclass of WaffleWebappComposer. So now we will create such a 
+class and register the <b>Automobile</b> class with it. The
+MyComposer class below defines the method "<b>session</b>"
+and within that method it calls <b>pico.addComponent("automobile",
+Automobile.class);</b>, which registers our Automobile class as an
+Controller under the name "automobile". Registration is not
+limited to Controllers because any component, service, factory, etc...
+can be registered. Detailed examples of this will be discussed later.</p>
+
+<textarea class="java:nogutter:nocontrols" name="code">
+  public class MyComposer extends WaffleWebappComposer {
+
+    public void composeSession(MutablePicoContainer pico) {
+        pico.addComponent("automobile", Automobile.class);
+    }
+}</textarea>
+
+<h3>web.xml</h3>
+<p>While Waffle does not require any proprietary XML configuration
+files we still must create a <b>web.xml</b>. The web.xml example below
+has four points worth mentioning.</p>
+<ol type="1">
+  <li><b><a href="javadoc/core/org/codehaus/waffle/context/WaffleWebappComposer.html">
+        webapp-composer-class</a></b> is the key
+  used to register your applications with Waffle.</li>
+  <li><b><a href="javadoc/core/org/codehaus/waffle/servlet/WaffleListener.html">
+        org.codehaus.waffle.servlet.WaffleListener</a></b>
+  needs to be registered as a listener so that Waffle can be notified of
+  context level (application, session) events.</li>
+  <li>
+    <b><a href="javadoc/core/org/codehaus/waffle/servlet/WaffleServlet$WaffleFilter.html">
+        org.codehaus.waffle.servlet.WaffleServlet$WaffleFilter</a></b> this is the Filter Waffle uses to handle request level
+    events. This is superior to a RequestAttributeListeners implementation because we can ensure a request level
+    container will only be created when appropriate (i.e. not when images or cascading style sheets are requested).
+  </li>
+  <li><b><a href="javadoc/core/org/codehaus/waffle/servlet/WaffleServlet.html">
+        org.codehaus.waffle.servlet.WaffleServlet</a></b> is Waffle's front controller for handling requests.</li>
+</ol>
+
+<textarea class="xml:nogutter:nocontrols" name="code">
+  <?xml version="1.0" encoding="UTF-8"?>
+
+  <web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+    <display-name>Waffle Example</display-name>
+
+    <!-- 1. This is how an application registers its custom composer -->
+    <context-param>
+      <param-name>webapp-composer-class</param-name>
+      <param-value>org.codehaus.waffle.example.MyComposer</param-value>
+    </context-param>
+
+    <!-- 2. Waffle context listener (ServletContext and HttpSession) -->
+    <listener>
+      <listener-class>org.codehaus.waffle.servlet.WaffleListener</listener-class>
+    </listener>
+
+    <!-- 3. Waffle request filter (responsible for request level context) -->
+    <filter>
+      <filter-name>WaffleRequestFilter</filter-name>
+      <filter-class>org.codehaus.waffle.servlet.WaffleServlet$WaffleFilter</filter-class>
+    </filter>
+    <filter-mapping>
+      <filter-name>WaffleRequestFilter</filter-name>
+      <url-pattern>*.waffle</url-pattern>
+    </filter-mapping>
+
+    <!-- 4. Register Waffle's FrontController servlet -->
+    <servlet>
+      <servlet-name>waffle</servlet-name>
+      <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+      <init-param>
+        <param-name>view.suffix</param-name>
+        <param-value>.jspx</param-value>
+      </init-param>
+      <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+      <servlet-name>waffle</servlet-name>
+      <url-pattern>*.waffle</url-pattern>
+    </servlet-mapping>
+  </web-app>
+</textarea>
+
+<h3>View</h3>
+<p>We will create a very simple view to display the content of the
+Controller. The following example uses a JSP and simply displays the
+values of the Controller.</p>
+<h4>automobile.jsp</h4>
+<textarea class="xml:nogutter:nocontrols" name="code">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<html>
+<form action="automobile.waffle">
+    <table>
+        <tr>
+            <td>Make: </td>
+            <td>
+                <input type="text" value="<c:out value='${make}'/>" name="make"/>
+            </td>
+        </tr>
+        <tr>
+            <td>Model: </td>
+            <td>
+                <input type="text" value="<c:out value='${model}'/>" name="model"/>
+            </td>
+        </tr>
+    </table>
+    <input type="submit"/>
+</form>
+</html></textarea>
+
+<h3>Application structure (WAR File)</h3>
+<p>An application built with Waffle is similar to most other Java
+web based applications. The following provides an overview of how you
+might layout the code for this tutorial:</p>
+<textarea class="sql:nogutter:nocontrols" name="code">
+  +--- WEB-INF/
+       +--- classes/org/codehaus/waffle/example
+           +--- Automobile.class
+           +--- MyComposer.class
+       +--- lib/
+           +--- jstl.jar
+           +--- standard.jar
+           +--- ognl.jar
+           +--- picocontainer.jar
+           +--- waffle-1.x.jar
+       +--- web.xml
+   +--- automobile.jspx
+</textarea>
+<dl>
+  <dt>NOTE</dt>
+  <dd>The jars <b>jstl.jar</b> and <b>standard.jar</b> are only
+  required because this tutorial demonstrates the use of JSP's. If you
+  plan on using <a href="http://freemarker.sourceforge.net/">FreeMarker</a>
+  or <a href="http://jakarta.apache.org/velocity/index.html">Velocity
+  </a> you'll need to include the jar files that each of those projects may
+  require.</dd>
+</dl>
+
+<h3>Running the application</h3>
+<p>Now the application can be deployed to a Servlet container (e.g.,
+Tomcat, Jetty). So when we run the application and direct the browser to
+<b>http://localhost:8080/hello/automobile.waffle</b> we see the
+following:</p>
+<img src="images/browser-1.png" />
+<p>When Waffle's front controller, WaffleServlet, handled this
+request it first located the "automobile" Controller, which we
+registered earlier to the session.</p>
+<p>We can also exercise the ability to bind values from the request
+directly onto the Controller. If we append the value "<b>?model=ranger</b>"
+to the original url we will now have: <b>http://localhost:8080/hello/automobile.waffle?model=ranger</b>.
+Notice that the url and the value of the Model field has been updated.</p>
+<img src="images/browser-2.png" />
+
+<h3>More to see</h3>
+<p>This has only been an introduction to Waffle and it provides a
+good starting point to understanding how it works. Continue on to <a
+  href="tutorial-two.html">Tutorial: Part two</a> to see how <b>ControllerMethods</b>
+can be dynamically invoked on Controllers.</p>
+
+</body>
+
+</html>

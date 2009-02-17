@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+  <head>
+    <title>Hello World example</title>
+  </head>
+  <body>
+
+  <h2>Example: Hello World</h2>
+
+  <p>
+    Our first example is the obligatory <b>Hello World</b>. However it'll provide a good overview on how simple it is
+    to create Waffle web applications. The process can be broken down into 3 simple steps:
+  </p>
+
+  <ol type="1">
+    <li>Create a Controller</li>
+    <li>Register that Controller via the WaffleWebappComposer subclass</li>
+    <li>Create the View</li>
+  </ol>
+
+  <h3>Controller</h3>
+
+  <p>
+    The Controller object which will be responsible for handling user requests. This class is simply a POJO and is
+    <b>not</b> required to extend from any Waffle base classes. The Controller below below does NOT have any ActionMethods.
+  </p>
+
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class HelloWorldController {
+
+      public String getGreeting() {
+          return "Hello World!";
+      }
+    }
+  </textarea>
+
+  <h3>Composition</h3>
+
+  <p>
+    All Controllers need to be registered with Waffle. This is done through a subclass of WaffleWebappComposer. Line <b>9</b> in the
+    <i>MyComposer</i> class below registers the <i>HelloWorldController</i> under the name <b>"helloworld"</b>.
+    This WaffleWebappComposer subclass will need to referenced in the <a href="webxml.html">web.xml</a> file.
+  </p>
+
+  <textarea class="java:nogutter:nocontrols" name="code">
+    public class MyComposer extends WaffleWebappComposer {
+
+      public void composeApplication(MutablePicoContainer pico, ServletContext context) {
+        pico.addComponent("helloworld", HelloWorldController.class);
+      }
+    }
+  </textarea>
+
+  <h3>View (helloworld.jspx)</h3>
+
+  <p>
+    A View in Waffle is no different than what you would expect from any Java based web framework. Waffle exposes the
+    underlying Controller for use in your View under the key <b>controller</b>. Notice line 12
+    <b>${controller.greeting}</b>, this is calling the <i>greeting</i> property exposed in the
+    <i>HelloWorldController</i>.</p><p>The example below uses <b>jspx</b> but
+    <a href="http://freemarker.sourceforge.net/">FreeMarker</a> and
+    <a href="http://jakarta.apache.org/velocity/index.html">Velocity </a> are also supported.
+  </p>
+
+  <textarea class="xml:nogutter:nocontrols" name="code">
+    <?xml version="1.0" encoding="UTF-8"?>
+    &lt;html xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:jsp="http://java.sun.com/JSP/Page"&gt;
+
+    <jsp:output doctype-root-element="html"
+                doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
+                doctype-system="http://www.w3c.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+
+    &lt;head&gt;<title>Hello World Controller</title>&lt;/head&gt;
+    &lt;body&gt;
+    <h1>${controller.greeting}</h1>
+    &lt;/body&gt;
+    &lt;/html&gt;
+  </textarea>
+
+  <p>You may also want to add a JSP redirect from the index welcome page to the hello world controller: </p>
+  
+<textarea class="xml:nogutter:nocontrols" name="code">
+<jsp:root xmlns="http://www.w3.org/1999/xhtml"
+xmlns:jsp="http://java.sun.com/JSP/Page"
+xmlns:c="http://java.sun.com/jsp/jstl/core"
+version="2.0">
+<c:redirect url="helloworld.waffle"/>
+</jsp:root>
+</textarea>
+    
+  <h4>Running...</h4>
+  <img src="images/examples/hello-world.png" />
+  </body>
+</html>
