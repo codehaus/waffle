@@ -44,26 +44,22 @@ object.</p>
     }
 }</textarea>
 
-<h3>Registrar</h3>
+<h3>WebappComposer</h3>
 <p>As stated earlier, a Controller is not active in Waffle until it
-has been registered with the Registrar. So now we will create a simple
-Registrar class and register the <b>Automobile</b> class with it. The
-MyRegistrar class below defines the method "<b>session</b>"
-and within that method it calls <b>register("automobile",
+has been registered with via a subclass of WaffleWebappComposer. So now we will create such a 
+class and register the <b>Automobile</b> class with it. The
+MyComposer class below defines the method "<b>session</b>"
+and within that method it calls <b>pico.addComponent("automobile",
 Automobile.class);</b>, which registers our Automobile class as an
 Controller under the name "automobile". Registration is not
 limited to Controllers because any component, service, factory, etc...
 can be registered. Detailed examples of this will be discussed later.</p>
 
 <textarea class="java:nogutter:nocontrols" name="code">
-  public class MyRegistrar extends org.codehaus.waffle.registrar.AbstractRegistrar {
+  public class MyComposer extends WaffleWebappComposer {
 
-    public MyRegistrar(Registrar delegate) {
-        super(delegate);
-    }
-
-    public void session() {
-        register("automobile", Automobile.class);
+    public void composeSession(MutablePicoContainer pico) {
+        pico.addComponent("automobile", Automobile.class);
     }
 }</textarea>
 
@@ -72,17 +68,16 @@ can be registered. Detailed examples of this will be discussed later.</p>
 files we still must create a <b>web.xml</b>. The web.xml example below
 has four points worth mentioning.</p>
 <ol type="1">
-  <li><b><a href="javadoc/core/org/codehaus/waffle/registrar/Registrar.html">
-        org.codehaus.waffle.registrar.Registrar</a></b> is the key
-  used to register your applications custom Registrar. The key is the
-  fully qualified name of the basic Registrar interface.</li>
-  <li><b><a href="javadoc/core/org/codehaus/waffle/context/pico/PicoWaffleContextListener.html">
-        org.codehaus.waffle.context.pico.PicoWaffleContextListener</a></b>
+  <li><b><a href="javadoc/core/org/codehaus/waffle/context/WaffleWebappComposer.html">
+        webapp-composer-class</a></b> is the key
+  used to register your applications with Waffle.</li>
+  <li><b><a href="javadoc/core/org/codehaus/waffle/servlet/WaffleListener.html">
+        org.codehaus.waffle.servlet.WaffleListener</a></b>
   needs to be registered as a listener so that Waffle can be notified of
   context level (application, session) events.</li>
   <li>
-    <b><a href="javadoc/core/org/codehaus/waffle/context/WaffleRequestFilter.html">
-        org.codehaus.waffle.context.WaffleRequestFilter</a></b> this is the Filter Waffle uses to handle request level
+    <b><a href="javadoc/core/org/codehaus/waffle/servlet/WaffleServlet$WaffleFilter.html">
+        org.codehaus.waffle.servlet.WaffleServlet$WaffleFilter</a></b> this is the Filter Waffle uses to handle request level
     events. This is superior to a RequestAttributeListeners implementation because we can ensure a request level
     container will only be created when appropriate (i.e. not when images or cascading style sheets are requested).
   </li>
@@ -100,21 +95,21 @@ has four points worth mentioning.</p>
 
     <display-name>Waffle Example</display-name>
 
-    <!-- 1. This is how an application registers its custom Registrar -->
+    <!-- 1. This is how an application registers its custom composer -->
     <context-param>
-      <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
-      <param-value>org.codehaus.waffle.example.MyRegistrar</param-value>
+      <param-name>webapp-composer-class</param-name>
+      <param-value>org.codehaus.waffle.example.MyComposer</param-value>
     </context-param>
 
     <!-- 2. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-      <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
+      <listener-class>org.codehaus.waffle.servlet.WaffleListener</listener-class>
     </listener>
 
     <!-- 3. Waffle request filter (responsible for request level context) -->
     <filter>
       <filter-name>WaffleRequestFilter</filter-name>
-      <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
+      <filter-class>org.codehaus.waffle.servlet.WaffleServlet$WaffleFilter</filter-class>
     </filter>
     <filter-mapping>
       <filter-name>WaffleRequestFilter</filter-name>
@@ -173,9 +168,9 @@ web based applications. The following provides an overview of how you
 might layout the code for this tutorial:</p>
 <textarea class="sql:nogutter:nocontrols" name="code">
   +--- WEB-INF/
-       +--- classes/
+       +--- classes/org/codehaus/waffle/example
            +--- Automobile.class
-           +--- MyRegistrar.class
+           +--- MyComposer.class
        +--- lib/
            +--- jstl.jar
            +--- standard.jar

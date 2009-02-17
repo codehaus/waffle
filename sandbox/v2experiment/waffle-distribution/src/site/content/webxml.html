@@ -7,7 +7,7 @@
 
 <h2>web.xml</h2>
 <p>The <b>web.xml</b> below provides a base for you to build your
-applications upon. Lines <b>11 - 14</b> declare which custom Registrar
+applications upon. Lines <b>11 - 14</b> declare which custom WebappComposer
 should be used for your application. The <i>listener</i> registered on
 lines <b>17 - 19</b> is needed so that Waffle is alerted of application
 (ServletContext) and session life-cycle events and does not need changing. 
@@ -25,19 +25,19 @@ request level life-cycle event.</p>
 09:
 10:    <!-- 1. This is how an application registers its custom Registrar -->
 11:    <context-param>
-12:      <param-name>org.codehaus.waffle.registrar.Registrar</param-name>
-13:      <param-value>org.codehaus.waffle.example.MyRegistrar</param-value> 
+12:      <param-name>webapp-composer-class</param-name>
+13:      <param-value>org.codehaus.waffle.example.MyComposer</param-value> 
 14:    </context-param>
 15:
 16:    <!-- 2. Waffle context listener (ServletContext and HttpSession) -->
 17:    <listener>
-18:      <listener-class>org.codehaus.waffle.context.pico.PicoWaffleContextListener</listener-class>
+18:      <listener-class>org.codehaus.waffle.servlet.WaffleListener</listener-class>
 19:    </listener>
 20:
 21:    <!-- 3. Waffle request filter (responsible for request level context) -->
 22:    <filter>
 23:      <filter-name>WaffleRequestFilter</filter-name>
-24:      <filter-class>org.codehaus.waffle.context.WaffleRequestFilter</filter-class>
+24:      <filter-class>org.codehaus.waffle.servlet.WaffleServlet$ServletFilter</filter-class>
 25:    </filter>
 26:    <filter-mapping>
 27:      <filter-name>WaffleRequestFilter</filter-name>
