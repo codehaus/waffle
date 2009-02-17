@@ -1,4 +1,4 @@
-package org.codehaus.waffle.registrar.pico;
+package org.codehaus.waffle.registrar;
 
 import org.jmock.Expectations;
 import org.jmock.Mockery;
@@ -9,6 +9,7 @@ import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.PicoVisitor;
 import org.picocontainer.NameBinding;
+import org.codehaus.waffle.registrar.AbstractWaffleParameter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;

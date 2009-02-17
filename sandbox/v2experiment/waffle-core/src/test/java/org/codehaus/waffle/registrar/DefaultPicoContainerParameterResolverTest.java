@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.registrar.pico;
+package org.codehaus.waffle.registrar;
 
 import org.codehaus.waffle.registrar.Reference;
 import org.codehaus.waffle.registrar.ComponentReference;
@@ -9,6 +9,11 @@ import org.codehaus.waffle.registrar.SessionAttributeReference;
 import org.codehaus.waffle.registrar.RequestAttributeReference;
 import org.codehaus.waffle.registrar.RequestParameterReference;
 import org.codehaus.waffle.registrar.ServletContextAttributeReference;
+import org.codehaus.waffle.registrar.ParameterResolver;
+import org.codehaus.waffle.registrar.RequestAttributeParameter;
+import org.codehaus.waffle.registrar.RequestParameterParameter;
+import org.codehaus.waffle.registrar.ServletContextAttributeParameter;
+import org.codehaus.waffle.registrar.SessionAttributeParameter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.picocontainer.parameters.ConstantParameter;

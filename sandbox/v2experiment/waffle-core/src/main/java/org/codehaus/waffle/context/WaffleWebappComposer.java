@@ -6,7 +6,7 @@ package org.codehaus.waffle.context;
 import org.picocontainer.web.WebappComposer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
-import org.codehaus.waffle.registrar.pico.ParameterResolver;
+import org.codehaus.waffle.registrar.ParameterResolver;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;

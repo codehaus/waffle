@@ -1,10 +1,11 @@
-package org.codehaus.waffle.registrar.pico;
+package org.codehaus.waffle.registrar;
 
 import static org.junit.Assert.assertEquals;
 
 import javax.servlet.ServletContext;
 
 import org.codehaus.waffle.testmodel.DependsOnValue;
+import org.codehaus.waffle.registrar.ServletContextAttributeParameter;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
