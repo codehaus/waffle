@@ -126,7 +126,7 @@ org.codehaus.waffle.view.DefaultViewResolver</a></b> allows the user to fully
 configure the view resolution. This is achieve via simply key/value
 properties, which can be either view prefix or suffix keys or the name
 of the controller. For example, to map "mycontroller.waffle" to, say,
-"/ftl/mycontroller-view.ftl", we'd simply set in our registrar: <textarea
+"/ftl/mycontroller-view.ftl", we'd simply set in our composition class: <textarea
     class="java:nogutter:nocontrols" name="code">
     ViewResolver viewResolver = registry.locateByKey(ViewResolver.class);
     viewResolver.configureView("view.prefix", "/"); // this is the default
