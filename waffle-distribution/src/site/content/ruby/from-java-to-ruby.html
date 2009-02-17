@@ -10,15 +10,12 @@
 Here we examine Ruby-based controllers, and the invoking of Java functionality from them. Consider:
 <br />
 <textarea class="java:nogutter:nocontrols" name="code">
-public class MyRegistrar extends RubyScriptedRegistrar {
-  public MyRegistrar(Registrar delegate) {
-    super(delegate);
-  }
+public class MyComposer extends RubyWaffleWebappComposer {
 
   @Override
-  public void application() {
-    register("person_dao", PersonDAOImpl.class);
-    registerScript("person", "PersonController");
+  public void composeApplication(MutablePicoContainer pico, ServletContext context) {
+    pico.addComponent("person_dao", PersonDAOImpl.class);
+    pico.addAdapter(RubyScriptComponentAdapter("person", "PersonController"));
   }
 }</textarea>
 A DAO, PersonDAOImpl, is registered under the name "person_dao" and we have one Ruby based controller available. Now its
