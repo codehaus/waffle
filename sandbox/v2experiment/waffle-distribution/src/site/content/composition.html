@@ -9,38 +9,45 @@
 ActionMethods work in Waffle and it has been mentioned that no custom
 XML configuration files are needed. So how does everything get wired up?
 <b>With a small java class that extends WaffleWebappComposer.</b></p>
-<p>In order to register Controllers (and other components Controllers
-may have dependencies on) we are required to extend the <i><a href="javadoc/core/org/codehaus/waffle/registrar/AbstractRegistrar.html">
-org.codehaus.waffle.registrar.AbstractRegistrar</a></i> class. 
-A Registrar class is used to register Waffle Actions and dependant components at various scopes.</p>
+<p>In order to add Controllers (and other components that Controllers
+may have dependencies on) we are required to extend the <i><a href="javadoc/core/org/codehaus/waffle/context/WaffleWebappComposer.html">
+org.codehaus.waffle.context.WaffleWebappComposer</a></i> class. 
+A Composition class is used to register Waffle Actions and dependent components at various scopes.</p>
 
-<textarea class="java:nogutter:nocontrols" name="code">  public class CustomRegistrar extends AbstractRegistrar {
-    public CustomRegistrar(Registrar delegate) {
-      super(delegate);
+<textarea class="java:nogutter:nocontrols" name="code">
+public class MyWebappComposer extends WaffleWebappComposer {
+    @Override
+    public void composeApplication(MutablePicoContainer pico, ServletContext servletContext) {
+        super.composeApplication(pico, servletContext);
+        pico.addComponent(ACustomConverter.class);
+        pico.addComponent("foo/bar", FooBarController.class);
+        pico.addComponent("home", HomeController.class);
     }
-
-    public void session() {
-      register("shoppingCart", ShoppingCartAction.class);
-
-      // register second and subsequent controllers or components
+    @Override
+    public void composeSession(MutablePicoContainer pico) {
+        super.composeSession(pico);
+        pico.addComponent(ShoppingCart.class);
     }
-  }
+    @Override
+    public void composeRequest(MutablePicoContainer pico) {
+        super.composeRequest(pico);
+        pico.addComponent("foo/baz", FooBazController.class);
+    }
+}
 </textarea>
 
-<p>Notice the method "session" method name? This marks the component as
+<p>Notice the method "composeSession" method name? This marks the component as
 'session level' within the application.</p>
-<p>The registrar class name (CustomRegistrar in this case) needs to
+<p>The composer class name (MyWebappComposer in this case) needs to
 be referenced in the <i>web.xml</i> (yes we can't completely get away
 from XML if we want to play in the J2EE world).</p>
-
-<textarea class="xml:nogutter:nocontrols" name="code">  &lt;context-param&gt;
-    &lt;param-name&gt;org.codehaus.waffle.registrar.Registrar&lt;/param-name&gt;
-    &lt;param-value&gt;com.thoughtworks.CustomRegistrar&lt;/param-value&gt;
+<textarea class="xml:nogutter:nocontrols" name="code2">  &lt;context-param&gt;
+    &lt;param-name&gt;webapp-composer-class&lt;/param-name&gt;
+    &lt;param-value&gt;com.thoughtworks.MyWebappComposer&lt;/param-value&gt;
   &lt;/context-param&gt;
 </textarea>
-
-<p>Let's dig deeper into how the Registrar works and what
-functionality it provides. Assume we have the following three Classes in
+<p>Let's dig deeper into how the WebappComposer works and what
+  functionality it provides. Assume we have the following three Classes in
 our application.</p>
 <h3>Store.java</h3>
 
@@ -73,37 +80,31 @@ our application.</p>
   }
 </textarea>
 
-<p>With these classes one could imagine the Registrar looking
+<p>With these classes one could imagine the WebappComposer looking
 similar to:</p>
 
-<textarea class="java:nogutter:nocontrols" name="code">  public class CustomRegistrar extends AbstractRegistrar {
-    public CustomRegistrar(Registrar delegate) {
-      super(delegate);
+<textarea class="java:nogutter:nocontrols" name="code">  public class MyWebappComposer extends WaffleWebappComposer {
+
+    @Override
+    public void composeApplication(MutablePicoContainer pico, ServletContext servletContext) {
+      super.composeApplication(pico, servletcontext);
+      pico.addComponent(Store.class);
     }
 
     @Override
-    public void application() {
-      register(Store.class);
+    public void composeSession(MutablePicoContainer pico) {
+      super.composeSession(pico);
+      pico.addComponent(ShoppingCart.class);
     }
 
     @Override
-    public void session() {
-      register(ShoppingCart.class);
-    }
-
-    @Override
-    public void request() {
-      register("checkout", CheckoutController.class);
+    public void composeRequest(MutablePicoContainer pico) {
+      super.composeRequest(pico);
+      pico.addComponent("checkout", CheckoutController.class);
     }
   }
 </textarea>
 
-<dl>
-  <dt>NOTE:</dt>
-  <dd>AbstractRegistrar also exposes to concrete registrar implementations a method to retrieve Waffle's ComponentRegistry.
-This can be useful in usecases in which a custom component (registered via the <code>web.xml</code>) needs to be accessed to configure
-the user business logic.</dd>
-</dl>
 
 <p>Components registered to the Application context level are shared
 across all users. Session level components are shared for a user across
@@ -114,20 +115,17 @@ requests. And request level components only live as long as the request - they a
   is stored to the correct context level.</dd>
 </dl>
 <p>When an application starts up and the ServletContext is
-intialized your <i>CustomRegistrar.application()</i> method will be
-invoked. When a session is created for a user all the <i>CustomRegistrar.session()</i>
-will be invoked (that is per user and per session). When a request is
-initialized the <i>CustomeRegistrar.request()</i> method will be
-invoked.</p>
+intialized all three <i>composeXXX(..)</i> methods will be
+invoked. This is for registration only.  Caching at each socope is handed in a Jav concept called a ThreadLocal.  This allows us to maintain one instance per session at that scope, and one instance per request at that level.  At the Application level, all sessions and reequests will share one instance.</p>
 <p>Application level components only have access to other components
-registered in the <b>application()</b> method. Session level components
+registered in the <b>composeApplication(..)</b> method. Session level components
 can access their sibling components and those components registered
-under <i>application()</i>. Request level components can access their
-siblings component and their parent components (<i>session()</i>) and
-grandparent components (<i>application()</i>). In other words dependency
+under <i>composeApplication(..)</i>. Request level components can access their
+siblings component and their parent components (<i>composeSession(..)</i>) and
+grandparent components (<i>composeApplication(..)</i>). In other words dependency
 resolution can traverse up the tree hierarchy but NOT down. The table
 below describes each of the available registration method provided by
-Waffle's Registrar.</p>
+WaffleWebappComposer subclasses.</p>
 <table class="bodyTable">
   <tbody>
     <tr class="a">
@@ -135,19 +133,19 @@ Waffle's Registrar.</p>
       <td align="left"><b>Description</b></td>
     </tr>
     <tr class="b">
-      <td align="left">application</td>
+      <td align="left">composeApplication</td>
       <td align="left">will be invoked upon <b>ServletContext
       initialization</b>. This should be used for those components that need
       to live for the entire length of the application.</td>
     </tr>
     <tr class="a">
-      <td align="left">session</td>
+      <td align="left">composeSession</td>
       <td align="left">will be invoked upon <b>HttpSession
       creation</b>. This should be used for those components that need to
       live for the entire length of a users session.</td>
     </tr>
     <tr class="b">
-      <td align="left">request</td>
+      <td align="left">composeRequest</td>
       <td align="left">will be invoked upon <b>ServletRequest
       initialization</b>. This should be used for those components that need
       to live for the entire length of a request</td>
@@ -172,65 +170,19 @@ requests.</p>
   </ul>
 </p>
 
-<p>By default the <i>"register"</i> methods cache
+<p>By default the <i>"composeXXX"</i> methods cache
 instances created within the framework. That is, only a single managed
 instance is created. Again that is a "single managed instance"
 rather than a singleton. If your application requires a new instance of
 a particular component for each use you can do one of two things: first
 simply register the component to the REQUEST context; or utilize the
-registerNonCaching(...) method with Registrar. The registerNonCaching
-method, as their name describes, will not cache and share a component
+pico.as(NOCACHE).addComponent(...) method with WebappComposer. The NOCACHE
+technique, as their name describes, will not cache and share a component
 but rather a new instance of that component each time.</p>
-<p>Registrar currently has the following registration methods:</p>
-<table class="bodyTable">
-  <tbody>
-    <tr class="a">
-      <td align="left"><b>Methods</b></td>
-      <td align="left"><b>Description</b></td>
-    </tr>
-    <tr class="b">
-      <td align="left"><b>Registrar useInjection(Injection injection)</b></td>
-      <td align="left">Allows to change the type of Injection used, which defaults to Injection.CONSTRUCTOR.  
-      Injection.SETTER is also supported</td>
-    </tr>
-    <tr class="b">
-      <td align="left"><b>boolean isRegistered(Object typeOrInstance)</b></td>
-      <td align="left">Determines if a component is already registered for a given type or instance</td>
-    </tr>
-    <tr class="b">
-      <td align="left"><b>Object getRegistered(Object typeOrInstance)</b></td>
-      <td align="left">Returns a registered component for a given type or instance.  Note that is throws a RegistrarException
-      if the component is not registered or if more than one is registered for the same type.</td>
-    </tr>
-    <tr class="b">
-      <td align="left"><b>void register(Class componentClass, Object... parameters)</b></td>
-      <td align="left">Registers a component (useful for components other than Actions)</td>
-    </tr>
-    <tr class="a">
-      <td align="left"><b>void register(Object key, Class componentClass, Object... parameters)</b></td>
-      <td align="left">Register a component under a specific key (keys are used to locate Controllers from request)</td>
-    </tr>
-    <tr class="b">
-      <td align="left"><b>void registerNonCaching(Class componentClass, Object... parameters)</b></td>
-      <td align="left">Registers a component in non-caching mode, ie with new instance created for each class with the defined dependency</td>
-    </tr>
-    <tr class="a">
-      <td align="left"><b>void registerNonCaching(Object key, Class componentClass, Object... parameters)</b></td>
-      <td align="left">Registers a component in non-caching mode, ie with new instance created for each class with the defined dependency</td>
-    </tr>
-    <tr class="b">
-      <td align="left"><b>void registerInstance(Object instance)</b></td>
-      <td align="left">Registers a component instance directly</td>
-    </tr>
-    <tr class="a">
-      <td align="left"><b>void registerInstance(Object key,  Object instance)</b></td>
-      <td align="left">Registers a component instance directly under a specific key</td>
-    </tr>
-  </tbody>
-</table>
-<p>One last thing to note - we talk of CustomRegistrar here and in
-some our examples, we illustrate one called MyRegistrar. It can be
-called whatever you like. UserRegistrar, AdminRegistrar,
-AdminActionSetup, AdminSetup are all good names if the they make sense
+
+<p>One last thing to note - we talk of WaffleWebappComposer here and in
+some our examples, we illustrate one called MyWebappComposer. It can be
+called whatever you like. UserWaffleSetup, AdminComposer,
+AdminActions, AdminSetup are all good names if the they make sense
 to you.</p>
 </body></html>
