@@ -33,7 +33,7 @@
     <!-- 4. Waffle request filter (responsible for request level context) -->
     <filter>
         <filter-name>WaffleRequestFilter</filter-name>
-        <filter-class>org.codehaus.waffle.servlet.WaffleServlet$ServletFilter</filter-class>
+        <filter-class>org.codehaus.waffle.ruby.servlet.RhtmlServlet$ServletFilter</filter-class>
     </filter>
     <filter-mapping>
         <filter-name>WaffleRequestFilter</filter-name>
