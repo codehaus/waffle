@@ -15,7 +15,7 @@
 
   <ol type="1">
     <li>Create a Controller</li>
-    <li>Register that Controller with the Registrar</li>
+    <li>Register that Controller via the WaffleWebappComposer subclass</li>
     <li>Create the View</li>
   </ol>
 
@@ -35,23 +35,19 @@
     }
   </textarea>
 
-  <h3>Registrar</h3>
+  <h3>Composition</h3>
 
   <p>
-    All Controllers need to be registered with Waffle. This is done through the Registrar. Line <b>9</b> in the
-    <i>MyRegistrar</i> class below registers the <i>HelloWorldController</i> under the name <b>"helloworld"</b>.
-    This Registrar will need to referenced in the <a href="webxml.html">web.xml</a>.
+    All Controllers need to be registered with Waffle. This is done through a subclass of WaffleWebappComposer. Line <b>9</b> in the
+    <i>MyComposer</i> class below registers the <i>HelloWorldController</i> under the name <b>"helloworld"</b>.
+    This WaffleWebappComposer subclass will need to referenced in the <a href="webxml.html">web.xml</a> file.
   </p>
 
   <textarea class="java:nogutter:nocontrols" name="code">
-    public class MyRegistrar extends AbstractRegistrar {
+    public class MyComposer extends WaffleWebappComposer {
 
-      public MyRegistrar(Registrar delegate) {
-        super(delegate);
-      }
-
-      public void application() {
-        register("helloworld", HelloWorldController.class);
+      public void composeApplication(MutablePicoContainer pico, ServletContext context) {
+        pico.addComponent("helloworld", HelloWorldController.class);
       }
     }
   </textarea>

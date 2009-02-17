@@ -14,11 +14,11 @@ Waffle. It touches on each of the main components that make up Waffle.</p>
 <p>The term <b>Controller</b> is probably familiar to those who have
 worked with other web frameworks. An Controller in Waffle can be any
 java object (i.e. POJO). However, in order for a POJO to be considered
-an Controller in Waffle it needs to be registered with the <b>Registrar</b>.
-The Registrar is a simple class that your application must implement.
-The Registrar provides a few methods that allows you to register your
-pojo's as Controllers. For complete details on the Registrar have a look
-at the <a href="registrar.html">Registrar</a> section.</p>
+an Controller in Waffle it needs to be registered with the <b>WaffleWebappComposer subclass</b>.
+The WaffleWebappComposer subclass is a simple class that your application must have.
+It provides a few methods that allows you to register your
+POJOs as Controllers. For complete details on the WaffleWebappComposer have a look
+at the <a href="composition.html">Composition</a> section.</p>
 <p>Now we will write a very simple class to use as an Controller.
 The class below is really nothing more than a simple bean type of
 object.</p>

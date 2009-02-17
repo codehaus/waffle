@@ -60,19 +60,17 @@ Server.</p>
      Random value from Server: <div id="random"></div>
   </textarea>
 
-<h3>Wire it up with the Registrar</h3>
+<h3>Wire it up with the WaffleWebappComposer subclass</h3>
 
 <p>The <i>FoobarController</i> is registered under the name "<i>foobar</i>". Notice that the Controller is being
 registered to the Application level context.</p>
 
 <textarea class="java:nogutter:nocontrols" name="code">
-    public class CustomRegistrar extends AbstractRegistrar {
-      public CustomRegistrar(Registrar delegate) {
-        super(delegate);
-      }
+    public class MyAjaxWaffleWebappComposer extends WaffleWebappComposer {
 
-      public void application() {
-        register("foobar", FoobarController.class);
+      public void composeApplication(MutablePicoContainer pico, ServletContext context) {
+        super.composeApplication(pico, context);
+        pico.addComponent("foobar", FoobarController.class);
       }
     }
   </textarea>

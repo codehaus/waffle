@@ -60,12 +60,12 @@ things:</p>
   used regardless of its signature or return type. Waffle will react
   differently depending on what is returned from the ActionMethod, see
   <a href="action-methods.html">Action Methods</a> for further details.</li>
-  <li><b>Registrar</b> - the Registrar class is where the <i>Controllers</i>, 
+  <li><b>WaffleWebappComposer subclass</b> - the composition class is where the <i>Controllers</i>, 
   and other components your application depends on, are registered. 
   Typically, most web frameworks require your applications to create special XML file(s) 
-  for this, but int Waffle <b>Registrars are Java objects that allow you to implement
+  for this, but int Waffle <b>WaffleWebappComposer are Java objects that allow you to declare
   your business logic more efficiently</b>.  Of course, Waffle does allow - 
-  but <b>does not mandate</b> - a Registrar to read a configuration from a file,   
+  but <b>does not mandate</b> - a WaffleWebappComposer to read a configuration from a file,   
   be it XML or a scripting language.  
   </li>
 </ol>

@@ -37,14 +37,21 @@ These two elements can either be configure by extending MessageResources:
     }
   </textarea>
 
-or directly in the Registrar:
+or directly in the WaffleWebappComposer subclass:
 
 <textarea class="java:nogutter:nocontrols" name="code">
-    public class MyRegistrar extends AbstractRegistrar {
-        public application(){
-            MessageResources resources = registry.locateByType(MessageResources.class);
-            resources.useURI("MyResources,MyOtherResources");
-        }
+    public class MyComposer extends WaffleWebappComposer {
+	    @Override
+	    protected Class&lt;? extends MessageResources&gt; messageResources() {
+	        return MyMessageResources.class;
+	    }
+	    public static class MyMessageResources extends DefaultMessageResources {
+		    public MyMessageResources() {
+				useURI("MyResources,MyOtherResources");
+		    }
+		}
+	}
+
     }
   </textarea>
 </p>
