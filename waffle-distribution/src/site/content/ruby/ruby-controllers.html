@@ -46,17 +46,14 @@ web.xml. This alerts Waffle that a few of its foundational components should be 
 &nbsp; &lt;param-value&gt;org.codehaus.waffle.controller.RubyControllerDefinitionFactory&lt;/param-value&gt;
 &lt;/context-param&gt;</textarea>
 <span style="font-weight: bold;">Step 3</span>
-- Your application's Registrar should extended
-<a href="javadoc/core/org/codehaus/waffle/registrar/pico/RubyScriptedRegistrar.html">RubyScriptedRegistrar</a>
-to register your script as a controller:
+- Your application's composition class should extended
+<a href="javadoc/core/org/codehaus/waffle/ruby/RubyWaffleWebappComposer.html">RubyWaffleWebappComposer</a>
+to register your scripts as a controllers:
 <br />
-<textarea class="java:nogutter:nocontrols" name="code">public class MyRegistrar extends RubyScriptedRegistrar {
-&nbsp; public MyRegistrar(Registrar delegate) {
-&nbsp;&nbsp;&nbsp; super(delegate);
-&nbsp; }
+<textarea class="java:nogutter:nocontrols" name="code">public class MyComposer extends RubyWaffleWebappComposer {
 &nbsp; @Override
-&nbsp; public void application() {
-&nbsp;&nbsp;&nbsp; registerScript("foobar", "FooBar");
+&nbsp; public void composeApplication(MutablePicoContainer pico, ServletContext context) {
+&nbsp;&nbsp;&nbsp; pico.addAdapter(new RubyScriptComponentAdapter("foobar", "FooBar"));
 &nbsp; }
 &nbsp; ...
 }</textarea>
