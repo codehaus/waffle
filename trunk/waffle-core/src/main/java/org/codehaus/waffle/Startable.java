@@ -9,9 +9,9 @@ package org.codehaus.waffle;
  * </p>
  *
  * @author Michael Ward
- * @see org.codehaus.waffle.registrar.Registrar#application()
- * @see org.codehaus.waffle.registrar.Registrar#session()
- * @see org.codehaus.waffle.registrar.Registrar#request() 
+ * @see org.codehaus.waffle.context.WaffleWebappComposer#composeApplication()
+ * @see org.codehaus.waffle.context.WaffleWebappComposer#composeSession()
+ * @see org.codehaus.waffle.context.WaffleWebappComposer#composeRequest() 
  */
 public interface Startable {
 
