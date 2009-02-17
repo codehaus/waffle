@@ -4,12 +4,10 @@
 package org.codehaus.waffle.example.jruby;
 
 import org.codehaus.waffle.example.jruby.dao.SimplePersonDAO;
-import org.codehaus.waffle.context.pico.WaffleWebappComposer;
 import org.codehaus.waffle.ruby.registrar.pico.RubyScriptComponentAdapter;
 import org.codehaus.waffle.ruby.RubyWaffleWebappComposer;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.CommonsLoggingMonitor;
-import org.codehaus.waffle.monitor.ContextMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
 import org.picocontainer.MutablePicoContainer;
 

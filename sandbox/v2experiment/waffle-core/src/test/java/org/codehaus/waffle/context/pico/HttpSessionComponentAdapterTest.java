@@ -4,6 +4,7 @@
 package org.codehaus.waffle.context.pico;
 
 import org.codehaus.waffle.context.CurrentHttpServletRequest;
+import org.codehaus.waffle.context.HttpSessionComponentAdapter;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
 import org.junit.Assert;

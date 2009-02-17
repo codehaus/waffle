@@ -3,7 +3,7 @@
  */
 package org.codehaus.waffle.ruby;
 
-import org.codehaus.waffle.context.pico.WaffleWebappComposer;
+import org.codehaus.waffle.context.WaffleWebappComposer;
 import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.ruby.bind.ognl.RubyControllerDataBinder;
 import org.codehaus.waffle.ruby.controller.RubyControllerDefinitionFactory;

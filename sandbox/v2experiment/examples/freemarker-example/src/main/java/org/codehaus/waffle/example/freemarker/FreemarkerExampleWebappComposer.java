@@ -1,8 +1,6 @@
 package org.codehaus.waffle.example.freemarker;
 
 import static java.util.Arrays.asList;
-import static org.codehaus.waffle.bind.converters.DateValueConverter.DAY_FORMAT_KEY;
-import static org.codehaus.waffle.bind.converters.DateValueConverter.TIME_FORMAT_KEY;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,16 +9,13 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
-import org.codehaus.waffle.bind.ValueConverter;
-import org.codehaus.waffle.bind.ValueConverterFinder;
-import org.codehaus.waffle.bind.ognl.OgnlValueConverterFinder;
 import org.codehaus.waffle.bind.converters.DateValueConverter;
 import org.codehaus.waffle.bind.converters.NumberListValueConverter;
 import org.codehaus.waffle.bind.converters.NumberValueConverter;
 import org.codehaus.waffle.bind.converters.StringListMapValueConverter;
 import org.codehaus.waffle.bind.converters.StringListValueConverter;
 import org.codehaus.waffle.bind.converters.StringNumberListMapValueConverter;
-import org.codehaus.waffle.context.pico.WaffleWebappComposer;
+import org.codehaus.waffle.context.WaffleWebappComposer;
 import org.codehaus.waffle.example.freemarker.controller.DateProvider;
 import org.codehaus.waffle.example.freemarker.controller.PersonController;
 import org.codehaus.waffle.example.freemarker.converters.PersonListValueConverter;

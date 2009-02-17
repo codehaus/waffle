@@ -1,6 +1,6 @@
 package org.codehaus.waffle.servlet;
 
-import org.codehaus.waffle.context.pico.WaffleLifecycleStrategy;
+import org.codehaus.waffle.context.WaffleLifecycleStrategy;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.LifecycleStrategy;
 import org.picocontainer.behaviors.Caching;

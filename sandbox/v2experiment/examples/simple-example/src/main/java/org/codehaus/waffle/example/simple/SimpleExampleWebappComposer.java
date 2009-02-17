@@ -5,7 +5,7 @@ import static org.codehaus.waffle.registrar.RequestParameterReference.requestPar
 import javax.servlet.ServletContext;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.codehaus.waffle.context.pico.WaffleWebappComposer;
+import org.codehaus.waffle.context.WaffleWebappComposer;
 import org.codehaus.waffle.example.simple.controllers.AutomobileController;
 import org.codehaus.waffle.example.simple.controllers.CalculatorController;
 import org.codehaus.waffle.example.simple.controllers.HelloWorldController;
