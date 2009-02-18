@@ -1,11 +1,11 @@
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 import static org.junit.Assert.assertEquals;
 
-import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.codehaus.waffle.testmodel.DependsOnValue;
-import org.codehaus.waffle.registrar.ServletContextAttributeParameter;
+import org.codehaus.waffle.context.RequestAttributeParameter;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -22,29 +22,29 @@ import org.picocontainer.behaviors.Caching;
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
-public class ServletContextAttributeParameterTest {
-
+public class RequestAttributeParameterTest {
     private Mockery mockery = new Mockery();
 
     @Test
-    public void componentDependsOnServletContextAttribute() {
-        // Mock ServletContext
-        final ServletContext servletContext = mockery.mock(ServletContext.class);
+    public void componentDependsOnRequestAttribute() {
+        // Mock HttpServletRequest
+        final HttpServletRequest request = mockery.mock(HttpServletRequest.class);
         mockery.checking(new Expectations() {
             {
-                exactly(2).of(servletContext).getAttribute("foobar");
+                exactly(2).of(request).getAttribute("foobar");
                 will(returnValue("helloWorld"));
             }
         });
         
-        Parameter[] parameters = {new ServletContextAttributeParameter("foobar")};
+        Parameter[] parameters = {new RequestAttributeParameter("foobar")};
 
         MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
-        pico.addComponent(servletContext);
-        pico.addComponent("blah", DependsOnValue.class, parameters);
+        pico.addComponent(request);
+        pico.addComponent("x", DependsOnValue.class, parameters);
 
-        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponent("blah");
+        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponent("x");
 
         assertEquals("helloWorld", dependsOnValue.getValue());
     }
+
 }

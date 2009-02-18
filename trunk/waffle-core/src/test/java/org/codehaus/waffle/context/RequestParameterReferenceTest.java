@@ -1,6 +1,7 @@
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
-import static org.codehaus.waffle.registrar.RequestParameterReference.requestParameter;
+import static org.codehaus.waffle.context.RequestParameterReference.requestParameter;
+import org.codehaus.waffle.context.RequestParameterReference;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 

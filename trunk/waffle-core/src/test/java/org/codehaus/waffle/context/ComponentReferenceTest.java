@@ -1,8 +1,9 @@
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 import org.junit.Assert;
 import org.junit.Test;
-import static org.codehaus.waffle.registrar.ComponentReference.component;
+import static org.codehaus.waffle.context.ComponentReference.component;
+import org.codehaus.waffle.context.Reference;
 
 public class ComponentReferenceTest {
 

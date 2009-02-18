@@ -1,7 +1,7 @@
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 import org.codehaus.waffle.testmodel.DependsOnValue;
-import org.codehaus.waffle.registrar.SessionAttributeParameter;
+import org.codehaus.waffle.context.SessionAttributeParameter;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
