@@ -15,7 +15,7 @@ import org.codehaus.waffle.bind.converters.NumberValueConverter;
 import org.codehaus.waffle.bind.converters.StringListMapValueConverter;
 import org.codehaus.waffle.bind.converters.StringListValueConverter;
 import org.codehaus.waffle.bind.converters.StringNumberListMapValueConverter;
-import org.codehaus.waffle.context.WaffleWebappComposer;
+import org.codehaus.waffle.context.WaffleComposer;
 import org.codehaus.waffle.example.freemarker.controller.DateProvider;
 import org.codehaus.waffle.example.freemarker.controller.PersonController;
 import org.codehaus.waffle.example.freemarker.converters.PersonListValueConverter;
@@ -30,7 +30,7 @@ import org.codehaus.waffle.view.ViewResolver;
 import org.codehaus.waffle.view.DefaultViewResolver;
 import org.picocontainer.MutablePicoContainer;
 
-public class FreemarkerExampleWebappComposer extends WaffleWebappComposer {
+public class FreemarkerExampleComposer extends WaffleComposer {
     private static final String DAY_PATTERN = "dd/MM/yyyy";
     private static final String TIME_PATTERN = "hh:mm:ss";
 

@@ -5,14 +5,14 @@ import javax.servlet.ServletContext;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.ParanamerMethodDefinitionFinder;
 import org.codehaus.waffle.bind.converters.DateValueConverter;
-import org.codehaus.waffle.context.WaffleWebappComposer;
+import org.codehaus.waffle.context.WaffleComposer;
 import org.codehaus.waffle.example.paranamer.action.CalculatorController;
 import org.codehaus.waffle.example.paranamer.action.HelloWorldController;
 import org.codehaus.waffle.example.paranamer.action.PersonController;
 import org.codehaus.waffle.example.paranamer.dao.SimplePersonDAO;
 import org.picocontainer.MutablePicoContainer;
 
-public class ParanamerExampleWebappComposer extends WaffleWebappComposer {
+public class ParanamerExampleComposer extends WaffleComposer {
 
     @Override
     public void composeApplication(MutablePicoContainer picoContainer, ServletContext servletContext) {

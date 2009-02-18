@@ -9,7 +9,7 @@
     <!-- 1. This is how PicoContainer-Web registers composition class -->
     <context-param>
         <param-name>webapp-composer-class</param-name>
-        <param-value>org.codehaus.waffle.example.freemarker.FreemarkerExampleWebappComposer</param-value>
+        <param-value>org.codehaus.waffle.example.freemarker.FreemarkerExampleComposer</param-value>
     </context-param>
 
     <!-- 3. Waffle context listener (ServletContext and HttpSession) -->

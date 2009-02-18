@@ -5,7 +5,7 @@ package org.codehaus.waffle.example.jruby;
 
 import org.codehaus.waffle.example.jruby.dao.SimplePersonDAO;
 import org.codehaus.waffle.ruby.registrar.pico.RubyScriptComponentAdapter;
-import org.codehaus.waffle.ruby.RubyWaffleWebappComposer;
+import org.codehaus.waffle.ruby.RubyWaffleComposer;
 import org.codehaus.waffle.monitor.ActionMonitor;
 import org.codehaus.waffle.monitor.CommonsLoggingMonitor;
 import org.codehaus.waffle.monitor.BindMonitor;
@@ -15,7 +15,7 @@ import javax.servlet.ServletContext;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JrubyExampleWebappComposer extends RubyWaffleWebappComposer {
+public class JrubyExampleComposer extends RubyWaffleComposer {
 
     @SuppressWarnings({"unchecked"})
     @Override
