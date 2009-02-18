@@ -3,7 +3,7 @@
  */
 package org.codehaus.waffle.ruby;
 
-import org.codehaus.waffle.context.WaffleWebappComposer;
+import org.codehaus.waffle.context.WaffleComposer;
 import org.codehaus.waffle.bind.ControllerDataBinder;
 import org.codehaus.waffle.ruby.bind.ognl.RubyControllerDataBinder;
 import org.codehaus.waffle.ruby.controller.RubyControllerDefinitionFactory;
@@ -25,7 +25,7 @@ import java.io.IOException;
  * @author Michael Ward
  * @author Mauro Talevi
  */
-public class RubyWaffleWebappComposer extends WaffleWebappComposer {
+public class RubyWaffleComposer extends WaffleComposer {
 
     protected Class<? extends ControllerDataBinder> controllerDataBinder() {
         return RubyControllerDataBinder.class;    

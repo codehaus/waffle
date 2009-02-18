@@ -56,7 +56,7 @@ import javax.servlet.ServletContext;
  * @author Mauro Talevi
  * @author Paul Hammant
  */
-public abstract class WaffleWebappComposer implements WebappComposer {
+public abstract class WaffleComposer implements WebappComposer {
 
     private MutablePicoContainer appContainer;
 

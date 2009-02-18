@@ -5,7 +5,7 @@ import static org.codehaus.waffle.registrar.RequestParameterReference.requestPar
 import javax.servlet.ServletContext;
 
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.codehaus.waffle.context.WaffleWebappComposer;
+import org.codehaus.waffle.context.WaffleComposer;
 import org.codehaus.waffle.example.simple.controllers.AutomobileController;
 import org.codehaus.waffle.example.simple.controllers.CalculatorController;
 import org.codehaus.waffle.example.simple.controllers.HelloWorldController;
@@ -16,7 +16,7 @@ import org.codehaus.waffle.example.simple.dao.SimplePersonDAO;
 import org.codehaus.waffle.io.RequestFileUploader;
 import org.picocontainer.MutablePicoContainer;
 
-public class SimpleExampleWebappComposer extends WaffleWebappComposer {
+public class SimpleExampleComposer extends WaffleComposer {
 
     @Override
     public void composeApplication(MutablePicoContainer picoContainer, ServletContext servletContext) {

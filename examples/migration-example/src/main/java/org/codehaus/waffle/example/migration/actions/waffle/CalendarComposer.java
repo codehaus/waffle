@@ -1,9 +1,9 @@
 package org.codehaus.waffle.example.migration.actions.waffle;
 
-import org.codehaus.waffle.context.WaffleWebappComposer;
+import org.codehaus.waffle.context.WaffleComposer;
 import org.picocontainer.MutablePicoContainer;
 
-public class CalendarWebappComposer extends WaffleWebappComposer {
+public class CalendarComposer extends WaffleComposer {
 
     @Override
     public void composeSession(MutablePicoContainer picoContainer) {
