@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.NameBinding;

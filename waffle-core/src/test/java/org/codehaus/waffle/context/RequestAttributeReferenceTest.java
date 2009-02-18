@@ -1,8 +1,9 @@
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 import org.junit.Test;
 import org.junit.Assert;
-import static org.codehaus.waffle.registrar.RequestAttributeReference.requestAttribute;
+import static org.codehaus.waffle.context.RequestAttributeReference.requestAttribute;
+import org.codehaus.waffle.context.RequestAttributeReference;
 
 public class RequestAttributeReferenceTest {
 

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 /**
  * Implementation of this interface can be used from within a {@link Registrar} to define how a components dependencies

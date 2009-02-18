@@ -1,6 +1,6 @@
 package org.codehaus.waffle.example.simple;
 
-import static org.codehaus.waffle.registrar.RequestParameterReference.requestParameter;
+import static org.codehaus.waffle.context.RequestParameterReference.requestParameter;
 
 import javax.servlet.ServletContext;
 

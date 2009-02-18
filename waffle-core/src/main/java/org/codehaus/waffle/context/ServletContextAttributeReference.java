@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 /**
  * Allows for a component dependency to be resolved from a {@code ServletContext} attribute.

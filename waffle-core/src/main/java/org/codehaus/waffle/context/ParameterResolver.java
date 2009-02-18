@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 import org.picocontainer.Parameter;
 import org.picocontainer.parameters.ComponentParameter;
@@ -9,12 +9,12 @@ import org.picocontainer.parameters.ConstantParameter;
 import org.codehaus.waffle.bind.StringTransmuter;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
-import org.codehaus.waffle.registrar.Reference;
-import org.codehaus.waffle.registrar.ComponentReference;
-import org.codehaus.waffle.registrar.RequestParameterReference;
-import org.codehaus.waffle.registrar.RequestAttributeReference;
-import org.codehaus.waffle.registrar.SessionAttributeReference;
-import org.codehaus.waffle.registrar.ServletContextAttributeReference;
+import org.codehaus.waffle.context.Reference;
+import org.codehaus.waffle.context.ComponentReference;
+import org.codehaus.waffle.context.RequestParameterReference;
+import org.codehaus.waffle.context.RequestAttributeReference;
+import org.codehaus.waffle.context.SessionAttributeReference;
+import org.codehaus.waffle.context.ServletContextAttributeReference;
 import org.codehaus.waffle.WaffleException;
 
 /**

@@ -1,8 +1,9 @@
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 import org.junit.Test;
 import org.junit.Assert;
-import static org.codehaus.waffle.registrar.SessionAttributeReference.sessionAttribute;
+import static org.codehaus.waffle.context.SessionAttributeReference.sessionAttribute;
+import org.codehaus.waffle.context.SessionAttributeReference;
 
 public class SessionAttributeReferenceTest {
 

@@ -1,8 +1,9 @@
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 import org.junit.Test;
 import org.junit.Assert;
-import static org.codehaus.waffle.registrar.ServletContextAttributeReference.servletContextAttribute;
+import static org.codehaus.waffle.context.ServletContextAttributeReference.servletContextAttribute;
+import org.codehaus.waffle.context.ServletContextAttributeReference;
 
 public class ServletContextAttributeReferenceTest {
 

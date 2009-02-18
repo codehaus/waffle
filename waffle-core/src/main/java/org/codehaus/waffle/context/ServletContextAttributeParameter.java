@@ -1,24 +1,24 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.registrar;
+package org.codehaus.waffle.context;
 
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.NameBinding;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.ServletContext;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 /**
- * Will resolve value from the {@code HttpSession} attribute.
+ * Will resolve value from the {@code ServletContext} attribute.
  *
  * @author Michael Ward
  */
-class SessionAttributeParameter extends AbstractWaffleParameter {
+class ServletContextAttributeParameter extends AbstractWaffleParameter {
 
-    protected SessionAttributeParameter(String key) {
+    protected ServletContextAttributeParameter(String key) {
         super(key);
     }
 
@@ -29,7 +29,7 @@ class SessionAttributeParameter extends AbstractWaffleParameter {
                                  NameBinding nameBinding,
                                  boolean b,
                                  Annotation annotation) {
-        HttpSession session = picoContainer.getComponent(HttpSession.class);
-        return session.getAttribute(getKey());
+        ServletContext servletContext = picoContainer.getComponent(ServletContext.class);
+        return servletContext.getAttribute(getKey());
     }
 }
