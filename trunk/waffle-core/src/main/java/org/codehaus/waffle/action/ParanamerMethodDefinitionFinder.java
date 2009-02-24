@@ -19,6 +19,7 @@ import org.codehaus.waffle.monitor.ActionMonitor;
 import com.thoughtworks.paranamer.CachingParanamer;
 import com.thoughtworks.paranamer.ParameterNamesNotFoundException;
 import com.thoughtworks.paranamer.Paranamer;
+import com.thoughtworks.paranamer.AdaptiveParanamer;
 
 /**
  * <p>
@@ -33,7 +34,7 @@ import com.thoughtworks.paranamer.Paranamer;
  * @see AnnotatedMethodDefinitionFinder
  */
 public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitionFinder {
-    private final CachingParanamer paranamer = new CachingParanamer();
+    private final Paranamer paranamer = new CachingParanamer(new AdaptiveParanamer());
 
     public ParanamerMethodDefinitionFinder(ServletContext servletContext, ArgumentResolver argumentResolver,
             MethodNameResolver methodNameResolver, StringTransmuter stringTransmuter, ActionMonitor actionMonitor,
@@ -94,11 +95,6 @@ public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
         } catch (ParameterNamesNotFoundException e) {
             Class<?> declaringClass = method.getDeclaringClass();
             int rc = paranamer.areParameterNamesAvailable(declaringClass, method.getName());
-            if (rc == Paranamer.NO_PARAMETER_NAMES_LIST) {
-                paranamer.switchtoAsm();
-                rc = paranamer.areParameterNamesAvailable(declaringClass, method.getName());
-                parameterNames = paranamer.lookupParameterNames(method);
-            }
             if (rc == Paranamer.NO_PARAMETER_NAMES_LIST) {
                 String message = messageResources.getMessageWithDefault("noParameterNamesListFound", "No parameter names list found by paranamer ''{0}''", paranamer);
                 throw new MatchingActionMethodException(message);
