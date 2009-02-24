@@ -60,7 +60,6 @@ public class NumberValueConverter extends AbstractValueConverter {
         try {
             return numberFormat.parse(value);
         } catch (ParseException e) {
-            e.printStackTrace();
             throw newBindException(BIND_ERROR_NUMBER_KEY, DEFAULT_NUMBER_MESSAGE, fieldName, value, numberFormat);
         }
     }
