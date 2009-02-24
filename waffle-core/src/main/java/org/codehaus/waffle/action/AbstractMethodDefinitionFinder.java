@@ -48,6 +48,7 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
     private final MethodNameResolver methodNameResolver;
     private final ActionMonitor actionMonitor;
     protected final MessageResources messageResources;
+    private static final ArrayList NO_ARGS = new ArrayList();
 
     public AbstractMethodDefinitionFinder(ServletContext servletContext, ArgumentResolver argumentResolver,
             MethodNameResolver methodNameResolver, StringTransmuter stringTransmuter, ActionMonitor actionMonitor,
@@ -145,7 +146,13 @@ public abstract class AbstractMethodDefinitionFinder implements MethodDefinition
 
         for (Method method : methods) {
             if (Modifier.isPublic(method.getModifiers())) {
-                List<Object> arguments = getArguments(method, request);
+                List<Object> arguments;
+                if (method.getParameterTypes().length == 0) {
+                    // methods with no args, need not invoke Paranamer..
+                    arguments = NO_ARGS;
+                } else {
+                    arguments = getArguments(method, request);
+                }
                 try {
                     methodDefinitions.add(buildMethodDefinition(request, response, method, arguments, messageContext));
                 } catch (NoValidActionMethodException e) {
