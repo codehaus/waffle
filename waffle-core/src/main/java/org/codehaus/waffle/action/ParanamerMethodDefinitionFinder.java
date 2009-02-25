@@ -87,12 +87,12 @@ public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
      * @return the resolved list of arguments needed to satisfy the action method invocation
      */
     protected List<Object> getArguments(Method method, HttpServletRequest request) {
-        Class<?>[] parameterTypes = method.getParameterTypes();
-        String[] parameterNames = null;
 
         try {
-            parameterNames = paranamer.lookupParameterNames(method);
+            return foo(request, method.getParameterTypes(),
+                    paranamer.lookupParameterNames(method));
         } catch (ParameterNamesNotFoundException e) {
+            e.printStackTrace();
             Class<?> declaringClass = method.getDeclaringClass();
             int rc = paranamer.areParameterNamesAvailable(declaringClass, method.getName());
             if (rc == Paranamer.NO_PARAMETER_NAMES_LIST) {
@@ -105,7 +105,11 @@ public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
                 String message = messageResources.getMessageWithDefault("noParameterNamesFoundForClassAndMethod", "No parameter names found for class ''{0}'' and method ''{1}'' by paranamer ''{2}''", declaringClass.getName(), method.getName(), paranamer);
                 throw new MatchingActionMethodException(message);
             }
+            throw new MatchingActionMethodException("Paranamer problem..." + rc);
         }
+    }
+
+    private List<Object> foo(HttpServletRequest request, Class<?>[] parameterTypes, String[] parameterNames) {
         List<String> arguments = new ArrayList<String>(parameterNames.length);
 
         // these should always be of the same length
