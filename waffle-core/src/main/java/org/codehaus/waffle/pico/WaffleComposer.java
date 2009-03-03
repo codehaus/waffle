@@ -1,12 +1,12 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.context;
+package org.codehaus.waffle.pico;
 
 import org.picocontainer.web.WebappComposer;
 import org.picocontainer.MutablePicoContainer;
 import org.picocontainer.Parameter;
-import org.codehaus.waffle.context.ParameterResolver;
+import org.codehaus.waffle.pico.ParameterResolver;
 import org.codehaus.waffle.view.ViewDispatcher;
 import org.codehaus.waffle.view.DefaultViewDispatcher;
 import org.codehaus.waffle.view.ViewResolver;

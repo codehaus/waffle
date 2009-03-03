@@ -8,6 +8,8 @@ import org.codehaus.waffle.i18n.DefaultMessageResources;
 import org.codehaus.waffle.monitor.SilentMonitor;
 import org.codehaus.waffle.ruby.controller.RubyController;
 import org.codehaus.waffle.ruby.controller.RubyControllerDefinitionFactory;
+import org.codehaus.waffle.ComponentFinder;
+import org.codehaus.waffle.pico.PicoComponentFinder;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
@@ -41,7 +43,8 @@ public class RubyControllerDefinitionFactoryTest {
             }
         });
 
-        Object controller = factory.findController("foobar", null, contextContainer);
+        ComponentFinder componentFinder = new PicoComponentFinder(contextContainer);
+        Object controller = factory.findController("foobar", null, componentFinder);
         assertTrue(controller instanceof RubyController);
     }
 
@@ -57,9 +60,11 @@ public class RubyControllerDefinitionFactoryTest {
                 will(returnValue("Pojo"));
             }
         });
+        ComponentFinder componentFinder = new PicoComponentFinder(contextContainer);
 
-        Object controller = factory.findController("foobar", null, contextContainer);
+        Object controller = factory.findController("foobar", null, componentFinder);
         assertFalse(controller instanceof RubyController);
         assertEquals("Pojo", controller);
     }
+
 }

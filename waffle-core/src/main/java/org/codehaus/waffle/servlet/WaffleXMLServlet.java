@@ -5,6 +5,7 @@ package org.codehaus.waffle.servlet;
 
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.XMLView;
+import org.codehaus.waffle.pico.WaffleServlet;
 
 /**
  * Waffle's FrontController for XML serialization.

@@ -1,9 +1,12 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.servlet;
+package org.codehaus.waffle.pico;
 
 import org.codehaus.waffle.Constants;
+import org.codehaus.waffle.ComponentFinder;
+import org.codehaus.waffle.pico.PicoComponentFinder;
+import org.codehaus.waffle.pico.WaffleServlet;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
@@ -63,7 +66,8 @@ public class WaffleVelocityServlet extends VelocityViewServlet {
         // Always add the controller to the context
         MutablePicoContainer container = currentRequestContainer.get();
         MessagesContext messageContext = container.getComponent(MessagesContext.class);
-        ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response, messageContext, container);
+        ComponentFinder componentFinder = new PicoComponentFinder(container);        
+        ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request, response, messageContext, componentFinder);
         context.put(Constants.CONTROLLER_KEY, controllerDefinition.getController());
         return super.handleRequest(request, response, context);
     }

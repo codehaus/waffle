@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.servlet;
+package org.codehaus.waffle.pico;
 
 import static java.util.Arrays.asList;
 import static org.codehaus.waffle.Constants.ERRORS_VIEW_KEY;
@@ -23,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.ComponentFinder;
+import org.codehaus.waffle.pico.PicoComponentFinder;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
 import org.codehaus.waffle.action.ActionMethodResponse;
@@ -194,9 +196,10 @@ public class WaffleServlet extends HttpServlet {
         ActionMethodResponse actionMethodResponse = new ActionMethodResponse();
         View view = null;
         try {
+            ComponentFinder componentFinder = new PicoComponentFinder(requestContainer);
 
             ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
-                    response, messageContext, requestContainer);
+                    response, messageContext, componentFinder);
             controllerDataBinder.bind(request, response, errorsContext, controllerDefinition.getController());
             String controllerName = controllerDefinition.getName();
             Object controllerValidator;
