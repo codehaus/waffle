@@ -1,14 +1,11 @@
-package org.codehaus.waffle.context;
-
-import static org.junit.Assert.assertEquals;
-
-import javax.servlet.ServletContext;
+package org.codehaus.waffle.pico;
 
 import org.codehaus.waffle.testmodel.DependsOnValue;
-import org.codehaus.waffle.context.ServletContextAttributeParameter;
+import org.codehaus.waffle.pico.SessionAttributeParameter;
 import org.jmock.Expectations;
 import org.jmock.Mockery;
 import org.jmock.integration.junit4.JMock;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.picocontainer.MutablePicoContainer;
@@ -16,34 +13,35 @@ import org.picocontainer.Parameter;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.behaviors.Caching;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * 
  * @author Michael Ward
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
-public class ServletContextAttributeParameterTest {
-
+public class SessionAttributeParameterTest {
     private Mockery mockery = new Mockery();
 
     @Test
-    public void componentDependsOnServletContextAttribute() {
-        // Mock ServletContext
-        final ServletContext servletContext = mockery.mock(ServletContext.class);
+    public void componentDependsOnSessionAttribute() {
+        // Mock HttpSession
+        final HttpSession session = mockery.mock(HttpSession.class);
         mockery.checking(new Expectations() {
             {
-                exactly(2).of(servletContext).getAttribute("foobar");
+                exactly(2).of(session).getAttribute("foobar");
                 will(returnValue("helloWorld"));
             }
         });
-        
-        Parameter[] parameters = {new ServletContextAttributeParameter("foobar")};
+
+        Parameter[] parameters = { new SessionAttributeParameter("foobar") };
 
         MutablePicoContainer pico = new DefaultPicoContainer(new Caching());
-        pico.addComponent(servletContext);
-        pico.addComponent("blah", DependsOnValue.class, parameters);
+        pico.addComponent(session);
+        pico.addComponent("x", DependsOnValue.class, parameters);
 
-        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponent("blah");
+        DependsOnValue dependsOnValue = (DependsOnValue) pico.getComponent("x");
 
         assertEquals("helloWorld", dependsOnValue.getValue());
     }

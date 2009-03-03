@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.servlet;
+package org.codehaus.waffle.pico;
 
 import static org.junit.Assert.assertEquals;
 
@@ -24,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.ComponentFinder;
+import org.codehaus.waffle.pico.PicoComponentFinder;
+import org.codehaus.waffle.pico.WaffleServlet;
 import org.codehaus.waffle.testmodel.StubViewResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
@@ -216,10 +219,11 @@ public class WaffleServletTest {
 
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
+        final MyComponentFinder componentFinder = new MyComponentFinder(contextContainer);
 
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(same(contextContainer)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(any(MyComponentFinder.class)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
             }
         });
@@ -329,9 +333,11 @@ public class WaffleServletTest {
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
 
+        final ComponentFinder componentFinder = new PicoComponentFinder(contextContainer);
+
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(same(contextContainer)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(any(MyComponentFinder.class)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
             }
         });
@@ -409,9 +415,11 @@ public class WaffleServletTest {
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
 
+        final ComponentFinder componentFinder = new PicoComponentFinder(contextContainer);
+
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(request, response, messageContext, contextContainer);
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(any(MyComponentFinder.class)));
                 will(throwException(new ControllerNotFoundException("No controller found ")));
             }
         });
@@ -531,9 +539,11 @@ public class WaffleServletTest {
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
 
+        final ComponentFinder componentFinder = new PicoComponentFinder(contextContainer);
+
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(same(contextContainer)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(any(MyComponentFinder.class)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, null)));
             }
         });
@@ -640,9 +650,11 @@ public class WaffleServletTest {
         // Mock ControllerDefinitionFactory
         final ControllerDefinitionFactory controllerDefinitionFactory = mockery.mock(ControllerDefinitionFactory.class);
 
+        final ComponentFinder componentFinder = new PicoComponentFinder(contextContainer);
+
         mockery.checking(new Expectations() {
             {
-                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(same(contextContainer)));
+                one(controllerDefinitionFactory).getControllerDefinition(with(same(request)), with(same(response)), with(same(messageContext)), with(any(MyComponentFinder.class)));
                 will(returnValue(new ControllerDefinition("no name", nonDispatchingController, methodDefinition)));
             }
         });
@@ -754,4 +766,12 @@ public class WaffleServletTest {
         }
     }
 
+    private class MyComponentFinder extends PicoComponentFinder {
+        private final MutablePicoContainer contextContainer;
+
+        public MyComponentFinder(MutablePicoContainer contextContainer) {
+            super(contextContainer);
+            this.contextContainer = contextContainer;
+        }
+    }
 }

@@ -14,7 +14,7 @@ import org.codehaus.waffle.action.MissingActionMethodException;
 import org.codehaus.waffle.i18n.MessageResources;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.monitor.ControllerMonitor;
-import org.picocontainer.MutablePicoContainer;
+import org.codehaus.waffle.ComponentFinder;
 
 /**
  * Implementation of the controller definition factory which uses the context container to look up the controller
@@ -44,10 +44,10 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
      * @see org.codehaus.waffle.context.WaffleRequestFilter
      */
     public ControllerDefinition getControllerDefinition(HttpServletRequest request, HttpServletResponse response, MessagesContext messageContext, 
-                                                        MutablePicoContainer requestLevelContainer) {
+                                                        ComponentFinder componentFinder) {
         String name = controllerNameResolver.findControllerName(request);
 
-        Object controller = findController(name, request, requestLevelContainer);
+        Object controller = findController(name, request, componentFinder);
         MethodDefinition methodDefinition = null;
         try {            
             methodDefinition = findMethodDefinition(controller, request, response, messageContext);
@@ -61,9 +61,9 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
         return new ControllerDefinition(name, controller, methodDefinition);
     }
 
-    protected Object findController(String name, HttpServletRequest request, MutablePicoContainer requestLevelContainer) {
+    protected Object findController(String name, HttpServletRequest request, ComponentFinder componentFinder) {
 
-        Object controller = requestLevelContainer.getComponent(name);
+        Object controller = componentFinder.getComponent(name);
         if (controller == null) {
             controllerMonitor.controllerNotFound(name);
             String message = messageResources.getMessageWithDefault("controllerNotFound",

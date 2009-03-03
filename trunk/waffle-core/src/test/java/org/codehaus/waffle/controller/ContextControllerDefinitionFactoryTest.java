@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
+import org.codehaus.waffle.ComponentFinder;
+import org.codehaus.waffle.pico.PicoComponentFinder;
 import org.codehaus.waffle.action.MethodDefinition;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.i18n.DefaultMessageResources;
@@ -65,8 +67,10 @@ public class ContextControllerDefinitionFactoryTest {
 
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
                 new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
+        ComponentFinder componentFinder = new PicoComponentFinder(pico);
+
         ControllerDefinition controllerDefinition = controllerDefinitionFactory.getControllerDefinition(request,
-                response, messagesContext, pico);
+                response, messagesContext, componentFinder);
 
         assertNotNull(controllerDefinition.getController());
         assertSame(methodDefinition, controllerDefinition.getMethodDefinition());
@@ -97,8 +101,9 @@ public class ContextControllerDefinitionFactoryTest {
 
         ControllerDefinitionFactory controllerDefinitionFactory = new ContextControllerDefinitionFactory(finder,
                 new ContextPathControllerNameResolver(new SilentMonitor()), new SilentMonitor(), new DefaultMessageResources());
+        ComponentFinder componentFinder = new PicoComponentFinder(pico);
 
-        controllerDefinitionFactory.getControllerDefinition(request, response, context, pico);
+        controllerDefinitionFactory.getControllerDefinition(request, response, context, componentFinder);
     }
 
 }

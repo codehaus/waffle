@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.servlet.WaffleServlet;
+import org.codehaus.waffle.pico.WaffleServlet;
 import org.codehaus.waffle.ruby.controller.RubyController;
 import org.codehaus.waffle.controller.ScriptedController;
 import org.jruby.Ruby;

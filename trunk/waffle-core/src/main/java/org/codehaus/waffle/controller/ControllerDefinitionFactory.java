@@ -4,7 +4,7 @@
 package org.codehaus.waffle.controller;
 
 import org.codehaus.waffle.i18n.MessagesContext;
-import org.picocontainer.MutablePicoContainer;
+import org.codehaus.waffle.ComponentFinder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,5 +24,5 @@ public interface ControllerDefinitionFactory {
      * in an ControllerDefinition.
      */
     ControllerDefinition getControllerDefinition(HttpServletRequest servletRequest,
-                                                 HttpServletResponse response, MessagesContext messageContext, MutablePicoContainer requestLevelContainer);
+                                                 HttpServletResponse response, MessagesContext messageContext, ComponentFinder componentFinder);
 }

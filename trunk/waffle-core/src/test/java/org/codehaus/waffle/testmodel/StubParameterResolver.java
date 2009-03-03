@@ -3,7 +3,7 @@
  */
 package org.codehaus.waffle.testmodel;
 
-import org.codehaus.waffle.context.ParameterResolver;
+import org.codehaus.waffle.pico.ParameterResolver;
 import org.picocontainer.Parameter;
 
 public class StubParameterResolver extends ParameterResolver {

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.context;
+package org.codehaus.waffle.pico;
 
 import org.junit.runner.RunWith;
 import org.junit.Test;
@@ -15,7 +15,7 @@ import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.behaviors.Caching;
 import org.codehaus.waffle.testmodel.DependsOnValue;
 import org.codehaus.waffle.bind.StringTransmuter;
-import org.codehaus.waffle.context.RequestParameterParameter;
+import org.codehaus.waffle.pico.RequestParameterParameter;
 
 import javax.servlet.http.HttpServletRequest;
 

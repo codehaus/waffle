@@ -1,12 +1,13 @@
 /*
  * Copyright (c) terms as published in http://waffle.codehaus.org/license.html
  */
-package org.codehaus.waffle.context;
+package org.codehaus.waffle.pico;
 
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.NameBinding;
 import org.codehaus.waffle.bind.StringTransmuter;
+import org.codehaus.waffle.pico.AbstractWaffleParameter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
