@@ -5,7 +5,7 @@ package org.codehaus.waffle.servlet;
 
 import org.codehaus.waffle.view.View;
 import org.codehaus.waffle.view.XMLView;
-import org.codehaus.waffle.pico.WaffleServlet;
+import org.codehaus.waffle.pico.WafflePicoServlet;
 
 /**
  * Waffle's FrontController for XML serialization.
@@ -13,7 +13,7 @@ import org.codehaus.waffle.pico.WaffleServlet;
  * @author Paulo Silveira
  */
 @SuppressWarnings("serial")
-public class WaffleXMLServlet extends WaffleServlet {
+public class WaffleXMLPicoServlet extends WafflePicoServlet {
 
     protected View buildViewToReferrer() {
         return new XMLView();
