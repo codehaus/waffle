@@ -10,6 +10,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import java.beans.IntrospectionException;
+import java.text.NumberFormat;
+import java.util.Locale;
+import java.util.Properties;
 
 /**
  * @author Mauro Talevi
@@ -33,7 +36,10 @@ public class NumberValueConverterTest extends AbstractValueConverterTest {
     
     @Test
     public void canConvertNumbers() throws OgnlException, IntrospectionException {
-        NumberValueConverter converter = new NumberValueConverter(new DefaultMessageResources());
+        NumberValueConverter converter = new NumberValueConverter(
+                new DefaultMessageResources(),
+                new Properties(),
+                NumberFormat.getInstance(Locale.US));
         assertCanConvertValueToNumber(converter, -1, "-1", Long.class);
         assertCanConvertValueToNumber(converter, -1E3, "-1,000", Long.class);
         assertCanConvertValueToNumber(converter, 1E3, "1000", Long.class);
