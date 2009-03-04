@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
-import org.codehaus.waffle.pico.WaffleServlet;
+import org.codehaus.waffle.pico.WafflePicoServlet;
 import org.codehaus.waffle.ruby.controller.RubyController;
 import org.codehaus.waffle.controller.ScriptedController;
 import org.jruby.Ruby;
@@ -37,7 +37,7 @@ public class RhtmlServlet extends HttpServlet {
     private static ThreadLocal<MutablePicoContainer> currentSessionContainer = new ThreadLocal<MutablePicoContainer>();
     private static ThreadLocal<MutablePicoContainer> currentAppContainer = new ThreadLocal<MutablePicoContainer>();
 
-    public static class ServletFilter extends WaffleServlet.ServletFilter {
+    public static class ServletFilter extends WafflePicoServlet.ServletFilter {
 
         protected void setAppContainer(MutablePicoContainer container) {
             currentAppContainer.set(container);

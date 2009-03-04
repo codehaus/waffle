@@ -26,7 +26,7 @@ import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.WaffleException;
 import org.codehaus.waffle.ComponentFinder;
 import org.codehaus.waffle.pico.PicoComponentFinder;
-import org.codehaus.waffle.pico.WaffleServlet;
+import org.codehaus.waffle.pico.WafflePicoServlet;
 import org.codehaus.waffle.testmodel.StubViewResolver;
 import org.codehaus.waffle.action.ActionMethodExecutor;
 import org.codehaus.waffle.action.ActionMethodInvocationException;
@@ -68,7 +68,7 @@ import org.picocontainer.MutablePicoContainer;
  * @author Mauro Talevi
  */
 @RunWith(JMock.class)
-public class WaffleServletTest {
+public class WafflePicoServletTest {
     private final Mockery mockery = new Mockery();
 
     @SuppressWarnings("serial")
@@ -112,7 +112,7 @@ public class WaffleServletTest {
 //            }
 //        });
 
-        final WaffleServlet servlet = new WaffleServlet() {
+        final WafflePicoServlet servlet = new WafflePicoServlet() {
 
             public String getInitParameter(String s) {
                 return "x";    
@@ -130,7 +130,7 @@ public class WaffleServletTest {
             }
         });
 
-        new WaffleServlet.ServletFilter().setAppContainer(mpc);
+        new WafflePicoServlet.ServletFilter().setAppContainer(mpc);
 
         servlet.init();
     }
@@ -166,7 +166,7 @@ public class WaffleServletTest {
             }
         });
         
-        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);
+        new WafflePicoServlet.ServletFilter().setRequestContainer(contextContainer);
 
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
@@ -230,7 +230,7 @@ public class WaffleServletTest {
 
         // stub out what we don't want called ... execute it
         SilentMonitor monitor = new SilentMonitor();
-        WaffleServlet servlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
+        WafflePicoServlet servlet = new WafflePicoServlet(new InterceptingActionMethodExecutor(monitor),
                 actionMethodResponseHandler, monitor, new OgnlControllerDataBinder(new OgnlValueConverterFinder(),
                         null, monitor), controllerDefinitionFactory, new DefaultMessageResources(), viewDataBinder,
                 new DefaultViewResolver(), validator) {
@@ -277,7 +277,7 @@ public class WaffleServletTest {
             }
         });
 
-        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);
+        new WafflePicoServlet.ServletFilter().setRequestContainer(contextContainer);
 
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
@@ -344,7 +344,7 @@ public class WaffleServletTest {
 
         // stub out what we don't want called ... execute it
         SilentMonitor monitor = new SilentMonitor();
-        WaffleServlet servlet = new WaffleServlet(new InterceptingActionMethodExecutor(monitor),
+        WafflePicoServlet servlet = new WafflePicoServlet(new InterceptingActionMethodExecutor(monitor),
                 actionMethodResponseHandler, monitor, new OgnlControllerDataBinder(new OgnlValueConverterFinder(),
                         null, monitor), controllerDefinitionFactory, new DefaultMessageResources(), viewDataBinder,
                 new DefaultViewResolver(), validator) {
@@ -383,7 +383,7 @@ public class WaffleServletTest {
             }
         });
 
-        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);
+        new WafflePicoServlet.ServletFilter().setRequestContainer(contextContainer);
 
         // Mock ServletConfig
         final ServletConfig servletConfig = mockery.mock(ServletConfig.class);
@@ -425,7 +425,7 @@ public class WaffleServletTest {
         });
 
         // stub out what we don't want called ... execute it
-        WaffleServlet servlet = new WaffleServlet(null, actionMethodResponseHandler, new SilentMonitor(),
+        WafflePicoServlet servlet = new WafflePicoServlet(null, actionMethodResponseHandler, new SilentMonitor(),
                 new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
                 controllerDefinitionFactory, new DefaultMessageResources(), null, new DefaultViewResolver(), null) {
             @Override
@@ -449,11 +449,11 @@ public class WaffleServletTest {
         });
 
         // Set up what normally would happen via "init()"
-        Field actionFactoryField = WaffleServlet.class.getDeclaredField("controllerDefinitionFactory");
+        Field actionFactoryField = WafflePicoServlet.class.getDeclaredField("controllerDefinitionFactory");
         actionFactoryField.setAccessible(true);
         actionFactoryField.set(servlet, controllerDefinitionFactory);
 
-        Field servletMonitorField = WaffleServlet.class.getDeclaredField("servletMonitor");
+        Field servletMonitorField = WafflePicoServlet.class.getDeclaredField("servletMonitor");
         servletMonitorField.setAccessible(true);
         servletMonitorField.set(servlet, servletMonitor);
 
@@ -490,7 +490,7 @@ public class WaffleServletTest {
             }
         });
 
-        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);
+        new WafflePicoServlet.ServletFilter().setRequestContainer(contextContainer);
 
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
@@ -549,7 +549,7 @@ public class WaffleServletTest {
         });
 
         // stub out what we don't want called ... execute it
-        WaffleServlet servlet = new WaffleServlet(null, actionMethodResponseHandler, new SilentMonitor(),
+        WafflePicoServlet servlet = new WafflePicoServlet(null, actionMethodResponseHandler, new SilentMonitor(),
                 new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
                 controllerDefinitionFactory, new DefaultMessageResources(), viewDataBinder, new DefaultViewResolver(), validator) {
             @Override
@@ -597,7 +597,7 @@ public class WaffleServletTest {
             }
         });
 
-        new WaffleServlet.ServletFilter().setRequestContainer(contextContainer);        
+        new WafflePicoServlet.ServletFilter().setRequestContainer(contextContainer);
 
         final NonDispatchingController nonDispatchingController = new NonDispatchingController();
         List<?> list = Collections.EMPTY_LIST;
@@ -660,7 +660,7 @@ public class WaffleServletTest {
         });
 
         // stub out what we don't want called ... execute it
-        WaffleServlet servlet = new WaffleServlet(null, actionMethodResponseHandler, new SilentMonitor(),
+        WafflePicoServlet servlet = new WafflePicoServlet(null, actionMethodResponseHandler, new SilentMonitor(),
                 new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null, new SilentMonitor()),
                 controllerDefinitionFactory, new DefaultMessageResources(), viewDataBinder, new DefaultViewResolver(), validator) {
             @Override
@@ -696,16 +696,16 @@ public class WaffleServletTest {
         });
 
         // Set up what normally would happen via "init()"
-        Field controllerDataBinderField = WaffleServlet.class.getDeclaredField("controllerDataBinder");
+        Field controllerDataBinderField = WafflePicoServlet.class.getDeclaredField("controllerDataBinder");
         controllerDataBinderField.setAccessible(true);
         controllerDataBinderField.set(servlet, new OgnlControllerDataBinder(new OgnlValueConverterFinder(), null,
                 new SilentMonitor()));
 
-        Field actionMethodExecutorField = WaffleServlet.class.getDeclaredField("actionMethodExecutor");
+        Field actionMethodExecutorField = WafflePicoServlet.class.getDeclaredField("actionMethodExecutor");
         actionMethodExecutorField.setAccessible(true);
         actionMethodExecutorField.set(servlet, actionMethodExecutor);
 
-        Field servletMonitorField = WaffleServlet.class.getDeclaredField("servletMonitor");
+        Field servletMonitorField = WafflePicoServlet.class.getDeclaredField("servletMonitor");
         servletMonitorField.setAccessible(true);
         servletMonitorField.set(servlet, servletMonitor);
 
@@ -715,7 +715,7 @@ public class WaffleServletTest {
     @SuppressWarnings("serial")
     @Test
     public void canBuildViewToReferrer() throws Exception {
-        WaffleServlet servlet = new WaffleServlet(){
+        WafflePicoServlet servlet = new WafflePicoServlet(){
             public String getInitParameter(String name) {
                 if ( name.equals(Constants.VIEW_PREFIX_KEY) ){
                     return "prefix-";    
@@ -729,7 +729,7 @@ public class WaffleServletTest {
         
         // Set up what normally would happen via "init()"
         ViewResolver viewResolver = new DefaultViewResolver();
-        Field viewResolverField = WaffleServlet.class.getDeclaredField("viewResolver");
+        Field viewResolverField = WafflePicoServlet.class.getDeclaredField("viewResolver");
         viewResolverField.setAccessible(true);
         viewResolverField.set(servlet, viewResolver);
         servlet.configureViewProperties();

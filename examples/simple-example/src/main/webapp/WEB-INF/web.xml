@@ -50,7 +50,7 @@
     <!-- 6. Register Waffle's XML FrontController servlet -->
     <servlet>
         <servlet-name>xml</servlet-name>
-        <servlet-class>org.codehaus.waffle.servlet.WaffleXMLServlet</servlet-class>
+        <servlet-class>org.codehaus.waffle.servlet.WaffleXMLPicoServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

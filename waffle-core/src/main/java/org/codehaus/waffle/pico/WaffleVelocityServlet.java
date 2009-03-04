@@ -6,7 +6,7 @@ package org.codehaus.waffle.pico;
 import org.codehaus.waffle.Constants;
 import org.codehaus.waffle.ComponentFinder;
 import org.codehaus.waffle.pico.PicoComponentFinder;
-import org.codehaus.waffle.pico.WaffleServlet;
+import org.codehaus.waffle.pico.WafflePicoServlet;
 import org.codehaus.waffle.i18n.MessagesContext;
 import org.codehaus.waffle.controller.ControllerDefinition;
 import org.codehaus.waffle.controller.ControllerDefinitionFactory;
@@ -32,7 +32,7 @@ public class WaffleVelocityServlet extends VelocityViewServlet {
     private static ThreadLocal<MutablePicoContainer> currentSessionContainer = new ThreadLocal<MutablePicoContainer>();
     private static ThreadLocal<MutablePicoContainer> currentAppContainer = new ThreadLocal<MutablePicoContainer>();
 
-    public static class ServletFilter extends WaffleServlet.ServletFilter {
+    public static class ServletFilter extends WafflePicoServlet.ServletFilter {
 
         protected void setAppContainer(MutablePicoContainer container) {
             currentAppContainer.set(container);

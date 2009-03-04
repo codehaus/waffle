@@ -58,7 +58,7 @@ import org.picocontainer.web.PicoServletContainerFilter;
  * @author Mauro Talevi
  */
 @SuppressWarnings("serial")
-public class WaffleServlet extends HttpServlet {
+public class WafflePicoServlet extends HttpServlet {
 
     private static final String EMPTY = "";
     private static final String POST = "POST";
@@ -96,7 +96,7 @@ public class WaffleServlet extends HttpServlet {
     /**
      * Default constructor used by servlet container
      */
-    public WaffleServlet() {
+    public WafflePicoServlet() {
         // initialisation will be performed in init() method
     }
 
@@ -113,7 +113,7 @@ public class WaffleServlet extends HttpServlet {
      * @param viewResolver
      * @param validator
      */
-    public WaffleServlet(ActionMethodExecutor actionMethodExecutor,
+    public WafflePicoServlet(ActionMethodExecutor actionMethodExecutor,
             ActionMethodResponseHandler actionMethodResponseHandler, ServletMonitor servletMonitor,
             ControllerDataBinder controllerDataBinder, ControllerDefinitionFactory controllerDefinitionFactory,
             MessageResources messageResources, ViewDataBinder viewDataBinder, ViewResolver viewResolver,
