@@ -9,7 +9,10 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.beans.IntrospectionException;
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
 import ognl.OgnlException;
 
@@ -38,7 +41,10 @@ public class NumberListValueConverterTest extends AbstractValueConverterTest {
 
     @Test
     public void canConvertListsOfNumbers() throws OgnlException, IntrospectionException {
-        NumberListValueConverter converter = new NumberListValueConverter(new DefaultMessageResources());
+        NumberListValueConverter converter = new NumberListValueConverter(
+                new DefaultMessageResources(),
+                new Properties(),
+                NumberFormat.getInstance(Locale.US));
         assertCanConvertValueToList(converter, INTEGERS, "-1,-2,-3", Long.class, "listOfIntegers");
         assertCanConvertValueToList(converter, LONGS, "1000,2000,3000", Long.class, "listOfLongs");
         assertCanConvertValueToList(converter, DOUBLES, "0.10,0.200,0.300", Double.class, "listOfDoubles");

@@ -5,10 +5,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -92,7 +95,11 @@ public class OgnlControllerDataBinderTest {
         });
 
         FakeController fakeController = new FakeController();
-        OgnlValueConverterFinder finder = new OgnlValueConverterFinder(new NumberValueConverter(MESSAGE_RESOURCES));
+        OgnlValueConverterFinder finder = new OgnlValueConverterFinder(
+                new NumberValueConverter(
+                        new DefaultMessageResources(),
+                        new Properties(),
+                        NumberFormat.getInstance(Locale.US)));
         ControllerDataBinder binder = new OgnlControllerDataBinder(finder, null, MONITOR);
         ErrorsContext errorsContext = new DefaultErrorsContext(null);
         binder.bind(request, null, errorsContext, fakeController);
