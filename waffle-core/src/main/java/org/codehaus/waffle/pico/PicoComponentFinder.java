@@ -10,7 +10,7 @@ public class PicoComponentFinder implements ComponentFinder {
         this.contextContainer = contextContainer;
     }
 
-    public Object getComponent(String name) {
+    public Object getComponent(Class type, String name) {
         return contextContainer.getComponent(name);
     }
 }
