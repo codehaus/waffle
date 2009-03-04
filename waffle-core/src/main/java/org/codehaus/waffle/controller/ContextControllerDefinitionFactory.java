@@ -63,7 +63,7 @@ public class ContextControllerDefinitionFactory implements ControllerDefinitionF
 
     protected Object findController(String name, HttpServletRequest request, ComponentFinder componentFinder) {
 
-        Object controller = componentFinder.getComponent(name);
+        Object controller = componentFinder.getComponent(Object.class, name);
         if (controller == null) {
             controllerMonitor.controllerNotFound(name);
             String message = messageResources.getMessageWithDefault("controllerNotFound",
