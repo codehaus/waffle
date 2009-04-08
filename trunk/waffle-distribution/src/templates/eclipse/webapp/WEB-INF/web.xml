@@ -46,7 +46,7 @@
     <!-- 5. Register Waffle's FrontController servlet -->
     <servlet>
         <servlet-name>waffle</servlet-name>
-        <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+        <servlet-class>org.codehaus.waffle.pico.WafflePicoServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>

@@ -71,18 +71,18 @@ has four points worth mentioning.</p>
   <li><b><a href="javadoc/core/org/codehaus/waffle/context/WaffleWebappComposer.html">
         webapp-composer-class</a></b> is the key
   used to register your applications with Waffle.</li>
-  <li><b><a href="javadoc/core/org/codehaus/waffle/servlet/WaffleListener.html">
-        org.codehaus.waffle.servlet.WaffleListener</a></b>
+  <li><b><a href="javadoc/core/org/codehaus/waffle/pico/WaffleListener.html">
+        org.codehaus.waffle.pico.WaffleListener</a></b>
   needs to be registered as a listener so that Waffle can be notified of
   context level (application, session) events.</li>
   <li>
-    <b><a href="javadoc/core/org/codehaus/waffle/servlet/WaffleServlet$WaffleFilter.html">
-        org.codehaus.waffle.servlet.WaffleServlet$WaffleFilter</a></b> this is the Filter Waffle uses to handle request level
+    <b><a href="javadoc/core/org/codehaus/waffle/pico/WafflePicoServlet$WaffleFilter.html">
+        org.codehaus.waffle.pico.WafflePicoServlet$WaffleFilter</a></b> this is the Filter Waffle uses to handle request level
     events. This is superior to a RequestAttributeListeners implementation because we can ensure a request level
     container will only be created when appropriate (i.e. not when images or cascading style sheets are requested).
   </li>
-  <li><b><a href="javadoc/core/org/codehaus/waffle/servlet/WaffleServlet.html">
-        org.codehaus.waffle.servlet.WaffleServlet</a></b> is Waffle's front controller for handling requests.</li>
+  <li><b><a href="javadoc/core/org/codehaus/waffle/pico/WafflePicoServlet.html">
+        org.codehaus.waffle.pico.WafflePicoServlet</a></b> is Waffle's front controller for handling requests.</li>
 </ol>
 
 <textarea class="xml:nogutter:nocontrols" name="code">
@@ -103,13 +103,13 @@ has four points worth mentioning.</p>
 
     <!-- 2. Waffle context listener (ServletContext and HttpSession) -->
     <listener>
-      <listener-class>org.codehaus.waffle.servlet.WaffleListener</listener-class>
+      <listener-class>org.codehaus.waffle.pico.WaffleListener</listener-class>
     </listener>
 
     <!-- 3. Waffle request filter (responsible for request level context) -->
     <filter>
       <filter-name>WaffleRequestFilter</filter-name>
-      <filter-class>org.codehaus.waffle.servlet.WaffleServlet$WaffleFilter</filter-class>
+      <filter-class>org.codehaus.waffle.pico.WafflePicoServlet$WaffleFilter</filter-class>
     </filter>
     <filter-mapping>
       <filter-name>WaffleRequestFilter</filter-name>
@@ -119,7 +119,7 @@ has four points worth mentioning.</p>
     <!-- 4. Register Waffle's FrontController servlet -->
     <servlet>
       <servlet-name>waffle</servlet-name>
-      <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+      <servlet-class>org.codehaus.waffle.pico.WafflePicoServlet</servlet-class>
       <init-param>
         <param-name>view.suffix</param-name>
         <param-value>.jspx</param-value>

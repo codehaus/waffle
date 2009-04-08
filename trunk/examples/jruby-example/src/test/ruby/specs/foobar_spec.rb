@@ -1,6 +1,6 @@
 require 'java'
 
-import org.codehaus.waffle.servlet.WaffleServlet
+import org.codehaus.waffle.pico.WafflePicoServlet
 require 'person'
 
 describe 'stuff' do

@@ -31,7 +31,7 @@
   <!-- 5. Register Waffle's FrontController servlet -->
   <servlet>
     <servlet-name>waffle</servlet-name>
-    <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+    <servlet-class>org.codehaus.waffle.pico.WafflePicoServlet</servlet-class>
     <init-param>
       <param-name>view.suffix</param-name>
       <param-value>.jsp</param-value>
