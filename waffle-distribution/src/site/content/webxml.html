@@ -31,13 +31,13 @@ request level life-cycle event.</p>
 15:
 16:    <!-- 2. Waffle context listener (ServletContext and HttpSession) -->
 17:    <listener>
-18:      <listener-class>org.codehaus.waffle.servlet.WaffleListener</listener-class>
+18:      <listener-class>org.codehaus.waffle.pico.WaffleListener</listener-class>
 19:    </listener>
 20:
 21:    <!-- 3. Waffle request filter (responsible for request level context) -->
 22:    <filter>
 23:      <filter-name>WaffleRequestFilter</filter-name>
-24:      <filter-class>org.codehaus.waffle.servlet.WaffleServlet$ServletFilter</filter-class>
+24:      <filter-class>org.codehaus.waffle.pico.WafflePicoServlet$ServletFilter</filter-class>
 25:    </filter>
 26:    <filter-mapping>
 27:      <filter-name>WaffleRequestFilter</filter-name>
@@ -47,7 +47,7 @@ request level life-cycle event.</p>
 31:    <!-- 4. Register Waffle's FrontController servlet -->
 32:    <servlet>
 33:      <servlet-name>waffle</servlet-name>
-34:      <servlet-class>org.codehaus.waffle.servlet.WaffleServlet</servlet-class>
+34:      <servlet-class>org.codehaus.waffle.pico.WafflePicoServlet</servlet-class>
 35:      <init-param>
 36:        <param-name>view.suffix</param-name>
 37:        <param-value>.jspx</param-value> <!-- or *.ftl for freemarker etc -->
