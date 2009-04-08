@@ -51,22 +51,28 @@
         <c:out value="${waffle:findErrorsForField(errors, 'FIELD', 'speed')}"/>
 
         <tr>
-            <td>Top Speed:</td>
+            <td>Maximum Speed:</td>
             <td>
                 <input type="text" value="${fn:escapeXml(topSpeed)}" name="topSpeed"/>
+
             </td>
         </tr>
         <tr>
-            <td>Speed:</td>
-            <td>${speed}</td>
+            <td></td>
+            <td><input type="submit"/></td>
         </tr>
     </table>
+    
     <br/>
     <a href="automobile.waffle?method=accelerate|15">Accelerate!</a>
     <br/>
     <a href="automobile.waffle?method=stop">Stop!</a>
+    <br/>
+    <br/>
+
+    <p>Actual Speed: ${speed}</p>
+
     <br/><br/>
-    <input type="submit"/>
 </form>
 </body>
 
