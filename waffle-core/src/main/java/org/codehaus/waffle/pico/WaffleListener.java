@@ -9,8 +9,18 @@ import org.picocontainer.web.PicoServletContainerListener;
 import org.picocontainer.web.ScopedContainers;
 import org.picocontainer.web.ThreadLocalLifecycleState;
 
+import javax.servlet.ServletContextEvent;
+
+import ognl.OgnlRuntime;
+
 @SuppressWarnings("serial")
 public class WaffleListener extends PicoServletContainerListener {
+
+    public void contextInitialized(ServletContextEvent event) {
+        // AppEngine needs a hack to OGNL
+        OgnlRuntime.setSecurityManager(null);
+        super.contextInitialized(event);
+    }
 
     protected ScopedContainers makeScopedContainers() {
         DefaultPicoContainer application = new DefaultPicoContainer(new Guarding().wrap(new Caching()), new WaffleLifecycleStrategy(makeAppComponentMonitor()), makeParentContainer(), makeAppComponentMonitor());
