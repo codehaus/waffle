@@ -15,7 +15,6 @@ import org.codehaus.waffle.bind.converters.NumberValueConverter;
 import org.codehaus.waffle.bind.converters.StringListMapValueConverter;
 import org.codehaus.waffle.bind.converters.StringListValueConverter;
 import org.codehaus.waffle.bind.converters.StringNumberListMapValueConverter;
-import org.codehaus.waffle.context.WaffleComposer;
 import org.codehaus.waffle.example.freemarker.controller.DateProvider;
 import org.codehaus.waffle.example.freemarker.controller.PersonController;
 import org.codehaus.waffle.example.freemarker.converters.PersonListValueConverter;
@@ -28,6 +27,7 @@ import org.codehaus.waffle.menu.Menu;
 import org.codehaus.waffle.menu.MenuAwareController;
 import org.codehaus.waffle.view.ViewResolver;
 import org.codehaus.waffle.view.DefaultViewResolver;
+import org.codehaus.waffle.pico.WaffleComposer;
 import org.picocontainer.MutablePicoContainer;
 
 public class FreemarkerExampleComposer extends WaffleComposer {
