@@ -89,27 +89,15 @@ public class ParanamerMethodDefinitionFinder extends AbstractOgnlMethodDefinitio
     protected List<Object> getArguments(Method method, HttpServletRequest request) {
 
         try {
-            return foo(request, method.getParameterTypes(),
-                    paranamer.lookupParameterNames(method));
+            return resolveArgs(request, method.getParameterTypes(), paranamer.lookupParameterNames(method));
         } catch (ParameterNamesNotFoundException e) {
-            e.printStackTrace();
-            Class<?> declaringClass = method.getDeclaringClass();
-            int rc = paranamer.areParameterNamesAvailable(declaringClass, method.getName());
-            if (rc == Paranamer.NO_PARAMETER_NAMES_LIST) {
-                String message = messageResources.getMessageWithDefault("noParameterNamesListFound", "No parameter names list found by paranamer ''{0}''", paranamer);
-                throw new MatchingActionMethodException(message);
-            } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS) {
-                String message = messageResources.getMessageWithDefault("noParameterNamesFoundForClass", "No parameter names found for class ''{0}'' by paranamer ''{1}''", declaringClass.getName(), paranamer);
-                throw new MatchingActionMethodException(message);
-            } else if (rc == Paranamer.NO_PARAMETER_NAMES_FOR_CLASS_AND_MEMBER) {
-                String message = messageResources.getMessageWithDefault("noParameterNamesFoundForClassAndMethod", "No parameter names found for class ''{0}'' and method ''{1}'' by paranamer ''{2}''", declaringClass.getName(), method.getName(), paranamer);
-                throw new MatchingActionMethodException(message);
-            }
-            throw new MatchingActionMethodException("Paranamer problem..." + rc);
+            String message = messageResources.getMessageWithDefault("noParameterNamesListFound",
+                    "No parameter names list found for method ''{0}'', class ''{1}''", method.toString(), method.getDeclaringClass().getName());
+            throw new MatchingActionMethodException(message);
         }
     }
 
-    private List<Object> foo(HttpServletRequest request, Class<?>[] parameterTypes, String[] parameterNames) {
+    private List<Object> resolveArgs(HttpServletRequest request, Class<?>[] parameterTypes, String[] parameterNames) {
         List<String> arguments = new ArrayList<String>(parameterNames.length);
 
         // these should always be of the same length
