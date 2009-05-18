@@ -6,7 +6,6 @@ package org.codehaus.waffle.pico;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.NameBinding;
-import org.codehaus.waffle.pico.AbstractWaffleParameter;
 
 import javax.servlet.http.HttpSession;
 import java.lang.annotation.Annotation;
@@ -24,13 +23,11 @@ class SessionAttributeParameter extends AbstractWaffleParameter {
     }
 
     @SuppressWarnings({"unchecked"})
-    public Object resolveInstance(PicoContainer picoContainer,
-                                 ComponentAdapter componentAdapter,
-                                 Type type,
-                                 NameBinding nameBinding,
-                                 boolean b,
-                                 Annotation annotation) {
+    public Resolver resolve(PicoContainer picoContainer, ComponentAdapter<?> forAdapter,
+            ComponentAdapter<?> injecteeAdapter, Type expectedType, NameBinding expectedNameBinding,
+            boolean useNames, Annotation binding) {
         HttpSession session = picoContainer.getComponent(HttpSession.class);
-        return session.getAttribute(getKey());
+        Object value = session.getAttribute(getKey());
+        return new ValueResolver(value != null, value, forAdapter);
     }
 }

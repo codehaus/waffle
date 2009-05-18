@@ -6,7 +6,6 @@ package org.codehaus.waffle.pico;
 import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.NameBinding;
-import org.codehaus.waffle.pico.AbstractWaffleParameter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
@@ -23,10 +22,12 @@ class RequestAttributeParameter extends AbstractWaffleParameter {
         super(key);
     }
 
-    public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter<?> componentAdapter, Type type,
-            NameBinding nameBinding, boolean b, Annotation annotation) {
+    public Resolver resolve(PicoContainer picoContainer, ComponentAdapter<?> forAdapter,
+            ComponentAdapter<?> injecteeAdapter, Type expectedType, NameBinding expectedNameBinding,
+            boolean useNames, Annotation binding) {
         HttpServletRequest request = picoContainer.getComponent(HttpServletRequest.class);
-        return request.getAttribute(getKey());
+        Object value = request.getAttribute(getKey());
+        return new ValueResolver(value != null, value, forAdapter);
     }
 
 }
