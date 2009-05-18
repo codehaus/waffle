@@ -9,7 +9,6 @@ import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.PicoVisitor;
 import org.picocontainer.NameBinding;
-import org.codehaus.waffle.pico.AbstractWaffleParameter;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -29,7 +28,9 @@ public class AbstractWaffleParameterTest {
         final AbstractWaffleParameter parameter = new AbstractWaffleParameter("foobar") {
 
             @SuppressWarnings("unchecked")
-            public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Type type, NameBinding nameBinding, boolean b, Annotation annotation) {
+            public Resolver resolve(PicoContainer picoContainer, ComponentAdapter<?> forAdapter,
+                    ComponentAdapter<?> injecteeAdapter, Type expectedType, NameBinding expectedNameBinding,
+                    boolean useNames, Annotation binding) {
                 throw new UnsupportedOperationException("don't call");
             }
         };

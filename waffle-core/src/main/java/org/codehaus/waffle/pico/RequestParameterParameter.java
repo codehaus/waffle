@@ -7,7 +7,6 @@ import org.picocontainer.ComponentAdapter;
 import org.picocontainer.PicoContainer;
 import org.picocontainer.NameBinding;
 import org.codehaus.waffle.bind.StringTransmuter;
-import org.codehaus.waffle.pico.AbstractWaffleParameter;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.annotation.Annotation;
@@ -32,16 +31,18 @@ class RequestParameterParameter extends AbstractWaffleParameter {
 
 
     @SuppressWarnings({"unchecked"})
-    public Object resolveInstance(PicoContainer picoContainer, ComponentAdapter componentAdapter, Type expectedType, NameBinding nameBinding, boolean b, Annotation annotation) {
+    public Resolver resolve(PicoContainer picoContainer, ComponentAdapter<?> forAdapter,
+            ComponentAdapter<?> injecteeAdapter, Type expectedType, NameBinding expectedNameBinding,
+            boolean useNames, Annotation binding) {
         HttpServletRequest request = picoContainer
                 .getComponent(HttpServletRequest.class);
         String value = request.getParameter(getKey());
         Object result = stringTransmuter.transmute(value, expectedType);
 
         if(result == null) {
-            return defaultValue;
+            result = defaultValue;
         }
 
-        return result;
+        return new ValueResolver(result != null, result, forAdapter);
     }
 }

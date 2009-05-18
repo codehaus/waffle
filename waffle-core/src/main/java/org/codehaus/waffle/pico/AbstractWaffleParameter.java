@@ -28,10 +28,6 @@ abstract class AbstractWaffleParameter implements Parameter {
         return key;
     }
 
-    public boolean isResolvable(PicoContainer picoContainer, ComponentAdapter<?> componentAdapter, Type type, NameBinding nameBinding, boolean b, Annotation annotation) {
-        return resolveInstance(picoContainer, componentAdapter, type, nameBinding, b, annotation) != null;
-    }
-
     public void verify(PicoContainer picoContainer, ComponentAdapter<?> componentAdapter, Type type, NameBinding nameBinding, boolean b, Annotation annotation) {
     }
 
