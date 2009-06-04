@@ -5,11 +5,11 @@ import javax.servlet.ServletContext;
 import org.codehaus.waffle.action.MethodDefinitionFinder;
 import org.codehaus.waffle.action.ParanamerMethodDefinitionFinder;
 import org.codehaus.waffle.bind.converters.DateValueConverter;
-import org.codehaus.waffle.context.WaffleComposer;
 import org.codehaus.waffle.example.paranamer.action.CalculatorController;
 import org.codehaus.waffle.example.paranamer.action.HelloWorldController;
 import org.codehaus.waffle.example.paranamer.action.PersonController;
 import org.codehaus.waffle.example.paranamer.dao.SimplePersonDAO;
+import org.codehaus.waffle.pico.WaffleComposer;
 import org.picocontainer.MutablePicoContainer;
 
 public class ParanamerExampleComposer extends WaffleComposer {

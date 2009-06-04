@@ -1,5 +1,7 @@
 package org.codehaus.waffle.example.mydvds;
 
+import javax.servlet.ServletContext;
+
 import org.codehaus.waffle.example.mydvds.action.DvdsController;
 import org.codehaus.waffle.example.mydvds.action.UsersController;
 import org.codehaus.waffle.example.mydvds.action.UsersControllerValidator;
@@ -7,10 +9,8 @@ import org.codehaus.waffle.example.mydvds.interceptor.AuthorizationInterceptor;
 import org.codehaus.waffle.example.mydvds.model.Passport;
 import org.codehaus.waffle.example.mydvds.persistence.HibernateSessionFactory;
 import org.codehaus.waffle.example.mydvds.persistence.PersistenceManager;
-import org.codehaus.waffle.context.WaffleComposer;
+import org.codehaus.waffle.pico.WaffleComposer;
 import org.picocontainer.MutablePicoContainer;
-
-import javax.servlet.ServletContext;
 
 public class MyDvdsComposer extends WaffleComposer {
 

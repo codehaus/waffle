@@ -1,6 +1,6 @@
 package org.codehaus.waffle.example.migration.actions.waffle;
 
-import org.codehaus.waffle.context.WaffleComposer;
+import org.codehaus.waffle.pico.WaffleComposer;
 import org.picocontainer.MutablePicoContainer;
 
 public class CalendarComposer extends WaffleComposer {
